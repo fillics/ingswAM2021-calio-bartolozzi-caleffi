@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ingswAM2021-calio-bartolozzi-caleffi" />
+        <module name="AM20" />
       </profile>
     </annotationProcessing>
   </component>

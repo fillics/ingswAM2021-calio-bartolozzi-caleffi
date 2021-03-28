@@ -1,9 +1,9 @@
 package it.polimi.ingsw;
 
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import it.polimi.ingsw.Board.Resources.*;
+
+public class App {
+    public static void main( String[] args )    {
+
     }
 }
