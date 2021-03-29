@@ -1,4 +1,9 @@
 package it.polimi.ingsw.Cards;
 
-public class Card {
+public abstract class Card {
+    private int victorypoint;
+
+    public int getVictoryPoint(){
+        return victorypoint;
+    }
 }

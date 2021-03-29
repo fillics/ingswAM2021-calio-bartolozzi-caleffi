@@ -8,14 +8,10 @@ import org.junit.jupiter.api.TestInstance;
 
 public class AppTest
 {
-
-
     @Test
     public void shouldAnswerWithTrue()
     {
         assertTrue( true );
     }
-
-
 
 }
