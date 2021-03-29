@@ -4,8 +4,8 @@ import it.polimi.ingsw.Board.Resources.ResourceType;
 import java.util.HashMap;
 
 public class ProductionPower {
-    private HashMap<ResourceType,Integer> resourcesNeeded;
-    private HashMap<ResourceType,Integer> resourceObtained;
+    private final HashMap<ResourceType,Integer> resourcesNeeded;
+    private final HashMap<ResourceType,Integer> resourceObtained;
 
     public HashMap<ResourceType, Integer> getResourcesNeeded() {
         return resourcesNeeded;
@@ -13,5 +13,10 @@ public class ProductionPower {
 
     public HashMap<ResourceType, Integer> getResourceObtained() {
         return resourceObtained;
+    }
+
+    public ProductionPower(HashMap<ResourceType, Integer> resourcesNeeded, HashMap<ResourceType, Integer> resourceObtained) {
+        this.resourcesNeeded = resourcesNeeded;
+        this.resourceObtained = resourceObtained;
     }
 }

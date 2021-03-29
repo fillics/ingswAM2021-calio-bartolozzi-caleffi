@@ -1,13 +1,16 @@
 package it.polimi.ingsw.Cards.DevelopmentCards;
 
 import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.Cards.Card;
+
 import java.util.HashMap;
 
-public class DevelopmentCard {
+public class DevelopmentCard extends Card {
     private Level level;
     private CardColor color;
     private HashMap<ResourceType,Integer> resourcePrice;
     private ProductionPower productionPower;
+    private int victorypoint;
 
     public Level getLevel() {
         return level;
@@ -30,5 +33,10 @@ public class DevelopmentCard {
         this.color = color;
         this.resourcePrice = resourcePrice;
         this.productionPower = productionPower;
+    }
+
+    @Override
+    public int getVictoryPoint() {
+        return victorypoint;
     }
 }
