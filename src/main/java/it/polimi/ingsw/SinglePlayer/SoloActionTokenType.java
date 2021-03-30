@@ -1,7 +1,7 @@
 package it.polimi.ingsw.SinglePlayer;
 
 /**
- * Solo Action Token that can be used only in Single Mode.
+ * Type of the Solo Action Tokens that can be used only in Single Mode.
  */
 
 public enum SoloActionTokenType {

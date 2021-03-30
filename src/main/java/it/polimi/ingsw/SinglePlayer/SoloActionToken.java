@@ -14,6 +14,10 @@ public class SoloActionToken {
         this.strategy = strategy;
     }
 
+    /**
+     * method that links to the strategy method in order to apply the token's effect
+     */
+
     public boolean applyEffect(){
         strategy.effect();
         return true;

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.SinglePlayer;
-import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
-import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
+
 import it.polimi.ingsw.Game;
-import it.polimi.ingsw.Player;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,17 +12,13 @@ import java.util.Collections;
 
 public class SinglePlayerGame extends Game {
 
-    ArrayList<SoloActionToken> deckSoloActionToken;
-    ArrayList<SoloActionToken> deletedSoloActionToken;
+    private ArrayList<SoloActionToken> deckSoloActionToken;
+    private ArrayList<SoloActionToken> deletedSoloActionToken;
     private SoloActionTokenType token;
     private int blackCross;
 
-    public SinglePlayerGame(ArrayList<Player> players, ArrayList<LeaderCard> leaderDeck, ArrayList<ArrayList<DevelopmentCard>> developmentDeck, ArrayList<SoloActionToken> deckSoloActionToken, ArrayList<SoloActionToken> deletedSoloActionToken, SoloActionTokenType token, int blackCross) {
-        super(players, leaderDeck, developmentDeck);
-        this.deckSoloActionToken = deckSoloActionToken;
-        this.deletedSoloActionToken = deletedSoloActionToken;
-        this.token = token;
-        this.blackCross = blackCross;
+    public SinglePlayerGame() {
+        blackCross = 0;
     }
 
     public int getBlackCross() {
@@ -39,7 +34,8 @@ public class SinglePlayerGame extends Game {
     }
 
     public int addBlackCross(int amount, int blackCross){
-        return blackCross + amount;
+        blackCross += amount;
+        return blackCross;
     }
 
     /**

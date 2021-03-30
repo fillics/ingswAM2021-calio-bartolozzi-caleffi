@@ -1,0 +1,347 @@
+[
+  {
+    "type": "EXTRA_DEPOSIT",
+    "requirements":[
+        {
+            "amount": 5,
+            "resource": "STONE"
+        }
+    ],
+    "ability":[
+        {
+            "slot": 2,
+            "type": "SERVANT"
+        }
+    ],
+    "victoryPoint": 3
+  },
+  {
+    "type": "EXTRA_DEPOSIT",
+    "requirements":[
+        {
+            "amount": 5,
+            "resource": "SERVANT"
+        }
+    ],
+    "ability":[
+        {
+            "slot": 2,
+            "type": "SHIELD"
+        }
+    ],
+    "victoryPoint": 3
+  },
+  {
+    "type": "EXTRA_DEPOSIT",
+    "requirements":[
+        {
+            "amount": 5,
+            "resource": "SHIELD"
+        }
+    ],
+    "ability":[
+        {
+            "slot": 2,
+            "type": "COIN"
+        }
+    ],
+    "victoryPoint": 3
+  },
+  {
+    "type": "EXTRA_DEPOSIT",
+    "requirements":[
+        {
+            "amount": 5,
+            "resource": "COIN"
+        }
+    ],
+    "ability":[
+        {
+            "slot": 2,
+            "type": "STONE"
+        }
+    ],
+    "victoryPoint": 3
+  },
+  {
+    "type": "PRODUCTION_POWER",
+    "requirements":[
+        {
+            "level": 2,
+            "color": "GREEN"
+        }
+    ],
+
+    "ability":[
+        {
+          "needed":[
+            {
+                "amount": 1,
+                "type": "COIN"
+            }
+          ],
+        "obtained":[
+            {
+                "amount": 1,
+                "__comment": "BISOGNA METTERE IL FAITH QUI??'",
+                "type": ["STONE", "SHIELD", "SERVANT", "COIN"]
+            },
+            {
+                "amount": 1,
+                "type": "FAITH"
+            }
+        ]
+        }
+    ],
+    "victoryPoint": 4
+  },
+  {
+    "type": "PRODUCTION_POWER",
+    "requirements":[
+        {
+            "level": 2,
+            "color": "PURPLE"
+        }
+    ],
+
+    "ability":[
+        {
+          "needed":[
+            {
+                "amount": 1,
+                "type": "STONE"
+            }
+          ],
+        "obtained":[
+            {
+                "amount": 1,
+                "type": ["STONE", "SHIELD", "SERVANT", "COIN"]
+            },
+            {
+                "amount": 1,
+                "type": "FAITH"
+            }
+        ]
+        }
+    ],
+    "victoryPoint": 4
+  },
+  {
+    "type": "PRODUCTION_POWER",
+    "requirements":[
+        {
+            "level": 2,
+            "color": "YELLOW"
+        }
+    ],
+
+    "ability":[
+        {
+          "needed":[
+            {
+                "amount": 1,
+                "type": "SHIELD"
+            }
+          ],
+        "obtained":[
+            {
+                "amount": 1,
+                "type": ["STONE", "SHIELD", "SERVANT", "COIN"]
+            },
+            {
+                "amount": 1,
+                "type": "FAITH"
+            }
+        ]
+        }
+    ],
+    "victoryPoint": 4
+  },
+  {
+    "type": "PRODUCTION_POWER",
+    "requirements":[
+        {
+            "level": 2,
+            "color": "BLUE"
+        }
+    ],
+
+    "ability":[
+        {
+          "needed":[
+            {
+                "amount": 1,
+                "type": "SERVANT"
+            }
+          ],
+        "obtained":[
+            {
+                "amount": 1,
+                "type": ["STONE", "SHIELD", "SERVANT", "COIN"]
+            },
+            {
+                "amount": 1,
+                "type": "FAITH"
+            }
+        ]
+        }
+    ],
+    "victoryPoint": 4
+  },
+  {
+    "type": "DISCOUNT",
+    "requirements":[
+        {
+            "color": "YELLOW"
+        },
+        {
+            "color": "PURPLE"
+        }
+    ],
+
+    "ability":[
+        {
+            "amount": 1,
+            "type": "COIN"
+        }
+    ],
+    "victoryPoint": 2
+  },
+  {
+    "type": "DISCOUNT",
+    "requirements":[
+        {
+            "color": "GREEN"
+        },
+        {
+            "color": "BLUE"
+        }
+    ],
+
+    "ability":[
+        {
+            "amount": 1,
+            "type": "STONE"
+        }
+    ],
+    "victoryPoint": 2
+  },
+  {
+    "type": "DISCOUNT",
+    "requirements":[
+        {
+            "color": "BLUE"
+        },
+        {
+            "color": "PURPLE"
+        }
+    ],
+
+    "ability":[
+        {
+            "amount": 1,
+            "type": "SHIELD"
+        }
+    ],
+    "victoryPoint": 2
+  },
+  {
+    "type": "DISCOUNT",
+    "requirements":[
+        {
+            "color": "YELLOW"
+        },
+        {
+            "color": "GREEN"
+        }
+    ],
+
+    "ability":[
+        {
+            "amount": 1,
+            "type": "SERVANT"
+        }
+    ],
+    "victoryPoint": 2
+  },
+  {
+    "type": "WHITE_MARBLE",
+    "requirements":[
+        {
+            "amount": 2,
+            "color": "PURPLE"
+        },
+        {
+            "amount": 1,
+            "color": "GREEN"
+        }
+    ],
+
+    "ability":[
+        {
+            "type": "COIN"
+        }
+    ],
+    "victoryPoint": 5
+  },
+  {
+    "type": "WHITE_MARBLE",
+    "requirements":[
+        {
+            "amount": 2,
+            "color": "BLUE"
+        },
+        {
+            "amount": 1,
+            "color": "YELLOW"
+        }
+    ],
+
+    "ability":[
+        {
+            "type": "STONE"
+        }
+    ],
+    "victoryPoint": 5
+  },
+  {
+    "type": "WHITE_MARBLE",
+    "requirements":[
+        {
+            "amount": 2,
+            "color": "GREEN"
+        },
+        {
+            "amount": 1,
+            "color": "PURPLE"
+        }
+    ],
+
+    "ability":[
+        {
+            "type": "SHIELD"
+        }
+    ],
+    "victoryPoint": 5
+  },
+  {
+    "type": "WHITE_MARBLE",
+    "requirements":[
+        {
+            "amount": 2,
+            "color": "YELLOW"
+        },
+        {
+            "amount": 1,
+            "color": "BLUE"
+        }
+    ],
+
+    "ability":[
+        {
+            "type": "SERVANT"
+        }
+    ],
+    "victoryPoint": 5
+  }
+]

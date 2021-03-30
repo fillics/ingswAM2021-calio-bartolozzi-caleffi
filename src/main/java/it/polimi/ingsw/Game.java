@@ -1,34 +1,96 @@
 package it.polimi.ingsw;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
+import it.polimi.ingsw.Marbles.MarketTray;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 
+
+/**
+ * Game class contains the main logic of "Master of Renaissance".
+ *
+ * @author Filippo Caliò
+ */
 public class Game implements GameInterface{
 
-    ArrayList<Player> players ;
-    ArrayList<LeaderCard> leaderDeck;
-    ArrayList<ArrayList<DevelopmentCard>> developmentDeck;
+    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> activePlayers = new ArrayList<>();
+    private ArrayList<LeaderCard> leaderDeck;
+    private ArrayList<ArrayList<DevelopmentCard>> developmentDeck;
+    private MarketTray market;
 
-    public Game(ArrayList<Player> players, ArrayList<LeaderCard> leaderDeck, ArrayList<ArrayList<DevelopmentCard>> developmentDeck) {
-        this.players = players;
-        this.leaderDeck = leaderDeck;
-        this.developmentDeck = developmentDeck;
+
+    /**
+     * Method createNewPlayer creates a new player in the match. T
+     *
+     * @param player of type Player - the player to be added.
+     */
+    public void createNewPlayer(Player player) {
+        players.add(player);
+        activePlayers.add(player);
     }
 
+    /**
+     * Getter method used to return the player's list
+     *
+     */
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public void setMarketTray(){
-
+    /**
+     * Setter method used to create the Market Tray.
+     */
+    public MarketTray setMarketTray(){
+        market = new MarketTray();
+        return market;
     }
 
-    public void setDevelopmentDeck() {
+    /**
+     * Setter method used to create the Development Cards' Deck using the JSON file. It returns the shuffled deck
+     */
+    public ArrayList<ArrayList<DevelopmentCard>> setDevelopmentDeck() {
+
+        Collections.shuffle(developmentDeck);
+        return developmentDeck;
     }
 
-    public void setLeaderDeck() {
+    /**
+     * Setter method used to create the Leader Cards' Deck using the JSON file. It returns the shuffled deck
+     */
+    public ArrayList<LeaderCard> setLeaderDeck() {
+        // create Gson instance
+        Gson gson = new Gson();
+
+        // create a reader
+        try {
+
+            Reader reader = Files.newBufferedReader(Paths.get("src/resources/json/LeaderCard.json"));
+
+            //convert the json to  Java object (Employee)
+            LeaderCard employee = gson.fromJson(reader, LeaderCard.class);
+
+            // print map entries
+            //for (Map.Entry<?, ?> entry : map.entrySet()) {
+            //    System.out.println(entry.getKey() + "=" + entry.getValue());
+           // }
+
+            // close reader
+            //reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        //Collections.shuffle(leaderDeck);
+        return leaderDeck;
     }
 
     public ArrayList<ArrayList<DevelopmentCard>> removeCardFromDevelopmentDeck(LeaderCard cardToRemove, ArrayList<ArrayList<DevelopmentCard>> deck) {
@@ -40,6 +102,7 @@ public class Game implements GameInterface{
 
         return players.get(i);
     }
+
 
     /**
      *  Called when endTurn in Player is true. It controls if the conditions to end the game are satisfied. If so, the method winner is called.
