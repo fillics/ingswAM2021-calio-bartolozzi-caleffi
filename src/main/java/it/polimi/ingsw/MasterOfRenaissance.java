@@ -33,23 +33,17 @@ public class MasterOfRenaissance {
         Resource fede = new Resource(ResourceType.FAITHMARKER);
         Resource moneta = new Resource(ResourceType.COIN);
         Player giocatore1 = new Player("Giovanni", 1);
-        Cell[] tracciato = new Cell[24];
-        HashMap<ResourceType, Integer> mappa = new HashMap<>();
-        mappa.put(ResourceType.COIN, 0);
-        Strongbox forziere =  new Strongbox(mappa);
-        ArrayList<Deposit> depositi = new ArrayList<>();
-        Deposit deposito = new Deposit(ResourceType.COIN, 0, 3);
-        depositi.add(deposito);
-        ArrayList<VaticanReportSection> vats = new ArrayList<>();
+        Deposit deposito = new Deposit(3);
 
-        Board plancia = new Board(tracciato, 0, 0 , forziere, depositi, vats );
+        Board plancia = new Board();
+        plancia.getDeposits().add(deposito);
 
         System.out.println("Numero monete nel deposito prima: "+ deposito.getQuantity());
         moneta.useResource(new ConcreteStrategyResource(0, plancia, moneta.getType()));
         System.out.println("Numero monete nel deposito dopo: "+ deposito.getQuantity());
 
         System.out.println("Posizione del faith marker prima: "+ giocatore1.getFaithMarker());
-        fede.useResource(new ConcreteStrategySpecialResource(giocatore1, 1));
+        fede.useResource(new ConcreteStrategySpecialResource(giocatore1, 2));
         System.out.println("Posizione del faith marker dopo: "+ giocatore1.getFaithMarker());
 
     }

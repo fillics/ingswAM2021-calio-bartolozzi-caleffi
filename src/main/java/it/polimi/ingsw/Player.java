@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Player {
     private int position;
     private int totalVictoryPoint;
     private ArrayList<LeaderCard> leaderCards;
+    private Board board;
 
     /**
      * Constructor Player creates a new Player instance.
@@ -29,6 +31,7 @@ public class Player {
         faithMarker = 0;
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
+        board = new Board();
     }
 
 

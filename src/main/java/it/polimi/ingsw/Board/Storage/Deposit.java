@@ -11,9 +11,8 @@ public class Deposit extends Warehouse {
     /**
      * Class's Constructor made to define the deposit
      */
-    public Deposit(ResourceType resourcetype, int quantity, int maxLimit) {
-        this.resourcetype = resourcetype;
-        this.quantity = quantity;
+    public Deposit(int maxLimit) {
+        quantity = 0;
         this.maxLimit = maxLimit;
     }
 

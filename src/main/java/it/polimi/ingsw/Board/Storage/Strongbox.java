@@ -12,8 +12,8 @@ public class Strongbox extends Warehouse{
     /**
      * Class's constructor used to create the map where all the strongobx resources will be inserted
      */
-    public Strongbox(HashMap<ResourceType, Integer> strongbox) {
-        this.strongbox = strongbox;
+    public Strongbox() {
+        strongbox = new HashMap<>();
     }
 
     /**
