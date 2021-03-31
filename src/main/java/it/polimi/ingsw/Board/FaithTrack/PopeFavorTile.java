@@ -5,6 +5,9 @@ public class PopeFavorTile {
     private int victorypoint;
     private boolean visible;
 
+    /**
+     * Class's Constructor made to define the attributes
+     */
     public PopeFavorTile(PopeFavorTileColor color, int victorypoint, boolean visible) {
         this.color = color;
         this.victorypoint = victorypoint;

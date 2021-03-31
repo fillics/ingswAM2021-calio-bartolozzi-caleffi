@@ -4,6 +4,7 @@ import it.polimi.ingsw.Board.FaithTrack.Cell;
 import it.polimi.ingsw.Board.FaithTrack.VaticanReportSection;
 import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.Board.Storage.Strongbox;
+import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class Board {
     private ArrayList<Deposit> deposits;
     private Cell[] track;
     private ArrayList<VaticanReportSection> vaticanReportSections;
-    //public ProductionPower baseProdPower;
+    public ProductionPower baseProdPower;
 
     /**
      * Class's constructor that'll be used in the setup method
@@ -55,7 +56,5 @@ public class Board {
         return vaticanReportSections;
     }
 
-  /*public ProductionPower getBaseProdPower() {
-        return baseProdPower;
-    }*/
+    public ProductionPower getBaseProdPower() { return baseProdPower; }
 }

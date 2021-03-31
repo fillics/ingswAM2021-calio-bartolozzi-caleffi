@@ -7,17 +7,14 @@ public class Resource {
     private ResourceActionStrategy strategy;
 
     /**
-     * Class's constructor to create all the resources needed
-     *
+     * Class's Constructor made to define the resource type
      */
-    public Resource(ResourceType type, ResourceActionStrategy strategy) {
+    public Resource(ResourceType type) {
         this.type = type;
-        this.strategy = strategy;
     }
 
     /**
      * get-method created to obtain the resource type
-     *
      */
     public ResourceType getType() {
         return type;
@@ -25,9 +22,8 @@ public class Resource {
 
     /**
      * method that links to the strategy method in order to modify the number of resources in a single deposit
-     *
      */
-    public boolean useResource() {
+    public boolean useResource(ResourceActionStrategy strategy) {
         strategy.action();
         return true;
     }

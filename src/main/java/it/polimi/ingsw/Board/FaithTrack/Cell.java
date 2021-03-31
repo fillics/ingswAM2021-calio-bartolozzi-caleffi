@@ -4,6 +4,9 @@ public class Cell {
     private int victoryPoint;
     private boolean popeSpace;
 
+    /**
+     * Class's Constructor made to define the attributes
+     */
     public Cell(int victoryPoint, boolean popeSpace) {
         this.victoryPoint = victoryPoint;
         this.popeSpace = popeSpace;
