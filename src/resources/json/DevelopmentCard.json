@@ -1,7 +1,8 @@
 [
   {
     "color": "EXTRADEPOSIT",
-    "level": 1,  
+    "isSpecial": true,
+    "level": 1,
     "price":[
         {
             "amount": 2,
@@ -27,7 +28,7 @@
         "obtained":[
             {
                 "amount": 1,
-                "type": "ANY"
+                "type": ["SHIELD", "COIN", "SERVANT", "STONE"]
             },
             {
                 "amount": 1,

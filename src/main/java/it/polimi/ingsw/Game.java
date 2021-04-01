@@ -20,11 +20,20 @@ import java.util.Collections;
  */
 public class Game implements GameInterface{
 
-    private ArrayList<Player> players = new ArrayList<>();
-    private ArrayList<Player> activePlayers = new ArrayList<>();
+    private ArrayList<Player> players;
+    private ArrayList<Player> activePlayers;
     private ArrayList<LeaderCard> leaderDeck;
     private ArrayList<ArrayList<DevelopmentCard>> developmentDeck;
     private MarketTray market;
+
+
+    public Game(){
+        players = new ArrayList<>();
+        activePlayers = new ArrayList<>();
+        leaderDeck = new ArrayList<>();
+        developmentDeck = new ArrayList<>();
+        market = new MarketTray();
+    }
 
 
     /**
@@ -49,7 +58,7 @@ public class Game implements GameInterface{
      * Setter method used to create the Market Tray.
      */
     public MarketTray setMarketTray(){
-        market = new MarketTray();
+
         return market;
     }
 
@@ -107,7 +116,6 @@ public class Game implements GameInterface{
     /**
      *  Called when endTurn in Player is true. It controls if the conditions to end the game are satisfied. If so, the method winner is called.
      */
-
     public boolean endGame(){
         return true;
 
@@ -117,16 +125,19 @@ public class Game implements GameInterface{
         return getPlayers().get(i);
     }
 
-    public void setBoard(){
+
+    public void giveLeaderCards(){
+
 
     }
 
+
     @Override
     public void setup(){
-        setMarketTray();
-        setDevelopmentDeck();
-        setLeaderDeck();
-        setBoard();
+        setMarketTray(); // to shuffle the market
+        setDevelopmentDeck(); //to place the cards in the right order
+        setLeaderDeck(); //to shuffle the leader card
+        giveLeaderCards(); //to give to the player 4 cards
         System.out.println("Setup finito");
     }
 
@@ -162,6 +173,7 @@ public class Game implements GameInterface{
 
     @Override
     public void chooseLeaderCard() {
+
 
     }
 }

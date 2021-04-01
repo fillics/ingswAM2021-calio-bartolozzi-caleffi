@@ -1,10 +1,14 @@
 package it.polimi.ingsw.SinglePlayer;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Game;
 
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Represents the class used when a player wants to play against Lorenzo il Magnifico.
@@ -18,6 +22,8 @@ public class SinglePlayerGame extends Game {
     private int blackCross;
 
     public SinglePlayerGame() {
+        deckSoloActionToken = new ArrayList<>();
+        deletedSoloActionToken = new ArrayList<>();
         blackCross = 0;
     }
 
@@ -33,9 +39,18 @@ public class SinglePlayerGame extends Game {
         return deletedSoloActionToken;
     }
 
-    public int addBlackCross(int amount, int blackCross){
+    public int increaseBlackCross(int amount, int blackCross){
         blackCross += amount;
         return blackCross;
+    }
+
+    public ArrayList<SoloActionToken> setDeckSoloActionToken() throws IOException {
+
+        Gson gson = new Gson();
+        BufferedReader br = new BufferedReader(new FileReader("src/resources/json/Token.json"));
+        deckSoloActionToken = gson.fromJson(br, new TypeToken<List<SoloActionToken>>(){}.getType());
+        System.out.println(deckSoloActionToken);
+        return deckSoloActionToken;
     }
 
     /**
@@ -43,6 +58,7 @@ public class SinglePlayerGame extends Game {
      */
     public ArrayList<SoloActionToken> shuffleSoloActionToken(){
         Collections.shuffle(deckSoloActionToken);
+        System.out.println(deckSoloActionToken);
         return deckSoloActionToken;
     }
 

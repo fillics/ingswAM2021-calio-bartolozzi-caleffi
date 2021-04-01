@@ -2,17 +2,15 @@ package it.polimi.ingsw;
 
 
 import it.polimi.ingsw.Board.Board;
-import it.polimi.ingsw.Board.FaithTrack.Cell;
-import it.polimi.ingsw.Board.FaithTrack.VaticanReportSection;
+
 import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
 import it.polimi.ingsw.Board.Resources.ConcreteStrategySpecialResource;
 import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Deposit;
-import it.polimi.ingsw.Board.Storage.Strongbox;
+import it.polimi.ingsw.SinglePlayer.SinglePlayerGame;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.IOException;
 
 /**
  * Class MasterOfRenaissance is the main class of whole project.
@@ -28,8 +26,17 @@ public class MasterOfRenaissance {
      * @param args of type String[]
      */
 
-    public static void main( String[] args )    {
+    public static void main( String[] args ) throws IOException {
         System.out.println("Hi! Welcome to Master of Renaissance!");
+        Game game = new Game();
+        game.createNewPlayer(new Player("fil", 1));
+        //System.out.println(game.getPlayers().get(0).getUsername());
+        SinglePlayerGame single = new SinglePlayerGame();
+        single.setDeckSoloActionToken();
+
+        single.shuffleSoloActionToken();
+
+
         Resource fede = new Resource(ResourceType.FAITHMARKER);
         Resource moneta = new Resource(ResourceType.COIN);
         Player giocatore1 = new Player("Giovanni", 1);
