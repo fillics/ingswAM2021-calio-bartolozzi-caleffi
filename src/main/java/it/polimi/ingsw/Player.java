@@ -37,8 +37,7 @@ public class Player {
 
     /**
      * Method getUsername returns the username of this Player object.
-     *
-     * @return the username (type String) of this Player object.
+
      */
     public String getUsername() {
         return this.username;
@@ -46,8 +45,7 @@ public class Player {
 
     /**
      * Method getPosition returns the position of the Player's turn.
-     *
-     * @return the position (type int) of this Player object.
+
      */
     public int getPosition() {
         return position;
@@ -55,8 +53,6 @@ public class Player {
 
     /**
      * Method getFaithMarker returns the Faith Marker of this Player object.
-     *
-     * @return the faith marker (type int) of this Player object.
      */
     public int getFaithMarker() {
         return faithMarker;
@@ -64,8 +60,7 @@ public class Player {
 
     /**
      * Method getTotalVictoryPoint returns the amount of Player's victory points.
-     *
-     * @return how many victory points (type int) this Player object has.
+
      */
     public int getTotalVictoryPoint() {
         return totalVictoryPoint;
@@ -75,7 +70,6 @@ public class Player {
      * Method addLeaderCard creates four instances of Leader Cards related to the card received from the deck.
      *
      * @param card of type Card - the card chosen by the user.
-
      */
     public void addLeaderCard(LeaderCard card) {
 
@@ -84,8 +78,7 @@ public class Player {
 
     /**
      * Method increaseFaithMarker adds to the faith marker a specific amount, to move forward it.
-     *
-     * @return the new position (type int) of this Player's faith marker.
+
      */
     public int increaseFaithMarker(int amount){
         faithMarker += amount;

@@ -23,4 +23,12 @@ public class LeaderCard extends Card {
     public int getVictoryPoint() {
         return victorypoint;
     }
+
+    @Override
+    public String toString() {
+        return "LeaderCard{" +
+                "type=" + type +
+                ", victorypoint=" + victorypoint +
+                '}';
+    }
 }

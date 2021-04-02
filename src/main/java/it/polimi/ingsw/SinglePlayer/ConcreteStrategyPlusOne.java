@@ -6,9 +6,19 @@ package it.polimi.ingsw.SinglePlayer;
 
 public class ConcreteStrategyPlusOne implements TokenActionStrategy{
 
+    private final int amount = 1;
+    private SinglePlayerGame single;
+
+    public ConcreteStrategyPlusOne(SinglePlayerGame single) {
+        this.single = single;
+    }
+
     @Override
     public boolean effect(){
-        System.out.println("sono una risorsa da s");
+
+        single.increaseBlackCross(amount);
+        single.shuffleSoloActionToken();
+
         return true;
     }
 }

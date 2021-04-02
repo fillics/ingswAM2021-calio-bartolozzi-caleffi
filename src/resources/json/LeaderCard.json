@@ -13,7 +13,7 @@
             "type": "SERVANT"
         }
     ],
-    "victoryPoint": 3
+    "victorypoint": 3
   },
   {
     "type": "EXTRA_DEPOSIT",
@@ -29,7 +29,7 @@
             "type": "SHIELD"
         }
     ],
-    "victoryPoint": 3
+    "victorypoint": 3
   },
   {
     "type": "EXTRA_DEPOSIT",
@@ -45,7 +45,7 @@
             "type": "COIN"
         }
     ],
-    "victoryPoint": 3
+    "victorypoint": 3
   },
   {
     "type": "EXTRA_DEPOSIT",
@@ -61,7 +61,7 @@
             "type": "STONE"
         }
     ],
-    "victoryPoint": 3
+    "victorypoint": 3
   },
   {
     "type": "PRODUCTION_POWER",
@@ -93,7 +93,7 @@
         ]
         }
     ],
-    "victoryPoint": 4
+    "victorypoint": 4
   },
   {
     "type": "PRODUCTION_POWER",
@@ -124,7 +124,7 @@
         ]
         }
     ],
-    "victoryPoint": 4
+    "victorypoint": 4
   },
   {
     "type": "PRODUCTION_POWER",
@@ -155,7 +155,7 @@
         ]
         }
     ],
-    "victoryPoint": 4
+    "victorypoint": 4
   },
   {
     "type": "PRODUCTION_POWER",
@@ -186,7 +186,7 @@
         ]
         }
     ],
-    "victoryPoint": 4
+    "victorypoint": 4
   },
   {
     "type": "DISCOUNT",
@@ -205,7 +205,7 @@
             "type": "COIN"
         }
     ],
-    "victoryPoint": 2
+    "victorypoint": 2
   },
   {
     "type": "DISCOUNT",
@@ -224,7 +224,7 @@
             "type": "STONE"
         }
     ],
-    "victoryPoint": 2
+    "victorypoint": 2
   },
   {
     "type": "DISCOUNT",
@@ -243,7 +243,7 @@
             "type": "SHIELD"
         }
     ],
-    "victoryPoint": 2
+    "victorypoint": 2
   },
   {
     "type": "DISCOUNT",
@@ -262,7 +262,7 @@
             "type": "SERVANT"
         }
     ],
-    "victoryPoint": 2
+    "victorypoint": 2
   },
   {
     "type": "WHITE_MARBLE",
@@ -282,7 +282,7 @@
             "type": "COIN"
         }
     ],
-    "victoryPoint": 5
+    "victorypoint": 5
   },
   {
     "type": "WHITE_MARBLE",
@@ -302,7 +302,7 @@
             "type": "STONE"
         }
     ],
-    "victoryPoint": 5
+    "victorypoint": 5
   },
   {
     "type": "WHITE_MARBLE",
@@ -322,7 +322,7 @@
             "type": "SHIELD"
         }
     ],
-    "victoryPoint": 5
+    "victorypoint": 5
   },
   {
     "type": "WHITE_MARBLE",
@@ -342,6 +342,6 @@
             "type": "SERVANT"
         }
     ],
-    "victoryPoint": 5
+    "victorypoint": 5
   }
 ]

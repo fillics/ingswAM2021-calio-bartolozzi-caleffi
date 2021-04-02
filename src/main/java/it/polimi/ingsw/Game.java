@@ -1,23 +1,23 @@
 package it.polimi.ingsw;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Marbles.MarketTray;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.List;
 
 /**
  * Game class contains the main logic of "Master of Renaissance".
  *
  * @author Filippo Caliò
  */
+
 public class Game implements GameInterface{
 
     private ArrayList<Player> players;
@@ -65,8 +65,10 @@ public class Game implements GameInterface{
     /**
      * Setter method used to create the Development Cards' Deck using the JSON file. It returns the shuffled deck
      */
-    public ArrayList<ArrayList<DevelopmentCard>> setDevelopmentDeck() {
-
+    public ArrayList<ArrayList<DevelopmentCard>> createDevelopmentDeck() throws FileNotFoundException {
+        Gson gson = new Gson();
+        BufferedReader br = new BufferedReader(new FileReader("src/resources/json/DevelopmentCard.json"));
+        developmentDeck = gson.fromJson(br, new TypeToken<List<LeaderCard>>(){}.getType());
         Collections.shuffle(developmentDeck);
         return developmentDeck;
     }
@@ -74,35 +76,17 @@ public class Game implements GameInterface{
     /**
      * Setter method used to create the Leader Cards' Deck using the JSON file. It returns the shuffled deck
      */
-    public ArrayList<LeaderCard> setLeaderDeck() {
-        // create Gson instance
+    public ArrayList<LeaderCard> createLeaderDeck() throws IOException {
         Gson gson = new Gson();
-
-        // create a reader
-        try {
-
-            Reader reader = Files.newBufferedReader(Paths.get("src/resources/json/LeaderCard.json"));
-
-            //convert the json to  Java object (Employee)
-            LeaderCard employee = gson.fromJson(reader, LeaderCard.class);
-
-            // print map entries
-            //for (Map.Entry<?, ?> entry : map.entrySet()) {
-            //    System.out.println(entry.getKey() + "=" + entry.getValue());
-           // }
-
-            // close reader
-            //reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        //Collections.shuffle(leaderDeck);
+        BufferedReader br = new BufferedReader(new FileReader("src/resources/json/LeaderCard.json"));
+        leaderDeck = gson.fromJson(br, new TypeToken<List<LeaderCard>>(){}.getType());
+        System.out.println(leaderDeck);
+        Collections.shuffle(leaderDeck);
+        System.out.println(leaderDeck);
         return leaderDeck;
     }
 
-    public ArrayList<ArrayList<DevelopmentCard>> removeCardFromDevelopmentDeck(LeaderCard cardToRemove, ArrayList<ArrayList<DevelopmentCard>> deck) {
+    public ArrayList<ArrayList<DevelopmentCard>> removeCardFromDevelopmentDeck() {
 
         return developmentDeck;
     }
@@ -133,10 +117,10 @@ public class Game implements GameInterface{
 
 
     @Override
-    public void setup(){
+    public void setup() throws IOException {
         setMarketTray(); // to shuffle the market
-        setDevelopmentDeck(); //to place the cards in the right order
-        setLeaderDeck(); //to shuffle the leader card
+        createDevelopmentDeck(); //to place the cards in the right order
+        createLeaderDeck(); //to shuffle the leader card
         giveLeaderCards(); //to give to the player 4 cards
         System.out.println("Setup finito");
     }
@@ -174,6 +158,6 @@ public class Game implements GameInterface{
     @Override
     public void chooseLeaderCard() {
 
-
     }
+
 }

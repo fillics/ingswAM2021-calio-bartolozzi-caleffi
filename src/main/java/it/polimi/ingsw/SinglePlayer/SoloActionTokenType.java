@@ -5,5 +5,5 @@ package it.polimi.ingsw.SinglePlayer;
  */
 
 public enum SoloActionTokenType {
-    DISCARD_GREEN, DISCARD_BLUE, DISCARD_PURPLE, DISCARD_YELLOW, BLACKCROSS_1, BLACKCROSS_2
+    DISCARD, BLACKCROSS_1, BLACKCROSS_2
 }

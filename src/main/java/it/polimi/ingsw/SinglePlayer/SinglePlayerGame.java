@@ -2,8 +2,8 @@ package it.polimi.ingsw.SinglePlayer;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
 import it.polimi.ingsw.Game;
-
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,54 +11,92 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Represents the class used when a player wants to play against Lorenzo il Magnifico.
+ * Represents the class used when a player wants to play in Single Player against Lorenzo il Magnifico.
  */
 
 public class SinglePlayerGame extends Game {
 
     private ArrayList<SoloActionToken> deckSoloActionToken;
     private ArrayList<SoloActionToken> deletedSoloActionToken;
-    private SoloActionTokenType token;
+    private SoloActionToken token;
     private int blackCross;
 
+    /**
+     * Constructor SinglePlayerGame creates a new SinglePlayerGame instance.
+     */
     public SinglePlayerGame() {
         deckSoloActionToken = new ArrayList<>();
         deletedSoloActionToken = new ArrayList<>();
         blackCross = 0;
     }
 
+    /**
+     * Method getBlackCross returns the Black Cross of this SinglePlayerGame object.
+     */
     public int getBlackCross() {
         return blackCross;
     }
 
+    /**
+     * Method getDeckSoloActionToken returns the deck that contains all the token.
+     */
     public ArrayList<SoloActionToken> getDeckSoloActionToken() {
         return deckSoloActionToken;
     }
 
+    /**
+     * Method getDeletedSoloActionToken returns the deck that contains the token already used.
+     */
     public ArrayList<SoloActionToken> getDeletedSoloActionToken() {
         return deletedSoloActionToken;
     }
 
-    public int increaseBlackCross(int amount, int blackCross){
+    /**
+     * Method increaseBlackCross moves the black cross forward by an amount of steps.
+     *
+     * @param amount of type Int - indicates the number of steps.
+     */
+    public void increaseBlackCross(int amount){
         blackCross += amount;
-        return blackCross;
     }
 
-    public ArrayList<SoloActionToken> setDeckSoloActionToken() throws IOException {
+    public boolean setDeckSoloActionToken() throws IOException {
 
         Gson gson = new Gson();
         BufferedReader br = new BufferedReader(new FileReader("src/resources/json/Token.json"));
         deckSoloActionToken = gson.fromJson(br, new TypeToken<List<SoloActionToken>>(){}.getType());
-        System.out.println(deckSoloActionToken);
-        return deckSoloActionToken;
+
+        for (SoloActionToken soloActionToken : deckSoloActionToken) {
+
+            if (soloActionToken.getType().equals(SoloActionTokenType.DISCARD)) {
+                if (soloActionToken.getColor().equals(CardColor.BLUE)) {
+                    soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.BLUE));
+                } else if (soloActionToken.getColor().equals(CardColor.GREEN)) {
+                    soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.GREEN));
+                } else if (soloActionToken.getColor().equals(CardColor.YELLOW)) {
+                    soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.YELLOW));
+                } else if (soloActionToken.getColor().equals(CardColor.PURPLE)) {
+                    soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.PURPLE));
+                }
+
+            } else if (soloActionToken.getType().equals(SoloActionTokenType.BLACKCROSS_1)) {
+                soloActionToken.setStrategy(new ConcreteStrategyPlusOne(this));
+            } else if (soloActionToken.getType().equals(SoloActionTokenType.BLACKCROSS_2)) {
+                soloActionToken.setStrategy(new ConcreteStrategyPlusTwo(this));
+            }
+        }
+
+        return true;
     }
 
+    public void print(){
+        System.out.println(deletedSoloActionToken);
+    }
     /**
      * To shuffle the tokens when the game starts.
      */
     public ArrayList<SoloActionToken> shuffleSoloActionToken(){
         Collections.shuffle(deckSoloActionToken);
-        System.out.println(deckSoloActionToken);
         return deckSoloActionToken;
     }
 

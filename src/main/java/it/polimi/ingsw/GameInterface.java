@@ -1,5 +1,8 @@
 package it.polimi.ingsw;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  * Represents the interface that contains the callable methods by Game
  */
@@ -7,7 +10,7 @@ package it.polimi.ingsw;
 
 public interface GameInterface {
 
-    void setup();
+    void setup() throws IOException;
     void buyDevCard();
     void moveResource();
     void takeAndPlaceResource();
