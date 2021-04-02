@@ -27,6 +27,37 @@ public class MasterOfRenaissance {
      */
 
     public static void main( String[] args ) {
+        System.out.println("Hi! Welcome to Master of Renaissance!");
+        Game game = new Game();
+        game.createNewPlayer(new Player("fil", 1));
+        //game.createLeaderDeck();
+        //System.out.println(game.getPlayers().get(0).getUsername());
+        SinglePlayerGame single = new SinglePlayerGame();
+        //single.setDeckSoloActionToken();
+        System.out.println(single.getBlackCross());
+        //single.print();
 
+        single.shuffleSoloActionToken();
+        //single.print();
+        single.useSoloActionToken();
+        //single.print();
+        System.out.println(single.getBlackCross());
+
+
+        Resource fede = new Resource(ResourceType.FAITHMARKER);
+        Resource moneta = new Resource(ResourceType.COIN);
+        Player giocatore1 = new Player("Giovanni", 1);
+        Deposit deposito = new Deposit(3);
+
+        Board plancia = new Board();
+        plancia.getDeposits().add(deposito);
+
+        //System.out.println("Numero monete nel deposito prima: "+ deposito.getQuantity());
+        //moneta.useResource(new ConcreteStrategyResource(0, plancia, moneta.getType()));
+        //System.out.println("Numero monete nel deposito dopo: "+ deposito.getQuantity());
+
+        //System.out.println("Posizione del faith marker prima: "+ giocatore1.getFaithMarker());
+        //fede.useResource(new ConcreteStrategySpecialResource(giocatore1, 2));
+        //System.out.println("Posizione del faith marker dopo: "+ giocatore1.getFaithMarker());
     }
 }
