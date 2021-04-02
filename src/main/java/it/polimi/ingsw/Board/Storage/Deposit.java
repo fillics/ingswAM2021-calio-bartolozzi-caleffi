@@ -2,6 +2,9 @@ package it.polimi.ingsw.Board.Storage;
 
 import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.Exceptions.DepositHasAnotherResource;
+import it.polimi.ingsw.Exceptions.EmptyDeposit;
+import it.polimi.ingsw.Player;
 
 public class Deposit extends Warehouse {
    private ResourceType resourcetype;
@@ -37,14 +40,26 @@ public class Deposit extends Warehouse {
 
     /**
      * Method created in order to increase the number of resources. Exceptions still missing!
-     * @param amount is the number of resources to add in the deposit
      * @return the new amount of resources
      */
-    public int increaseNumberOfResources(int amount){
-        quantity +=  amount;
+    public int increaseNumberOfResources() {
+        quantity +=  1;
         return quantity;
     }
 
+    /**
+     * Method made to decrease the number of resources because taken by the player
+     * @return the resource requested
+     */
+    public Resource takeResource() throws EmptyDeposit {
+        if(quantity == 0){
+            throw new EmptyDeposit();
+        }
+        else {
+            quantity -= 1;
+            return new Resource(resourcetype);
+        }
+    }
     /**
      * Override methods created to return the number of resources for each resource for every singular deposit
      */

@@ -4,14 +4,11 @@ import it.polimi.ingsw.Player;
 
 public class ConcreteStrategySpecialResource implements ResourceActionStrategy {
     Player player;
-    int amount;
-
     /**
      *Class's Constructor made to define the concrete strategy
      */
-    public ConcreteStrategySpecialResource(Player player, int amount) {
+    public ConcreteStrategySpecialResource(Player player) {
         this.player = player;
-        this.amount = amount;
     }
 
     /**
@@ -19,7 +16,7 @@ public class ConcreteStrategySpecialResource implements ResourceActionStrategy {
      */
     @Override
     public boolean action() {
-        player.increaseFaithMarker(amount);
+        player.increaseFaithMarker();
         return false;
     }
 }
