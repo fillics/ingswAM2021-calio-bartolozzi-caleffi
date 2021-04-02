@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Board.Resources;
 
 import it.polimi.ingsw.Board.Storage.Deposit;
+import it.polimi.ingsw.Exceptions.DepositHasAnotherResource;
+import it.polimi.ingsw.Exceptions.DepositHasReachedMaxLimit;
 
 public class Resource {
     private ResourceType type;
@@ -14,17 +16,33 @@ public class Resource {
     }
 
     /**
+     * Set-method used to set the strategy of a resource when it's needed
+     * @param strategy is the strategy to set
+     */
+    public void setStrategy(ResourceActionStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    /**
      * get-method created to obtain the resource type
      */
     public ResourceType getType() {
         return type;
     }
 
+
+
+
     /**
      * method that links to the strategy method in order to modify the number of resources in a single deposit
      */
-    public boolean useResource(ResourceActionStrategy strategy) {
-        strategy.action();
+    public boolean useResource() {
+        try {
+            strategy.action();
+        } catch (DepositHasAnotherResource | DepositHasReachedMaxLimit depositHasAnotherResource) {
+            depositHasAnotherResource.printStackTrace();
+        }
+
         return true;
     }
 }

@@ -3,6 +3,8 @@ package it.polimi.ingsw.Board.Resources;
 
 import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Board.Storage.Deposit;
+import it.polimi.ingsw.Exceptions.DepositHasAnotherResource;
+import it.polimi.ingsw.Exceptions.DepositHasReachedMaxLimit;
 
 public class ConcreteStrategyResource implements ResourceActionStrategy{
     private int position;
@@ -25,9 +27,19 @@ public class ConcreteStrategyResource implements ResourceActionStrategy{
      * Override method linked to the useResource method used to operate on all resources except the faith marker
      */
     @Override
-    public boolean action() {
-        board.getDeposits().get(position).increaseNumberOfResources(1);
-        board.getDeposits().get(position).setResourcetype(resourcetype);
-        return true;
+    public boolean action() throws DepositHasAnotherResource, DepositHasReachedMaxLimit {
+        if(board.getDeposits().get(position).getResourcetype() != resourcetype && board.getDeposits().get(position).getResourcetype() != null){
+            throw new DepositHasAnotherResource();
+        }
+        else if(board.getDeposits().get(position).getQuantity() == board.getDeposits().get(position).getMaxLimit()){
+            throw new DepositHasReachedMaxLimit();
+        }
+        else {
+            if(board.getDeposits().get(position).getResourcetype() == null){
+                board.getDeposits().get(position).setResourcetype(resourcetype);
+            }
+            board.getDeposits().get(position).increaseNumberOfResources();
+            return true;
+        }
     }
 }

@@ -1,7 +1,10 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Board.Board;
+import it.polimi.ingsw.Board.Resources.Resource;
+import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
+import it.polimi.ingsw.Exceptions.EmptyDeposit;
 
 import java.util.ArrayList;
 
@@ -17,6 +20,7 @@ public class Player {
     private int position;
     private int totalVictoryPoint;
     private ArrayList<LeaderCard> leaderCards;
+    private ArrayList<Resource> resourceBuffer;
     private Board board;
 
     /**
@@ -31,6 +35,7 @@ public class Player {
         faithMarker = 0;
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
+        resourceBuffer = new ArrayList<>();
         board = new Board();
     }
 
@@ -80,9 +85,17 @@ public class Player {
      * Method increaseFaithMarker adds to the faith marker a specific amount, to move forward it.
 
      */
-    public int increaseFaithMarker(int amount){
-        faithMarker += amount;
+    public int increaseFaithMarker(){
+        faithMarker += 1;
         return faithMarker;
+    }
+
+    public void fillBuffer (int position){
+        try {
+            resourceBuffer.add(board.getDeposits().get(position).takeResource());
+        } catch (EmptyDeposit emptyDeposit) {
+            emptyDeposit.printStackTrace();
+        }
     }
 
     public boolean endTurn(){
