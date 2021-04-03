@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Class GameTest tests Game class.
  *
- * @author Filippo Caliò
  * @see Game
  */
 

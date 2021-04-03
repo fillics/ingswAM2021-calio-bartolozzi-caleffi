@@ -3,6 +3,7 @@ package it.polimi.ingsw.SinglePlayer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
+import it.polimi.ingsw.Exceptions.NegativeNumberBlackCross;
 import it.polimi.ingsw.Game;
 
 import java.io.*;
@@ -56,11 +57,19 @@ public class SinglePlayerGame extends Game {
      *
      * @param amount of type Int - indicates the number of steps.
      */
-    public void increaseBlackCross(int amount){
+    public void increaseBlackCross(int amount) throws NegativeNumberBlackCross {
+        if(amount < 0) {
+            throw new NegativeNumberBlackCross();
+        }
         blackCross += amount;
     }
 
-    public boolean setDeckSoloActionToken() throws IOException {
+    /**
+     * Method setDeckSoloActionToken extracts from the json file Token.json the types of the tokens featured in
+     * the Single Player Game and according to their types, it assigns to them the correct strategy
+     * @throws IOException if it cannot open the json file
+     */
+    public void setDeckSoloActionToken() throws IOException {
 
         Gson gson = new Gson();
         BufferedReader br = new BufferedReader(new FileReader("src/resources/json/Token.json"));
@@ -86,32 +95,39 @@ public class SinglePlayerGame extends Game {
             }
         }
 
-        return true;
     }
 
+    //DA TOGLIERE
     public void print(){
         System.out.println(deletedSoloActionToken);
     }
+
+
     /**
-     * To shuffle the tokens when the game starts.
+     * Method shuffleSoloActionToken shuffles the deck containing the tokens.
+     *
      */
-    public ArrayList<SoloActionToken> shuffleSoloActionToken(){
+    public void shuffleSoloActionToken(){
         Collections.shuffle(deckSoloActionToken);
-        return deckSoloActionToken;
     }
 
     /**
-     * To reveal and apply the effect of the token.
+     * Method useSoloActionToken extracts the last token from the deck, applies its effect and
+     * adds it to the deck containing the token already used.
      */
-    public void useSoloActionToken(){
+    public void useSoloActionToken() throws NegativeNumberBlackCross {
         SoloActionToken token = deckSoloActionToken.get(deckSoloActionToken.size() - 1);
         token.applyEffect();
         deletedSoloActionToken.add(token);
-
     }
 
+    /**
+     * Override method setup calls the method setDeckSoloActionToken to create the token's deck at the beginning
+     * of the Single Player Game
+     * @throws IOException if that method cannot open the json file
+     */
     @Override
-    public void setup(){
-        System.out.println("Setup Single Player finito");
+    public void setup() throws IOException {
+        setDeckSoloActionToken();
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.SinglePlayer;
 
 
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
+import it.polimi.ingsw.Exceptions.NegativeNumberBlackCross;
 
 /**
  * Represents the tokens that can be used in Single Mode.
@@ -14,7 +15,9 @@ public class SoloActionToken {
     private TokenActionStrategy strategy;
 
     /**
-     * Class's Constructor made to define the token type
+     * Constructor SoloActionToken creates a new SoloActionToken instance.
+     * @param type of type SoloActionTokenType
+     * @param color of type CardColor
      */
     public SoloActionToken(SoloActionTokenType type, CardColor color) {
         this.type = type;
@@ -27,27 +30,33 @@ public class SoloActionToken {
     public SoloActionTokenType getType() {
         return type;
     }
+
+    /**
+     * get-method created to obtain the token color
+     */
     public CardColor getColor() {
         return color;
     }
 
-    public TokenActionStrategy getStrategy() {
-        return strategy;
-    }
-
+    /**
+     * Setter method to assign the strategy to this SoloActionToken instance
+     *
+     * @param strategy of type TokenActionStrategy - the strategy to be assigned.
+     */
     public void setStrategy(TokenActionStrategy strategy) {
         this.strategy = strategy;
     }
 
 
     /**
-     * method that links to the strategy method in order to apply the token's effect
+     * Method applyEffect links to the strategy method in order to apply the token's effect
      */
-    public boolean applyEffect(){
+    public void applyEffect() throws NegativeNumberBlackCross {
         strategy.effect();
-        return true;
     }
 
+
+    //DA TOGLIERE
     @Override
     public String toString() {
         return "SoloActionToken{" +

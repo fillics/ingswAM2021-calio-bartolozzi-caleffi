@@ -2,6 +2,8 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.Cards.Card;
+import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Marbles.MarketTray;
@@ -26,6 +28,9 @@ public class Game implements GameInterface{
     private ArrayList<ArrayList<DevelopmentCard>> developmentDeck;
     private MarketTray market;
 
+    /**
+     * Constructor Game creates a new Game instance.
+     */
 
     public Game(){
         players = new ArrayList<>();
@@ -86,7 +91,7 @@ public class Game implements GameInterface{
         return leaderDeck;
     }
 
-    public ArrayList<ArrayList<DevelopmentCard>> removeCardFromDevelopmentDeck() {
+    public ArrayList<ArrayList<DevelopmentCard>> removeCardFromDevelopmentDeck(int amount, CardColor color) {
 
         return developmentDeck;
     }

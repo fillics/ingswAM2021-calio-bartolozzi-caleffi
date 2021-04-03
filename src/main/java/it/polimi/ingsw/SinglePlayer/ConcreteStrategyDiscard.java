@@ -9,19 +9,27 @@ import it.polimi.ingsw.Game;
 
 public class ConcreteStrategyDiscard implements TokenActionStrategy{
 
+    private final int amount = 2;
     private Game game;
     private CardColor color;
 
+    /**
+     * Constructor ConcreteStrategyDiscard creates a new ConcreteStrategyDiscard instance.
+     * @param game of type Game
+     * @param color of type CardColor
+     */
     public ConcreteStrategyDiscard(Game game, CardColor color) {
         this.game = game;
         this.color = color;
     }
 
+    /**
+     * Override method effect calls the method removeCardFromDevelopmentDeck to discard a certain amount of cards from
+     * the Development Deck, according to their color
+     */
     @Override
-    public boolean effect(){
-        //game.removeCardFromDevelopmentDeck();
-        return false;
-
+    public void effect(){
+        game.removeCardFromDevelopmentDeck(amount, color);
     }
 
 }

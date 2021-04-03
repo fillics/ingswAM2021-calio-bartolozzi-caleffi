@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * PlayerTest class tests Player class.
  *
- * @author Filippo Caliò
  * @see Player
  */
 

@@ -1,21 +1,28 @@
 package it.polimi.ingsw.SinglePlayer;
 
-/**
- * Represents the token with the effect of moving the Black Cross forward by 2 spaces.
- */
+import it.polimi.ingsw.Exceptions.NegativeNumberBlackCross;
 
+/**
+ * Represents the token with the effect of moving forward the Black Cross by 2 spaces.
+ */
 public class ConcreteStrategyPlusTwo implements TokenActionStrategy{
 
-    private final int amount = 2;
+    private final int value = 2;
     private SinglePlayerGame single;
 
+    /**
+     * Constructor ConcreteStrategyPlusTwo creates a new ConcreteStrategyPlusTwo instance.
+     * @param single of type SinglePlayerGame
+     */
     public ConcreteStrategyPlusTwo(SinglePlayerGame single) {
         this.single = single;
     }
 
+    /**
+     * Override method effect calls the method increaseBlackCross to add to the black cross a certain value
+     */
     @Override
-    public boolean effect(){
-        single.increaseBlackCross(2);
-        return true;
+    public void effect() throws NegativeNumberBlackCross {
+        single.increaseBlackCross(value);
     }
 }
