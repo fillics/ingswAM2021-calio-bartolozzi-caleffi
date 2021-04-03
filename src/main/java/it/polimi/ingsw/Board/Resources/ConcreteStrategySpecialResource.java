@@ -15,8 +15,7 @@ public class ConcreteStrategySpecialResource implements ResourceActionStrategy {
      * Override method linked to the useResource method used to operate on the faith marker resource
      */
     @Override
-    public boolean action() {
+    public void action() {
         player.increaseFaithMarker();
-        return false;
     }
 }

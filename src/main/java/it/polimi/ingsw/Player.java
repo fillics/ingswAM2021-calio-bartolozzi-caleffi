@@ -85,9 +85,8 @@ public class Player {
      * Method increaseFaithMarker adds to the faith marker a specific amount, to move forward it.
 
      */
-    public int increaseFaithMarker(){
+    public void increaseFaithMarker(){
         faithMarker += 1;
-        return faithMarker;
     }
 
     public void fillBuffer (int position){

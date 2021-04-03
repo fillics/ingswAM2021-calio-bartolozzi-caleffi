@@ -24,25 +24,21 @@ public class Resource {
     }
 
     /**
-     * get-method created to obtain the resource type
+     * get-method created to obtain the resource attributes
      */
     public ResourceType getType() {
         return type;
     }
-
-
-
+    public ResourceActionStrategy getStrategy() { return strategy; }
 
     /**
      * method that links to the strategy method in order to modify the number of resources in a single deposit
      */
-    public boolean useResource() {
+    public void useResource() {
         try {
             strategy.action();
         } catch (DepositHasAnotherResource | DepositHasReachedMaxLimit depositHasAnotherResource) {
             depositHasAnotherResource.printStackTrace();
         }
-
-        return true;
     }
 }
