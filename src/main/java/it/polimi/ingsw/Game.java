@@ -6,6 +6,7 @@ import it.polimi.ingsw.Cards.Card;
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
+import it.polimi.ingsw.Marbles.Marble;
 import it.polimi.ingsw.Marbles.MarketTray;
 
 import java.io.*;
@@ -26,7 +27,7 @@ public class Game implements GameInterface{
     private ArrayList<Player> activePlayers;
     private ArrayList<LeaderCard> leaderDeck;
     private ArrayList<ArrayList<DevelopmentCard>> developmentDeck;
-    private MarketTray market;
+    private ArrayList<Marble> market;
 
     /**
      * Constructor Game creates a new Game instance.
@@ -37,7 +38,7 @@ public class Game implements GameInterface{
         activePlayers = new ArrayList<>();
         leaderDeck = new ArrayList<>();
         developmentDeck = new ArrayList<>();
-        market = new MarketTray();
+        market = new ArrayList<>();
     }
 
 
@@ -62,8 +63,11 @@ public class Game implements GameInterface{
     /**
      * Setter method used to create the Market Tray.
      */
-    public MarketTray setMarketTray(){
-
+    public ArrayList<Marble> createMarketTray() throws FileNotFoundException {
+        Gson gson = new Gson();
+        BufferedReader br = new BufferedReader(new FileReader("src/resources/json/Marble.json"));
+        market=gson.fromJson(br, new TypeToken<List<Marble>>(){}.getType());
+        Collections.shuffle(market);
         return market;
     }
 
@@ -73,7 +77,7 @@ public class Game implements GameInterface{
     public ArrayList<ArrayList<DevelopmentCard>> createDevelopmentDeck() throws FileNotFoundException {
         Gson gson = new Gson();
         BufferedReader br = new BufferedReader(new FileReader("src/resources/json/DevelopmentCard.json"));
-        developmentDeck = gson.fromJson(br, new TypeToken<List<LeaderCard>>(){}.getType());
+        developmentDeck = gson.fromJson(br, new TypeToken<List<DevelopmentCard>>(){}.getType());
         Collections.shuffle(developmentDeck);
         return developmentDeck;
     }
@@ -123,7 +127,7 @@ public class Game implements GameInterface{
 
     @Override
     public void setup() throws IOException {
-        setMarketTray(); // to shuffle the market
+        createMarketTray(); // to shuffle the market
         createDevelopmentDeck(); //to place the cards in the right order
         createLeaderDeck(); //to shuffle the leader card
         giveLeaderCards(); //to give to the player 4 cards
