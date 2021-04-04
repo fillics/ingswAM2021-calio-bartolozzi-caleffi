@@ -26,9 +26,16 @@ class PlayerTest {
 
     /** Method usernameTest tests username's getter. */
     @Test
-    @DisplayName("Username/position getter test")
+    @DisplayName("Username getter test")
     void usernameTest() {
         assertEquals(username, testPlayer.getUsername());
+        assertEquals(position, testPlayer.getPosition());
+    }
+
+    /** Method positionTest tests position's getter. */
+    @Test
+    @DisplayName("Position getter test")
+    void positionTest() {
         assertEquals(position, testPlayer.getPosition());
     }
 

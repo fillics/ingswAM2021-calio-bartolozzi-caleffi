@@ -73,8 +73,8 @@ public class Player {
 
     /**
      * Method addLeaderCard creates four instances of Leader Cards related to the card received from the deck.
+     *  @param card of type Card - the card chosen by the user.
      *
-     * @param card of type Card - the card chosen by the user.
      */
     public void addLeaderCard(LeaderCard card) {
 
@@ -82,8 +82,7 @@ public class Player {
 
 
     /**
-     * Method increaseFaithMarker adds to the faith marker a specific amount, to move forward it.
-
+     * Method increaseFaithMarker moves forward the faith marker by one position
      */
     public void increaseFaithMarker(){
         faithMarker += 1;
