@@ -10,6 +10,7 @@ import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.SinglePlayer.SinglePlayerGame;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -26,8 +27,9 @@ public class MasterOfRenaissance {
      * @param args of type String[]
      */
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws FileNotFoundException {
         System.out.println("Hi! Welcome to Master of Renaissance!");
         Game game = new Game();
+        game.createDevelopmentDeck();
     }
 }

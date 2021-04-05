@@ -1,8 +1,8 @@
 [
   {
-    "color": "EXTRADEPOSIT",
+    "color": "BLUE",
+    "level": "ONE",
     "isSpecial": true,
-    "level": 1,
     "price":[
         {
             "amount": 2,
@@ -40,68 +40,191 @@
     "victorypoint": 3
   },
   {
-    "name": "Ares",
-    "property": "God of War",
-    "desc": "End of Your Turn: You may remove an unoccupied block (not dome) neighboring your unmoved Worker."
+    "color": "BLUE",
+    "level": "ONE"
   },
   {
-    "name": "Artemis",
-    "property": "Goddess of the Hunt",
-    "desc": "Your Move: Your Worker may move one additional time, but not back to its initial space."
+    "color": "BLUE",
+    "level": "ONE"
   },
   {
-    "name": "Athena",
-    "property": "Goddess of Wisdom",
-    "desc": "Opponent's Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn."
+    "color": "BLUE",
+    "level": "ONE"
   },
   {
-    "name": "Atlas",
-    "property": "Titan shouldering the Heavens",
-    "desc": "Your Build: Your Worker may build a dome at any level."
+    "color": "BLUE",
+    "level": "TWO"
   },
   {
-    "name": "Charon",
-    "property": "Ferryman to the Underworld",
-    "desc": "Your Move: Before your Worker moves, you may force a neighboring opponent Worker to the space directly on the other side of your Worker, if that space is unoccupied."
+    "color": "BLUE",
+    "level": "TWO"
   },
   {
-    "name": "Demeter",
-    "property": "Goddess of the Harvest",
-    "desc": "Your Build: Your Worker may build one additional time, but not on the same space."
+    "color": "BLUE",
+    "level": "TWO"
   },
   {
-    "name": "Hephaestus",
-    "property": "God of Blacksmiths",
-    "desc": "Your Build: Your Worker may build one additional block (not dome) on top of your first block."
+    "color": "BLUE",
+    "level": "TWO"
   },
   {
-    "name": "Hestia",
-    "property": "Goddess of Hearth and Home",
-    "desc": "Your Build: Your Worker may build one additional time, but this cannot be on a perimeter space."
+    "color": "BLUE",
+    "level": "THREE"
   },
   {
-    "name": "Minotaur",
-    "property": "Bull-headed Monster",
-    "desc": "Your Move: Your Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards to an unoccupied space at any level."
+    "color": "BLUE",
+    "level": "THREE"
   },
   {
-    "name": "Pan",
-    "property": "God of the Wild",
-    "desc": "Win Condition: You also win if your Worker moves down two or more levels."
+    "color": "BLUE",
+    "level": "THREE"
   },
   {
-    "name": "Prometheus",
-    "property": "Titan Benefactor of Mankind",
-    "desc": "Your Turn: If your Worker does not move up, it may build both before and after moving."
+    "color": "BLUE",
+    "level": "THREE"
   },
   {
-    "name": "Triton",
-    "property": "God of the Waves",
-    "desc": "Your Move: Each time your Worker moves into a perimeter space, it may immediately move again."
+    "color": "GREEN",
+    "level": "ONE"
   },
   {
-    "name": "Zeus",
-    "property": "God of the Sky",
-    "desc": "Your Build: Your Worker may build a block under itself."
+    "color": "GREEN",
+    "level": "ONE"
+  },
+  {
+    "color": "GREEN",
+    "level": "ONE"
+  },
+  {
+    "color": "GREEN",
+    "level": "ONE"
+  },
+  {
+    "color": "GREEN",
+    "level": "TWO"
+  },
+  {
+    "color": "GREEN",
+    "level": "TWO"
+  },
+  {
+    "color": "GREEN",
+    "level": "TWO"
+  },
+  {
+    "color": "GREEN",
+    "level": "TWO"
+  },
+  {
+    "color": "GREEN",
+    "level": "THREE"
+  },
+  {
+    "color": "GREEN",
+    "level": "THREE"
+  },
+  {
+    "color": "GREEN",
+    "level": "THREE"
+  },
+  {
+    "color": "GREEN",
+    "level": "THREE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "ONE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "ONE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "ONE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "ONE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "TWO"
+  },
+  {
+    "color": "YELLOW",
+    "level": "TWO"
+  },
+  {
+    "color": "YELLOW",
+    "level": "TWO"
+  },
+  {
+    "color": "YELLOW",
+    "level": "TWO"
+  },
+  {
+    "color": "YELLOW",
+    "level": "THREE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "THREE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "THREE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "THREE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "ONE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "ONE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "ONE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "ONE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "TWO"
+  },
+  {
+    "color": "PURPLE",
+    "level": "TWO"
+  },
+  {
+    "color": "PURPLE",
+    "level": "TWO"
+  },
+  {
+    "color": "PURPLE",
+    "level": "TWO"
+  },
+  {
+    "color": "PURPLE",
+    "level": "THREE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "THREE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "THREE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "THREE"
   }
 ]

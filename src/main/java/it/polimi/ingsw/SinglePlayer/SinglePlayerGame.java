@@ -72,6 +72,7 @@ public class SinglePlayerGame extends Game {
     public void setDeckSoloActionToken() throws IOException {
 
         Gson gson = new Gson();
+
         BufferedReader br = new BufferedReader(new FileReader("src/resources/json/Token.json"));
         deckSoloActionToken = gson.fromJson(br, new TypeToken<List<SoloActionToken>>(){}.getType());
 
@@ -95,11 +96,8 @@ public class SinglePlayerGame extends Game {
             }
         }
 
-    }
 
-    //DA TOGLIERE
-    public void print(){
-        System.out.println(deletedSoloActionToken);
+
     }
 
 

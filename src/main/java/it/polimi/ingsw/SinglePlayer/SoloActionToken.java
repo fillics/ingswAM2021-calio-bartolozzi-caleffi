@@ -39,6 +39,13 @@ public class SoloActionToken {
     }
 
     /**
+     * get-method created to obtain the token strategy
+     */
+    public TokenActionStrategy getStrategy() {
+        return strategy;
+    }
+
+    /**
      * Setter method to assign the strategy to this SoloActionToken instance
      *
      * @param strategy of type TokenActionStrategy - the strategy to be assigned.
@@ -55,14 +62,4 @@ public class SoloActionToken {
         strategy.effect();
     }
 
-
-    //DA TOGLIERE
-    @Override
-    public String toString() {
-        return "SoloActionToken{" +
-                "type=" + type +
-                ", color=" + color +
-                ", strategy=" + strategy +
-                '}';
-    }
 }

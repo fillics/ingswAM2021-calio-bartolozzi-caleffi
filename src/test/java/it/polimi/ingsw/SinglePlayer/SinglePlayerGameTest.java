@@ -1,8 +1,10 @@
 package it.polimi.ingsw.SinglePlayer;
 import static org.junit.jupiter.api.Assertions.*;
 
+import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
 import it.polimi.ingsw.Exceptions.NegativeNumberBlackCross;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
@@ -14,17 +16,18 @@ import org.junit.jupiter.api.Test;
 
 class SinglePlayerGameTest {
 
-    SinglePlayerGame single;
-
+    SinglePlayerGame single = new SinglePlayerGame();
 
     /** Method istantiaton instantiates the SinglePlayerGame classes. */
     @BeforeEach
     void istantiaton() {
-        single = new SinglePlayerGame();
+
         assertEquals(0, single.getBlackCross());
         assertEquals(0, single.getDeckSoloActionToken().size());
         assertEquals(0, single.getDeletedSoloActionToken().size());
     }
+
+
 
     /**
      * Test method checkIncreaseBlackCross checks the correct operation of the increasing of the black cross
