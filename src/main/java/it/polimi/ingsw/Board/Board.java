@@ -10,6 +10,7 @@ import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 import java.util.ArrayList;
 
 public class Board {
+    private int NumOfDevCard;
     private int faithMarker;
     private int boardVictoryPoint;
     private Strongbox strongbox;
@@ -23,6 +24,7 @@ public class Board {
      * Class's constructor that'll be used in the setup method
      */
     public Board() {
+        NumOfDevCard = 0;
         track = new ArrayList<>();
         faithMarker = 0;
         boardVictoryPoint = 0;
@@ -32,6 +34,10 @@ public class Board {
         developmentSpaces = new ArrayList<>();
     }
 
+    /**
+     * Get-methods in order to obtain the attributes' values
+     */
+    public int getNumOfDevCard() { return NumOfDevCard; }
     /**
      * Get-methods in order to obtain the attributes' values
      */
@@ -104,6 +110,7 @@ public class Board {
         for (int i = 0; i< faithMarker; i++){
             boardVictoryPoint += track.get(i).getVictoryPoint();
         }
+        boardVictoryPoint += (getTotalCoins() + getTotalServants() + getTotalStones() + getTotalShields()) / 5;
         return boardVictoryPoint;
     }
 
@@ -115,7 +122,9 @@ public class Board {
         int total;
         total = strongbox.getTotalCoins();
         for (Deposit deposit : deposits) {
-            total += deposit.getTotalCoins();
+            if(deposit.getResourcetype() != null){
+                total += deposit.getTotalCoins();
+            }
         }
         return total;
     }
@@ -124,7 +133,9 @@ public class Board {
         int total;
         total = strongbox.getTotalStones();
         for (Deposit deposit : deposits) {
-            total += deposit.getTotalStones();
+            if(deposit.getResourcetype() != null){
+                total += deposit.getTotalStones();
+            }
         }
         return total;
     }
@@ -133,7 +144,9 @@ public class Board {
         int total;
         total = strongbox.getTotalServants();
         for (Deposit deposit : deposits) {
-            total += deposit.getTotalServants();
+            if(deposit.getResourcetype() != null){
+                total += deposit.getTotalServants();
+            }
         }
         return total;
     }
@@ -142,8 +155,9 @@ public class Board {
         int total;
         total = strongbox.getTotalShields();
         for (Deposit deposit : deposits) {
-            total += deposit.getTotalShields();
-        }
+            if(deposit.getResourcetype() != null){
+                total += deposit.getTotalShields();
+            }        }
         return total;
     }
 

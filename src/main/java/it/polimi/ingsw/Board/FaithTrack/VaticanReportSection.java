@@ -9,8 +9,8 @@ public class VaticanReportSection {
     /**
      * Class's Constructor made to define the attributes
      */
-    public VaticanReportSection(ArrayList<Cell> section, PopeFavorTile popefavortile) {
-        this.section = section;
+    public VaticanReportSection(PopeFavorTile popefavortile) {
+        section = new ArrayList<>();
         this.popefavortile = popefavortile;
     }
     /**

@@ -65,13 +65,12 @@ public class Player {
 
     /**
      * Method addLeaderCard creates four instances of Leader Cards related to the card received from the deck.
+     *  @param card of type Card - the card chosen by the user.
      *
-     * @param card of type Card - the card chosen by the user.
      */
     public void addLeaderCard(LeaderCard card) {
 
     }
-
 
     public void fillBuffer (int position){
         try {
