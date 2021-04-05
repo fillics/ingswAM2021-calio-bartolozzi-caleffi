@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class Player {
     private final String username;
-    private int faithMarker;
     private int position;
     private int totalVictoryPoint;
     private ArrayList<LeaderCard> leaderCards;
@@ -32,7 +31,6 @@ public class Player {
     public Player(String username, int position) {
         this.username = username;
         this.position = position;
-        faithMarker = 0;
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
         resourceBuffer = new ArrayList<>();
@@ -56,12 +54,6 @@ public class Player {
         return position;
     }
 
-    /**
-     * Method getFaithMarker returns the Faith Marker of this Player object.
-     */
-    public int getFaithMarker() {
-        return faithMarker;
-    }
 
     /**
      * Method getTotalVictoryPoint returns the amount of Player's victory points.
@@ -80,14 +72,6 @@ public class Player {
 
     }
 
-
-    /**
-     * Method increaseFaithMarker adds to the faith marker a specific amount, to move forward it.
-
-     */
-    public void increaseFaithMarker(){
-        faithMarker += 1;
-    }
 
     public void fillBuffer (int position){
         try {

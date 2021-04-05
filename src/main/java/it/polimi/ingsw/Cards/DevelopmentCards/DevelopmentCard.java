@@ -28,11 +28,12 @@ public class DevelopmentCard extends Card {
         return productionPower;
     }
 
-    public DevelopmentCard(Level level, CardColor color, HashMap<ResourceType, Integer> resourcePrice, ProductionPower productionPower) {
+    public DevelopmentCard(Level level, CardColor color, ProductionPower productionPower, int victorypoint) {
         this.level = level;
         this.color = color;
-        this.resourcePrice = resourcePrice;
+        resourcePrice = new HashMap<>();
         this.productionPower = productionPower;
+        this.victorypoint = victorypoint;
     }
 
     @Override

@@ -4,54 +4,46 @@ import it.polimi.ingsw.Board.FaithTrack.Cell;
 import it.polimi.ingsw.Board.FaithTrack.VaticanReportSection;
 import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.Board.Storage.Strongbox;
+import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentSpace;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 
 import java.util.ArrayList;
 
 public class Board {
-    private int numberDevCard;
+    private int faithMarker;
     private int boardVictoryPoint;
     private Strongbox strongbox;
     private ArrayList<Deposit> deposits;
-
-    private Cell[] track;
+    private ArrayList<DevelopmentSpace> developmentSpaces;
+    private ArrayList<Cell> track;
     private ArrayList<VaticanReportSection> vaticanReportSections;
-    public ProductionPower baseProdPower;
+    private ProductionPower baseProdPower;
 
     /**
      * Class's constructor that'll be used in the setup method
      */
     public Board() {
-        track = new Cell[24];
-        numberDevCard = 0;
+        track = new ArrayList<>();
+        faithMarker = 0;
         boardVictoryPoint = 0;
         strongbox = new Strongbox();
         deposits = new ArrayList<>();
         vaticanReportSections = new ArrayList<>();
+        developmentSpaces = new ArrayList<>();
     }
 
     /**
      * Get-methods in order to obtain the attributes' values
      */
-    public Cell[] getTrack() {
+    public ArrayList<DevelopmentSpace> getDevelopmentSpaces() {
+        return developmentSpaces;
+    }
+
+    /**
+     * Get-methods in order to obtain the attributes' values
+     */
+    public ArrayList<Cell> getTrack() {
         return track;
-    }
-
-    /**
-     * Method getBoardVictoryPoint returns the amount of the victory points of this Board object.
-     *
-     * @return the amount of the victory points (type int) of this Board object.
-     */
-    public int getBoardVictoryPoint() {
-        return boardVictoryPoint;
-    }
-
-    /**
-     * Get-methods in order to obtain the attributes' values
-     */
-
-    public int getNumberDevCard() {
-        return numberDevCard;
     }
 
     /**
@@ -79,4 +71,81 @@ public class Board {
      * Get-methods in order to obtain the attributes' values
      */
     public ProductionPower getBaseProdPower() { return baseProdPower; }
+
+    /**
+     * Method getFaithMarker returns the Faith Marker of this Board object.
+     */
+    public int getFaithMarker() {
+        return faithMarker;
+    }
+
+    /**
+     * Method increaseFaithMarker adds to the faith marker a specific amount, to move forward it.
+     */
+    public void increaseFaithMarker(){
+        faithMarker += 1;
+    }
+
+    /**
+     * Method getBoardVictoryPoint returns the amount of the victory points of this Board object.
+     * @return the amount of the victory points (type int) of this Board object.
+     */
+    public int getBoardVictoryPoint() {
+        for (VaticanReportSection vaticanReportSection : vaticanReportSections) {
+            if (vaticanReportSection.getPopefavortile().isVisible()) {
+                boardVictoryPoint += vaticanReportSection.getPopefavortile().getVictorypoint();
+            }
+        }
+        for (DevelopmentSpace developmentSpace : developmentSpaces) {
+            for (int i = 0; i < developmentSpace.getDevelopmentSpace().size(); i++) {
+                boardVictoryPoint += developmentSpace.getDevelopmentSpace().get(i).getVictoryPoint();
+            }
+        }
+        for (int i = 0; i< faithMarker; i++){
+            boardVictoryPoint += track.get(i).getVictoryPoint();
+        }
+        return boardVictoryPoint;
+    }
+
+    /**
+     * Get-methods that return the total amount of resources of a player
+     * @return total resources
+     */
+    public int getTotalCoins() {
+        int total;
+        total = strongbox.getTotalCoins();
+        for (Deposit deposit : deposits) {
+            total += deposit.getTotalCoins();
+        }
+        return total;
+    }
+
+    public int getTotalStones() {
+        int total;
+        total = strongbox.getTotalStones();
+        for (Deposit deposit : deposits) {
+            total += deposit.getTotalStones();
+        }
+        return total;
+    }
+
+    public int getTotalServants() {
+        int total;
+        total = strongbox.getTotalServants();
+        for (Deposit deposit : deposits) {
+            total += deposit.getTotalServants();
+        }
+        return total;
+    }
+
+    public int getTotalShields() {
+        int total;
+        total = strongbox.getTotalShields();
+        for (Deposit deposit : deposits) {
+            total += deposit.getTotalShields();
+        }
+        return total;
+    }
+
+
 }
