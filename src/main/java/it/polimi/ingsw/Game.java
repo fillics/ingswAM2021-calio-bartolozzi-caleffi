@@ -23,11 +23,11 @@ import java.util.List;
 
 public class Game implements GameInterface{
 
+    private static ArrayList<Marble> market;
     private ArrayList<Player> players;
     private ArrayList<Player> activePlayers;
     private ArrayList<LeaderCard> leaderDeck;
     private ArrayList<ArrayList<DevelopmentCard>> developmentDeck;
-    private ArrayList<Marble> market;
 
     /**
      * Constructor Game creates a new Game instance.
@@ -68,6 +68,10 @@ public class Game implements GameInterface{
         BufferedReader br = new BufferedReader(new FileReader("src/resources/json/Marble.json"));
         market=gson.fromJson(br, new TypeToken<List<Marble>>(){}.getType());
         Collections.shuffle(market);
+        return market;
+    }
+
+    public static ArrayList<Marble> getMarket() {
         return market;
     }
 

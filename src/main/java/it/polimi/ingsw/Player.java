@@ -20,7 +20,12 @@ public class Player {
     private int position;
     private int totalVictoryPoint;
     private ArrayList<LeaderCard> leaderCards;
-    private ArrayList<Resource> resourceBuffer;
+    private static ArrayList<Resource> resourceBuffer;
+
+    public static ArrayList<Resource> getResourceBuffer() {
+        return resourceBuffer;
+    }
+
     private Board board;
 
     /**
@@ -83,7 +88,6 @@ public class Player {
 
     /**
      * Method increaseFaithMarker adds to the faith marker a specific amount, to move forward it.
-
      */
     public void increaseFaithMarker(){
         faithMarker += 1;
