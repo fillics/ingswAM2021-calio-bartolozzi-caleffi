@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Board.Resources.Resource;
-import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;
 
@@ -40,7 +39,6 @@ public class Player {
 
     /**
      * Method getUsername returns the username of this Player object.
-
      */
     public String getUsername() {
         return this.username;
@@ -48,7 +46,6 @@ public class Player {
 
     /**
      * Method getPosition returns the position of the Player's turn.
-
      */
     public int getPosition() {
         return position;
@@ -57,10 +54,13 @@ public class Player {
 
     /**
      * Method getTotalVictoryPoint returns the amount of Player's victory points.
-
      */
     public int getTotalVictoryPoint() {
         return totalVictoryPoint;
+    }
+
+    public ArrayList<LeaderCard> getLeaderCards() {
+        return leaderCards;
     }
 
     /**
@@ -68,10 +68,12 @@ public class Player {
      *  @param card of type Card - the card chosen by the user.
      *
      */
+    // TODO: 05/04/2021 DA IMPLEMENTARE 
     public void addLeaderCard(LeaderCard card) {
-
+        leaderCards.add(card);
     }
 
+    // TODO: 05/04/2021 scrivere javadoc 
     public void fillBuffer (int position){
         try {
             resourceBuffer.add(board.getDeposits().get(position).takeResource());

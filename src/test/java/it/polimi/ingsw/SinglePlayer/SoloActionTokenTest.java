@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -15,14 +15,23 @@ import org.junit.jupiter.api.Test;
 
 
 class SoloActionTokenTest {
-    SoloActionToken token;
+    SoloActionToken testToken;
 
-    @Test
-    @DisplayName("")
+    /**
+     * Method initialization initializes values.
+     */
+    @BeforeEach
     void inizialitation(){
-        token = new SoloActionToken(SoloActionTokenType.DISCARD, CardColor.GREEN);
-        assertEquals(CardColor.GREEN, token.getColor());
-        assertEquals(SoloActionTokenType.DISCARD, token.getType());
+        testToken = new SoloActionToken(SoloActionTokenType.DISCARD, CardColor.GREEN);
+    }
+
+    /**
+     * Test method checkGet checks if the getter methods work correctly.
+     */
+    @Test
+    void checkGet(){
+        assertEquals(CardColor.GREEN, testToken.getColor());
+        assertEquals(SoloActionTokenType.DISCARD, testToken.getType());
     }
 
 }
