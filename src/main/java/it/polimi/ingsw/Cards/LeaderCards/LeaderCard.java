@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Cards.LeaderCards;
 
+import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.Card;
+import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 
 public class LeaderCard extends Card {
     private LeaderCardType type;
@@ -14,8 +16,23 @@ public class LeaderCard extends Card {
         this.requirement = requirement;
     }
 
-    public boolean doAbility() {
-        strategy.ability();
+    public boolean activateLeaderCard() {
+        strategy.activate();
+        return true;
+    }
+
+    public boolean useAbility(int numofMarbles) {
+        strategy.ability(numofMarbles);
+        return true;
+    }
+
+    public boolean useAbility(DevelopmentCard developmentCard) {
+        strategy.ability(developmentCard);
+        return true;
+    }
+
+    public boolean useAbility(ResourceType resourceObtained) {
+        strategy.ability(resourceObtained);
         return true;
     }
 

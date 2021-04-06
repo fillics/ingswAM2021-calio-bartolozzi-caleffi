@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -11,7 +13,7 @@ import java.io.IOException;
 public interface GameInterface {
 
     void setup() throws IOException;
-    void buyDevCard();
+    void buyDevCard(DevelopmentCard developmentCard);
     void moveResource();
     void takeAndPlaceResource();
     void useAndChooseProdPower();

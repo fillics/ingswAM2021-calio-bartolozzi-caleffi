@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class ProductionPower {
     private final HashMap<ResourceType,Integer> resourcesNeeded;
-    private final HashMap<ResourceType,Integer> resourceObtained;
+    private static HashMap<ResourceType,Integer> resourceObtained;
 
     public HashMap<ResourceType, Integer> getResourcesNeeded() {
         return resourcesNeeded;
@@ -17,6 +17,6 @@ public class ProductionPower {
 
     public ProductionPower(HashMap<ResourceType, Integer> resourcesNeeded, HashMap<ResourceType, Integer> resourceObtained) {
         this.resourcesNeeded = resourcesNeeded;
-        this.resourceObtained = resourceObtained;
+        ProductionPower.resourceObtained = resourceObtained;
     }
 }

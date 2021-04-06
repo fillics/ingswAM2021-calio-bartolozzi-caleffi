@@ -12,6 +12,16 @@ public class DevelopmentCard extends Card {
     private ProductionPower productionPower;
     private int victorypoint;
 
+    /**
+     * Constructor DevelopmentCard creates a new DevelopmentCard instance.
+     */
+    public DevelopmentCard(Level level, CardColor color, HashMap<ResourceType, Integer> resourcePrice, ProductionPower productionPower) {
+        this.level = level;
+        this.color = color;
+        this.resourcePrice = resourcePrice;
+        this.productionPower = productionPower;
+    }
+
     public Level getLevel() {
         return level;
     }
@@ -26,13 +36,6 @@ public class DevelopmentCard extends Card {
 
     public ProductionPower getProductionPower() {
         return productionPower;
-    }
-
-    public DevelopmentCard(Level level, CardColor color, HashMap<ResourceType, Integer> resourcePrice, ProductionPower productionPower) {
-        this.level = level;
-        this.color = color;
-        this.resourcePrice = resourcePrice;
-        this.productionPower = productionPower;
     }
 
     @Override

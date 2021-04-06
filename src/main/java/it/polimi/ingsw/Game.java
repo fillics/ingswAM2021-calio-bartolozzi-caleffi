@@ -139,7 +139,7 @@ public class Game implements GameInterface{
     }
 
     @Override
-    public void buyDevCard() {
+    public void buyDevCard(DevelopmentCard developmentCard) {
 
     }
 

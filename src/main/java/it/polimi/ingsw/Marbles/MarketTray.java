@@ -31,6 +31,13 @@ public class MarketTray {
     }
 
     /**
+     * Method getTable returns the actual market table.
+     */
+    public Marble[][] getTable() {
+        return table;
+    }
+
+    /**
      * Method lineSelection calls transform() on every marble of the line selected.
      */
     public void lineSelection(String line, int numline){
