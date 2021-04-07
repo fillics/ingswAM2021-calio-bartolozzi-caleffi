@@ -8,10 +8,10 @@ public class PopeFavorTile {
     /**
      * Class's Constructor made to define the attributes
      */
-    public PopeFavorTile(PopeFavorTileColor color, int victorypoint, boolean visible) {
+    public PopeFavorTile(PopeFavorTileColor color, int victorypoint) {
         this.color = color;
         this.victorypoint = victorypoint;
-        this.visible = visible;
+        visible = false;
     }
 
     public int getVictorypoint() {

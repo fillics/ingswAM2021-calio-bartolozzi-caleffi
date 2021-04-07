@@ -3,13 +3,16 @@ package it.polimi.ingsw.SinglePlayer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
-import it.polimi.ingsw.Exceptions.NegativeNumberBlackCross;
+import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
+import it.polimi.ingsw.Cards.DevelopmentCards.Level;
 import it.polimi.ingsw.Game;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Represents the class used when a player wants to play in Single Player against Lorenzo il Magnifico.
@@ -57,57 +60,50 @@ public class SinglePlayerGame extends Game {
      *
      * @param amount of type Int - indicates the number of steps.
      */
-    public void increaseBlackCross(int amount) throws NegativeNumberBlackCross {
-        if(amount < 0) {
-            throw new NegativeNumberBlackCross();
-        }
+    public void increaseBlackCross(int amount){
         blackCross += amount;
     }
 
     /**
      * Method setDeckSoloActionToken extracts from the json file Token.json the types of the tokens featured in
      * the Single Player Game and according to their types, it assigns to them the correct strategy
-     * @throws IOException if it cannot open the json file
      */
-    public void setDeckSoloActionToken() throws IOException {
+    public void setDeckSoloActionToken() {
 
         Gson gson = new Gson();
-        BufferedReader br = new BufferedReader(new FileReader("src/resources/json/Token.json"));
-        deckSoloActionToken = gson.fromJson(br, new TypeToken<List<SoloActionToken>>(){}.getType());
 
-        for (SoloActionToken soloActionToken : deckSoloActionToken) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/json/Token.json"));
+            deckSoloActionToken = gson.fromJson(br, new TypeToken<List<SoloActionToken>>(){}.getType());
 
-            if (soloActionToken.getType().equals(SoloActionTokenType.DISCARD)) {
-                if (soloActionToken.getColor().equals(CardColor.BLUE)) {
-                    soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.BLUE));
-                } else if (soloActionToken.getColor().equals(CardColor.GREEN)) {
-                    soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.GREEN));
-                } else if (soloActionToken.getColor().equals(CardColor.YELLOW)) {
-                    soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.YELLOW));
-                } else if (soloActionToken.getColor().equals(CardColor.PURPLE)) {
-                    soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.PURPLE));
-                }
+            /*Map<SoloActionTokenType, List<SoloActionToken>> groupByColorAndLevel =
+                deckSoloActionToken.stream().collect(Collectors.groupingBy(SoloActionToken::getType));*/
 
-            } else if (soloActionToken.getType().equals(SoloActionTokenType.BLACKCROSS_1)) {
-                soloActionToken.setStrategy(new ConcreteStrategyPlusOne(this));
-            } else if (soloActionToken.getType().equals(SoloActionTokenType.BLACKCROSS_2)) {
-                soloActionToken.setStrategy(new ConcreteStrategyPlusTwo(this));
-            }
+            deckSoloActionToken.forEach(soloActionToken -> {
+                if (soloActionToken.getType().equals(SoloActionTokenType.DISCARD)) {
+                    if (soloActionToken.getColor().equals(CardColor.BLUE)) soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.BLUE));
+                    else if (soloActionToken.getColor().equals(CardColor.GREEN)) soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.GREEN));
+                    else if (soloActionToken.getColor().equals(CardColor.YELLOW)) soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.YELLOW));
+                    else if (soloActionToken.getColor().equals(CardColor.PURPLE)) soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.PURPLE));
+                } else if (soloActionToken.getType().equals(SoloActionTokenType.BLACKCROSS_1)) soloActionToken.setStrategy(new ConcreteStrategyPlusOne(this));
+                else if (soloActionToken.getType().equals(SoloActionTokenType.BLACKCROSS_2)) soloActionToken.setStrategy(new ConcreteStrategyPlusTwo(this));
+            });
+
+            Collections.shuffle(deckSoloActionToken);
+
+        }catch (FileNotFoundException ex){
+            System.out.println("Token.json file was not found");
         }
 
     }
 
-    //DA TOGLIERE
-    public void print(){
-        System.out.println(deletedSoloActionToken);
-    }
-
-
     /**
-     * Method shuffleSoloActionToken shuffles the deck containing the tokens.
-     *
+     * Method shuffleSoloActionToken creates a new shuffled deck containing the tokens and remove the tokens
+     * from the deletedSoloActionToken deck.
      */
     public void shuffleSoloActionToken(){
+        deckSoloActionToken.addAll(deletedSoloActionToken);
+        deletedSoloActionToken.clear();
         Collections.shuffle(deckSoloActionToken);
     }
 
@@ -115,8 +111,9 @@ public class SinglePlayerGame extends Game {
      * Method useSoloActionToken extracts the last token from the deck, applies its effect and
      * adds it to the deck containing the token already used.
      */
-    public void useSoloActionToken() throws NegativeNumberBlackCross {
+    public void useSoloActionToken() {
         SoloActionToken token = deckSoloActionToken.get(deckSoloActionToken.size() - 1);
+        deckSoloActionToken.remove(deckSoloActionToken.size()-1);
         token.applyEffect();
         deletedSoloActionToken.add(token);
     }
@@ -124,10 +121,9 @@ public class SinglePlayerGame extends Game {
     /**
      * Override method setup calls the method setDeckSoloActionToken to create the token's deck at the beginning
      * of the Single Player Game
-     * @throws IOException if that method cannot open the json file
      */
     @Override
-    public void setup() throws IOException {
+    public void setup() {
         setDeckSoloActionToken();
     }
 }

@@ -1,15 +1,9 @@
 package it.polimi.ingsw;
 
 
-import it.polimi.ingsw.Board.Board;
-
-import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
-import it.polimi.ingsw.Board.Resources.ConcreteStrategySpecialResource;
-import it.polimi.ingsw.Board.Resources.Resource;
-import it.polimi.ingsw.Board.Resources.ResourceType;
-import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.SinglePlayer.SinglePlayerGame;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -28,6 +22,7 @@ public class MasterOfRenaissance {
 
     public static void main( String[] args ) {
         System.out.println("Hi! Welcome to Master of Renaissance!");
-        Game game = new Game();
+
+
     }
 }

@@ -33,9 +33,8 @@ public class Deposit extends Warehouse {
      * Method created in order to modify the resource type that's contained in a single deposit
      * @param resourcetype is the new type of resource in the deposit
      */
-    public boolean setResourcetype(ResourceType resourcetype) {
+    public void setResourcetype(ResourceType resourcetype) {
         this.resourcetype = resourcetype;
-        return true;
     }
 
     /**
@@ -64,7 +63,7 @@ public class Deposit extends Warehouse {
      * Override methods created to return the number of resources for each resource for every singular deposit
      */
     @Override
-    int getTotalCoins() {
+    public int getTotalCoins() {
         if (this.resourcetype.equals(ResourceType.COIN)){
             return this.quantity;
         }
@@ -74,7 +73,7 @@ public class Deposit extends Warehouse {
     }
 
     @Override
-    int getTotalShields() {
+    public int getTotalShields() {
         if (this.resourcetype.equals(ResourceType.SHIELD)){
             return this.quantity;
         }
@@ -84,7 +83,7 @@ public class Deposit extends Warehouse {
     }
 
     @Override
-    int getTotalServants() {
+    public int getTotalServants() {
         if (this.resourcetype.equals(ResourceType.SERVANT)){
             return this.quantity;
         }
@@ -94,7 +93,7 @@ public class Deposit extends Warehouse {
     }
 
     @Override
-    int getTotalStones() {
+    public int getTotalStones() {
         if (this.resourcetype.equals(ResourceType.STONE)){
             return this.quantity;
         }

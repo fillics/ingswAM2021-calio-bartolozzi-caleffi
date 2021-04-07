@@ -1,14 +1,15 @@
 package it.polimi.ingsw.Board.Resources;
 
+import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Player;
 
 public class ConcreteStrategySpecialResource implements ResourceActionStrategy {
-    Player player;
+    Board board;
     /**
      *Class's Constructor made to define the concrete strategy
      */
-    public ConcreteStrategySpecialResource(Player player) {
-        this.player = player;
+    public ConcreteStrategySpecialResource(Board board) {
+        this.board = board;
     }
 
     /**
@@ -16,6 +17,6 @@ public class ConcreteStrategySpecialResource implements ResourceActionStrategy {
      */
     @Override
     public void action() {
-        player.increaseFaithMarker();
+        board.increaseFaithMarker();
     }
 }

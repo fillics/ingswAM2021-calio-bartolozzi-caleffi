@@ -1,0 +1,230 @@
+[
+  {
+    "color": "BLUE",
+    "level": "ONE",
+    "isSpecial": true,
+    "price":[
+        {
+            "amount": 2,
+            "color": "YELLOW"
+        },
+        {
+            "amount": 2,
+            "color": "YELLOW"
+        },
+        {
+            "amount": 1,
+            "color": "BLUE"
+        }
+    ],
+    "ability":[
+        {
+          "needed":[
+            {
+                "amount": 1,
+                "type": "SHIELD"
+            }
+          ],
+        "obtained":[
+            {
+                "amount": 1,
+                "type": ["SHIELD", "COIN", "SERVANT", "STONE"]
+            },
+            {
+                "amount": 1,
+                "type": "FAITH"
+            }
+        ] 
+        }     
+    ],
+    "victorypoint": 3
+  },
+  {
+    "color": "BLUE",
+    "level": "ONE"
+  },
+  {
+    "color": "BLUE",
+    "level": "ONE"
+  },
+  {
+    "color": "BLUE",
+    "level": "ONE"
+  },
+  {
+    "color": "BLUE",
+    "level": "TWO"
+  },
+  {
+    "color": "BLUE",
+    "level": "TWO"
+  },
+  {
+    "color": "BLUE",
+    "level": "TWO"
+  },
+  {
+    "color": "BLUE",
+    "level": "TWO"
+  },
+  {
+    "color": "BLUE",
+    "level": "THREE"
+  },
+  {
+    "color": "BLUE",
+    "level": "THREE"
+  },
+  {
+    "color": "BLUE",
+    "level": "THREE"
+  },
+  {
+    "color": "BLUE",
+    "level": "THREE"
+  },
+  {
+    "color": "GREEN",
+    "level": "ONE"
+  },
+  {
+    "color": "GREEN",
+    "level": "ONE"
+  },
+  {
+    "color": "GREEN",
+    "level": "ONE"
+  },
+  {
+    "color": "GREEN",
+    "level": "ONE"
+  },
+  {
+    "color": "GREEN",
+    "level": "TWO"
+  },
+  {
+    "color": "GREEN",
+    "level": "TWO"
+  },
+  {
+    "color": "GREEN",
+    "level": "TWO"
+  },
+  {
+    "color": "GREEN",
+    "level": "TWO"
+  },
+  {
+    "color": "GREEN",
+    "level": "THREE"
+  },
+  {
+    "color": "GREEN",
+    "level": "THREE"
+  },
+  {
+    "color": "GREEN",
+    "level": "THREE"
+  },
+  {
+    "color": "GREEN",
+    "level": "THREE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "ONE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "ONE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "ONE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "ONE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "TWO"
+  },
+  {
+    "color": "YELLOW",
+    "level": "TWO"
+  },
+  {
+    "color": "YELLOW",
+    "level": "TWO"
+  },
+  {
+    "color": "YELLOW",
+    "level": "TWO"
+  },
+  {
+    "color": "YELLOW",
+    "level": "THREE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "THREE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "THREE"
+  },
+  {
+    "color": "YELLOW",
+    "level": "THREE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "ONE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "ONE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "ONE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "ONE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "TWO"
+  },
+  {
+    "color": "PURPLE",
+    "level": "TWO"
+  },
+  {
+    "color": "PURPLE",
+    "level": "TWO"
+  },
+  {
+    "color": "PURPLE",
+    "level": "TWO"
+  },
+  {
+    "color": "PURPLE",
+    "level": "THREE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "THREE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "THREE"
+  },
+  {
+    "color": "PURPLE",
+    "level": "THREE"
+  }
+]

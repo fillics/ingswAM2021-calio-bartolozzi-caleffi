@@ -19,9 +19,6 @@ public class ResourceTest {
     Deposit testDeposit1;
     Deposit testDeposit2;
     Deposit testDeposit3;
-    Player testPlayer;
-    private static final String username = "player";
-    private int position = 0;
     Resource coin;
     Resource stone;
     Resource servant;
@@ -34,10 +31,9 @@ public class ResourceTest {
     ConcreteStrategySpecialResource strategy5;
 
 
-    /** Method setup setups test. */
+    /** Method setup setups tests. */
     @BeforeEach
     void setup() {
-        testPlayer = new Player(username, position);
         testBoard = new Board();
         testDeposit1 = new Deposit(1);
         testDeposit2 = new Deposit(2);
@@ -54,7 +50,7 @@ public class ResourceTest {
         strategy2 = new ConcreteStrategyResource(1, testBoard, ResourceType.STONE);
         strategy3 = new ConcreteStrategyResource(2, testBoard, ResourceType.SERVANT);
         strategy4 = new ConcreteStrategyResource(0, testBoard, ResourceType.SHIELD);
-        strategy5 = new ConcreteStrategySpecialResource(testPlayer);
+        strategy5 = new ConcreteStrategySpecialResource(testBoard);
     }
     /** Method ResourceTypeTest tests resources' getter. */
     @Test
@@ -67,7 +63,7 @@ public class ResourceTest {
         assertEquals(ResourceType.FAITHMARKER,faithmarker.getType());
     }
 
-    /** Method StrategySetter tests resources' getter. */
+    /** Method StrategySetter tests resource strategy getter and setter. */
     @Test
     @DisplayName("Resource strategy getter/setter test")
     void ResourceStrategyTest() {
@@ -158,6 +154,6 @@ public class ResourceTest {
         faithmarker.useResource();
         faithmarker.useResource();
 
-        assertEquals(3, testPlayer.getFaithMarker());
+        assertEquals(3, testBoard.getFaithMarker());
     }
 }

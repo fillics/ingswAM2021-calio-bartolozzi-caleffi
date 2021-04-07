@@ -17,26 +17,36 @@ public class Strongbox extends Warehouse{
     }
 
     /**
+     * get-method
+     * @return tha hashmap that contains all the information about the number and type of resources inside the strongbox
+     */
+    public HashMap<ResourceType, Integer> getStrongbox() {
+        return strongbox;
+    }
+
+    /**
      * Override methods created to return the number of resources for each resource
      * @return the number of resources for each resource
      */
+
+
     @Override
-    int getTotalCoins() {
+    public int getTotalCoins() {
         return strongbox.get(ResourceType.COIN);
     }
 
     @Override
-    int getTotalShields() {
+    public int getTotalShields() {
         return strongbox.get(ResourceType.SHIELD);
     }
 
     @Override
-    int getTotalServants() {
+    public int getTotalServants() {
         return strongbox.get(ResourceType.SERVANT);
     }
 
     @Override
-    int getTotalStones() {
+    public int getTotalStones() {
         return strongbox.get(ResourceType.STONE);
     }
 }
