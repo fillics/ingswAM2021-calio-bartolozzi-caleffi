@@ -51,7 +51,6 @@ public class Player {
         return position;
     }
 
-
     /**
      * Method getTotalVictoryPoint returns the amount of Player's victory points.
      */
@@ -59,6 +58,9 @@ public class Player {
         return totalVictoryPoint;
     }
 
+    /**
+     * Method getLeaderCards returns the leader cards of this Player object.
+     */
     public ArrayList<LeaderCard> getLeaderCards() {
         return leaderCards;
     }
@@ -82,6 +84,9 @@ public class Player {
         }
     }
 
+    /**
+     * Method endTurn called when a player wants to end his own turn
+     */
     public boolean endTurn(){
         return true;
     }

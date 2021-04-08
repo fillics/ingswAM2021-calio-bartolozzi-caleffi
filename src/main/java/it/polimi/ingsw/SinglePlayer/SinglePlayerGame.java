@@ -22,7 +22,6 @@ public class SinglePlayerGame extends Game {
 
     private ArrayList<SoloActionToken> deckSoloActionToken;
     private ArrayList<SoloActionToken> deletedSoloActionToken;
-    private SoloActionToken token;
     private int blackCross;
 
     /**
@@ -96,6 +95,7 @@ public class SinglePlayerGame extends Game {
         }
 
     }
+
 
     /**
      * Method shuffleSoloActionToken creates a new shuffled deck containing the tokens and remove the tokens

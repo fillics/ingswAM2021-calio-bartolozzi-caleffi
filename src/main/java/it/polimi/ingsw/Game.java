@@ -10,10 +10,7 @@ import it.polimi.ingsw.Marbles.MarketTray;
 
 import java.io.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -88,7 +85,7 @@ public class Game implements GameInterface{
 
 
     /**
-     * Method createLeaderDeck creates the Development Cards' Deck using the JSON file
+     * Method createDevelopmentDeck creates the Development Cards' Deck using the JSON file
      */
     public void createDevelopmentDeck() {
         ArrayList<DevelopmentCard> deckToOrder;
@@ -160,11 +157,21 @@ public class Game implements GameInterface{
 
     }
 
-    // TODO: 05/04/2021 DA FINIRE DI PROGRAMMARE E TESTARE
-    public void removeCardFromDevelopmentDeck(int amount, CardColor color) {
-        /*for (int i=0; i<developmentDeck.size()-1; i++){
+    /**
+     * Method removeCardFromDevelopmentDeck is called by the Discard's token
 
-        }*/
+     */
+    // TODO: 05/04/2021 DA FINIRE DI PROGRAMMARE E TESTARE -> metterlo dentro singleplayergame???
+    public void removeCardFromDevelopmentDeck(CardColor color) {
+
+        for (ArrayList<DevelopmentCard> developmentCards : developmentDeck) {
+            if (developmentCards.size() != 0) {
+                if (developmentCards.get(0).getColor().equals(color)) {
+                    developmentCards.remove(developmentCards.size() - 1);
+                }
+            }
+        }
+
     }
 
 
