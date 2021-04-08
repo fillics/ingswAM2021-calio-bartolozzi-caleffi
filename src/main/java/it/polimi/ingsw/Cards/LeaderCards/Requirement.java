@@ -4,6 +4,10 @@ import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
 import java.util.HashMap;
 
+/**
+ * This class represents the Requirements needed in order to activate a Leader Card.
+ */
+
 public class Requirement {
     private HashMap<CardColor,Integer> color;
     private Level level;

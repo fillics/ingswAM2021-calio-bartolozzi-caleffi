@@ -36,6 +36,9 @@ public class Player {
         board = new Board();
     }
 
+    public ArrayList<Resource> getResourceBuffer() {
+        return resourceBuffer;
+    }
 
     /**
      * Method getUsername returns the username of this Player object.

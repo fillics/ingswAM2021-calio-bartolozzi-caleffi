@@ -25,7 +25,7 @@ class GameTest {
      * Method initialization initializes values.
      */
     @BeforeEach
-    void initialization() {
+    void initialization() throws FileNotFoundException {
         testGame = new Game();
         testGame.createNewPlayer(new Player("fil", 1));
         testGame.createNewPlayer(new Player("bea", 2));

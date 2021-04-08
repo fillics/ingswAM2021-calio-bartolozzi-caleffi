@@ -9,13 +9,18 @@ import it.polimi.ingsw.Player;
  */
 
 public class BlueMarble extends Marble{
+    private Player player;
+
+    public BlueMarble(Player player) {
+        this.player = player;
+    }
     /**
      * Override method transform is used to transform a blue marble into a shield and to fill resourceBuffer of Player with it
      */
     @Override
     public boolean transform(){
         Resource shield= new Resource(ResourceType.SHIELD);
-        Player.getResourceBuffer().add(shield);
+        player.getResourceBuffer().add(shield);
         System.out.println("I've been transformed into Shield");
         return true;
     }

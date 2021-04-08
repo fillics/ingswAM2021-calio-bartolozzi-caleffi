@@ -10,11 +10,14 @@ import it.polimi.ingsw.Player;
 
 public class ConcreteStrategyMarble extends LeaderCardStrategy{
     private ResourceType resourceType;
+    private Player player;
+
 
     /**
      * Constructor ConcreteStrategyMarble creates a new ConcreteStrategyMarble instance.
      */
-    public ConcreteStrategyMarble(ResourceType resourceType) {
+    public ConcreteStrategyMarble(ResourceType resourceType, Player player) {
+        this.player = player;
         this.resourceType = resourceType;
     }
 
@@ -23,7 +26,7 @@ public class ConcreteStrategyMarble extends LeaderCardStrategy{
         int i;
         for(i=0;i<numofMarbles;i++){
             Resource r= new Resource(resourceType);
-            Player.getResourceBuffer().add(r);
+            player.getResourceBuffer().add(r);
         }
         System.out.println("I'm a white marble leader card");
         return true;

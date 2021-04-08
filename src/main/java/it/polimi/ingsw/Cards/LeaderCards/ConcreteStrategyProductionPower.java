@@ -31,7 +31,7 @@ public class ConcreteStrategyProductionPower extends LeaderCardStrategy{
 
     @Override
     public boolean ability(ResourceType chosenResourceObtained){
-        extraProductionPower.getResourceObtained().put(chosenResourceObtained,1);
+        extraProductionPower.getResourcesObtained().put(chosenResourceObtained,1);
         return true;
     }
 

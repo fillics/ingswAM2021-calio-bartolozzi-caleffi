@@ -4,6 +4,9 @@ import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.Card;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 
+/**
+ * This class represents the Leader Card.
+ */
 public class LeaderCard extends Card {
     private LeaderCardType type;
     private LeaderCardStrategy strategy;
