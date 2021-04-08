@@ -78,7 +78,6 @@ class GameTest {
         assertEquals(CardColor.PURPLE, testGame.getDevelopmentDeck().get(2).get(3).getColor()); //forth element third array
         assertEquals(CardColor.BLUE, testGame.getDevelopmentDeck().get(3).get(0).getColor()); //first element third array
         assertEquals(CardColor.BLUE, testGame.getDevelopmentDeck().get(3).get(1).getColor()); //second element forth array
-
     }
 
 
@@ -89,5 +88,11 @@ class GameTest {
     void checkLeaderCardsDistribution(){
         testGame.setup();
         assertEquals(4, testGame.getActivePlayers().get(0).getLeaderCards().size());
+    }
+
+    @Test
+    void checkRemoveFromDevDeck(){
+        testGame.createDevelopmentDeck();
+
     }
 }

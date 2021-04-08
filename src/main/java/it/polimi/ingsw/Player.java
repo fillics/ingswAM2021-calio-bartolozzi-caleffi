@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Board.Resources.Resource;
-import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;
 
@@ -16,16 +15,10 @@ import java.util.ArrayList;
 
 public class Player {
     private final String username;
-    private int faithMarker;
     private int position;
     private int totalVictoryPoint;
     private ArrayList<LeaderCard> leaderCards;
-    private static ArrayList<Resource> resourceBuffer;
-
-    public static ArrayList<Resource> getResourceBuffer() {
-        return resourceBuffer;
-    }
-
+    private ArrayList<Resource> resourceBuffer;
     private Board board;
 
     /**
@@ -37,7 +30,6 @@ public class Player {
     public Player(String username, int position) {
         this.username = username;
         this.position = position;
-        faithMarker = 0;
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
         resourceBuffer = new ArrayList<>();
@@ -47,7 +39,6 @@ public class Player {
 
     /**
      * Method getUsername returns the username of this Player object.
-
      */
     public String getUsername() {
         return this.username;
@@ -55,44 +46,36 @@ public class Player {
 
     /**
      * Method getPosition returns the position of the Player's turn.
-
      */
     public int getPosition() {
         return position;
     }
 
     /**
-     * Method getFaithMarker returns the Faith Marker of this Player object.
-     */
-    public int getFaithMarker() {
-        return faithMarker;
-    }
-
-    /**
      * Method getTotalVictoryPoint returns the amount of Player's victory points.
-
      */
     public int getTotalVictoryPoint() {
         return totalVictoryPoint;
     }
 
     /**
-     * Method addLeaderCard creates four instances of Leader Cards related to the card received from the deck.
-     *
-     * @param card of type Card - the card chosen by the user.
+     * Method getLeaderCards returns the leader cards of this Player object.
      */
-    public void addLeaderCard(LeaderCard card) {
-
+    public ArrayList<LeaderCard> getLeaderCards() {
+        return leaderCards;
     }
-
 
     /**
-     * Method increaseFaithMarker adds to the faith marker a specific amount, to move forward it.
+     * Method addLeaderCard creates four instances of Leader Cards related to the card received from the deck.
+     *  @param card of type Card - the card chosen by the user.
+     *
      */
-    public void increaseFaithMarker(){
-        faithMarker += 1;
+    // TODO: 05/04/2021 DA IMPLEMENTARE 
+    public void addLeaderCard(LeaderCard card) {
+        leaderCards.add(card);
     }
 
+    // TODO: 05/04/2021 scrivere javadoc 
     public void fillBuffer (int position){
         try {
             resourceBuffer.add(board.getDeposits().get(position).takeResource());
@@ -101,6 +84,9 @@ public class Player {
         }
     }
 
+    /**
+     * Method endTurn called when a player wants to end his own turn
+     */
     public boolean endTurn(){
         return true;
     }

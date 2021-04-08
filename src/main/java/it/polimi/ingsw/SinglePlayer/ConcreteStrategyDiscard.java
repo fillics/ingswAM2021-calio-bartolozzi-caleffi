@@ -3,6 +3,8 @@ package it.polimi.ingsw.SinglePlayer;
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
 import it.polimi.ingsw.Game;
 
+import java.util.stream.IntStream;
+
 /**
  * Represents the token that discards the Development Cards of the indicated type.
  */
@@ -12,6 +14,7 @@ public class ConcreteStrategyDiscard implements TokenActionStrategy{
     private final int amount = 2;
     private Game game;
     private CardColor color;
+
 
     /**
      * Constructor ConcreteStrategyDiscard creates a new ConcreteStrategyDiscard instance.
@@ -29,7 +32,7 @@ public class ConcreteStrategyDiscard implements TokenActionStrategy{
      */
     @Override
     public void effect(){
-        game.removeCardFromDevelopmentDeck(amount, color);
+        IntStream.range(0, amount).forEach(i -> game.removeCardFromDevelopmentDeck(color));
     }
 
 }
