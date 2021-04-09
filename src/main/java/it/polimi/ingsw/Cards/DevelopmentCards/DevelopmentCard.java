@@ -18,10 +18,10 @@ public class DevelopmentCard extends Card {
     /**
      * Constructor DevelopmentCard creates a new DevelopmentCard instance.
      */
-    public DevelopmentCard(Level level, CardColor color, ProductionPower productionPower, int victorypoint) {
+    public DevelopmentCard(Level level, CardColor color, ProductionPower productionPower, HashMap<ResourceType,Integer> resourcePrice, int victorypoint) {
         this.level = level;
         this.color = color;
-        resourcePrice = new HashMap<>();
+        this.resourcePrice= resourcePrice;
         this.productionPower = productionPower;
         this.victorypoint= victorypoint;
     }

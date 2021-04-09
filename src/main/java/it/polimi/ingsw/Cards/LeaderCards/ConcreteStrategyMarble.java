@@ -8,7 +8,7 @@ import it.polimi.ingsw.Player;
  * This class represents the white marble strategy for Leader Cards.
  */
 
-public class ConcreteStrategyMarble extends LeaderCardStrategy{
+public class ConcreteStrategyMarble implements LeaderCardStrategy{
     private ResourceType resourceType;
     private Player player;
 
@@ -22,13 +22,7 @@ public class ConcreteStrategyMarble extends LeaderCardStrategy{
     }
 
     @Override
-    public boolean ability(int numofMarbles) {
-        int i;
-        for(i=0;i<numofMarbles;i++){
-            Resource r= new Resource(resourceType);
-            player.getResourceBuffer().add(r);
-        }
+    public void ability() {
         System.out.println("I'm a white marble leader card");
-        return true;
     }
 }

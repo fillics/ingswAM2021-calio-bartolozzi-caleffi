@@ -19,6 +19,8 @@ public class Board {
     private ArrayList<Cell> track;
     private ArrayList<VaticanReportSection> vaticanReportSections;
     private ProductionPower baseProdPower;
+    private ArrayList<ProductionPower> boardProdPower;
+
 
     /**
      * Class's constructor that'll be used in the setup method
@@ -32,17 +34,26 @@ public class Board {
         deposits = new ArrayList<>();
         vaticanReportSections = new ArrayList<>();
         developmentSpaces = new ArrayList<>();
+        boardProdPower= new ArrayList<>();
     }
 
     /**
      * Get-methods in order to obtain the attributes' values
      */
     public int getNumOfDevCard() { return NumOfDevCard; }
+
     /**
      * Get-methods in order to obtain the attributes' values
      */
     public ArrayList<DevelopmentSpace> getDevelopmentSpaces() {
         return developmentSpaces;
+    }
+
+    /**
+     * Get-methods in order to obtain the attributes' values
+     */
+    public ArrayList<ProductionPower> getBoardProdPower() {
+        return boardProdPower;
     }
 
     /**

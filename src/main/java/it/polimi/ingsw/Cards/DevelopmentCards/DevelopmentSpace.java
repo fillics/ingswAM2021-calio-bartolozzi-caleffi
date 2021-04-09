@@ -14,7 +14,7 @@ public class DevelopmentSpace {
      */
     public DevelopmentSpace() {
         developmentSpace= new ArrayList<>();
-        //topCard = null;
+        topCard = null;
     }
 
     /**
@@ -22,7 +22,7 @@ public class DevelopmentSpace {
      */
     public void addDevelopmentCard(DevelopmentCard developmentCard){
         developmentSpace.add(developmentCard);
-        topCard= developmentCard;
+        topCard = developmentCard;
     }
 
     /**
@@ -31,11 +31,11 @@ public class DevelopmentSpace {
     public boolean isPlaceableCard(DevelopmentCard developmentCard){
         if((topCard==null)&&((developmentCard.getLevel()==Level.TWO)||(developmentCard.getLevel()==Level.THREE))){
             return false;
-        } else if((topCard.getLevel()==Level.ONE)&&((developmentCard.getLevel()==Level.ONE)||(developmentCard.getLevel()==Level.THREE))){
+        } else if((topCard!=null)&&((topCard.getLevel()==Level.ONE)&&((developmentCard.getLevel()==Level.ONE)||(developmentCard.getLevel()==Level.THREE)))){
             return false;
-        }else if(topCard.getLevel().compareTo(developmentCard.getLevel())>=0){
+        } else if((topCard!=null)&&(topCard.getLevel().compareTo(developmentCard.getLevel()))>=0){
             return false;
-        }else{
+        } else{
             return true;
         }
     }

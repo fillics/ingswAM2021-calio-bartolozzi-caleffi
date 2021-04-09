@@ -48,6 +48,7 @@ public class BoardTest {
     VaticanReportSection testVaticanReportSection3;
     ProductionPower testProductionPower;
     HashMap<ResourceType,Integer> testHashMap;
+    HashMap<ResourceType,Integer> testResourcePrice;
     PopeFavorTile testPopeFavorTile;
     Resource coin;
     Resource servant;
@@ -63,6 +64,8 @@ public class BoardTest {
         testHashMap = new HashMap<>();
         testHashMap.put(ResourceType.COIN, 0);
         testProductionPower = new ProductionPower(testHashMap,testHashMap);
+        testResourcePrice= new HashMap<>();
+        testResourcePrice.put(ResourceType.SERVANT,2);
         testDeposit1 = new Deposit(1);
         testDeposit2 = new Deposit(2);
         testDeposit3 = new Deposit(3);
@@ -81,9 +84,9 @@ public class BoardTest {
         testBoard.getStrongbox().getStrongbox().put(ResourceType.SHIELD,1);
 
 
-        testDevelopmentCard1 = new DevelopmentCard(Level.ONE, CardColor.GREEN, testProductionPower, 1);
-        testDevelopmentCard2 = new DevelopmentCard(Level.ONE, CardColor.GREEN, testProductionPower, 1);
-        testDevelopmentCard3 = new DevelopmentCard(Level.ONE, CardColor.GREEN, testProductionPower, 1);
+        testDevelopmentCard1 = new DevelopmentCard(Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
+        testDevelopmentCard2 = new DevelopmentCard(Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
+        testDevelopmentCard3 = new DevelopmentCard(Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
         testDevelopmentSpace1 = new DevelopmentSpace();
         testDevelopmentSpace2 = new DevelopmentSpace();
         testDevelopmentSpace3 = new DevelopmentSpace();

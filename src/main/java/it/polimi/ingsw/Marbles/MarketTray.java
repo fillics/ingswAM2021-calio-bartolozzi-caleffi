@@ -25,8 +25,8 @@ public class MarketTray {
     public MarketTray() {
         int i,j,k;
         k=1;
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try {
             market=  mapper.readValue(new File("src/main/resources/json/Marble.json"), new TypeReference<ArrayList<Marble>>() {});
