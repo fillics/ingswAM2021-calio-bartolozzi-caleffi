@@ -8,7 +8,6 @@ import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
 import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Deposit;
-import it.polimi.ingsw.Board.Storage.Strongbox;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,7 +27,6 @@ public class BoardTest {
     Deposit testDeposit1;
     Deposit testDeposit2;
     Deposit testDeposit3;
-    Strongbox testStrongbox;
     DevelopmentSpace testDevelopmentSpace1;
     DevelopmentSpace testDevelopmentSpace2;
     DevelopmentSpace testDevelopmentSpace3;
@@ -45,9 +43,6 @@ public class BoardTest {
     Cell cell8;
     Cell cell9;
     Cell cell10;
-    ArrayList<Cell> testarray1;
-    ArrayList<Cell> testarray2;
-    ArrayList<Cell> testarray3;
     VaticanReportSection testVaticanReportSection1;
     VaticanReportSection testVaticanReportSection2;
     VaticanReportSection testVaticanReportSection3;
@@ -102,7 +97,7 @@ public class BoardTest {
 
 
         testPopeFavorTile = new PopeFavorTile(PopeFavorTileColor.YELLOW, 1);
-        testPopeFavorTile.setVisible(true);
+        testPopeFavorTile.setVisible();
         cell1 = new Cell(1,true);
         cell2 = new Cell(1,true);
         cell3 = new Cell(1,true);

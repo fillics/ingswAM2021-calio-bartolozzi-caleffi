@@ -40,6 +40,10 @@ public class Player {
         return resourceBuffer;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
     /**
      * Method getUsername returns the username of this Player object.
      */

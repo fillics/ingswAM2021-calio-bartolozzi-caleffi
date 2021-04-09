@@ -9,6 +9,7 @@ import java.util.Map;
 public class Strongbox extends Warehouse{
     private HashMap<ResourceType, Integer> strongbox;
 
+
     /**
      * Class's constructor used to create the map where all the strongobx resources will be inserted
      */

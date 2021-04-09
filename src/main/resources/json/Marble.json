@@ -1,41 +1,41 @@
 [
   {
-    "color": "YELLOW"
+    "type" : "yellow"
   },
   {
-    "color": "YELLOW"
+    "type" : "yellow"
   },
   {
-    "color": "BLUE"
+    "type" : "blue"
   },
   {
-    "color": "BLUE"
+    "type" : "blue"
   },
   {
-    "color": "PURPLE"
+    "type" : "purple"
   },
   {
-    "color": "PURPLE"
+    "type" : "purple"
   },
   {
-    "color": "RED"
+    "type" : "red"
   },
   {
-    "color": "GREY"
+    "type" : "grey"
   },
   {
-    "color": "GREY"
+    "type" : "grey"
   },
   {
-    "color": "WHITE"
+    "type" : "white"
   },
   {
-    "color": "WHITE"
+    "type" : "white"
   },
   {
-    "color": "WHITE"
+    "type" : "white"
   },
   {
-    "color": "WHITE"
+    "type" : "white"
   }
 ]

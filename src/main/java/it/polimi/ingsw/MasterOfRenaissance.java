@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
+import it.polimi.ingsw.Marbles.MarketTray;
 import it.polimi.ingsw.SinglePlayer.SinglePlayerGame;
 
 import java.io.FileNotFoundException;
@@ -24,7 +25,7 @@ public class MasterOfRenaissance {
     public static void main( String[] args ) {
         System.out.println("Hi! Welcome to Master of Renaissance!");
         Game game = new Game();
-
+        MarketTray marketTray = new MarketTray();
 
 
     }

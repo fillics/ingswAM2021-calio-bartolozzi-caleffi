@@ -24,6 +24,7 @@ public class SinglePlayerGame extends Game {
     private ArrayList<SoloActionToken> deletedSoloActionToken;
     private int blackCross;
 
+
     /**
      * Constructor SinglePlayerGame creates a new SinglePlayerGame instance.
      */

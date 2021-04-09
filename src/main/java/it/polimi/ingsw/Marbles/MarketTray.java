@@ -1,13 +1,14 @@
 package it.polimi.ingsw.Marbles;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.Player;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+
 
 /**
  * Represents the market tray
@@ -17,18 +18,18 @@ public class MarketTray {
     private Marble[][] table= new Marble[3][4];
     private Marble remainingMarble;
     private ArrayList<Marble> market;
-
     /**
-     * Constructor MarketTray fills the matrix "table" and remainingMaerble with the marbles of the shuffled market.
+     * Constructor MarketTray fills the matrix "table" and remainingMarble with the marbles of the shuffled market.
      * Attribute market is only used at the beginning of the game to shuffle the marbles.
      */
     public MarketTray() {
         int i,j,k;
         k=1;
-        Gson gson = new Gson();
-        try{
-            BufferedReader br = new BufferedReader(new FileReader("src/resources/json/Marble.json"));
-            market=gson.fromJson(br, new TypeToken<List<Marble>>(){}.getType());
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+
+        try {
+            market=  mapper.readValue(new File("src/main/resources/json/Marble.json"), new TypeReference<ArrayList<Marble>>() {});
             Collections.shuffle(market);
             for(i=0;i<3;i++){
                 for(j=0; j<4;j++,k++){
@@ -36,8 +37,9 @@ public class MarketTray {
                 }
             }
             remainingMarble= market.get(0);
-        } catch (FileNotFoundException ex){
-            System.out.println("Marble.json file was not found");
+            System.out.println(market);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -46,6 +48,7 @@ public class MarketTray {
      * Method getRemainingMarble returns the marble that is in the slide of the Market.
      */
     public Marble getRemainingMarble() {
+
         return remainingMarble;
     }
 
@@ -59,15 +62,15 @@ public class MarketTray {
     /**
      * Method lineSelection calls transform() on every marble of the line selected.
      */
-    public void lineSelection(String line, int numline){
+    public void lineSelection(String line, int numline, Player player){
         int i,j;
         if(line.equals("Row")){
             for(i=numline-1,j=0;j<4;j++){
-                table[i][j].transform();
+                table[i][j].transform(player);
             }
         } else if(line.equals("Column")){
             for(i=0,j=numline-1;i<3;i++){
-                table[i][j].transform();
+                table[i][j].transform(player);
             }
         }
     }

@@ -26,7 +26,5 @@ public class PopeFavorTile {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
+    public void setVisible() { visible = true; }
 }
