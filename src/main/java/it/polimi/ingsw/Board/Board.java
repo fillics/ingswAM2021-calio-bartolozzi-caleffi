@@ -22,6 +22,8 @@ public class Board {
     private ArrayList<ProductionPower> boardProdPower;
 
 
+    // TODO: 09/04/2021 aggiungere array list che contiene tutti i poteri di produzione relativi alla board (leader card + base + dev space)
+    // poi il player sceglie quali usare
     /**
      * Class's constructor that'll be used in the setup method
      */

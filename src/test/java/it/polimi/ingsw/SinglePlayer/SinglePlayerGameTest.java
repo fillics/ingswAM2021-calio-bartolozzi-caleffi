@@ -1,10 +1,11 @@
 package it.polimi.ingsw.SinglePlayer;
 import static org.junit.jupiter.api.Assertions.*;
 
+import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
 
 
 /**
@@ -23,6 +24,7 @@ class SinglePlayerGameTest {
         assertEquals(0, testSingle.getBlackCross());
         assertEquals(0, testSingle.getDeckSoloActionToken().size());
         assertEquals(0, testSingle.getDeletedSoloActionToken().size());
+        testSingle.setup();
     }
 
     /**
@@ -30,8 +32,9 @@ class SinglePlayerGameTest {
      */
     @Test
     void checkSetup(){
-        testSingle.setup();
         assertEquals(7, testSingle.getDeckSoloActionToken().size());
+        assertEquals(0, testSingle.getDeletedSoloActionToken().size());
+        assertEquals(0, testSingle.getBlackCross());
     }
 
     /**
@@ -39,72 +42,100 @@ class SinglePlayerGameTest {
      */
     @Test
     void checkIncreaseBlackCross(){
-        assertEquals(0, testSingle.getBlackCross());
         testSingle.increaseBlackCross(1);
         assertEquals(1, testSingle.getBlackCross());
-
+        testSingle.increaseBlackCross(-1);
+        assertEquals(1, testSingle.getBlackCross());
+        testSingle.increaseBlackCross(10);
+        assertEquals(11, testSingle.getBlackCross());
+        testSingle.increaseBlackCross(10);
+        assertEquals(21, testSingle.getBlackCross());
+        assertTrue(testSingle.endGame());
     }
 
     /**
-     * Test method checkSetDeckSoloActionToken checks the correct size of the deck that contains the solo
+     * Test method checkDeckSoloActionToken checks the correct size of the deck that contains the solo
      * action token before and after the shuffle
      */
     @Test
-    void checkSetDeckSoloActionToken() {
-        testSingle.setDeckSoloActionToken();
+    void checkDeckSoloActionToken() {
         assertEquals(7, testSingle.getDeckSoloActionToken().size());
         testSingle.shuffleSoloActionToken();
         assertEquals(7, testSingle.getDeckSoloActionToken().size());
     }
+
 
     /**
-     * Test method checkSizeAfterUseToken checks the correct discard of the solo action token
-     * and the correct addition of the tokens in the already used token's deck
+     * Test method checkTokenPlusOneBlackCross checks the correct use of the token that moves forward by one
+     * space the black cross
      */
-    @Test
-    void checkSizeAfterUseToken() {
-        testSingle.setDeckSoloActionToken();
-        assertEquals(0, testSingle.getDeletedSoloActionToken().size());
-        testSingle.useSoloActionToken();
-        assertEquals(6, testSingle.getDeckSoloActionToken().size());
-        assertEquals(1, testSingle.getDeletedSoloActionToken().size());
-        /*testSingle.useSoloActionToken();
-        assertEquals(5, testSingle.getDeckSoloActionToken().size());
-        assertEquals(2, testSingle.getDeletedSoloActionToken().size());*/
-    }
-
-    /**
-     * Test method checkShuffle checks the correct creation of the new shuffled deck
-     */
-    @Test
-    void checkShuffle() {
-        testSingle.setDeckSoloActionToken();
-        testSingle.shuffleSoloActionToken();
-        assertEquals(0, testSingle.getDeletedSoloActionToken().size());
-        assertEquals(7, testSingle.getDeckSoloActionToken().size());
-        testSingle.useSoloActionToken();
-        assertEquals(1, testSingle.getDeletedSoloActionToken().size());
-        assertEquals(6, testSingle.getDeckSoloActionToken().size());
-        testSingle.shuffleSoloActionToken();
-        assertEquals(0, testSingle.getDeletedSoloActionToken().size());
-        assertEquals(7, testSingle.getDeckSoloActionToken().size());
-
-    }
-
     @Test
     void checkTokenPlusOneBlackCross(){
         SoloActionToken token = new SoloActionToken(SoloActionTokenType.BLACKCROSS_1);
         token.setStrategy(new ConcreteStrategyPlusOne(testSingle));
         token.applyEffect();
         assertEquals(1, testSingle.getBlackCross());
+        token.applyEffect();
+        assertEquals(2, testSingle.getBlackCross());
     }
 
+    /**
+     * Test method checkTokenPlusTwoBlackCross checks the correct use of the token that moves forward by two
+     * spaces the black cross
+     */
     @Test
     void checkTokenPlusTwoBlackCross(){
         SoloActionToken token = new SoloActionToken(SoloActionTokenType.BLACKCROSS_2);
         token.setStrategy(new ConcreteStrategyPlusTwo(testSingle));
         token.applyEffect();
         assertEquals(2, testSingle.getBlackCross());
+        token.applyEffect();
+        assertEquals(4, testSingle.getBlackCross());
+    }
+
+    /**
+     * Test method checkTokenDiscard checks the correct use of the token that discards two cards with the same
+     * color from the development card's grid
+     */
+    @Test
+    void checkTokenDiscard(){
+        SoloActionToken blueToken = new SoloActionToken(SoloActionTokenType.DISCARD, CardColor.BLUE);
+        blueToken.setStrategy(new ConcreteStrategyDiscard(testSingle, CardColor.BLUE));
+        assertEquals(4, testSingle.getDevelopmentGrid().get(3).size());
+        blueToken.applyEffect();
+        assertEquals(2, testSingle.getDevelopmentGrid().get(3).size());
+        blueToken.applyEffect();
+        assertEquals(0, testSingle.getDevelopmentGrid().get(3).size());
+        assertEquals(4, testSingle.getDevelopmentGrid().get(7).size());
+        blueToken.applyEffect();
+        assertEquals(2, testSingle.getDevelopmentGrid().get(7).size());
+    }
+
+    /**
+     * Test method checkRemoveEntireColumnOfDevGrid checks the behaviour when we remove an entire
+     * column of development cards from the grid
+     */
+    @Test
+    void checkRemoveEntireColumnOfDevGrid(){
+        testSingle.removeDevCard(CardColor.GREEN);
+        testSingle.removeDevCard(CardColor.GREEN);
+        testSingle.removeDevCard(CardColor.GREEN);
+        testSingle.removeDevCard(CardColor.GREEN);
+        assertEquals(0, testSingle.getDevelopmentGrid().get(1).size());
+        testSingle.removeDevCard(CardColor.GREEN);
+        testSingle.removeDevCard(CardColor.GREEN);
+        testSingle.removeDevCard(CardColor.GREEN);
+        assertEquals(1, testSingle.getDevelopmentGrid().get(5).size());
+        testSingle.removeDevCard(CardColor.GREEN);
+        assertEquals(4, testSingle.getDevelopmentGrid().get(9).size());
+        testSingle.removeDevCard(CardColor.GREEN);
+        assertEquals(0, testSingle.getDevelopmentGrid().get(5).size());
+        testSingle.removeDevCard(CardColor.GREEN);
+        testSingle.removeDevCard(CardColor.GREEN);
+        testSingle.removeDevCard(CardColor.GREEN);
+        assertTrue(testSingle.isNoMoreColumnDevCard());
+        assertTrue(testSingle.endGame());
+
     }
 
 

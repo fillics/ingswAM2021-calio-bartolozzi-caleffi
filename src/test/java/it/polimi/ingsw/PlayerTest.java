@@ -14,14 +14,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
+    Game testGame;
     Player testPlayer;
-    private static final String username = "player";
+    private static final String username = "fil";
     private static final int position = 1;
 
     /** Method setup setups test. */
     @BeforeEach
     void setup() {
-        testPlayer = new Player(username, position);
+        testGame = new Game();
+        testGame.createNewPlayer(new Player(username, position, testGame));
+        testPlayer = new Player(username, position, testGame);
+
     }
 
     /** Method usernameTest tests username's getter. */
@@ -39,12 +43,13 @@ class PlayerTest {
         assertEquals(position, testPlayer.getPosition());
     }
 
+// TODO: 09/04/2021 fix this part 
     /** Method cardAdditionTest test the addition of a single card to the player. */
-    @Test
-    @DisplayName("Leader Card addition test")
+    /*@Test
     void cardAdditionTest() {
-
-    }
+        testGame.setup();
+        assertEquals(4, testPlayer.getLeaderCards().size());
+    }*/
 
 
     @Test

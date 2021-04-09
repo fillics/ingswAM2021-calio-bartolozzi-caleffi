@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
  * @see SoloActionToken
  */
 
-
 class SoloActionTokenTest {
     SoloActionToken testToken;
 
@@ -26,7 +25,7 @@ class SoloActionTokenTest {
     }
 
     /**
-     * Test method checkGet checks if the getter methods work correctly.
+     * Test method checkGet checks if the getter methods work correctly
      */
     @Test
     void checkGet(){

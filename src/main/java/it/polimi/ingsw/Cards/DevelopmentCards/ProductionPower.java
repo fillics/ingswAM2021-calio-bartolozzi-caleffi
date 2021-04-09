@@ -31,4 +31,6 @@ public class ProductionPower {
     public HashMap<ResourceType, Integer> getResourcesObtained() {
         return resourcesObtained;
     }
+
+
 }

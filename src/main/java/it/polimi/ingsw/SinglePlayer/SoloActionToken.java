@@ -25,7 +25,6 @@ public class SoloActionToken {
     /**
      * Constructor SoloActionToken creates a new SoloActionToken instance.
      * @param type of type SoloActionTokenType
-
      */
     public SoloActionToken(SoloActionTokenType type) {
         this.type = type;

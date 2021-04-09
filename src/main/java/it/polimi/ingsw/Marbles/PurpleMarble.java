@@ -12,6 +12,8 @@ public class PurpleMarble extends Marble{
     /**
      * Override method transform is used to transform a purple marble into a servant and to fill resourceBuffer of Player with it
      */
+
+
     @Override
     public void transform(Player player){
         Resource servant= new Resource(ResourceType.SERVANT);

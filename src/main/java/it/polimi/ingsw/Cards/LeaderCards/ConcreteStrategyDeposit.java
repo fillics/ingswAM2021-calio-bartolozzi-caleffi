@@ -22,7 +22,7 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
 
     @Override
     public void ability() {
-        extraDeposit= new Deposit(2);
+        extraDeposit = new Deposit(2);
         extraDeposit.setResourcetype(resourceType);
         board.getDeposits().add(extraDeposit);
     }

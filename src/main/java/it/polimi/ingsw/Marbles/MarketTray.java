@@ -29,7 +29,7 @@ public class MarketTray {
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try {
-            market=  mapper.readValue(new File("src/main/resources/json/Marble.json"), new TypeReference<ArrayList<Marble>>() {});
+            market = mapper.readValue(new File("src/main/resources/json/Marble.json"), new TypeReference<ArrayList<Marble>>() {});
             Collections.shuffle(market);
             for(i=0;i<3;i++){
                 for(j=0; j<4;j++,k++){
@@ -37,7 +37,7 @@ public class MarketTray {
                 }
             }
             remainingMarble= market.get(0);
-            System.out.println(market);
+            //System.out.println(market);
         } catch (IOException e) {
             e.printStackTrace();
         }

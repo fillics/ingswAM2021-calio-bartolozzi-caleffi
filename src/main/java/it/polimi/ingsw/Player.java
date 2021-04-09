@@ -20,6 +20,7 @@ public class Player {
     private ArrayList<LeaderCard> leaderCards;
     private ArrayList<Resource> resourceBuffer;
     private Board board;
+    private Game game;
 
     /**
      * Constructor Player creates a new Player instance.
@@ -27,13 +28,14 @@ public class Player {
      * @param username of type String.
      * @param position of type int - the user turn's position.
      */
-    public Player(String username, int position) {
+    public Player(String username, int position, Game game) {
         this.username = username;
         this.position = position;
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
         resourceBuffer = new ArrayList<>();
         board = new Board();
+        this.game = game;
     }
 
     public ArrayList<Resource> getResourceBuffer() {
@@ -75,9 +77,7 @@ public class Player {
     /**
      * Method addLeaderCard creates four instances of Leader Cards related to the card received from the deck.
      *  @param card of type Card - the card chosen by the user.
-     *
      */
-    // TODO: 05/04/2021 DA IMPLEMENTARE 
     public void addLeaderCard(LeaderCard card) {
         leaderCards.add(card);
     }

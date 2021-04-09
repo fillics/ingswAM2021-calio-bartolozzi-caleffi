@@ -15,6 +15,7 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
     private ProductionPower extraProductionPower;
     private Board board;
 
+    //AGGIUNGE IL PROPRIO PROD POWER DENTRO L'ARRAY LIST IN BOARD CHE LI CONTIENE TUTTI
     /**
      * Constructor ConcreteStrategyProductionPower creates a new ConcreteStrategyProductionPower instance.
      */

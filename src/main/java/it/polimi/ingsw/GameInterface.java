@@ -3,7 +3,6 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentSpace;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
