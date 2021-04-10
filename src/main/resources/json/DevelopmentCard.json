@@ -6,17 +6,10 @@
         {
             "resourceType": "COIN",
             "amount": 2
-
         },
         {
-            "resourceType": "COIN",
+            "resourceType": "SERVANT",
             "amount": 2
-
-        },
-        {
-            "resourceType" : "SHIELD",
-            "amount": 1
-
         }
     ],
     "productionPower":[
@@ -25,13 +18,16 @@
             {
                 "resourceType": "SHIELD",
                 "amount": 1
-
+            },
+            {
+              "resourceType": "STONE",
+              "amount": 1
             }
           ],
           "resourceObtained":[
               {
-                "resourceType": "COIN",
-                "amount": 1
+                "resourceType": "SERVANT",
+                "amount": 2
               },
               {
                 "resourceType": "FAITHMARKER",
@@ -40,194 +36,1605 @@
           ]
         }     
     ],
+    "victorypoint": 4
+  },
+  {
+    "color": "BLUE",
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 3
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          },
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          },
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ]
+      }
+    ],
     "victorypoint": 3
   },
   {
     "color": "BLUE",
-    "level": "ONE"
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 1
+      },
+      {
+        "resourceType": "SERVANT",
+        "amount": 1
+      },
+      {
+        "resourceType": "STONE",
+        "amount": 1
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 2
   },
   {
     "color": "BLUE",
-    "level": "ONE"
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 1
+  },
+
+
+  {
+    "color": "BLUE",
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 3
+      },
+      {
+        "resourceType": "STONE",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          },
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "victorypoint": 6
   },
   {
     "color": "BLUE",
-    "level": "ONE"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 3
+      },
+      {
+        "resourceType": "STONE",
+        "amount": 3
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "STONE",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 8
   },
   {
     "color": "BLUE",
-    "level": "TWO"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 4
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 5
   },
   {
     "color": "BLUE",
-    "level": "TWO"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 5
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "STONE",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 7
+  },
+
+
+  {
+    "color": "BLUE",
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 4
+      },
+      {
+        "resourceType": "STONE",
+        "amount": 4
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          },
+          {
+            "resourceType": "SHIELD",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "victorypoint": 12
   },
   {
     "color": "BLUE",
-    "level": "TWO"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 6
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 3
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 9
   },
   {
     "color": "BLUE",
-    "level": "TWO"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 7
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "victorypoint": 11
   },
   {
     "color": "BLUE",
-    "level": "THREE"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 5
+      },
+      {
+        "resourceType": "STONE",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          },
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 2
+          },
+          {
+            "resourceType": "STONE",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 10
   },
+
+
   {
-    "color": "BLUE",
-    "level": "THREE"
-  },
-  {
-    "color": "BLUE",
-    "level": "THREE"
-  },
-  {
-    "color": "BLUE",
-    "level": "THREE"
+    "color": "GREEN",
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "COIN",
+        "amount": 2
+      },
+      {
+        "resourceType": "SHIELD",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          },
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 4
   },
   {
     "color": "GREEN",
-    "level": "ONE"
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "SHIELD",
+        "amount": 3
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          },
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          },
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 3
   },
   {
     "color": "GREEN",
-    "level": "ONE"
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 1
+      },
+      {
+        "resourceType": "SHIELD",
+        "amount": 1
+      },
+      {
+        "resourceType": "SERVANT",
+        "amount": 1
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 2
   },
   {
     "color": "GREEN",
-    "level": "ONE"
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "SHIELD",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 1
+  },
+
+
+  {
+    "color": "GREEN",
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "SHIELD",
+        "amount": 5
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "STONE",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 7
   },
   {
     "color": "GREEN",
-    "level": "ONE"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "SHIELD",
+        "amount": 3
+      },
+      {
+        "resourceType": "SERVANT",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          },
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "STONE",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "victorypoint": 6
   },
   {
     "color": "GREEN",
-    "level": "TWO"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "SHIELD",
+        "amount": 4
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 5
   },
   {
     "color": "GREEN",
-    "level": "TWO"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "SHIELD",
+        "amount": 3
+      },
+      {
+        "resourceType": "COIN",
+        "amount": 3
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 8
+  },
+
+
+  {
+    "color": "GREEN",
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "SHIELD",
+        "amount": 7
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "victorypoint": 11
   },
   {
     "color": "GREEN",
-    "level": "TWO"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "SHIELD",
+        "amount": 5
+      },
+      {
+        "resourceType": "SERVANT",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          },
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 2
+          },
+          {
+            "resourceType": "STONE",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 10
   },
   {
     "color": "GREEN",
-    "level": "TWO"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "SHIELD",
+        "amount": 4
+      },
+      {
+        "resourceType": "COIN",
+        "amount": 4
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 3
+          },
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 12
   },
   {
     "color": "GREEN",
-    "level": "THREE"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "SHIELD",
+        "amount": 6
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "STONE",
+            "amount": 3
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 9
   },
+
+
   {
-    "color": "GREEN",
-    "level": "THREE"
-  },
-  {
-    "color": "GREEN",
-    "level": "THREE"
-  },
-  {
-    "color": "GREEN",
-    "level": "THREE"
+    "color": "YELLOW",
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 2
+      },
+      {
+        "resourceType": "SHIELD",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          },
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 4
   },
   {
     "color": "YELLOW",
-    "level": "ONE"
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 1
+      },
+      {
+        "resourceType": "SHIELD",
+        "amount": 1
+      },
+      {
+        "resourceType": "COIN",
+        "amount": 1
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 2
   },
   {
     "color": "YELLOW",
-    "level": "ONE"
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 3
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          },
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          },
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 3
   },
   {
     "color": "YELLOW",
-    "level": "ONE"
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 1
+  },
+
+
+  {
+    "color": "YELLOW",
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 3
+      },
+      {
+        "resourceType": "SHIELD",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          },
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "victorypoint": 6
   },
   {
     "color": "YELLOW",
-    "level": "ONE"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 5
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 7
   },
   {
     "color": "YELLOW",
-    "level": "TWO"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 4
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 5
   },
   {
     "color": "YELLOW",
-    "level": "TWO"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 3
+      },
+      {
+        "resourceType": "SERVANT",
+        "amount": 3
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 8
+  },
+
+
+  {
+    "color": "YELLOW",
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 5
+      },
+      {
+        "resourceType": "SERVANT",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          },
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          },
+          {
+            "resourceType": "SHIELD",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 10
   },
   {
     "color": "YELLOW",
-    "level": "TWO"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 4
+      },
+      {
+        "resourceType": "SERVANT",
+        "amount": 4
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          },
+          {
+            "resourceType": "SERVANT",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "victorypoint": 12
   },
   {
     "color": "YELLOW",
-    "level": "TWO"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 7
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "victorypoint": 11
   },
   {
     "color": "YELLOW",
-    "level": "THREE"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "STONE",
+        "amount": 6
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 3
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 9
   },
+
+
   {
-    "color": "YELLOW",
-    "level": "THREE"
-  },
-  {
-    "color": "YELLOW",
-    "level": "THREE"
-  },
-  {
-    "color": "YELLOW",
-    "level": "THREE"
+    "color": "PURPLE",
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 3
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          },
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          },
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 3
   },
   {
     "color": "PURPLE",
-    "level": "ONE"
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 1
   },
   {
     "color": "PURPLE",
-    "level": "ONE"
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 2
+      },
+      {
+        "resourceType": "STONE",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          },
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          },
+          {
+            "resourceType": "STONE",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 4
   },
   {
     "color": "PURPLE",
-    "level": "ONE"
+    "level": "ONE",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 1
+      },
+      {
+        "resourceType": "SHIELD",
+        "amount": 1
+      },
+      {
+        "resourceType": "COIN",
+        "amount": 1
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 2
+  },
+
+
+  {
+    "color": "PURPLE",
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 5
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "STONE",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 7
   },
   {
     "color": "PURPLE",
-    "level": "ONE"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 4
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 5
   },
   {
     "color": "PURPLE",
-    "level": "TWO"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 3
+      },
+      {
+        "resourceType": "COIN",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          },
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SHIELD",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "victorypoint": 6
   },
   {
     "color": "PURPLE",
-    "level": "TWO"
+    "level": "TWO",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 3
+      },
+      {
+        "resourceType": "SHIELD",
+        "amount": 3
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "SERVANT",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 8
+  },
+
+
+  {
+    "color": "PURPLE",
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 6
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "STONE",
+            "amount": 2
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 3
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "victorypoint": 9
   },
   {
     "color": "PURPLE",
-    "level": "TWO"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 7
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "victorypoint": 11
   },
   {
     "color": "PURPLE",
-    "level": "TWO"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 5
+      },
+      {
+        "resourceType": "COIN",
+        "amount": 2
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "STONE",
+            "amount": 1
+          },
+          {
+            "resourceType": "SHIELD",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "COIN",
+            "amount": 2
+          },
+          {
+            "resourceType": "SERVANT",
+            "amount": 2
+          },
+          {
+            "resourceType": "FAITHMARKER",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 10
   },
   {
     "color": "PURPLE",
-    "level": "THREE"
-  },
-  {
-    "color": "PURPLE",
-    "level": "THREE"
-  },
-  {
-    "color": "PURPLE",
-    "level": "THREE"
-  },
-  {
-    "color": "PURPLE",
-    "level": "THREE"
+    "level": "THREE",
+    "resourcePrice":[
+      {
+        "resourceType": "SERVANT",
+        "amount": 4
+      },
+      {
+        "resourceType": "SHIELD",
+        "amount": 4
+      }
+    ],
+    "productionPower":[
+      {
+        "resourceNeeded":[
+          {
+            "resourceType": "COIN",
+            "amount": 1
+          }
+        ],
+        "resourceObtained":[
+          {
+            "resourceType": "STONE",
+            "amount": 3
+          },
+          {
+            "resourceType": "SERVANT",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "victorypoint": 12
   }
 ]
