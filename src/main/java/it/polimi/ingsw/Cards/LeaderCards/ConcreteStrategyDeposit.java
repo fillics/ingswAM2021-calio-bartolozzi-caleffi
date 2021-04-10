@@ -11,6 +11,7 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
     private ResourceType resourceType;
     private Deposit extraDeposit;
     private Board board;
+    private boolean active = false;
 
     /**
      * Constructor ConcreteStrategyDeposit creates a new ConcreteStrategyDeposit instance.
@@ -22,9 +23,16 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
 
     @Override
     public void ability() {
-        extraDeposit = new Deposit(2);
-        extraDeposit.setResourcetype(resourceType);
-        board.getDeposits().add(extraDeposit);
+        if(active = false){
+            extraDeposit = new Deposit(2);
+            extraDeposit.setResourcetype(resourceType);
+            board.getDeposits().add(extraDeposit);
+            active = true;
+        }
+        else{
+            System.out.println("ciao");
+        }
+
     }
 
 }

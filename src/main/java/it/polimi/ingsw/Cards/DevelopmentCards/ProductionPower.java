@@ -1,6 +1,9 @@
 package it.polimi.ingsw.Cards.DevelopmentCards;
 
 import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.Board.Storage.Warehouse;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -32,5 +35,14 @@ public class ProductionPower {
         return resourcesObtained;
     }
 
+    public void check(){
 
+    }
+    public void useProductionPower(ArrayList<Warehouse> warehouse, ArrayList<ResourceType> resources, ResourceType chosenResource){
+
+    }
+
+    public void useProductionPower(ArrayList<Warehouse> warehouse, ArrayList<ResourceType> resources){
+
+    }
 }

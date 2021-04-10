@@ -1,9 +1,11 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
+import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +20,6 @@ class GameTest {
 
     Game testGame;
     Player testPlayer;
-
     /**
      * Method initialization initializes values.
      */

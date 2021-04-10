@@ -6,4 +6,5 @@ public abstract class Warehouse {
     public abstract int getTotalServants();
     public abstract int getTotalStones();
 
+    public abstract void remove();
 }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.Cards.LeaderCards;
 
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.Card;
-import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 
 /**
  * This class represents the Leader Card.
@@ -10,12 +9,15 @@ import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 public class LeaderCard extends Card {
     private LeaderCardType type;
     private LeaderCardStrategy strategy;
-    private Requirement requirement;
+    private ResourceType resourceType;
+    private Requirement requirements;
     private int victorypoint;
 
-    public LeaderCard(LeaderCardType type, Requirement requirement) {
+
+    public LeaderCard(LeaderCardType type, Requirement requirements, ResourceType resourceType) {
         this.type = type;
-        this.requirement = requirement;
+        this.requirements = requirements;
+        this.resourceType = resourceType;
     }
 
     public void setStrategy(LeaderCardStrategy strategy) {

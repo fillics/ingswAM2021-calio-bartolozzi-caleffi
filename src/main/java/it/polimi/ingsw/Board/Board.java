@@ -1,7 +1,10 @@
 package it.polimi.ingsw.Board;
 
 import it.polimi.ingsw.Board.FaithTrack.Cell;
+import it.polimi.ingsw.Board.FaithTrack.PopeFavorTile;
+import it.polimi.ingsw.Board.FaithTrack.PopeFavorTileColor;
 import it.polimi.ingsw.Board.FaithTrack.VaticanReportSection;
+import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.Board.Storage.Strongbox;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentSpace;
@@ -18,44 +21,64 @@ public class Board {
     private ArrayList<DevelopmentSpace> developmentSpaces;
     private ArrayList<Cell> track;
     private ArrayList<VaticanReportSection> vaticanReportSections;
-    private ProductionPower baseProdPower;
-    private ArrayList<ProductionPower> boardProdPower;
+    private ArrayList<ProductionPower> specialProductionPowers;
 
-
-    // TODO: 09/04/2021 aggiungere array list che contiene tutti i poteri di produzione relativi alla board (leader card + base + dev space)
-    // poi il player sceglie quali usare
     /**
      * Class's constructor that'll be used in the setup method
      */
     public Board() {
         NumOfDevCard = 0;
-        track = new ArrayList<>();
         faithMarker = 0;
         boardVictoryPoint = 0;
+        specialProductionPowers = new ArrayList<>();
+        track = new ArrayList<>();
+
         strongbox = new Strongbox();
+        strongbox.getStrongbox().put(ResourceType.COIN, 0);
+        strongbox.getStrongbox().put(ResourceType.STONE, 0);
+        strongbox.getStrongbox().put(ResourceType.SERVANT, 0);
+        strongbox.getStrongbox().put(ResourceType.SHIELD, 0);
+
         deposits = new ArrayList<>();
+        Deposit deposit1 = new Deposit(1);
+        Deposit deposit2 = new Deposit(2);
+        Deposit deposit3 = new Deposit(3);
+        deposits.add(deposit1);
+        deposits.add(deposit2);
+        deposits.add(deposit3);
+
         vaticanReportSections = new ArrayList<>();
+        PopeFavorTile yellowPopeFavorTile = new PopeFavorTile(PopeFavorTileColor.YELLOW, 2);
+        PopeFavorTile orangePopeFavorTile = new PopeFavorTile(PopeFavorTileColor.ORANGE, 3);
+        PopeFavorTile redPopeFavorTile = new PopeFavorTile(PopeFavorTileColor.RED, 4);
+        VaticanReportSection vaticanReportSection1 = new VaticanReportSection(yellowPopeFavorTile);
+        VaticanReportSection vaticanReportSection2 = new VaticanReportSection(orangePopeFavorTile);
+        VaticanReportSection vaticanReportSection3 = new VaticanReportSection(redPopeFavorTile);
+        vaticanReportSections.add(vaticanReportSection1);
+        vaticanReportSections.add(vaticanReportSection2);
+        vaticanReportSections.add(vaticanReportSection3);
+
+
+
         developmentSpaces = new ArrayList<>();
-        boardProdPower= new ArrayList<>();
+        DevelopmentSpace developmentSpace1 = new DevelopmentSpace();
+        DevelopmentSpace developmentSpace2 = new DevelopmentSpace();
+        DevelopmentSpace developmentSpace3 = new DevelopmentSpace();
+        developmentSpaces.add(developmentSpace1);
+        developmentSpaces.add(developmentSpace2);
+        developmentSpaces.add(developmentSpace3);
+
     }
 
     /**
      * Get-methods in order to obtain the attributes' values
      */
     public int getNumOfDevCard() { return NumOfDevCard; }
-
     /**
      * Get-methods in order to obtain the attributes' values
      */
     public ArrayList<DevelopmentSpace> getDevelopmentSpaces() {
         return developmentSpaces;
-    }
-
-    /**
-     * Get-methods in order to obtain the attributes' values
-     */
-    public ArrayList<ProductionPower> getBoardProdPower() {
-        return boardProdPower;
     }
 
     /**
@@ -89,7 +112,9 @@ public class Board {
     /**
      * Get-methods in order to obtain the attributes' values
      */
-    public ProductionPower getBaseProdPower() { return baseProdPower; }
+    public ArrayList<ProductionPower> getSpecialProductionPowers() {
+        return specialProductionPowers;
+    }
 
     /**
      * Method getFaithMarker returns the Faith Marker of this Board object.

@@ -2,10 +2,7 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
-import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
-import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentSpace;
-import it.polimi.ingsw.Cards.DevelopmentCards.Level;
+import it.polimi.ingsw.Cards.DevelopmentCards.*;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Marbles.MarketTray;
 
@@ -191,7 +188,7 @@ public class Game implements GameInterface{
     }
 
     @Override
-    public void useAndChooseProdPower() {
+    public void useAndChooseProdPower(ArrayList<ProductionPower> productionPowers) {
 
     }
 

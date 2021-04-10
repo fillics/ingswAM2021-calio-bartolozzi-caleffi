@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Marbles;
 
+import it.polimi.ingsw.Board.Resources.Resource;
+import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Player;
 
 /**
@@ -16,5 +18,6 @@ public class WhiteMarble extends Marble{
     @Override
     public void transform(Player player){
         System.out.println("I'm nothing");
+
     }
 }

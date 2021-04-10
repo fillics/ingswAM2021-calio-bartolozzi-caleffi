@@ -102,4 +102,9 @@ public class Deposit extends Warehouse {
         }
     }
 
+    @Override
+    public void remove() {
+
+    }
+
 }

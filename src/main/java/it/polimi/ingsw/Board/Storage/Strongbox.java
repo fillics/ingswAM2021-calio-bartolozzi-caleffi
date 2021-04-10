@@ -50,4 +50,9 @@ public class Strongbox extends Warehouse{
     public int getTotalStones() {
         return strongbox.get(ResourceType.STONE);
     }
+
+    @Override
+    public void remove() {
+
+    }
 }

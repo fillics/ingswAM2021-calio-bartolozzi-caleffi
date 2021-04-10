@@ -2,10 +2,12 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Board.Resources.Resource;
+import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Player class represents the user and player of the board game.
@@ -37,6 +39,7 @@ public class Player {
         board = new Board();
         this.game = game;
     }
+
 
     public ArrayList<Resource> getResourceBuffer() {
         return resourceBuffer;

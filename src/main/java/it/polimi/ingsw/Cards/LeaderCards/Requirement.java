@@ -13,6 +13,12 @@ public class Requirement {
     private Level level;
     private HashMap<ResourceType,Integer> resourcePrice;
 
+    public Requirement(HashMap<CardColor, Integer> color, Level level, HashMap<ResourceType, Integer> resourcePrice) {
+        this.color = color;
+        this.level = level;
+        this.resourcePrice = resourcePrice;
+    }
+
     public HashMap<CardColor, Integer> getColor() {
         return color;
     }

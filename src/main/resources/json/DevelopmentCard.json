@@ -2,39 +2,42 @@
   {
     "color": "BLUE",
     "level": "ONE",
-    "isSpecial": true,
-    "price":[
+    "resourcePrice":[
         {
-            "amount": 2,
-            "color": "YELLOW"
+            "resourceType": "COIN",
+            "amount": 2
+
         },
         {
-            "amount": 2,
-            "color": "YELLOW"
+            "resourceType": "COIN",
+            "amount": 2
+
         },
         {
-            "amount": 1,
-            "color": "BLUE"
+            "resourceType" : "SHIELD",
+            "amount": 1
+
         }
     ],
-    "ability":[
+    "productionPower":[
         {
-          "needed":[
+          "resourceNeeded":[
             {
-                "amount": 1,
-                "type": "SHIELD"
+                "resourceType": "SHIELD",
+                "amount": 1
+
             }
           ],
-        "obtained":[
-            {
-                "amount": 1,
-                "type": ["SHIELD", "COIN", "SERVANT", "STONE"]
-            },
-            {
-                "amount": 1,
-                "type": "FAITH"
-            }
-        ] 
+          "resourceObtained":[
+              {
+                "resourceType": "COIN",
+                "amount": 1
+              },
+              {
+                "resourceType": "FAITHMARKER",
+                "amount": 1
+              }
+          ]
         }     
     ],
     "victorypoint": 3

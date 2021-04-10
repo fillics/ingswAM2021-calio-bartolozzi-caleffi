@@ -14,6 +14,8 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
     private HashMap<ResourceType,Integer> resourcesObtained;
     private ProductionPower extraProductionPower;
     private Board board;
+    private boolean active = false;
+
 
     //AGGIUNGE IL PROPRIO PROD POWER DENTRO L'ARRAY LIST IN BOARD CHE LI CONTIENE TUTTI
     /**
@@ -28,8 +30,14 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
 
     @Override
     public void ability(){
-        extraProductionPower= new ProductionPower(resourceNeeded,resourcesObtained);
-        board.getBoardProdPower().add(extraProductionPower);
+        if(active = false){
+            extraProductionPower= new ProductionPower(resourceNeeded,resourcesObtained);
+            board.getSpecialProductionPowers().add(extraProductionPower);
+            active = true;
+        }
+        else{
+            System.out.println("vaffanculo");
+        }
     }
 
 }
