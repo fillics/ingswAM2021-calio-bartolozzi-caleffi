@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Marbles;
 
+import it.polimi.ingsw.Game;
+import it.polimi.ingsw.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,8 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MarketTrayTest {
     MarketTray testMarketTray;
     Marble [][] testTable;
-    String line;
-    int numline;
+    String line, line2;
+    int numline, numline2;
+    Player testPlayer;
+    String username;
+    int position;
+    Game game;
 
     /*
      * Method setup setups tests.
@@ -23,8 +29,14 @@ public class MarketTrayTest {
     void setup(){
         testMarketTray= new MarketTray();
         line= "Row";
+        line2= "Column";
         numline=3;
+        numline2=2;
         testTable= new Marble[3][4];
+        username= "Beatrice";
+        position=2;
+        game= new Game();
+        testPlayer= new Player(username,position,game);
     }
 
     /** Method getRemainingMarbleTest tests getRemainingMarble method. */
@@ -42,7 +54,15 @@ public class MarketTrayTest {
         assertEquals(testMarketTray.getMarket().get(12),testTable[2][3]);
     }
 
-    /** Method  tests  method. */
+    /** Method lineSelectionTest tests lineSelection method. */
+    @Test
+    @DisplayName("lineSelection method test")
+    void lineSelectionTest(){
+        testMarketTray.lineSelection(line,numline,testPlayer);
+        testMarketTray.lineSelection(line2,numline2,testPlayer);
+    }
+
+    /** Method changeTest tests change method. */
     @Test
     @DisplayName("change method test")
     void changeTest(){
@@ -51,7 +71,5 @@ public class MarketTrayTest {
         assertEquals(testTable[2][3],testMarketTray.getMarket().get(0));
         assertEquals(testMarketTray.getRemainingMarble(),testMarketTray.getMarket().get(9));
     }
-
-    //TODO: Testare lineSelection
 
 }
