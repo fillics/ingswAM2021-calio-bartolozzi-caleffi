@@ -35,7 +35,7 @@ public class DevelopmentSpace {
             return false;
         } else if((topCard!=null)&&(topCard.getLevel().compareTo(developmentCard.getLevel()))>=0){
             return false;
-        } else{
+        }else{
             return true;
         }
     }
@@ -47,6 +47,9 @@ public class DevelopmentSpace {
         return topCard.getProductionPower();
     }
 
+    /**
+     * Method getDevelopmentSpace returns the arraylist of Development Cards of the Development Space.
+     */
     public ArrayList<DevelopmentCard> getDevelopmentSpace() {
         return developmentSpace;
     }

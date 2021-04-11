@@ -11,14 +11,14 @@ import java.util.HashMap;
  */
 public class ProductionPower {
     private final HashMap<ResourceType,Integer> resourcesNeeded;
-    private static HashMap<ResourceType,Integer> resourcesObtained;
+    private final HashMap<ResourceType,Integer> resourcesObtained;
 
     /**
      * Constructor ProductionPower creates a new ProductionPower instance.
      */
     public ProductionPower(HashMap<ResourceType, Integer> resourcesNeeded, HashMap<ResourceType, Integer> resourceObtained) {
         this.resourcesNeeded = resourcesNeeded;
-        ProductionPower.resourcesObtained = resourceObtained;
+        this.resourcesObtained= resourceObtained;
     }
 
     /**

@@ -1,45 +1,45 @@
 [
   {
     "type": "EXTRA_DEPOSIT",
-    "requirements":[
-        {
-          "resourceType": "STONE",
-          "amount": 5
-        }
-    ],
+    "requirements":{
+      "resourcePrice":
+      {
+        "STONE": 5
+      }
+    },
     "resourceType": "SERVANT",
     "victorypoint": 3
   },
   {
     "type": "EXTRA_DEPOSIT",
-    "requirements":[
+    "requirements":{
+      "resourcePrice":
       {
-        "resourceType": "COIN",
-        "amount": 5
+        "COIN": 5
       }
-    ],
+    },
     "resourceType": "STONE",
     "victorypoint": 3
   },
   {
     "type": "EXTRA_DEPOSIT",
-    "requirements":[
+    "requirements":{
+      "resourcePrice":
       {
-        "resourceType": "SERVANT",
-        "amount": 5
+        "SERVANT": 5
       }
-    ],
+    },
     "resourceType": "SHIELD",
     "victorypoint": 3
   },
   {
     "type": "EXTRA_DEPOSIT",
-    "requirements":[
+    "requirements":{
+      "resourcePrice":
       {
-        "resourceType": "SHIELD",
-        "amount": 5
+        "SHIELD": 5
       }
-    ],
+    },
     "resourceType": "COIN",
     "victorypoint": 3
   },
@@ -48,65 +48,45 @@
 
   {
     "type": "WHITE_MARBLE",
-    "requirements": [
-        {
-          "color" : "BLUE",
-          "amount" : 2
-        },
-        {
-          "color" : "YELLOW",
-          "amount" : 1
-
-        }
-      ],
-      "resourceType": "STONE",
-      "victorypoint": 5
+    "requirements": {
+      "color": {
+        "BLUE": 2,
+        "YELLOW": 1
+      }
+    },
+    "resourceType": "STONE",
+    "victorypoint": 5
   },
   {
     "type": "WHITE_MARBLE",
-    "requirements": [
-      {
-        "color" : "GREEN",
-        "amount" : 2
-      },
-      {
-        "color" : "PURPLE",
-        "amount" : 1
-
+    "requirements": {
+      "color": {
+        "GREEN": 2,
+        "PURPLE": 1
       }
-    ],
+    },
     "resourceType": "SHIELD",
     "victorypoint": 5
   },
   {
     "type": "WHITE_MARBLE",
-    "requirements": [
-      {
-        "color" : "YELLOW",
-        "amount" : 2
-      },
-      {
-        "color" : "BLUE",
-        "amount" : 1
-
+    "requirements": {
+      "color": {
+        "YELLOW": 2,
+        "BLUE": 1
       }
-    ],
+    },
     "resourceType": "SERVANT",
     "victorypoint": 5
   },
   {
     "type": "WHITE_MARBLE",
-    "requirements": [
-      {
-        "color" : "PURPLE",
-        "amount" : 2
-      },
-      {
-        "color" : "GREEN",
-        "amount" : 1
-
+    "requirements": {
+      "color": {
+        "PURPLE": 2,
+        "GREEN": 1
       }
-    ],
+    },
     "resourceType": "COIN",
     "victorypoint": 5
   },
@@ -115,65 +95,45 @@
 
   {
     "type": "DISCOUNT",
-    "requirements": [
-      {
-        "color" : "BLUE",
-        "amount" : 1
-      },
-      {
-        "color" : "PURPLE",
-        "amount" : 1
-
+    "requirements": {
+      "color": {
+        "BLUE": 1,
+        "PURPLE": 1
       }
-    ],
+    },
     "resourceType": "SHIELD",
     "victorypoint": 2
   },
   {
     "type": "DISCOUNT",
-    "requirements": [
-      {
-        "color" : "YELLOW",
-        "amount" : 1
-      },
-      {
-        "color" : "PURPLE",
-        "amount" : 1
-
+    "requirements": {
+      "color": {
+        "YELLOW": 1,
+        "PURPLE": 1
       }
-    ],
+    },
     "resourceType": "COIN",
     "victorypoint": 2
   },
   {
     "type": "DISCOUNT",
-    "requirements": [
-      {
-        "color" : "GREEN",
-        "amount" : 1
-      },
-      {
-        "color" : "BLUE",
-        "amount" : 1
-
+    "requirements": {
+      "color": {
+        "GREEN": 1,
+        "BLUE": 1
       }
-    ],
+    },
     "resourceType": "STONE",
     "victorypoint": 2
   },
   {
     "type": "DISCOUNT",
-    "requirements": [
-      {
-        "color" : "YELLOW",
-        "amount" : 1
-      },
-      {
-        "color" : "GREEN",
-        "amount" : 1
-
+    "requirements": {
+      "color": {
+        "YELLOW": 1,
+        "GREEN": 1
       }
-    ],
+    },
     "resourceType": "SERVANT",
     "victorypoint": 2
   },
@@ -182,57 +142,45 @@
 
   {
     "type": "PRODUCTION_POWER",
-    "requirements": [
-      {
-        "level": "TWO"
+    "requirements": {
+      "resourcePrice": {
+        "YELLOW": 1
       },
-      {
-        "color": "YELLOW",
-        "amount": 1
-      }
-    ],
+      "level": "TWO"
+    },
     "resourceType": "SHIELD",
     "victorypoint": 4
   },
   {
     "type": "PRODUCTION_POWER",
-    "requirements": [
-      {
-        "level": "TWO"
+    "requirements": {
+      "resourcePrice": {
+        "PURPLE": 1
       },
-      {
-        "color": "PURPLE",
-        "amount": 1
-      }
-    ],
+      "level": "TWO"
+    },
     "resourceType": "STONE",
     "victorypoint": 4
   },
   {
     "type": "PRODUCTION_POWER",
-    "requirements": [
-      {
-        "level": "TWO"
+    "requirements": {
+      "resourcePrice": {
+        "BLUE": 1
       },
-      {
-        "color": "BLUE",
-        "amount": 1
-      }
-    ],
+      "level": "TWO"
+    },
     "resourceType": "SERVANT",
     "victorypoint": 4
   },
   {
     "type": "PRODUCTION_POWER",
-    "requirements": [
-      {
-        "level": "TWO"
+    "requirements": {
+      "resourcePrice": {
+        "GREEN": 1
       },
-      {
-        "color": "GREEN",
-        "amount": 1
-      }
-    ],
+      "level": "TWO"
+    },
     "resourceType": "COIN",
     "victorypoint": 4
   }

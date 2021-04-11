@@ -18,6 +18,7 @@ public class MarketTray {
     private Marble[][] table= new Marble[3][4];
     private Marble remainingMarble;
     private ArrayList<Marble> market;
+
     /**
      * Constructor MarketTray fills the matrix "table" and remainingMarble with the marbles of the shuffled market.
      * Attribute market is only used at the beginning of the game to shuffle the marbles.
@@ -37,18 +38,19 @@ public class MarketTray {
                 }
             }
             remainingMarble= market.get(0);
-            //System.out.println(market);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public ArrayList<Marble> getMarket() {
+        return market;
     }
 
     /**
      * Method getRemainingMarble returns the marble that is in the slide of the Market.
      */
     public Marble getRemainingMarble() {
-
         return remainingMarble;
     }
 

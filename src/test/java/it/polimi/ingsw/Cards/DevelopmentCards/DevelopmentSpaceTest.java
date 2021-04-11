@@ -51,6 +51,7 @@ public class DevelopmentSpaceTest {
     void isPlaceableCardTest(){
         testDevelopmentSpace.addDevelopmentCard(testDevelopmentCard);
         testDevelopmentSpace.addDevelopmentCard(testDevelopmentCard2);
+        assertTrue(testDevelopmentSpace.isPlaceableCard(testDevelopmentCard3));
         testDevelopmentSpace.addDevelopmentCard(testDevelopmentCard3);
         assertFalse(testDevelopmentSpace.isPlaceableCard(testDevelopmentCard4));
     }
