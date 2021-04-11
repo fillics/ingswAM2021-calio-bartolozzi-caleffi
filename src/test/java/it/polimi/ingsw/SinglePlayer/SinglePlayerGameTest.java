@@ -2,6 +2,8 @@ package it.polimi.ingsw.SinglePlayer;
 import static org.junit.jupiter.api.Assertions.*;
 
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
+import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
+import it.polimi.ingsw.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,13 +20,15 @@ class SinglePlayerGameTest {
 
     SinglePlayerGame testSingle = new SinglePlayerGame();
 
-    /** Method istantiaton instantiates the SinglePlayerGame classes. */
+
+    /** Method instantiation instantiates the SinglePlayerGame classes. */
     @BeforeEach
-    void istantiaton() {
+    void instantiation() throws NumMaxPlayersReached {
         assertEquals(0, testSingle.getBlackCross());
         assertEquals(0, testSingle.getDeckSoloActionToken().size());
         assertEquals(0, testSingle.getDeletedSoloActionToken().size());
         testSingle.setup();
+        testSingle.createNewPlayer("fil");
     }
 
     /**
@@ -35,10 +39,13 @@ class SinglePlayerGameTest {
         assertEquals(7, testSingle.getDeckSoloActionToken().size());
         assertEquals(0, testSingle.getDeletedSoloActionToken().size());
         assertEquals(0, testSingle.getBlackCross());
+        assertEquals("fil", testSingle.getActivePlayers().get(0).getUsername());
     }
 
     /**
      * Test method checkIncreaseBlackCross checks the correct operation of the increasing of the black cross
+     * and the correct use of the method endGame: game ends even when the black cross reaches the final space
+     * of the faith track
      */
     @Test
     void checkIncreaseBlackCross(){
@@ -48,8 +55,8 @@ class SinglePlayerGameTest {
         assertEquals(1, testSingle.getBlackCross());
         testSingle.increaseBlackCross(10);
         assertEquals(11, testSingle.getBlackCross());
-        testSingle.increaseBlackCross(10);
-        assertEquals(21, testSingle.getBlackCross());
+        testSingle.increaseBlackCross(15);
+        assertEquals(26, testSingle.getBlackCross());
         assertTrue(testSingle.endGame());
     }
 
@@ -63,6 +70,18 @@ class SinglePlayerGameTest {
         testSingle.shuffleSoloActionToken();
         assertEquals(7, testSingle.getDeckSoloActionToken().size());
     }
+
+
+    @Test
+    void checkDrawSoloActionToken(){
+        assertEquals(7, testSingle.getDeckSoloActionToken().size());
+        testSingle.drawSoloActionToken();
+        assertEquals(6, testSingle.getDeckSoloActionToken().size());
+        testSingle.drawSoloActionToken();
+        testSingle.drawSoloActionToken();
+        assertEquals(4, testSingle.getDeckSoloActionToken().size());
+    }
+
 
 
     /**
@@ -138,5 +157,17 @@ class SinglePlayerGameTest {
 
     }
 
+    /**
+     * Test method checkIncreaseFaithMarker checks the correct increase of the player's faith marker
+     */
+    @Test
+    void checkIncreaseFaithMarker(){
+        assertEquals(0, testSingle.getActivePlayers().get(0).getBoard().getFaithMarker());
+        testSingle.getActivePlayers().get(0).getBoard().increaseFaithMarker();
+        assertEquals(1, testSingle.getActivePlayers().get(0).getBoard().getFaithMarker());
+        testSingle.getActivePlayers().get(0).getBoard().increaseFaithMarker();
+        testSingle.getActivePlayers().get(0).getBoard().increaseFaithMarker();
+        assertEquals(3, testSingle.getActivePlayers().get(0).getBoard().getFaithMarker());
+    }
 
 }

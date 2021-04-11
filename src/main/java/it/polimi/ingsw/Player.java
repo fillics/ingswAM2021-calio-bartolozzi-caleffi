@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Board.Board;
+import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
 import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.Exceptions.EmptyDeposit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * Player class represents the user and player of the board game.
@@ -32,14 +34,12 @@ public class Player {
      */
     public Player(String username, int position, Game game) {
         this.username = username;
-        this.position = position;
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
         resourceBuffer = new ArrayList<>();
         board = new Board();
         this.game = game;
     }
-
 
     public ArrayList<Resource> getResourceBuffer() {
         return resourceBuffer;
@@ -85,7 +85,29 @@ public class Player {
         leaderCards.add(card);
     }
 
-    // TODO: 05/04/2021 scrivere javadoc 
+
+    /**
+     * Method chooseResourcesBeginningGame adds to the player's resource buffer array the parameter resource
+     * at the beginning of the game according to the player's position
+     * @see Game
+     */
+    public void chooseResourcesBeginningGame(int amount){
+        Resource[] availableResource = new Resource[4];
+        Scanner input = new Scanner (System.in);
+
+        availableResource[0] = new Resource(ResourceType.COIN);
+        availableResource[1] = new Resource(ResourceType.SERVANT);
+        availableResource[2] = new Resource(ResourceType.SHIELD);
+        availableResource[3] = new Resource(ResourceType.STONE);
+
+        for (int i = 0; i < amount; i++) {
+            System.out.println("Which resource do you choose?");
+            int choice = input.nextInt();
+            resourceBuffer.add(availableResource[choice]);
+        }
+    }
+
+    // TODO: 05/04/2021 scrivere javadoc
     public void fillBuffer (int position){
         try {
             resourceBuffer.add(board.getDeposits().get(position).takeResource());

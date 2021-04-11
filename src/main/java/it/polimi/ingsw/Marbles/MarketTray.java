@@ -39,7 +39,7 @@ public class MarketTray {
             }
             remainingMarble= market.get(0);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //aggiungere frase di errore
         }
     }
 

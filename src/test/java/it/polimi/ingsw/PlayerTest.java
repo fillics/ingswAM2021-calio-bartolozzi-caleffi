@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,44 +16,42 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
 
     Game testGame;
-    Player testPlayer;
     private static final String username = "fil";
-    private static final int position = 1;
+
 
     /** Method setup setups test. */
     @BeforeEach
-    void setup() {
+    void setup() throws NumMaxPlayersReached {
         testGame = new Game();
-        testGame.createNewPlayer(new Player(username, position, testGame));
-        testPlayer = new Player(username, position, testGame);
-
-    }
-
-    /** Method usernameTest tests username's getter. */
-    @Test
-    @DisplayName("Username getter test")
-    void usernameTest() {
-        assertEquals(username, testPlayer.getUsername());
-        assertEquals(position, testPlayer.getPosition());
-    }
-
-    /** Method positionTest tests position's getter. */
-    @Test
-    @DisplayName("Position getter test")
-    void positionTest() {
-        assertEquals(position, testPlayer.getPosition());
-    }
-
-// TODO: 09/04/2021 fix this part 
-    /** Method cardAdditionTest test the addition of a single card to the player. */
-    /*@Test
-    void cardAdditionTest() {
+        testGame.createNewPlayer(username);
         testGame.setup();
-        assertEquals(4, testPlayer.getLeaderCards().size());
-    }*/
+    }
 
+    /** Method checkUsername tests username's getter. */
+    @Test
+    void checkUsername() {
+       assertEquals(username, testGame.getActivePlayers().get(0).getUsername());
+    }
+
+
+    /** Method checkTotalVictoryPoints tests totalVictoryPoints's getter. */
+    @Test
+    void checkTotalVictoryPoints(){
+        assertEquals(0, testGame.getActivePlayers().get(0).getTotalVictoryPoint());
+    }
+
+
+    /** Method cardAdditionTest test the addition of a single card to the player. */
+    @Test
+    void cardAdditionTest() {
+        assertEquals(4, testGame.getActivePlayers().get(0).getLeaderCards().size());
+    }
 
     @Test
     void increaseFaithMarker() {
+        assertEquals(0, testGame.getActivePlayers().get(0).getBoard().getFaithMarker());
+        testGame.getActivePlayers().get(0).getBoard().increaseFaithMarker();
+        assertEquals(1, testGame.getActivePlayers().get(0).getBoard().getFaithMarker());
+
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
+import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,12 +25,12 @@ class GameTest {
      * Method initialization initializes values.
      */
     @BeforeEach
-    void initialization() {
+    void initialization() throws NumMaxPlayersReached {
         testGame = new Game();
         testGame.setup();
-        testGame.createNewPlayer(new Player("fil", 1, testGame));
-        testGame.createNewPlayer(new Player("bea", 2, testGame));
-        testGame.createNewPlayer(new Player("gio", 3, testGame));
+        testGame.createNewPlayer("fil");
+        testGame.createNewPlayer("bea");
+        testGame.createNewPlayer("gio");
     }
 
     /**

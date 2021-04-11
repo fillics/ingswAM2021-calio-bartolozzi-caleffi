@@ -9,6 +9,7 @@ import it.polimi.ingsw.Game;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class SinglePlayerGame extends Game {
 
-    private ArrayList<SoloActionToken> deckSoloActionToken;
+    private LinkedList<SoloActionToken> deckSoloActionToken;
     private ArrayList<SoloActionToken> deletedSoloActionToken;
     private int blackCross;
     private boolean noMoreColumnDevCard = false;
@@ -27,9 +28,20 @@ public class SinglePlayerGame extends Game {
      * Constructor SinglePlayerGame creates a new SinglePlayerGame instance.
      */
     public SinglePlayerGame() {
-        deckSoloActionToken = new ArrayList<>();
+        deckSoloActionToken = new LinkedList<>();
         deletedSoloActionToken = new ArrayList<>();
         blackCross = 0;
+    }
+
+    /**
+     * Override method setup is called at the beginning of the Single Player Game
+     */
+    @Override
+    public void setup() {
+        setDeckSoloActionToken();
+        createDevelopmentGrid(); //to place the cards in the right order
+        createLeaderDeck(); //to shuffle the leader card
+        distributeLeaderCards(); //to give to the player 4 cards
     }
 
     /**
@@ -42,7 +54,7 @@ public class SinglePlayerGame extends Game {
     /**
      * Method getDeckSoloActionToken returns the deck that contains all the token.
      */
-    public ArrayList<SoloActionToken> getDeckSoloActionToken() {
+    public LinkedList<SoloActionToken> getDeckSoloActionToken() {
         return deckSoloActionToken;
     }
 
@@ -54,7 +66,8 @@ public class SinglePlayerGame extends Game {
     }
 
     /**
-     * Method isNoMoreColumnDevCard returns the boolean value of the attribute. Getter method used in SinglePlayerGameTest
+     * Method isNoMoreColumnDevCard returns the boolean value of the attribute isNoMoreColumnDevCard
+     * @see SinglePlayerGame - the method removeDevCard
      */
     public boolean isNoMoreColumnDevCard() {
         return noMoreColumnDevCard;
@@ -79,8 +92,7 @@ public class SinglePlayerGame extends Game {
 
         try {
             BufferedReader br = new BufferedReader(new FileReader("src/main/resources/json/Token.json"));
-            deckSoloActionToken = gson.fromJson(br, new TypeToken<List<SoloActionToken>>(){}.getType());
-
+            deckSoloActionToken = gson.fromJson(br, new TypeToken<LinkedList<SoloActionToken>>(){}.getType());
 
             deckSoloActionToken.forEach(soloActionToken -> {
                 if (soloActionToken.getType().equals(SoloActionTokenType.DISCARD)) {
@@ -94,7 +106,6 @@ public class SinglePlayerGame extends Game {
             });
 
             Collections.shuffle(deckSoloActionToken);
-
         }catch (FileNotFoundException ex){
             System.out.println("Token.json file was not found");
         }
@@ -112,12 +123,21 @@ public class SinglePlayerGame extends Game {
     }
 
     /**
-     * Method drawSoloActionToken extracts the last token from the deck, applies its effect and
-     * adds it to the deck containing the token already used.
+     * Method drawSoloActionToken used to draw and remove the last token from the deck
+     * @return the drawn token (type SoloActionToken) that is the last element of the deck
      */
-    public void drawSoloActionToken() {
+    public SoloActionToken drawSoloActionToken() {
         SoloActionToken token = deckSoloActionToken.get(deckSoloActionToken.size() - 1);
-        deckSoloActionToken.remove(deckSoloActionToken.size()-1);
+        deckSoloActionToken.removeLast();
+        return token;
+    }
+
+    /**
+     * Method useSoloActionToken calls the method drawSoloActionToken and applies the drawn token's effect.
+     * Then the method adds the token to the deck containing the token already used.
+     */
+    public void useSoloActionToken(){
+        SoloActionToken token = drawSoloActionToken();
         token.applyEffect();
         deletedSoloActionToken.add(token);
     }
@@ -130,55 +150,37 @@ public class SinglePlayerGame extends Game {
     boolean stop = false;
         for (int i = 0; i < developmentGrid.size(); i++) {
             if(!developmentGrid.get(i).isEmpty() && developmentGrid.get(i).get(0).getColor().equals(color) && !stop){
-                developmentGrid.get(i).remove(developmentGrid.get(i).size()-1);
+                developmentGrid.get(i).removeLast();
                 stop = true;
                 if(developmentGrid.get(i).isEmpty()){
                     int j = i+4;
-                    if(j> developmentGrid.size()) noMoreColumnDevCard = true;
+                    if(j>developmentGrid.size()) noMoreColumnDevCard = true;
                 }
             }
         }
-
-    }
-    /**
-     * Override method setup calls the method setDeckSoloActionToken to create the token's deck at the beginning
-     * of the Single Player Game
-     */
-    @Override
-    public void setup() {
-        setDeckSoloActionToken();
-        setMarketTray(); // to shuffle the market
-        createDevelopmentGrid(); //to place the cards in the right order
-        createLeaderDeck(); //to shuffle the leader card
-        distributeLeaderCards(); //to give to the player 4 cards
     }
 
+
     /**
-     *  Method endGame called when endTurn in Player is true. It controls if the conditions to end the game are satisfied.
-     *  If so, the method winner is called.
+     *  Method endGame called when endTurn in Player is true.
+     *  It controls if the conditions to end the game are satisfied and indicates the winner
+     *
      */
     @Override
     public boolean endGame() {
-        if(blackCross>=20){
-            System.out.println("YOU LOST BECAUSE THE BLACK CROSS TOKEN REACHES THE FINAL SPACE OF THE FAITH TRACK");
-            return true; //in questo caso vince lorenzo
+        if(blackCross>=24){
+            System.out.println("Lorenzo il Magnifico" + " won");
+            return true;
         }
         else if(noMoreColumnDevCard){
-                System.out.println("YOU LOST BECAUSE ONE TYPE OF DEV CARDS IS NO LONGER AVAILABLE IN THE GRID");
-            return true; //in questo caso vince lorenzo
+            System.out.println("Lorenzo il Magnifico" + " won");
+            return true;
         }
-        // TODO: 09/04/2021 come controllare il player che sta giocando in quel momento 
-        else if(getActivePlayers().get(1).getBoard().getFaithMarker() == 20 || 
-                getActivePlayers().get(1).getBoard().getNumOfDevCard()==7){
-            System.out.println("YOU WON");
+        else if(getActivePlayers().get(0).getBoard().getFaithMarker() >= 24 ||
+                getActivePlayers().get(0).getBoard().getNumOfDevCard()==7){
+            System.out.println(getActivePlayers().get(0).getUsername() + " won");
             return true;
         }
         else return false;
-
     }
-
-    /*@Override
-    public Player winner(int i) {
-        return super.winner(i);
-    }*/
 }
