@@ -9,12 +9,14 @@ import it.polimi.ingsw.Player;
 
 public class ConcreteStrategyDiscount implements LeaderCardStrategy{
     private final ResourceType resourceType;
-    private boolean active = false;
+    private boolean active;
+
     /**
      * Constructor ConcreteStrategyDiscount creates a new ConcreteStrategyDiscount instance.
      */
     public ConcreteStrategyDiscount(ResourceType resourceType) {
         this.resourceType = resourceType;
+        active=false;
     }
 
     public ResourceType getResourceType() {
@@ -23,11 +25,11 @@ public class ConcreteStrategyDiscount implements LeaderCardStrategy{
 
     @Override
     public void ability() {
-        if(active = false){
+        if(!active){
             active = true;
         }
         else{
-            System.out.println("ciaoneeeee");
+            System.out.println("Ability discount was already activated.");
         }
     }
 }

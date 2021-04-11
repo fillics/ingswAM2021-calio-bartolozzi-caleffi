@@ -14,10 +14,8 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
     private HashMap<ResourceType,Integer> resourcesObtained;
     private ProductionPower extraProductionPower;
     private Board board;
-    private boolean active = false;
+    private boolean active;
 
-
-    //AGGIUNGE IL PROPRIO PROD POWER DENTRO L'ARRAY LIST IN BOARD CHE LI CONTIENE TUTTI
     /**
      * Constructor ConcreteStrategyProductionPower creates a new ConcreteStrategyProductionPower instance.
      */
@@ -26,17 +24,19 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
         this.board= board;
         resourcesObtained= new HashMap<>();
         resourcesObtained.put(ResourceType.FAITHMARKER,1);
+        active=false;
     }
 
     @Override
     public void ability(){
-        if(active = false){
+        if(!active){
             extraProductionPower= new ProductionPower(resourceNeeded,resourcesObtained);
             board.getSpecialProductionPowers().add(extraProductionPower);
             active = true;
+            System.out.println("Ability extra production power activated!");
         }
         else{
-            System.out.println("vaffanculo");
+            System.out.println("Ability extra production power was already activated.");
         }
     }
 

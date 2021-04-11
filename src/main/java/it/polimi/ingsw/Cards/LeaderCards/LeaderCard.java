@@ -13,11 +13,11 @@ public class LeaderCard extends Card {
     private Requirement requirements;
     private int victorypoint;
 
-
-    public LeaderCard(LeaderCardType type, Requirement requirements, ResourceType resourceType) {
+    public LeaderCard(LeaderCardType type, Requirement requirements, ResourceType resourceType, int victorypoint) {
         this.type = type;
         this.requirements = requirements;
         this.resourceType = resourceType;
+        this.victorypoint= victorypoint;
     }
 
     public void setStrategy(LeaderCardStrategy strategy) {
