@@ -26,7 +26,7 @@ public class Game implements GameInterface{
     private ArrayList<LeaderCard> leaderDeck;
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
     private MarketTray market;
-    private int positionPlayer;
+    private int currentPlayer = 0;
     final int NUM_MAXPLAYERS = 4;
 
 
@@ -39,7 +39,7 @@ public class Game implements GameInterface{
         leaderDeck = new ArrayList<>();
         developmentGrid = new ArrayList<>();
         market = new MarketTray();
-        positionPlayer = 0;
+
     }
 
     /**
@@ -70,8 +70,7 @@ public class Game implements GameInterface{
      */
     public void createNewPlayer(String username) throws NumMaxPlayersReached {
         if(players.size()<NUM_MAXPLAYERS){
-            positionPlayer +=1;
-            Player player = new Player(username, positionPlayer, this);
+            Player player = new Player(username, players.size()+1, this);
             players.add(player);
             activePlayers.add(player);
         }
@@ -242,27 +241,29 @@ public class Game implements GameInterface{
 
     }
 
-
-    // TODO: 08/04/2021 gestire il prossimo turno e il prossimo player
-    /*public Player nextPlayer(){
-        while(getActivePlayers().get(0).endTurn()){
-
+    /**
+     * Method nextPlayer handles which player is playing during his turn
+     */
+    // TODO: 12/04/2021 da testare
+    public void nextPlayer(){
+        while(getActivePlayers().get(currentPlayer).endTurn()){
+            if(currentPlayer==getActivePlayers().size()-1){
+                currentPlayer=0;
+            }
+                currentPlayer+=1;
         }
-        positionPlayer += 1;
-        return players.get(1);
-    }*/
+    }
 
 
     /**
-     *  Method endGame called when endTurn in Player is true. It controls if the conditions to end the game are satisfied.
-     *  If so, the method winner is called.
+     *  Method endGame called when endTurn in Player is true.
+     *  It controls if the conditions to end the game are satisfied and indicates the winner
      */
     public boolean endGame(){
         return true;
-
     }
 
-    public void winner(String winner){
-    }
+
+
 
 }

@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,11 +47,13 @@ class PlayerTest {
         assertEquals(4, testGame.getActivePlayers().get(0).getLeaderCards().size());
     }
 
+    /**
+     * Test method increaseFaithMarker checks the correct increase of the player's faith marker
+     */
     @Test
     void increaseFaithMarker() {
         assertEquals(0, testGame.getActivePlayers().get(0).getBoard().getFaithMarker());
         testGame.getActivePlayers().get(0).getBoard().increaseFaithMarker();
         assertEquals(1, testGame.getActivePlayers().get(0).getBoard().getFaithMarker());
-
     }
 }

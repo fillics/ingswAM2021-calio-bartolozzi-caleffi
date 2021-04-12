@@ -20,17 +20,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     Game testGame;
-    Player testPlayer;
     /**
      * Method initialization initializes values.
      */
     @BeforeEach
     void initialization() throws NumMaxPlayersReached {
         testGame = new Game();
-        testGame.setup();
         testGame.createNewPlayer("fil");
         testGame.createNewPlayer("bea");
         testGame.createNewPlayer("gio");
+
     }
 
     /**
@@ -49,7 +48,6 @@ class GameTest {
      */
     @Test
     void checkSizeDevelopmentGrid() {
-        testGame.setup();
         int bound = testGame.getDevelopmentGrid().size();
         IntStream.range(0, bound).forEach(i -> assertEquals(4, testGame.getDevelopmentGrid().get(i).size()));
     }
@@ -108,5 +106,15 @@ class GameTest {
     void checkRemoveFromDevDeck(){
         testGame.setup();
 
+    }
+
+    /**
+     * Method test checkPlayersPosition checks the correct turn's position of the active players
+     */
+    @Test
+    void checkPlayersPosition(){
+        assertEquals(1, testGame.getActivePlayers().get(0).getPosition());
+        assertEquals(2, testGame.getActivePlayers().get(1).getPosition());
+        assertEquals(3, testGame.getActivePlayers().get(2).getPosition());
     }
 }

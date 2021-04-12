@@ -34,6 +34,7 @@ public class Player {
      */
     public Player(String username, int position, Game game) {
         this.username = username;
+        this.position = position;
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
         resourceBuffer = new ArrayList<>();
