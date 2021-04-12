@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.stream.IntStream;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,17 +30,18 @@ class GameTest {
         testGame.createNewPlayer("fil");
         testGame.createNewPlayer("bea");
         testGame.createNewPlayer("gio");
+        testGame.createNewPlayer("jack");
 
     }
 
     /**
      * Test method checkSizeArrayPlayer checks if the arrays that contain the players and
-     * the active players have the right dimension, after the inizialitation
+     * the active players have the right dimension, after the initialization
      */
     @Test
     void checkSizeArrayPlayer() {
-        assertEquals(3, testGame.getActivePlayers().size());
-        assertEquals(3, testGame.getPlayers().size());
+        assertEquals(4, testGame.getActivePlayers().size());
+        assertEquals(4, testGame.getPlayers().size());
     }
 
     /**
@@ -50,6 +52,7 @@ class GameTest {
         assertEquals(1, testGame.getActivePlayers().get(0).getPosition());
         assertEquals(2, testGame.getActivePlayers().get(1).getPosition());
         assertEquals(3, testGame.getActivePlayers().get(2).getPosition());
+        assertEquals(4, testGame.getActivePlayers().get(3).getPosition());
     }
 
     /**
@@ -118,5 +121,17 @@ class GameTest {
 
     }
 
+    @Test
+    void checkAdditionalSetup(){
+        testGame.additionalSetup();
+        testGame.getActivePlayers().get(1).setChoice(2);
+        testGame.getActivePlayers().get(2).setChoice(1);
+        testGame.getActivePlayers().get(3).setChoice(3);
+        assertEquals(1, testGame.getActivePlayers().get(2).getBoard().getFaithMarker());
+        assertEquals(1, testGame.getActivePlayers().get(1).getResourceBuffer().size());
+        assertEquals(1, testGame.getActivePlayers().get(3).getBoard().getFaithMarker());
+        assertEquals(1, testGame.getActivePlayers().get(2).getResourceBuffer().size());
+        assertEquals(2, testGame.getActivePlayers().get(3).getResourceBuffer().size());
+    }
 
 }

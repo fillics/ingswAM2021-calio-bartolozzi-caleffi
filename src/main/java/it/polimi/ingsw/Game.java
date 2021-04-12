@@ -58,11 +58,22 @@ public class Game implements GameInterface{
      * according to their position's turn
      */
     public void additionalSetup(){
-        activePlayers.get(1).chooseResourcesBeginningGame(1); //second player receives one resource
-        activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
-        activePlayers.get(2).chooseResourcesBeginningGame(1); //third player receives one resource
-        activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
-        activePlayers.get(3).chooseResourcesBeginningGame(2); //forth player receives two resources
+        if(activePlayers.size()==2){
+            activePlayers.get(1).chooseResourcesBeginningGame(1); //second player receives one resource
+        }
+        else if (activePlayers.size()==3){
+            activePlayers.get(1).chooseResourcesBeginningGame(1); //second player receives one resource
+            activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
+            activePlayers.get(2).chooseResourcesBeginningGame(1); //third player receives one resource
+        }
+        else if(activePlayers.size()==4){
+            activePlayers.get(1).chooseResourcesBeginningGame(1); //second player receives one resource
+            activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
+            activePlayers.get(2).chooseResourcesBeginningGame(1); //third player receives one resource
+            activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
+            activePlayers.get(3).chooseResourcesBeginningGame(2); //forth player receives two resources
+
+        }
 
     }
     /**

@@ -1,15 +1,13 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Board.Board;
-import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
+
 import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 
 /**
  * Player class represents the user and player of the board game.
@@ -25,6 +23,7 @@ public class Player {
     private ArrayList<Resource> resourceBuffer;
     private Board board;
     private Game game;
+    private int choiceResource;
 
     /**
      * Constructor Player creates a new Player instance.
@@ -40,6 +39,7 @@ public class Player {
         resourceBuffer = new ArrayList<>();
         board = new Board();
         this.game = game;
+
     }
 
     public ArrayList<Resource> getResourceBuffer() {
@@ -94,7 +94,7 @@ public class Player {
      */
     public void chooseResourcesBeginningGame(int amount){
         Resource[] availableResource = new Resource[4];
-        Scanner input = new Scanner (System.in);
+
 
         availableResource[0] = new Resource(ResourceType.COIN);
         availableResource[1] = new Resource(ResourceType.SERVANT);
@@ -103,8 +103,8 @@ public class Player {
 
         for (int i = 0; i < amount; i++) {
             System.out.println("Which resource do you choose?");
-            int choice = input.nextInt();
-            resourceBuffer.add(availableResource[choice]);
+            //scanner e chiamata a setChoice
+            resourceBuffer.add(availableResource[choiceResource()]);
         }
     }
 
@@ -122,5 +122,16 @@ public class Player {
      */
     public boolean endTurn(){
         return true;
+    }
+
+    /**
+     * Method choiceResource returns the choice
+     */
+    public int choiceResource(){
+        return choiceResource;
+    }
+
+    public void setChoice(int choice){
+        this.choiceResource = choice;
     }
 }
