@@ -2,6 +2,7 @@ package it.polimi.ingsw.Board.Storage;
 
 import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.Exceptions.DepositDoesntHaveThisResource;
 import it.polimi.ingsw.Exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;
 import it.polimi.ingsw.Player;
@@ -103,7 +104,16 @@ public class Deposit extends Warehouse {
     }
 
     @Override
-    public void remove() {
+    public void remove(ResourceType resourceType) throws DepositDoesntHaveThisResource, EmptyDeposit {
+        if(resourcetype != resourceType){
+            throw new DepositDoesntHaveThisResource();
+        }
+        else if(quantity == 0){
+            throw new EmptyDeposit();
+        }
+        else {
+            quantity -= 1;
+        }
 
     }
 

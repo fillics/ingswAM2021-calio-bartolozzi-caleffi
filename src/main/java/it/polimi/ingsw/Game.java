@@ -2,9 +2,13 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
+import it.polimi.ingsw.Exceptions.DifferentDimensionForProdPower;
 import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
+import it.polimi.ingsw.Exceptions.TooManyResourcesRequested;
 import it.polimi.ingsw.Marbles.MarketTray;
 
 import java.io.*;
@@ -26,7 +30,7 @@ public class Game implements GameInterface{
     private ArrayList<LeaderCard> leaderDeck;
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
     private MarketTray market;
-    private int currentPlayer;
+    private int currentPlayer = 0;
     final int NUM_MAXPLAYERS = 4;
 
 
@@ -39,7 +43,6 @@ public class Game implements GameInterface{
         leaderDeck = new ArrayList<>();
         developmentGrid = new ArrayList<>();
         market = new MarketTray();
-        currentPlayer = 0;
 
     }
 
@@ -58,22 +61,11 @@ public class Game implements GameInterface{
      * according to their position's turn
      */
     public void additionalSetup(){
-        if(activePlayers.size()==2){
-            activePlayers.get(1).chooseResourcesBeginningGame(1); //second player receives one resource
-        }
-        else if (activePlayers.size()==3){
-            activePlayers.get(1).chooseResourcesBeginningGame(1); //second player receives one resource
-            activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
-            activePlayers.get(2).chooseResourcesBeginningGame(1); //third player receives one resource
-        }
-        else if(activePlayers.size()==4){
-            activePlayers.get(1).chooseResourcesBeginningGame(1); //second player receives one resource
-            activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
-            activePlayers.get(2).chooseResourcesBeginningGame(1); //third player receives one resource
-            activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
-            activePlayers.get(3).chooseResourcesBeginningGame(2); //forth player receives two resources
-
-        }
+        activePlayers.get(1).chooseResourcesBeginningGame(1); //second player receives one resource
+        activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
+        activePlayers.get(2).chooseResourcesBeginningGame(1); //third player receives one resource
+        activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
+        activePlayers.get(3).chooseResourcesBeginningGame(2); //forth player receives two resources
 
     }
     /**
@@ -117,12 +109,6 @@ public class Game implements GameInterface{
         return leaderDeck;
     }
 
-    /**
-     * Method getCurrent returns the player who is playing during the turn
-     */
-    public int getCurrentPlayer() {
-        return currentPlayer;
-    }
 
     /**
      * Method createDevelopmentDeck creates and shuffles the Development Cards' Deck using the JSON file
@@ -225,23 +211,31 @@ public class Game implements GameInterface{
     }
     
     @Override
-    public void buyDevCard(DevelopmentCard developmentCard, DevelopmentSpace developmentSpace) {
-
+    public void buyDevCard(DevelopmentCard developmentCard){
+        //CONTROLLO RISORSE SUFFICIENTI
     }
 
     @Override
     public void moveResource() {
+    }
 
+    public void takeAndPlaceResource(){
     }
 
     @Override
-    public void takeAndPlaceResource() {
-
-    }
-
-    @Override
-    public void useAndChooseProdPower(ArrayList<ProductionPower> productionPowers) {
-
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) {
+        try {
+            if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
+                try {
+                    productionPower.removeResources(resources,warehouse);
+                    productionPower.addResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard());
+                } catch (DifferentDimensionForProdPower differentDimensionForProdPower) {
+                    differentDimensionForProdPower.printStackTrace();
+                }
+            }
+        } catch (TooManyResourcesRequested tooManyResourcesRequested) {
+            tooManyResourcesRequested.printStackTrace();
+        }
     }
 
     @Override
@@ -264,66 +258,21 @@ public class Game implements GameInterface{
      */
     // TODO: 12/04/2021 da testare
     public void nextPlayer(){
-        while(activePlayers.get(currentPlayer).endTurn()){
-            if(!endGame()){
-                if(currentPlayer==activePlayers.size()-1){
-                    currentPlayer=0;
-                }
+        while(getActivePlayers().get(currentPlayer).endTurn()){
+            if(currentPlayer==getActivePlayers().size()-1){
+                currentPlayer=0;
+            }
                 currentPlayer+=1;
-            }
-           else {
-               if(currentPlayer!=activePlayers.size()-1){
-                   currentPlayer+=1;
-               }
-               else {
-                   winner();
-               }
-            }
         }
     }
-
 
 
     /**
      *  Method endGame called when endTurn in Player is true.
-     *  It controls if the conditions to end the game are satisfied. If it so, it calls the method winner
+     *  It controls if the conditions to end the game are satisfied and indicates the winner
      */
     public boolean endGame(){
-        for (Player activePlayer : activePlayers) {
-            if (activePlayer.getBoard().getFaithMarker() >= 24 ||
-                    activePlayer.getBoard().getNumOfDevCard() == 7) {
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
-
-    /**
-     * Method winner indicates which player has more victory points than other players
-     */
-    public void winner(){
-        ArrayList<Integer> victoryPointsPlayers = new ArrayList<>();
-        int maxVictoryPoints;
-        String winnerUsername;
-        for (int i = 0; i < activePlayers.size(); i++) {
-
-            // TODO: 12/04/2021 vedere se una carta leader è attivata 
-            /*for (int j = 0; j < activePlayers.get(i).getLeaderCards().size(); j++) {
-                activePlayers.get(i).getLeaderCards().get(j).
-            }*/
-            victoryPointsPlayers.add(activePlayers.get(i).getTotalVictoryPoint());
-
-        }
-        maxVictoryPoints = Collections.max(victoryPointsPlayers);
-
-        if(Collections.frequency(victoryPointsPlayers, maxVictoryPoints)==1){
-            winnerUsername = activePlayers.get(victoryPointsPlayers.indexOf(maxVictoryPoints)).getUsername();
-        }
-        else{ //caso di pareggio
-            // TODO: 12/04/2021 aggiungere metodo che prende il numero di risorse totali 
-        }
-    }
-
-
 
 }

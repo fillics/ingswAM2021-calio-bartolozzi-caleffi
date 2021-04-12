@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Board;
 
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Board.FaithTrack.Cell;
 import it.polimi.ingsw.Board.FaithTrack.PopeFavorTile;
 import it.polimi.ingsw.Board.FaithTrack.PopeFavorTileColor;
@@ -10,7 +13,10 @@ import it.polimi.ingsw.Board.Storage.Strongbox;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentSpace;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Board {
     private int NumOfDevCard;
@@ -30,14 +36,32 @@ public class Board {
         NumOfDevCard = 0;
         faithMarker = 0;
         boardVictoryPoint = 0;
+
+
         specialProductionPowers = new ArrayList<>();
-        track = new ArrayList<>();
+        HashMap<ResourceType,Integer> resourceNeeded = new HashMap<>();
+        HashMap<ResourceType,Integer> resourceObtained = new HashMap<>();
+        resourceNeeded.put(ResourceType.JOLLY, 2);
+        resourceObtained.put(ResourceType.JOLLY,1);
+        ProductionPower baseProductionPower = new ProductionPower(resourceNeeded,resourceObtained);
+        specialProductionPowers.add(baseProductionPower);
+
+
+        Gson gson = new Gson();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/json/FaithTrack.json"));
+            track = gson.fromJson(br, new TypeToken<List<Cell>>(){}.getType());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
         strongbox = new Strongbox();
         strongbox.getStrongbox().put(ResourceType.COIN, 0);
         strongbox.getStrongbox().put(ResourceType.STONE, 0);
         strongbox.getStrongbox().put(ResourceType.SERVANT, 0);
         strongbox.getStrongbox().put(ResourceType.SHIELD, 0);
+
 
         deposits = new ArrayList<>();
         Deposit deposit1 = new Deposit(1);
@@ -47,6 +71,7 @@ public class Board {
         deposits.add(deposit2);
         deposits.add(deposit3);
 
+
         vaticanReportSections = new ArrayList<>();
         PopeFavorTile yellowPopeFavorTile = new PopeFavorTile(PopeFavorTileColor.YELLOW, 2);
         PopeFavorTile orangePopeFavorTile = new PopeFavorTile(PopeFavorTileColor.ORANGE, 3);
@@ -54,10 +79,24 @@ public class Board {
         VaticanReportSection vaticanReportSection1 = new VaticanReportSection(yellowPopeFavorTile);
         VaticanReportSection vaticanReportSection2 = new VaticanReportSection(orangePopeFavorTile);
         VaticanReportSection vaticanReportSection3 = new VaticanReportSection(redPopeFavorTile);
+        vaticanReportSection1.getSection().add(track.get(5));
+        vaticanReportSection1.getSection().add(track.get(6));
+        vaticanReportSection1.getSection().add(track.get(7));
+        vaticanReportSection1.getSection().add(track.get(8));
+        vaticanReportSection2.getSection().add(track.get(12));
+        vaticanReportSection2.getSection().add(track.get(13));
+        vaticanReportSection2.getSection().add(track.get(14));
+        vaticanReportSection2.getSection().add(track.get(15));
+        vaticanReportSection2.getSection().add(track.get(16));
+        vaticanReportSection3.getSection().add(track.get(19));
+        vaticanReportSection3.getSection().add(track.get(20));
+        vaticanReportSection3.getSection().add(track.get(21));
+        vaticanReportSection3.getSection().add(track.get(22));
+        vaticanReportSection3.getSection().add(track.get(23));
+        vaticanReportSection3.getSection().add(track.get(24));
         vaticanReportSections.add(vaticanReportSection1);
         vaticanReportSections.add(vaticanReportSection2);
         vaticanReportSections.add(vaticanReportSection3);
-
 
 
         developmentSpaces = new ArrayList<>();
@@ -67,9 +106,7 @@ public class Board {
         developmentSpaces.add(developmentSpace1);
         developmentSpaces.add(developmentSpace2);
         developmentSpaces.add(developmentSpace3);
-
     }
-
     /**
      * Get-methods in order to obtain the attributes' values
      */
@@ -197,5 +234,8 @@ public class Board {
                 total += deposit.getTotalShields();
             }        }
         return total;
+    }
+    public int getTotalResources(){
+        return getTotalCoins() + getTotalStones() + getTotalServants() + getTotalShields();
     }
 }

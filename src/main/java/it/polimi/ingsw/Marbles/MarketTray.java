@@ -37,6 +37,7 @@ public class MarketTray {
                     table[i][j]= market.get(k);
                 }
             }
+            System.out.println(market);
             remainingMarble= market.get(0);
         } catch (IOException e) {
             e.printStackTrace(); //aggiungere frase di errore
