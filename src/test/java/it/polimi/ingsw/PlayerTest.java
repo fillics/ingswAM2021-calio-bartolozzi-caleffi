@@ -59,7 +59,7 @@ class PlayerTest {
 
     @Test
     void checkChooseResourceBeginningGame(){
-        testGame.getActivePlayers().get(2);
+        //testGame.getActivePlayers().get(2);
     }
 
 }

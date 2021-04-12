@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
@@ -60,13 +61,20 @@ public class Game implements GameInterface{
      * Method additionalSetup distributes resources and faith points to the players
      * according to their position's turn
      */
-    public void additionalSetup(){
-        activePlayers.get(1).chooseResourcesBeginningGame(1); //second player receives one resource
-        activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
-        activePlayers.get(2).chooseResourcesBeginningGame(1); //third player receives one resource
-        activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
-        activePlayers.get(3).chooseResourcesBeginningGame(2); //forth player receives two resources
-
+    public void additionalSetup() {
+        if (activePlayers.size() == 2) {
+            activePlayers.get(1).addResourcesBeginningGame(1); //second player receives one resource
+        } else if (activePlayers.size() == 3) {
+            activePlayers.get(1).addResourcesBeginningGame(1); //second player receives one resource
+            activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
+            activePlayers.get(2).addResourcesBeginningGame(1); //third player receives one resource
+        } else if (activePlayers.size() == 4) {
+            activePlayers.get(1).addResourcesBeginningGame(1); //second player receives one resource
+            activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
+            activePlayers.get(2).addResourcesBeginningGame(1); //third player receives one resource
+            activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
+            activePlayers.get(3).addResourcesBeginningGame(2); //forth player receives two resources
+        }
     }
     /**
      * Method createNewPlayer creates a new player in the match.
@@ -258,11 +266,21 @@ public class Game implements GameInterface{
      */
     // TODO: 12/04/2021 da testare
     public void nextPlayer(){
-        while(getActivePlayers().get(currentPlayer).endTurn()){
-            if(currentPlayer==getActivePlayers().size()-1){
-                currentPlayer=0;
-            }
+        while(activePlayers.get(currentPlayer).endTurn()){
+            if(!endGame()){
+                if(currentPlayer==activePlayers.size()-1){
+                    currentPlayer=0;
+                }
                 currentPlayer+=1;
+            }
+            else {
+                if(currentPlayer!=activePlayers.size()-1){
+                    currentPlayer+=1;
+                }
+                else {
+                    winner();
+                }
+            }
         }
     }
 
@@ -272,7 +290,50 @@ public class Game implements GameInterface{
      *  It controls if the conditions to end the game are satisfied and indicates the winner
      */
     public boolean endGame(){
-        return true;
+        for (Player activePlayer : activePlayers) {
+            if (activePlayer.getBoard().getFaithMarker() >= 24 ||
+                    activePlayer.getBoard().getNumOfDevCard() == 7) {
+                return true;
+            }
+        }
+        return false;
     }
+
+    /**
+     * Method winner indicates which player has more victory points than other players
+     */
+    public void winner(){
+        ArrayList<Integer> victoryPointsPlayers = new ArrayList<>();
+        ArrayList<Integer> resourcesPlayers = new ArrayList<>();
+        int maxVictoryPoints;
+        int maxResources;
+        int victoryPointsLeaderandBoard;
+        String winnerUsername;
+
+        for (Player player : activePlayers) {
+            victoryPointsLeaderandBoard = 0;
+            for (int j = 0; j < player.getLeaderCards().size(); j++) {
+                if (player.getLeaderCards().get(j).getStrategy().isActive()) {
+                    victoryPointsLeaderandBoard += player.getLeaderCards().get(j).getVictoryPoint();
+                }
+            }
+            victoryPointsLeaderandBoard += player.getTotalVictoryPoint();
+            victoryPointsPlayers.add(victoryPointsLeaderandBoard);
+        }
+
+        maxVictoryPoints = Collections.max(victoryPointsPlayers);
+
+        if(Collections.frequency(victoryPointsPlayers, maxVictoryPoints)==1){
+            winnerUsername = activePlayers.get(victoryPointsPlayers.indexOf(maxVictoryPoints)).getUsername();
+        }
+        else{ //caso di pareggio
+            for (Player activePlayer : activePlayers) {
+                resourcesPlayers.add(activePlayer.getBoard().getTotalResources());
+            }
+            maxResources = Collections.max(resourcesPlayers);
+            winnerUsername = activePlayers.get(resourcesPlayers.indexOf(maxResources)).getUsername();
+        }
+    }
+
 
 }

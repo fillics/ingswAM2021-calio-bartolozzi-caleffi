@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Board.Resources.Resource;
+import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
@@ -124,9 +126,9 @@ class GameTest {
     @Test
     void checkAdditionalSetup(){
         testGame.additionalSetup();
-        testGame.getActivePlayers().get(1).setChoice(2);
-        testGame.getActivePlayers().get(2).setChoice(1);
-        testGame.getActivePlayers().get(3).setChoice(3);
+        testGame.getActivePlayers().get(1).setChosenResource(new Resource(ResourceType.COIN));
+        testGame.getActivePlayers().get(2).setChosenResource(new Resource(ResourceType.STONE));
+        testGame.getActivePlayers().get(3).setChosenResource(new Resource(ResourceType.SERVANT));
         assertEquals(1, testGame.getActivePlayers().get(2).getBoard().getFaithMarker());
         assertEquals(1, testGame.getActivePlayers().get(1).getResourceBuffer().size());
         assertEquals(1, testGame.getActivePlayers().get(3).getBoard().getFaithMarker());
