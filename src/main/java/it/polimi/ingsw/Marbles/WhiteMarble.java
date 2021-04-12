@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Marbles;
 
 import it.polimi.ingsw.Board.Resources.Resource;
-import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
+import it.polimi.ingsw.Cards.LeaderCards.ConcreteStrategyMarble;
 import it.polimi.ingsw.Player;
 
 /**
@@ -9,15 +9,25 @@ import it.polimi.ingsw.Player;
  */
 
 public class WhiteMarble extends Marble{
+
     /**
      * Override method transform is used to do nothing when the marble is white,
      * unless a marble ability of leader cards is activated.
      */
-
-    // TODO: 09/04/2021 come gestire la leader card ability
     @Override
     public void transform(Player player){
         System.out.println("I'm nothing");
-
+        int i;
+        for(i=0; i<player.getLeaderCards().size();i++){
+            if((player.getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyMarble)&&((player.getLeaderCards().get(i).getStrategy()).isActive())){
+                //System.out.println("Do you want to use"+((ConcreteStrategyMarble) player.getLeaderCards().get(i).getStrategy()).getResourceType() + "LeaderCard ability?");
+                if(player.getLeaderCards().get(i).getUseAbilityChoice().equals("Yes")){
+                    Resource newResource= new Resource(((ConcreteStrategyMarble) player.getLeaderCards().get(i).getStrategy()).getResourceType());
+                    player.getResourceBuffer().add(newResource);
+                    System.out.println("But now I've been transformed into "+ ((ConcreteStrategyMarble) player.getLeaderCards().get(i).getStrategy()).getResourceType());
+                    break;
+                }
+            }
+        }
     }
 }

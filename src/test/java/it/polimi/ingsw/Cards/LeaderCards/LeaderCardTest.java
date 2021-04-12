@@ -19,20 +19,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LeaderCardTest {
     LeaderCard testLeaderCardProdPower;
     LeaderCard testLeaderCardDeposit;
+    LeaderCard testLeaderCardWhiteMarble;
     LeaderCardStrategy testStrategyProdPower;
     LeaderCardStrategy testStrategyDeposit;
+    LeaderCardStrategy testStrategyWhiteMarble;
     HashMap<ResourceType,Integer> resourceNeeded;
     Board board;
-    LeaderCardType typeProdPower;
-    LeaderCardType typeDeposit;
     Requirement requirementsProdPower;
     Requirement requirementsDeposit;
-    ResourceType resourceType;
+    Requirement requirementsWhiteMarble;
     HashMap<CardColor,Integer> color;
+    HashMap<CardColor,Integer> colorWhiteMarble;
     HashMap<ResourceType,Integer> resourcePrice;
-    Level level;
-    int victoryPointProdPower;
-    int victoryPointDeposit;
 
     /*
      * Method setup setups tests.
@@ -41,23 +39,23 @@ public class LeaderCardTest {
     void setup(){
         color= new HashMap<>();
         color.put(CardColor.YELLOW,1);
-        level= Level.TWO;
-        requirementsProdPower = new Requirement(color,level,null);
-        resourceType= ResourceType.SHIELD;
-        typeProdPower = LeaderCardType.PRODUCTION_POWER;
-        typeDeposit = LeaderCardType.EXTRA_DEPOSIT;
+        colorWhiteMarble= new HashMap<>();
+        colorWhiteMarble.put(CardColor.GREEN,2);
+        colorWhiteMarble.put(CardColor.PURPLE,1);
+        requirementsProdPower = new Requirement(color,Level.TWO,null);
+        requirementsWhiteMarble= new Requirement(colorWhiteMarble,null,null);
         resourceNeeded= new HashMap<>();
         resourceNeeded.put(ResourceType.SHIELD,1);
         resourcePrice= new HashMap<>();
         resourcePrice.put(ResourceType.SERVANT,5);
         requirementsDeposit = new Requirement(null,null,resourcePrice);
         board= new Board();
-        victoryPointProdPower = 4;
-        victoryPointDeposit = 3;
         testStrategyProdPower = new ConcreteStrategyProductionPower(resourceNeeded,board);
-        testStrategyDeposit = new ConcreteStrategyDeposit(resourceType,board);
-        testLeaderCardProdPower = new LeaderCard(typeProdPower, requirementsProdPower,resourceType, victoryPointProdPower);
-        testLeaderCardDeposit = new LeaderCard(typeDeposit, requirementsDeposit,resourceType, victoryPointDeposit);
+        testStrategyDeposit = new ConcreteStrategyDeposit(ResourceType.SHIELD,board);
+        testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
+        testLeaderCardProdPower = new LeaderCard(LeaderCardType.PRODUCTION_POWER, requirementsProdPower,ResourceType.SHIELD, 4);
+        testLeaderCardDeposit = new LeaderCard(LeaderCardType.EXTRA_DEPOSIT, requirementsDeposit,ResourceType.SHIELD, 3);
+        testLeaderCardWhiteMarble= new LeaderCard(LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5);
     }
 
     /** Method VictoryPointGetterTest tests LeaderCard method getter. */
@@ -81,10 +79,16 @@ public class LeaderCardTest {
         testLeaderCardProdPower.setStrategy(testStrategyProdPower);
         testLeaderCardProdPower.useAbility();
         testLeaderCardProdPower.useAbility();
-        assertEquals(board.getSpecialProductionPowers().size(),1);
+        assertEquals(board.getSpecialProductionPowers().size(),2);
+
         testLeaderCardDeposit.setStrategy(testStrategyDeposit);
         testLeaderCardDeposit.useAbility();
         testLeaderCardDeposit.useAbility();
         assertEquals(board.getDeposits().size(),4);
+
+        testLeaderCardWhiteMarble.setStrategy(testStrategyWhiteMarble);
+        testLeaderCardWhiteMarble.useAbility();
+        assertTrue(testStrategyWhiteMarble.isActive());
+        testLeaderCardWhiteMarble.useAbility();
     }
 }

@@ -46,6 +46,7 @@ public class Player {
         return resourceBuffer;
     }
 
+
     public Board getBoard() {
         return board;
     }

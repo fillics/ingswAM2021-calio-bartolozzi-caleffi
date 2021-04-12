@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public interface GameInterface {
     void setup() throws IOException;
-    void buyDevCard(DevelopmentCard developmentCard, DevelopmentSpace developmentSpace);
+    void buyDevCard(DevelopmentCard developmentCard);
     void moveResource();
     void takeAndPlaceResource();
     void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse);

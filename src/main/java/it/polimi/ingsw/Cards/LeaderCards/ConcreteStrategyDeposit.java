@@ -13,6 +13,10 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
     private Board board;
     private boolean active;
 
+    public boolean isActive() {
+        return active;
+    }
+
     /**
      * Constructor ConcreteStrategyDeposit creates a new ConcreteStrategyDeposit instance.
      */

@@ -211,18 +211,15 @@ public class Game implements GameInterface{
     }
     
     @Override
-    public void buyDevCard(DevelopmentCard developmentCard, DevelopmentSpace developmentSpace) {
-
+    public void buyDevCard(DevelopmentCard developmentCard){
+        //CONTROLLO RISORSE SUFFICIENTI
     }
 
     @Override
     public void moveResource() {
-
     }
 
-    @Override
-    public void takeAndPlaceResource() {
-
+    public void takeAndPlaceResource(){
     }
 
     @Override
@@ -277,8 +274,5 @@ public class Game implements GameInterface{
     public boolean endGame(){
         return true;
     }
-
-
-
 
 }

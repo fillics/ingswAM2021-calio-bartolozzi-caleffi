@@ -27,6 +27,10 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
         active=false;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
     @Override
     public void ability(){
         if(!active){

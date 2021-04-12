@@ -12,4 +12,6 @@ public interface LeaderCardStrategy {
      * Method ability() is used by ConcreteStrategy classes to activate the ability of the leader card
      */
     void ability();
+
+    boolean isActive();
 }
