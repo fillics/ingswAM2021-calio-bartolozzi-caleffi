@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Board.FaithTrack;
 
+
 public class Cell {
     private int victoryPoint;
     private boolean popeSpace;

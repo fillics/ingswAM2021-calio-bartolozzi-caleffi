@@ -2,9 +2,13 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
+import it.polimi.ingsw.Exceptions.DifferentDimensionForProdPower;
 import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
+import it.polimi.ingsw.Exceptions.TooManyResourcesRequested;
 import it.polimi.ingsw.Marbles.MarketTray;
 
 import java.io.*;
@@ -222,8 +226,19 @@ public class Game implements GameInterface{
     }
 
     @Override
-    public void useAndChooseProdPower(ArrayList<ProductionPower> productionPowers) {
-
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) {
+        try {
+            if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
+                try {
+                    productionPower.removeResources(resources,warehouse);
+                    productionPower.addResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard());
+                } catch (DifferentDimensionForProdPower differentDimensionForProdPower) {
+                    differentDimensionForProdPower.printStackTrace();
+                }
+            }
+        } catch (TooManyResourcesRequested tooManyResourcesRequested) {
+            tooManyResourcesRequested.printStackTrace();
+        }
     }
 
     @Override
