@@ -26,6 +26,20 @@ public class ProductionPower {
     public ProductionPower(HashMap<ResourceType, Integer> resourcesNeeded, HashMap<ResourceType, Integer> resourceObtained) {
         this.resourcesNeeded = resourcesNeeded;
         this.resourcesObtained= resourceObtained;
+        if(!resourcesNeeded.containsKey(ResourceType.COIN)){
+            resourcesNeeded.put(ResourceType.COIN,0);
+        }
+        if(!resourcesNeeded.containsKey(ResourceType.STONE)){
+            resourcesNeeded.put(ResourceType.STONE,0);
+
+        }
+        if(!resourcesNeeded.containsKey(ResourceType.SERVANT)){
+            resourcesNeeded.put(ResourceType.SERVANT,0);
+
+        }
+        if(!resourcesNeeded.containsKey(ResourceType.SHIELD)){
+            resourcesNeeded.put(ResourceType.SHIELD,0);
+        }
     }
 
     /**
@@ -52,14 +66,14 @@ public class ProductionPower {
         if(counter.get(ResourceType.COIN) <= board.getTotalCoins() && counter.get(ResourceType.STONE) <= board.getTotalStones() && counter.get(ResourceType.SERVANT) <= board.getTotalServants() && counter.get(ResourceType.SHIELD) <= board.getTotalShields()){
             for (ResourceType key : counter.keySet()) {
                 counter.replace(key,counter.get(key)-resourcesNeeded.get(key));
-                if(counter.get(key)<0){
-                    jollycounter += (-counter.get(key));
+                if(counter.get(key)>0){
+                    jollycounter += counter.get(key);
                 }
             }
             if(resourcesNeeded.containsKey(ResourceType.JOLLY)){
                 jollycounter -= resourcesNeeded.get(ResourceType.JOLLY);
             }
-            return counter.get(ResourceType.COIN) >= 0 && counter.get(ResourceType.STONE) >= 0 && counter.get(ResourceType.SERVANT) >= 0 && counter.get(ResourceType.SHIELD) >= 0;
+            return counter.get(ResourceType.COIN) >= 0 && counter.get(ResourceType.STONE) >= 0 && counter.get(ResourceType.SERVANT) >= 0 && counter.get(ResourceType.SHIELD) >= 0 && jollycounter >= 0;
         }
         else{
             throw new TooManyResourcesRequested();

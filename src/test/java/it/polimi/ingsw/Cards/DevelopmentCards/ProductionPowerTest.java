@@ -34,7 +34,7 @@ public class ProductionPowerTest {
         testResourcesNeeded = new HashMap<>();
         testResourcesObtained = new HashMap<>();
 
-        testResourcesNeeded.put(ResourceType.COIN,3);
+        testResourcesNeeded.put(ResourceType.COIN,1);
         testResourcesNeeded.put(ResourceType.STONE,1);
         testResourcesNeeded.put(ResourceType.SERVANT,1);
         testResourcesNeeded.put(ResourceType.SHIELD,1);
@@ -82,17 +82,13 @@ public class ProductionPowerTest {
         ArrayList<ResourceType> testresources= new ArrayList<>();
         ArrayList<Warehouse> testwarehouse= new ArrayList<>();
         testresources.add(ResourceType.COIN);
-        testresources.add(ResourceType.COIN);
+        testresources.add(ResourceType.STONE);
         testresources.add(ResourceType.SERVANT);
         testresources.add(ResourceType.SHIELD);
-        testresources.add(ResourceType.STONE);
-        testresources.add(ResourceType.COIN);
         testwarehouse.add(testBoard.getDeposits().get(0));
         testwarehouse.add(testBoard.getStrongbox());
-        testwarehouse.add(testBoard.getDeposits().get(1));
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
-        testwarehouse.add(testBoard.getDeposits().get(2));
         try {
             assertTrue(testProductionPower.check(testresources,testwarehouse,testBoard));
         } catch (TooManyResourcesRequested tooManyResourcesRequested) {
@@ -105,18 +101,67 @@ public class ProductionPowerTest {
     void checkTest2(){
         ArrayList<ResourceType> testresources= new ArrayList<>();
         ArrayList<Warehouse> testwarehouse= new ArrayList<>();
-        //testresources.add(ResourceType.COIN);
         testresources.add(ResourceType.COIN);
-        testresources.add(ResourceType.SERVANT);
-        testresources.add(ResourceType.SHIELD);
         testresources.add(ResourceType.STONE);
-        testresources.add(ResourceType.COIN);
+        testresources.add(ResourceType.SERVANT);
         testwarehouse.add(testBoard.getDeposits().get(0));
         testwarehouse.add(testBoard.getStrongbox());
-        testwarehouse.add(testBoard.getDeposits().get(1));
+        testwarehouse.add(testBoard.getStrongbox());
+        try {
+            assertFalse(testProductionPower.check(testresources,testwarehouse,testBoard));
+        } catch (TooManyResourcesRequested tooManyResourcesRequested) {
+            tooManyResourcesRequested.printStackTrace();
+        }
+    }
+    @Test
+    @DisplayName("checkTest3 to verify that the arraylist of resources must contains almost the same number of resources of resourceNeeded with jolly resources")
+    void checkTest3(){
+        ArrayList<ResourceType> testresources= new ArrayList<>();
+        ArrayList<Warehouse> testwarehouse= new ArrayList<>();
+        testResourcesNeeded.put(ResourceType.JOLLY, 3);
+        testresources.add(ResourceType.COIN);
+        testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.SERVANT);
+        testresources.add(ResourceType.SERVANT);
+        testresources.add(ResourceType.SHIELD);
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
-        testwarehouse.add(testBoard.getDeposits().get(2));
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+
+        try {
+            assertTrue(testProductionPower.check(testresources,testwarehouse,testBoard));
+        } catch (TooManyResourcesRequested tooManyResourcesRequested) {
+            tooManyResourcesRequested.printStackTrace();
+        }
+    }
+
+    @Test
+    @DisplayName("checkTest3 to verify that the arraylist of resources must contains almost the same number of resources of resourceNeeded with jolly resources")
+    void checkTest4(){
+        ArrayList<ResourceType> testresources= new ArrayList<>();
+        ArrayList<Warehouse> testwarehouse= new ArrayList<>();
+        testResourcesNeeded.put(ResourceType.JOLLY, 3);
+        testresources.add(ResourceType.COIN);
+        testresources.add(ResourceType.STONE);
+        //testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.SERVANT);
+        testresources.add(ResourceType.SERVANT);
+        testresources.add(ResourceType.SHIELD);
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        //testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+
         try {
             assertFalse(testProductionPower.check(testresources,testwarehouse,testBoard));
         } catch (TooManyResourcesRequested tooManyResourcesRequested) {
