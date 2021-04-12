@@ -43,6 +43,16 @@ class GameTest {
     }
 
     /**
+     * Method test checkPlayersPosition checks the correct turn's position of the active players
+     */
+    @Test
+    void checkPlayersPosition(){
+        assertEquals(1, testGame.getActivePlayers().get(0).getPosition());
+        assertEquals(2, testGame.getActivePlayers().get(1).getPosition());
+        assertEquals(3, testGame.getActivePlayers().get(2).getPosition());
+    }
+
+    /**
      * Test method checkSizeDevelopmentGrid checks if the method createDevelopmentGrid creates
      * the grid with the correct dimension
      */
@@ -108,13 +118,5 @@ class GameTest {
 
     }
 
-    /**
-     * Method test checkPlayersPosition checks the correct turn's position of the active players
-     */
-    @Test
-    void checkPlayersPosition(){
-        assertEquals(1, testGame.getActivePlayers().get(0).getPosition());
-        assertEquals(2, testGame.getActivePlayers().get(1).getPosition());
-        assertEquals(3, testGame.getActivePlayers().get(2).getPosition());
-    }
+
 }

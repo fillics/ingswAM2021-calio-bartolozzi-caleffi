@@ -26,7 +26,7 @@ public class Game implements GameInterface{
     private ArrayList<LeaderCard> leaderDeck;
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
     private MarketTray market;
-    private int currentPlayer = 0;
+    private int currentPlayer;
     final int NUM_MAXPLAYERS = 4;
 
 
@@ -39,6 +39,7 @@ public class Game implements GameInterface{
         leaderDeck = new ArrayList<>();
         developmentGrid = new ArrayList<>();
         market = new MarketTray();
+        currentPlayer = 0;
 
     }
 
@@ -105,6 +106,12 @@ public class Game implements GameInterface{
         return leaderDeck;
     }
 
+    /**
+     * Method getCurrent returns the player who is playing during the turn
+     */
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     /**
      * Method createDevelopmentDeck creates and shuffles the Development Cards' Deck using the JSON file
@@ -246,23 +253,65 @@ public class Game implements GameInterface{
      */
     // TODO: 12/04/2021 da testare
     public void nextPlayer(){
-        while(getActivePlayers().get(currentPlayer).endTurn()){
-            if(currentPlayer==getActivePlayers().size()-1){
-                currentPlayer=0;
-            }
+        while(activePlayers.get(currentPlayer).endTurn()){
+            if(!endGame()){
+                if(currentPlayer==activePlayers.size()-1){
+                    currentPlayer=0;
+                }
                 currentPlayer+=1;
+            }
+           else {
+               if(currentPlayer!=activePlayers.size()-1){
+                   currentPlayer+=1;
+               }
+               else {
+                   winner();
+               }
+            }
         }
     }
 
 
+
     /**
      *  Method endGame called when endTurn in Player is true.
-     *  It controls if the conditions to end the game are satisfied and indicates the winner
+     *  It controls if the conditions to end the game are satisfied. If it so, it calls the method winner
      */
     public boolean endGame(){
-        return true;
+        for (Player activePlayer : activePlayers) {
+            if (activePlayer.getBoard().getFaithMarker() >= 24 ||
+                    activePlayer.getBoard().getNumOfDevCard() == 7) {
+                return true;
+            }
+        }
+        return false;
     }
 
+    /**
+     * Method winner indicates which player has more victory points than other players
+     */
+    public void winner(){
+        ArrayList<Integer> victoryPointsPlayers = new ArrayList<>();
+        int maxVictoryPoints;
+        String winnerUsername;
+        for (int i = 0; i < activePlayers.size(); i++) {
+
+            // TODO: 12/04/2021 vedere se una carta leader è attivata 
+            /*for (int j = 0; j < activePlayers.get(i).getLeaderCards().size(); j++) {
+                activePlayers.get(i).getLeaderCards().get(j).
+            }*/
+            victoryPointsPlayers.add(activePlayers.get(i).getTotalVictoryPoint());
+
+        }
+        maxVictoryPoints = Collections.max(victoryPointsPlayers);
+
+        if(Collections.frequency(victoryPointsPlayers, maxVictoryPoints)==1){
+            winnerUsername = activePlayers.get(victoryPointsPlayers.indexOf(maxVictoryPoints)).getUsername();
+        }
+        else{ //caso di pareggio
+            // TODO: 12/04/2021 aggiungere metodo che prende il numero di risorse totali 
+        }
+    }
 
 
 

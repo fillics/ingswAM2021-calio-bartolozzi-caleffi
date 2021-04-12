@@ -56,4 +56,10 @@ class PlayerTest {
         testGame.getActivePlayers().get(0).getBoard().increaseFaithMarker();
         assertEquals(1, testGame.getActivePlayers().get(0).getBoard().getFaithMarker());
     }
+
+    @Test
+    void checkChooseResourceBeginningGame(){
+        testGame.getActivePlayers().get(2);
+    }
+
 }
