@@ -3,6 +3,7 @@ package it.polimi.ingsw.Cards.DevelopmentCards;
 import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
+import it.polimi.ingsw.Exceptions.DifferentDimensionForProdPower;
 import it.polimi.ingsw.Exceptions.TooManyResourcesRequested;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,8 +36,8 @@ public class ProductionPowerTest {
         testResourcesObtained = new HashMap<>();
 
         testResourcesNeeded.put(ResourceType.COIN,1);
-        testResourcesNeeded.put(ResourceType.STONE,1);
-        testResourcesNeeded.put(ResourceType.SERVANT,1);
+        testResourcesNeeded.put(ResourceType.STONE,3);
+        testResourcesNeeded.put(ResourceType.SERVANT,2);
         testResourcesNeeded.put(ResourceType.SHIELD,1);
 
         testResourcesObtained.put(ResourceType.COIN,1);
@@ -83,9 +84,15 @@ public class ProductionPowerTest {
         ArrayList<Warehouse> testwarehouse= new ArrayList<>();
         testresources.add(ResourceType.COIN);
         testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.SERVANT);
         testresources.add(ResourceType.SERVANT);
         testresources.add(ResourceType.SHIELD);
         testwarehouse.add(testBoard.getDeposits().get(0));
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
@@ -103,7 +110,10 @@ public class ProductionPowerTest {
         ArrayList<Warehouse> testwarehouse= new ArrayList<>();
         testresources.add(ResourceType.COIN);
         testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.STONE);
+       testresources.add(ResourceType.SERVANT);
         testresources.add(ResourceType.SERVANT);
+        testresources.add(ResourceType.SHIELD);
         testwarehouse.add(testBoard.getDeposits().get(0));
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
@@ -120,11 +130,14 @@ public class ProductionPowerTest {
         ArrayList<Warehouse> testwarehouse= new ArrayList<>();
         testResourcesNeeded.put(ResourceType.JOLLY, 3);
         testresources.add(ResourceType.COIN);
+        testresources.add(ResourceType.COIN);
+        testresources.add(ResourceType.COIN);
         testresources.add(ResourceType.STONE);
         testresources.add(ResourceType.STONE);
         testresources.add(ResourceType.STONE);
         testresources.add(ResourceType.SERVANT);
         testresources.add(ResourceType.SERVANT);
+        testresources.add(ResourceType.SHIELD);
         testresources.add(ResourceType.SHIELD);
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
@@ -133,7 +146,9 @@ public class ProductionPowerTest {
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
-
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
         try {
             assertTrue(testProductionPower.check(testresources,testwarehouse,testBoard));
         } catch (TooManyResourcesRequested tooManyResourcesRequested) {
@@ -142,21 +157,19 @@ public class ProductionPowerTest {
     }
 
     @Test
-    @DisplayName("checkTest3 to verify that the arraylist of resources must contains almost the same number of resources of resourceNeeded with jolly resources")
+    @DisplayName("checkTest4 to verify that the arraylist of resources must contains almost the same number of resources of resourceNeeded with jolly resources")
     void checkTest4(){
         ArrayList<ResourceType> testresources= new ArrayList<>();
         ArrayList<Warehouse> testwarehouse= new ArrayList<>();
         testResourcesNeeded.put(ResourceType.JOLLY, 3);
         testresources.add(ResourceType.COIN);
         testresources.add(ResourceType.STONE);
-        //testresources.add(ResourceType.STONE);
         testresources.add(ResourceType.STONE);
         testresources.add(ResourceType.SERVANT);
         testresources.add(ResourceType.SERVANT);
         testresources.add(ResourceType.SHIELD);
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
-        //testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
@@ -167,5 +180,72 @@ public class ProductionPowerTest {
         } catch (TooManyResourcesRequested tooManyResourcesRequested) {
             tooManyResourcesRequested.printStackTrace();
         }
+    }
+
+    @Test
+    @DisplayName("removeResourcesTest1 to verify that the resources must be removed from from the deposits and strongbox")
+    void removeResourcesTest1(){
+        ArrayList<ResourceType> testresources= new ArrayList<>();
+        ArrayList<Warehouse> testwarehouse= new ArrayList<>();
+        testresources.add(ResourceType.COIN);
+        testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.SERVANT);
+        testresources.add(ResourceType.SERVANT);
+        testresources.add(ResourceType.SHIELD);
+        testwarehouse.add(testBoard.getDeposits().get(0));
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getStrongbox());
+        testwarehouse.add(testBoard.getDeposits().get(1));
+        testwarehouse.add(testBoard.getStrongbox());
+        try {
+            testProductionPower.removeResources(testresources,testwarehouse);
+        } catch (DifferentDimensionForProdPower differentDimensionForProdPower) {
+            differentDimensionForProdPower.printStackTrace();
+        }
+        assertEquals(10, testBoard.getStrongbox().getTotalCoins());
+        assertEquals(7, testBoard.getStrongbox().getTotalStones());
+        assertEquals(9, testBoard.getStrongbox().getTotalServants());
+        assertEquals(9, testBoard.getStrongbox().getTotalShields());
+        assertEquals(0,testBoard.getDeposits().get(0).getQuantity());
+        assertEquals(1,testBoard.getDeposits().get(1).getQuantity());
+        assertEquals(3,testBoard.getDeposits().get(2).getQuantity());
+    }
+
+
+    @Test
+    @DisplayName("addResourcesTest1 to verify that the resources obtained from the prod power are inserted in the strongbox, test case without jolly resources")
+    void addResourcesTest1(){
+        testProductionPower.addResources(testBoard);
+
+        assertEquals(11, testBoard.getStrongbox().getTotalCoins());
+        assertEquals(11, testBoard.getStrongbox().getTotalStones());
+        assertEquals(11, testBoard.getStrongbox().getTotalServants());
+        assertEquals(11, testBoard.getStrongbox().getTotalShields());
+        assertEquals(1, testBoard.getFaithMarker());
+    }
+
+    @Test
+    @DisplayName("addResourcesTest2 to verify that the resources obtained from the prod power are inserted in the strongbox, test case with jolly resources")
+    void addResourcesTest2(){
+        testProductionPower.getResourcesObtained().put(ResourceType.JOLLY,4);
+        ArrayList<ResourceType> testresources= new ArrayList<>();
+        testresources.add(ResourceType.COIN);
+        testresources.add(ResourceType.STONE);
+        testresources.add(ResourceType.SERVANT);
+        testresources.add(ResourceType.SHIELD);
+        try {
+            testProductionPower.addResources(testBoard,testresources);
+        } catch (DifferentDimensionForProdPower differentDimensionForProdPower) {
+            differentDimensionForProdPower.printStackTrace();
+        }
+        assertEquals(12, testBoard.getStrongbox().getTotalCoins());
+        assertEquals(12, testBoard.getStrongbox().getTotalStones());
+        assertEquals(12, testBoard.getStrongbox().getTotalServants());
+        assertEquals(12, testBoard.getStrongbox().getTotalShields());
+        assertEquals(1, testBoard.getFaithMarker());
     }
 }

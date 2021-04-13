@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentSpace;
@@ -17,9 +18,11 @@ import java.util.ArrayList;
 public interface GameInterface {
     void setup() throws IOException;
     void buyDevCard(DevelopmentCard developmentCard, DevelopmentSpace developmentSpace);
-    void moveResource();
-    void takeAndPlaceResource();
+    void moveResource(int position);
+    void takeResourcesFromMarket(String line, int numline);
+    void placeResource(int depositPosition, int resourcePosition);
     void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse);
+    void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources);
     void activateLeaderCard();
     void discardLeaderCard();
     void chooseLeaderCard();

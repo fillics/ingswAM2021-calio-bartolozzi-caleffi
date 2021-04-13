@@ -2,6 +2,8 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
+import it.polimi.ingsw.Board.Resources.ResourceActionStrategy;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
@@ -216,13 +218,20 @@ public class Game implements GameInterface{
     }
 
     @Override
-    public void moveResource() {
-
+    public void moveResource(int position) {
+        activePlayers.get(currentPlayer).fillBuffer(position);
     }
 
     @Override
-    public void takeAndPlaceResource() {
+    public void takeResourcesFromMarket(String line, int numline) {
+        market.lineSelection(line, numline, activePlayers.get(currentPlayer));
+    }
 
+    @Override
+    public void placeResource(int depositPosition, int resourcePosition) {
+        ResourceActionStrategy strategy = new ConcreteStrategyResource(depositPosition, activePlayers.get(currentPlayer).getBoard(), activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).getType());
+        activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).setStrategy(strategy);
+        activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).useResource();
     }
 
     @Override
@@ -231,7 +240,23 @@ public class Game implements GameInterface{
             if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
                 try {
                     productionPower.removeResources(resources,warehouse);
-                    productionPower.addResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard());
+                    productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
+                } catch (DifferentDimensionForProdPower differentDimensionForProdPower) {
+                    differentDimensionForProdPower.printStackTrace();
+                }
+            }
+        } catch (TooManyResourcesRequested tooManyResourcesRequested) {
+            tooManyResourcesRequested.printStackTrace();
+        }
+    }
+
+    @Override
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) {
+        try {
+            if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
+                try {
+                    productionPower.removeResources(resources,warehouse);
+                    productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
                 } catch (DifferentDimensionForProdPower differentDimensionForProdPower) {
                     differentDimensionForProdPower.printStackTrace();
                 }

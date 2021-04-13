@@ -73,7 +73,7 @@ public class ProductionPower {
             if(resourcesNeeded.containsKey(ResourceType.JOLLY)){
                 jollycounter -= resourcesNeeded.get(ResourceType.JOLLY);
             }
-            return counter.get(ResourceType.COIN) >= 0 && counter.get(ResourceType.STONE) >= 0 && counter.get(ResourceType.SERVANT) >= 0 && counter.get(ResourceType.SHIELD) >= 0 && jollycounter >= 0;
+            return counter.get(ResourceType.COIN) >= 0 && counter.get(ResourceType.STONE) >= 0 && counter.get(ResourceType.SERVANT) >= 0 && counter.get(ResourceType.SHIELD) >= 0 && jollycounter == 0;
         }
         else{
             throw new TooManyResourcesRequested();
@@ -94,16 +94,7 @@ public class ProductionPower {
         }
     }
 
-    public void addResources(ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, Board board) throws DifferentDimensionForProdPower{
-        if(resources.size() != warehouse.size()){
-            throw new DifferentDimensionForProdPower();
-        }
-        else {
-            HashMap<ResourceType,Integer> counter = new HashMap<>();
-            counter.put(ResourceType.COIN,Collections.frequency(resources,ResourceType.COIN));
-            counter.put(ResourceType.STONE,Collections.frequency(resources,ResourceType.STONE));
-            counter.put(ResourceType.SERVANT,Collections.frequency(resources,ResourceType.SERVANT));
-            counter.put(ResourceType.SHIELD,Collections.frequency(resources,ResourceType.SHIELD));
+    public void addResources(Board board) {
             for(ResourceType key : resourcesObtained.keySet()){
                 if(key == ResourceType.FAITHMARKER){
                     for (int i = 0; i< resourcesObtained.get(key); i++){
@@ -112,6 +103,29 @@ public class ProductionPower {
                 }
                 else {
                     board.getStrongbox().getStrongbox().replace(key,board.getStrongbox().getStrongbox().get(key) + resourcesObtained.get(key));
+                }
+            }
+    }
+    public void addResources(Board board, ArrayList<ResourceType> newResources)throws DifferentDimensionForProdPower{
+        if(newResources.size() != resourcesObtained.get(ResourceType.JOLLY)){
+            throw new DifferentDimensionForProdPower();
+        }
+        else{
+            for(ResourceType key : resourcesObtained.keySet()){
+                if(key == ResourceType.FAITHMARKER){
+                    for (int i = 0; i< resourcesObtained.get(key); i++){
+                        board.increaseFaithMarker();
+                    }
+                }
+                else {
+                    if(key != ResourceType.JOLLY){
+                        board.getStrongbox().getStrongbox().replace(key,board.getStrongbox().getStrongbox().get(key) + resourcesObtained.get(key));
+                    }
+                    else {
+                        for(ResourceType resourceType : newResources){
+                            board.getStrongbox().getStrongbox().replace(resourceType, board.getStrongbox().getStrongbox().get(resourceType) + 1);
+                        }
+                    }
                 }
             }
         }
