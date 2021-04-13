@@ -3,7 +3,10 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
+import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
+import it.polimi.ingsw.Cards.DevelopmentCards.Level;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
+import it.polimi.ingsw.Exceptions.DevelopmentCardNotFound;
 import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +36,6 @@ class GameTest {
         testGame.createNewPlayer("bea");
         testGame.createNewPlayer("gio");
         testGame.createNewPlayer("jack");
-
     }
 
     /**
@@ -55,6 +57,23 @@ class GameTest {
         assertEquals(2, testGame.getActivePlayers().get(1).getPosition());
         assertEquals(3, testGame.getActivePlayers().get(2).getPosition());
         assertEquals(4, testGame.getActivePlayers().get(3).getPosition());
+    }
+
+    /**
+     * Test method checkAdditionalSetup checks if the distribution of resources and faith points to the players
+     * at the beginning of the game is correct
+     */
+    @Test
+    void checkAdditionalSetup(){
+        testGame.additionalSetup();
+        testGame.getActivePlayers().get(1).setChosenResource(1);
+        testGame.getActivePlayers().get(2).setChosenResource(2);
+        testGame.getActivePlayers().get(3).setChosenResource(3);
+        assertEquals(1, testGame.getActivePlayers().get(2).getBoard().getFaithMarker());
+        assertEquals(1, testGame.getActivePlayers().get(1).getResourceBuffer().size());
+        assertEquals(1, testGame.getActivePlayers().get(3).getBoard().getFaithMarker());
+        assertEquals(1, testGame.getActivePlayers().get(2).getResourceBuffer().size());
+        assertEquals(2, testGame.getActivePlayers().get(3).getResourceBuffer().size());
     }
 
     /**
@@ -116,24 +135,34 @@ class GameTest {
         }
     }
 
-    // TODO: 09/04/2021 da fare
+    /**
+     * Test method checkChooseCardFromDevDeck checks if the Game's method chooseCardFromDevelopmentGrid returns
+     * the selected card
+     */
     @Test
-    void checkRemoveFromDevDeck(){
+    void checkChooseCardFromDevDeck(){
         testGame.setup();
-
+        assertEquals(CardColor.BLUE,testGame.chooseCardFromDevelopmentGrid(CardColor.BLUE, Level.ONE).getColor());
+        assertEquals(Level.ONE,testGame.chooseCardFromDevelopmentGrid(CardColor.BLUE, Level.ONE).getLevel());
     }
 
+    /**
+     * Test method checkRemoveDevCard checks if the removal of the development card from the grid works
+     */
     @Test
-    void checkAdditionalSetup(){
-        testGame.additionalSetup();
-        testGame.getActivePlayers().get(1).setChosenResource(new Resource(ResourceType.COIN));
-        testGame.getActivePlayers().get(2).setChosenResource(new Resource(ResourceType.STONE));
-        testGame.getActivePlayers().get(3).setChosenResource(new Resource(ResourceType.SERVANT));
-        assertEquals(1, testGame.getActivePlayers().get(2).getBoard().getFaithMarker());
-        assertEquals(1, testGame.getActivePlayers().get(1).getResourceBuffer().size());
-        assertEquals(1, testGame.getActivePlayers().get(3).getBoard().getFaithMarker());
-        assertEquals(1, testGame.getActivePlayers().get(2).getResourceBuffer().size());
-        assertEquals(2, testGame.getActivePlayers().get(3).getResourceBuffer().size());
+    void checkRemoveDevCard() throws DevelopmentCardNotFound {
+        testGame.setup();
+        DevelopmentCard cardToRemove = testGame.chooseCardFromDevelopmentGrid(CardColor.BLUE, Level.ONE);
+        testGame.removeCardFromDevelopmentGrid(cardToRemove);
+        assertEquals(3, testGame.getDevelopmentGrid().get(3).size());
+        testGame.removeCardFromDevelopmentGrid(cardToRemove);
+        assertEquals(2, testGame.getDevelopmentGrid().get(3).size());
+        testGame.removeCardFromDevelopmentGrid(cardToRemove);
+        testGame.removeCardFromDevelopmentGrid(cardToRemove);
+        assertEquals(0, testGame.getDevelopmentGrid().get(3).size());
+        assertEquals(4, testGame.getDevelopmentGrid().get(7).size());
     }
+
+
 
 }

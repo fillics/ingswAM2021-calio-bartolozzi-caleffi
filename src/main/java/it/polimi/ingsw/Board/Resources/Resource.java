@@ -15,9 +15,7 @@ public class Resource {
         this.type = type;
     }
 
-    public Resource() {
 
-    }
 
 
     /**

@@ -23,7 +23,7 @@ public class Player {
     private ArrayList<Resource> resourceBuffer;
     private Board board;
     private Game game;
-    private Resource chosenResource;
+    private int chosenResource;
 
     /**
      * Constructor Player creates a new Player instance.
@@ -93,9 +93,16 @@ public class Player {
      * at the beginning of the game according to the player's position
      * @see Game
      */
-    public void addResourcesBeginningGame(int amount){
+    public void addResourcesBeginningGame(int amount, int choice){
+        Resource[] availableResource = new Resource[4];
+
+        availableResource[0] = new Resource(ResourceType.COIN);
+        availableResource[1] = new Resource(ResourceType.SERVANT);
+        availableResource[2] = new Resource(ResourceType.SHIELD);
+        availableResource[3] = new Resource(ResourceType.STONE);
+
         for (int i = 0; i < amount; i++) {
-            resourceBuffer.add(chosenResource);
+            resourceBuffer.add(availableResource[choice]);
         }
     }
 
@@ -118,7 +125,11 @@ public class Player {
     /**
      * Method setChosenResource assigns the resource parameter to the chosenResource variable
      */
-    public void setChosenResource(Resource resource){
-        this.chosenResource = resource;
+    public void setChosenResource(int choice){
+        this.chosenResource = choice;
+    }
+
+    public int getChosenResource() {
+        return chosenResource;
     }
 }
