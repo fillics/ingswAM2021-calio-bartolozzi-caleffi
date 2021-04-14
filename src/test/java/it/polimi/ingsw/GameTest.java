@@ -117,4 +117,5 @@ class GameTest {
         assertEquals(2, testGame.getActivePlayers().get(1).getPosition());
         assertEquals(3, testGame.getActivePlayers().get(2).getPosition());
     }
+
 }

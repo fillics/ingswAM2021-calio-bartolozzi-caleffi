@@ -225,6 +225,7 @@ public class Game implements GameInterface{
     @Override
     public void takeResourcesFromMarket(String line, int numline) {
         market.lineSelection(line, numline, activePlayers.get(currentPlayer));
+        market.change(line, numline);
     }
 
     @Override
@@ -235,35 +236,20 @@ public class Game implements GameInterface{
     }
 
     @Override
-    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) {
-        try {
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimensionForProdPower, TooManyResourcesRequested{
             if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
-                try {
                     productionPower.removeResources(resources,warehouse);
                     productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
-                } catch (DifferentDimensionForProdPower differentDimensionForProdPower) {
-                    differentDimensionForProdPower.printStackTrace();
-                }
             }
-        } catch (TooManyResourcesRequested tooManyResourcesRequested) {
-            tooManyResourcesRequested.printStackTrace();
-        }
+
     }
 
     @Override
-    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) {
-        try {
-            if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
-                try {
-                    productionPower.removeResources(resources,warehouse);
-                    productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
-                } catch (DifferentDimensionForProdPower differentDimensionForProdPower) {
-                    differentDimensionForProdPower.printStackTrace();
-                }
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimensionForProdPower, TooManyResourcesRequested {
+            if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())) {
+                productionPower.removeResources(resources, warehouse);
+                productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
             }
-        } catch (TooManyResourcesRequested tooManyResourcesRequested) {
-            tooManyResourcesRequested.printStackTrace();
-        }
     }
 
     @Override
