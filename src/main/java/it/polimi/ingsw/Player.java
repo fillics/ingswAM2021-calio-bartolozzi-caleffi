@@ -6,6 +6,7 @@ import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;
+import it.polimi.ingsw.Exceptions.LeaderCardNotFound;
 
 import java.util.ArrayList;
 
@@ -81,19 +82,30 @@ public class Player {
 
     /**
      * Method addLeaderCard creates four instances of Leader Cards related to the card received from the deck.
-     *  @param card of type Card - the card chosen by the user.
+     *  @param card (type LeaderCard) - the card chosen by the user.
      */
     public void addLeaderCard(LeaderCard card) {
         leaderCards.add(card);
     }
 
+    /**
+     * Method removeLeaderCard removes from the leaderCards player's array the selected card
+     * @param cardToRemove (type LeaderCard) - it is the card that the player discards
+     * @throws LeaderCardNotFound if the player has not got the cardToRemove
+     */
+    public void removeLeaderCard(LeaderCard cardToRemove) throws LeaderCardNotFound {
+        if (leaderCards.contains(cardToRemove)){
+            leaderCards.remove(cardToRemove);
+        }
+        else throw new LeaderCardNotFound();
+    }
 
     /**
      * Method chooseResourcesBeginningGame adds to the player's resource buffer array the parameter resource
      * at the beginning of the game according to the player's position
      * @see Game
      */
-    public void addResourcesBeginningGame(int amount, int choice){
+    public void addResourcesBeginningGame(int choice){
         Resource[] availableResource = new Resource[4];
 
         availableResource[0] = new Resource(ResourceType.COIN);
@@ -101,9 +113,22 @@ public class Player {
         availableResource[2] = new Resource(ResourceType.SHIELD);
         availableResource[3] = new Resource(ResourceType.STONE);
 
-        for (int i = 0; i < amount; i++) {
-            resourceBuffer.add(availableResource[choice]);
-        }
+        resourceBuffer.add(availableResource[choice]);
+
+    }
+
+    /**
+     * Method setChosenResource assigns the resource parameter to the chosenResource variable
+     */
+    public void setChosenResource(int choice){
+        this.chosenResource = choice;
+    }
+
+    /**
+     * Method getChosenResource returns the choice of the wanted resource at the beginning of the game
+     */
+    public int getChosenResource() {
+        return chosenResource;
     }
 
     // TODO: 05/04/2021 scrivere javadoc
@@ -120,16 +145,5 @@ public class Player {
      */
     public boolean endTurn(){
         return true;
-    }
-
-    /**
-     * Method setChosenResource assigns the resource parameter to the chosenResource variable
-     */
-    public void setChosenResource(int choice){
-        this.chosenResource = choice;
-    }
-
-    public int getChosenResource() {
-        return chosenResource;
     }
 }

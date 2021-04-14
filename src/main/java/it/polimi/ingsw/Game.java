@@ -9,10 +9,7 @@ import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
-import it.polimi.ingsw.Exceptions.DevelopmentCardNotFound;
-import it.polimi.ingsw.Exceptions.DifferentDimensionForProdPower;
-import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
-import it.polimi.ingsw.Exceptions.TooManyResourcesRequested;
+import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Marbles.MarketTray;
 
 import java.io.*;
@@ -23,8 +20,6 @@ import java.util.stream.IntStream;
 
 /**
  * Game class contains the main logic of "Master of Renaissance".
- *
- * @author Filippo Caliò
  */
 
 public class Game implements GameInterface{
@@ -64,19 +59,24 @@ public class Game implements GameInterface{
      * according to their position's turn
      */
     public void additionalSetup() {
-        if (activePlayers.size() == 2) {
-            activePlayers.get(1).addResourcesBeginningGame(1, activePlayers.get(1).getChosenResource()); //second player receives one resource
-        } else if (activePlayers.size() == 3) {
-            activePlayers.get(1).addResourcesBeginningGame(1, activePlayers.get(1).getChosenResource()); //second player receives one resource
-            activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
-            activePlayers.get(2).addResourcesBeginningGame(1, activePlayers.get(1).getChosenResource()); //third player receives one resource
-        } else if (activePlayers.size() == 4) {
-            activePlayers.get(1).addResourcesBeginningGame(1, activePlayers.get(1).getChosenResource()); //second player receives one resource
-            activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
-            activePlayers.get(2).addResourcesBeginningGame(1, activePlayers.get(1).getChosenResource()); //third player receives one resource
-            activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
-            activePlayers.get(3).addResourcesBeginningGame(2, activePlayers.get(1).getChosenResource()); //forth player receives two resources
+
+        if(activePlayers.size() >= 2){
+            activePlayers.get(1).addResourcesBeginningGame(activePlayers.get(1).getChosenResource()); //second player receives one resource
+
+            if(activePlayers.size() >= 3){
+                activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
+                activePlayers.get(2).addResourcesBeginningGame(activePlayers.get(1).getChosenResource()); //third player receives one resource
+
+                if(activePlayers.size() == 4){
+                    activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
+                    for (int i = 0; i < 2; i++) {
+                        activePlayers.get(3).addResourcesBeginningGame(activePlayers.get(1).getChosenResource()); //forth player receives two resources
+                    }
+
+                }
+            }
         }
+
     }
     /**
      * Method createNewPlayer creates a new player in the match.
@@ -119,6 +119,12 @@ public class Game implements GameInterface{
         return leaderDeck;
     }
 
+    /**
+     * Test method getCurrentPlayer returns the current player who is playing
+     */
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     /**
      * Method createDevelopmentDeck creates and shuffles the Development Cards' Deck using the JSON file
@@ -240,55 +246,85 @@ public class Game implements GameInterface{
         market.change(line, numline);
     }
 
+
     @Override
     public void placeResource(int depositPosition, int resourcePosition) {
         ResourceActionStrategy strategy = new ConcreteStrategyResource(depositPosition, activePlayers.get(currentPlayer).getBoard(), activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).getType());
         activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).setStrategy(strategy);
         activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).useResource();
     }
-        @Override
-        public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimensionForProdPower, TooManyResourcesRequested{
-            if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
-                productionPower.removeResources(resources,warehouse);
-                productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
-            }
-
-        }
-
-        @Override
-        public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimensionForProdPower, TooManyResourcesRequested {
-            if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())) {
-                productionPower.removeResources(resources, warehouse);
-                productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
-            }
-        }
 
     @Override
-    public void activateLeaderCard() {
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimensionForProdPower, TooManyResourcesRequested{
+        if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
+            productionPower.removeResources(resources,warehouse);
+            productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
+        }
 
     }
 
     @Override
-    public void discardLeaderCard() {
-
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimensionForProdPower, TooManyResourcesRequested {
+        if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())) {
+            productionPower.removeResources(resources, warehouse);
+            productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
+        }
     }
 
+    /**
+     * Override method activateLeaderCard used when a player wants to activate a leader card using its ability.
+     * @param cardToActivate (type LeaderCard) - it is the card that the player wants to activate
+     * @throws LeaderCardNotFound if the player has not got the cardToActivate
+     */
     @Override
-    public void chooseLeaderCard() {
+    public void activateLeaderCard(LeaderCard cardToActivate) throws LeaderCardNotFound {
+        if(!activePlayers.get(currentPlayer).getLeaderCards().contains(cardToActivate)) throw new LeaderCardNotFound();
+        else{
+            int indexCard = activePlayers.get(currentPlayer).getLeaderCards().indexOf(cardToActivate);
+            activePlayers.get(currentPlayer).getLeaderCards().get(indexCard).useAbility();
+        }
+    }
+
+    /**
+     * Override method discardLeaderCard used when a player wants to discard a leader card. In doing so, the player
+     * receives one faith point.
+     * @param cardToDiscard (type LeaderCard) - it is the card that the player discards
+     * @throws LeaderCardNotFound if the player has not got the cardToDiscard
+     */
+    @Override
+    public void discardLeaderCard(LeaderCard cardToDiscard) throws LeaderCardNotFound {
+        activePlayers.get(currentPlayer).removeLeaderCard(cardToDiscard);
+        activePlayers.get(currentPlayer).getBoard().increaseFaithMarker();
+    }
+
+
+    /**
+     * Override method chooseLeaderCard used when the player has to choose two leader cards at the beginning of the game
+     * @param chosenCard1 (type LeaderCard) - it is the card that the player wants to keep
+     * @param chosenCard2 (type LeaderCard) - it is the cards that the player wants to keep
+     * @throws LeaderCardNotFound if the player has not got the two chosenCards
+     */
+    @Override
+    public void chooseLeaderCard(LeaderCard chosenCard1, LeaderCard chosenCard2) throws LeaderCardNotFound {
+        for (int i = 0; i < activePlayers.get(currentPlayer).getLeaderCards().size() ; i++) {
+            if(!(activePlayers.get(currentPlayer).getLeaderCards().get(i).equals(chosenCard1) ||
+                    activePlayers.get(currentPlayer).getLeaderCards().get(i).equals(chosenCard2))){
+                activePlayers.get(currentPlayer).removeLeaderCard(activePlayers.get(currentPlayer).getLeaderCards().get(i));
+            }
+        }
 
     }
 
     /**
      * Method nextPlayer handles which player is playing during his turn
      */
-    // TODO: 12/04/2021 da testare
     public void nextPlayer(){
-        while(activePlayers.get(currentPlayer).endTurn()){
+        if(activePlayers.get(currentPlayer).endTurn()){
             if(!endGame()){
                 if(currentPlayer==activePlayers.size()-1){
                     currentPlayer=0;
                 }
-                currentPlayer+=1;
+                else currentPlayer+=1;
             }
             else {
                 if(currentPlayer!=activePlayers.size()-1){
