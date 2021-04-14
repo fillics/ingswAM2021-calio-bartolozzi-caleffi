@@ -2,6 +2,9 @@ package it.polimi.ingsw.Cards.LeaderCards;
 
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.Card;
+import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
+
+import java.util.HashMap;
 
 /**
  * This class represents the Leader Card.
@@ -12,8 +15,9 @@ public class LeaderCard extends Card {
     private ResourceType resourceType;
     private Requirement requirements;
     private int victorypoint;
-    private String useAbilityChoice;
+    private boolean useDiscountChoice;
 
+    //TODO: java doc
     public LeaderCard(LeaderCardType type, Requirement requirements, ResourceType resourceType, int victorypoint) {
         this.type = type;
         this.requirements = requirements;
@@ -29,12 +33,27 @@ public class LeaderCard extends Card {
         return strategy;
     }
 
-    public String getUseAbilityChoice() {
-        return useAbilityChoice;
+    public void checkDiscount(DevelopmentCard developmentCard, HashMap<ResourceType,Integer> resourcePriceBuffer){
+        int j,oldvalue;
+        ResourceType temp;
+        if(useDiscountChoice){
+            for(j=0; j<developmentCard.getResourcePrice().size();j++){
+                temp=(((ConcreteStrategyDiscount) strategy).getResourceType());
+                if(developmentCard.getResourcePrice().containsKey(temp)){
+                    oldvalue=developmentCard.getResourcePrice().get(temp);
+                    resourcePriceBuffer.replace(temp,oldvalue,oldvalue-1);
+                    break;
+                }
+            }
+        }
     }
 
-    public void setUseAbilityChoice(String useAbilityChoice) {
-        this.useAbilityChoice = useAbilityChoice;
+    public boolean getUseDiscountChoice() {
+        return useDiscountChoice;
+    }
+
+    public void setUseDiscountChoice(boolean useDiscountChoice) {
+        this.useDiscountChoice = useDiscountChoice;
     }
 
     public void useAbility() {

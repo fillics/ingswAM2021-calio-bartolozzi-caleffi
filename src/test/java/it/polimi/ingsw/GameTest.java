@@ -14,10 +14,8 @@ import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.IntStream;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -146,7 +144,7 @@ class GameTest {
      * the selected card
      */
     @Test
-    void checkChooseCardFromDevDeck(){
+    void checkChooseCardFromDevDeck() throws DevelopmentCardNotFound {
         testGame.setup();
         assertEquals(CardColor.BLUE,testGame.chooseCardFromDevelopmentGrid(CardColor.BLUE, Level.ONE).getColor());
         assertEquals(Level.ONE,testGame.chooseCardFromDevelopmentGrid(CardColor.BLUE, Level.ONE).getLevel());

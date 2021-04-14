@@ -9,6 +9,9 @@ import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
+import it.polimi.ingsw.Exceptions.DevCardNotPlaceable;
+import it.polimi.ingsw.Exceptions.NotEnoughResources;
+import it.polimi.ingsw.Exceptions.WrongChosenResources;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,6 +55,19 @@ public class BoardTest {
     PopeFavorTile testPopeFavorTile;
     Resource coin;
     Resource servant;
+    HashMap<ResourceType,Integer> resourcePriceBuffer;
+    ArrayList<ResourceType> chosenResourcesBuffer;
+    DevelopmentCard testDevelopmentCard4;
+    ProductionPower testProductionPower4;
+    HashMap<ResourceType,Integer> testResourcePrice4;
+    HashMap<ResourceType,Integer> testResourcesNeeded4;
+    HashMap<ResourceType,Integer> testResourcesObtained4;
+    ArrayList<DevelopmentSpace> devSpaceBuffer;
+    ArrayList<ArrayList<ResourceType>> chosenResourcesDeposits;
+    ArrayList<ResourceType> chosenBuffer1;
+    ArrayList<ResourceType> chosenBuffer2;
+    ArrayList<ResourceType> chosenBuffer3;
+    ArrayList<ResourceType> chosenResourcesStrongbox;
 
     /** Method setup setups tests. */
     @BeforeEach
@@ -90,9 +106,9 @@ public class BoardTest {
         testDevelopmentSpace1 = new DevelopmentSpace();
         testDevelopmentSpace2 = new DevelopmentSpace();
         testDevelopmentSpace3 = new DevelopmentSpace();
-        testDevelopmentSpace1.getDevelopmentSpace().add(testDevelopmentCard1);
-        testDevelopmentSpace2.getDevelopmentSpace().add(testDevelopmentCard2);
-        testDevelopmentSpace3.getDevelopmentSpace().add(testDevelopmentCard3);
+        testDevelopmentSpace1.addDevelopmentCard(testDevelopmentCard1);
+        testDevelopmentSpace2.addDevelopmentCard(testDevelopmentCard2);
+        testDevelopmentSpace3.addDevelopmentCard(testDevelopmentCard3);
         testBoard.getDevelopmentSpaces().add(testDevelopmentSpace1);
         testBoard.getDevelopmentSpaces().add(testDevelopmentSpace2);
         testBoard.getDevelopmentSpaces().add(testDevelopmentSpace3);
@@ -129,8 +145,6 @@ public class BoardTest {
         testBoard.getVaticanReportSections().get(2).getSection().add(cell10);
 
 
-
-
         testBoard.getTrack().add(cell1);
         testBoard.getTrack().add(cell2);
         testBoard.getTrack().add(cell3);
@@ -141,6 +155,41 @@ public class BoardTest {
         testBoard.getTrack().add(cell8);
         testBoard.getTrack().add(cell9);
         testBoard.getTrack().add(cell10);
+
+        resourcePriceBuffer=new HashMap<>();
+        chosenResourcesBuffer= new ArrayList<>();
+        resourcePriceBuffer.put(ResourceType.SERVANT,2);
+        resourcePriceBuffer.put(ResourceType.COIN,2);
+        chosenResourcesBuffer.add(ResourceType.COIN);
+        chosenResourcesBuffer.add(ResourceType.SERVANT);
+        chosenResourcesBuffer.add(ResourceType.SERVANT);
+
+        testResourcePrice4= new HashMap<>();
+        testResourcesNeeded4 = new HashMap<>();
+        testResourcesObtained4 = new HashMap<>();
+        testResourcePrice4.put(ResourceType.SERVANT,5);
+        testResourcesNeeded4.put(ResourceType.STONE,2);
+        testResourcesObtained4.put(ResourceType.FAITHMARKER,2);
+        testResourcesObtained4.put(ResourceType.COIN,2);
+        testProductionPower4= new ProductionPower(testResourcesNeeded4,testResourcesObtained4);
+        testDevelopmentCard4= new DevelopmentCard(Level.TWO, CardColor.PURPLE,testProductionPower4,testResourcePrice4, 7);
+        devSpaceBuffer= new ArrayList<>();
+        chosenResourcesDeposits= new ArrayList<>();
+        chosenBuffer1 = new ArrayList<>();
+        chosenBuffer2 = new ArrayList<>();
+        chosenBuffer3 = new ArrayList<>();
+        chosenResourcesStrongbox= new ArrayList<>();
+        chosenResourcesStrongbox.add(ResourceType.STONE);
+        chosenResourcesStrongbox.add(ResourceType.SHIELD);
+        //chosenResourcesStrongbox.add(ResourceType.SHIELD);
+        chosenBuffer1.add(ResourceType.SERVANT);
+        //chosenBuffer1.add(ResourceType.SERVANT);
+        //chosenBuffer2.add(ResourceType.STONE);
+        chosenBuffer3.add(ResourceType.COIN);
+        chosenBuffer3.add(ResourceType.COIN);
+        chosenResourcesDeposits.add(chosenBuffer1);
+        chosenResourcesDeposits.add(chosenBuffer2);
+        chosenResourcesDeposits.add(chosenBuffer3);
     }
 
     /** Method BoardGetterTest tests board methods getter. */
@@ -166,5 +215,38 @@ public class BoardTest {
     /*I don't know how to test the other 6 getters that return the structures that contain development cards,
     deposits, strongbox, production power, vatican report sections and track. Anyway, this method were used in
     the setup method to modify the board.*/
+
+    /** Method CheckResourcesTest tests board method checkResources. */
+    @Test
+    @DisplayName("Check Resources test")
+    void CheckResourcesTest() {
+        try {
+            testBoard.checkResources(resourcePriceBuffer,chosenResourcesBuffer);
+        } catch (NotEnoughResources | WrongChosenResources resourcesProblem) {
+            resourcesProblem.printStackTrace();
+        }
+    }
+
+    /** Method CheckDevSpacesTest tests board method checkDevSpaces. */
+    @Test
+    @DisplayName("Check DevSpaces test")
+    void CheckDevSpacesTest() {
+        try {
+            testBoard.checkDevSpaces(testDevelopmentCard4,devSpaceBuffer);
+        } catch (DevCardNotPlaceable devCardNotPlaceable) {
+            devCardNotPlaceable.printStackTrace();
+        }
+    }
+
+    /** Method RemoveResourcesTest tests board method removeResources. */
+    @Test
+    @DisplayName("Remove Resources test")
+    void RemoveResourcesTest() {
+        testBoard.removeResources(chosenResourcesDeposits,chosenResourcesStrongbox);
+        assertEquals(7,testBoard.getTotalServants());
+        assertEquals(4,testBoard.getTotalCoins());
+        assertEquals(0,testBoard.getTotalShields());
+        assertEquals(49,testBoard.getTotalStones());
+    }
 }
 

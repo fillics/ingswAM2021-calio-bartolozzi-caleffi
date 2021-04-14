@@ -8,6 +8,7 @@ import it.polimi.ingsw.Board.Resources.ResourceActionStrategy;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
+import it.polimi.ingsw.Cards.LeaderCards.ConcreteStrategyDiscount;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Marbles.MarketTray;
@@ -29,6 +30,8 @@ public class Game implements GameInterface{
     private ArrayList<LeaderCard> leaderDeck;
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
     private MarketTray market;
+    private ArrayList<DevelopmentSpace> devSpaceBuffer;
+    private HashMap<ResourceType,Integer> resourcePriceBuffer;
     private int currentPlayer = 0;
     final int NUM_MAXPLAYERS = 4;
 
@@ -191,7 +194,7 @@ public class Game implements GameInterface{
      * @return the development card with a specific color and level. If there is no card with those characteristics,
      * it returns null
      */
-    public DevelopmentCard chooseCardFromDevelopmentGrid(CardColor color, Level level){
+    public DevelopmentCard chooseCardFromDevelopmentGrid(CardColor color, Level level) throws DevelopmentCardNotFound{
         DevelopmentCard chosenCard = null;
         for (LinkedList<DevelopmentCard> developmentCards : developmentGrid) {
             if (!developmentCards.isEmpty() && developmentCards.get(0).getColor().equals(color)
@@ -199,7 +202,10 @@ public class Game implements GameInterface{
                 chosenCard = developmentCards.getLast();
             }
         }
-        return chosenCard;
+        if(chosenCard==null)
+            throw new DevelopmentCardNotFound();
+        else
+            return chosenCard;
     }
 
 
@@ -229,10 +235,74 @@ public class Game implements GameInterface{
         });
 
     }
-    
+
+    public void placeDevCard(DevelopmentCard developmentCard,DevelopmentSpace developmentSpace, ArrayList<DevelopmentSpace> devSpaceBuffer)throws WrongDevSpace{
+        if(devSpaceBuffer.contains(developmentSpace)){
+            developmentSpace.addDevelopmentCard(developmentCard);
+        }else{
+            throw new WrongDevSpace();
+        }
+    }
+
+
     @Override
-    public void buyDevCard(DevelopmentCard developmentCard){
-        //CONTROLLO RISORSE SUFFICIENTI
+    public void buyDevCard(CardColor color, Level level, ArrayList<ArrayList<ResourceType>> chosenResourcesDeposits, ArrayList<ResourceType> chosenResourcesStrongbox, DevelopmentSpace developmentSpace){
+        int i;
+        DevelopmentCard developmentCard = null;
+        devSpaceBuffer= new ArrayList<>();
+        ArrayList<ResourceType> chosenResourcesBuffer = new ArrayList<>(chosenResourcesStrongbox);
+
+        //controllo che la carta sia "acquistabile"
+        try {
+            developmentCard= chooseCardFromDevelopmentGrid(color,level);
+            resourcePriceBuffer= developmentCard.getResourcePrice();
+        } catch (DevelopmentCardNotFound developmentCardNotFound) {
+            developmentCardNotFound.printStackTrace();
+        }
+
+        //controllo che la carta scelta sia piazzabile in uno dei dev space
+        try {
+            activePlayers.get(currentPlayer).getBoard().checkDevSpaces(developmentCard,devSpaceBuffer);
+        } catch (DevCardNotPlaceable devCardNotPlaceable){
+            devCardNotPlaceable.printStackTrace();
+        }
+
+        for(i=0; i<chosenResourcesDeposits.size();i++){
+            chosenResourcesBuffer.addAll(chosenResourcesDeposits.get(i));
+        }
+
+        //modifico il prezzo richiesto se una o più carte discount sono attive e il player sceglie di utilizzarle
+        for(i=0; i<activePlayers.get(currentPlayer).getLeaderCards().size();i++){
+            if((activePlayers.get(currentPlayer).getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDiscount)&&(activePlayers.get(currentPlayer).getLeaderCards().get(i).getStrategy().isActive())){
+                //System.out.println("Do you want to use your discount of one " + ((ConcreteStrategyDiscount) activePlayers.get(currentPlayer).getLeaderCards().get(i).getStrategy()).getResourceType() + " ?");
+                //activePlayers.get(currentPlayer).getLeaderCards().get(i).setUseDiscountChoice(playerChoice);
+                activePlayers.get(currentPlayer).getLeaderCards().get(i).checkDiscount(developmentCard,resourcePriceBuffer);
+            }
+        }
+
+        //controllo che ci siano abbastanza risorse nella board per comprare la carta e se le risorse selezionate siano esattamente quelle richieste
+        //se si, rimuovo le risorse dalla board
+        try {
+            if(activePlayers.get(currentPlayer).getBoard().checkResources(resourcePriceBuffer, chosenResourcesBuffer)){
+                activePlayers.get(currentPlayer).getBoard().removeResources(chosenResourcesDeposits,chosenResourcesStrongbox);
+            }
+        } catch (NotEnoughResources | WrongChosenResources notEnoughResources) {
+            notEnoughResources.printStackTrace();
+        }
+
+        //controllo che la carta venga rimossa dal developmentGrid in modo corretto
+        try {
+            removeCardFromDevelopmentGrid(developmentCard);
+        } catch (DevelopmentCardNotFound developmentCardNotFound) {
+            developmentCardNotFound.printStackTrace();
+        }
+
+        //controllo che il dev space selezionato sia quello corretto o uno di quelli corretti
+        try {
+            placeDevCard(developmentCard,developmentSpace, devSpaceBuffer);
+        } catch (WrongDevSpace wrongDevSpace) {
+            wrongDevSpace.printStackTrace();
+        }
     }
 
     @Override

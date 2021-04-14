@@ -7,16 +7,19 @@ import it.polimi.ingsw.Board.FaithTrack.Cell;
 import it.polimi.ingsw.Board.FaithTrack.PopeFavorTile;
 import it.polimi.ingsw.Board.FaithTrack.PopeFavorTileColor;
 import it.polimi.ingsw.Board.FaithTrack.VaticanReportSection;
+import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.Board.Storage.Strongbox;
+import it.polimi.ingsw.Board.Storage.Warehouse;
+import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentSpace;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
+import it.polimi.ingsw.Exceptions.*;
+import it.polimi.ingsw.Player;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Board {
     private int NumOfDevCard;
@@ -235,7 +238,62 @@ public class Board {
             }        }
         return total;
     }
+
     public int getTotalResources(){
         return getTotalCoins() + getTotalStones() + getTotalServants() + getTotalShields();
+    }
+
+    public boolean checkResources(HashMap<ResourceType,Integer> resourcePriceBuffer, ArrayList<ResourceType> chosenResourcesBuffer)throws NotEnoughResources, WrongChosenResources {
+        if((resourcePriceBuffer.containsKey(ResourceType.COIN)&&(resourcePriceBuffer.get(ResourceType.COIN)>getTotalCoins()))||
+                (resourcePriceBuffer.containsKey(ResourceType.STONE)&&(resourcePriceBuffer.get(ResourceType.STONE)>getTotalStones()))||
+                (resourcePriceBuffer.containsKey(ResourceType.SERVANT)&&(resourcePriceBuffer.get(ResourceType.SERVANT)>getTotalServants()))||
+                (resourcePriceBuffer.containsKey(ResourceType.SHIELD)&&(resourcePriceBuffer.get(ResourceType.SHIELD)>getTotalShields()))){
+            throw new NotEnoughResources();
+        } else if((resourcePriceBuffer.containsKey(ResourceType.COIN)&&(Collections.frequency(chosenResourcesBuffer,ResourceType.COIN)!=resourcePriceBuffer.get(ResourceType.COIN)))||
+                (resourcePriceBuffer.containsKey(ResourceType.SHIELD)&&(Collections.frequency(chosenResourcesBuffer,ResourceType.SHIELD)!=resourcePriceBuffer.get(ResourceType.SHIELD)))||
+                (resourcePriceBuffer.containsKey(ResourceType.SERVANT)&&(Collections.frequency(chosenResourcesBuffer,ResourceType.SERVANT)!=resourcePriceBuffer.get(ResourceType.SERVANT)))||
+                (resourcePriceBuffer.containsKey(ResourceType.STONE)&&(Collections.frequency(chosenResourcesBuffer,ResourceType.STONE)!=resourcePriceBuffer.get(ResourceType.STONE)))||
+                (chosenResourcesBuffer.contains(ResourceType.COIN)&&!resourcePriceBuffer.containsKey(ResourceType.COIN))||
+                (chosenResourcesBuffer.contains(ResourceType.STONE)&&!resourcePriceBuffer.containsKey(ResourceType.STONE))||
+                (chosenResourcesBuffer.contains(ResourceType.SERVANT)&&!resourcePriceBuffer.containsKey(ResourceType.SERVANT))||
+                (chosenResourcesBuffer.contains(ResourceType.SHIELD)&&!resourcePriceBuffer.containsKey(ResourceType.SHIELD))){
+            throw  new WrongChosenResources();
+        }
+        else
+            return true;
+    }
+
+    public void checkDevSpaces(DevelopmentCard developmentCard, ArrayList<DevelopmentSpace> devSpaceBuffer) throws DevCardNotPlaceable {
+        int i;
+        for (i = 0; i < developmentSpaces.size(); i++) {
+            if (developmentSpaces.get(i).isPlaceableCard(developmentCard)) {
+                devSpaceBuffer.add(developmentSpaces.get(i));
+            }
+        }
+        if (devSpaceBuffer.isEmpty()) {
+            throw new DevCardNotPlaceable();
+        }
+    }
+
+    public void removeResources(ArrayList<ArrayList<ResourceType>> chosenResourcesDeposits, ArrayList<ResourceType> chosenResourcesStrongbox)  {
+        int i,j;
+        for(i=0; i< chosenResourcesStrongbox.size(); i++){
+            try {
+                strongbox.remove(chosenResourcesStrongbox.get(i));
+            } catch (EmptyDeposit emptyDeposit) {
+                emptyDeposit.printStackTrace();
+            }
+        }
+        for(i=0; i< chosenResourcesDeposits.size();i++){
+            if(!chosenResourcesDeposits.get(i).isEmpty()){
+                try {
+                    for(j=0; j<chosenResourcesDeposits.get(i).size();j++){
+                        deposits.get(i).remove(chosenResourcesDeposits.get(i).get(j));
+                    }
+                } catch (DepositDoesntHaveThisResource | EmptyDeposit depositDoesntHaveThisResource) {
+                    depositDoesntHaveThisResource.printStackTrace();
+                }
+            }
+        }
     }
 }

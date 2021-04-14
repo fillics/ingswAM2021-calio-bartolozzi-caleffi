@@ -3,7 +3,9 @@ package it.polimi.ingsw.Cards.LeaderCards;
 import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
+import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.DevelopmentCards.Level;
+import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,17 +22,29 @@ public class LeaderCardTest {
     LeaderCard testLeaderCardProdPower;
     LeaderCard testLeaderCardDeposit;
     LeaderCard testLeaderCardWhiteMarble;
+    LeaderCard testLeaderCardDiscount;
     LeaderCardStrategy testStrategyProdPower;
     LeaderCardStrategy testStrategyDeposit;
     LeaderCardStrategy testStrategyWhiteMarble;
+    LeaderCardStrategy testStrategyDiscount;
     HashMap<ResourceType,Integer> resourceNeeded;
     Board board;
     Requirement requirementsProdPower;
     Requirement requirementsDeposit;
     Requirement requirementsWhiteMarble;
+    Requirement requirementsDiscount;
     HashMap<CardColor,Integer> color;
     HashMap<CardColor,Integer> colorWhiteMarble;
-    HashMap<ResourceType,Integer> resourcePrice;
+    HashMap<CardColor,Integer> colorDiscount;
+    HashMap<ResourceType,Integer> resourcePriceDeposit;
+    boolean choice1;
+    boolean choice2;
+    DevelopmentCard DevelopmentCard;
+    ProductionPower ProductionPower;
+    HashMap<ResourceType,Integer> ResourcePrice;
+    HashMap<ResourceType,Integer> ResourcesNeeded;
+    HashMap<ResourceType,Integer> ResourcesObtained;
+    HashMap<ResourceType,Integer> resourcePriceBuffer;
 
     /*
      * Method setup setups tests.
@@ -42,20 +56,37 @@ public class LeaderCardTest {
         colorWhiteMarble= new HashMap<>();
         colorWhiteMarble.put(CardColor.GREEN,2);
         colorWhiteMarble.put(CardColor.PURPLE,1);
+        colorDiscount= new HashMap<>();
+        colorDiscount.put(CardColor.YELLOW,1);
+        colorDiscount.put(CardColor.GREEN,1);
         requirementsProdPower = new Requirement(color,Level.TWO,null);
         requirementsWhiteMarble= new Requirement(colorWhiteMarble,null,null);
+        requirementsDiscount= new Requirement(colorDiscount,null,null);
         resourceNeeded= new HashMap<>();
         resourceNeeded.put(ResourceType.SHIELD,1);
-        resourcePrice= new HashMap<>();
-        resourcePrice.put(ResourceType.SERVANT,5);
-        requirementsDeposit = new Requirement(null,null,resourcePrice);
+        resourcePriceDeposit = new HashMap<>();
+        resourcePriceDeposit.put(ResourceType.SERVANT,5);
+        requirementsDeposit = new Requirement(null,null, resourcePriceDeposit);
         board= new Board();
         testStrategyProdPower = new ConcreteStrategyProductionPower(resourceNeeded,board);
         testStrategyDeposit = new ConcreteStrategyDeposit(ResourceType.SHIELD,board);
         testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
+        testStrategyDiscount= new ConcreteStrategyDiscount(ResourceType.SERVANT);
         testLeaderCardProdPower = new LeaderCard(LeaderCardType.PRODUCTION_POWER, requirementsProdPower,ResourceType.SHIELD, 4);
         testLeaderCardDeposit = new LeaderCard(LeaderCardType.EXTRA_DEPOSIT, requirementsDeposit,ResourceType.SHIELD, 3);
         testLeaderCardWhiteMarble= new LeaderCard(LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5);
+        testLeaderCardDiscount= new LeaderCard(LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
+        choice1= true;
+        choice2= false;
+        ResourcePrice= new HashMap<>();
+        ResourcesNeeded = new HashMap<>();
+        ResourcesObtained = new HashMap<>();
+        ResourcePrice.put(ResourceType.SERVANT,2);
+        ResourcesNeeded.put(ResourceType.COIN,1);
+        ResourcesObtained.put(ResourceType.FAITHMARKER,1);
+        ProductionPower= new ProductionPower(ResourcesNeeded,ResourcesObtained);
+        DevelopmentCard= new DevelopmentCard(Level.ONE, CardColor.PURPLE,ProductionPower,ResourcePrice, 3);
+        resourcePriceBuffer=new HashMap<>();
     }
 
     /** Method VictoryPointGetterTest tests LeaderCard method getter. */
@@ -65,11 +96,34 @@ public class LeaderCardTest {
         assertEquals(testLeaderCardProdPower.getVictoryPoint(),4);
     }
 
-    /** Method setStrategyTest tests LeaderCard method setStrategy. */
+    /** Method StrategySetterTest tests LeaderCard method Strategy setter. */
     @Test
-    @DisplayName("setStrategy test")
-    void setStrategyTest() {
+    @DisplayName("Strategy setter test")
+    void StrategySetterTest() {
         testLeaderCardProdPower.setStrategy(testStrategyProdPower);
+    }
+
+    /** Method StrategyGetterTest tests LeaderCard method strategy getter. */
+    @Test
+    @DisplayName("Strategy getter test")
+    void StrategyGetterTest() {
+        testLeaderCardDiscount.setStrategy(testStrategyDiscount);
+        assertEquals(testLeaderCardDiscount.getStrategy(),testStrategyDiscount);
+    }
+
+    /** Method UseDiscountChoiceSetterTest tests LeaderCard method setUseDiscountChoice. */
+    @Test
+    @DisplayName("UseDiscountChoice setter test")
+    void UseDiscountChoiceSetterTest() {
+        testLeaderCardDiscount.setUseDiscountChoice(choice1);
+    }
+
+    /** Method UseDiscountChoiceGetterTest tests LeaderCard method getUseDiscountChoice. */
+    @Test
+    @DisplayName("UseDiscountChoice getter test")
+    void UseDiscountChoiceGetterTest() {
+        testLeaderCardDiscount.setUseDiscountChoice(choice1);
+        assertEquals(testLeaderCardDiscount.getUseDiscountChoice(),choice1);
     }
 
     /** Method useAbilityTest tests LeaderCard method useAbility. */
@@ -90,5 +144,21 @@ public class LeaderCardTest {
         testLeaderCardWhiteMarble.useAbility();
         assertTrue(testStrategyWhiteMarble.isActive());
         testLeaderCardWhiteMarble.useAbility();
+
+        testLeaderCardDiscount.setStrategy(testStrategyDiscount);
+        testLeaderCardDiscount.useAbility();
+        assertTrue(testStrategyDiscount.isActive());
+    }
+
+    /** Method checkDiscountTest tests LeaderCard method checkDiscount. */
+    @Test
+    @DisplayName("checkDiscount test")
+    void checkDiscountTest() {
+        resourcePriceBuffer.putAll(DevelopmentCard.getResourcePrice());
+        testLeaderCardDiscount.setStrategy(testStrategyDiscount);
+        testLeaderCardDiscount.setUseDiscountChoice(choice1);
+        testLeaderCardDiscount.checkDiscount(DevelopmentCard,resourcePriceBuffer);
+        assertEquals(resourcePriceBuffer.get(ResourceType.SERVANT),1);
+        assertEquals(ResourcePrice.get(ResourceType.SERVANT),2);
     }
 }

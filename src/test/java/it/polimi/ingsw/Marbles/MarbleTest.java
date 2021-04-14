@@ -33,8 +33,8 @@ public class MarbleTest {
     LeaderCardStrategy testStrategyWhiteMarble2;
     Requirement requirementsWhiteMarble2;
     HashMap<CardColor,Integer> colorWhiteMarble2;
-    String useAbilityChoiceCard1;
-    String useAbilityChoiceCard2;
+    boolean useAbilityChoiceCard1;
+    boolean useAbilityChoiceCard2;
 
     /*
      * Method setup setups tests.
@@ -86,17 +86,17 @@ public class MarbleTest {
 
         assertEquals(testPlayer.getLeaderCards().size(),2);
 
-        useAbilityChoiceCard1= "Yes";
+        useAbilityChoiceCard1=true;
         testLeaderCardWhiteMarble.setStrategy(testStrategyWhiteMarble);
-        testLeaderCardWhiteMarble.setUseAbilityChoice(useAbilityChoiceCard1);
+        testLeaderCardWhiteMarble.setUseDiscountChoice(useAbilityChoiceCard1);
         testLeaderCardWhiteMarble.useAbility();
         white.transform(testPlayer);
 
-        useAbilityChoiceCard1="No";
-        useAbilityChoiceCard2="Yes";
+        useAbilityChoiceCard1=false;
+        useAbilityChoiceCard2=true;
         testLeaderCardWhiteMarble2.setStrategy(testStrategyWhiteMarble2);
-        testLeaderCardWhiteMarble.setUseAbilityChoice(useAbilityChoiceCard1);
-        testLeaderCardWhiteMarble2.setUseAbilityChoice(useAbilityChoiceCard2);
+        testLeaderCardWhiteMarble.setUseDiscountChoice(useAbilityChoiceCard1);
+        testLeaderCardWhiteMarble2.setUseDiscountChoice(useAbilityChoiceCard2);
         testLeaderCardWhiteMarble2.useAbility();
         white2.transform(testPlayer);
     }

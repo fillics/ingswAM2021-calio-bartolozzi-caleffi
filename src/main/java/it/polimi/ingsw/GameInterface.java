@@ -2,9 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
-import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
-import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentSpace;
-import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
+import it.polimi.ingsw.Cards.DevelopmentCards.*;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Exceptions.DifferentDimensionForProdPower;
 import it.polimi.ingsw.Exceptions.LeaderCardNotFound;
@@ -20,7 +18,7 @@ import java.util.ArrayList;
 
 public interface GameInterface {
     void setup();
-    void buyDevCard(DevelopmentCard developmentCard);
+    void buyDevCard(CardColor color, Level level, ArrayList<ArrayList<ResourceType>> chosenResourcesDeposits, ArrayList<ResourceType> chosenResourcesStrongbox, DevelopmentSpace developmentSpace);
     void moveResource(int position);
     void placeResource(int depositPosition, int resourcePosition);
     void takeResourcesFromMarket(String line, int numline);
