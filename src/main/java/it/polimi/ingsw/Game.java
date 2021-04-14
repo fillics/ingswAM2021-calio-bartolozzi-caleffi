@@ -2,12 +2,12 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
-import it.polimi.ingsw.Board.Resources.ResourceActionStrategy;
+import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
+import it.polimi.ingsw.Exceptions.DevelopmentCardNotFound;
 import it.polimi.ingsw.Exceptions.DifferentDimensionForProdPower;
 import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
 import it.polimi.ingsw.Exceptions.TooManyResourcesRequested;
@@ -45,7 +45,6 @@ public class Game implements GameInterface{
         leaderDeck = new ArrayList<>();
         developmentGrid = new ArrayList<>();
         market = new MarketTray();
-
     }
 
     /**
@@ -62,13 +61,20 @@ public class Game implements GameInterface{
      * Method additionalSetup distributes resources and faith points to the players
      * according to their position's turn
      */
-    public void additionalSetup(){
-        activePlayers.get(1).chooseResourcesBeginningGame(1); //second player receives one resource
-        activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
-        activePlayers.get(2).chooseResourcesBeginningGame(1); //third player receives one resource
-        activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
-        activePlayers.get(3).chooseResourcesBeginningGame(2); //forth player receives two resources
-
+    public void additionalSetup() {
+        if (activePlayers.size() == 2) {
+            activePlayers.get(1).addResourcesBeginningGame(1, activePlayers.get(1).getChosenResource()); //second player receives one resource
+        } else if (activePlayers.size() == 3) {
+            activePlayers.get(1).addResourcesBeginningGame(1, activePlayers.get(1).getChosenResource()); //second player receives one resource
+            activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
+            activePlayers.get(2).addResourcesBeginningGame(1, activePlayers.get(1).getChosenResource()); //third player receives one resource
+        } else if (activePlayers.size() == 4) {
+            activePlayers.get(1).addResourcesBeginningGame(1, activePlayers.get(1).getChosenResource()); //second player receives one resource
+            activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
+            activePlayers.get(2).addResourcesBeginningGame(1, activePlayers.get(1).getChosenResource()); //third player receives one resource
+            activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
+            activePlayers.get(3).addResourcesBeginningGame(2, activePlayers.get(1).getChosenResource()); //forth player receives two resources
+        }
     }
     /**
      * Method createNewPlayer creates a new player in the match.
@@ -188,17 +194,21 @@ public class Game implements GameInterface{
         return chosenCard;
     }
 
-    // TODO: 11/04/2021 da testare
+
     /**
      * Method removeCardFromDevelopmentDeck is called when a Player buys a development card and it removes
      * the selected card
      */
-    public void removeCardFromDevelopmentGrid(DevelopmentCard cardToRemove) {
+    public void removeCardFromDevelopmentGrid(DevelopmentCard cardToRemove) throws DevelopmentCardNotFound {
+        boolean found = false;
         for (LinkedList<DevelopmentCard> developmentCards : developmentGrid) {
-            if (!developmentCards.isEmpty() && developmentCards.getLast().equals(cardToRemove)) {
-                developmentCards.remove(cardToRemove);
+            if (!developmentCards.isEmpty() && developmentCards.getLast().getLevel().equals(cardToRemove.getLevel()) &&
+                    developmentCards.getLast().getColor().equals(cardToRemove.getColor())) {
+                developmentCards.removeLast();
+                found = true;
             }
         }
+        if(!found) throw new DevelopmentCardNotFound();
     }
 
     /**
@@ -213,43 +223,31 @@ public class Game implements GameInterface{
     }
     
     @Override
-    public void buyDevCard(DevelopmentCard developmentCard, DevelopmentSpace developmentSpace) {
-
+    public void buyDevCard(DevelopmentCard developmentCard){
+        //CONTROLLO RISORSE SUFFICIENTI
     }
 
     @Override
-    public void moveResource(int position) {
-        activePlayers.get(currentPlayer).fillBuffer(position);
+    public void moveResource() {
+    }
+
+    public void takeAndPlaceResource(){
     }
 
     @Override
-    public void takeResourcesFromMarket(String line, int numline) {
-        market.lineSelection(line, numline, activePlayers.get(currentPlayer));
-        market.change(line, numline);
-    }
-
-    @Override
-    public void placeResource(int depositPosition, int resourcePosition) {
-        ResourceActionStrategy strategy = new ConcreteStrategyResource(depositPosition, activePlayers.get(currentPlayer).getBoard(), activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).getType());
-        activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).setStrategy(strategy);
-        activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).useResource();
-    }
-
-    @Override
-    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimensionForProdPower, TooManyResourcesRequested{
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) {
+        try {
             if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
+                try {
                     productionPower.removeResources(resources,warehouse);
-                    productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
+                    productionPower.addResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard());
+                } catch (DifferentDimensionForProdPower differentDimensionForProdPower) {
+                    differentDimensionForProdPower.printStackTrace();
+                }
             }
-
-    }
-
-    @Override
-    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimensionForProdPower, TooManyResourcesRequested {
-            if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())) {
-                productionPower.removeResources(resources, warehouse);
-                productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
-            }
+        } catch (TooManyResourcesRequested tooManyResourcesRequested) {
+            tooManyResourcesRequested.printStackTrace();
+        }
     }
 
     @Override
@@ -272,11 +270,21 @@ public class Game implements GameInterface{
      */
     // TODO: 12/04/2021 da testare
     public void nextPlayer(){
-        while(getActivePlayers().get(currentPlayer).endTurn()){
-            if(currentPlayer==getActivePlayers().size()-1){
-                currentPlayer=0;
-            }
+        while(activePlayers.get(currentPlayer).endTurn()){
+            if(!endGame()){
+                if(currentPlayer==activePlayers.size()-1){
+                    currentPlayer=0;
+                }
                 currentPlayer+=1;
+            }
+            else {
+                if(currentPlayer!=activePlayers.size()-1){
+                    currentPlayer+=1;
+                }
+                else {
+                    winner();
+                }
+            }
         }
     }
 
@@ -286,10 +294,50 @@ public class Game implements GameInterface{
      *  It controls if the conditions to end the game are satisfied and indicates the winner
      */
     public boolean endGame(){
-        return true;
+        for (Player activePlayer : activePlayers) {
+            if (activePlayer.getBoard().getFaithMarker() >= 24 ||
+                    activePlayer.getBoard().getNumOfDevCard() == 7) {
+                return true;
+            }
+        }
+        return false;
     }
 
+    /**
+     * Method winner indicates which player has more victory points than other players
+     */
+    public void winner(){
+        ArrayList<Integer> victoryPointsPlayers = new ArrayList<>();
+        ArrayList<Integer> resourcesPlayers = new ArrayList<>();
+        int maxVictoryPoints;
+        int maxResources;
+        int victoryPointsLeaderAndBoard;
+        String winnerUsername;
 
+        for (Player player : activePlayers) {
+            victoryPointsLeaderAndBoard = 0;
+            for (int j = 0; j < player.getLeaderCards().size(); j++) {
+                if (player.getLeaderCards().get(j).getStrategy().isActive()) {
+                    victoryPointsLeaderAndBoard += player.getLeaderCards().get(j).getVictoryPoint();
+                }
+            }
+            victoryPointsLeaderAndBoard += player.getTotalVictoryPoint();
+            victoryPointsPlayers.add(victoryPointsLeaderAndBoard);
+        }
+
+        maxVictoryPoints = Collections.max(victoryPointsPlayers);
+
+        if(Collections.frequency(victoryPointsPlayers, maxVictoryPoints)==1){
+            winnerUsername = activePlayers.get(victoryPointsPlayers.indexOf(maxVictoryPoints)).getUsername();
+        }
+        else{ //caso di pareggio
+            for (Player activePlayer : activePlayers) {
+                resourcesPlayers.add(activePlayer.getBoard().getTotalResources());
+            }
+            maxResources = Collections.max(resourcesPlayers);
+            winnerUsername = activePlayers.get(resourcesPlayers.indexOf(maxResources)).getUsername();
+        }
+    }
 
 
 }

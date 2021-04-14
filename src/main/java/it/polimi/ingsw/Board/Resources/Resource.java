@@ -15,6 +15,9 @@ public class Resource {
         this.type = type;
     }
 
+
+
+
     /**
      * Set-method used to set the strategy of a resource when it's needed
      * @param strategy is the strategy to set

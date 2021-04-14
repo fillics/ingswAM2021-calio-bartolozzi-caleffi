@@ -23,10 +23,15 @@ public class ConcreteStrategyDiscount implements LeaderCardStrategy{
         return resourceType;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
     @Override
     public void ability() {
         if(!active){
             active = true;
+            System.out.println("Ability discount activated!");
         }
         else{
             System.out.println("Ability discount was already activated.");

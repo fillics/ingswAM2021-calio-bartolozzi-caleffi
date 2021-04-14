@@ -10,19 +10,33 @@ import it.polimi.ingsw.Player;
 
 public class ConcreteStrategyMarble implements LeaderCardStrategy{
     private ResourceType resourceType;
-    private Player player;
+    private boolean active;
 
 
     /**
      * Constructor ConcreteStrategyMarble creates a new ConcreteStrategyMarble instance.
      */
-    public ConcreteStrategyMarble(ResourceType resourceType, Player player) {
-        this.player = player;
+    public ConcreteStrategyMarble(ResourceType resourceType) {
         this.resourceType = resourceType;
+        active = false;
+    }
+
+    public ResourceType getResourceType() {
+        return resourceType;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     @Override
     public void ability() {
-        System.out.println("I'm a white marble leader card");
+        if(!active){
+            active = true;
+            System.out.println("Ability white marble activated!");
+        }
+        else{
+            System.out.println("Ability white marble was already activated.");
+        }
     }
 }

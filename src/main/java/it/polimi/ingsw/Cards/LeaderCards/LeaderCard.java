@@ -12,6 +12,7 @@ public class LeaderCard extends Card {
     private ResourceType resourceType;
     private Requirement requirements;
     private int victorypoint;
+    private String useAbilityChoice;
 
     public LeaderCard(LeaderCardType type, Requirement requirements, ResourceType resourceType, int victorypoint) {
         this.type = type;
@@ -22,6 +23,18 @@ public class LeaderCard extends Card {
 
     public void setStrategy(LeaderCardStrategy strategy) {
         this.strategy = strategy;
+    }
+
+    public LeaderCardStrategy getStrategy() {
+        return strategy;
+    }
+
+    public String getUseAbilityChoice() {
+        return useAbilityChoice;
+    }
+
+    public void setUseAbilityChoice(String useAbilityChoice) {
+        this.useAbilityChoice = useAbilityChoice;
     }
 
     public void useAbility() {

@@ -1,15 +1,13 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Board.Board;
-import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
+
 import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 
 /**
  * Player class represents the user and player of the board game.
@@ -25,6 +23,7 @@ public class Player {
     private ArrayList<Resource> resourceBuffer;
     private Board board;
     private Game game;
+    private int chosenResource;
 
     /**
      * Constructor Player creates a new Player instance.
@@ -40,11 +39,13 @@ public class Player {
         resourceBuffer = new ArrayList<>();
         board = new Board();
         this.game = game;
+
     }
 
     public ArrayList<Resource> getResourceBuffer() {
         return resourceBuffer;
     }
+
 
     public Board getBoard() {
         return board;
@@ -92,9 +93,8 @@ public class Player {
      * at the beginning of the game according to the player's position
      * @see Game
      */
-    public void chooseResourcesBeginningGame(int amount){
+    public void addResourcesBeginningGame(int amount, int choice){
         Resource[] availableResource = new Resource[4];
-        Scanner input = new Scanner (System.in);
 
         availableResource[0] = new Resource(ResourceType.COIN);
         availableResource[1] = new Resource(ResourceType.SERVANT);
@@ -102,8 +102,6 @@ public class Player {
         availableResource[3] = new Resource(ResourceType.STONE);
 
         for (int i = 0; i < amount; i++) {
-            System.out.println("Which resource do you choose?");
-            int choice = input.nextInt();
             resourceBuffer.add(availableResource[choice]);
         }
     }
@@ -122,5 +120,16 @@ public class Player {
      */
     public boolean endTurn(){
         return true;
+    }
+
+    /**
+     * Method setChosenResource assigns the resource parameter to the chosenResource variable
+     */
+    public void setChosenResource(int choice){
+        this.chosenResource = choice;
+    }
+
+    public int getChosenResource() {
+        return chosenResource;
     }
 }
