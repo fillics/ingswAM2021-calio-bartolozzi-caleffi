@@ -3,11 +3,8 @@ package it.polimi.ingsw.Cards.DevelopmentCards;
 import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
-import it.polimi.ingsw.Exceptions.DepositDoesntHaveThisResource;
-import it.polimi.ingsw.Exceptions.DifferentDimensionForProdPower;
-import it.polimi.ingsw.Exceptions.EmptyDeposit;
+import it.polimi.ingsw.Exceptions.DifferentDimension;
 import it.polimi.ingsw.Exceptions.TooManyResourcesRequested;
-import it.polimi.ingsw.Game;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -79,20 +76,6 @@ public class ProductionPower {
             throw new TooManyResourcesRequested();
         }
     }
-    public void removeResources(ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimensionForProdPower {
-        if(resources.size() != warehouse.size()){
-            throw new DifferentDimensionForProdPower();
-        }
-        else {
-            for(int i = 0; i<resources.size(); i++){
-                try {
-                    warehouse.get(i).remove(resources.get(i));
-                } catch (DepositDoesntHaveThisResource | EmptyDeposit depositDoesntHaveThisResource) {
-                    depositDoesntHaveThisResource.printStackTrace();
-                }
-            }
-        }
-    }
 
     public void addResources(Board board) {
             for(ResourceType key : resourcesObtained.keySet()){
@@ -106,9 +89,9 @@ public class ProductionPower {
                 }
             }
     }
-    public void addResources(Board board, ArrayList<ResourceType> newResources)throws DifferentDimensionForProdPower{
+    public void addResources(Board board, ArrayList<ResourceType> newResources)throws DifferentDimension {
         if(newResources.size() != resourcesObtained.get(ResourceType.JOLLY)){
-            throw new DifferentDimensionForProdPower();
+            throw new DifferentDimension();
         }
         else{
             for(ResourceType key : resourcesObtained.keySet()){

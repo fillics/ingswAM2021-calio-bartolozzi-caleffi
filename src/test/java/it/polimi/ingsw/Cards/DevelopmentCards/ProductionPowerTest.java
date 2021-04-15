@@ -3,7 +3,7 @@ package it.polimi.ingsw.Cards.DevelopmentCards;
 import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
-import it.polimi.ingsw.Exceptions.DifferentDimensionForProdPower;
+import it.polimi.ingsw.Exceptions.DifferentDimension;
 import it.polimi.ingsw.Exceptions.TooManyResourcesRequested;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -182,39 +182,6 @@ public class ProductionPowerTest {
         }
     }
 
-    @Test
-    @DisplayName("removeResourcesTest1 to verify that the resources must be removed from from the deposits and strongbox")
-    void removeResourcesTest1(){
-        ArrayList<ResourceType> testresources= new ArrayList<>();
-        ArrayList<Warehouse> testwarehouse= new ArrayList<>();
-        testresources.add(ResourceType.COIN);
-        testresources.add(ResourceType.STONE);
-        testresources.add(ResourceType.STONE);
-        testresources.add(ResourceType.STONE);
-        testresources.add(ResourceType.SERVANT);
-        testresources.add(ResourceType.SERVANT);
-        testresources.add(ResourceType.SHIELD);
-        testwarehouse.add(testBoard.getDeposits().get(0));
-        testwarehouse.add(testBoard.getStrongbox());
-        testwarehouse.add(testBoard.getStrongbox());
-        testwarehouse.add(testBoard.getStrongbox());
-        testwarehouse.add(testBoard.getStrongbox());
-        testwarehouse.add(testBoard.getDeposits().get(1));
-        testwarehouse.add(testBoard.getStrongbox());
-        try {
-            testProductionPower.removeResources(testresources,testwarehouse);
-        } catch (DifferentDimensionForProdPower differentDimensionForProdPower) {
-            differentDimensionForProdPower.printStackTrace();
-        }
-        assertEquals(10, testBoard.getStrongbox().getTotalCoins());
-        assertEquals(7, testBoard.getStrongbox().getTotalStones());
-        assertEquals(9, testBoard.getStrongbox().getTotalServants());
-        assertEquals(9, testBoard.getStrongbox().getTotalShields());
-        assertEquals(0,testBoard.getDeposits().get(0).getQuantity());
-        assertEquals(1,testBoard.getDeposits().get(1).getQuantity());
-        assertEquals(3,testBoard.getDeposits().get(2).getQuantity());
-    }
-
 
     @Test
     @DisplayName("addResourcesTest1 to verify that the resources obtained from the prod power are inserted in the strongbox, test case without jolly resources")
@@ -239,7 +206,7 @@ public class ProductionPowerTest {
         testresources.add(ResourceType.SHIELD);
         try {
             testProductionPower.addResources(testBoard,testresources);
-        } catch (DifferentDimensionForProdPower differentDimensionForProdPower) {
+        } catch (DifferentDimension differentDimensionForProdPower) {
             differentDimensionForProdPower.printStackTrace();
         }
         assertEquals(12, testBoard.getStrongbox().getTotalCoins());

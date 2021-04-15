@@ -1,19 +1,18 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.DevelopmentCards.Level;
-import it.polimi.ingsw.Cards.LeaderCards.ConcreteStrategyDiscount;
-import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
-import it.polimi.ingsw.Cards.LeaderCards.LeaderCardType;
-import it.polimi.ingsw.Cards.LeaderCards.Requirement;
-import it.polimi.ingsw.Exceptions.DevelopmentCardNotFound;
-import it.polimi.ingsw.Exceptions.LeaderCardNotFound;
-import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
+import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
+import it.polimi.ingsw.Cards.LeaderCards.*;
+import it.polimi.ingsw.Exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.IntStream;
 
@@ -28,7 +27,18 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     Game testGame;
-
+    LeaderCard testLeaderCardDiscount;
+    LeaderCardStrategy testStrategyDiscount;
+    Requirement requirementsDiscount;
+    HashMap<CardColor,Integer> colorDiscount;
+    boolean choice;
+    int i;
+    HashMap<ResourceType,Integer> resourcePriceBuffer;
+    DevelopmentCard testDevelopmentCard;
+    ProductionPower testProductionPower;
+    HashMap<ResourceType,Integer> testResourcePrice;
+    HashMap<ResourceType,Integer> testResourcesNeeded;
+    HashMap<ResourceType,Integer> testResourcesObtained;
 
     /**
      * Method initialization initializes values.
@@ -40,23 +50,40 @@ class GameTest {
         testGame.createNewPlayer("bea");
         testGame.createNewPlayer("gio");
         testGame.createNewPlayer("jack");
+
+        colorDiscount= new HashMap<>();
+        colorDiscount.put(CardColor.YELLOW,1);
+        colorDiscount.put(CardColor.GREEN,1);
+        requirementsDiscount= new Requirement(colorDiscount,null,null);
+        testStrategyDiscount= new ConcreteStrategyDiscount(ResourceType.SERVANT);
+        testLeaderCardDiscount = new LeaderCard(LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
+        testLeaderCardDiscount.setStrategy(testStrategyDiscount);
+
+        testResourcePrice= new HashMap<>();
+        testResourcesNeeded = new HashMap<>();
+        testResourcesObtained = new HashMap<>();
+        testResourcePrice.put(ResourceType.SERVANT,2);
+        testResourcesNeeded.put(ResourceType.COIN,1);
+        testResourcesObtained.put(ResourceType.FAITHMARKER,1);
+        testProductionPower= new ProductionPower(testResourcesNeeded,testResourcesObtained);
+        testDevelopmentCard= new DevelopmentCard(Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
     }
 
     /**
-     * Test method checkSizeArrayPlayer checks if the arrays that contain the players and
+     * Test method SizeArrayPlayerTest checks if the arrays that contain the players and
      * the active players have the right dimension, after the initialization
      */
     @Test
-    void checkSizeArrayPlayer() {
+    void SizeArrayPlayerTest() {
         assertEquals(4, testGame.getActivePlayers().size());
         assertEquals(4, testGame.getPlayers().size());
     }
 
     /**
-     * Method test checkPlayersPosition checks the correct turn's position of the active players
+     * Method test PlayersPositionTest checks the correct turn's position of the active players
      */
     @Test
-    void checkPlayersPosition(){
+    void PlayersPositionTest(){
         assertEquals(1, testGame.getActivePlayers().get(0).getPosition());
         assertEquals(2, testGame.getActivePlayers().get(1).getPosition());
         assertEquals(3, testGame.getActivePlayers().get(2).getPosition());
@@ -64,11 +91,11 @@ class GameTest {
     }
 
     /**
-     * Test method checkAdditionalSetup checks if the distribution of resources and faith points to the players
+     * Test method AdditionalSetupTest checks if the distribution of resources and faith points to the players
      * at the beginning of the game is correct
      */
     @Test
-    void checkAdditionalSetup(){
+    void AdditionalSetupTest(){
         testGame.additionalSetup();
         testGame.getActivePlayers().get(1).setChosenResource(1);
         testGame.getActivePlayers().get(2).setChosenResource(2);
@@ -81,41 +108,41 @@ class GameTest {
     }
 
     /**
-     * Test method checkSizeDevelopmentGrid checks if the method createDevelopmentGrid creates
+     * Test method SizeDevelopmentGridTest checks if the method createDevelopmentGrid creates
      * the grid with the correct dimension
      */
     @Test
-    void checkSizeDevelopmentGrid() {
+    void SizeDevelopmentGridTest() {
         int bound = testGame.getDevelopmentGrid().size();
         IntStream.range(0, bound).forEach(i -> assertEquals(4, testGame.getDevelopmentGrid().get(i).size()));
     }
 
     /**
-     * Test method checkSizeLeaderDeck checks if the method createLeaderDeck creates
+     * Test method SizeLeaderDeckTest checks if the method createLeaderDeck creates
      * the deck with the correct dimension
      */
     @Test
-    void checkSizeLeaderDeck() {
+    void SizeLeaderDeckTest() {
         testGame.createLeaderDeck();
         assertEquals(16, testGame.getLeaderDeck().size());
     }
 
     /**
-     * Test method checkSizeLeaderDeckAfterDistribute checks the size of the leader deck
+     * Test method SizeLeaderDeckAfterDistributeTest checks the size of the leader deck
      * after the distribution of the leader cards to each player
      */
     @Test
-    void checkSizeLeaderDeckAfterDistribute() {
+    void SizeLeaderDeckAfterDistributeTest() {
         testGame.setup();
         assertEquals(16-4*testGame.getActivePlayers().size(), testGame.getLeaderDeck().size());
     }
 
     /**
-     * Test method checkRightSortDevelopmentCard checks if the development grid is sorted in the correct way,
+     * Test method RightSortDevelopmentCardTest checks if the development grid is sorted in the correct way,
      * with the cards in the right position
      */
     @Test
-    void checkRightSortDevelopmentCard() {
+    void RightSortDevelopmentCardTest() {
         testGame.createDevelopmentGrid();
         assertEquals(CardColor.YELLOW, testGame.getDevelopmentGrid().get(0).get(0).getColor()); //first element first array
         assertEquals(CardColor.YELLOW, testGame.getDevelopmentGrid().get(0).get(3).getColor()); //forth element first array
@@ -129,10 +156,10 @@ class GameTest {
 
 
     /**
-     * Test method checkLeaderCardsDistribution checks if each player receives 4 leader cards at the beginning of the game
+     * Test method LeaderCardsDistributionTest checks if each player receives 4 leader cards at the beginning of the game
      */
     @Test
-    void checkLeaderCardsDistribution(){
+    void LeaderCardsDistributionTest(){
         testGame.setup();
         for (int i = 0; i < testGame.getActivePlayers().size(); i++) {
             assertEquals(4, testGame.getActivePlayers().get(i).getLeaderCards().size());
@@ -140,21 +167,21 @@ class GameTest {
     }
 
     /**
-     * Test method checkChooseCardFromDevDeck checks if the Game's method chooseCardFromDevelopmentGrid returns
+     * Test method ChooseCardFromDevDeckTest checks if the Game's method chooseCardFromDevelopmentGrid returns
      * the selected card
      */
     @Test
-    void checkChooseCardFromDevDeck() throws DevelopmentCardNotFound {
+    void ChooseCardFromDevDeckTest() throws DevelopmentCardNotFound {
         testGame.setup();
         assertEquals(CardColor.BLUE,testGame.chooseCardFromDevelopmentGrid(CardColor.BLUE, Level.ONE).getColor());
         assertEquals(Level.ONE,testGame.chooseCardFromDevelopmentGrid(CardColor.BLUE, Level.ONE).getLevel());
     }
 
     /**
-     * Test method checkRemoveDevCard checks if the removal of the development card from the grid works
+     * Test method RemoveDevCardTest checks if the removal of the development card from the grid works
      */
     @Test
-    void checkRemoveDevCard() throws DevelopmentCardNotFound {
+    void RemoveDevCardTest() throws DevelopmentCardNotFound {
         testGame.setup();
         DevelopmentCard cardToRemove = testGame.chooseCardFromDevelopmentGrid(CardColor.BLUE, Level.ONE);
         testGame.removeCardFromDevelopmentGrid(cardToRemove);
@@ -168,11 +195,11 @@ class GameTest {
     }
 
     /**
-     * Test method checkNextPlayer checks if the method nextPlayer works correctly. It tests what happens
+     * Test method NextPlayerTest checks if the method nextPlayer works correctly. It tests what happens
      * when the last player ends his turn.
      */
     @Test
-    void checkNextPlayer(){
+    void NextPlayerTest(){
         testGame.setup();
         assertEquals(0, testGame.getCurrentPlayer());
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).endTurn();
@@ -187,11 +214,11 @@ class GameTest {
     }
 
     /**
-     * Test method checkActivationLeaderCard checks if the activation of the leader cards works correctly
+     * Test method ActivationLeaderCardTest checks if the activation of the leader cards works correctly
      * @throws LeaderCardNotFound if the player has not got the card to activate
      */
     @Test
-    void checkActivationLeaderCard() throws LeaderCardNotFound {
+    void ActivationLeaderCardTest() throws LeaderCardNotFound {
         assertEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
         HashMap<ResourceType,Integer> resourcePrice = new HashMap<>();
         resourcePrice.put(ResourceType.SERVANT,2);
@@ -206,12 +233,12 @@ class GameTest {
     }
 
     /**
-     * Test method checkDiscardLeaderCard checks if when a player discards one of his leader cards, his faith marker
+     * Test method DiscardLeaderCardTest checks if when a player discards one of his leader cards, his faith marker
      * increases correctly
      * @throws LeaderCardNotFound if the player has not got the card to discard
      */
     @Test
-    void checkDiscardLeaderCard() throws LeaderCardNotFound {
+    void DiscardLeaderCardTest() throws LeaderCardNotFound {
         HashMap<ResourceType,Integer> resourcePrice = new HashMap<>();
         resourcePrice.put(ResourceType.COIN,2);
         Requirement requirement = new Requirement(null, Level.TWO, resourcePrice);
@@ -225,12 +252,12 @@ class GameTest {
     }
 
     /**
-     * Test method checkChooseLeaderCard checks if the Game's method chooseLeaderCards works correctly and if at the end of
+     * Test method ChooseLeaderCardTest checks if the Game's method chooseLeaderCards works correctly and if at the end of
      * the method, the player has only two leader cards.
      * @throws LeaderCardNotFound if the player has not got the two chosenCards
      */
     @Test
-    void checkChooseLeaderCard() throws LeaderCardNotFound {
+    void ChooseLeaderCardTest() throws LeaderCardNotFound {
         HashMap<ResourceType,Integer> resourcePrice1 = new HashMap<>();
         resourcePrice1.put(ResourceType.COIN,2);
         HashMap<ResourceType,Integer> resourcePrice2 = new HashMap<>();
@@ -271,5 +298,109 @@ class GameTest {
         assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card4));
         assertFalse(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card1));
         assertFalse(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card3));
+    }
+
+    /** Method chooseDiscountActivationTest tests Game method chooseDiscountActivation. */
+    @Test
+    @DisplayName("chooseDiscountActivation test")
+    void chooseDiscountActivationTest() throws DiscountCannotBeActivated {
+        choice= true;
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardDiscount);
+        i= testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().indexOf(testLeaderCardDiscount);
+        assertEquals(1, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i).useAbility();
+
+        testGame.chooseDiscountActivation(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i),choice);
+        assertEquals(testLeaderCardDiscount.getUseDiscountChoice(),choice);
+    }
+
+    /** Method checkDiscountActivatedTest tests Game method checkDiscountActivated. */
+    @Test
+    @DisplayName("checkDiscountActivated test")
+    void checkDiscountActivatedTest() throws DiscountCannotBeActivated {
+        choice= true;
+        resourcePriceBuffer= new HashMap<>();
+        resourcePriceBuffer.putAll(testDevelopmentCard.getResourcePrice());
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardDiscount);
+        i = testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().indexOf(testLeaderCardDiscount);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i).useAbility();
+        testGame.chooseDiscountActivation(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i),choice);
+
+        testGame.checkDiscountActivated(resourcePriceBuffer,testDevelopmentCard);
+        assertTrue(resourcePriceBuffer.containsKey(ResourceType.SERVANT));
+        assertEquals(resourcePriceBuffer.get(ResourceType.SERVANT),1);
+    }
+
+    /** Method buyDevCardTest tests Game method buyDevCard. */
+    @Test
+    @DisplayName("buyDevCard test")
+    void buyDevCardTest() throws DiscountCannotBeActivated {
+        ArrayList<ResourceType> chosenResources1 = new ArrayList<>();
+        ArrayList<Warehouse> chosenWarehouses1 = new ArrayList<>();
+        ArrayList<ResourceType> chosenResources2 = new ArrayList<>();
+        ArrayList<Warehouse> chosenWarehouses2= new ArrayList<>();
+        ArrayList<ResourceType> chosenResources3 = new ArrayList<>();
+        ArrayList<Warehouse> chosenWarehouses3= new ArrayList<>();
+        ArrayList<ResourceType> chosenResources4 = new ArrayList<>();
+        ArrayList<Warehouse> chosenWarehouses4= new ArrayList<>();
+        testGame.setup();
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getStrongbox().put(ResourceType.SERVANT,4);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getStrongbox().put(ResourceType.STONE,2);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getStrongbox().put(ResourceType.COIN,1);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getStrongbox().put(ResourceType.SHIELD,1);
+        chosenResources1.add(ResourceType.SERVANT);
+        chosenWarehouses1.add( testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+
+
+        chosenResources2.add(ResourceType.SERVANT);
+        chosenWarehouses2.add( testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+        chosenResources2.add(ResourceType.SERVANT);
+        chosenWarehouses2.add( testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+
+
+        chosenResources3.add(ResourceType.SERVANT);
+        chosenWarehouses3.add( testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+        chosenResources3.add(ResourceType.STONE);
+        chosenWarehouses3.add( testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+        chosenResources3.add(ResourceType.STONE);
+        chosenWarehouses3.add( testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+
+
+        chosenResources4.add(ResourceType.COIN);
+        chosenWarehouses4.add( testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+        chosenResources4.add(ResourceType.SHIELD);
+        chosenWarehouses4.add( testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+
+        choice= true;
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardDiscount);
+        i= testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().indexOf(testLeaderCardDiscount);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i).useAbility();
+        testGame.chooseDiscountActivation(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i),choice);
+
+        try {
+            testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources1, chosenWarehouses1, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+            assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),3);
+        } catch (DevelopmentCardNotFound | DevCardNotPlaceable | NotEnoughResources | WrongChosenResources | DifferentDimension problemsToBuy) {
+            problemsToBuy.printStackTrace();
+            try {
+                testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources2, chosenWarehouses2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+                assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),2);
+            } catch (DevelopmentCardNotFound | DevCardNotPlaceable | NotEnoughResources | WrongChosenResources | DifferentDimension problemsToBuy2) {
+                problemsToBuy2.printStackTrace();
+                try {
+                    testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources3, chosenWarehouses3, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+                    assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),3);
+                } catch (DevelopmentCardNotFound | DevCardNotPlaceable | NotEnoughResources | WrongChosenResources | DifferentDimension problemsToBuy3) {
+                    problemsToBuy3.printStackTrace();
+                    try {
+                        testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources4, chosenWarehouses4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+                        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),4);
+                    } catch (DevelopmentCardNotFound | DevCardNotPlaceable | NotEnoughResources | WrongChosenResources | DifferentDimension problemsToBuy4) {
+                        problemsToBuy4.printStackTrace();
+                    }
+                }
+            }
+        }
+        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0).getDevelopmentSpace().size(),1);
     }
 }

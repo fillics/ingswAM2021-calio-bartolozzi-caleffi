@@ -3,7 +3,6 @@ package it.polimi.ingsw;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
-import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceActionStrategy;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
@@ -30,7 +29,6 @@ public class Game implements GameInterface{
     private ArrayList<LeaderCard> leaderDeck;
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
     private MarketTray market;
-    private ArrayList<DevelopmentSpace> devSpaceBuffer;
     private HashMap<ResourceType,Integer> resourcePriceBuffer;
     private int currentPlayer = 0;
     final int NUM_MAXPLAYERS = 4;
@@ -236,73 +234,38 @@ public class Game implements GameInterface{
 
     }
 
-    public void placeDevCard(DevelopmentCard developmentCard,DevelopmentSpace developmentSpace, ArrayList<DevelopmentSpace> devSpaceBuffer)throws WrongDevSpace{
-        if(devSpaceBuffer.contains(developmentSpace)){
-            developmentSpace.addDevelopmentCard(developmentCard);
-        }else{
-            throw new WrongDevSpace();
-        }
-    }
-
-
-    @Override
-    public void buyDevCard(CardColor color, Level level, ArrayList<ArrayList<ResourceType>> chosenResourcesDeposits, ArrayList<ResourceType> chosenResourcesStrongbox, DevelopmentSpace developmentSpace){
+    public void checkDiscountActivated(HashMap<ResourceType,Integer> resourcePriceBuffer, DevelopmentCard developmentCard){
         int i;
-        DevelopmentCard developmentCard = null;
-        devSpaceBuffer= new ArrayList<>();
-        ArrayList<ResourceType> chosenResourcesBuffer = new ArrayList<>(chosenResourcesStrongbox);
-
-        //controllo che la carta sia "acquistabile"
-        try {
-            developmentCard= chooseCardFromDevelopmentGrid(color,level);
-            resourcePriceBuffer= developmentCard.getResourcePrice();
-        } catch (DevelopmentCardNotFound developmentCardNotFound) {
-            developmentCardNotFound.printStackTrace();
-        }
-
-        //controllo che la carta scelta sia piazzabile in uno dei dev space
-        try {
-            activePlayers.get(currentPlayer).getBoard().checkDevSpaces(developmentCard,devSpaceBuffer);
-        } catch (DevCardNotPlaceable devCardNotPlaceable){
-            devCardNotPlaceable.printStackTrace();
-        }
-
-        for(i=0; i<chosenResourcesDeposits.size();i++){
-            chosenResourcesBuffer.addAll(chosenResourcesDeposits.get(i));
-        }
-
-        //modifico il prezzo richiesto se una o più carte discount sono attive e il player sceglie di utilizzarle
         for(i=0; i<activePlayers.get(currentPlayer).getLeaderCards().size();i++){
             if((activePlayers.get(currentPlayer).getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDiscount)&&(activePlayers.get(currentPlayer).getLeaderCards().get(i).getStrategy().isActive())){
-                //System.out.println("Do you want to use your discount of one " + ((ConcreteStrategyDiscount) activePlayers.get(currentPlayer).getLeaderCards().get(i).getStrategy()).getResourceType() + " ?");
-                //activePlayers.get(currentPlayer).getLeaderCards().get(i).setUseDiscountChoice(playerChoice);
                 activePlayers.get(currentPlayer).getLeaderCards().get(i).checkDiscount(developmentCard,resourcePriceBuffer);
             }
         }
+    }
 
-        //controllo che ci siano abbastanza risorse nella board per comprare la carta e se le risorse selezionate siano esattamente quelle richieste
-        //se si, rimuovo le risorse dalla board
-        try {
-            if(activePlayers.get(currentPlayer).getBoard().checkResources(resourcePriceBuffer, chosenResourcesBuffer)){
-                activePlayers.get(currentPlayer).getBoard().removeResources(chosenResourcesDeposits,chosenResourcesStrongbox);
-            }
-        } catch (NotEnoughResources | WrongChosenResources notEnoughResources) {
-            notEnoughResources.printStackTrace();
-        }
+    @Override
+    public void chooseDiscountActivation(LeaderCard leaderCard, boolean choice) throws DiscountCannotBeActivated {
+        if(activePlayers.get(currentPlayer).getLeaderCards().contains(leaderCard) && leaderCard.getStrategy() instanceof ConcreteStrategyDiscount && leaderCard.getStrategy().isActive())
+            leaderCard.setUseDiscountChoice(choice);
+        else
+            throw new DiscountCannotBeActivated();
+    }
 
-        //controllo che la carta venga rimossa dal developmentGrid in modo corretto
-        try {
-            removeCardFromDevelopmentGrid(developmentCard);
-        } catch (DevelopmentCardNotFound developmentCardNotFound) {
-            developmentCardNotFound.printStackTrace();
-        }
+    @Override
+    public void buyDevCard(CardColor color, Level level, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension {
+        DevelopmentCard developmentCard;
+        resourcePriceBuffer= new HashMap<>();
 
-        //controllo che il dev space selezionato sia quello corretto o uno di quelli corretti
-        try {
-            placeDevCard(developmentCard,developmentSpace, devSpaceBuffer);
-        } catch (WrongDevSpace wrongDevSpace) {
-            wrongDevSpace.printStackTrace();
+        developmentCard= chooseCardFromDevelopmentGrid(color,level);
+        resourcePriceBuffer.putAll(developmentCard.getResourcePrice());
+        activePlayers.get(currentPlayer).getBoard().checkDevSpace(developmentCard,developmentSpace);
+        checkDiscountActivated(resourcePriceBuffer,developmentCard);
+
+        if(activePlayers.get(currentPlayer).getBoard().checkResources(resourcePriceBuffer, chosenResources)){
+            activePlayers.get(currentPlayer).getBoard().removeResources(chosenResources,chosenWarehouses);
         }
+        removeCardFromDevelopmentGrid(developmentCard);
+        developmentSpace.addDevelopmentCard(developmentCard);
     }
 
     @Override
@@ -325,18 +288,18 @@ public class Game implements GameInterface{
     }
 
     @Override
-    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimensionForProdPower, TooManyResourcesRequested{
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimension, TooManyResourcesRequested{
         if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
-            productionPower.removeResources(resources,warehouse);
+            activePlayers.get(currentPlayer).getBoard().removeResources(resources,warehouse);
             productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
         }
 
     }
 
     @Override
-    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimensionForProdPower, TooManyResourcesRequested {
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested {
         if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())) {
-            productionPower.removeResources(resources, warehouse);
+            activePlayers.get(currentPlayer).getBoard().removeResources(resources,warehouse);
             productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
         }
     }
