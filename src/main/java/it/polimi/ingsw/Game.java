@@ -273,13 +273,25 @@ public class Game implements GameInterface{
         activePlayers.get(currentPlayer).fillBuffer(position);
     }
 
+    /**
+     * Override method takeResourcesFromMarket used to take the resources from the market tray, calling the method lineSelection()
+     * and after that it calls the method change() to update the marble's position in the market
+     * @param line (type String) - it specifies if the player wants to select a column or a row
+     * @param numline (type Int) - it indicates which line the player chose
+     */
     @Override
     public void takeResourcesFromMarket(String line, int numline) {
         market.lineSelection(line, numline, activePlayers.get(currentPlayer));
         market.change(line, numline);
     }
 
-
+    /**
+     * Override method placeResource used to place a resource in a specific deposit of the board.
+     * To do that, we assign the strategy ConcreteStrategyResource() to the player's resources and thanks to it,
+     * we are able to place the resource
+     * @param depositPosition (type Int) - it specifies in which deposit we want to place the resource
+     * @param resourcePosition (type Int) - it indicates which resource we want to place
+     */
     @Override
     public void placeResource(int depositPosition, int resourcePosition) {
         ResourceActionStrategy strategy = new ConcreteStrategyResource(depositPosition, activePlayers.get(currentPlayer).getBoard(), activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).getType());

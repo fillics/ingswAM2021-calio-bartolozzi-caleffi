@@ -131,7 +131,11 @@ public class Player {
         return chosenResource;
     }
 
-    // TODO: 05/04/2021 scrivere javadoc
+    /**
+     * Method fillbuffer adds to the Player's resourceBuffer the resource from the deposit indicated by the parameter position,
+     * decreasing the number of the resources of that specific deposit.
+     * @param position (type Int) - it indicates which deposit we are considering
+     */
     public void fillBuffer (int position){
         try {
             resourceBuffer.add(board.getDeposits().get(position).takeResource());
