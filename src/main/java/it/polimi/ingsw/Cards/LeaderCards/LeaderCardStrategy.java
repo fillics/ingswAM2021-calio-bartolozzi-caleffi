@@ -14,4 +14,6 @@ public interface LeaderCardStrategy {
     void ability();
 
     boolean isActive();
+
+    ResourceType getResourceType();
 }

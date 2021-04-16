@@ -26,6 +26,10 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
         active = false;
     }
 
+    public ResourceType getResourceType() {
+        return resourceType;
+    }
+
     @Override
     public void ability() {
         if(!active){

@@ -20,11 +20,10 @@ public class WhiteMarble extends Marble{
         int i;
         for(i=0; i<player.getLeaderCards().size();i++){
             if((player.getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyMarble)&&((player.getLeaderCards().get(i).getStrategy()).isActive())){
-                //System.out.println("Do you want to use"+((ConcreteStrategyMarble) player.getLeaderCards().get(i).getStrategy()).getResourceType() + "LeaderCard ability?");
                 if(player.getLeaderCards().get(i).getUseDiscountChoice()){
-                    Resource newResource= new Resource(((ConcreteStrategyMarble) player.getLeaderCards().get(i).getStrategy()).getResourceType());
+                    Resource newResource= new Resource(player.getLeaderCards().get(i).getStrategy().getResourceType());
                     player.getResourceBuffer().add(newResource);
-                    System.out.println("But now I've been transformed into "+ ((ConcreteStrategyMarble) player.getLeaderCards().get(i).getStrategy()).getResourceType());
+                    System.out.println("But now I've been transformed into "+ player.getLeaderCards().get(i).getStrategy().getResourceType());
                     break;
                 }
             }

@@ -38,7 +38,7 @@ public class LeaderCard extends Card {
         ResourceType temp;
         if(useDiscountChoice){
             for(j=0; j<developmentCard.getResourcePrice().size();j++){
-                temp=(((ConcreteStrategyDiscount) strategy).getResourceType());
+                temp=(strategy.getResourceType());
                 if(developmentCard.getResourcePrice().containsKey(temp)){
                     oldvalue=developmentCard.getResourcePrice().get(temp);
                     resourcePriceBuffer.replace(temp,oldvalue,oldvalue-1);

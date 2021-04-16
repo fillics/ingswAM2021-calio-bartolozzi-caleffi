@@ -15,20 +15,26 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
     private ProductionPower extraProductionPower;
     private Board board;
     private boolean active;
+    private final ResourceType resourceType;
 
     /**
      * Constructor ConcreteStrategyProductionPower creates a new ConcreteStrategyProductionPower instance.
      */
-    public ConcreteStrategyProductionPower(HashMap<ResourceType, Integer> resourceNeeded, Board board) {
+    public ConcreteStrategyProductionPower(HashMap<ResourceType, Integer> resourceNeeded, Board board, ResourceType resourceType) {
         this.resourceNeeded = resourceNeeded;
         this.board= board;
         resourcesObtained= new HashMap<>();
         resourcesObtained.put(ResourceType.FAITHMARKER,1);
         active=false;
+        this.resourceType = resourceType;
     }
 
     public boolean isActive() {
         return active;
+    }
+
+    public ResourceType getResourceType() {
+        return resourceType;
     }
 
     @Override
