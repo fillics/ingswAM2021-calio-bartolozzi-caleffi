@@ -54,9 +54,10 @@ public class Player {
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
         resourceBuffer = new ArrayList<>();
+        whiteMarbleCardChoice= new ArrayList<>();
+        whiteMarbleChoice= new ArrayList<>();
         board = new Board(game);
         this.game = game;
-
     }
 
     public ArrayList<Resource> getResourceBuffer() {
