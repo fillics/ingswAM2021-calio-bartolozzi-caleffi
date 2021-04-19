@@ -436,7 +436,7 @@ class GameTest {
         try {
             testGame.chooseWhiteMarbleActivation(whiteMarbleCardChoice);
             assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getWhiteMarbleCardChoice(), whiteMarbleCardChoice);
-        } catch (DifferentDimension | LeaderCardNotFound | LeaderCardNotActivated problems) {
+        } catch (LeaderCardNotFound | LeaderCardNotActivated problems) {
             problems.printStackTrace();
         }
 
