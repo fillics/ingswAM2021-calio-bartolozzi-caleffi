@@ -36,7 +36,6 @@ public class MarbleTest {
     Requirement requirementsWhiteMarble2;
     HashMap<CardColor,Integer> colorWhiteMarble2;
     ArrayList<LeaderCard> whiteMarbleCardChoice;
-    ArrayList<Boolean> whiteMarbleChoice;
 
     /*
      * Method setup setups tests.
@@ -74,11 +73,8 @@ public class MarbleTest {
         testPlayer.addLeaderCard(testLeaderCardWhiteMarble2);
         testLeaderCardWhiteMarble2.setStrategy(testStrategyWhiteMarble2);
         whiteMarbleCardChoice= new ArrayList<>();
-        whiteMarbleChoice= new ArrayList<>();
         whiteMarbleCardChoice.add(testLeaderCardWhiteMarble);
         whiteMarbleCardChoice.add(testLeaderCardWhiteMarble2);
-        whiteMarbleChoice.add(true);
-        whiteMarbleChoice.add(true);
     }
 
     /** Method transformTest tests transform method. */
@@ -98,7 +94,7 @@ public class MarbleTest {
 
         assertEquals(testPlayer.getLeaderCards().size(),2);
 
-        testPlayer.setWhiteMarbleChoice(whiteMarbleCardChoice,whiteMarbleChoice);
+        testPlayer.setWhiteMarbleCardChoice(whiteMarbleCardChoice);
         testLeaderCardWhiteMarble.useAbility();
         testLeaderCardWhiteMarble2.useAbility();
 
@@ -108,11 +104,9 @@ public class MarbleTest {
         white.transform(testPlayer);
         assertEquals(whiteMarbleCardChoice.get(0).getStrategy().getResourceType(),ResourceType.SERVANT);
         assertEquals(whiteMarbleCardChoice.size(),1);
-        assertEquals(whiteMarbleChoice.size(),1);
 
         white2.transform(testPlayer);
         assertEquals(whiteMarbleCardChoice.size(),0);
-        assertEquals(whiteMarbleChoice.size(),0);
 
         white3.transform(testPlayer);
     }

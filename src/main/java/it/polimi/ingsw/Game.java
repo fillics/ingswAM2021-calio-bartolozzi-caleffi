@@ -278,17 +278,15 @@ public class Game implements GameInterface{
     }
 
     @Override
-    public void chooseWhiteMarbleActivation(ArrayList<LeaderCard> whiteMarbleCardChoice,ArrayList<Boolean> whiteMarbleChoice) throws DifferentDimension,LeaderCardNotFound, LeaderCardNotActivated{
+    public void chooseWhiteMarbleActivation(ArrayList<LeaderCard> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{
         int i;
-        if(whiteMarbleCardChoice.size() != whiteMarbleChoice.size())
-            throw new DifferentDimension();
         for(i=0; i<whiteMarbleCardChoice.size();i++){
             if(!activePlayers.get(currentPlayer).getLeaderCards().contains(whiteMarbleCardChoice.get(i)) || !(whiteMarbleCardChoice.get(i).getStrategy() instanceof ConcreteStrategyMarble))
                 throw new LeaderCardNotFound();
             else if(!whiteMarbleCardChoice.get(i).getStrategy().isActive())
                 throw new LeaderCardNotActivated();
         }
-        activePlayers.get(currentPlayer).setWhiteMarbleChoice(whiteMarbleCardChoice,whiteMarbleChoice);
+        activePlayers.get(currentPlayer).setWhiteMarbleCardChoice(whiteMarbleCardChoice);
     }
 
     /**
