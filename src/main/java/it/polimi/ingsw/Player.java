@@ -148,6 +148,7 @@ public class Player {
      * decreasing the number of the resources of that specific deposit.
      * @param position (type Int) - it indicates which deposit we are considering
      */
+    // TODO: 19/04/2021 da testare
     public void fillBuffer (int position){
         try {
             resourceBuffer.add(board.getDeposits().get(position).takeResource());

@@ -154,6 +154,21 @@ class GameTest {
         assertEquals(CardColor.BLUE, testGame.getDevelopmentGrid().get(3).get(1).getColor()); //second element forth array
     }
 
+    /** Method checkUsername tests username's getter. */
+    @Test
+    void checkUsername() {
+        assertEquals("fil", testGame.getActivePlayers().get(0).getUsername());
+        assertEquals("bea", testGame.getActivePlayers().get(1).getUsername());
+        assertEquals("gio", testGame.getActivePlayers().get(2).getUsername());
+        assertEquals("jack", testGame.getActivePlayers().get(3).getUsername());
+
+    }
+
+    /** Method checkTotalVictoryPoints tests totalVictoryPoints's getter for each player. */
+    @Test
+    void checkTotalVictoryPoints(){
+        IntStream.range(0, testGame.getActivePlayers().size()).forEach(j -> assertEquals(0, testGame.getActivePlayers().get(j).getTotalVictoryPoint()));
+    }
 
     /**
      * Test method LeaderCardsDistributionTest checks if each player receives 4 leader cards at the beginning of the game
@@ -466,4 +481,6 @@ class GameTest {
             assertFalse(testGame.getActivePlayers().get(3).getBoard().getVaticanReportSections().get(k).getPopefavortile().isVisible());
         }
     }
+
+
 }

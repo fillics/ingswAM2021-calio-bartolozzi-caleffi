@@ -32,6 +32,7 @@ public class Game implements GameInterface{
     private HashMap<ResourceType,Integer> resourcePriceBuffer;
     private int currentPlayer = 0;
     private final int NUM_MAXPLAYERS = 4;
+    private boolean endgame = false;
 
 
     /**
@@ -107,6 +108,13 @@ public class Game implements GameInterface{
     }
 
     /**
+     * Getter method used to check if the game is ended
+     */
+    public boolean isEndgame() {
+        return endgame;
+    }
+
+    /**
      * Getter method used to return the development deck
      */
     public ArrayList<LinkedList<DevelopmentCard>> getDevelopmentGrid() {
@@ -174,11 +182,9 @@ public class Game implements GameInterface{
      */
     public void createLeaderDeck(){
         Gson gson = new Gson();
-
+        BufferedReader br;
         try{
-            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/json/LeaderCard.json"));
-           // if(br!=null) 
-            // TODO: 19/04/2021 da sistemare il thworwn 
+            br = new BufferedReader(new FileReader("src/main/resources/json/LeaderCard.json"));
             leaderDeck = gson.fromJson(br, new TypeToken<List<LeaderCard>>(){}.getType());
             Collections.shuffle(leaderDeck);
         }catch (FileNotFoundException ex){
@@ -268,6 +274,7 @@ public class Game implements GameInterface{
         }
         removeCardFromDevelopmentGrid(developmentCard);
         developmentSpace.addDevelopmentCard(developmentCard);
+        activePlayers.get(currentPlayer).getBoard().increaseNumOfDevCards();
     }
 
     /**
@@ -398,12 +405,26 @@ public class Game implements GameInterface{
 
     }
 
+    public void checkPlayersFaithMarkers(int faithmarker){
+        int x;
+        for (Player player :  activePlayers){
+            if(player.getBoard().getFaithMarker() > 0){
+                x = player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() - 1;
+                if(player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() != 0){
+                    player.getBoard().getVaticanReportSections().get(x).getPopefavortile().setVisible();
+                }
+            }
+            player.getBoard().getVaticanReportSections().get(player.getBoard().getTrack().get(faithmarker - 1).getVaticaReportSection()-1).setActivated();
+        }
+    }
+
+
     /**
      * Method nextPlayer handles which player is playing during his turn
      */
     public void nextPlayer(){
         if(activePlayers.get(currentPlayer).endTurn()){
-            if(!endGame()){
+            if(!endgame){
                 if(currentPlayer==activePlayers.size()-1){
                     currentPlayer=0;
                 }
@@ -422,36 +443,17 @@ public class Game implements GameInterface{
 
 
     /**
-     *  Method endGame called when endTurn in Player is true.
-     *  It controls if the conditions to end the game are satisfied and indicates the winner
+     *  Method endGame called when the conditions to end the game are satisfied.
      */
-    public boolean endGame(){
-        for (Player activePlayer : activePlayers) {
-            if (activePlayer.getBoard().getFaithMarker() >= 24 ||
-                    activePlayer.getBoard().getNumOfDevCard() == 7) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void checkPlayersFaithMarkers(int faithmarker){
-        int x;
-        for (Player player :  activePlayers){
-            if(player.getBoard().getFaithMarker() > 0){
-                x = player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() - 1;
-                if(player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() != 0){
-                    player.getBoard().getVaticanReportSections().get(x).getPopefavortile().setVisible();
-                }
-            }
-            player.getBoard().getVaticanReportSections().get(player.getBoard().getTrack().get(faithmarker - 1).getVaticaReportSection()-1).setActivated();
-        }
+    public void endGame(){
+        endgame=true;
     }
 
     /**
      * Method winner indicates which player has more victory points than other players
      */
-    public void winner(){
+    // TODO: 19/04/2021 da testare
+    public String winner(){
         ArrayList<Integer> victoryPointsPlayers = new ArrayList<>();
         ArrayList<Integer> resourcesPlayers = new ArrayList<>();
         int maxVictoryPoints;
@@ -474,6 +476,8 @@ public class Game implements GameInterface{
 
         if(Collections.frequency(victoryPointsPlayers, maxVictoryPoints)==1){
             winnerUsername = activePlayers.get(victoryPointsPlayers.indexOf(maxVictoryPoints)).getUsername();
+            return winnerUsername;
+
         }
         else{ //caso di pareggio
             for (Player activePlayer : activePlayers) {
@@ -481,6 +485,7 @@ public class Game implements GameInterface{
             }
             maxResources = Collections.max(resourcesPlayers);
             winnerUsername = activePlayers.get(resourcesPlayers.indexOf(maxResources)).getUsername();
+            return winnerUsername;
         }
     }
 

@@ -21,7 +21,7 @@ import java.io.*;
 import java.util.*;
 
 public class Board {
-    private int NumOfDevCard;
+    private int numOfDevCards;
     private int faithMarker;
     private int boardVictoryPoint;
     private Strongbox strongbox;
@@ -36,7 +36,7 @@ public class Board {
      * Class's constructor that'll be used in the setup method
      */
     public Board(Game game) {
-        NumOfDevCard = 0;
+        numOfDevCards = 0;
         faithMarker = 0;
         boardVictoryPoint = 0;
         this.game = game;
@@ -109,7 +109,7 @@ public class Board {
     /**
      * Get-methods in order to obtain the attributes' values
      */
-    public int getNumOfDevCard() { return NumOfDevCard; }
+    public int getNumOfDevCards() { return numOfDevCards; }
     /**
      * Get-methods in order to obtain the attributes' values
      */
@@ -164,6 +164,9 @@ public class Board {
      */
     public void increaseFaithMarker(){
         faithMarker += 1;
+        if(faithMarker == 24){
+            game.endGame();
+        }
         if(track.get(faithMarker - 1).isPopeSpace()){
             if(track.get(faithMarker - 1).getVaticaReportSection() > 0){
                 if(!vaticanReportSections.get(track.get(faithMarker - 1).getVaticaReportSection()-1).isActivated()){
@@ -285,5 +288,14 @@ public class Board {
                 }
             }
         }
+    }
+
+    /**
+     * Method increaseNumOfDevCards increases the number of development cards that are present in the player's board.
+     * It is called when a player buys a new development card.
+     */
+    public void increaseNumOfDevCards(){
+        numOfDevCards+=1;
+        if(numOfDevCards==7) game.endGame();
     }
 }

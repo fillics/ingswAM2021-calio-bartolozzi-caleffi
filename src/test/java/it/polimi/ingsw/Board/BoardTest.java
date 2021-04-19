@@ -175,7 +175,7 @@ public class BoardTest {
         assertEquals(8,testBoard.getTotalServants());
         assertEquals(6,testBoard.getTotalCoins());
         assertEquals(50,testBoard.getTotalStones());
-        assertEquals(0,testBoard.getNumOfDevCard());
+        assertEquals(0,testBoard.getNumOfDevCards());
         assertEquals(0,testBoard.getFaithMarker());
         testBoard.increaseFaithMarker();
         assertEquals(1, testBoard.getFaithMarker());
@@ -220,5 +220,6 @@ public class BoardTest {
         assertEquals(1,testBoard.getTotalShields());
         assertEquals(50,testBoard.getTotalStones());
     }
+
 }
 

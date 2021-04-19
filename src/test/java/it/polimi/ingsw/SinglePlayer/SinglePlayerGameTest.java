@@ -54,7 +54,7 @@ class SinglePlayerGameTest {
         assertEquals(11, testSingle.getBlackCross());
         testSingle.increaseBlackCross(15);
         assertEquals(26, testSingle.getBlackCross());
-        assertTrue(testSingle.endGame());
+        assertTrue(testSingle.isEndgame());
     }
 
     /**
@@ -150,7 +150,7 @@ class SinglePlayerGameTest {
         testSingle.removeDevCard(CardColor.GREEN);
         testSingle.removeDevCard(CardColor.GREEN);
         assertTrue(testSingle.isNoMoreColumnDevCard());
-        assertTrue(testSingle.endGame());
+        assertTrue(testSingle.isEndgame());
 
     }
 

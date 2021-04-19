@@ -12,6 +12,8 @@ public class EchoServerClientHandler implements Runnable {
     public EchoServerClientHandler(Socket socket) {
         this.socket = socket;
     }
+
+
     public void run() {
         try {
             Scanner in = new Scanner(socket.getInputStream());
@@ -28,11 +30,11 @@ public class EchoServerClientHandler implements Runnable {
                 }
                 else {
                     out.println("Received: " + line.toUpperCase(Locale.ROOT));
+                    out.flush();
 
                 }
-
-                out.flush();
                 System.out.println(line);
+
             }
             // Chiudo gli stream e il socket
             in.close();

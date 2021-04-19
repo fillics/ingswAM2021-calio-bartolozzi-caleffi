@@ -10,7 +10,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
 
 /**
@@ -23,6 +22,7 @@ public class SinglePlayerGame extends Game {
     private ArrayList<SoloActionToken> deletedSoloActionToken;
     private int blackCross;
     private boolean noMoreColumnDevCard = false;
+    private boolean endgame = false;
 
     /**
      * Constructor SinglePlayerGame creates a new SinglePlayerGame instance.
@@ -74,12 +74,20 @@ public class SinglePlayerGame extends Game {
     }
 
     /**
+     *Getter method used to check if the game is ended
+     */
+    @Override
+    public boolean isEndgame() {
+        return endgame;
+    }
+    /**
      * Method increaseBlackCross moves the black cross forward by an amount of steps.
      *
      * @param amount of type Int - indicates the number of steps.
      */
     public void increaseBlackCross(int amount){
         if (amount>=0) blackCross += amount;
+        if (blackCross>=24) endGame();
     }
 
     /**
@@ -154,7 +162,10 @@ public class SinglePlayerGame extends Game {
                 stop = true;
                 if(developmentGrid.get(i).isEmpty()){
                     int j = i+4;
-                    if(j>developmentGrid.size()) noMoreColumnDevCard = true;
+                    if(j>developmentGrid.size()){
+                        noMoreColumnDevCard = true;
+                        endGame();
+                    }
                 }
             }
         }
@@ -162,25 +173,30 @@ public class SinglePlayerGame extends Game {
 
 
     /**
-     *  Method endGame called when endTurn in Player is true.
-     *  It controls if the conditions to end the game are satisfied and indicates the winner
-     *
+     *  Method endGame called when the conditions to end the game are satisfied.
      */
     @Override
-    public boolean endGame() {
-        if(blackCross>=24){
-            System.out.println("Lorenzo il Magnifico" + " won");
-            return true;
-        }
-        else if(noMoreColumnDevCard){
-            System.out.println("Lorenzo il Magnifico" + " won");
-            return true;
+    public void endGame() {
+        endgame=true;
+        winner();
+    }
+
+
+    /**
+     * Override method winner indicates who wins the match between the player and Lorenzo il Magnifico
+     */
+    @Override
+    public String winner() {
+        String winnerUsername = null;
+        if(blackCross>=24 || noMoreColumnDevCard){
+            winnerUsername = "Lorenzo Il Magnifico";
+
         }
         else if(getActivePlayers().get(0).getBoard().getFaithMarker() >= 24 ||
-                getActivePlayers().get(0).getBoard().getNumOfDevCard()==7){
-            System.out.println(getActivePlayers().get(0).getUsername() + " won");
-            return true;
+                getActivePlayers().get(0).getBoard().getNumOfDevCards()==7){
+            winnerUsername = getActivePlayers().get(0).getUsername();
         }
-        else return false;
+        return winnerUsername;
+
     }
 }
