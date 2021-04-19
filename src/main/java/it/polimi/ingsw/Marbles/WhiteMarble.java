@@ -14,14 +14,11 @@ public class WhiteMarble extends Marble{
      * unless a marble ability of leader cards is activated.
      */
     @Override
-    public void transform(Player player){
-        if(!player.getWhiteMarbleCardChoice().isEmpty() && player.getWhiteMarbleChoice().get(0)){
-            Resource newResource= new Resource(player.getWhiteMarbleCardChoice().get(0).getStrategy().getResourceType());
+    public void transform(Player player) {
+        if (!player.getWhiteMarbleCardChoice().isEmpty()) {
+            Resource newResource = new Resource(player.getWhiteMarbleCardChoice().get(0).getStrategy().getResourceType());
             player.getResourceBuffer().add(newResource);
-        }
-        if(!player.getWhiteMarbleCardChoice().isEmpty()) {
             player.getWhiteMarbleCardChoice().remove(0);
-            player.getWhiteMarbleChoice().remove(0);
         }
     }
 }

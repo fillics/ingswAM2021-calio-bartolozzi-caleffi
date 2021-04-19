@@ -26,20 +26,6 @@ public class Player {
     private Game game;
     private int chosenResource;
     private ArrayList<LeaderCard> whiteMarbleCardChoice;
-    private ArrayList<Boolean> whiteMarbleChoice;
-
-    public ArrayList<Boolean> getWhiteMarbleChoice() {
-        return whiteMarbleChoice;
-    }
-
-    public ArrayList<LeaderCard> getWhiteMarbleCardChoice() {
-        return whiteMarbleCardChoice;
-    }
-
-    public void setWhiteMarbleChoice(ArrayList<LeaderCard> whiteMarbleCardChoice, ArrayList<Boolean> whiteMarbleChoice) {
-        this.whiteMarbleCardChoice= whiteMarbleCardChoice;
-        this.whiteMarbleChoice = whiteMarbleChoice;
-    }
 
     /**
      * Constructor Player creates a new Player instance.
@@ -54,10 +40,20 @@ public class Player {
         leaderCards = new ArrayList<>();
         resourceBuffer = new ArrayList<>();
         whiteMarbleCardChoice= new ArrayList<>();
-        whiteMarbleChoice= new ArrayList<>();
         board = new Board(game);
         this.game = game;
     }
+
+
+    public ArrayList<LeaderCard> getWhiteMarbleCardChoice() {
+        return whiteMarbleCardChoice;
+    }
+
+
+    public void setWhiteMarbleCardChoice(ArrayList<LeaderCard> whiteMarbleCardChoice) {
+        this.whiteMarbleCardChoice= whiteMarbleCardChoice;
+    }
+
 
     public ArrayList<Resource> getResourceBuffer() {
         return resourceBuffer;

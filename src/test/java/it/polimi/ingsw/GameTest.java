@@ -409,7 +409,6 @@ class GameTest {
     @DisplayName("chooseWhiteMarbleActivation test")
     void chooseWhiteMarbleActivationTest(){
         ArrayList<LeaderCard> whiteMarbleCardChoice= new ArrayList<>();
-        ArrayList<Boolean> whiteMarbleChoice= new ArrayList<>();
         HashMap<CardColor,Integer> colorWhiteMarble= new HashMap<>();
         colorWhiteMarble.put(CardColor.GREEN,2);
         colorWhiteMarble.put(CardColor.PURPLE,1);
@@ -433,14 +432,11 @@ class GameTest {
 
         whiteMarbleCardChoice.add(testLeaderCardWhiteMarble);
         whiteMarbleCardChoice.add(testLeaderCardWhiteMarble2);
-        whiteMarbleChoice.add(true);
-        whiteMarbleChoice.add(true);
 
         try {
-            testGame.chooseWhiteMarbleActivation(whiteMarbleCardChoice,whiteMarbleChoice);
+            testGame.chooseWhiteMarbleActivation(whiteMarbleCardChoice);
             assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getWhiteMarbleCardChoice(), whiteMarbleCardChoice);
-            assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getWhiteMarbleChoice(), whiteMarbleChoice);
-        } catch (DifferentDimension | LeaderCardNotFound | LeaderCardNotActivated problems) {
+        } catch (LeaderCardNotFound | LeaderCardNotActivated problems) {
             problems.printStackTrace();
         }
 
