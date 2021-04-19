@@ -31,7 +31,7 @@ public class Game implements GameInterface{
     private MarketTray market;
     private HashMap<ResourceType,Integer> resourcePriceBuffer;
     private int currentPlayer = 0;
-    final int NUM_MAXPLAYERS = 4;
+    private final int NUM_MAXPLAYERS = 4;
 
 
     /**
@@ -177,6 +177,8 @@ public class Game implements GameInterface{
 
         try{
             BufferedReader br = new BufferedReader(new FileReader("src/main/resources/json/LeaderCard.json"));
+           // if(br!=null) 
+            // TODO: 19/04/2021 da sistemare il thworwn 
             leaderDeck = gson.fromJson(br, new TypeToken<List<LeaderCard>>(){}.getType());
             Collections.shuffle(leaderDeck);
         }catch (FileNotFoundException ex){

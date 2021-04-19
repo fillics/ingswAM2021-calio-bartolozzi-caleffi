@@ -1,11 +1,9 @@
 package it.polimi.ingsw.Board.Storage;
 
-import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class Strongbox extends Warehouse{
     private HashMap<ResourceType, Integer> strongbox;

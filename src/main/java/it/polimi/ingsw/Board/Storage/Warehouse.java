@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Board.Storage;
 
-import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Exceptions.DepositDoesntHaveThisResource;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;

@@ -9,7 +9,6 @@ import it.polimi.ingsw.Exceptions.EmptyDeposit;
 import it.polimi.ingsw.Exceptions.LeaderCardNotFound;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 /**
  * Player class represents the user and player of the board game.

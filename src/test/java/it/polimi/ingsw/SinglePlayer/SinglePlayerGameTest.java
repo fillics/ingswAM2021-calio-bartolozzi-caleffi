@@ -3,9 +3,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
 import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
-import it.polimi.ingsw.Player;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

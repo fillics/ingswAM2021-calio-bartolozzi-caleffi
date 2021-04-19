@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Board.Resources;
 
-import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.Exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.Exceptions.DepositHasReachedMaxLimit;
 
@@ -14,8 +13,6 @@ public class Resource {
     public Resource(ResourceType type) {
         this.type = type;
     }
-
-
 
 
     /**

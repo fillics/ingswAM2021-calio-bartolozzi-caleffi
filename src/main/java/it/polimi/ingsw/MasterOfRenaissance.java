@@ -25,8 +25,8 @@ public class MasterOfRenaissance {
 
     public static void main( String[] args ) {
         System.out.println("Hi! Welcome to Master of Renaissance!");
-        Game game = new Game();
-        Board board = new Board(game);
+
+        //chiamiamo server e client
 
     }
 }
