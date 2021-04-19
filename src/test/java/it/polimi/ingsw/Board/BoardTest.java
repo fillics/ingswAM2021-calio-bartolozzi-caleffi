@@ -9,10 +9,8 @@ import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
-import it.polimi.ingsw.Exceptions.DevCardNotPlaceable;
-import it.polimi.ingsw.Exceptions.DifferentDimension;
-import it.polimi.ingsw.Exceptions.NotEnoughResources;
-import it.polimi.ingsw.Exceptions.WrongChosenResources;
+import it.polimi.ingsw.Exceptions.*;
+import it.polimi.ingsw.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see Board
  */
 public class BoardTest {
+    Game testGame;
     Board testBoard;
     DevelopmentCard testDevelopmentCard1;
     DevelopmentCard testDevelopmentCard2;
@@ -62,8 +61,8 @@ public class BoardTest {
 
     /** Method setup setups tests. */
     @BeforeEach
-    void setup() {
-        testBoard = new Board();
+    void setup() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+        testBoard = new Board(testGame);
         coin = new Resource(ResourceType.COIN);
         servant = new Resource(ResourceType.SERVANT);
         servant.setStrategy(new ConcreteStrategyResource(0, testBoard, ResourceType.SERVANT));
@@ -95,16 +94,16 @@ public class BoardTest {
 
         testPopeFavorTile = new PopeFavorTile(PopeFavorTileColor.YELLOW, 1);
         testPopeFavorTile.setVisible();
-        cell1 = new Cell(1,true);
-        cell2 = new Cell(1,true);
-        cell3 = new Cell(1,true);
-        cell4 = new Cell(1,true);
-        cell5 = new Cell(1,true);
-        cell6 = new Cell(1,true);
-        cell7 = new Cell(1,true);
-        cell8 = new Cell(1,true);
-        cell9 = new Cell(1,true);
-        cell10 = new Cell(1,true);
+        cell1 = new Cell(1,true,1);
+        cell2 = new Cell(1,true,1);
+        cell3 = new Cell(1,true,1);
+        cell4 = new Cell(1,true,2);
+        cell5 = new Cell(1,true,2);
+        cell6 = new Cell(1,true,2);
+        cell7 = new Cell(1,true,3);
+        cell8 = new Cell(1,true,3);
+        cell9 = new Cell(1,true,3);
+        cell10 = new Cell(1,true,3);
         testVaticanReportSection1 = new VaticanReportSection(testPopeFavorTile);
         testVaticanReportSection2 = new VaticanReportSection(testPopeFavorTile);
         testVaticanReportSection3 = new VaticanReportSection(testPopeFavorTile);

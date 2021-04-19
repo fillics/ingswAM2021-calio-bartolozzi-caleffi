@@ -53,7 +53,15 @@ public class ProductionPower {
         return resourcesObtained;
     }
 
-    public boolean check(ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, Board board) throws TooManyResourcesRequested {
+    /**
+     * Method checkTakenResources verifies that the resources taken from the warehouse by the player are enough to use a production power
+     * @param resources is the array of resources chosen by the player to activate the production power
+     * @param warehouse is the array of Warehouse objects that shows where the chosen resources come from
+     * @param board is the player board
+     * @return true if the resources are enough, false otherwise
+     * @throws TooManyResourcesRequested is the exception thrown when the resources aren't enough
+     */
+    public boolean checkTakenResources(ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, Board board) throws TooManyResourcesRequested {
         int jollycounter = 0;
         HashMap<ResourceType,Integer> counter = new HashMap<>();
         counter.put(ResourceType.COIN,Collections.frequency(resources,ResourceType.COIN));
@@ -77,6 +85,11 @@ public class ProductionPower {
         }
     }
 
+    /**
+     * Method addResource increase the number of the strongbox resources by adding the resource obtained thanks to the production power
+     * method called when the production power doesn't have ResourceType.JOLLY in the resource obtained
+     * @param board id the player board
+     */
     public void addResources(Board board) {
             for(ResourceType key : resourcesObtained.keySet()){
                 if(key == ResourceType.FAITHMARKER){
@@ -89,6 +102,14 @@ public class ProductionPower {
                 }
             }
     }
+
+    /**
+     * Method addResource increase the number of the strongbox resources by adding the resource obtained thanks to the production power
+     * method called when the production power has ResourceType.ANY in the resource obtained
+     * @param board id the player board
+     * @param newResources is the array of chosen resources by the player instead of the JOLLY resources
+     * @throws DifferentDimension is the exception thrown when the number of chosen resources is different from the number of JOLLY resources
+     */
     public void addResources(Board board, ArrayList<ResourceType> newResources)throws DifferentDimension {
         if(newResources.size() != resourcesObtained.get(ResourceType.JOLLY)){
             throw new DifferentDimension();

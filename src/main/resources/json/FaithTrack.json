@@ -8,10 +8,6 @@
     "popeSpace" : false
   },
   {
-    "victoryPoint" : 0,
-    "popeSpace" : false
-  },
-  {
     "victoryPoint" : 1,
     "popeSpace" : false
   },
@@ -21,19 +17,26 @@
   },
   {
     "victoryPoint" : 0,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 1
   },
   {
     "victoryPoint" : 2,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 1
+
   },
   {
     "victoryPoint" : 0,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 1
+
   },
   {
     "victoryPoint" : 0,
-    "popeSpace" : true
+    "popeSpace" : true,
+    "vaticanReportSection" : 1
+
   },
   {
     "victoryPoint" : 4,
@@ -49,23 +52,33 @@
   },
   {
     "victoryPoint" : 6,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 2
+
   },
   {
     "victoryPoint" : 0,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 2
+
   },
   {
     "victoryPoint" : 0,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 2
+
   },
   {
     "victoryPoint" : 9,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 2
+
   },
   {
     "victoryPoint" : 0,
-    "popeSpace" : true
+    "popeSpace" : true,
+    "vaticanReportSection" : 2
+
   },
   {
     "victoryPoint" : 0,
@@ -77,26 +90,37 @@
   },
   {
     "victoryPoint" : 0,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 3
+
   },
   {
     "victoryPoint" : 0,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 3
+
   },
   {
     "victoryPoint" : 16,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 3
+
   },
   {
     "victoryPoint" : 0,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 3
+
   },
   {
     "victoryPoint" : 0,
-    "popeSpace" : false
+    "popeSpace" : false,
+    "vaticanReportSection" : 3
+
   },
   {
     "victoryPoint" : 20,
-    "popeSpace" : true
+    "popeSpace" : true,
+    "vaticanReportSection" : 3
   }
 ]

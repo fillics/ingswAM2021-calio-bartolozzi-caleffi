@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Cards.LeaderCards;
 import it.polimi.ingsw.Board.Resources.ResourceType;
-import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
-import it.polimi.ingsw.Player;
 
 /**
  * This class represents the discount strategy for Leader Cards.
@@ -26,6 +24,7 @@ public class ConcreteStrategyDiscount implements LeaderCardStrategy{
     public boolean isActive() {
         return active;
     }
+
 
     @Override
     public void ability() {

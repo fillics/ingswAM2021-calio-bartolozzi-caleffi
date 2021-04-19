@@ -15,7 +15,7 @@ public class LeaderCard extends Card {
     private ResourceType resourceType;
     private Requirement requirements;
     private int victorypoint;
-    private boolean useDiscountChoice;
+    private boolean useDiscountChoice = false;
 
     //TODO: java doc
     public LeaderCard(LeaderCardType type, Requirement requirements, ResourceType resourceType, int victorypoint) {
@@ -33,18 +33,15 @@ public class LeaderCard extends Card {
         return strategy;
     }
 
-    public void checkDiscount(DevelopmentCard developmentCard, HashMap<ResourceType,Integer> resourcePriceBuffer){
-        int j,oldvalue;
+    public void useDiscount(DevelopmentCard developmentCard, HashMap<ResourceType,Integer> resourcePriceBuffer){
+        int oldvalue;
         ResourceType temp;
         if(useDiscountChoice){
-            for(j=0; j<developmentCard.getResourcePrice().size();j++){
-                temp=(strategy.getResourceType());
+                temp = (strategy.getResourceType());
                 if(developmentCard.getResourcePrice().containsKey(temp)){
-                    oldvalue=developmentCard.getResourcePrice().get(temp);
+                    oldvalue = developmentCard.getResourcePrice().get(temp);
                     resourcePriceBuffer.replace(temp,oldvalue,oldvalue-1);
-                    break;
                 }
-            }
         }
     }
 

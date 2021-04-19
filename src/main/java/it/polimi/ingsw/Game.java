@@ -37,7 +37,7 @@ public class Game implements GameInterface{
     /**
      * Constructor Game creates a new Game instance.
      */
-    public Game(){
+    public Game() {
         players = new ArrayList<>();
         activePlayers = new ArrayList<>();
         leaderDeck = new ArrayList<>();
@@ -234,11 +234,11 @@ public class Game implements GameInterface{
 
     }
 
-    public void checkDiscountActivated(HashMap<ResourceType,Integer> resourcePriceBuffer, DevelopmentCard developmentCard){
+    public void checkAndUseDiscount(HashMap<ResourceType,Integer> resourcePriceBuffer, DevelopmentCard developmentCard){
         int i;
         for(i=0; i<activePlayers.get(currentPlayer).getLeaderCards().size();i++){
             if((activePlayers.get(currentPlayer).getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDiscount)&&(activePlayers.get(currentPlayer).getLeaderCards().get(i).getStrategy().isActive())){
-                activePlayers.get(currentPlayer).getLeaderCards().get(i).checkDiscount(developmentCard,resourcePriceBuffer);
+                activePlayers.get(currentPlayer).getLeaderCards().get(i).useDiscount(developmentCard,resourcePriceBuffer);
             }
         }
     }
@@ -259,7 +259,7 @@ public class Game implements GameInterface{
         developmentCard= chooseCardFromDevelopmentGrid(color,level);
         resourcePriceBuffer.putAll(developmentCard.getResourcePrice());
         activePlayers.get(currentPlayer).getBoard().checkDevSpace(developmentCard,developmentSpace);
-        checkDiscountActivated(resourcePriceBuffer,developmentCard);
+        checkAndUseDiscount(resourcePriceBuffer,developmentCard);
 
         if(activePlayers.get(currentPlayer).getBoard().checkResources(resourcePriceBuffer, chosenResources)){
             activePlayers.get(currentPlayer).getBoard().removeResources(chosenResources,chosenWarehouses);
@@ -268,6 +268,10 @@ public class Game implements GameInterface{
         developmentSpace.addDevelopmentCard(developmentCard);
     }
 
+    /**
+     * Override method moveResource puts a deposit resource in the ResourceBuffer calling the method FillBuffer
+     * @param position is the position of the deposit in the board's array "deposits"
+     */
     @Override
     public void moveResource(int position) {
         activePlayers.get(currentPlayer).fillBuffer(position);
@@ -293,24 +297,44 @@ public class Game implements GameInterface{
      * @param resourcePosition (type Int) - it indicates which resource we want to place
      */
     @Override
-    public void placeResource(int depositPosition, int resourcePosition) {
+    public void placeResource(int depositPosition, int resourcePosition) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
         ResourceActionStrategy strategy = new ConcreteStrategyResource(depositPosition, activePlayers.get(currentPlayer).getBoard(), activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).getType());
         activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).setStrategy(strategy);
         activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).useResource();
     }
 
+    /**
+     * Override method useAndChooseProdPower calls the method to check if the production power is usable, if yes the resources obtained
+     * are transferred to the warehouse and the resources needed are removed from the deposits. Method without resourceType.JOLLY
+     * in the resource obtained
+     * @param productionPower is the production power to use
+     * @param resources is the array of resources chosen by the player to activate the production power
+     * @param warehouse is the array of Warehouse objects that shows where the chosen resources come from
+     * @throws DifferentDimension exception thrown because the number of resources is different from the number of deposits chosen
+     * @throws TooManyResourcesRequested exception thrown because there are too many resources requested
+     */
     @Override
     public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimension, TooManyResourcesRequested{
-        if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
+        if(productionPower.checkTakenResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
             activePlayers.get(currentPlayer).getBoard().removeResources(resources,warehouse);
             productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
         }
 
     }
 
+    /**
+     * Override method useAndChooseProdPower calls the method to check if the production power is usable, if yes the resources obtained
+     * are transferred to the warehouse and the resources needed are removed from the deposits. Method with resourceType.JOLLY
+     * in the resource obtained
+     * @param productionPower is the production power to use
+     * @param resources is the array of resources chosen by the player to activate the production power
+     * @param warehouse is the array of Warehouse objects that shows where the chosen resources come from
+     * @throws DifferentDimension exception thrown because the number of resources is different from the number of deposits chosen
+     * @throws TooManyResourcesRequested exception thrown because there are too many resources requested
+     */
     @Override
     public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested {
-        if(productionPower.check(resources,warehouse,activePlayers.get(currentPlayer).getBoard())) {
+        if(productionPower.checkTakenResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard())) {
             activePlayers.get(currentPlayer).getBoard().removeResources(resources,warehouse);
             productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
         }
@@ -395,6 +419,19 @@ public class Game implements GameInterface{
             }
         }
         return false;
+    }
+
+    public void checkPlayersFaithMarkers(int faithmarker){
+        int x;
+        for (Player player :  activePlayers){
+            if(player.getBoard().getFaithMarker() > 0){
+                x = player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() - 1;
+                if(player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() != 0){
+                    player.getBoard().getVaticanReportSections().get(x).getPopefavortile().setVisible();
+                }
+            }
+            player.getBoard().getVaticanReportSections().get(player.getBoard().getTrack().get(faithmarker - 1).getVaticaReportSection()-1).setActivated();
+        }
     }
 
     /**

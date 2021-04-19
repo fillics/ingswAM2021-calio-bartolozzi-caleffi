@@ -37,11 +37,7 @@ public class Resource {
     /**
      * method that links to the strategy method in order to modify the number of resources in a single deposit
      */
-    public void useResource() {
-        try {
-            strategy.action();
-        } catch (DepositHasAnotherResource | DepositHasReachedMaxLimit depositHasAnotherResource) {
-            depositHasAnotherResource.printStackTrace();
-        }
+    public void useResource() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+        strategy.action();
     }
 }

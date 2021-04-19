@@ -23,10 +23,10 @@ public class FaithTrackTest {
     /** Method setup setups tests. */
     @BeforeEach
     void setup() {
-        testCell1 = new Cell(3,false);
-        testCell2 = new Cell(0,false);
-        testCell3 = new Cell(1,false);
-        testCell4 = new Cell(5,true);
+        testCell1 = new Cell(3,false, 1);
+        testCell2 = new Cell(0,false, 1);
+        testCell3 = new Cell(1,false, 2);
+        testCell4 = new Cell(5,true, 3);
         testPopeFavorTile = new PopeFavorTile(PopeFavorTileColor.YELLOW, 3 );
         testVaticanReportSection = new VaticanReportSection(testPopeFavorTile);
     }

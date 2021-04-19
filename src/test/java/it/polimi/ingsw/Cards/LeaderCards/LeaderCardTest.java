@@ -6,6 +6,7 @@ import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.DevelopmentCards.Level;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
+import it.polimi.ingsw.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see LeaderCard
  */
 public class LeaderCardTest {
+    Game testGame;
     LeaderCard testLeaderCardProdPower;
     LeaderCard testLeaderCardDeposit;
     LeaderCard testLeaderCardWhiteMarble;
@@ -51,6 +53,7 @@ public class LeaderCardTest {
      * */
     @BeforeEach
     void setup(){
+        testGame = new Game();
         color= new HashMap<>();
         color.put(CardColor.YELLOW,1);
         colorWhiteMarble= new HashMap<>();
@@ -67,7 +70,7 @@ public class LeaderCardTest {
         resourcePriceDeposit = new HashMap<>();
         resourcePriceDeposit.put(ResourceType.SERVANT,5);
         requirementsDeposit = new Requirement(null,null, resourcePriceDeposit);
-        board= new Board();
+        board= new Board(testGame);
         testStrategyProdPower = new ConcreteStrategyProductionPower(resourceNeeded,board, ResourceType.SHIELD);
         testStrategyDeposit = new ConcreteStrategyDeposit(ResourceType.SHIELD,board);
         testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
@@ -157,7 +160,7 @@ public class LeaderCardTest {
         resourcePriceBuffer.putAll(DevelopmentCard.getResourcePrice());
         testLeaderCardDiscount.setStrategy(testStrategyDiscount);
         testLeaderCardDiscount.setUseDiscountChoice(choice1);
-        testLeaderCardDiscount.checkDiscount(DevelopmentCard,resourcePriceBuffer);
+        testLeaderCardDiscount.useDiscount(DevelopmentCard,resourcePriceBuffer);
         assertEquals(resourcePriceBuffer.get(ResourceType.SERVANT),1);
         assertEquals(ResourcePrice.get(ResourceType.SERVANT),2);
     }

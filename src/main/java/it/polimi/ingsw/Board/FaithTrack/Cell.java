@@ -4,13 +4,15 @@ package it.polimi.ingsw.Board.FaithTrack;
 public class Cell {
     private int victoryPoint;
     private boolean popeSpace;
+    private int vaticanReportSection;
 
     /**
      * Class's Constructor made to define the attributes
      */
-    public Cell(int victoryPoint, boolean popeSpace) {
+    public Cell(int victoryPoint, boolean popeSpace, int vaticanReportSection) {
         this.victoryPoint = victoryPoint;
         this.popeSpace = popeSpace;
+        this.vaticanReportSection = vaticanReportSection;
     }
 
     /**
@@ -23,5 +25,9 @@ public class Cell {
 
     public boolean isPopeSpace() {
         return popeSpace;
+    }
+
+    public int getVaticaReportSection() {
+        return vaticanReportSection;
     }
 }

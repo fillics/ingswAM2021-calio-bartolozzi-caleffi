@@ -38,7 +38,7 @@ public class Player {
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
         resourceBuffer = new ArrayList<>();
-        board = new Board();
+        board = new Board(game);
         this.game = game;
 
     }

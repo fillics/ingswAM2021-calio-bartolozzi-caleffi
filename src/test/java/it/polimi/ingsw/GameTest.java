@@ -326,7 +326,7 @@ class GameTest {
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i).useAbility();
         testGame.chooseDiscountActivation(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i),choice);
 
-        testGame.checkDiscountActivated(resourcePriceBuffer,testDevelopmentCard);
+        testGame.checkAndUseDiscount(resourcePriceBuffer,testDevelopmentCard);
         assertTrue(resourcePriceBuffer.containsKey(ResourceType.SERVANT));
         assertEquals(resourcePriceBuffer.get(ResourceType.SERVANT),1);
     }
@@ -402,5 +402,30 @@ class GameTest {
             }
         }
         assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0).getDevelopmentSpace().size(),1);
+    }
+
+    /** Method checkPlayersFaithMarkersTest tests Game method checkPlayersFaithMarkers. */
+    @Test
+    @DisplayName("checkPlayersFaithMarkersTest test")
+    void checkPlayersFaithMarkersTest() {
+        for(int k = 0;  k < 3; k++){
+            for(int j = 0; j< 4; j++){
+                assertFalse(testGame.getActivePlayers().get(j).getBoard().getVaticanReportSections().get(k).isActivated());
+                assertFalse(testGame.getActivePlayers().get(j).getBoard().getVaticanReportSections().get(k).getPopefavortile().isVisible());
+            }
+        }
+        for(int i = 0; i < 24; i++){
+            testGame.getActivePlayers().get(0).getBoard().increaseFaithMarker();
+            testGame.getActivePlayers().get(2).getBoard().increaseFaithMarker();
+        }
+        for(int k = 0;  k < 3; k++){
+            for(int j = 0; j< 4; j++){
+                assertTrue(testGame.getActivePlayers().get(j).getBoard().getVaticanReportSections().get(k).isActivated());
+            }
+            assertTrue(testGame.getActivePlayers().get(0).getBoard().getVaticanReportSections().get(k).getPopefavortile().isVisible());
+            assertFalse(testGame.getActivePlayers().get(1).getBoard().getVaticanReportSections().get(k).getPopefavortile().isVisible());
+            assertTrue(testGame.getActivePlayers().get(2).getBoard().getVaticanReportSections().get(k).getPopefavortile().isVisible());
+            assertFalse(testGame.getActivePlayers().get(3).getBoard().getVaticanReportSections().get(k).getPopefavortile().isVisible());
+        }
     }
 }

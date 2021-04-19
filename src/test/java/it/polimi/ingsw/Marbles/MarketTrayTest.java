@@ -5,6 +5,9 @@ import it.polimi.ingsw.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -26,7 +29,7 @@ public class MarketTrayTest {
      * Method setup setups tests.
      * */
     @BeforeEach
-    void setup(){
+    void setup() {
         testMarketTray= new MarketTray();
         line= "Row";
         line2= "Column";

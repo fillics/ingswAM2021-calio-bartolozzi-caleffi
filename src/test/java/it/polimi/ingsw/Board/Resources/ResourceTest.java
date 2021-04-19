@@ -3,6 +3,7 @@ import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Board.Storage.Deposit;
 import it.polimi.ingsw.Exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.Exceptions.DepositHasReachedMaxLimit;
+import it.polimi.ingsw.Game;
 import it.polimi.ingsw.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see Resource
  */
 public class ResourceTest {
+    Game testGame;
     Board testBoard;
     Deposit testDeposit1;
     Deposit testDeposit2;
@@ -34,7 +36,8 @@ public class ResourceTest {
     /** Method setup setups tests. */
     @BeforeEach
     void setup() {
-        testBoard = new Board();
+        testGame = new Game();
+        testBoard = new Board(testGame);
         testDeposit1 = new Deposit(1);
         testDeposit2 = new Deposit(2);
         testDeposit3 = new Deposit(3);
@@ -86,7 +89,7 @@ public class ResourceTest {
      * that the position of the player's faith marker has increased*/
     @Test
     @DisplayName("Test that fill all the deposit with different resources without calling any exceptions")
-    void useResourceTest1() {
+    void useResourceTest1() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
         coin.setStrategy(strategy1);
         stone.setStrategy(strategy2);
         servant.setStrategy(strategy3);
@@ -103,7 +106,7 @@ public class ResourceTest {
     }
     @Test
     @DisplayName("Test that calls the DepositHasReachedMaxLimit exception")
-    void useResourceTest2() {
+    void useResourceTest2() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
         boolean exception = false;
         coin.setStrategy(strategy1);
         stone.setStrategy(strategy2);
@@ -125,7 +128,7 @@ public class ResourceTest {
     }
     @Test
     @DisplayName("Test that calls the DepositHasAnotherResource exception")
-    void useResourceTest3() {
+    void useResourceTest3() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
         boolean exception = false;
         coin.setStrategy(strategy1);
         stone.setStrategy(strategy2);
@@ -147,7 +150,7 @@ public class ResourceTest {
     }
     @Test
     @DisplayName("Test that verify that the position of the player changes")
-    void useResourceTest4() {
+    void useResourceTest4() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
         faithmarker.setStrategy(strategy5);
 
         faithmarker.useResource();

@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see Marble
  */
 public class MarbleTest {
+    Game testGame;
     Player testPlayer;
     String username;
     int position;
@@ -41,6 +42,7 @@ public class MarbleTest {
      * */
     @BeforeEach
     void setup(){
+        testGame = new Game();
         white= new WhiteMarble();
         white2= new WhiteMarble();
         red= new RedMarble();
@@ -56,7 +58,7 @@ public class MarbleTest {
         colorWhiteMarble.put(CardColor.GREEN,2);
         colorWhiteMarble.put(CardColor.PURPLE,1);
         requirementsWhiteMarble= new Requirement(colorWhiteMarble,null,null);
-        board= new Board();
+        board= new Board(testGame);
         testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
         testLeaderCardWhiteMarble= new LeaderCard(LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5);
         testPlayer.addLeaderCard(testLeaderCardWhiteMarble);

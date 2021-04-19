@@ -5,6 +5,7 @@ import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Exceptions.DifferentDimension;
 import it.polimi.ingsw.Exceptions.TooManyResourcesRequested;
+import it.polimi.ingsw.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @see ProductionPower
  */
 public class ProductionPowerTest {
+    Game testGame;
     HashMap<ResourceType,Integer> testResourcesNeeded;
     HashMap<ResourceType,Integer> testResourcesObtained;
     ProductionPower testProductionPower;
@@ -32,6 +34,7 @@ public class ProductionPowerTest {
      * */
     @BeforeEach
     void setup(){
+        testGame = new Game();
         testResourcesNeeded = new HashMap<>();
         testResourcesObtained = new HashMap<>();
 
@@ -46,7 +49,7 @@ public class ProductionPowerTest {
         testResourcesObtained.put(ResourceType.SHIELD,1);
         testResourcesObtained.put(ResourceType.FAITHMARKER,1);
 
-        testBoard = new Board();
+        testBoard = new Board(testGame);
         testBoard.getStrongbox().getStrongbox().replaceAll((key, oldvalue) -> oldvalue + 10);
         testBoard.getDeposits().get(0).setResourcetype(ResourceType.COIN);
         testBoard.getDeposits().get(1).setResourcetype(ResourceType.SERVANT);
@@ -97,7 +100,7 @@ public class ProductionPowerTest {
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
         try {
-            assertTrue(testProductionPower.check(testresources,testwarehouse,testBoard));
+            assertTrue(testProductionPower.checkTakenResources(testresources,testwarehouse,testBoard));
         } catch (TooManyResourcesRequested tooManyResourcesRequested) {
             tooManyResourcesRequested.printStackTrace();
         }
@@ -118,7 +121,7 @@ public class ProductionPowerTest {
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
         try {
-            assertFalse(testProductionPower.check(testresources,testwarehouse,testBoard));
+            assertFalse(testProductionPower.checkTakenResources(testresources,testwarehouse,testBoard));
         } catch (TooManyResourcesRequested tooManyResourcesRequested) {
             tooManyResourcesRequested.printStackTrace();
         }
@@ -150,7 +153,7 @@ public class ProductionPowerTest {
         testwarehouse.add(testBoard.getStrongbox());
         testwarehouse.add(testBoard.getStrongbox());
         try {
-            assertTrue(testProductionPower.check(testresources,testwarehouse,testBoard));
+            assertTrue(testProductionPower.checkTakenResources(testresources,testwarehouse,testBoard));
         } catch (TooManyResourcesRequested tooManyResourcesRequested) {
             tooManyResourcesRequested.printStackTrace();
         }
@@ -176,7 +179,7 @@ public class ProductionPowerTest {
         testwarehouse.add(testBoard.getStrongbox());
 
         try {
-            assertFalse(testProductionPower.check(testresources,testwarehouse,testBoard));
+            assertFalse(testProductionPower.checkTakenResources(testresources,testwarehouse,testBoard));
         } catch (TooManyResourcesRequested tooManyResourcesRequested) {
             tooManyResourcesRequested.printStackTrace();
         }

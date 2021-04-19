@@ -15,6 +15,7 @@ import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentSpace;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 import it.polimi.ingsw.Exceptions.*;
+import it.polimi.ingsw.Game;
 
 import java.io.*;
 import java.util.*;
@@ -29,15 +30,16 @@ public class Board {
     private ArrayList<Cell> track;
     private ArrayList<VaticanReportSection> vaticanReportSections;
     private ArrayList<ProductionPower> specialProductionPowers;
+    private Game game;
 
     /**
      * Class's constructor that'll be used in the setup method
      */
-    public Board() {
+    public Board(Game game) {
         NumOfDevCard = 0;
         faithMarker = 0;
         boardVictoryPoint = 0;
-
+        this.game = game;
 
         specialProductionPowers = new ArrayList<>();
         HashMap<ResourceType,Integer> resourceNeeded = new HashMap<>();
@@ -80,21 +82,17 @@ public class Board {
         VaticanReportSection vaticanReportSection1 = new VaticanReportSection(yellowPopeFavorTile);
         VaticanReportSection vaticanReportSection2 = new VaticanReportSection(orangePopeFavorTile);
         VaticanReportSection vaticanReportSection3 = new VaticanReportSection(redPopeFavorTile);
-        vaticanReportSection1.getSection().add(track.get(5));
-        vaticanReportSection1.getSection().add(track.get(6));
-        vaticanReportSection1.getSection().add(track.get(7));
-        vaticanReportSection1.getSection().add(track.get(8));
-        vaticanReportSection2.getSection().add(track.get(12));
-        vaticanReportSection2.getSection().add(track.get(13));
-        vaticanReportSection2.getSection().add(track.get(14));
-        vaticanReportSection2.getSection().add(track.get(15));
-        vaticanReportSection2.getSection().add(track.get(16));
-        vaticanReportSection3.getSection().add(track.get(19));
-        vaticanReportSection3.getSection().add(track.get(20));
-        vaticanReportSection3.getSection().add(track.get(21));
-        vaticanReportSection3.getSection().add(track.get(22));
-        vaticanReportSection3.getSection().add(track.get(23));
-        vaticanReportSection3.getSection().add(track.get(24));
+        for(Cell cell : track){
+            if(cell.getVaticaReportSection() == 1){
+                vaticanReportSection1.getSection().add(cell);
+            }
+            if(cell.getVaticaReportSection() == 2){
+                vaticanReportSection2.getSection().add(cell);
+            }
+            if(cell.getVaticaReportSection() == 3){
+                vaticanReportSection3.getSection().add(cell);
+            }
+        }
         vaticanReportSections.add(vaticanReportSection1);
         vaticanReportSections.add(vaticanReportSection2);
         vaticanReportSections.add(vaticanReportSection3);
@@ -166,6 +164,14 @@ public class Board {
      */
     public void increaseFaithMarker(){
         faithMarker += 1;
+        if(track.get(faithMarker - 1).isPopeSpace()){
+            if(track.get(faithMarker - 1).getVaticaReportSection() > 0){
+                if(!vaticanReportSections.get(track.get(faithMarker - 1).getVaticaReportSection()-1).isActivated()){
+                    game.checkPlayersFaithMarkers(faithMarker);
+                }
+            }
+        }
+
     }
 
     /**
