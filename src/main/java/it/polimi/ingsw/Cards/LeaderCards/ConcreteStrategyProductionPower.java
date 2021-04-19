@@ -43,10 +43,6 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
             extraProductionPower= new ProductionPower(resourceNeeded,resourcesObtained);
             board.getSpecialProductionPowers().add(extraProductionPower);
             active = true;
-            System.out.println("Ability extra production power activated!");
-        }
-        else{
-            System.out.println("Ability extra production power was already activated.");
         }
     }
 

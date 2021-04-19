@@ -31,12 +31,7 @@ public class ConcreteStrategyMarble implements LeaderCardStrategy{
 
     @Override
     public void ability() {
-        if(!active){
+        if(!active)
             active = true;
-            System.out.println("Ability white marble activated!");
-        }
-        else{
-            System.out.println("Ability white marble was already activated.");
-        }
     }
 }

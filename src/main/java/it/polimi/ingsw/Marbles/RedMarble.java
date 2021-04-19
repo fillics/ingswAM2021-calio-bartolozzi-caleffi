@@ -15,6 +15,5 @@ public class RedMarble extends Marble{
     @Override
     public void transform(Player player){
         player.getBoard().increaseFaithMarker();
-        System.out.println("I've been transformed into Faith Marker");
     }
 }

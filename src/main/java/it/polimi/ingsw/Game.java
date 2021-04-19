@@ -8,12 +8,12 @@ import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
 import it.polimi.ingsw.Cards.LeaderCards.ConcreteStrategyDiscount;
+import it.polimi.ingsw.Cards.LeaderCards.ConcreteStrategyMarble;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Marbles.MarketTray;
 
 import java.io.*;
-
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -275,6 +275,20 @@ public class Game implements GameInterface{
     @Override
     public void moveResource(int position) {
         activePlayers.get(currentPlayer).fillBuffer(position);
+    }
+
+    @Override
+    public void chooseWhiteMarbleActivation(ArrayList<LeaderCard> whiteMarbleCardChoice,ArrayList<Boolean> whiteMarbleChoice) throws DifferentDimension,LeaderCardNotFound, LeaderCardNotActivated{
+        int i;
+        if(whiteMarbleCardChoice.size() != whiteMarbleChoice.size())
+            throw new DifferentDimension();
+        for(i=0; i<whiteMarbleCardChoice.size();i++){
+            if(!activePlayers.get(currentPlayer).getLeaderCards().contains(whiteMarbleCardChoice.get(i)) || !(whiteMarbleCardChoice.get(i).getStrategy() instanceof ConcreteStrategyMarble))
+                throw new LeaderCardNotFound();
+            else if(!whiteMarbleCardChoice.get(i).getStrategy().isActive())
+                throw new LeaderCardNotActivated();
+        }
+        activePlayers.get(currentPlayer).setWhiteMarbleChoice(whiteMarbleCardChoice,whiteMarbleChoice);
     }
 
     /**

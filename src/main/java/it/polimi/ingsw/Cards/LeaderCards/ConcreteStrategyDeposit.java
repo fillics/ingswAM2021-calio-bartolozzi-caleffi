@@ -37,12 +37,7 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
             extraDeposit.setResourcetype(resourceType);
             board.getDeposits().add(extraDeposit);
             active = true;
-            System.out.println("Ability extra deposit activated!");
         }
-        else{
-            System.out.println("Ability extra deposit was already activated.");
-        }
-
     }
 
 }

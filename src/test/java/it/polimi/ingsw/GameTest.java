@@ -404,6 +404,48 @@ class GameTest {
         assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0).getDevelopmentSpace().size(),1);
     }
 
+    /** Method chooseWhiteMarbleActivationTest tests Game method chooseWhiteMarbleActivation. */
+    @Test
+    @DisplayName("chooseWhiteMarbleActivation test")
+    void chooseWhiteMarbleActivationTest(){
+        ArrayList<LeaderCard> whiteMarbleCardChoice= new ArrayList<>();
+        ArrayList<Boolean> whiteMarbleChoice= new ArrayList<>();
+        HashMap<CardColor,Integer> colorWhiteMarble= new HashMap<>();
+        colorWhiteMarble.put(CardColor.GREEN,2);
+        colorWhiteMarble.put(CardColor.PURPLE,1);
+        Requirement requirementsWhiteMarble= new Requirement(colorWhiteMarble,null,null);
+        LeaderCardStrategy testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
+        LeaderCard testLeaderCardWhiteMarble= new LeaderCard(LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5);
+        testLeaderCardWhiteMarble.setStrategy(testStrategyWhiteMarble);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardWhiteMarble);
+
+        HashMap<CardColor,Integer> colorWhiteMarble2= new HashMap<>();
+        colorWhiteMarble2.put(CardColor.YELLOW,2);
+        colorWhiteMarble2.put(CardColor.BLUE,1);
+        Requirement requirementsWhiteMarble2= new Requirement(colorWhiteMarble2,null,null);
+        LeaderCardStrategy testStrategyWhiteMarble2= new ConcreteStrategyMarble(ResourceType.SERVANT);
+        LeaderCard testLeaderCardWhiteMarble2= new LeaderCard(LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble2,ResourceType.SERVANT,5);
+        testLeaderCardWhiteMarble2.setStrategy(testStrategyWhiteMarble2);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardWhiteMarble2);
+
+        testLeaderCardWhiteMarble.useAbility();
+        testLeaderCardWhiteMarble2.useAbility();
+
+        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble);
+        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble2);
+        whiteMarbleChoice.add(true);
+        whiteMarbleChoice.add(true);
+
+        try {
+            testGame.chooseWhiteMarbleActivation(whiteMarbleCardChoice,whiteMarbleChoice);
+            assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getWhiteMarbleCardChoice(), whiteMarbleCardChoice);
+            assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getWhiteMarbleChoice(), whiteMarbleChoice);
+        } catch (DifferentDimension | LeaderCardNotFound | LeaderCardNotActivated problems) {
+            problems.printStackTrace();
+        }
+
+    }
+
     /** Method checkPlayersFaithMarkersTest tests Game method checkPlayersFaithMarkers. */
     @Test
     @DisplayName("checkPlayersFaithMarkersTest test")

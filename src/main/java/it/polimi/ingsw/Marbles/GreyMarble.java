@@ -17,6 +17,5 @@ public class GreyMarble extends Marble{
     public void transform(Player player){
         Resource stone= new Resource(ResourceType.STONE);
         player.getResourceBuffer().add(stone);
-        System.out.println("I've been transformed into Stone");
     }
 }

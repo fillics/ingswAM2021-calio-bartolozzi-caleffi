@@ -17,6 +17,5 @@ public class YellowMarble extends Marble{
     public void transform(Player player){
         Resource coin= new Resource(ResourceType.COIN);
         player.getResourceBuffer().add(coin);
-        System.out.println("I've been transformed into Coin");
     }
 }

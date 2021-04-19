@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Marbles;
 
 import it.polimi.ingsw.Board.Resources.Resource;
-import it.polimi.ingsw.Cards.LeaderCards.ConcreteStrategyMarble;
 import it.polimi.ingsw.Player;
 
 /**
@@ -16,17 +15,14 @@ public class WhiteMarble extends Marble{
      */
     @Override
     public void transform(Player player){
-        System.out.println("I'm nothing");
-        int i;
-        for(i=0; i<player.getLeaderCards().size();i++){
-            if((player.getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyMarble)&&((player.getLeaderCards().get(i).getStrategy()).isActive())){
-                if(player.getLeaderCards().get(i).getUseDiscountChoice()){
-                    Resource newResource= new Resource(player.getLeaderCards().get(i).getStrategy().getResourceType());
-                    player.getResourceBuffer().add(newResource);
-                    System.out.println("But now I've been transformed into "+ player.getLeaderCards().get(i).getStrategy().getResourceType());
-                    break;
-                }
-            }
+        if(!player.getWhiteMarbleCardChoice().isEmpty() && player.getWhiteMarbleChoice().get(0)){
+            Resource newResource= new Resource(player.getWhiteMarbleCardChoice().get(0).getStrategy().getResourceType());
+            player.getResourceBuffer().add(newResource);
+        }
+        if(!player.getWhiteMarbleCardChoice().isEmpty()) {
+            player.getWhiteMarbleCardChoice().remove(0);
+            player.getWhiteMarbleChoice().remove(0);
         }
     }
 }
+

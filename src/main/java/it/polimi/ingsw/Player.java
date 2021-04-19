@@ -9,6 +9,7 @@ import it.polimi.ingsw.Exceptions.EmptyDeposit;
 import it.polimi.ingsw.Exceptions.LeaderCardNotFound;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 /**
  * Player class represents the user and player of the board game.
@@ -25,6 +26,21 @@ public class Player {
     private Board board;
     private Game game;
     private int chosenResource;
+    private ArrayList<LeaderCard> whiteMarbleCardChoice;
+    private ArrayList<Boolean> whiteMarbleChoice;
+
+    public ArrayList<Boolean> getWhiteMarbleChoice() {
+        return whiteMarbleChoice;
+    }
+
+    public ArrayList<LeaderCard> getWhiteMarbleCardChoice() {
+        return whiteMarbleCardChoice;
+    }
+
+    public void setWhiteMarbleChoice(ArrayList<LeaderCard> whiteMarbleCardChoice, ArrayList<Boolean> whiteMarbleChoice) {
+        this.whiteMarbleCardChoice= whiteMarbleCardChoice;
+        this.whiteMarbleChoice = whiteMarbleChoice;
+    }
 
     /**
      * Constructor Player creates a new Player instance.

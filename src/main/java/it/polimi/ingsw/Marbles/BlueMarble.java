@@ -16,6 +16,5 @@ public class BlueMarble extends Marble{
     public void transform(Player player){
         Resource shield= new Resource(ResourceType.SHIELD);
         player.getResourceBuffer().add(shield);
-        System.out.println("I've been transformed into Shield");
     }
 }

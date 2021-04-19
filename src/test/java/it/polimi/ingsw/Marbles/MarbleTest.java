@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +26,7 @@ public class MarbleTest {
     int position;
     Game game;
     Board board;
-    Marble white,white2,red,yellow,blue,purple,grey;
+    Marble white,white2,white3,red,yellow,blue,purple,grey;
     LeaderCard testLeaderCardWhiteMarble;
     LeaderCardStrategy testStrategyWhiteMarble;
     Requirement requirementsWhiteMarble;
@@ -34,8 +35,8 @@ public class MarbleTest {
     LeaderCardStrategy testStrategyWhiteMarble2;
     Requirement requirementsWhiteMarble2;
     HashMap<CardColor,Integer> colorWhiteMarble2;
-    boolean useAbilityChoiceCard1;
-    boolean useAbilityChoiceCard2;
+    ArrayList<LeaderCard> whiteMarbleCardChoice;
+    ArrayList<Boolean> whiteMarbleChoice;
 
     /*
      * Method setup setups tests.
@@ -45,6 +46,7 @@ public class MarbleTest {
         testGame = new Game();
         white= new WhiteMarble();
         white2= new WhiteMarble();
+        white3= new WhiteMarble();
         red= new RedMarble();
         yellow= new YellowMarble();
         blue= new BlueMarble();
@@ -53,15 +55,16 @@ public class MarbleTest {
         username= "Beatrice";
         position=2;
         game= new Game();
+        board= new Board(testGame);
         testPlayer= new Player(username,position,game);
         colorWhiteMarble= new HashMap<>();
         colorWhiteMarble.put(CardColor.GREEN,2);
         colorWhiteMarble.put(CardColor.PURPLE,1);
         requirementsWhiteMarble= new Requirement(colorWhiteMarble,null,null);
-        board= new Board(testGame);
         testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
         testLeaderCardWhiteMarble= new LeaderCard(LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5);
         testPlayer.addLeaderCard(testLeaderCardWhiteMarble);
+        testLeaderCardWhiteMarble.setStrategy(testStrategyWhiteMarble);
         colorWhiteMarble2= new HashMap<>();
         colorWhiteMarble2.put(CardColor.YELLOW,2);
         colorWhiteMarble2.put(CardColor.BLUE,1);
@@ -69,6 +72,13 @@ public class MarbleTest {
         testStrategyWhiteMarble2= new ConcreteStrategyMarble(ResourceType.SERVANT);
         testLeaderCardWhiteMarble2= new LeaderCard(LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble2,ResourceType.SERVANT,5);
         testPlayer.addLeaderCard(testLeaderCardWhiteMarble2);
+        testLeaderCardWhiteMarble2.setStrategy(testStrategyWhiteMarble2);
+        whiteMarbleCardChoice= new ArrayList<>();
+        whiteMarbleChoice= new ArrayList<>();
+        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble);
+        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble2);
+        whiteMarbleChoice.add(true);
+        whiteMarbleChoice.add(true);
     }
 
     /** Method transformTest tests transform method. */
@@ -88,19 +98,23 @@ public class MarbleTest {
 
         assertEquals(testPlayer.getLeaderCards().size(),2);
 
-        useAbilityChoiceCard1=true;
-        testLeaderCardWhiteMarble.setStrategy(testStrategyWhiteMarble);
-        testLeaderCardWhiteMarble.setUseDiscountChoice(useAbilityChoiceCard1);
+        testPlayer.setWhiteMarbleChoice(whiteMarbleCardChoice,whiteMarbleChoice);
         testLeaderCardWhiteMarble.useAbility();
-        white.transform(testPlayer);
-
-        useAbilityChoiceCard1=false;
-        useAbilityChoiceCard2=true;
-        testLeaderCardWhiteMarble2.setStrategy(testStrategyWhiteMarble2);
-        testLeaderCardWhiteMarble.setUseDiscountChoice(useAbilityChoiceCard1);
-        testLeaderCardWhiteMarble2.setUseDiscountChoice(useAbilityChoiceCard2);
         testLeaderCardWhiteMarble2.useAbility();
+
+        assertEquals(whiteMarbleCardChoice.get(0).getStrategy().getResourceType(),ResourceType.SHIELD);
+        assertEquals(whiteMarbleCardChoice.get(1).getStrategy().getResourceType(),ResourceType.SERVANT);
+
+        white.transform(testPlayer);
+        assertEquals(whiteMarbleCardChoice.get(0).getStrategy().getResourceType(),ResourceType.SERVANT);
+        assertEquals(whiteMarbleCardChoice.size(),1);
+        assertEquals(whiteMarbleChoice.size(),1);
+
         white2.transform(testPlayer);
+        assertEquals(whiteMarbleCardChoice.size(),0);
+        assertEquals(whiteMarbleChoice.size(),0);
+
+        white3.transform(testPlayer);
     }
 
 }

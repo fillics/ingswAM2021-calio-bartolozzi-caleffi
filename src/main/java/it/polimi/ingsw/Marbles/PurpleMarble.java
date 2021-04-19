@@ -18,6 +18,5 @@ public class PurpleMarble extends Marble{
     public void transform(Player player){
         Resource servant= new Resource(ResourceType.SERVANT);
         player.getResourceBuffer().add(servant);
-        System.out.println("I've been transformed into Servant");
     }
 }
