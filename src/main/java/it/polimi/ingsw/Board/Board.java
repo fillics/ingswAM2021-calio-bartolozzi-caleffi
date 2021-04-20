@@ -182,6 +182,7 @@ public class Board {
      * @return the amount of the victory points (type int) of this Board object.
      */
     public int getBoardVictoryPoint() {
+        boardVictoryPoint = 0;
         for (VaticanReportSection vaticanReportSection : vaticanReportSections) {
             if (vaticanReportSection.getPopefavortile().isVisible()) {
                 boardVictoryPoint += vaticanReportSection.getPopefavortile().getVictorypoint();
@@ -196,6 +197,7 @@ public class Board {
             boardVictoryPoint += track.get(i).getVictoryPoint();
         }
         boardVictoryPoint += (getTotalCoins() + getTotalServants() + getTotalStones() + getTotalShields()) / 5;
+
         return boardVictoryPoint;
     }
 
@@ -246,6 +248,10 @@ public class Board {
         return total;
     }
 
+    /**
+     * Method getTotalResources
+     * @return the number of resources contained in the warehouse
+     */
     public int getTotalResources(){
         return getTotalCoins() + getTotalStones() + getTotalServants() + getTotalShields();
     }
@@ -270,11 +276,19 @@ public class Board {
             return true;
     }
 
+
     public void checkDevSpace(DevelopmentCard developmentCard, DevelopmentSpace developmentSpace) throws DevCardNotPlaceable {
         if (!developmentSpace.isPlaceableCard(developmentCard))
             throw new DevCardNotPlaceable();
     }
 
+    /**
+     * Method removeResources removes a certain amount resources from the warehouse
+     * @param chosenResources are the resources chosen to remove
+     * @param chosenWarehouses are the positions of the resources chosen (the first element of chosenResources is removed from the
+     *                         first element of chosenWarehouses
+     * @throws DifferentDimension is the exception thrown when the size of the 2 arrays is different.
+     */
     public void removeResources(ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses)throws DifferentDimension {
         if(chosenResources.size() != chosenWarehouses.size()){
             throw new DifferentDimension();

@@ -1,12 +1,13 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
+import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.DevelopmentCards.Level;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCardType;
 import it.polimi.ingsw.Cards.LeaderCards.Requirement;
-import it.polimi.ingsw.Exceptions.LeaderCardNotFound;
-import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
+import it.polimi.ingsw.Exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.api.Test;
@@ -73,10 +74,39 @@ class PlayerTest {
      * Test method increaseFaithMarker checks the correct increase of the player's faith marker
      */
     @Test
-    void increaseFaithMarker() {
+    void increaseFaithMarkerTest() {
         assertEquals(0, testPlayer.getBoard().getFaithMarker());
         testPlayer.getBoard().increaseFaithMarker();
         assertEquals(1, testPlayer.getBoard().getFaithMarker());
+    }
+
+    /**
+     * Test method FillBufferTest checks the correct increase of the player's resource buffer
+     */
+    @Test
+    void FillBufferTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, EmptyDeposit {
+        //putting 3 coins in a deposit
+        Resource resource1 = new Resource(ResourceType.COIN);
+        ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(2,testPlayer.getBoard(),resource1.getType());
+        resource1.setStrategy(concreteStrategyResource);
+        resource1.useResource();
+        resource1.useResource();
+        resource1.useResource();
+        assertEquals(3,testPlayer.getBoard().getDeposits().get(2).getQuantity());
+        assertEquals(ResourceType.COIN,testPlayer.getBoard().getDeposits().get(2).getResourcetype());
+
+        //taking them and filling the resourceBuffer using fill buffer
+        assertEquals(0,testPlayer.getResourceBuffer().size());
+        testPlayer.fillBuffer(2);
+        assertEquals(1,testPlayer.getResourceBuffer().size());
+        assertEquals(ResourceType.COIN, testPlayer.getResourceBuffer().get(0).getType());
+
+
+        testPlayer.fillBuffer(2);
+        testPlayer.fillBuffer(2);
+        assertEquals(3,testPlayer.getResourceBuffer().size());
+        assertEquals(0,testPlayer.getBoard().getDeposits().get(2).getQuantity());
+        assertNull(testPlayer.getBoard().getDeposits().get(2).getResourcetype());
     }
 
     /**
@@ -105,5 +135,7 @@ class PlayerTest {
         assertEquals(7, testPlayer.getBoard().getNumOfDevCards());
         assertTrue(testGame.isEndgame());
     }
+
+
 
 }

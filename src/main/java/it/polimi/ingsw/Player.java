@@ -81,7 +81,14 @@ public class Player {
     /**
      * Method getTotalVictoryPoint returns the amount of Player's victory points.
      */
-    public int getTotalVictoryPoint() {
+    public int getTotalVictoryPoints() {
+        totalVictoryPoint = 0;
+        totalVictoryPoint += board.getBoardVictoryPoint();
+        for(LeaderCard leaderCard : leaderCards){
+            if(leaderCard.getStrategy().isActive()){
+                totalVictoryPoint += leaderCard.getVictoryPoint();
+            }
+        }
         return totalVictoryPoint;
     }
 
@@ -148,19 +155,18 @@ public class Player {
      * decreasing the number of the resources of that specific deposit.
      * @param position (type Int) - it indicates which deposit we are considering
      */
-    // TODO: 19/04/2021 da testare
-    public void fillBuffer (int position){
-        try {
-            resourceBuffer.add(board.getDeposits().get(position).takeResource());
-        } catch (EmptyDeposit emptyDeposit) {
-            emptyDeposit.printStackTrace();
-        }
+    public void fillBuffer (int position) throws EmptyDeposit {
+        resourceBuffer.add(board.getDeposits().get(position).takeResource());
     }
 
     /**
      * Method endTurn called when a player wants to end his own turn
      */
     public boolean endTurn(){
+        if(resourceBuffer.size() > 0){
+            game.increaseFaithMarkerOfOtherPlayers();
+        }
+        resourceBuffer.clear();
         return true;
     }
 }

@@ -277,14 +277,6 @@ public class Game implements GameInterface{
         activePlayers.get(currentPlayer).getBoard().increaseNumOfDevCards();
     }
 
-    /**
-     * Override method moveResource puts a deposit resource in the ResourceBuffer calling the method FillBuffer
-     * @param position is the position of the deposit in the board's array "deposits"
-     */
-    @Override
-    public void moveResource(int position) {
-        activePlayers.get(currentPlayer).fillBuffer(position);
-    }
 
     @Override
     public void chooseWhiteMarbleActivation(ArrayList<LeaderCard> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{
@@ -296,6 +288,15 @@ public class Game implements GameInterface{
                 throw new LeaderCardNotActivated();
         }
         activePlayers.get(currentPlayer).setWhiteMarbleCardChoice(whiteMarbleCardChoice);
+    }
+
+    /**
+     * Override method moveResource puts a deposit resource in the ResourceBuffer calling the method FillBuffer
+     * @param position is the position of the deposit in the board's array "deposits"
+     */
+    @Override
+    public void moveResource(int position) throws EmptyDeposit {
+        activePlayers.get(currentPlayer).fillBuffer(position);
     }
 
     /**
@@ -322,6 +323,7 @@ public class Game implements GameInterface{
         ResourceActionStrategy strategy = new ConcreteStrategyResource(depositPosition, activePlayers.get(currentPlayer).getBoard(), activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).getType());
         activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).setStrategy(strategy);
         activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).useResource();
+        activePlayers.get(currentPlayer).getResourceBuffer().remove(resourcePosition);
     }
 
     /**
@@ -340,7 +342,6 @@ public class Game implements GameInterface{
             activePlayers.get(currentPlayer).getBoard().removeResources(resources,warehouse);
             productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
         }
-
     }
 
     /**
@@ -405,6 +406,12 @@ public class Game implements GameInterface{
 
     }
 
+    /**
+     * Method checkPlayersFaithMarkers checks the position of all players faithmarker and sets visibile the pope favor tile
+     * if necessary when someone arrives in a Pope Space. It also activates the vatican report section in which is contained
+     * the pope space so that the next person that cross that cell doesn't call this method.
+     * @param faithmarker is the position of the faithmarker of the player that stepped on the pope space.
+     */
     public void checkPlayersFaithMarkers(int faithmarker){
         int x;
         for (Player player :  activePlayers){
@@ -418,6 +425,17 @@ public class Game implements GameInterface{
         }
     }
 
+    /**
+     * Method increaseFaithMarkerOfOtherPlayers increases the faithmarker of the players when someone hasn't put all
+     * the resources obtained from the market in the deposits.
+     */
+    public void increaseFaithMarkerOfOtherPlayers() {
+        for (Player player : activePlayers){
+            if(!player.equals(activePlayers.get(currentPlayer))){
+                player.getBoard().increaseFaithMarker();
+            }
+        }
+    }
 
     /**
      * Method nextPlayer handles which player is playing during his turn
@@ -458,20 +476,11 @@ public class Game implements GameInterface{
         ArrayList<Integer> resourcesPlayers = new ArrayList<>();
         int maxVictoryPoints;
         int maxResources;
-        int victoryPointsLeaderAndBoard;
         String winnerUsername;
 
         for (Player player : activePlayers) {
-            victoryPointsLeaderAndBoard = 0;
-            for (int j = 0; j < player.getLeaderCards().size(); j++) {
-                if (player.getLeaderCards().get(j).getStrategy().isActive()) {
-                    victoryPointsLeaderAndBoard += player.getLeaderCards().get(j).getVictoryPoint();
-                }
-            }
-            victoryPointsLeaderAndBoard += player.getTotalVictoryPoint();
-            victoryPointsPlayers.add(victoryPointsLeaderAndBoard);
+            victoryPointsPlayers.add(player.getTotalVictoryPoints());
         }
-
         maxVictoryPoints = Collections.max(victoryPointsPlayers);
 
         if(Collections.frequency(victoryPointsPlayers, maxVictoryPoints)==1){

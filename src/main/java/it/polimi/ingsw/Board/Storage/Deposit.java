@@ -55,6 +55,9 @@ public class Deposit extends Warehouse {
         }
         else {
             quantity -= 1;
+            if(quantity == 0){
+                resourcetype = null;
+            }
             return new Resource(resourcetype);
         }
     }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
+import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Warehouse;
 import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.stream.IntStream;
 
@@ -20,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Class GameTest tests Game class.
- *
  * @see Game
  */
 
@@ -167,7 +169,7 @@ class GameTest {
     /** Method checkTotalVictoryPoints tests totalVictoryPoints's getter for each player. */
     @Test
     void checkTotalVictoryPoints(){
-        IntStream.range(0, testGame.getActivePlayers().size()).forEach(j -> assertEquals(0, testGame.getActivePlayers().get(j).getTotalVictoryPoint()));
+        IntStream.range(0, testGame.getActivePlayers().size()).forEach(j -> assertEquals(0, testGame.getActivePlayers().get(j).getTotalVictoryPoints()));
     }
 
     /**
@@ -482,5 +484,169 @@ class GameTest {
         }
     }
 
+    /** Method moveResourceTest tests Game method moveResource. */
+    @Test
+    @DisplayName("moveResourceTest test")
+    void moveResourceTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, EmptyDeposit {
+        //putting 3 coins in a deposit
+        Resource resource1 = new Resource(ResourceType.COIN);
+        ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(2,testGame.getActivePlayers().get(0).getBoard(),resource1.getType());
+        resource1.setStrategy(concreteStrategyResource);
+        resource1.useResource();
+        resource1.useResource();
+        resource1.useResource();
+        assertEquals(3,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getQuantity());
+        assertEquals(ResourceType.COIN,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getResourcetype());
+
+        //taking them and filling the resourceBuffer using fill buffer
+        assertEquals(0,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
+        testGame.moveResource(2);
+        assertEquals(1,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
+        assertEquals(ResourceType.COIN, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().get(0).getType());
+
+        testGame.moveResource(2);
+        testGame.moveResource(2);
+        assertEquals(3,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
+        assertEquals(0,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getQuantity());
+        assertNull(testGame.getActivePlayers().get(0).getBoard().getDeposits().get(2).getResourcetype());
+    }
+
+    /** Method takeResourcesFromMarketTest tests Game method takeResourcesFromMarket. */
+    @Test
+    @DisplayName("takeResourcesFromMarketTest test")
+    void takeResourcesFromMarketTest() {
+        testGame.takeResourcesFromMarket("Row",2);
+    }
+
+    /** Method placeResourceTest tests Game method placeResource. */
+    @Test
+    @DisplayName("placeResourceTest test")
+    void placeResourceTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+        Resource resource1 = new Resource(ResourceType.COIN);
+        Resource resource2 = new Resource(ResourceType.COIN);
+        Resource resource3 = new Resource(ResourceType.STONE);
+        Resource resource4 = new Resource(ResourceType.STONE);
+        Resource resource5 = new Resource(ResourceType.STONE);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().addAll(Arrays.asList(
+                resource1,resource3,resource2,resource4,resource5
+        ));
+        assertEquals(5, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
+
+        testGame.placeResource(0,0);
+        assertEquals(1,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(0).getQuantity());
+        assertEquals(ResourceType.COIN,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(0).getResourcetype());
+        assertEquals(4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
+
+        testGame.placeResource(1,0);
+        assertEquals(1,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(1).getQuantity());
+        assertEquals(ResourceType.STONE,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(1).getResourcetype());
+        assertEquals(3, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
+
+        testGame.placeResource(2,1);
+        testGame.placeResource(2,1);
+        assertEquals(2,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getQuantity());
+        assertEquals(ResourceType.STONE,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getResourcetype());
+        assertEquals(1, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
+
+    }
+
+    /** Method useAndChooseProdPowerTest1 tests Game method useAndChooseProdPower without JOLLY resources in resource obtained. */
+    @Test
+    @DisplayName("useAndChooseProdPowerTest1 test")
+    void useAndChooseProdPowerTest1() throws DifferentDimension, TooManyResourcesRequested {
+        HashMap<ResourceType,Integer> resourceNeeded = new HashMap<>();
+        HashMap<ResourceType,Integer> resourceObtained = new HashMap<>();
+        resourceNeeded.put(ResourceType.COIN, 3);
+        resourceNeeded.put(ResourceType.SERVANT, 4);
+        resourceNeeded.put(ResourceType.JOLLY, 2);
+        resourceObtained.put(ResourceType.SHIELD, 5);
+        resourceObtained.put(ResourceType.STONE, 7);
+
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getStrongbox().replaceAll((key, oldvalue) -> oldvalue + 10);
+
+        ProductionPower productionPower = new ProductionPower(resourceNeeded,resourceObtained);
+        ArrayList<ResourceType> resources = new ArrayList<>();
+        ArrayList<Warehouse> warehouse = new ArrayList<>();
+        for(int i= 0;i<4; i++){
+            resources.add(ResourceType.COIN);
+            warehouse.add(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+        }
+        for(int i= 0;i<5; i++){
+            resources.add(ResourceType.SERVANT);
+            warehouse.add(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+        }
+        assertEquals(10,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalCoins());
+        assertEquals(10,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalStones());
+        assertEquals(10,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalServants());
+        assertEquals(10,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalShields());
+
+        testGame.useAndChooseProdPower(productionPower,resources,warehouse);
+
+
+        assertEquals(6,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalCoins());
+        assertEquals(17,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalStones());
+        assertEquals(5,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalServants());
+        assertEquals(15,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalShields());
+
+    }
+
+    /**  Method useAndChooseProdPowerTest2 tests Game method useAndChooseProdPower2 with JOLLY resources in resource obtained.*/
+    @Test
+    @DisplayName("useAndChooseProdPowerTest2 test")
+    void useAndChooseProdPowerTest2() throws TooManyResourcesRequested, DifferentDimension {
+        HashMap<ResourceType,Integer> resourceNeeded = new HashMap<>();
+        HashMap<ResourceType,Integer> resourceObtained = new HashMap<>();
+        resourceNeeded.put(ResourceType.COIN, 3);
+        resourceNeeded.put(ResourceType.SERVANT, 4);
+        resourceNeeded.put(ResourceType.JOLLY, 2);
+        resourceObtained.put(ResourceType.SHIELD, 5);
+        resourceObtained.put(ResourceType.STONE, 7);
+        resourceObtained.put(ResourceType.JOLLY, 4);
+
+
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getStrongbox().replaceAll((key, oldvalue) -> oldvalue + 10);
+
+        ProductionPower productionPower = new ProductionPower(resourceNeeded,resourceObtained);
+        ArrayList<ResourceType> resources = new ArrayList<>();
+        ArrayList<ResourceType> new_resources = new ArrayList<>();
+        ArrayList<Warehouse> warehouse = new ArrayList<>();
+
+        for(int i= 0;i<4; i++){
+            new_resources.add(ResourceType.COIN);
+        }
+        for(int i= 0;i<4; i++){
+            resources.add(ResourceType.COIN);
+            warehouse.add(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+        }
+        for(int i= 0;i<5; i++){
+            resources.add(ResourceType.SERVANT);
+            warehouse.add(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox());
+        }
+        assertEquals(10,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalCoins());
+        assertEquals(10,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalStones());
+        assertEquals(10,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalServants());
+        assertEquals(10,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalShields());
+
+        testGame.useAndChooseProdPower(productionPower,resources,warehouse, new_resources);
+
+
+        assertEquals(10,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalCoins());
+        assertEquals(17,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalStones());
+        assertEquals(5,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalServants());
+        assertEquals(15,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalShields());
+    }
+
+    /**Method endGameAndIncreaseFaithMarkerTest tests Game methods increaseFaithMarkerOfOtherPlayers and endTurn.*/
+    @Test
+    @DisplayName("endGameAndIncreaseFaithMarkerTest test")
+    void endGameAndIncreaseFaithMarkerTest() {
+        testGame.takeResourcesFromMarket("Row", 2);
+        assertNotEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).endTurn();
+        for(int i = 1; i< 4; i++){
+            assertEquals(1,testGame.getActivePlayers().get(i).getBoard().getFaithMarker());
+
+        }
+    }
 
 }
