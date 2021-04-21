@@ -390,20 +390,15 @@ public class Game implements GameInterface{
 
 
     /**
-     * Override method chooseLeaderCard used when the player has to choose two leader cards at the beginning of the game
-     * @param chosenCard1 (type LeaderCard) - it is the card that the player wants to keep
-     * @param chosenCard2 (type LeaderCard) - it is the cards that the player wants to keep
+     * Override method chooseLeaderCardToRemove used when the player has to choose two leader cards at the beginning of the game
+     * @param chosenCard1 (type LeaderCard) - it is the card that the player wants to discard
+     * @param chosenCard2 (type LeaderCard) - it is the cards that the player wants to discard
      * @throws LeaderCardNotFound if the player has not got the two chosenCards
      */
     @Override
-    public void chooseLeaderCard(LeaderCard chosenCard1, LeaderCard chosenCard2) throws LeaderCardNotFound {
-        for (int i = 0; i < activePlayers.get(currentPlayer).getLeaderCards().size() ; i++) {
-            if(!(activePlayers.get(currentPlayer).getLeaderCards().get(i).equals(chosenCard1) ||
-                    activePlayers.get(currentPlayer).getLeaderCards().get(i).equals(chosenCard2))){
-                activePlayers.get(currentPlayer).removeLeaderCard(activePlayers.get(currentPlayer).getLeaderCards().get(i));
-            }
-        }
-
+    public void chooseLeaderCardToRemove(LeaderCard chosenCard1, LeaderCard chosenCard2) throws LeaderCardNotFound {
+            activePlayers.get(currentPlayer).removeLeaderCard(chosenCard1);
+            activePlayers.get(currentPlayer).removeLeaderCard(chosenCard2);
     }
 
     /**

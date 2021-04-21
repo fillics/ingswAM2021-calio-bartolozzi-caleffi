@@ -3,10 +3,11 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
 import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
+import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.DevelopmentCards.Level;
-import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
-import it.polimi.ingsw.Cards.LeaderCards.LeaderCardType;
-import it.polimi.ingsw.Cards.LeaderCards.Requirement;
+import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
+import it.polimi.ingsw.Cards.LeaderCards.*;
 import it.polimi.ingsw.Exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -27,14 +28,46 @@ class PlayerTest {
     Game testGame;
     Player testPlayer;
     private static final String username = "fil";
+    LeaderCard testLeaderCardDiscount;
+    LeaderCardStrategy testStrategyDiscount;
+    Requirement requirementsDiscount;
+    HashMap<CardColor,Integer> colorDiscount;
+    boolean choice;
+    int i;
+    HashMap<ResourceType,Integer> resourcePriceBuffer;
+    DevelopmentCard testDevelopmentCard;
+    ProductionPower testProductionPower;
+    HashMap<ResourceType,Integer> testResourcePrice;
+    HashMap<ResourceType,Integer> testResourcesNeeded;
+    HashMap<ResourceType,Integer> testResourcesObtained;
 
 
     /** Method setup setups test. */
     @BeforeEach
-    void setup() {
+    void setup() throws NumMaxPlayersReached {
         testGame = new Game();
-        testPlayer = new Player(username,0, testGame);
-        testGame.setup();
+        testPlayer = new Player("gino", 0, testGame);
+        testGame.createNewPlayer("fil");
+        testGame.createNewPlayer("bea");
+        testGame.createNewPlayer("gio");
+        testGame.createNewPlayer("jack");
+
+        colorDiscount= new HashMap<>();
+        colorDiscount.put(CardColor.YELLOW,1);
+        colorDiscount.put(CardColor.GREEN,1);
+        requirementsDiscount= new Requirement(colorDiscount,null,null);
+        testStrategyDiscount= new ConcreteStrategyDiscount(ResourceType.SERVANT);
+        testLeaderCardDiscount = new LeaderCard(LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
+        testLeaderCardDiscount.setStrategy(testStrategyDiscount);
+
+        testResourcePrice= new HashMap<>();
+        testResourcesNeeded = new HashMap<>();
+        testResourcesObtained = new HashMap<>();
+        testResourcePrice.put(ResourceType.SERVANT,2);
+        testResourcesNeeded.put(ResourceType.COIN,1);
+        testResourcesObtained.put(ResourceType.FAITHMARKER,1);
+        testProductionPower= new ProductionPower(testResourcesNeeded,testResourcesObtained);
+        testDevelopmentCard= new DevelopmentCard(Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
     }
 
 
@@ -127,7 +160,7 @@ class PlayerTest {
      * purchased by a player. If a player purchases 7 cards, the game ends.
      */
     @Test
-    void checkIncreaseNumberOfDevCards(){
+    void checkIncreaseNumberOfDevCards() {
         assertEquals(0, testPlayer.getBoard().getNumOfDevCards());
         for (int i = 0; i < 7; i++) {
             testPlayer.getBoard().increaseNumOfDevCards();
@@ -136,6 +169,33 @@ class PlayerTest {
         assertTrue(testGame.isEndgame());
     }
 
+    /**
+     * Test method checkIncreaseNumberOfDevCards checks the correct increase of the number of development cards
+     * purchased by a player. If a player purchases 7 cards, the game ends.
+     */
+    @Test
+    void getTotalVictoryPointsTest() throws LeaderCardNotFound {
+        int leaderpoints1, leaderpoints2, boardpoints, totalpoints;
+        testGame.setup();
+        assertEquals(4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
+        testGame.chooseLeaderCardToRemove(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(2), testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(3));
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).setStrategy(testStrategyDiscount);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(1).setStrategy(testStrategyDiscount);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getStrategy().ability();
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(1).getStrategy().ability();
+        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getStrategy().isActive());
+        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(1).getStrategy().isActive());
+        leaderpoints1 = testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getVictoryPoint();
+        leaderpoints2 = testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(1).getVictoryPoint();
+        for (int k = 0; k < 10; k++) {
+            testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().increaseFaithMarker();
+        }
+        boardpoints = testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getBoardVictoryPoint();
+        assertEquals(9, boardpoints);
+        assertEquals(2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
+        totalpoints = testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getTotalVictoryPoints();
+        assertEquals(leaderpoints1 + leaderpoints2 + boardpoints, totalpoints);
+    }
 
 
 }

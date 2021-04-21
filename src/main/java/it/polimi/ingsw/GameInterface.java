@@ -25,5 +25,5 @@ public interface GameInterface {
     void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested;
     void activateLeaderCard(LeaderCard cardToActivate) throws LeaderCardNotFound;
     void discardLeaderCard(LeaderCard cardToDiscard) throws LeaderCardNotFound;
-    void chooseLeaderCard(LeaderCard chosenCard1, LeaderCard chosenCard2) throws LeaderCardNotFound;
+    void chooseLeaderCardToRemove(LeaderCard chosenCard1, LeaderCard chosenCard2) throws LeaderCardNotFound;
 }

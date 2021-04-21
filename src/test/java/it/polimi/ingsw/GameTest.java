@@ -274,7 +274,7 @@ class GameTest {
      * @throws LeaderCardNotFound if the player has not got the two chosenCards
      */
     @Test
-    void ChooseLeaderCardTest() throws LeaderCardNotFound {
+    void ChooseLeaderCardToRemoveTest() throws LeaderCardNotFound {
         HashMap<ResourceType,Integer> resourcePrice1 = new HashMap<>();
         resourcePrice1.put(ResourceType.COIN,2);
         HashMap<ResourceType,Integer> resourcePrice2 = new HashMap<>();
@@ -308,13 +308,13 @@ class GameTest {
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card4);
 
         assertEquals(4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
-        testGame.chooseLeaderCard(card2, card4);
+        testGame.chooseLeaderCardToRemove(card2, card4);
         assertEquals(2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
 
-        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card2));
-        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card4));
-        assertFalse(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card1));
-        assertFalse(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card3));
+        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card1));
+        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card3));
+        assertFalse(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card2));
+        assertFalse(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card4));
     }
 
     /** Method chooseDiscountActivationTest tests Game method chooseDiscountActivation. */
@@ -636,9 +636,9 @@ class GameTest {
         assertEquals(15,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalShields());
     }
 
-    /**Method endGameAndIncreaseFaithMarkerTest tests Game methods increaseFaithMarkerOfOtherPlayers and endTurn.*/
+    /**Method endTurnAndIncreaseFaithMarkerTest tests Game methods increaseFaithMarkerOfOtherPlayers and endTurn.*/
     @Test
-    @DisplayName("endGameAndIncreaseFaithMarkerTest test")
+    @DisplayName("endTurnAndIncreaseFaithMarkerTest test")
     void endGameAndIncreaseFaithMarkerTest() {
         testGame.takeResourcesFromMarket("Row", 2);
         assertNotEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
@@ -648,5 +648,14 @@ class GameTest {
 
         }
     }
+
+    /**Method winnerTest tests Game methods winner.*/
+    @Test
+    @DisplayName("winnerTest test")
+    void winnerTest() {
+
+    }
+
+
 
 }
