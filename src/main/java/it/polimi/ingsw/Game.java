@@ -465,7 +465,6 @@ public class Game implements GameInterface{
     /**
      * Method winner indicates which player has more victory points than other players
      */
-    // TODO: 19/04/2021 da testare
     public String winner(){
         ArrayList<Integer> victoryPointsPlayers = new ArrayList<>();
         ArrayList<Integer> resourcesPlayers = new ArrayList<>();
@@ -480,8 +479,6 @@ public class Game implements GameInterface{
 
         if(Collections.frequency(victoryPointsPlayers, maxVictoryPoints)==1){
             winnerUsername = activePlayers.get(victoryPointsPlayers.indexOf(maxVictoryPoints)).getUsername();
-            return winnerUsername;
-
         }
         else{ //caso di pareggio
             for (Player activePlayer : activePlayers) {
@@ -489,8 +486,8 @@ public class Game implements GameInterface{
             }
             maxResources = Collections.max(resourcesPlayers);
             winnerUsername = activePlayers.get(resourcesPlayers.indexOf(maxResources)).getUsername();
-            return winnerUsername;
         }
+        return winnerUsername;
     }
 
 

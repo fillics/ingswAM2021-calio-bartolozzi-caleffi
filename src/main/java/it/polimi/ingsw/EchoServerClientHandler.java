@@ -26,6 +26,7 @@ public class EchoServerClientHandler implements Runnable {
                 }
                 else if(line.equals("ciao")){
                     out.println("Received: " + line);
+                    out.flush();
 
                 }
                 else {

@@ -44,13 +44,10 @@ class PlayerTest {
 
     /** Method setup setups test. */
     @BeforeEach
-    void setup() throws NumMaxPlayersReached {
+    void setup(){
         testGame = new Game();
-        testPlayer = new Player("gino", 0, testGame);
-        testGame.createNewPlayer("fil");
-        testGame.createNewPlayer("bea");
-        testGame.createNewPlayer("gio");
-        testGame.createNewPlayer("jack");
+        testPlayer = new Player(username, 0, testGame);
+
 
         colorDiscount= new HashMap<>();
         colorDiscount.put(CardColor.YELLOW,1);
@@ -170,32 +167,51 @@ class PlayerTest {
     }
 
     /**
-     * Test method checkIncreaseNumberOfDevCards checks the correct increase of the number of development cards
-     * purchased by a player. If a player purchases 7 cards, the game ends.
+     * Test method checkTotalVictoryPoints checks if the victory points' counting is correct. This test adds two leader
+     * cards to the player, it activates them and then it increases the player's faith marker (to get the faith marker's
+     * victory points)
      */
     @Test
-    void getTotalVictoryPointsTest() throws LeaderCardNotFound {
+    void checkTotalVictoryPoints(){
         int leaderpoints1, leaderpoints2, boardpoints, totalpoints;
-        testGame.setup();
-        assertEquals(4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
-        testGame.chooseLeaderCardToRemove(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(2), testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(3));
-        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).setStrategy(testStrategyDiscount);
-        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(1).setStrategy(testStrategyDiscount);
-        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getStrategy().ability();
-        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(1).getStrategy().ability();
-        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getStrategy().isActive());
-        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(1).getStrategy().isActive());
-        leaderpoints1 = testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getVictoryPoint();
-        leaderpoints2 = testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(1).getVictoryPoint();
+        HashMap<ResourceType,Integer> resourcePrice1 = new HashMap<>();
+        resourcePrice1.put(ResourceType.COIN,2);
+        HashMap<ResourceType,Integer> resourcePrice2 = new HashMap<>();
+        resourcePrice2.put(ResourceType.SERVANT,1);
+        HashMap<CardColor,Integer> color;
+        color = new HashMap<>();
+        color.put(CardColor.YELLOW,1);
+        Requirement requirement1 = new Requirement(null, Level.TWO, resourcePrice1);
+        Requirement requirement2 = new Requirement(color, Level.TWO, resourcePrice2);
+
+        LeaderCard card1 = new LeaderCard(LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.SERVANT, 4);
+        card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
+        testPlayer.addLeaderCard(card1);
+
+        LeaderCard card2 = new LeaderCard(LeaderCardType.DISCOUNT, requirement2, ResourceType.COIN, 2);
+        card2.setStrategy(new ConcreteStrategyDiscount(ResourceType.SHIELD));
+        testPlayer.addLeaderCard(card2);
+
+        assertEquals(2, testPlayer.getLeaderCards().size());
+
+        testPlayer.getLeaderCards().get(0).getStrategy().ability();
+        testPlayer.getLeaderCards().get(1).getStrategy().ability();
+
+        assertTrue(testPlayer.getLeaderCards().get(0).getStrategy().isActive());
+        assertTrue(testPlayer.getLeaderCards().get(1).getStrategy().isActive());
+
+        leaderpoints1 = testPlayer.getLeaderCards().get(0).getVictoryPoint();
+        leaderpoints2 = testPlayer.getLeaderCards().get(1).getVictoryPoint();
         for (int k = 0; k < 10; k++) {
-            testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().increaseFaithMarker();
+            testPlayer.getBoard().increaseFaithMarker();
         }
-        boardpoints = testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getBoardVictoryPoint();
-        assertEquals(9, boardpoints);
-        assertEquals(2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
-        totalpoints = testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getTotalVictoryPoints();
+        boardpoints = testPlayer.getBoard().getBoardVictoryPoint();
+        assertEquals(7, boardpoints);
+
+        totalpoints = testPlayer.getTotalVictoryPoints();
         assertEquals(leaderpoints1 + leaderpoints2 + boardpoints, totalpoints);
     }
+
 
 
 }

@@ -86,10 +86,10 @@ class GameTest {
      */
     @Test
     void PlayersPositionTest(){
-        assertEquals(1, testGame.getActivePlayers().get(0).getPosition());
-        assertEquals(2, testGame.getActivePlayers().get(1).getPosition());
-        assertEquals(3, testGame.getActivePlayers().get(2).getPosition());
-        assertEquals(4, testGame.getActivePlayers().get(3).getPosition());
+        for (int j = 1; j <= testGame.getActivePlayers().size(); j++) {
+            assertEquals(j, testGame.getActivePlayers().get(j-1).getPosition());
+        }
+
     }
 
     /**
@@ -99,9 +99,10 @@ class GameTest {
     @Test
     void AdditionalSetupTest(){
         testGame.additionalSetup();
-        testGame.getActivePlayers().get(1).setChosenResource(1);
-        testGame.getActivePlayers().get(2).setChosenResource(2);
-        testGame.getActivePlayers().get(3).setChosenResource(3);
+        for (int j = 1; j < 4; j++) {
+            testGame.getActivePlayers().get(j).setChosenResource(j); //it calls the method to allows to the player to choose the resource
+        }
+
         assertEquals(1, testGame.getActivePlayers().get(2).getBoard().getFaithMarker());
         assertEquals(1, testGame.getActivePlayers().get(1).getResourceBuffer().size());
         assertEquals(1, testGame.getActivePlayers().get(3).getBoard().getFaithMarker());
@@ -649,11 +650,73 @@ class GameTest {
         }
     }
 
-    /**Method winnerTest tests Game methods winner.*/
+    /**
+     * Test method checkWinnerFaithMarkers checks the Game's method winner that returns in this case the first player
+     * who has the victory points obtained by the faith track
+     */
     @Test
-    @DisplayName("winnerTest test")
-    void winnerTest() {
+    void checkWinnerFaithMarkers() {
 
+        for (int j = 0; j < 24; j++) {
+            testGame.getActivePlayers().get(0).getBoard().increaseFaithMarker();
+        }
+        assertTrue(testGame.isEndgame());
+        assertEquals(testGame.getActivePlayers().get(0).getUsername(), testGame.winner());
+
+
+    }
+
+    /**
+     * Test method checkWinnerLeaderCards checks the Game's method winner that returns in this case the second player
+     * because he has more victory points obtained by the leader cards
+     */
+    @Test
+    void checkWinnerLeaderCards(){
+        //creating two leader cards for the first two players
+        HashMap<ResourceType,Integer> resourcePrice1 = new HashMap<>();
+        resourcePrice1.put(ResourceType.COIN,2);
+        HashMap<ResourceType,Integer> resourcePrice2 = new HashMap<>();
+        resourcePrice2.put(ResourceType.SERVANT,1);
+        HashMap<CardColor,Integer> color;
+        color = new HashMap<>();
+        color.put(CardColor.YELLOW,1);
+        Requirement requirement1 = new Requirement(null, Level.TWO, resourcePrice1);
+        Requirement requirement2 = new Requirement(color, Level.TWO, resourcePrice2);
+
+        LeaderCard card1 = new LeaderCard(LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.SERVANT, 4);
+        card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
+        testGame.getActivePlayers().get(0).addLeaderCard(card1);
+        testGame.getActivePlayers().get(0).getLeaderCards().get(0).getStrategy().ability();
+
+        LeaderCard card2 = new LeaderCard(LeaderCardType.DISCOUNT, requirement2, ResourceType.COIN, 2);
+        card2.setStrategy(new ConcreteStrategyDiscount(ResourceType.SHIELD));
+        testGame.getActivePlayers().get(0).addLeaderCard(card2);
+        testGame.getActivePlayers().get(0).getLeaderCards().get(1).getStrategy().ability();
+
+        LeaderCard card3 = new LeaderCard(LeaderCardType.WHITE_MARBLE, requirement2, ResourceType.COIN, 5);
+        card3.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
+        testGame.getActivePlayers().get(1).addLeaderCard(card3);
+        testGame.getActivePlayers().get(1).getLeaderCards().get(0).getStrategy().ability();
+
+        LeaderCard card4 = new LeaderCard(LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.STONE, 8);
+        card4.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
+        testGame.getActivePlayers().get(1).addLeaderCard(card4);
+        testGame.getActivePlayers().get(1).getLeaderCards().get(1).getStrategy().ability();
+
+        //leader cards are activated
+        assertTrue(testGame.getActivePlayers().get(0).getLeaderCards().get(0).getStrategy().isActive());
+        assertTrue(testGame.getActivePlayers().get(0).getLeaderCards().get(1).getStrategy().isActive());
+        assertTrue(testGame.getActivePlayers().get(1).getLeaderCards().get(0).getStrategy().isActive());
+        assertTrue(testGame.getActivePlayers().get(1).getLeaderCards().get(1).getStrategy().isActive());
+
+        //the first two players reach the last faith track's cell
+        for (int j = 0; j < 24; j++) {
+            testGame.getActivePlayers().get(0).getBoard().increaseFaithMarker();
+            testGame.getActivePlayers().get(1).getBoard().increaseFaithMarker();
+        }
+
+        assertTrue(testGame.isEndgame());
+        assertEquals(testGame.getActivePlayers().get(1).getUsername(), testGame.winner());
     }
 
 
