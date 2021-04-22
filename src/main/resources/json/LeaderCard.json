@@ -3,6 +3,7 @@
     "id" : 1,
     "type": "EXTRA_DEPOSIT",
     "requirements":{
+      "requirementType": "resources",
       "resourcePrice":
       {
         "STONE": 5
@@ -15,6 +16,7 @@
     "id" : 2,
     "type": "EXTRA_DEPOSIT",
     "requirements":{
+      "requirementType": "resources",
       "resourcePrice":
       {
         "COIN": 5
@@ -27,6 +29,7 @@
     "id" : 3,
     "type": "EXTRA_DEPOSIT",
     "requirements":{
+      "requirementType": "resources",
       "resourcePrice":
       {
         "SERVANT": 5
@@ -39,6 +42,7 @@
     "id" : 4,
     "type": "EXTRA_DEPOSIT",
     "requirements":{
+      "requirementType": "resources",
       "resourcePrice":
       {
         "SHIELD": 5
@@ -54,6 +58,7 @@
     "id" : 5,
     "type": "WHITE_MARBLE",
     "requirements": {
+      "requirementType": "numcolor",
       "color": {
         "BLUE": 2,
         "YELLOW": 1
@@ -66,6 +71,7 @@
     "id" : 6,
     "type": "WHITE_MARBLE",
     "requirements": {
+      "requirementType": "numcolor",
       "color": {
         "GREEN": 2,
         "PURPLE": 1
@@ -78,6 +84,7 @@
     "id" : 7,
     "type": "WHITE_MARBLE",
     "requirements": {
+      "requirementType": "numcolor",
       "color": {
         "YELLOW": 2,
         "BLUE": 1
@@ -90,6 +97,7 @@
     "id" : 8,
     "type": "WHITE_MARBLE",
     "requirements": {
+      "requirementType": "numcolor",
       "color": {
         "PURPLE": 2,
         "GREEN": 1
@@ -105,6 +113,7 @@
     "id" : 9,
     "type": "DISCOUNT",
     "requirements": {
+      "requirementType": "numcolor",
       "color": {
         "BLUE": 1,
         "PURPLE": 1
@@ -117,6 +126,7 @@
     "id" : 10,
     "type": "DISCOUNT",
     "requirements": {
+      "requirementType": "numcolor",
       "color": {
         "YELLOW": 1,
         "PURPLE": 1
@@ -129,6 +139,7 @@
     "id" : 11,
     "type": "DISCOUNT",
     "requirements": {
+      "requirementType": "numcolor",
       "color": {
         "GREEN": 1,
         "BLUE": 1
@@ -141,6 +152,7 @@
     "id" : 12,
     "type": "DISCOUNT",
     "requirements": {
+      "requirementType": "numcolor",
       "color": {
         "YELLOW": 1,
         "GREEN": 1
@@ -156,6 +168,7 @@
     "id" : 13,
     "type": "PRODUCTION_POWER",
     "requirements": {
+      "requirementType": "levelcolor",
       "resourcePrice": {
         "YELLOW": 1
       },
@@ -168,6 +181,7 @@
     "id" : 14,
     "type": "PRODUCTION_POWER",
     "requirements": {
+      "requirementType": "levelcolor",
       "resourcePrice": {
         "PURPLE": 1
       },
@@ -180,6 +194,7 @@
     "id" : 15,
     "type": "PRODUCTION_POWER",
     "requirements": {
+      "requirementType": "levelcolor",
       "resourcePrice": {
         "BLUE": 1
       },
@@ -192,6 +207,7 @@
     "id" : 16,
     "type": "PRODUCTION_POWER",
     "requirements": {
+      "requirementType": "levelcolor",
       "resourcePrice": {
         "GREEN": 1
       },

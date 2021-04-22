@@ -19,5 +19,9 @@ public class MasterOfRenaissance {
         System.out.println("Hi! Welcome to Master of Renaissance!");
         //chiamiamo server e client
 
+        Game game = new Game();
+        game.createLeaderDeck();
+        System.out.println(game.getLeaderDeck().get(0).getRequirements());
+
     }
 }

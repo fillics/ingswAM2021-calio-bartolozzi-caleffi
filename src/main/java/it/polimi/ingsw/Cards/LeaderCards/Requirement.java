@@ -1,35 +1,28 @@
 package it.polimi.ingsw.Cards.LeaderCards;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.DevelopmentCards.*;
+import it.polimi.ingsw.Marbles.*;
+
 import java.util.HashMap;
 
 /**
  * This class represents the Requirements needed in order to activate a Leader Card.
  */
 
-public class Requirement {
-    private HashMap<CardColor,Integer> color;
-    private Level level;
-    private HashMap<ResourceType,Integer> resourcePrice;
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "requirementType")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ResourcesRequirements.class, name = "resources"),
+        @JsonSubTypes.Type(value = LevelAndColorRequirements.class, name = "levelcolor"),
+        @JsonSubTypes.Type(value = NumAndColorRequirements.class, name = "numcolor") })
 
-    public Requirement(HashMap<CardColor, Integer> color, Level level, HashMap<ResourceType, Integer> resourcePrice) {
-        this.color = color;
-        this.level = level;
-        this.resourcePrice = resourcePrice;
-    }
+public abstract class Requirement {
 
-    public HashMap<CardColor, Integer> getColor() {
-        return color;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public HashMap<ResourceType, Integer> getResourcePrice() {
-        return resourcePrice;
-    }
-
+    public abstract boolean check(Board board);
 
 }

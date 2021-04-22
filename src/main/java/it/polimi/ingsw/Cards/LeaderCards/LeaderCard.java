@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Cards.LeaderCards;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.Card;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
@@ -19,7 +21,9 @@ public class LeaderCard extends Card {
     private boolean useDiscountChoice = false;
 
     //TODO: java doc
-    public LeaderCard(int id, LeaderCardType type, Requirement requirements, ResourceType resourceType, int victorypoint) {
+    @JsonCreator
+    public LeaderCard(@JsonProperty("id") int id, @JsonProperty("type") LeaderCardType type, @JsonProperty("requirements") Requirement requirements,
+                      @JsonProperty("resourceType") ResourceType resourceType, @JsonProperty("victorypoint") int victorypoint) {
         this.id = id;
         this.type = type;
         this.requirements = requirements;

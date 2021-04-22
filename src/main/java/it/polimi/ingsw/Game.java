@@ -1,5 +1,9 @@
 package it.polimi.ingsw;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
@@ -11,6 +15,7 @@ import it.polimi.ingsw.Cards.LeaderCards.ConcreteStrategyDiscount;
 import it.polimi.ingsw.Cards.LeaderCards.ConcreteStrategyMarble;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Exceptions.*;
+import it.polimi.ingsw.Marbles.Marble;
 import it.polimi.ingsw.Marbles.MarketTray;
 
 import java.io.*;
@@ -181,15 +186,20 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * Method createLeaderDeck creates and shuffles the Leader Cards' Deck using the JSON file
      */
     public void createLeaderDeck(){
-        Gson gson = new Gson();
-        BufferedReader br;
-        try{
-            br = new BufferedReader(new FileReader("src/main/resources/json/LeaderCard.json"));
-            leaderDeck = gson.fromJson(br, new TypeToken<List<LeaderCard>>(){}.getType());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+
+        try {
+            leaderDeck = mapper.readValue(new File("src/main/resources/json/LeaderCard.json"), new TypeReference<ArrayList<LeaderCard>>() {});
             Collections.shuffle(leaderDeck);
-        }catch (FileNotFoundException ex){
-            System.out.println("Token.json file was not found");
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+
+            //System.out.println("LeaderCard.json file was not found");
+
 
     }
 
@@ -373,43 +383,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         else{
             int indexCard = activePlayers.get(currentPlayer).getLeaderCards().indexOf(cardToActivate);
 
-            if(checkRequirements(cardToActivate)) activePlayers.get(currentPlayer).getLeaderCards().get(indexCard).useAbility();
+            if(cardToActivate.getRequirements().check(activePlayers.get(currentPlayer).getBoard()))
+                activePlayers.get(currentPlayer).getLeaderCards().get(indexCard).useAbility();
         }
     }
 
-
-    public boolean checkRequirements(LeaderCard cardToCheck) throws NotEnoughRequirements {
-        boolean found = false;
-        //resources requirements
-        if((cardToCheck.getRequirements().getResourcePrice().containsKey(ResourceType.COIN) &&
-                cardToCheck.getRequirements().getResourcePrice().get(ResourceType.COIN)>activePlayers.get(currentPlayer).getBoard().getTotalCoins()) ||
-                (cardToCheck.getRequirements().getResourcePrice().containsKey(ResourceType.SHIELD) &&
-                        cardToCheck.getRequirements().getResourcePrice().get(ResourceType.SHIELD)>activePlayers.get(currentPlayer).getBoard().getTotalShields()) ||
-                (cardToCheck.getRequirements().getResourcePrice().containsKey(ResourceType.SERVANT) &&
-                        cardToCheck.getRequirements().getResourcePrice().get(ResourceType.SERVANT)>activePlayers.get(currentPlayer).getBoard().getTotalServants()) ||
-                (cardToCheck.getRequirements().getResourcePrice().containsKey(ResourceType.STONE) &&
-                        cardToCheck.getRequirements().getResourcePrice().get(ResourceType.STONE)>activePlayers.get(currentPlayer).getBoard().getTotalStones())){
-            throw new NotEnoughRequirements();
-        }
-
-        //level and color requirements
-        while(!found){
-            for (DevelopmentSpace devSpace: activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces()) {
-                for (DevelopmentCard devCard: devSpace.getDevelopmentCardsOfDevSpace()){
-                    if (cardToCheck.getRequirements().getColor().containsKey(devCard.getColor()) &&
-                            cardToCheck.getRequirements().getLevel().equals(devCard.getLevel())) {
-                        found = true;
-                    }
-                }
-            }
-        }
-        if(!found) throw new NotEnoughRequirements();
-
-        //number of cards
-
-
-        return false;
-    }
 
     /**
      * Override method discardLeaderCard used when a player wants to discard a leader card. In doing so, the player

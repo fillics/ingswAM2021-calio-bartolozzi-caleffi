@@ -62,14 +62,14 @@ public class LeaderCardTest {
         colorDiscount= new HashMap<>();
         colorDiscount.put(CardColor.YELLOW,1);
         colorDiscount.put(CardColor.GREEN,1);
-        requirementsProdPower = new Requirement(color,Level.TWO,null);
-        requirementsWhiteMarble= new Requirement(colorWhiteMarble,null,null);
-        requirementsDiscount= new Requirement(colorDiscount,null,null);
+        requirementsProdPower = new LevelAndColorRequirements(color, Level.TWO);
+        requirementsWhiteMarble= new NumAndColorRequirements(colorWhiteMarble);
+        requirementsDiscount= new NumAndColorRequirements(colorDiscount);
         resourceNeeded= new HashMap<>();
         resourceNeeded.put(ResourceType.SHIELD,1);
         resourcePriceDeposit = new HashMap<>();
         resourcePriceDeposit.put(ResourceType.SERVANT,5);
-        requirementsDeposit = new Requirement(null,null, resourcePriceDeposit);
+        requirementsDeposit = new ResourcesRequirements(resourcePriceDeposit);
         board= new Board(testGame);
         testStrategyProdPower = new ConcreteStrategyProductionPower(resourceNeeded,board, ResourceType.SHIELD);
         testStrategyDeposit = new ConcreteStrategyDeposit(ResourceType.SHIELD,board);
