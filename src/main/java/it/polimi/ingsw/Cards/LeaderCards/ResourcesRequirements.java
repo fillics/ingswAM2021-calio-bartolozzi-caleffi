@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.Board.Board;
 import it.polimi.ingsw.Board.Resources.ResourceType;
-import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
-import it.polimi.ingsw.Cards.DevelopmentCards.Level;
 
 import java.util.HashMap;
 
@@ -23,7 +21,17 @@ public class ResourcesRequirements extends Requirement{
 
     @Override
     public boolean check(Board board) {
-        return false;
+        HashMap<ResourceType,Integer> counter = new HashMap<>();
+        counter.put(ResourceType.COIN,board.getTotalCoins());
+        counter.put(ResourceType.STONE,board.getTotalStones());
+        counter.put(ResourceType.SERVANT,board.getTotalServants());
+        counter.put(ResourceType.SHIELD, board.getTotalShields());
+        for(ResourceType key : resourcePrice.keySet()){
+            if(resourcePrice.get(key) > counter.get(key)){
+                return false;
+            }
+        }
+        return true;
     }
 
 

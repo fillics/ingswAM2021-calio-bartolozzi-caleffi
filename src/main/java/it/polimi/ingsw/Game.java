@@ -385,6 +385,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
             if(cardToActivate.getRequirements().check(activePlayers.get(currentPlayer).getBoard()))
                 activePlayers.get(currentPlayer).getLeaderCards().get(indexCard).useAbility();
+            else throw new NotEnoughRequirements();
         }
     }
 

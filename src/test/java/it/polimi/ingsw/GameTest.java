@@ -246,7 +246,7 @@ class GameTest {
 
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card1);
         assertEquals(1, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
-        testGame.activateLeaderCard(card1);
+        //testGame.activateLeaderCard(card1);
         //assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getStrategy().isActive());
     }
 
