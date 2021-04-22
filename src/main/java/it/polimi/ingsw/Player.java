@@ -13,7 +13,6 @@ import java.util.ArrayList;
 /**
  * Player class represents the user and player of the board game.
  *
- * @author Filippo Caliò
  */
 
 public class Player {
@@ -23,7 +22,8 @@ public class Player {
     private ArrayList<LeaderCard> leaderCards;
     private ArrayList<Resource> resourceBuffer;
     private Board board;
-    private Game game;
+    private GamePlayerInterface gamePlayer;
+
     private int chosenResource;
     private ArrayList<LeaderCard> whiteMarbleCardChoice;
 
@@ -39,9 +39,9 @@ public class Player {
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
         resourceBuffer = new ArrayList<>();
-        whiteMarbleCardChoice= new ArrayList<>();
+        whiteMarbleCardChoice = new ArrayList<>();
         board = new Board(game);
-        this.game = game;
+        this.gamePlayer = game;
     }
 
 
@@ -164,7 +164,7 @@ public class Player {
      */
     public boolean endTurn(){
         if(resourceBuffer.size() > 0){
-            game.increaseFaithMarkerOfOtherPlayers();
+            gamePlayer.increaseFaithMarkerOfOtherPlayers();
         }
         resourceBuffer.clear();
         return true;

@@ -236,7 +236,7 @@ class GameTest {
      * @throws LeaderCardNotFound if the player has not got the card to activate
      */
     @Test
-    void ActivationLeaderCardTest() throws LeaderCardNotFound {
+    void ActivationLeaderCardTest() throws LeaderCardNotFound, NotEnoughRequirements {
         assertEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
         HashMap<ResourceType,Integer> resourcePrice = new HashMap<>();
         resourcePrice.put(ResourceType.SERVANT,2);
@@ -656,13 +656,13 @@ class GameTest {
      */
     @Test
     void checkWinnerFaithMarkers() {
-
+        //the first player reaches the last faith track's cell
         for (int j = 0; j < 24; j++) {
             testGame.getActivePlayers().get(0).getBoard().increaseFaithMarker();
         }
+        assertEquals(24, testGame.getActivePlayers().get(0).getBoard().getFaithMarker());
         assertTrue(testGame.isEndgame());
         assertEquals(testGame.getActivePlayers().get(0).getUsername(), testGame.winner());
-
 
     }
 
@@ -714,6 +714,8 @@ class GameTest {
             testGame.getActivePlayers().get(0).getBoard().increaseFaithMarker();
             testGame.getActivePlayers().get(1).getBoard().increaseFaithMarker();
         }
+        assertEquals(24, testGame.getActivePlayers().get(0).getBoard().getFaithMarker());
+        assertEquals(24, testGame.getActivePlayers().get(1).getBoard().getFaithMarker());
 
         assertTrue(testGame.isEndgame());
         assertEquals(testGame.getActivePlayers().get(1).getUsername(), testGame.winner());

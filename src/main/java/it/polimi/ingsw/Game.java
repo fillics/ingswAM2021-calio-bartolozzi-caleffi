@@ -22,7 +22,7 @@ import java.util.stream.IntStream;
  * Game class contains the main logic of "Master of Renaissance".
  */
 
-public class Game implements GameInterface{
+public class Game implements GameInterface, GameBoardInterface, GamePlayerInterface{
 
     private ArrayList<Player> players;
     private ArrayList<Player> activePlayers;
@@ -368,13 +368,35 @@ public class Game implements GameInterface{
      * @throws LeaderCardNotFound if the player has not got the cardToActivate
      */
     @Override
-    public void activateLeaderCard(LeaderCard cardToActivate) throws LeaderCardNotFound {
+    public void activateLeaderCard(LeaderCard cardToActivate) throws LeaderCardNotFound, NotEnoughRequirements {
         if(!activePlayers.get(currentPlayer).getLeaderCards().contains(cardToActivate)) throw new LeaderCardNotFound();
         else{
             int indexCard = activePlayers.get(currentPlayer).getLeaderCards().indexOf(cardToActivate);
+            //checkRequirements(cardToActivate); //da modificare questa parte
             activePlayers.get(currentPlayer).getLeaderCards().get(indexCard).useAbility();
         }
     }
+
+   /*
+    public boolean checkRequirements(LeaderCard cardToCheck) throws NotEnoughRequirements {
+        //resources requirements
+        if((cardToCheck.getRequirements().getResourcePrice().containsKey(ResourceType.COIN) &&
+                cardToCheck.getRequirements().getResourcePrice().get(ResourceType.COIN)>activePlayers.get(currentPlayer).getBoard().getTotalCoins()) ||
+                (cardToCheck.getRequirements().getResourcePrice().containsKey(ResourceType.SHIELD) &&
+                        cardToCheck.getRequirements().getResourcePrice().get(ResourceType.SHIELD)>activePlayers.get(currentPlayer).getBoard().getTotalShields()) ||
+                (cardToCheck.getRequirements().getResourcePrice().containsKey(ResourceType.SERVANT) &&
+                        cardToCheck.getRequirements().getResourcePrice().get(ResourceType.SERVANT)>activePlayers.get(currentPlayer).getBoard().getTotalServants()) ||
+                (cardToCheck.getRequirements().getResourcePrice().containsKey(ResourceType.STONE) &&
+                        cardToCheck.getRequirements().getResourcePrice().get(ResourceType.STONE)>activePlayers.get(currentPlayer).getBoard().getTotalStones())){
+            throw new NotEnoughRequirements();
+        }
+
+        //level and color requirements
+        if(activePlayers.get(currentPlayer).
+
+
+
+    }*/
 
     /**
      * Override method discardLeaderCard used when a player wants to discard a leader card. In doing so, the player
@@ -407,9 +429,10 @@ public class Game implements GameInterface{
      * the pope space so that the next person that cross that cell doesn't call this method.
      * @param faithmarker is the position of the faithmarker of the player that stepped on the pope space.
      */
+    @Override
     public void checkPlayersFaithMarkers(int faithmarker){
         int x;
-        for (Player player :  activePlayers){
+        for (Player player : activePlayers){
             if(player.getBoard().getFaithMarker() > 0){
                 x = player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() - 1;
                 if(player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() != 0){
@@ -424,6 +447,7 @@ public class Game implements GameInterface{
      * Method increaseFaithMarkerOfOtherPlayers increases the faithmarker of the players when someone hasn't put all
      * the resources obtained from the market in the deposits.
      */
+    @Override
     public void increaseFaithMarkerOfOtherPlayers() {
         for (Player player : activePlayers){
             if(!player.equals(activePlayers.get(currentPlayer))){
@@ -458,6 +482,7 @@ public class Game implements GameInterface{
     /**
      *  Method endGame called when the conditions to end the game are satisfied.
      */
+    @Override
     public void endGame(){
         endgame=true;
     }

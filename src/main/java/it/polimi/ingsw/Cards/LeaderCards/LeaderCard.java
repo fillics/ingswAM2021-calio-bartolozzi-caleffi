@@ -45,6 +45,10 @@ public class LeaderCard extends Card {
         }
     }
 
+    public Requirement getRequirements() {
+        return requirements;
+    }
+
     public boolean getUseDiscountChoice() {
         return useDiscountChoice;
     }

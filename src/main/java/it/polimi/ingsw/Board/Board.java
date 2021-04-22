@@ -16,6 +16,7 @@ import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentSpace;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Game;
+import it.polimi.ingsw.GameBoardInterface;
 
 import java.io.*;
 import java.util.*;
@@ -30,12 +31,12 @@ public class Board {
     private ArrayList<Cell> track;
     private ArrayList<VaticanReportSection> vaticanReportSections;
     private ArrayList<ProductionPower> specialProductionPowers;
-    private Game game;
+    private GameBoardInterface game;
 
     /**
      * Class's constructor that'll be used in the setup method
      */
-    public Board(Game game) {
+    public Board(GameBoardInterface game) {
         numOfDevCards = 0;
         faithMarker = 0;
         boardVictoryPoint = 0;
@@ -256,7 +257,8 @@ public class Board {
         return getTotalCoins() + getTotalStones() + getTotalServants() + getTotalShields();
     }
 
-    public boolean checkResources(HashMap<ResourceType,Integer> resourcePriceBuffer, ArrayList<ResourceType> chosenResources)throws NotEnoughResources, WrongChosenResources {
+
+    public boolean checkResources(HashMap<ResourceType,Integer> resourcePriceBuffer, ArrayList<ResourceType> chosenResources) throws NotEnoughResources, WrongChosenResources {
         if((resourcePriceBuffer.containsKey(ResourceType.COIN)&&(resourcePriceBuffer.get(ResourceType.COIN)>getTotalCoins()))||
                 (resourcePriceBuffer.containsKey(ResourceType.STONE)&&(resourcePriceBuffer.get(ResourceType.STONE)>getTotalStones()))||
                 (resourcePriceBuffer.containsKey(ResourceType.SERVANT)&&(resourcePriceBuffer.get(ResourceType.SERVANT)>getTotalServants()))||

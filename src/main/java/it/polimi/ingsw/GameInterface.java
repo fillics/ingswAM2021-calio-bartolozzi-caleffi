@@ -23,7 +23,7 @@ public interface GameInterface {
     void takeResourcesFromMarket(String line, int numline);
     void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimension, TooManyResourcesRequested;
     void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested;
-    void activateLeaderCard(LeaderCard cardToActivate) throws LeaderCardNotFound;
+    void activateLeaderCard(LeaderCard cardToActivate) throws LeaderCardNotFound, NotEnoughRequirements;
     void discardLeaderCard(LeaderCard cardToDiscard) throws LeaderCardNotFound;
     void chooseLeaderCardToRemove(LeaderCard chosenCard1, LeaderCard chosenCard2) throws LeaderCardNotFound;
 }

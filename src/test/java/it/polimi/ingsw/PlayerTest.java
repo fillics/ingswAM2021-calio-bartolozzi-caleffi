@@ -48,7 +48,6 @@ class PlayerTest {
         testGame = new Game();
         testPlayer = new Player(username, 0, testGame);
 
-
         colorDiscount= new HashMap<>();
         colorDiscount.put(CardColor.YELLOW,1);
         colorDiscount.put(CardColor.GREEN,1);
@@ -68,7 +67,7 @@ class PlayerTest {
     }
 
 
-    /** Method cardAdditionTest test the addition of a single card to the player. */
+    /** Method cardAdditionTest tests the addition of a single card to the player. */
     @Test
     void cardAdditionTest() {
         assertEquals(0, testPlayer.getLeaderCards().size());
@@ -174,6 +173,8 @@ class PlayerTest {
     @Test
     void checkTotalVictoryPoints(){
         int leaderpoints1, leaderpoints2, boardpoints, totalpoints;
+
+        //creating two leader cards
         HashMap<ResourceType,Integer> resourcePrice1 = new HashMap<>();
         resourcePrice1.put(ResourceType.COIN,2);
         HashMap<ResourceType,Integer> resourcePrice2 = new HashMap<>();
@@ -194,9 +195,9 @@ class PlayerTest {
 
         assertEquals(2, testPlayer.getLeaderCards().size());
 
+        //activating the leader cards
         testPlayer.getLeaderCards().get(0).getStrategy().ability();
         testPlayer.getLeaderCards().get(1).getStrategy().ability();
-
         assertTrue(testPlayer.getLeaderCards().get(0).getStrategy().isActive());
         assertTrue(testPlayer.getLeaderCards().get(1).getStrategy().isActive());
 
