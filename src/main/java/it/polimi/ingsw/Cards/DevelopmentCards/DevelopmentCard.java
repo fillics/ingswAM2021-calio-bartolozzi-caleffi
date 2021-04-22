@@ -9,6 +9,7 @@ import java.util.HashMap;
  * This class represents the Development Card.
  */
 public class DevelopmentCard extends Card {
+    private int id;
     private Level level;
     private CardColor color;
     private HashMap<ResourceType,Integer> resourcePrice;
@@ -18,12 +19,17 @@ public class DevelopmentCard extends Card {
     /**
      * Constructor DevelopmentCard creates a new DevelopmentCard instance.
      */
-    public DevelopmentCard(Level level, CardColor color, ProductionPower productionPower, HashMap<ResourceType,Integer> resourcePrice, int victorypoint) {
+    public DevelopmentCard(int id,Level level, CardColor color, ProductionPower productionPower, HashMap<ResourceType,Integer> resourcePrice, int victorypoint) {
+        this.id = id;
         this.level = level;
         this.color = color;
         this.resourcePrice= resourcePrice;
         this.productionPower = productionPower;
         this.victorypoint= victorypoint;
+    }
+
+    public int getId() {
+        return id;
     }
 
     /**

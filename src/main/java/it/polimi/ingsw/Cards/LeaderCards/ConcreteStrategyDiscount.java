@@ -1,4 +1,5 @@
 package it.polimi.ingsw.Cards.LeaderCards;
+
 import it.polimi.ingsw.Board.Resources.ResourceType;
 
 /**

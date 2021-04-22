@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 public class ConcreteStrategyDiscard implements TokenActionStrategy{
 
     private final int amount = 2;
-    private SinglePlayerGame singleGame;
+    private SinglePlayerGameInterface singleGame;
     private CardColor color;
 
 
@@ -20,7 +20,7 @@ public class ConcreteStrategyDiscard implements TokenActionStrategy{
      * @param singleGame of type SinglePlayerGame
      * @param color of type CardColor
      */
-    public ConcreteStrategyDiscard(SinglePlayerGame singleGame, CardColor color) {
+    public ConcreteStrategyDiscard(SinglePlayerGameInterface singleGame, CardColor color) {
         this.singleGame = singleGame;
         this.color = color;
     }

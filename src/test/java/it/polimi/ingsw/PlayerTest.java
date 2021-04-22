@@ -53,7 +53,7 @@ class PlayerTest {
         colorDiscount.put(CardColor.GREEN,1);
         requirementsDiscount= new Requirement(colorDiscount,null,null);
         testStrategyDiscount= new ConcreteStrategyDiscount(ResourceType.SERVANT);
-        testLeaderCardDiscount = new LeaderCard(LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
+        testLeaderCardDiscount = new LeaderCard(1, LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
         testLeaderCardDiscount.setStrategy(testStrategyDiscount);
 
         testResourcePrice= new HashMap<>();
@@ -63,7 +63,7 @@ class PlayerTest {
         testResourcesNeeded.put(ResourceType.COIN,1);
         testResourcesObtained.put(ResourceType.FAITHMARKER,1);
         testProductionPower= new ProductionPower(testResourcesNeeded,testResourcesObtained);
-        testDevelopmentCard= new DevelopmentCard(Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
+        testDevelopmentCard= new DevelopmentCard(2,Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
     }
 
 
@@ -74,7 +74,7 @@ class PlayerTest {
         HashMap<ResourceType, Integer> resourcePrice = new HashMap<>();
         resourcePrice.put(ResourceType.COIN, 2);
         Requirement requirement = new Requirement(null, Level.ONE, resourcePrice);
-        LeaderCard card1 = new LeaderCard(LeaderCardType.DISCOUNT, requirement, ResourceType.SERVANT, 4);
+        LeaderCard card1 = new LeaderCard(1,LeaderCardType.DISCOUNT, requirement, ResourceType.SERVANT, 4);
 
         testPlayer.addLeaderCard(card1);
         assertEquals(1, testPlayer.getLeaderCards().size());
@@ -91,7 +91,7 @@ class PlayerTest {
         HashMap<ResourceType, Integer> resourcePrice = new HashMap<>();
         resourcePrice.put(ResourceType.COIN, 2);
         Requirement requirement = new Requirement(null, Level.ONE, resourcePrice);
-        LeaderCard card1 = new LeaderCard(LeaderCardType.DISCOUNT, requirement, ResourceType.SERVANT, 4);
+        LeaderCard card1 = new LeaderCard(1,LeaderCardType.DISCOUNT, requirement, ResourceType.SERVANT, 4);
         testPlayer.addLeaderCard(card1);
         assertEquals(1, testPlayer.getLeaderCards().size());
         testPlayer.removeLeaderCard(card1);
@@ -185,11 +185,11 @@ class PlayerTest {
         Requirement requirement1 = new Requirement(null, Level.TWO, resourcePrice1);
         Requirement requirement2 = new Requirement(color, Level.TWO, resourcePrice2);
 
-        LeaderCard card1 = new LeaderCard(LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.SERVANT, 4);
+        LeaderCard card1 = new LeaderCard(1,LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.SERVANT, 4);
         card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
         testPlayer.addLeaderCard(card1);
 
-        LeaderCard card2 = new LeaderCard(LeaderCardType.DISCOUNT, requirement2, ResourceType.COIN, 2);
+        LeaderCard card2 = new LeaderCard(2,LeaderCardType.DISCOUNT, requirement2, ResourceType.COIN, 2);
         card2.setStrategy(new ConcreteStrategyDiscount(ResourceType.SHIELD));
         testPlayer.addLeaderCard(card2);
 

@@ -1,8 +1,6 @@
 package it.polimi.ingsw.Cards.LeaderCards;
 
-import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
-import it.polimi.ingsw.Player;
 
 /**
  * This class represents the white marble strategy for Leader Cards.

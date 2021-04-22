@@ -1,14 +1,13 @@
 package it.polimi.ingsw.Board.Resources;
 
-import it.polimi.ingsw.Board.Board;
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.Board.BoardInterface;
 
 public class ConcreteStrategySpecialResource implements ResourceActionStrategy {
-    Board board;
+    BoardInterface board;
     /**
      *Class's Constructor made to define the concrete strategy
      */
-    public ConcreteStrategySpecialResource(Board board) {
+    public ConcreteStrategySpecialResource(BoardInterface board) {
         this.board = board;
     }
 

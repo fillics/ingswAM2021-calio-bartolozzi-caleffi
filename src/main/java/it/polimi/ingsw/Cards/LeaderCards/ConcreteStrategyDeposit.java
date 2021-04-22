@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Cards.LeaderCards;
 import it.polimi.ingsw.Board.Board;
+import it.polimi.ingsw.Board.BoardInterface;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Board.Storage.Deposit;
 
@@ -10,7 +11,7 @@ import it.polimi.ingsw.Board.Storage.Deposit;
 public class ConcreteStrategyDeposit implements LeaderCardStrategy{
     private ResourceType resourceType;
     private Deposit extraDeposit;
-    private Board board;
+    private BoardInterface board;
     private boolean active;
 
     public boolean isActive() {
@@ -20,7 +21,7 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
     /**
      * Constructor ConcreteStrategyDeposit creates a new ConcreteStrategyDeposit instance.
      */
-    public ConcreteStrategyDeposit(ResourceType resourceType,Board board) {
+    public ConcreteStrategyDeposit(ResourceType resourceType,BoardInterface board) {
         this.resourceType = resourceType;
         this.board=board;
         active = false;

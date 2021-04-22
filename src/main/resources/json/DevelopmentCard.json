@@ -1,5 +1,6 @@
 [
   {
+    "id" : 1,
     "color": "BLUE",
     "level": "ONE",
     "resourcePrice":{
@@ -19,6 +20,7 @@
     "victorypoint": 4
   },
   {
+    "id" : 2,
     "color": "BLUE",
     "level": "ONE",
     "resourcePrice":{
@@ -37,6 +39,7 @@
     "victorypoint": 3
   },
   {
+    "id" : 3,
     "color": "BLUE",
     "level": "ONE",
     "resourcePrice":{
@@ -55,6 +58,7 @@
     "victorypoint": 2
   },
   {
+    "id" : 4,
     "color": "BLUE",
     "level": "ONE",
     "resourcePrice":{
@@ -73,6 +77,7 @@
 
 
   {
+    "id" : 5,
     "color": "BLUE",
     "level": "TWO",
     "resourcePrice":{
@@ -91,6 +96,7 @@
     "victorypoint": 6
   },
   {
+    "id" : 6,
     "color": "BLUE",
     "level": "TWO",
     "resourcePrice":{
@@ -109,6 +115,7 @@
     "victorypoint": 8
   },
   {
+    "id" : 7,
     "color": "BLUE",
     "level": "TWO",
     "resourcePrice":{
@@ -125,6 +132,7 @@
     "victorypoint": 5
   },
   {
+    "id" : 8,
     "color": "BLUE",
     "level": "TWO",
     "resourcePrice":{
@@ -144,6 +152,7 @@
 
 
   {
+    "id" : 9,
     "color": "BLUE",
     "level": "THREE",
     "resourcePrice":{
@@ -162,6 +171,7 @@
     "victorypoint": 12
   },
   {
+    "id" : 10,
     "color": "BLUE",
     "level": "THREE",
     "resourcePrice":{
@@ -179,6 +189,7 @@
     "victorypoint": 9
   },
   {
+    "id" : 11,
     "color": "BLUE",
     "level": "THREE",
     "resourcePrice":{
@@ -196,6 +207,7 @@
     "victorypoint": 11
   },
   {
+    "id" : 12,
     "color": "BLUE",
     "level": "THREE",
     "resourcePrice":{
@@ -218,6 +230,7 @@
 
 
   {
+    "id" : 13,
     "color": "GREEN",
     "level": "ONE",
     "resourcePrice":{
@@ -237,6 +250,7 @@
     "victorypoint": 4
   },
   {
+    "id" : 14,
     "color": "GREEN",
     "level": "ONE",
     "resourcePrice":{
@@ -255,6 +269,7 @@
     "victorypoint": 3
   },
   {
+    "id" : 15,
     "color": "GREEN",
     "level": "ONE",
     "resourcePrice":{
@@ -273,6 +288,7 @@
     "victorypoint": 2
   },
   {
+    "id" : 16,
     "color": "GREEN",
     "level": "ONE",
     "resourcePrice":{
@@ -291,6 +307,7 @@
 
 
   {
+    "id" : 17,
     "color": "GREEN",
     "level": "TWO",
     "resourcePrice":{
@@ -308,6 +325,7 @@
     "victorypoint": 7
   },
   {
+    "id" : 18,
     "color": "GREEN",
     "level": "TWO",
     "resourcePrice":{
@@ -326,6 +344,7 @@
     "victorypoint": 6
   },
   {
+    "id" : 19,
     "color": "GREEN",
     "level": "TWO",
     "resourcePrice":{
@@ -342,6 +361,7 @@
     "victorypoint": 5
   },
   {
+    "id" : 20,
     "color": "GREEN",
     "level": "TWO",
     "resourcePrice":{
@@ -362,6 +382,7 @@
 
 
   {
+    "id" : 21,
     "color": "GREEN",
     "level": "THREE",
     "resourcePrice":{
@@ -379,6 +400,7 @@
     "victorypoint": 11
   },
   {
+    "id" : 22,
     "color": "GREEN",
     "level": "THREE",
     "resourcePrice":{
@@ -399,6 +421,7 @@
     "victorypoint": 10
   },
   {
+    "id" : 23,
     "color": "GREEN",
     "level": "THREE",
     "resourcePrice":{
@@ -417,6 +440,7 @@
     "victorypoint": 12
   },
   {
+    "id" : 24,
     "color": "GREEN",
     "level": "THREE",
     "resourcePrice":{
@@ -436,6 +460,7 @@
 
 
   {
+    "id" : 25,
     "color": "YELLOW",
     "level": "ONE",
     "resourcePrice":{
@@ -455,6 +480,7 @@
     "victorypoint": 4
   },
   {
+    "id" : 26,
     "color": "YELLOW",
     "level": "ONE",
     "resourcePrice":{
@@ -473,6 +499,7 @@
     "victorypoint": 2
   },
   {
+    "id" : 27,
     "color": "YELLOW",
     "level": "ONE",
     "resourcePrice":{
@@ -491,6 +518,7 @@
     "victorypoint": 3
   },
   {
+    "id" : 28,
     "color": "YELLOW",
     "level": "ONE",
     "resourcePrice":{
@@ -509,6 +537,7 @@
 
 
   {
+    "id" : 29,
     "color": "YELLOW",
     "level": "TWO",
     "resourcePrice":{
@@ -527,6 +556,7 @@
     "victorypoint": 6
   },
   {
+    "id" : 30,
     "color": "YELLOW",
     "level": "TWO",
     "resourcePrice":{
@@ -544,6 +574,7 @@
     "victorypoint": 7
   },
   {
+    "id" : 31,
     "color": "YELLOW",
     "level": "TWO",
     "resourcePrice":{
@@ -560,6 +591,7 @@
     "victorypoint": 5
   },
   {
+    "id" : 32,
     "color": "YELLOW",
     "level": "TWO",
     "resourcePrice":{
@@ -580,6 +612,7 @@
 
 
   {
+    "id" : 33,
     "color": "YELLOW",
     "level": "THREE",
     "resourcePrice":{
@@ -600,6 +633,7 @@
     "victorypoint": 10
   },
   {
+    "id" : 34,
     "color": "YELLOW",
     "level": "THREE",
     "resourcePrice":{
@@ -618,6 +652,7 @@
     "victorypoint": 12
   },
   {
+    "id" : 35,
     "color": "YELLOW",
     "level": "THREE",
     "resourcePrice":{
@@ -635,6 +670,7 @@
     "victorypoint": 11
   },
   {
+    "id" : 36,
     "color": "YELLOW",
     "level": "THREE",
     "resourcePrice":{
@@ -654,6 +690,7 @@
 
 
   {
+    "id" : 37,
     "color": "PURPLE",
     "level": "ONE",
     "resourcePrice":{
@@ -672,6 +709,7 @@
     "victorypoint": 3
   },
   {
+    "id" : 38,
     "color": "PURPLE",
     "level": "ONE",
     "resourcePrice":{
@@ -688,6 +726,7 @@
     "victorypoint": 1
   },
   {
+    "id" : 39,
     "color": "PURPLE",
     "level": "ONE",
     "resourcePrice":{
@@ -707,6 +746,7 @@
     "victorypoint": 4
   },
   {
+    "id" : 40,
     "color": "PURPLE",
     "level": "ONE",
     "resourcePrice":{
@@ -727,6 +767,7 @@
 
 
   {
+    "id" : 41,
     "color": "PURPLE",
     "level": "TWO",
     "resourcePrice":{
@@ -744,6 +785,7 @@
     "victorypoint": 7
   },
   {
+    "id" : 42,
     "color": "PURPLE",
     "level": "TWO",
     "resourcePrice":{
@@ -760,6 +802,7 @@
     "victorypoint": 5
   },
   {
+    "id" : 43,
     "color": "PURPLE",
     "level": "TWO",
     "resourcePrice":{
@@ -778,6 +821,7 @@
     "victorypoint": 6
   },
   {
+    "id" : 44,
     "color": "PURPLE",
     "level": "TWO",
     "resourcePrice":{
@@ -798,6 +842,7 @@
 
 
   {
+    "id" : 45,
     "color": "PURPLE",
     "level": "THREE",
     "resourcePrice":{
@@ -815,6 +860,7 @@
     "victorypoint": 9
   },
   {
+    "id" : 46,
     "color": "PURPLE",
     "level": "THREE",
     "resourcePrice":{
@@ -832,6 +878,7 @@
     "victorypoint": 11
   },
   {
+    "id" : 47,
     "color": "PURPLE",
     "level": "THREE",
     "resourcePrice":{
@@ -852,6 +899,7 @@
     "victorypoint": 10
   },
   {
+    "id" : 48,
     "color": "PURPLE",
     "level": "THREE",
     "resourcePrice":{
