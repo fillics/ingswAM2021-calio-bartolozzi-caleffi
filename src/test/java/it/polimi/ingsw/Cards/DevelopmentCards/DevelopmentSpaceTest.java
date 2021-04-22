@@ -64,7 +64,7 @@ public class DevelopmentSpaceTest {
         testDevelopmentSpace.addDevelopmentCard(testDevelopmentCard2);
         testArray.add(testDevelopmentCard);
         testArray.add(testDevelopmentCard2);
-        assertEquals(testArray,testDevelopmentSpace.getDevelopmentSpace());
+        assertEquals(testArray,testDevelopmentSpace.getDevelopmentCardsOfDevSpace());
     }
 
     /** Method getTopCardProductionPowerTest tests getTopCardProductionPower method. */

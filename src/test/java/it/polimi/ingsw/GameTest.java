@@ -419,7 +419,7 @@ class GameTest {
                 }
             }
         }
-        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0).getDevelopmentSpace().size(),1);
+        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().size(),1);
     }
 
     /** Method chooseWhiteMarbleActivationTest tests Game method chooseWhiteMarbleActivation. */

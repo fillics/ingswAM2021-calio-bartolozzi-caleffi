@@ -21,7 +21,7 @@ import it.polimi.ingsw.Player;
 public abstract class Marble {
     /**
      * Method transform is used to transform every single marble in its corresponding resource
-     * AND to fill the resourceBuffer of Player
+     * and to fill the resourceBuffer of Player
      */
     public abstract void transform(Player player);
 }

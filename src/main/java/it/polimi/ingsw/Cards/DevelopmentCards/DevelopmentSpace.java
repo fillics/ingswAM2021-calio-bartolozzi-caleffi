@@ -6,14 +6,14 @@ import java.util.ArrayList;
  * This class represents a Development Space of the Board.
  */
 public class DevelopmentSpace {
-    private ArrayList<DevelopmentCard> developmentSpace;
+    private ArrayList<DevelopmentCard> developmentCardsOfDevSpace;
     private DevelopmentCard topCard;
 
     /**
      * Constructor DevelopmentSpace creates a new DevelopmentSpace instance.
      */
     public DevelopmentSpace() {
-        developmentSpace= new ArrayList<>();
+        developmentCardsOfDevSpace = new ArrayList<>();
         topCard = null;
     }
 
@@ -21,7 +21,7 @@ public class DevelopmentSpace {
      * Method addDevelopmentCard adds the developmentCard to the developmentSpace and sets topCard to the last devCard bought
      */
     public void addDevelopmentCard(DevelopmentCard developmentCard){
-        developmentSpace.add(developmentCard);
+        developmentCardsOfDevSpace.add(developmentCard);
         topCard = developmentCard;
     }
 
@@ -50,7 +50,7 @@ public class DevelopmentSpace {
     /**
      * Method getDevelopmentSpace returns the arraylist of Development Cards of the Development Space.
      */
-    public ArrayList<DevelopmentCard> getDevelopmentSpace() {
-        return developmentSpace;
+    public ArrayList<DevelopmentCard> getDevelopmentCardsOfDevSpace() {
+        return developmentCardsOfDevSpace;
     }
 }

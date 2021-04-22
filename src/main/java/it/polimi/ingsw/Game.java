@@ -372,13 +372,14 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         if(!activePlayers.get(currentPlayer).getLeaderCards().contains(cardToActivate)) throw new LeaderCardNotFound();
         else{
             int indexCard = activePlayers.get(currentPlayer).getLeaderCards().indexOf(cardToActivate);
-            //checkRequirements(cardToActivate); //da modificare questa parte
-            activePlayers.get(currentPlayer).getLeaderCards().get(indexCard).useAbility();
+
+            if(checkRequirements(cardToActivate)) activePlayers.get(currentPlayer).getLeaderCards().get(indexCard).useAbility();
         }
     }
 
-   /*
+
     public boolean checkRequirements(LeaderCard cardToCheck) throws NotEnoughRequirements {
+        boolean found = false;
         //resources requirements
         if((cardToCheck.getRequirements().getResourcePrice().containsKey(ResourceType.COIN) &&
                 cardToCheck.getRequirements().getResourcePrice().get(ResourceType.COIN)>activePlayers.get(currentPlayer).getBoard().getTotalCoins()) ||
@@ -392,11 +393,23 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         }
 
         //level and color requirements
-        if(activePlayers.get(currentPlayer).
+        while(!found){
+            for (DevelopmentSpace devSpace: activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces()) {
+                for (DevelopmentCard devCard: devSpace.getDevelopmentCardsOfDevSpace()){
+                    if (cardToCheck.getRequirements().getColor().containsKey(devCard.getColor()) &&
+                            cardToCheck.getRequirements().getLevel().equals(devCard.getLevel())) {
+                        found = true;
+                    }
+                }
+            }
+        }
+        if(!found) throw new NotEnoughRequirements();
+
+        //number of cards
 
 
-
-    }*/
+        return false;
+    }
 
     /**
      * Override method discardLeaderCard used when a player wants to discard a leader card. In doing so, the player

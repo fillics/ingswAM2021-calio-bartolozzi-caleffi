@@ -30,4 +30,6 @@ public class Requirement {
     public HashMap<ResourceType, Integer> getResourcePrice() {
         return resourcePrice;
     }
+
+
 }

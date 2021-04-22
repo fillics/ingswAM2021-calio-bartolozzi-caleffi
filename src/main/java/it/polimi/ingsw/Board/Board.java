@@ -15,7 +15,6 @@ import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
 import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentSpace;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 import it.polimi.ingsw.Exceptions.*;
-import it.polimi.ingsw.Game;
 import it.polimi.ingsw.GameBoardInterface;
 
 import java.io.*;
@@ -190,8 +189,8 @@ public class Board {
             }
         }
         for (DevelopmentSpace developmentSpace : developmentSpaces) {
-            for (int i = 0; i < developmentSpace.getDevelopmentSpace().size(); i++) {
-                boardVictoryPoint += developmentSpace.getDevelopmentSpace().get(i).getVictoryPoint();
+            for (int i = 0; i < developmentSpace.getDevelopmentCardsOfDevSpace().size(); i++) {
+                boardVictoryPoint += developmentSpace.getDevelopmentCardsOfDevSpace().get(i).getVictoryPoint();
             }
         }
         for (int i = 0; i< faithMarker; i++){
