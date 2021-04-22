@@ -58,7 +58,7 @@ class GameTest {
         colorDiscount.put(CardColor.GREEN,1);
         requirementsDiscount= new Requirement(colorDiscount,null,null);
         testStrategyDiscount= new ConcreteStrategyDiscount(ResourceType.SERVANT);
-        testLeaderCardDiscount = new LeaderCard(LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
+        testLeaderCardDiscount = new LeaderCard(1,LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
         testLeaderCardDiscount.setStrategy(testStrategyDiscount);
 
         testResourcePrice= new HashMap<>();
@@ -68,7 +68,7 @@ class GameTest {
         testResourcesNeeded.put(ResourceType.COIN,1);
         testResourcesObtained.put(ResourceType.FAITHMARKER,1);
         testProductionPower= new ProductionPower(testResourcesNeeded,testResourcesObtained);
-        testDevelopmentCard= new DevelopmentCard(Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
+        testDevelopmentCard= new DevelopmentCard(2,Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
     }
 
     /**
@@ -241,7 +241,7 @@ class GameTest {
         HashMap<ResourceType,Integer> resourcePrice = new HashMap<>();
         resourcePrice.put(ResourceType.SERVANT,2);
         Requirement requirement = new Requirement(null, Level.ONE, resourcePrice);
-        LeaderCard card1 = new LeaderCard(LeaderCardType.DISCOUNT, requirement, ResourceType.COIN, 4);
+        LeaderCard card1 = new LeaderCard(1, LeaderCardType.DISCOUNT, requirement, ResourceType.COIN, 4);
         card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
 
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card1);
@@ -260,7 +260,7 @@ class GameTest {
         HashMap<ResourceType,Integer> resourcePrice = new HashMap<>();
         resourcePrice.put(ResourceType.COIN,2);
         Requirement requirement = new Requirement(null, Level.TWO, resourcePrice);
-        LeaderCard card1 = new LeaderCard(LeaderCardType.WHITE_MARBLE, requirement, ResourceType.SERVANT, 4);
+        LeaderCard card1 = new LeaderCard(1,LeaderCardType.WHITE_MARBLE, requirement, ResourceType.SERVANT, 4);
         card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card1);
 
@@ -292,19 +292,19 @@ class GameTest {
         Requirement requirement3 = new Requirement(null, Level.ONE, resourcePrice3);
         Requirement requirement4 = new Requirement(color, null, resourcePrice4);
 
-        LeaderCard card1 = new LeaderCard(LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.SERVANT, 4);
+        LeaderCard card1 = new LeaderCard(1,LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.SERVANT, 4);
         card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card1);
 
-        LeaderCard card2 = new LeaderCard(LeaderCardType.DISCOUNT, requirement2, ResourceType.COIN, 2);
+        LeaderCard card2 = new LeaderCard(2,LeaderCardType.DISCOUNT, requirement2, ResourceType.COIN, 2);
         card2.setStrategy(new ConcreteStrategyDiscount(ResourceType.SHIELD));
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card2);
 
-        LeaderCard card3 = new LeaderCard(LeaderCardType.EXTRA_DEPOSIT, requirement3, ResourceType.SHIELD, 1);
+        LeaderCard card3 = new LeaderCard(3,LeaderCardType.EXTRA_DEPOSIT, requirement3, ResourceType.SHIELD, 1);
         card3.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card3);
 
-        LeaderCard card4 = new LeaderCard(LeaderCardType.WHITE_MARBLE, requirement4, ResourceType.STONE, 3);
+        LeaderCard card4 = new LeaderCard(4,LeaderCardType.WHITE_MARBLE, requirement4, ResourceType.STONE, 3);
         card4.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card4);
 
@@ -432,7 +432,7 @@ class GameTest {
         colorWhiteMarble.put(CardColor.PURPLE,1);
         Requirement requirementsWhiteMarble= new Requirement(colorWhiteMarble,null,null);
         LeaderCardStrategy testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
-        LeaderCard testLeaderCardWhiteMarble= new LeaderCard(LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5);
+        LeaderCard testLeaderCardWhiteMarble= new LeaderCard(1,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5);
         testLeaderCardWhiteMarble.setStrategy(testStrategyWhiteMarble);
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardWhiteMarble);
 
@@ -441,7 +441,7 @@ class GameTest {
         colorWhiteMarble2.put(CardColor.BLUE,1);
         Requirement requirementsWhiteMarble2= new Requirement(colorWhiteMarble2,null,null);
         LeaderCardStrategy testStrategyWhiteMarble2= new ConcreteStrategyMarble(ResourceType.SERVANT);
-        LeaderCard testLeaderCardWhiteMarble2= new LeaderCard(LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble2,ResourceType.SERVANT,5);
+        LeaderCard testLeaderCardWhiteMarble2= new LeaderCard(2,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble2,ResourceType.SERVANT,5);
         testLeaderCardWhiteMarble2.setStrategy(testStrategyWhiteMarble2);
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardWhiteMarble2);
 
@@ -683,22 +683,22 @@ class GameTest {
         Requirement requirement1 = new Requirement(null, Level.TWO, resourcePrice1);
         Requirement requirement2 = new Requirement(color, Level.TWO, resourcePrice2);
 
-        LeaderCard card1 = new LeaderCard(LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.SERVANT, 4);
+        LeaderCard card1 = new LeaderCard(1,LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.SERVANT, 4);
         card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
         testGame.getActivePlayers().get(0).addLeaderCard(card1);
         testGame.getActivePlayers().get(0).getLeaderCards().get(0).getStrategy().ability();
 
-        LeaderCard card2 = new LeaderCard(LeaderCardType.DISCOUNT, requirement2, ResourceType.COIN, 2);
+        LeaderCard card2 = new LeaderCard(2,LeaderCardType.DISCOUNT, requirement2, ResourceType.COIN, 2);
         card2.setStrategy(new ConcreteStrategyDiscount(ResourceType.SHIELD));
         testGame.getActivePlayers().get(0).addLeaderCard(card2);
         testGame.getActivePlayers().get(0).getLeaderCards().get(1).getStrategy().ability();
 
-        LeaderCard card3 = new LeaderCard(LeaderCardType.WHITE_MARBLE, requirement2, ResourceType.COIN, 5);
+        LeaderCard card3 = new LeaderCard(3,LeaderCardType.WHITE_MARBLE, requirement2, ResourceType.COIN, 5);
         card3.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
         testGame.getActivePlayers().get(1).addLeaderCard(card3);
         testGame.getActivePlayers().get(1).getLeaderCards().get(0).getStrategy().ability();
 
-        LeaderCard card4 = new LeaderCard(LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.STONE, 8);
+        LeaderCard card4 = new LeaderCard(4,LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.STONE, 8);
         card4.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
         testGame.getActivePlayers().get(1).addLeaderCard(card4);
         testGame.getActivePlayers().get(1).getLeaderCards().get(1).getStrategy().ability();

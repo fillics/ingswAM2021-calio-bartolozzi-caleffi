@@ -30,7 +30,7 @@ public class DevelopmentCardTest {
         testResourcesNeeded.put(ResourceType.COIN,1);
         testResourcesObtained.put(ResourceType.FAITHMARKER,1);
         testProductionPower= new ProductionPower(testResourcesNeeded,testResourcesObtained);
-        testDevelopmentCard= new DevelopmentCard(Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
+        testDevelopmentCard= new DevelopmentCard(1,Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
     }
 
     /** Method LevelGetterTest tests DevelopmentCard method getter. */

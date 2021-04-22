@@ -20,7 +20,7 @@ import it.polimi.ingsw.GameBoardInterface;
 import java.io.*;
 import java.util.*;
 
-public class Board {
+public class Board implements BoardInterface {
     private int numOfDevCards;
     private int faithMarker;
     private int boardVictoryPoint;
@@ -35,7 +35,7 @@ public class Board {
     /**
      * Class's constructor that'll be used in the setup method
      */
-    public Board(GameBoardInterface game) {
+    public Board(GameBoardInterface game){
         numOfDevCards = 0;
         faithMarker = 0;
         boardVictoryPoint = 0;
@@ -202,8 +202,8 @@ public class Board {
     }
 
     /**
-     * Get-methods that return the total amount of resources of a player
-     * @return total resources
+     * Get-methods that return the total amount of coins of a player
+     * @return total coins
      */
     public int getTotalCoins() {
         int total;
@@ -215,7 +215,10 @@ public class Board {
         }
         return total;
     }
-
+    /**
+     * Get-methods that return the total amount of stones of a player
+     * @return total stones
+     */
     public int getTotalStones() {
         int total;
         total = strongbox.getTotalStones();
@@ -227,6 +230,10 @@ public class Board {
         return total;
     }
 
+    /**
+     * Get-methods that return the total amount of servants of a player
+     * @return total servants
+     */
     public int getTotalServants() {
         int total;
         total = strongbox.getTotalServants();
@@ -238,6 +245,10 @@ public class Board {
         return total;
     }
 
+    /**
+     * Get-methods that return the total amount of shields of a player
+     * @return total shields
+     */
     public int getTotalShields() {
         int total;
         total = strongbox.getTotalShields();

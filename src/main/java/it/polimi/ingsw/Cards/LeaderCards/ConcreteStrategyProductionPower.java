@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Cards.LeaderCards;
 
 import it.polimi.ingsw.Board.Board;
+import it.polimi.ingsw.Board.BoardInterface;
 import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 import java.util.HashMap;
@@ -13,14 +14,14 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
     private HashMap<ResourceType,Integer> resourceNeeded;
     private HashMap<ResourceType,Integer> resourcesObtained;
     private ProductionPower extraProductionPower;
-    private Board board;
+    private BoardInterface board;
     private boolean active;
     private final ResourceType resourceType;
 
     /**
      * Constructor ConcreteStrategyProductionPower creates a new ConcreteStrategyProductionPower instance.
      */
-    public ConcreteStrategyProductionPower(HashMap<ResourceType, Integer> resourceNeeded, Board board, ResourceType resourceType) {
+    public ConcreteStrategyProductionPower(HashMap<ResourceType, Integer> resourceNeeded, BoardInterface board, ResourceType resourceType) {
         this.resourceNeeded = resourceNeeded;
         this.board= board;
         resourcesObtained= new HashMap<>();

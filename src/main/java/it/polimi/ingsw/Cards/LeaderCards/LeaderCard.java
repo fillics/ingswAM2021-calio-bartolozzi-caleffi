@@ -10,6 +10,7 @@ import java.util.HashMap;
  * This class represents the Leader Card.
  */
 public class LeaderCard extends Card {
+    private int id;
     private LeaderCardType type;
     private LeaderCardStrategy strategy;
     private ResourceType resourceType;
@@ -18,11 +19,16 @@ public class LeaderCard extends Card {
     private boolean useDiscountChoice = false;
 
     //TODO: java doc
-    public LeaderCard(LeaderCardType type, Requirement requirements, ResourceType resourceType, int victorypoint) {
+    public LeaderCard(int id, LeaderCardType type, Requirement requirements, ResourceType resourceType, int victorypoint) {
+        this.id = id;
         this.type = type;
         this.requirements = requirements;
         this.resourceType = resourceType;
         this.victorypoint= victorypoint;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setStrategy(LeaderCardStrategy strategy) {

@@ -1,5 +1,6 @@
 [
   {
+    "id" : 1,
     "type": "EXTRA_DEPOSIT",
     "requirements":{
       "resourcePrice":
@@ -11,6 +12,7 @@
     "victorypoint": 3
   },
   {
+    "id" : 2,
     "type": "EXTRA_DEPOSIT",
     "requirements":{
       "resourcePrice":
@@ -22,6 +24,7 @@
     "victorypoint": 3
   },
   {
+    "id" : 3,
     "type": "EXTRA_DEPOSIT",
     "requirements":{
       "resourcePrice":
@@ -33,6 +36,7 @@
     "victorypoint": 3
   },
   {
+    "id" : 4,
     "type": "EXTRA_DEPOSIT",
     "requirements":{
       "resourcePrice":
@@ -47,6 +51,7 @@
 
 
   {
+    "id" : 5,
     "type": "WHITE_MARBLE",
     "requirements": {
       "color": {
@@ -58,6 +63,7 @@
     "victorypoint": 5
   },
   {
+    "id" : 6,
     "type": "WHITE_MARBLE",
     "requirements": {
       "color": {
@@ -69,6 +75,7 @@
     "victorypoint": 5
   },
   {
+    "id" : 7,
     "type": "WHITE_MARBLE",
     "requirements": {
       "color": {
@@ -80,6 +87,7 @@
     "victorypoint": 5
   },
   {
+    "id" : 8,
     "type": "WHITE_MARBLE",
     "requirements": {
       "color": {
@@ -94,6 +102,7 @@
 
 
   {
+    "id" : 9,
     "type": "DISCOUNT",
     "requirements": {
       "color": {
@@ -105,6 +114,7 @@
     "victorypoint": 2
   },
   {
+    "id" : 10,
     "type": "DISCOUNT",
     "requirements": {
       "color": {
@@ -116,6 +126,7 @@
     "victorypoint": 2
   },
   {
+    "id" : 11,
     "type": "DISCOUNT",
     "requirements": {
       "color": {
@@ -127,6 +138,7 @@
     "victorypoint": 2
   },
   {
+    "id" : 12,
     "type": "DISCOUNT",
     "requirements": {
       "color": {
@@ -141,6 +153,7 @@
 
 
   {
+    "id" : 13,
     "type": "PRODUCTION_POWER",
     "requirements": {
       "resourcePrice": {
@@ -152,6 +165,7 @@
     "victorypoint": 4
   },
   {
+    "id" : 14,
     "type": "PRODUCTION_POWER",
     "requirements": {
       "resourcePrice": {
@@ -163,6 +177,7 @@
     "victorypoint": 4
   },
   {
+    "id" : 15,
     "type": "PRODUCTION_POWER",
     "requirements": {
       "resourcePrice": {
@@ -174,6 +189,7 @@
     "victorypoint": 4
   },
   {
+    "id" : 16,
     "type": "PRODUCTION_POWER",
     "requirements": {
       "resourcePrice": {

@@ -6,13 +6,13 @@ package it.polimi.ingsw.SinglePlayer;
 public class ConcreteStrategyPlusTwo implements TokenActionStrategy{
 
     private final int steps = 2;
-    private SinglePlayerGame single;
+    private SinglePlayerGameInterface single;
 
     /**
      * Constructor ConcreteStrategyPlusTwo creates a new ConcreteStrategyPlusTwo instance.
      * @param single of type SinglePlayerGame
      */
-    public ConcreteStrategyPlusTwo(SinglePlayerGame single) {
+    public ConcreteStrategyPlusTwo(SinglePlayerGameInterface single) {
         this.single = single;
     }
 

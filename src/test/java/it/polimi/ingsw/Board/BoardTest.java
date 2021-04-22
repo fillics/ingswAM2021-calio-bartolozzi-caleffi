@@ -84,9 +84,9 @@ public class BoardTest {
         testBoard.getStrongbox().getStrongbox().put(ResourceType.SHIELD,1);
 
 
-        testDevelopmentCard1 = new DevelopmentCard(Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
-        testDevelopmentCard2 = new DevelopmentCard(Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
-        testDevelopmentCard3 = new DevelopmentCard(Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
+        testDevelopmentCard1 = new DevelopmentCard(1,Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
+        testDevelopmentCard2 = new DevelopmentCard(2,Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
+        testDevelopmentCard3 = new DevelopmentCard(3,Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
         testBoard.getDevelopmentSpaces().get(0).addDevelopmentCard(testDevelopmentCard1);
         testBoard.getDevelopmentSpaces().get(1).addDevelopmentCard(testDevelopmentCard2);
         testBoard.getDevelopmentSpaces().get(2).addDevelopmentCard(testDevelopmentCard3);
@@ -145,7 +145,7 @@ public class BoardTest {
         testResourcesObtained4.put(ResourceType.FAITHMARKER,2);
         testResourcesObtained4.put(ResourceType.COIN,2);
         testProductionPower4= new ProductionPower(testResourcesNeeded4,testResourcesObtained4);
-        testDevelopmentCard4= new DevelopmentCard(Level.TWO, CardColor.PURPLE,testProductionPower4,testResourcePrice4, 7);
+        testDevelopmentCard4= new DevelopmentCard(4,Level.TWO, CardColor.PURPLE,testProductionPower4,testResourcePrice4, 7);
         chosenResources= new ArrayList<>();
         chosenWarehouses= new ArrayList<>();
         //chosenResources.add(ResourceType.STONE);
