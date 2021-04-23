@@ -10,6 +10,7 @@ import it.polimi.ingsw.Cards.DevelopmentCards.Level;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 import it.polimi.ingsw.Cards.LeaderCards.*;
 import it.polimi.ingsw.Exceptions.*;
+import kotlin.RequiresOptIn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,16 +30,25 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     Game testGame;
+
     LeaderCard testLeaderCardDiscount;
-    LeaderCardStrategy testStrategyDiscount;
+    LeaderCard testLeaderCardWhiteMarble;
+    LeaderCard testLeaderCardProdPower;
     NumAndColorRequirements requirementsDiscount;
     HashMap<CardColor,Integer> colorDiscount;
+    LeaderCard testLeaderCardExtraDep;
+    ResourcesRequirements requirementsExtraDep;
+    HashMap<ResourceType,Integer> testResourcePrice;
+
+    LevelAndColorRequirements requirementsLevCol;
+
+
     boolean choice;
     int i;
     HashMap<ResourceType,Integer> resourcePriceBuffer;
     DevelopmentCard testDevelopmentCard;
     ProductionPower testProductionPower;
-    HashMap<ResourceType,Integer> testResourcePrice;
+
     HashMap<ResourceType,Integer> testResourcesNeeded;
     HashMap<ResourceType,Integer> testResourcesObtained;
 
@@ -56,19 +66,32 @@ class GameTest {
         colorDiscount= new HashMap<>();
         colorDiscount.put(CardColor.YELLOW,1);
         colorDiscount.put(CardColor.GREEN,1);
-        requirementsDiscount= new NumAndColorRequirements(colorDiscount);
-        testStrategyDiscount= new ConcreteStrategyDiscount(ResourceType.SERVANT);
-        testLeaderCardDiscount = new LeaderCard(1,LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
-        testLeaderCardDiscount.setStrategy(testStrategyDiscount);
-
         testResourcePrice= new HashMap<>();
+        testResourcePrice.put(ResourceType.SERVANT,2);
         testResourcesNeeded = new HashMap<>();
         testResourcesObtained = new HashMap<>();
-        testResourcePrice.put(ResourceType.SERVANT,2);
         testResourcesNeeded.put(ResourceType.COIN,1);
         testResourcesObtained.put(ResourceType.FAITHMARKER,1);
         testProductionPower= new ProductionPower(testResourcesNeeded,testResourcesObtained);
         testDevelopmentCard= new DevelopmentCard(2,Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
+
+        //creating 4 leader cards useful for some tests
+        requirementsDiscount= new NumAndColorRequirements(colorDiscount);
+        testLeaderCardDiscount = new LeaderCard(1,LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
+        testLeaderCardDiscount.setStrategy(new ConcreteStrategyDiscount(ResourceType.SERVANT));
+
+        requirementsExtraDep = new ResourcesRequirements(testResourcePrice);
+        testLeaderCardExtraDep = new LeaderCard(2, LeaderCardType.EXTRA_DEPOSIT, requirementsExtraDep, ResourceType.COIN, 5);
+        testLeaderCardExtraDep.setStrategy(new ConcreteStrategyDeposit(ResourceType.SERVANT, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard()));
+
+        testLeaderCardWhiteMarble = new LeaderCard(3, LeaderCardType.WHITE_MARBLE, requirementsDiscount, ResourceType.SHIELD,3);
+        testLeaderCardWhiteMarble.setStrategy(new ConcreteStrategyMarble(ResourceType.SHIELD));
+
+        requirementsLevCol = new LevelAndColorRequirements(colorDiscount, Level.TWO);
+        testLeaderCardProdPower = new LeaderCard(4, LeaderCardType.PRODUCTION_POWER, requirementsLevCol, ResourceType.STONE, 4);
+        testLeaderCardProdPower.setStrategy(new ConcreteStrategyProductionPower(testResourcesNeeded, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard(),ResourceType.SHIELD));
+
+
     }
 
     /**
@@ -236,18 +259,19 @@ class GameTest {
      * @throws LeaderCardNotFound if the player has not got the card to activate
      */
     @Test
-    void ActivationLeaderCardTest() throws LeaderCardNotFound, NotEnoughRequirements {
+    void ActivationLeaderCardTest() throws LeaderCardNotFound, NotEnoughRequirements, DepositHasReachedMaxLimit, DepositHasAnotherResource {
         assertEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
-        HashMap<ResourceType,Integer> resourcePrice = new HashMap<>();
-        resourcePrice.put(ResourceType.SERVANT,2);
-        ResourcesRequirements requirement = new ResourcesRequirements(resourcePrice);
-        LeaderCard card1 = new LeaderCard(1, LeaderCardType.DISCOUNT, requirement, ResourceType.COIN, 4);
-        card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
 
-        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card1);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardExtraDep);
         assertEquals(1, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
-        //testGame.activateLeaderCard(card1);
-        //assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getStrategy().isActive());
+
+        Resource resource1 = new Resource(ResourceType.SERVANT);
+        resource1.setStrategy(new ConcreteStrategyResource(2,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard(),resource1.getType()));
+        resource1.useResource();
+        resource1.useResource();
+
+        testGame.activateLeaderCard(testLeaderCardExtraDep);
+        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getStrategy().isActive());
     }
 
     /**
@@ -276,46 +300,20 @@ class GameTest {
      */
     @Test
     void ChooseLeaderCardToRemoveTest() throws LeaderCardNotFound {
-        HashMap<ResourceType,Integer> resourcePrice1 = new HashMap<>();
-        resourcePrice1.put(ResourceType.COIN,2);
-        HashMap<ResourceType,Integer> resourcePrice2 = new HashMap<>();
-        resourcePrice2.put(ResourceType.SERVANT,1);
-        HashMap<ResourceType,Integer> resourcePrice3 = new HashMap<>();
-        resourcePrice3.put(ResourceType.SHIELD,3);
-        HashMap<ResourceType,Integer> resourcePrice4 = new HashMap<>();
-        resourcePrice4.put(ResourceType.STONE,1);
-        HashMap<CardColor,Integer> color;
-        color = new HashMap<>();
-        color.put(CardColor.YELLOW,1);
-        ResourcesRequirements requirement1 = new ResourcesRequirements(resourcePrice1);
-        ResourcesRequirements requirement2 = new ResourcesRequirements(resourcePrice2);
-        ResourcesRequirements requirement3 = new ResourcesRequirements(resourcePrice3);
-        ResourcesRequirements requirement4 = new ResourcesRequirements(resourcePrice4);
 
-        LeaderCard card1 = new LeaderCard(1,LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.SERVANT, 4);
-        card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
-        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card1);
-
-        LeaderCard card2 = new LeaderCard(2,LeaderCardType.DISCOUNT, requirement2, ResourceType.COIN, 2);
-        card2.setStrategy(new ConcreteStrategyDiscount(ResourceType.SHIELD));
-        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card2);
-
-        LeaderCard card3 = new LeaderCard(3,LeaderCardType.EXTRA_DEPOSIT, requirement3, ResourceType.SHIELD, 1);
-        card3.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
-        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card3);
-
-        LeaderCard card4 = new LeaderCard(4,LeaderCardType.WHITE_MARBLE, requirement4, ResourceType.STONE, 3);
-        card4.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
-        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card4);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardDiscount);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardExtraDep);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardWhiteMarble);
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardProdPower);
 
         assertEquals(4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
-        testGame.chooseLeaderCardToRemove(card2, card4);
+        testGame.chooseLeaderCardToRemove(testLeaderCardExtraDep, testLeaderCardProdPower);
         assertEquals(2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
 
-        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card1));
-        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card3));
-        assertFalse(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card2));
-        assertFalse(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(card4));
+        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(testLeaderCardDiscount));
+        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(testLeaderCardWhiteMarble));
+        assertFalse(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(testLeaderCardExtraDep));
+        assertFalse(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(testLeaderCardProdPower));
     }
 
     /** Method chooseDiscountActivationTest tests Game method chooseDiscountActivation. */
@@ -352,6 +350,7 @@ class GameTest {
     /** Method buyDevCardTest tests Game method buyDevCard. */
     @Test
     @DisplayName("buyDevCard test")
+    // TODO: 23/04/2021 fixare il fatto che lancino le eccezioni
     void buyDevCardTest() throws DiscountCannotBeActivated {
         ArrayList<ResourceType> chosenResources1 = new ArrayList<>();
         ArrayList<Warehouse> chosenWarehouses1 = new ArrayList<>();
@@ -493,9 +492,10 @@ class GameTest {
         Resource resource1 = new Resource(ResourceType.COIN);
         ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(2,testGame.getActivePlayers().get(0).getBoard(),resource1.getType());
         resource1.setStrategy(concreteStrategyResource);
-        resource1.useResource();
-        resource1.useResource();
-        resource1.useResource();
+        for (int j = 0; j < 3; j++) {
+            resource1.useResource();
+
+        }
         assertEquals(3,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getQuantity());
         assertEquals(ResourceType.COIN,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getResourcetype());
 
@@ -672,37 +672,14 @@ class GameTest {
      */
     @Test
     void checkWinnerLeaderCards(){
-        //creating two leader cards for the first two players
-        HashMap<ResourceType,Integer> resourcePrice1 = new HashMap<>();
-        resourcePrice1.put(ResourceType.COIN,2);
-        HashMap<ResourceType,Integer> resourcePrice2 = new HashMap<>();
-        resourcePrice2.put(ResourceType.SERVANT,1);
-        HashMap<CardColor,Integer> color;
-        color = new HashMap<>();
-        color.put(CardColor.YELLOW,1);
 
-        ResourcesRequirements requirement1 = new ResourcesRequirements(resourcePrice1);
-        ResourcesRequirements requirement2 = new ResourcesRequirements(resourcePrice2);
-
-
-        LeaderCard card1 = new LeaderCard(1,LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.SERVANT, 4);
-        card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
-        testGame.getActivePlayers().get(0).addLeaderCard(card1);
+        testGame.getActivePlayers().get(0).addLeaderCard(testLeaderCardProdPower);
         testGame.getActivePlayers().get(0).getLeaderCards().get(0).getStrategy().ability();
-
-        LeaderCard card2 = new LeaderCard(2,LeaderCardType.DISCOUNT, requirement2, ResourceType.COIN, 2);
-        card2.setStrategy(new ConcreteStrategyDiscount(ResourceType.SHIELD));
-        testGame.getActivePlayers().get(0).addLeaderCard(card2);
+        testGame.getActivePlayers().get(0).addLeaderCard(testLeaderCardDiscount);
         testGame.getActivePlayers().get(0).getLeaderCards().get(1).getStrategy().ability();
-
-        LeaderCard card3 = new LeaderCard(3,LeaderCardType.WHITE_MARBLE, requirement2, ResourceType.COIN, 5);
-        card3.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
-        testGame.getActivePlayers().get(1).addLeaderCard(card3);
+        testGame.getActivePlayers().get(1).addLeaderCard(testLeaderCardExtraDep);
         testGame.getActivePlayers().get(1).getLeaderCards().get(0).getStrategy().ability();
-
-        LeaderCard card4 = new LeaderCard(4,LeaderCardType.WHITE_MARBLE, requirement1, ResourceType.STONE, 8);
-        card4.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
-        testGame.getActivePlayers().get(1).addLeaderCard(card4);
+        testGame.getActivePlayers().get(1).addLeaderCard(testLeaderCardWhiteMarble);
         testGame.getActivePlayers().get(1).getLeaderCards().get(1).getStrategy().ability();
 
         //leader cards are activated

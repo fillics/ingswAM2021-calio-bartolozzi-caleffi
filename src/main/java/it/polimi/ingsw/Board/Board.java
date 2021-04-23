@@ -20,6 +20,9 @@ import it.polimi.ingsw.GameBoardInterface;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Class Board represents the board that each player has
+ */
 public class Board implements BoardInterface {
     private int numOfDevCards;
     private int faithMarker;
@@ -32,9 +35,12 @@ public class Board implements BoardInterface {
     private ArrayList<ProductionPower> specialProductionPowers;
     private GameBoardInterface game;
 
+
     /**
-     * Class's constructor that'll be used in the setup method
+     * Constructor Board creates a new Board instance
+     * @param game
      */
+    // TODO: 23/04/2021 javadoc
     public Board(GameBoardInterface game){
         numOfDevCards = 0;
         faithMarker = 0;
@@ -55,7 +61,7 @@ public class Board implements BoardInterface {
             BufferedReader br = new BufferedReader(new FileReader("src/main/resources/json/FaithTrack.json"));
             track = gson.fromJson(br, new TypeToken<List<Cell>>(){}.getType());
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("FaithTrack.json file was not found");
         }
 
 
@@ -106,6 +112,12 @@ public class Board implements BoardInterface {
         developmentSpaces.add(developmentSpace2);
         developmentSpaces.add(developmentSpace3);
     }
+
+    // TODO: 23/04/2021 spostare qui file gson
+    public void setupBoard(){
+
+    }
+
     /**
      * Get-methods in order to obtain the attributes' values
      */

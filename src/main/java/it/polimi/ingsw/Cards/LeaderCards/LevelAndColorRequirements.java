@@ -10,12 +10,13 @@ import it.polimi.ingsw.Cards.DevelopmentCards.Level;
 
 import java.util.HashMap;
 
+// TODO: 23/04/2021 javadoc
 public class LevelAndColorRequirements extends Requirement{
     private Level level;
     private HashMap<CardColor,Integer> color;
 
     @JsonCreator
-    public LevelAndColorRequirements(@JsonProperty("resourcePrice") HashMap<CardColor, Integer> color, @JsonProperty("level") Level level) {
+    public LevelAndColorRequirements(@JsonProperty("color") HashMap<CardColor, Integer> color, @JsonProperty("level") Level level) {
         this.level = level;
         this.color = color;
     }
@@ -30,7 +31,7 @@ public class LevelAndColorRequirements extends Requirement{
 
 
     @Override
-    public boolean check(Board board) {
+    public boolean checkRequirements(Board board) {
         HashMap<CardColor, Integer> counter = new HashMap<>();
         counter.put(CardColor.GREEN, 0);
         counter.put(CardColor.BLUE, 0);

@@ -9,12 +9,11 @@ import it.polimi.ingsw.Exceptions.*;
 import java.util.ArrayList;
 
 /**
- * Represents the interface that contains the callable methods by Game
+ * Interface GameInterface represents the interface that contains the callable methods by Game
  */
 
-
 public interface GameInterface {
-    void setup();
+
     void chooseDiscountActivation(LeaderCard leaderCard, boolean choice)throws DiscountCannotBeActivated;
     void buyDevCard(CardColor color, Level level, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension;
     void moveResource(int position) throws EmptyDeposit;

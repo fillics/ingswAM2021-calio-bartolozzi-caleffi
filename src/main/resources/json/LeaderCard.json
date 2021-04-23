@@ -169,7 +169,7 @@
     "type": "PRODUCTION_POWER",
     "requirements": {
       "requirementType": "levelcolor",
-      "resourcePrice": {
+      "color": {
         "YELLOW": 1
       },
       "level": "TWO"
@@ -182,7 +182,7 @@
     "type": "PRODUCTION_POWER",
     "requirements": {
       "requirementType": "levelcolor",
-      "resourcePrice": {
+      "color": {
         "PURPLE": 1
       },
       "level": "TWO"
@@ -195,7 +195,7 @@
     "type": "PRODUCTION_POWER",
     "requirements": {
       "requirementType": "levelcolor",
-      "resourcePrice": {
+      "color": {
         "BLUE": 1
       },
       "level": "TWO"
@@ -208,7 +208,7 @@
     "type": "PRODUCTION_POWER",
     "requirements": {
       "requirementType": "levelcolor",
-      "resourcePrice": {
+      "color": {
         "GREEN": 1
       },
       "level": "TWO"

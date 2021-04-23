@@ -29,25 +29,26 @@ public class RequirementTest {
      * */
     @BeforeEach
     void setup(){
-        level= Level.TWO;
-        color= new HashMap<>();
+        level = Level.TWO;
+        color = new HashMap<>();
         color.put(CardColor.GREEN,1);
-        resourcePrice= new HashMap<>();
+        resourcePrice = new HashMap<>();
         resourcePrice.put(ResourceType.COIN,5);
-        color2= new HashMap<>();
+        color2 = new HashMap<>();
         color2.put(CardColor.YELLOW,2);
         color2.put(CardColor.BLUE,1);
-        testRequirement= new LevelAndColorRequirements(color,level);
-        testRequirement2= new NumAndColorRequirements(color2);
-        testRequirement3= new ResourcesRequirements(resourcePrice);
+        testRequirement = new LevelAndColorRequirements(color,level);
+        testRequirement2 = new NumAndColorRequirements(color2);
+        testRequirement3 = new ResourcesRequirements(resourcePrice);
     }
 
     /** Method getColorTest tests getColor method. */
     @Test
     @DisplayName("getColor method test")
     void getColorTest(){
-        assertEquals(testRequirement2.getColor(),color2);
-        assertEquals(testRequirement.getColor(),color);
+        assertEquals(testRequirement.getColor(), color);
+        assertEquals(testRequirement2.getColor(), color2);
+
     }
 
     /** Method getLevelTest tests getLevel method. */

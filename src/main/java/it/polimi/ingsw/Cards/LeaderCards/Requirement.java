@@ -12,7 +12,6 @@ import java.util.HashMap;
 /**
  * This class represents the Requirements needed in order to activate a Leader Card.
  */
-
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "requirementType")
@@ -23,6 +22,6 @@ import java.util.HashMap;
 
 public abstract class Requirement {
 
-    public abstract boolean check(Board board);
+    public abstract boolean checkRequirements(Board board);
 
 }

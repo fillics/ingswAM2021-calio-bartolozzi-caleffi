@@ -5,13 +5,17 @@ import it.polimi.ingsw.Board.Resources.ResourceType;
 import it.polimi.ingsw.Exceptions.DepositDoesntHaveThisResource;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;
 
+/**
+ * Class Deposit represents the single deposit present in the Board
+ */
 public class Deposit extends Warehouse {
    private ResourceType resourcetype;
    private int quantity;
    private int maxLimit;
 
     /**
-     * Class's Constructor made to define the deposit
+     * Constructor Deposit creates a new Deposit instance
+     * @param maxLimit (type Int) - it indicates the max resources' quantity that can be stored in the deposit
      */
     public Deposit(int maxLimit) {
         quantity = 0;
@@ -19,35 +23,42 @@ public class Deposit extends Warehouse {
     }
 
     /**
-     * get-method created to obtain the deposit's characteristics
-     * @return the deposit's characteristics
+     * Method getResourcetype returns the resource's type of the deposit
      */
     public ResourceType getResourcetype() { return resourcetype; }
 
+    /**
+     * Method getQuantity returns the number of resources present in the deposit
+     */
     public int getQuantity() { return quantity; }
 
+    /**
+     * Method getMaxLimit returns the max limit of resources of the deposit
+     */
     public int getMaxLimit() { return maxLimit; }
 
     /**
-     * Method created in order to modify the resource type that's contained in a single deposit
-     * @param resourcetype is the new type of resource in the deposit
+     * Method setResourcetype modifies the resource type that's contained in a single deposit
+     * @param resourcetype (type ResourceType) - it is the new type of resource in the deposit
      */
     public void setResourcetype(ResourceType resourcetype) {
         this.resourcetype = resourcetype;
     }
 
     /**
-     * Method created in order to increase the number of resources. Exceptions still missing!
+     * Method increaseNumberOfResources increases the number of resources. Exceptions still missing!
      * @return the new amount of resources
      */
+    // TODO: 23/04/2021 modificare il pezzo di Exceptions still missing
     public int increaseNumberOfResources() {
         quantity +=  1;
         return quantity;
     }
 
     /**
-     * Method made to decrease the number of resources because taken by the player
+     * Method takeResource decreases the number of resources because taken by the player
      * @return the resource requested
+     * @throws EmptyDeposit if the deposit is empty
      */
     public Resource takeResource() throws EmptyDeposit {
         if(quantity == 0){
@@ -61,8 +72,9 @@ public class Deposit extends Warehouse {
             return new Resource(resourcetype);
         }
     }
+
     /**
-     * Override methods created to return the number of resources for each resource for every singular deposit
+     * Override method getTotalCoins returns the quantity of coins in the deposit
      */
     @Override
     public int getTotalCoins() {
@@ -74,6 +86,9 @@ public class Deposit extends Warehouse {
         }
     }
 
+    /**
+     * Override method getTotalShields returns the quantity of shields in the deposit
+     */
     @Override
     public int getTotalShields() {
         if (this.resourcetype.equals(ResourceType.SHIELD)){
@@ -84,6 +99,9 @@ public class Deposit extends Warehouse {
         }
     }
 
+    /**
+     * Override method getTotalServants returns the quantity of servants in the deposit
+     */
     @Override
     public int getTotalServants() {
         if (this.resourcetype.equals(ResourceType.SERVANT)){
@@ -94,6 +112,9 @@ public class Deposit extends Warehouse {
         }
     }
 
+    /**
+     * Override method getTotalStones returns the quantity of stones in the deposit
+     */
     @Override
     public int getTotalStones() {
         if (this.resourcetype.equals(ResourceType.STONE)){
@@ -104,6 +125,14 @@ public class Deposit extends Warehouse {
         }
     }
 
+
+    /**
+     *
+     * @param resourceType
+     * @throws DepositDoesntHaveThisResource
+     * @throws EmptyDeposit
+     */
+    // TODO: 23/04/2021 javadoc
     @Override
     public void remove(ResourceType resourceType) throws DepositDoesntHaveThisResource, EmptyDeposit {
         if(resourcetype != resourceType){

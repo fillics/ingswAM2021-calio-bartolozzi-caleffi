@@ -5,6 +5,7 @@ import it.polimi.ingsw.Board.BoardInterface;
 import it.polimi.ingsw.Exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.Exceptions.DepositHasReachedMaxLimit;
 
+// TODO: 23/04/2021 JAVADOC 
 public class ConcreteStrategyResource implements ResourceActionStrategy{
     private int position;
     private BoardInterface board;

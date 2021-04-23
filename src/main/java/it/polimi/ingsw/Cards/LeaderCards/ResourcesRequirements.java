@@ -7,6 +7,7 @@ import it.polimi.ingsw.Board.Resources.ResourceType;
 
 import java.util.HashMap;
 
+// TODO: 23/04/2021 javadoc
 public class ResourcesRequirements extends Requirement{
     private HashMap<ResourceType,Integer> resourcePrice;
 
@@ -20,7 +21,7 @@ public class ResourcesRequirements extends Requirement{
     }
 
     @Override
-    public boolean check(Board board) {
+    public boolean checkRequirements(Board board) {
         HashMap<ResourceType,Integer> counter = new HashMap<>();
         counter.put(ResourceType.COIN,board.getTotalCoins());
         counter.put(ResourceType.STONE,board.getTotalStones());
@@ -34,9 +35,4 @@ public class ResourcesRequirements extends Requirement{
         return true;
     }
 
-
-    @Override
-    public String toString() {
-        return "Sono resources";
-    }
 }

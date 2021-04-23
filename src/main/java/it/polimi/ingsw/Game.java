@@ -15,7 +15,6 @@ import it.polimi.ingsw.Cards.LeaderCards.ConcreteStrategyDiscount;
 import it.polimi.ingsw.Cards.LeaderCards.ConcreteStrategyMarble;
 import it.polimi.ingsw.Cards.LeaderCards.LeaderCard;
 import it.polimi.ingsw.Exceptions.*;
-import it.polimi.ingsw.Marbles.Marble;
 import it.polimi.ingsw.Marbles.MarketTray;
 
 import java.io.*;
@@ -52,9 +51,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
     /**
-     * Override method setup called when a game starts
+     * Method setup called when a game starts
      */
-    @Override
     public void setup(){
         createDevelopmentGrid(); //to place the cards in the right order
         createLeaderDeck(); //to create and shuffle the leader card
@@ -192,14 +190,9 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         try {
             leaderDeck = mapper.readValue(new File("src/main/resources/json/LeaderCard.json"), new TypeReference<ArrayList<LeaderCard>>() {});
             Collections.shuffle(leaderDeck);
-
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("LeaderCard.json file was not found");
         }
-
-
-            //System.out.println("LeaderCard.json file was not found");
-
 
     }
 
@@ -383,7 +376,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         else{
             int indexCard = activePlayers.get(currentPlayer).getLeaderCards().indexOf(cardToActivate);
 
-            if(cardToActivate.getRequirements().check(activePlayers.get(currentPlayer).getBoard()))
+            if(cardToActivate.getRequirements().checkRequirements(activePlayers.get(currentPlayer).getBoard()))
                 activePlayers.get(currentPlayer).getLeaderCards().get(indexCard).useAbility();
             else throw new NotEnoughRequirements();
         }

@@ -11,6 +11,8 @@ import it.polimi.ingsw.Cards.DevelopmentCards.Level;
 
 import java.util.HashMap;
 
+
+// TODO: 23/04/2021 JAVADOC
 public class NumAndColorRequirements extends Requirement{
     private HashMap<CardColor,Integer> color;
 
@@ -25,7 +27,7 @@ public class NumAndColorRequirements extends Requirement{
 
 
     @Override
-    public boolean check(Board board) {
+    public boolean checkRequirements(Board board) {
         HashMap<CardColor, Integer> counter = new HashMap<>();
         counter.put(CardColor.GREEN, 0);
         counter.put(CardColor.BLUE, 0);
@@ -49,8 +51,4 @@ public class NumAndColorRequirements extends Requirement{
     }
 
 
-    @Override
-    public String toString() {
-        return "Sono numandcolor";
-    }
 }
