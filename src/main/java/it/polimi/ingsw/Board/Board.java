@@ -113,10 +113,6 @@ public class Board implements BoardInterface {
         developmentSpaces.add(developmentSpace3);
     }
 
-    // TODO: 23/04/2021 spostare qui file gson
-    public void setupBoard(){
-
-    }
 
     /**
      * Get-methods in order to obtain the attributes' values
@@ -186,7 +182,6 @@ public class Board implements BoardInterface {
                 }
             }
         }
-
     }
 
     /**

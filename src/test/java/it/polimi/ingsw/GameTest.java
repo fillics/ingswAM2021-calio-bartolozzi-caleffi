@@ -410,8 +410,7 @@ class GameTest {
     /** Method buyDevCardTest tests Game method buyDevCard. */
     @Test
     @DisplayName("buyDevCard test")
-    // TODO: 23/04/2021 fixare il fatto che lancino le eccezioni
-    void buyDevCardTest() throws DiscountCannotBeActivated {
+    void buyDevCardTest() throws DiscountCannotBeActivated, DevelopmentCardNotFound, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources {
         ArrayList<ResourceType> chosenResources1 = new ArrayList<>();
         ArrayList<Warehouse> chosenWarehouses1 = new ArrayList<>();
         ArrayList<ResourceType> chosenResources2 = new ArrayList<>();
@@ -454,30 +453,14 @@ class GameTest {
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i).useAbility();
         testGame.chooseDiscountActivation(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i),choice);
 
-        try {
-            testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources1, chosenWarehouses1, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
-            assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),3);
-        } catch (DevelopmentCardNotFound | DevCardNotPlaceable | NotEnoughResources | WrongChosenResources | DifferentDimension problemsToBuy) {
-            problemsToBuy.printStackTrace();
-            try {
-                testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources2, chosenWarehouses2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
-                assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),2);
-            } catch (DevelopmentCardNotFound | DevCardNotPlaceable | NotEnoughResources | WrongChosenResources | DifferentDimension problemsToBuy2) {
-                problemsToBuy2.printStackTrace();
-                try {
-                    testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources3, chosenWarehouses3, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
-                    assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),3);
-                } catch (DevelopmentCardNotFound | DevCardNotPlaceable | NotEnoughResources | WrongChosenResources | DifferentDimension problemsToBuy3) {
-                    problemsToBuy3.printStackTrace();
-                    try {
-                        testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources4, chosenWarehouses4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
-                        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),4);
-                    } catch (DevelopmentCardNotFound | DevCardNotPlaceable | NotEnoughResources | WrongChosenResources | DifferentDimension problemsToBuy4) {
-                        problemsToBuy4.printStackTrace();
-                    }
-                }
-            }
-        }
+        testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources1, chosenWarehouses1, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),3);
+        testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources2, chosenWarehouses2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),2);
+        testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources3, chosenWarehouses3, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),3);
+        testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources4, chosenWarehouses4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),4);
         assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().size(),1);
     }
 
@@ -511,7 +494,7 @@ class GameTest {
         whiteMarbleCardChoice.add(testLeaderCardWhiteMarble2);
 
         try {
-            testGame.chooseWhiteMarbleActivation(whiteMarbleCardChoice);
+            testGame.takeResourceFromMarket("Row", 2,whiteMarbleCardChoice);
             assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getWhiteMarbleCardChoice(), whiteMarbleCardChoice);
         } catch (LeaderCardNotFound | LeaderCardNotActivated problems) {
             problems.printStackTrace();

@@ -162,11 +162,10 @@ public class Player {
     /**
      * Method endTurn called when a player wants to end his own turn
      */
-    public boolean endTurn(){
+    public void endTurn(){
         if(resourceBuffer.size() > 0){
             gamePlayer.increaseFaithMarkerOfOtherPlayers();
         }
         resourceBuffer.clear();
-        return true;
     }
 }

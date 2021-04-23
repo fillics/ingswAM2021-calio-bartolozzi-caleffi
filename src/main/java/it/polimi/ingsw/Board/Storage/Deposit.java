@@ -46,10 +46,9 @@ public class Deposit extends Warehouse {
     }
 
     /**
-     * Method increaseNumberOfResources increases the number of resources. Exceptions still missing!
+     * Method increaseNumberOfResources increases the number of resources.
      * @return the new amount of resources
      */
-    // TODO: 23/04/2021 modificare il pezzo di Exceptions still missing
     public int increaseNumberOfResources() {
         quantity +=  1;
         return quantity;

@@ -70,12 +70,12 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
             if(activePlayers.size() >= 3){
                 activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
-                activePlayers.get(2).addResourcesBeginningGame(activePlayers.get(1).getChosenResource()); //third player receives one resource
+                activePlayers.get(2).addResourcesBeginningGame(activePlayers.get(2).getChosenResource()); //third player receives one resource
 
                 if(activePlayers.size() == 4){
                     activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
                     for (int i = 0; i < 2; i++) {
-                        activePlayers.get(3).addResourcesBeginningGame(activePlayers.get(1).getChosenResource()); //forth player receives two resources
+                        activePlayers.get(3).addResourcesBeginningGame(activePlayers.get(3).getChosenResource()); //forth player receives two resources
                     }
 
                 }
@@ -97,6 +97,17 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         else throw new NumMaxPlayersReached();
     }
 
+    /**
+     * Override method chooseLeaderCardToRemove used when the player has to choose two leader cards at the beginning of the game
+     * @param chosenCard1 (type LeaderCard) - it is the card that the player wants to discard
+     * @param chosenCard2 (type LeaderCard) - it is the cards that the player wants to discard
+     * @throws LeaderCardNotFound if the player has not got the two chosenCards
+     */
+    @Override
+    public void chooseLeaderCardToRemove(LeaderCard chosenCard1, LeaderCard chosenCard2) throws LeaderCardNotFound {
+        activePlayers.get(currentPlayer).removeLeaderCard(chosenCard1);
+        activePlayers.get(currentPlayer).removeLeaderCard(chosenCard2);
+    }
     /**
      * Getter method used to return the player's list
      */
@@ -282,18 +293,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
 
-    @Override
-    public void chooseWhiteMarbleActivation(ArrayList<LeaderCard> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{
-        int i;
-        for(i=0; i<whiteMarbleCardChoice.size();i++){
-            if(!activePlayers.get(currentPlayer).getLeaderCards().contains(whiteMarbleCardChoice.get(i)) || !(whiteMarbleCardChoice.get(i).getStrategy() instanceof ConcreteStrategyMarble))
-                throw new LeaderCardNotFound();
-            else if(!whiteMarbleCardChoice.get(i).getStrategy().isActive())
-                throw new LeaderCardNotActivated();
-        }
-        activePlayers.get(currentPlayer).setWhiteMarbleCardChoice(whiteMarbleCardChoice);
-    }
-
     /**
      * Override method moveResource puts a deposit resource in the ResourceBuffer calling the method FillBuffer
      * @param position is the position of the deposit in the board's array "deposits"
@@ -311,6 +310,20 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     @Override
     public void takeResourcesFromMarket(String line, int numline) {
+        market.lineSelection(line, numline, activePlayers.get(currentPlayer));
+        market.change(line, numline);
+    }
+
+    @Override
+    public void takeResourceFromMarket(String line, int numline ,ArrayList<LeaderCard> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{
+        int i;
+        for(i=0; i<whiteMarbleCardChoice.size();i++){
+            if(!activePlayers.get(currentPlayer).getLeaderCards().contains(whiteMarbleCardChoice.get(i)) || !(whiteMarbleCardChoice.get(i).getStrategy() instanceof ConcreteStrategyMarble))
+                throw new LeaderCardNotFound();
+            else if(!whiteMarbleCardChoice.get(i).getStrategy().isActive())
+                throw new LeaderCardNotActivated();
+        }
+        activePlayers.get(currentPlayer).setWhiteMarbleCardChoice(whiteMarbleCardChoice);
         market.lineSelection(line, numline, activePlayers.get(currentPlayer));
         market.change(line, numline);
     }
@@ -397,17 +410,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
 
-    /**
-     * Override method chooseLeaderCardToRemove used when the player has to choose two leader cards at the beginning of the game
-     * @param chosenCard1 (type LeaderCard) - it is the card that the player wants to discard
-     * @param chosenCard2 (type LeaderCard) - it is the cards that the player wants to discard
-     * @throws LeaderCardNotFound if the player has not got the two chosenCards
-     */
-    @Override
-    public void chooseLeaderCardToRemove(LeaderCard chosenCard1, LeaderCard chosenCard2) throws LeaderCardNotFound {
-            activePlayers.get(currentPlayer).removeLeaderCard(chosenCard1);
-            activePlayers.get(currentPlayer).removeLeaderCard(chosenCard2);
-    }
+
 
     /**
      * Method checkPlayersFaithMarkers checks the position of all players faithmarker and sets visibile the pope favor tile
@@ -421,7 +424,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         for (Player player : activePlayers){
             if(player.getBoard().getFaithMarker() > 0){
                 x = player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() - 1;
-                if(player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() != 0){
+                if(player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() == activePlayers.get(currentPlayer).getBoard().getTrack().get(faithmarker - 1).getVaticaReportSection()){
                     player.getBoard().getVaticanReportSections().get(x).getPopefavortile().setVisible();
                 }
             }
@@ -446,20 +449,19 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * Method nextPlayer handles which player is playing during his turn
      */
     public void nextPlayer(){
-        if(activePlayers.get(currentPlayer).endTurn()){
-            if(!endgame){
-                if(currentPlayer==activePlayers.size()-1){
-                    currentPlayer=0;
-                }
-                else currentPlayer+=1;
+        activePlayers.get(currentPlayer).endTurn();
+        if(!endgame){
+            if(currentPlayer==activePlayers.size()-1){
+                currentPlayer=0;
+            }
+            else currentPlayer+=1;
+        }
+        else {
+            if(currentPlayer!=activePlayers.size()-1){
+                currentPlayer+=1;
             }
             else {
-                if(currentPlayer!=activePlayers.size()-1){
-                    currentPlayer+=1;
-                }
-                else {
-                    winner();
-                }
+                winner();
             }
         }
     }
