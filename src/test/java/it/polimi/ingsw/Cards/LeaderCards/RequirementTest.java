@@ -64,4 +64,5 @@ public class RequirementTest {
     void getResourcePriceTest(){
         assertEquals(testRequirement3.getResourcePrice(),resourcePrice);
     }
+
 }

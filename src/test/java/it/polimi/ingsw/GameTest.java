@@ -36,6 +36,7 @@ class GameTest {
     LeaderCard testLeaderCardProdPower;
     NumAndColorRequirements requirementsDiscount;
     HashMap<CardColor,Integer> colorDiscount;
+    HashMap<CardColor,Integer> colorProdPower;
     LeaderCard testLeaderCardExtraDep;
     ResourcesRequirements requirementsExtraDep;
     HashMap<ResourceType,Integer> testResourcePrice;
@@ -64,8 +65,10 @@ class GameTest {
         testGame.createNewPlayer("jack");
 
         colorDiscount= new HashMap<>();
+        colorProdPower = new HashMap<>();
         colorDiscount.put(CardColor.YELLOW,1);
         colorDiscount.put(CardColor.GREEN,1);
+        colorProdPower.put(CardColor.BLUE, 1);
         testResourcePrice= new HashMap<>();
         testResourcePrice.put(ResourceType.SERVANT,2);
         testResourcesNeeded = new HashMap<>();
@@ -87,7 +90,7 @@ class GameTest {
         testLeaderCardWhiteMarble = new LeaderCard(3, LeaderCardType.WHITE_MARBLE, requirementsDiscount, ResourceType.SHIELD,3);
         testLeaderCardWhiteMarble.setStrategy(new ConcreteStrategyMarble(ResourceType.SHIELD));
 
-        requirementsLevCol = new LevelAndColorRequirements(colorDiscount, Level.TWO);
+        requirementsLevCol = new LevelAndColorRequirements(colorProdPower, Level.TWO);
         testLeaderCardProdPower = new LeaderCard(4, LeaderCardType.PRODUCTION_POWER, requirementsLevCol, ResourceType.STONE, 4);
         testLeaderCardProdPower.setStrategy(new ConcreteStrategyProductionPower(testResourcesNeeded, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard(),ResourceType.SHIELD));
 
@@ -255,11 +258,12 @@ class GameTest {
     }
 
     /**
-     * Test method ActivationLeaderCardTest checks if the activation of the leader cards works correctly
+     * Test method ActivationLeaderCardExtraDepTest checks if the activation of the leader card with the ability of
+     *  the extra deposit works correctly
      * @throws LeaderCardNotFound if the player has not got the card to activate
      */
     @Test
-    void ActivationLeaderCardTest() throws LeaderCardNotFound, NotEnoughRequirements, DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    void ActivationLeaderCardExtraDepTest() throws LeaderCardNotFound, NotEnoughRequirements, DepositHasReachedMaxLimit, DepositHasAnotherResource {
         assertEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
 
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardExtraDep);
@@ -272,6 +276,62 @@ class GameTest {
 
         testGame.activateLeaderCard(testLeaderCardExtraDep);
         assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getStrategy().isActive());
+    }
+
+    /**
+     * Test method ActivationLeaderCardWhiteMarble checks if the activation of the leader card with the ability of
+     *  the changing the resource of the white marble works correctly
+     * @throws LeaderCardNotFound if the player has not got the card to activate
+     */
+    @Test
+    void ActivationLeaderCardWhiteMarble() throws LeaderCardNotFound, NotEnoughRequirements {
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardWhiteMarble);
+
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0).
+                addDevelopmentCard(new DevelopmentCard(1, Level.ONE, CardColor.GREEN, testProductionPower, testResourcePrice, 3));
+
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(1).
+                addDevelopmentCard(new DevelopmentCard(2, Level.ONE, CardColor.YELLOW, testProductionPower, testResourcePrice, 3));
+
+        testGame.activateLeaderCard(testLeaderCardWhiteMarble);
+        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getStrategy().isActive());
+    }
+
+    /**
+     * Test method ActivationLeaderCardDiscount checks if the activation of the leader card with the ability of
+     *  the discount works correctly
+     * @throws LeaderCardNotFound if the player has not got the card to activate
+     */
+    @Test
+    void ActivationLeaderCardDiscount() throws LeaderCardNotFound, NotEnoughRequirements {
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardDiscount);
+
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0).
+                addDevelopmentCard(new DevelopmentCard(1, Level.ONE, CardColor.GREEN, testProductionPower, testResourcePrice, 3));
+
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(1).
+                addDevelopmentCard(new DevelopmentCard(2, Level.ONE, CardColor.YELLOW, testProductionPower, testResourcePrice, 3));
+
+        testGame.activateLeaderCard(testLeaderCardDiscount);
+        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getStrategy().isActive());
+
+    }
+
+    /**
+     * Test method ActivationLeaderCardProdPower checks if the activation of the leader card with the ability of
+     *  the extra production power works correctly
+     * @throws LeaderCardNotFound if the player has not got the card to activate
+     */
+    @Test
+    void ActivationLeaderCardProdPower() throws LeaderCardNotFound, NotEnoughRequirements {
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardProdPower);
+
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0).
+                addDevelopmentCard(new DevelopmentCard(6, Level.TWO, CardColor.BLUE, testProductionPower, testResourcePrice, 3));
+
+        testGame.activateLeaderCard(testLeaderCardProdPower);
+        assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(0).getStrategy().isActive());
+
     }
 
     /**
@@ -494,7 +554,6 @@ class GameTest {
         resource1.setStrategy(concreteStrategyResource);
         for (int j = 0; j < 3; j++) {
             resource1.useResource();
-
         }
         assertEquals(3,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getQuantity());
         assertEquals(ResourceType.COIN,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getResourcetype());
