@@ -56,10 +56,24 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * Method setup called when a game starts
      */
     public void setup(){
+        changePlayersPosition(); //to define the player's turn
         createDevelopmentGrid(); //to place the cards in the right order
         createLeaderDeck(); //to create and shuffle the leader card
         distributeLeaderCards(); //to give 4 leader cards to the each player
+        additionalSetup(); //to distribute faith points and resources
     }
+
+    /**
+     * Method changePlayersPosition chooses who the first player is and according to that, the other player's position
+     */
+    public void changePlayersPosition(){
+        int random = (int)(Math.random()*(activePlayers.size()+1));
+        Collections.rotate(activePlayers, random);
+        for (int i = 0; i < activePlayers.size(); i++) {
+            activePlayers.get(i).setPosition(i+1);
+        }
+    }
+
 
     /**
      * Method additionalSetup distributes resources and faith points to the players
@@ -92,11 +106,27 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     // TODO: 23/04/2021 sistemare il num max player reached: è una cosa del controller? 
     public void createNewPlayer(String username) throws NumMaxPlayersReached {
         if(players.size()<NUM_MAXPLAYERS){
-            Player player = new Player(username, players.size()+1, this);
+            Player player = new Player(username, this);
             players.add(player);
             activePlayers.add(player);
         }
         else throw new NumMaxPlayersReached();
+    }
+
+    /**
+     * Method getPlayerByUsername searches the player identified by his username in the list of active
+     * player.
+     *
+     * @param username (type String) - the username of the player.
+     * @return Player - the desired player, null if there's no active player with that nickname.
+     */
+    public Player getPlayerByUsername(String username) {
+        for (Player player : activePlayers) {
+            if (player.getUsername().equalsIgnoreCase(username)) {
+                return player;
+            }
+        }
+        return null;
     }
 
     /**

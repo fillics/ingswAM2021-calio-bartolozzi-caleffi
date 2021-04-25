@@ -17,13 +17,12 @@ import java.util.ArrayList;
 
 public class Player {
     private final String username;
-    private int position;
     private int totalVictoryPoint;
     private ArrayList<LeaderCard> leaderCards;
     private ArrayList<Resource> resourceBuffer;
     private Board board;
+    private int position;
     private GamePlayerInterface gamePlayer;
-
     private int chosenResource;
     private ArrayList<LeaderCard> whiteMarbleCardChoice;
 
@@ -31,15 +30,14 @@ public class Player {
      * Constructor Player creates a new Player instance.
      *
      * @param username of type String.
-     * @param position of type int - the user turn's position.
      */
-    public Player(String username, int position, Game game) {
+    public Player(String username,Game game) {
         this.username = username;
-        this.position = position;
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
         resourceBuffer = new ArrayList<>();
         whiteMarbleCardChoice = new ArrayList<>();
+
         board = new Board(game);
         this.gamePlayer = game;
     }
@@ -65,6 +63,13 @@ public class Player {
     }
 
     /**
+     * Method getPosition returns the turn's position of the player
+     */
+    public int getPosition() {
+        return position;
+    }
+
+    /**
      * Method getUsername returns the username of this Player object.
      */
     public String getUsername() {
@@ -72,10 +77,10 @@ public class Player {
     }
 
     /**
-     * Method getPosition returns the position of the Player's turn.
+     * Method setPosition sets the turn's position of the player
      */
-    public int getPosition() {
-        return position;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     /**

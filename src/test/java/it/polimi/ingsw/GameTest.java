@@ -107,16 +107,6 @@ class GameTest {
         assertEquals(4, testGame.getPlayers().size());
     }
 
-    /**
-     * Method test PlayersPositionTest checks the correct turn's position of the active players
-     */
-    @Test
-    void PlayersPositionTest(){
-        for (int j = 1; j <= testGame.getActivePlayers().size(); j++) {
-            assertEquals(j, testGame.getActivePlayers().get(j-1).getPosition());
-        }
-
-    }
 
     /**
      * Test method AdditionalSetupTest checks if the distribution of resources and faith points to the players
@@ -136,6 +126,15 @@ class GameTest {
         assertEquals(2, testGame.getActivePlayers().get(3).getResourceBuffer().size());
     }
 
+    /**
+     * Test method checkGetPlayerByUsername checks if the method getPlayerByUsername returns the correct username of the
+     * desire player
+     */
+    @Test
+    public void checkGetPlayerByUsername(){
+        Player player = testGame.getPlayerByUsername("fil");
+        assertEquals(player.getUsername() ,testGame.getActivePlayers().get(0).getUsername());
+    }
     /**
      * Test method SizeDevelopmentGridTest checks if the method createDevelopmentGrid creates
      * the grid with the correct dimension

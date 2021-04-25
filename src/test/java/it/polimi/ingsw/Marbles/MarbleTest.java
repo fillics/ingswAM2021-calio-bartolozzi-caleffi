@@ -52,10 +52,9 @@ public class MarbleTest {
         purple= new PurpleMarble();
         grey=new GreyMarble();
         username= "Beatrice";
-        position=2;
         game= new Game();
         board= new Board(testGame);
-        testPlayer= new Player(username,position,game);
+        testPlayer= new Player(username,game);
         colorWhiteMarble= new HashMap<>();
         colorWhiteMarble.put(CardColor.GREEN,2);
         colorWhiteMarble.put(CardColor.PURPLE,1);

@@ -50,7 +50,7 @@ class PlayerTest {
     @BeforeEach
     void setup(){
         testGame = new Game();
-        testPlayer = new Player(username, 0, testGame);
+        testPlayer = new Player(username, testGame);
 
         colorDiscount= new HashMap<>();
         colorDiscount.put(CardColor.YELLOW,1);

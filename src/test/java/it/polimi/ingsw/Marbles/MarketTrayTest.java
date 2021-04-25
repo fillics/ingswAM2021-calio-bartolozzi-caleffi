@@ -37,9 +37,8 @@ public class MarketTrayTest {
         numline2=2;
         testTable= new Marble[3][4];
         username= "Beatrice";
-        position=2;
         game= new Game();
-        testPlayer= new Player(username,position,game);
+        testPlayer= new Player(username,game);
     }
 
     /** Method getRemainingMarbleTest tests getRemainingMarble method. */
