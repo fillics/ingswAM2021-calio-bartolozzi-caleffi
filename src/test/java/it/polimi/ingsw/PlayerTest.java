@@ -30,9 +30,9 @@ class PlayerTest {
     private static final String username = "fil";
 
     LeaderCard testLeaderCardDiscount;
-    NumAndColorRequirements requirementsDiscount;
+    NumAndColorRequirement requirementsDiscount;
     HashMap<CardColor,Integer> colorDiscount;
-    ResourcesRequirements requirementsExtraDep;
+    ResourcesRequirement requirementsExtraDep;
     LeaderCard testLeaderCardExtraDep;
 
 
@@ -57,11 +57,11 @@ class PlayerTest {
         colorDiscount.put(CardColor.GREEN,1);
         testResourcePrice= new HashMap<>();
         testResourcePrice.put(ResourceType.SERVANT,2);
-        requirementsDiscount= new NumAndColorRequirements(colorDiscount);
+        requirementsDiscount= new NumAndColorRequirement(colorDiscount);
         testLeaderCardDiscount = new LeaderCard(1, LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
         testLeaderCardDiscount.setStrategy(new ConcreteStrategyDiscount(ResourceType.SERVANT));
 
-        requirementsExtraDep = new ResourcesRequirements(testResourcePrice);
+        requirementsExtraDep = new ResourcesRequirement(testResourcePrice);
         testLeaderCardExtraDep = new LeaderCard(2, LeaderCardType.EXTRA_DEPOSIT, requirementsExtraDep, ResourceType.COIN, 5);
         testLeaderCardExtraDep.setStrategy(new ConcreteStrategyDeposit(ResourceType.SERVANT, testPlayer.getBoard()));
 

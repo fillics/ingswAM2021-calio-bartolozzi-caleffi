@@ -275,7 +275,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
     @Override
-    public void buyDevCard(CardColor color, Level level, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension {
+    public void buyDevCard(CardColor color, Level level, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
         DevelopmentCard developmentCard;
         resourcePriceBuffer= new HashMap<>();
 
@@ -354,7 +354,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @throws TooManyResourcesRequested exception thrown because there are too many resources requested
      */
     @Override
-    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimension, TooManyResourcesRequested{
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource {
         if(productionPower.checkTakenResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
             activePlayers.get(currentPlayer).getBoard().removeResources(resources,warehouse);
             productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
@@ -372,7 +372,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @throws TooManyResourcesRequested exception thrown because there are too many resources requested
      */
     @Override
-    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested {
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource {
         if(productionPower.checkTakenResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard())) {
             activePlayers.get(currentPlayer).getBoard().removeResources(resources,warehouse);
             productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
@@ -390,7 +390,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         else{
             int indexCard = activePlayers.get(currentPlayer).getLeaderCards().indexOf(cardToActivate);
 
-            if(cardToActivate.getRequirements().checkRequirements(activePlayers.get(currentPlayer).getBoard()))
+            if(cardToActivate.getRequirements().checkRequirement(activePlayers.get(currentPlayer).getBoard()))
                 activePlayers.get(currentPlayer).getLeaderCards().get(indexCard).useAbility();
             else throw new NotEnoughRequirements();
         }

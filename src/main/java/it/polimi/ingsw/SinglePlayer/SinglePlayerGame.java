@@ -87,8 +87,9 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
      */
     public void increaseBlackCross(int amount){
         if (amount>=0) blackCross += amount;
-        if(blackCross >= 24){
+        if(blackCross > 24){
             endGame();
+            blackCross = 24;
         }
         if(getActivePlayers().get(getCurrentPlayer()).getBoard().getTrack().get(blackCross - 1).isPopeSpace()){
             if(getActivePlayers().get(getCurrentPlayer()).getBoard().getTrack().get(blackCross - 1).getVaticaReportSection() > 0){

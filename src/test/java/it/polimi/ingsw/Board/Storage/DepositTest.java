@@ -2,6 +2,7 @@ package it.polimi.ingsw.Board.Storage;
 
 import it.polimi.ingsw.Board.Resources.Resource;
 import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.Exceptions.DepositDoesntHaveThisResource;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -61,7 +62,7 @@ public class DepositTest {
         assertTrue(exception);
     }
 
-    /** Method GetSpecificResource tests EmptyDeposit exception. */
+    /** Method GetSpecificResource tests the correct execution of the resources getter. */
     @Test
     @DisplayName("Deposit get-methods to obtain the total number of a specific resource test")
     void GetSpecificResource() {
@@ -75,8 +76,43 @@ public class DepositTest {
         assertEquals(2, testDeposit.getTotalCoins());
     }
 
+    /** Method removeTest tests remove method. */
+    @Test
+    @DisplayName("removeTest used to test the correct functioning of the method")
+    void removeTest() throws EmptyDeposit, DepositDoesntHaveThisResource {
+        testDeposit.setResourcetype(ResourceType.COIN);
+        testDeposit.increaseNumberOfResources();
+        testDeposit.increaseNumberOfResources();
 
+        testDeposit.remove(ResourceType.COIN);
+        assertEquals(1,testDeposit.getQuantity());
 
+    }
+
+    /** Method GetSpecificResource tests remove exceptions. */
+    @Test
+    @DisplayName("removeTestException used to test if the exception are thrown when it's needed")
+    void removeTestException() {
+        testDeposit.setResourcetype(ResourceType.COIN);
+        testDeposit.increaseNumberOfResources();
+        testDeposit.increaseNumberOfResources();
+        try {
+            testDeposit.remove(ResourceType.STONE);
+            fail();
+        } catch (DepositDoesntHaveThisResource | EmptyDeposit ignored) {}
+
+        try {
+            testDeposit.remove(ResourceType.COIN);
+            testDeposit.remove(ResourceType.COIN);
+        }
+        catch (DepositDoesntHaveThisResource | EmptyDeposit ignored) {}
+
+        try {
+            testDeposit.remove(ResourceType.COIN);
+            fail();
+        } catch (DepositDoesntHaveThisResource | EmptyDeposit ignored) {}
+
+    }
 
 
 }

@@ -38,9 +38,8 @@ public class Board implements BoardInterface {
 
     /**
      * Constructor Board creates a new Board instance
-     * @param game
+     * @param game is an interface of the class Game in which are inserted the methods for the Board
      */
-    // TODO: 23/04/2021 javadoc
     public Board(GameBoardInterface game){
         numOfDevCards = 0;
         faithMarker = 0;
@@ -295,7 +294,6 @@ public class Board implements BoardInterface {
             return true;
     }
 
-
     public void checkDevSpace(DevelopmentCard developmentCard, DevelopmentSpace developmentSpace) throws DevCardNotPlaceable {
         if (!developmentSpace.isPlaceableCard(developmentCard))
             throw new DevCardNotPlaceable();
@@ -307,18 +305,16 @@ public class Board implements BoardInterface {
      * @param chosenWarehouses are the positions of the resources chosen (the first element of chosenResources is removed from the
      *                         first element of chosenWarehouses
      * @throws DifferentDimension is the exception thrown when the size of the 2 arrays is different.
+     * @throws EmptyDeposit exception thrown when the deposit is empty
+     * @throws DepositDoesntHaveThisResource exception thrown when the deposit has a different type of resource instead of the resource to remove.
      */
-    public void removeResources(ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses)throws DifferentDimension {
+    public void removeResources(ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses) throws DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
         if(chosenResources.size() != chosenWarehouses.size()){
             throw new DifferentDimension();
         }
         else {
             for(int i = 0; i<chosenResources.size(); i++){
-                try {
                     chosenWarehouses.get(i).remove(chosenResources.get(i));
-                } catch (DepositDoesntHaveThisResource | EmptyDeposit depositDoesntHaveThisResource) {
-                    depositDoesntHaveThisResource.printStackTrace();
-                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Board.Storage;
 
 import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.Exceptions.DepositDoesntHaveThisResource;
 import it.polimi.ingsw.Exceptions.EmptyDeposit;
 
 import java.util.HashMap;
@@ -61,11 +62,10 @@ public class Strongbox extends Warehouse{
     }
 
     /**
-     * 
-     * @param resourceType
-     * @throws EmptyDeposit
+     * Override method that removes one resource from the strongbox.
+     * @param resourceType is the type of resource to remove from the strongbox.
+     * @throws EmptyDeposit exception thrown when the deposit is empty and there's nothing to remove.
      */
-    // TODO: 23/04/2021 javadoc 
     @Override
     public void remove(ResourceType resourceType) throws EmptyDeposit {
         if(strongbox.get(resourceType) == 0){

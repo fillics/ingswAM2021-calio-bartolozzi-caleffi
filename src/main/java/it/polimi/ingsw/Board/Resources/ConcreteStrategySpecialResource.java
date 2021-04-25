@@ -2,7 +2,10 @@ package it.polimi.ingsw.Board.Resources;
 
 import it.polimi.ingsw.Board.BoardInterface;
 
-// TODO: 23/04/2021 JAVADOC - dire che riguarda le risorse che incrementano il faith marker
+/**
+ * Class ConcreteStrategySpecialResource represents the strategy linked to the FAITHMARKER resource in order to
+ * increase the position of the player faithmarker.
+ */
 public class ConcreteStrategySpecialResource implements ResourceActionStrategy {
     BoardInterface board;
 

@@ -20,7 +20,14 @@ public class LeaderCard extends Card {
     private int victorypoint;
     private boolean useDiscountChoice = false;
 
-    //TODO: java doc
+    /**
+     * constructor LeaderCard creates a new LeaderCard instance,
+     * @param id is the ID of the card.
+     * @param type is the type of the card: EXTRA_DEPOSIT, DISCOUNT, PRODUCTION_POWER, WHITE_MARBLE.
+     * @param requirements are the requirements needed to activate the laeder card.
+     * @param resourceType is the resource type of the
+     * @param victorypoint is the amount of victory point obtained at the end of the game if the card is activated.
+     */
     @JsonCreator
     public LeaderCard(@JsonProperty("id") int id, @JsonProperty("type") LeaderCardType type, @JsonProperty("requirements") Requirement requirements,
                       @JsonProperty("resourceType") ResourceType resourceType, @JsonProperty("victorypoint") int victorypoint) {
@@ -30,6 +37,8 @@ public class LeaderCard extends Card {
         this.resourceType = resourceType;
         this.victorypoint= victorypoint;
     }
+
+    //TODO: javadoc per ogni metodo
 
     public int getId() {
         return id;

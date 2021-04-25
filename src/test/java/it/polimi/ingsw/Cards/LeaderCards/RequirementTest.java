@@ -20,9 +20,9 @@ public class RequirementTest {
     Level level;
     HashMap<ResourceType,Integer> resourcePrice;
     HashMap<CardColor,Integer> color2;
-    LevelAndColorRequirements testRequirement;
-    NumAndColorRequirements testRequirement2;
-    ResourcesRequirements testRequirement3;
+    LevelAndColorRequirement testRequirement;
+    NumAndColorRequirement testRequirement2;
+    ResourcesRequirement testRequirement3;
 
     /*
      * Method setup setups tests.
@@ -37,9 +37,9 @@ public class RequirementTest {
         color2 = new HashMap<>();
         color2.put(CardColor.YELLOW,2);
         color2.put(CardColor.BLUE,1);
-        testRequirement = new LevelAndColorRequirements(color,level);
-        testRequirement2 = new NumAndColorRequirements(color2);
-        testRequirement3 = new ResourcesRequirements(resourcePrice);
+        testRequirement = new LevelAndColorRequirement(color,level);
+        testRequirement2 = new NumAndColorRequirement(color2);
+        testRequirement3 = new ResourcesRequirement(resourcePrice);
     }
 
     /** Method getColorTest tests getColor method. */

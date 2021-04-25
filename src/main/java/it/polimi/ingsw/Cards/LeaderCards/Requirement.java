@@ -3,25 +3,25 @@ package it.polimi.ingsw.Cards.LeaderCards;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.Board.Board;
-import it.polimi.ingsw.Board.Resources.ResourceType;
-import it.polimi.ingsw.Cards.DevelopmentCards.*;
-import it.polimi.ingsw.Marbles.*;
-
-import java.util.HashMap;
 
 /**
- * This class represents the Requirements needed in order to activate a Leader Card.
+ * This abstract class represents the Requirements needed in order to activate a Leader Card.
  */
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "requirementType")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = ResourcesRequirements.class, name = "resources"),
-        @JsonSubTypes.Type(value = LevelAndColorRequirements.class, name = "levelcolor"),
-        @JsonSubTypes.Type(value = NumAndColorRequirements.class, name = "numcolor") })
+        @JsonSubTypes.Type(value = ResourcesRequirement.class, name = "resources"),
+        @JsonSubTypes.Type(value = LevelAndColorRequirement.class, name = "levelcolor"),
+        @JsonSubTypes.Type(value = NumAndColorRequirement.class, name = "numcolor") })
 
 public abstract class Requirement {
 
-    public abstract boolean checkRequirements(Board board);
+    /**
+     * Check if the requirement of the leader card is fulfilled
+     * @param board is the board of the player where the check will be done .
+     * @return true if the requirement is fulfilled, false if not.
+     */
+    public abstract boolean checkRequirement(Board board);
 
 }

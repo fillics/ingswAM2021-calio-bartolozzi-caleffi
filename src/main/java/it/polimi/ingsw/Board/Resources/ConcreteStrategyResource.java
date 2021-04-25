@@ -5,7 +5,11 @@ import it.polimi.ingsw.Board.BoardInterface;
 import it.polimi.ingsw.Exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.Exceptions.DepositHasReachedMaxLimit;
 
-// TODO: 23/04/2021 JAVADOC 
+
+/**
+ * Class ConcreteStrategyResource represents the strategy linked to the COIN,STONE,SERVANT,SHIELD resources in order to
+ * place them in a specific deposit
+ */
 public class ConcreteStrategyResource implements ResourceActionStrategy{
     private int position;
     private BoardInterface board;
@@ -25,6 +29,8 @@ public class ConcreteStrategyResource implements ResourceActionStrategy{
 
     /**
      * Override method linked to the useResource method used to operate on all resources except the faith marker
+     * @throws DepositHasAnotherResource exception thrown when the deposit chosen to place the resource has already another type of resource in it
+     * @throws DepositHasReachedMaxLimit exception thrown when the deposit is full
      */
     @Override
     public void action() throws DepositHasAnotherResource, DepositHasReachedMaxLimit {

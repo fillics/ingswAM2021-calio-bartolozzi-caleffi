@@ -148,10 +148,6 @@ public class BoardTest {
         testDevelopmentCard4= new DevelopmentCard(4,Level.TWO, CardColor.PURPLE,testProductionPower4,testResourcePrice4, 7);
         chosenResources= new ArrayList<>();
         chosenWarehouses= new ArrayList<>();
-        //chosenResources.add(ResourceType.STONE);
-        //chosenWarehouses.add(testBoard.getStrongbox());
-        //chosenResources.add(ResourceType.SHIELD);
-        //chosenWarehouses.add(testBoard.getStrongbox());
         chosenResources.add(ResourceType.SERVANT);
         chosenWarehouses.add(testBoard.getDeposits().get(0));
         chosenResources.add(ResourceType.COIN);
@@ -212,13 +208,46 @@ public class BoardTest {
     void RemoveResourcesTest() {
         try {
             testBoard.removeResources(chosenResources,chosenWarehouses);
-        } catch (DifferentDimension differentDimensionForProdPower) {
+        } catch (DifferentDimension | EmptyDeposit | DepositDoesntHaveThisResource differentDimensionForProdPower) {
             differentDimensionForProdPower.printStackTrace();
         }
         assertEquals(7,testBoard.getTotalServants());
         assertEquals(4,testBoard.getTotalCoins());
         assertEquals(1,testBoard.getTotalShields());
         assertEquals(50,testBoard.getTotalStones());
+    }
+
+    /** Method RemoveResourcesTest tests board method removeResources exceptions. */
+    @Test
+    @DisplayName("Remove Resources test for the exceptions")
+    void RemoveResourcesTestExceptions() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+        chosenResources.add(ResourceType.COIN);
+        //test differentdimension
+        try {
+            testBoard.removeResources(chosenResources,chosenWarehouses);
+            fail();
+        } catch (DifferentDimension | EmptyDeposit | DepositDoesntHaveThisResource ignored) {}
+
+        //test emptydeposit
+        chosenWarehouses.add(testBoard.getDeposits().get(1));
+        try {
+            testBoard.removeResources(chosenResources,chosenWarehouses);
+        } catch (DifferentDimension | EmptyDeposit | DepositDoesntHaveThisResource ignored) {}
+
+        //test deposit doesnthavethisresource
+        Resource stone = new Resource(ResourceType.STONE);
+        stone.setStrategy(new ConcreteStrategyResource(1, testBoard, ResourceType.STONE));
+        stone.useResource();
+        stone.useResource();
+        assertEquals(2, testBoard.getDeposits().get(1).getQuantity());
+        ArrayList<ResourceType> chosenResources2 = new ArrayList<>();
+        ArrayList<Warehouse> chosenWarehouse2 = new ArrayList<>();
+        chosenResources2.add(ResourceType.COIN);
+        chosenWarehouse2.add(testBoard.getDeposits().get(1));
+        try {
+            testBoard.removeResources(chosenResources2,chosenWarehouse2);
+        } catch (DifferentDimension | EmptyDeposit | DepositDoesntHaveThisResource ignored) {}
+
     }
 
 }

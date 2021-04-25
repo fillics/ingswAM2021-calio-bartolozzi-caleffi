@@ -8,10 +8,10 @@ import it.polimi.ingsw.Exceptions.DepositHasReachedMaxLimit;
  */
 public interface ResourceActionStrategy{
     /**
-     *
-     * @throws DepositHasAnotherResource
-     * @throws DepositHasReachedMaxLimit
+     * The action method is a common method for the resources' strategies that use the resource linked to the strategy.
+     * The action may vary according to the type of strategy.
+     * @throws DepositHasAnotherResource exception thrown when the deposit chosen to place the resource has already another type of resource in it.
+     * @throws DepositHasReachedMaxLimit exception thrown when the deposit is full.
      */
-    // TODO: 23/04/2021 JAVADOC
     void action() throws DepositHasAnotherResource, DepositHasReachedMaxLimit;
 }

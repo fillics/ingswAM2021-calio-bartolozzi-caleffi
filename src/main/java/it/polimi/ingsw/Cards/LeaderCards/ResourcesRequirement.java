@@ -7,21 +7,37 @@ import it.polimi.ingsw.Board.Resources.ResourceType;
 
 import java.util.HashMap;
 
-// TODO: 23/04/2021 javadoc
-public class ResourcesRequirements extends Requirement{
+/**
+ *  This class represents a specific type of requirement where are needed a certain amount of resources in order to activate
+ *  a Leader Card.
+ */
+public class ResourcesRequirement extends Requirement{
     private HashMap<ResourceType,Integer> resourcePrice;
 
+    /**
+     * Constructor ResourcesRequirement creates a new ResourcesRequirement instance.
+     * @param resourcePrice is the map that represents the number of resources needed.
+     */
     @JsonCreator
-    public ResourcesRequirements(@JsonProperty("resourcePrice") HashMap<ResourceType,Integer> resourcePrice) {
+    public ResourcesRequirement(@JsonProperty("resourcePrice") HashMap<ResourceType,Integer> resourcePrice) {
         this.resourcePrice = resourcePrice;
     }
 
+    /**
+     * get-method
+     * @return tha hashmap that contains the number of resources needed.
+     */
     public HashMap<ResourceType, Integer> getResourcePrice() {
         return resourcePrice;
     }
 
+    /**
+     * Override method that counts if the number of resources contained in the board is enough to fulfill the requirement
+     * @param board is the board of the player where the check will be done .
+     * @return true if the requirement is fulfilled, false if not.
+     */
     @Override
-    public boolean checkRequirements(Board board) {
+    public boolean checkRequirement(Board board) {
         HashMap<ResourceType,Integer> counter = new HashMap<>();
         counter.put(ResourceType.COIN,board.getTotalCoins());
         counter.put(ResourceType.STONE,board.getTotalStones());

@@ -53,7 +53,7 @@ class SinglePlayerGameTest {
         testSingle.increaseBlackCross(10);
         assertEquals(11, testSingle.getBlackCross());
         testSingle.increaseBlackCross(15);
-        assertEquals(26, testSingle.getBlackCross());
+        assertEquals(24, testSingle.getBlackCross());
         assertTrue(testSingle.isEndgame());
     }
 

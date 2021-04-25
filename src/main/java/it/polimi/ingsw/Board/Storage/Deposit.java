@@ -126,24 +126,21 @@ public class Deposit extends Warehouse {
 
 
     /**
-     *
-     * @param resourceType
-     * @throws DepositDoesntHaveThisResource
-     * @throws EmptyDeposit
+     * Override method that removes one resource from the deposit
+     * @param resourceType is the type of resource to remove from the deposit.
+     * @throws DepositDoesntHaveThisResource exception thrown when the deposit contains an another type of resource instead of resourceType.
+     * @throws EmptyDeposit exception thrown when the deposit is empty and there's nothing to remove
      */
-    // TODO: 23/04/2021 javadoc
     @Override
     public void remove(ResourceType resourceType) throws DepositDoesntHaveThisResource, EmptyDeposit {
-        if(resourcetype != resourceType){
-            throw new DepositDoesntHaveThisResource();
-        }
-        else if(quantity == 0){
+        if(quantity == 0){
             throw new EmptyDeposit();
+        }
+        else if(resourcetype != resourceType){
+            throw new DepositDoesntHaveThisResource();
         }
         else {
             quantity -= 1;
         }
-
     }
-
 }

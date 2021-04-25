@@ -218,4 +218,20 @@ public class ProductionPowerTest {
         assertEquals(12, testBoard.getStrongbox().getTotalShields());
         assertEquals(1, testBoard.getFaithMarker());
     }
+
+    @Test
+    @DisplayName("addResourcesTestException created to test the exception")
+    void addResourcesTestException(){
+        testProductionPower.getResourcesObtained().put(ResourceType.JOLLY,4);
+        ArrayList<ResourceType> testresources= new ArrayList<>();
+        testresources.add(ResourceType.COIN);
+        testresources.add(ResourceType.STONE);
+
+        try {
+            testProductionPower.addResources(testBoard,testresources);
+            fail();
+        } catch (DifferentDimension ignored) {}
+
+    }
+
 }

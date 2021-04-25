@@ -3,7 +3,9 @@ package it.polimi.ingsw.Board.Resources;
 import it.polimi.ingsw.Exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.Exceptions.DepositHasReachedMaxLimit;
 
-// TODO: 23/04/2021 JAVADOC - vedi classe Cell per scriverla
+/**
+ * Class Resource represents the resources used during the game
+ */
 public class Resource {
     private ResourceType type;
     private ResourceActionStrategy strategy;

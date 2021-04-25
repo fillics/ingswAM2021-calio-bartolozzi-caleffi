@@ -10,7 +10,6 @@ import it.polimi.ingsw.Cards.DevelopmentCards.Level;
 import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
 import it.polimi.ingsw.Cards.LeaderCards.*;
 import it.polimi.ingsw.Exceptions.*;
-import kotlin.RequiresOptIn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,14 +33,14 @@ class GameTest {
     LeaderCard testLeaderCardDiscount;
     LeaderCard testLeaderCardWhiteMarble;
     LeaderCard testLeaderCardProdPower;
-    NumAndColorRequirements requirementsDiscount;
+    NumAndColorRequirement requirementsDiscount;
     HashMap<CardColor,Integer> colorDiscount;
     HashMap<CardColor,Integer> colorProdPower;
     LeaderCard testLeaderCardExtraDep;
-    ResourcesRequirements requirementsExtraDep;
+    ResourcesRequirement requirementsExtraDep;
     HashMap<ResourceType,Integer> testResourcePrice;
 
-    LevelAndColorRequirements requirementsLevCol;
+    LevelAndColorRequirement requirementsLevCol;
 
 
     boolean choice;
@@ -79,18 +78,18 @@ class GameTest {
         testDevelopmentCard= new DevelopmentCard(2,Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
 
         //creating 4 leader cards useful for some tests
-        requirementsDiscount= new NumAndColorRequirements(colorDiscount);
+        requirementsDiscount= new NumAndColorRequirement(colorDiscount);
         testLeaderCardDiscount = new LeaderCard(1,LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
         testLeaderCardDiscount.setStrategy(new ConcreteStrategyDiscount(ResourceType.SERVANT));
 
-        requirementsExtraDep = new ResourcesRequirements(testResourcePrice);
+        requirementsExtraDep = new ResourcesRequirement(testResourcePrice);
         testLeaderCardExtraDep = new LeaderCard(2, LeaderCardType.EXTRA_DEPOSIT, requirementsExtraDep, ResourceType.COIN, 5);
         testLeaderCardExtraDep.setStrategy(new ConcreteStrategyDeposit(ResourceType.SERVANT, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard()));
 
         testLeaderCardWhiteMarble = new LeaderCard(3, LeaderCardType.WHITE_MARBLE, requirementsDiscount, ResourceType.SHIELD,3);
         testLeaderCardWhiteMarble.setStrategy(new ConcreteStrategyMarble(ResourceType.SHIELD));
 
-        requirementsLevCol = new LevelAndColorRequirements(colorProdPower, Level.TWO);
+        requirementsLevCol = new LevelAndColorRequirement(colorProdPower, Level.TWO);
         testLeaderCardProdPower = new LeaderCard(4, LeaderCardType.PRODUCTION_POWER, requirementsLevCol, ResourceType.STONE, 4);
         testLeaderCardProdPower.setStrategy(new ConcreteStrategyProductionPower(testResourcesNeeded, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard(),ResourceType.SHIELD));
 
@@ -334,6 +333,21 @@ class GameTest {
 
     }
 
+    // TODO: Finire questo metodo con tutte le eccezioni che possono avvenire quando si attiva una carta leader
+    /** Method ActivationLeaderTestExceptions tests the exceptions of a leader card activation. */
+    @Test
+    @DisplayName("ActivationLeaderTestExceptions test")
+    void ActivationLeaderTestExceptions() {
+        //NotEnoughRequirement exception
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardProdPower);
+        try {
+            testGame.activateLeaderCard(testLeaderCardProdPower);
+            fail();
+        } catch (LeaderCardNotFound | NotEnoughRequirements ignore) {}
+
+
+    }
+
     /**
      * Test method DiscardLeaderCardTest checks if when a player discards one of his leader cards, his faith marker
      * increases correctly
@@ -343,7 +357,7 @@ class GameTest {
     void DiscardLeaderCardTest() throws LeaderCardNotFound {
         HashMap<ResourceType,Integer> resourcePrice = new HashMap<>();
         resourcePrice.put(ResourceType.COIN,2);
-        ResourcesRequirements requirement = new ResourcesRequirements(resourcePrice);
+        ResourcesRequirement requirement = new ResourcesRequirement(resourcePrice);
         LeaderCard card1 = new LeaderCard(1,LeaderCardType.WHITE_MARBLE, requirement, ResourceType.SERVANT, 4);
         card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card1);
@@ -407,10 +421,11 @@ class GameTest {
         assertEquals(resourcePriceBuffer.get(ResourceType.SERVANT),1);
     }
 
+    // TODO: correggere questo test
     /** Method buyDevCardTest tests Game method buyDevCard. */
     @Test
     @DisplayName("buyDevCard test")
-    void buyDevCardTest() throws DiscountCannotBeActivated, DevelopmentCardNotFound, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources {
+    void buyDevCardTest() throws DiscountCannotBeActivated, DevelopmentCardNotFound, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, EmptyDeposit, DepositDoesntHaveThisResource {
         ArrayList<ResourceType> chosenResources1 = new ArrayList<>();
         ArrayList<Warehouse> chosenWarehouses1 = new ArrayList<>();
         ArrayList<ResourceType> chosenResources2 = new ArrayList<>();
@@ -472,7 +487,7 @@ class GameTest {
         HashMap<CardColor,Integer> colorWhiteMarble= new HashMap<>();
         colorWhiteMarble.put(CardColor.GREEN,2);
         colorWhiteMarble.put(CardColor.PURPLE,1);
-        NumAndColorRequirements requirementsWhiteMarble= new NumAndColorRequirements(colorWhiteMarble);
+        NumAndColorRequirement requirementsWhiteMarble= new NumAndColorRequirement(colorWhiteMarble);
         LeaderCardStrategy testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
         LeaderCard testLeaderCardWhiteMarble= new LeaderCard(1,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5);
         testLeaderCardWhiteMarble.setStrategy(testStrategyWhiteMarble);
@@ -481,7 +496,7 @@ class GameTest {
         HashMap<CardColor,Integer> colorWhiteMarble2= new HashMap<>();
         colorWhiteMarble2.put(CardColor.YELLOW,2);
         colorWhiteMarble2.put(CardColor.BLUE,1);
-        NumAndColorRequirements requirementsWhiteMarble2= new NumAndColorRequirements(colorWhiteMarble2);
+        NumAndColorRequirement requirementsWhiteMarble2= new NumAndColorRequirement(colorWhiteMarble2);
         LeaderCardStrategy testStrategyWhiteMarble2= new ConcreteStrategyMarble(ResourceType.SERVANT);
         LeaderCard testLeaderCardWhiteMarble2= new LeaderCard(2,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble2,ResourceType.SERVANT,5);
         testLeaderCardWhiteMarble2.setStrategy(testStrategyWhiteMarble2);
@@ -596,7 +611,7 @@ class GameTest {
     /** Method useAndChooseProdPowerTest1 tests Game method useAndChooseProdPower without JOLLY resources in resource obtained. */
     @Test
     @DisplayName("useAndChooseProdPowerTest1 test")
-    void useAndChooseProdPowerTest1() throws DifferentDimension, TooManyResourcesRequested {
+    void useAndChooseProdPowerTest1() throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource {
         HashMap<ResourceType,Integer> resourceNeeded = new HashMap<>();
         HashMap<ResourceType,Integer> resourceObtained = new HashMap<>();
         resourceNeeded.put(ResourceType.COIN, 3);
@@ -636,7 +651,7 @@ class GameTest {
     /**  Method useAndChooseProdPowerTest2 tests Game method useAndChooseProdPower2 with JOLLY resources in resource obtained.*/
     @Test
     @DisplayName("useAndChooseProdPowerTest2 test")
-    void useAndChooseProdPowerTest2() throws TooManyResourcesRequested, DifferentDimension {
+    void useAndChooseProdPowerTest2() throws TooManyResourcesRequested, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
         HashMap<ResourceType,Integer> resourceNeeded = new HashMap<>();
         HashMap<ResourceType,Integer> resourceObtained = new HashMap<>();
         resourceNeeded.put(ResourceType.COIN, 3);
