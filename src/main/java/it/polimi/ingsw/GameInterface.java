@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public interface GameInterface {
 
-    void chooseDiscountActivation(LeaderCard leaderCard, boolean choice)throws DiscountCannotBeActivated;
+    void chooseDiscountActivation(ArrayList<LeaderCard> leaderCards) throws DiscountCannotBeActivated;
     void buyDevCard(CardColor color, Level level, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource;
     void moveResource(int position) throws EmptyDeposit;
     void placeResource(int depositPosition, int resourcePosition) throws DepositHasReachedMaxLimit, DepositHasAnotherResource;

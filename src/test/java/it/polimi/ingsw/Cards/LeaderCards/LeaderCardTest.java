@@ -114,21 +114,6 @@ public class LeaderCardTest {
         assertEquals(testLeaderCardDiscount.getStrategy(),testStrategyDiscount);
     }
 
-    /** Method UseDiscountChoiceSetterTest tests LeaderCard method setUseDiscountChoice. */
-    @Test
-    @DisplayName("UseDiscountChoice setter test")
-    void UseDiscountChoiceSetterTest() {
-        testLeaderCardDiscount.setUseDiscountChoice(choice1);
-    }
-
-    /** Method UseDiscountChoiceGetterTest tests LeaderCard method getUseDiscountChoice. */
-    @Test
-    @DisplayName("UseDiscountChoice getter test")
-    void UseDiscountChoiceGetterTest() {
-        testLeaderCardDiscount.setUseDiscountChoice(choice1);
-        assertEquals(testLeaderCardDiscount.getUseDiscountChoice(),choice1);
-    }
-
     /** Method useAbilityTest tests LeaderCard method useAbility. */
     @Test
     @DisplayName("useAbility test")
@@ -153,13 +138,12 @@ public class LeaderCardTest {
         assertTrue(testStrategyDiscount.isActive());
     }
 
-    /** Method checkDiscountTest tests LeaderCard method checkDiscount. */
+    /** Method useDiscountTest tests LeaderCard method useDiscount. */
     @Test
-    @DisplayName("checkDiscount test")
-    void checkDiscountTest() {
+    @DisplayName("useDiscount test")
+    void useDiscountTest() {
         resourcePriceBuffer.putAll(DevelopmentCard.getResourcePrice());
         testLeaderCardDiscount.setStrategy(testStrategyDiscount);
-        testLeaderCardDiscount.setUseDiscountChoice(choice1);
         testLeaderCardDiscount.useDiscount(DevelopmentCard,resourcePriceBuffer);
         assertEquals(resourcePriceBuffer.get(ResourceType.SERVANT),1);
         assertEquals(ResourcePrice.get(ResourceType.SERVANT),2);

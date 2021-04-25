@@ -18,7 +18,6 @@ public class LeaderCard extends Card {
     private ResourceType resourceType;
     private Requirement requirements;
     private int victorypoint;
-    private boolean useDiscountChoice = false;
 
     /**
      * constructor LeaderCard creates a new LeaderCard instance,
@@ -55,25 +54,15 @@ public class LeaderCard extends Card {
     public void useDiscount(DevelopmentCard developmentCard, HashMap<ResourceType,Integer> resourcePriceBuffer){
         int oldvalue;
         ResourceType temp;
-        if(useDiscountChoice){
-                temp = strategy.getResourceType();
-                if(developmentCard.getResourcePrice().containsKey(temp)){
-                    oldvalue = developmentCard.getResourcePrice().get(temp);
-                    resourcePriceBuffer.replace(temp,oldvalue,oldvalue-1);
-                }
+        temp = strategy.getResourceType();
+        if(developmentCard.getResourcePrice().containsKey(temp)){
+            oldvalue = developmentCard.getResourcePrice().get(temp);
+            resourcePriceBuffer.replace(temp,oldvalue,oldvalue-1);
         }
     }
 
     public Requirement getRequirements() {
         return requirements;
-    }
-
-    public boolean getUseDiscountChoice() {
-        return useDiscountChoice;
-    }
-
-    public void setUseDiscountChoice(boolean useDiscountChoice) {
-        this.useDiscountChoice = useDiscountChoice;
     }
 
     public void useAbility() {

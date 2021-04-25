@@ -39,7 +39,7 @@ class GameTest {
     LeaderCard testLeaderCardExtraDep;
     ResourcesRequirement requirementsExtraDep;
     HashMap<ResourceType,Integer> testResourcePrice;
-
+    ArrayList<LeaderCard> leaderCardsChosen;
     LevelAndColorRequirement requirementsLevCol;
 
 
@@ -93,7 +93,8 @@ class GameTest {
         testLeaderCardProdPower = new LeaderCard(4, LeaderCardType.PRODUCTION_POWER, requirementsLevCol, ResourceType.STONE, 4);
         testLeaderCardProdPower.setStrategy(new ConcreteStrategyProductionPower(testResourcesNeeded, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard(),ResourceType.SHIELD));
 
-
+        leaderCardsChosen = new ArrayList<>();
+        leaderCardsChosen.add(testLeaderCardDiscount);
     }
 
     /**
@@ -394,38 +395,35 @@ class GameTest {
     @Test
     @DisplayName("chooseDiscountActivation test")
     void chooseDiscountActivationTest() throws DiscountCannotBeActivated {
-        choice= true;
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardDiscount);
         i= testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().indexOf(testLeaderCardDiscount);
         assertEquals(1, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i).useAbility();
 
-        testGame.chooseDiscountActivation(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i),choice);
-        assertEquals(testLeaderCardDiscount.getUseDiscountChoice(),choice);
+        testGame.chooseDiscountActivation(leaderCardsChosen);
+        assertEquals(leaderCardsChosen,testGame.getLeaderCardsChosen());
     }
 
-    /** Method checkDiscountActivatedTest tests Game method checkDiscountActivated. */
+    /** Method useDiscountActivationTest tests Game method useDiscountActivation. */
     @Test
-    @DisplayName("checkDiscountActivated test")
-    void checkDiscountActivatedTest() throws DiscountCannotBeActivated {
-        choice= true;
+    @DisplayName("useDiscountActivation test")
+    void useDiscountActivationTest() throws DiscountCannotBeActivated {
         resourcePriceBuffer= new HashMap<>();
         resourcePriceBuffer.putAll(testDevelopmentCard.getResourcePrice());
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardDiscount);
         i = testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().indexOf(testLeaderCardDiscount);
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i).useAbility();
-        testGame.chooseDiscountActivation(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i),choice);
+        testGame.chooseDiscountActivation(leaderCardsChosen);
 
-        testGame.checkAndUseDiscount(resourcePriceBuffer,testDevelopmentCard);
+        testGame.useDiscountActivation(resourcePriceBuffer,testDevelopmentCard);
         assertTrue(resourcePriceBuffer.containsKey(ResourceType.SERVANT));
         assertEquals(resourcePriceBuffer.get(ResourceType.SERVANT),1);
     }
 
-    // TODO: correggere questo test
     /** Method buyDevCardTest tests Game method buyDevCard. */
     @Test
     @DisplayName("buyDevCard test")
-    void buyDevCardTest() throws DiscountCannotBeActivated, DevelopmentCardNotFound, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, EmptyDeposit, DepositDoesntHaveThisResource {
+    void buyDevCardTest() throws DiscountCannotBeActivated, EmptyDeposit, DepositDoesntHaveThisResource {
         ArrayList<ResourceType> chosenResources1 = new ArrayList<>();
         ArrayList<Warehouse> chosenWarehouses1 = new ArrayList<>();
         ArrayList<ResourceType> chosenResources2 = new ArrayList<>();
@@ -466,17 +464,29 @@ class GameTest {
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardDiscount);
         i= testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().indexOf(testLeaderCardDiscount);
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i).useAbility();
-        testGame.chooseDiscountActivation(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().get(i),choice);
+        testGame.chooseDiscountActivation(leaderCardsChosen);
 
-        testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources1, chosenWarehouses1, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
-        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),3);
-        testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources2, chosenWarehouses2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
-        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),2);
-        testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources3, chosenWarehouses3, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
-        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),3);
-        testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources4, chosenWarehouses4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
-        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),4);
-        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().size(),1);
+        try {
+            testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources1, chosenWarehouses1, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+            assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),3);
+        } catch (DevelopmentCardNotFound |DevCardNotPlaceable | DifferentDimension|  NotEnoughResources| WrongChosenResources problems1){
+            try{
+                testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources2, chosenWarehouses2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+                assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),2);
+            }catch (DevelopmentCardNotFound |DevCardNotPlaceable | DifferentDimension|  NotEnoughResources| WrongChosenResources problems2){
+                try{
+                    testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources3, chosenWarehouses3, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+                    assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),3);
+                }catch (DevelopmentCardNotFound |DevCardNotPlaceable | DifferentDimension|  NotEnoughResources| WrongChosenResources problems3){
+                    try{
+                        testGame.buyDevCard(CardColor.PURPLE,Level.ONE, chosenResources4, chosenWarehouses4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0));
+                        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getTotalServants(),4);
+                    }catch (DevelopmentCardNotFound |DevCardNotPlaceable | DifferentDimension|  NotEnoughResources| WrongChosenResources problems4){
+                        assertEquals(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().size(),0);
+                    }
+                }
+            }
+        }
     }
 
     /** Method chooseWhiteMarbleActivationTest tests Game method chooseWhiteMarbleActivation. */

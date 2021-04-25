@@ -34,6 +34,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
     private MarketTray market;
     private HashMap<ResourceType,Integer> resourcePriceBuffer;
+    private ArrayList<LeaderCard> leaderCardsChosen;
     private int currentPlayer = 0;
     private final int NUM_MAXPLAYERS = 4;
     private boolean endgame = false;
@@ -48,6 +49,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         leaderDeck = new ArrayList<>();
         developmentGrid = new ArrayList<>();
         market = new MarketTray();
+        leaderCardsChosen = new ArrayList<>();
     }
 
     /**
@@ -141,6 +143,10 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     public ArrayList<LeaderCard> getLeaderDeck() {
         return leaderDeck;
+    }
+
+    public ArrayList<LeaderCard> getLeaderCardsChosen() {
+        return leaderCardsChosen;
     }
 
     /**
@@ -257,21 +263,22 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     }
 
-    public void checkAndUseDiscount(HashMap<ResourceType,Integer> resourcePriceBuffer, DevelopmentCard developmentCard){
+    public void useDiscountActivation(HashMap<ResourceType,Integer> resourcePriceBuffer, DevelopmentCard developmentCard){
         int i;
-        for(i=0; i<activePlayers.get(currentPlayer).getLeaderCards().size();i++){
-            if((activePlayers.get(currentPlayer).getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDiscount)&&(activePlayers.get(currentPlayer).getLeaderCards().get(i).getStrategy().isActive())){
-                activePlayers.get(currentPlayer).getLeaderCards().get(i).useDiscount(developmentCard,resourcePriceBuffer);
-            }
+        for(i=0; i<leaderCardsChosen.size();i++){
+            leaderCardsChosen.get(i).useDiscount(developmentCard,resourcePriceBuffer);
         }
     }
 
     @Override
-    public void chooseDiscountActivation(LeaderCard leaderCard, boolean choice) throws DiscountCannotBeActivated {
-        if(activePlayers.get(currentPlayer).getLeaderCards().contains(leaderCard) && leaderCard.getStrategy() instanceof ConcreteStrategyDiscount && leaderCard.getStrategy().isActive())
-            leaderCard.setUseDiscountChoice(choice);
-        else
-            throw new DiscountCannotBeActivated();
+    public void chooseDiscountActivation(ArrayList<LeaderCard> leaderCards) throws DiscountCannotBeActivated {
+        int i;
+        for(i=0; i<leaderCards.size();i++){
+            if(!activePlayers.get(currentPlayer).getLeaderCards().contains(leaderCards.get(i)) || !(leaderCards.get(i).getStrategy() instanceof ConcreteStrategyDiscount) || !leaderCards.get(i).getStrategy().isActive())
+                throw new DiscountCannotBeActivated();
+            else
+                leaderCardsChosen=leaderCards;
+        }
     }
 
     @Override
@@ -282,7 +289,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         developmentCard= chooseCardFromDevelopmentGrid(color,level);
         resourcePriceBuffer.putAll(developmentCard.getResourcePrice());
         activePlayers.get(currentPlayer).getBoard().checkDevSpace(developmentCard,developmentSpace);
-        checkAndUseDiscount(resourcePriceBuffer,developmentCard);
+        useDiscountActivation(resourcePriceBuffer,developmentCard);
 
         if(activePlayers.get(currentPlayer).getBoard().checkResources(resourcePriceBuffer, chosenResources)){
             activePlayers.get(currentPlayer).getBoard().removeResources(chosenResources,chosenWarehouses);
