@@ -1,11 +1,12 @@
 package it.polimi.ingsw.Marbles;
 
-import it.polimi.ingsw.Board.Board;
-import it.polimi.ingsw.Board.Resources.ResourceType;
-import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
-import it.polimi.ingsw.Cards.LeaderCards.*;
-import it.polimi.ingsw.Game;
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.model.board.Board;
+import it.polimi.ingsw.model.board.resources.ResourceType;
+import it.polimi.ingsw.model.cards.developmentcards.CardColor;
+import it.polimi.ingsw.model.cards.leadercards.*;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.marbles.*;
+import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +61,7 @@ public class MarbleTest {
         colorWhiteMarble.put(CardColor.PURPLE,1);
         requirementsWhiteMarble= new NumAndColorRequirement(colorWhiteMarble);
         testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
-        testLeaderCardWhiteMarble= new LeaderCard(1,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5);
+        testLeaderCardWhiteMarble= new LeaderCard(1, LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5);
         testPlayer.addLeaderCard(testLeaderCardWhiteMarble);
         testLeaderCardWhiteMarble.setStrategy(testStrategyWhiteMarble);
         colorWhiteMarble2= new HashMap<>();

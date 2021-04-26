@@ -1,6 +1,10 @@
 package it.polimi.ingsw.Cards.DevelopmentCards;
 import static org.junit.jupiter.api.Assertions.*;
-import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.model.board.resources.ResourceType;
+import it.polimi.ingsw.model.cards.developmentcards.CardColor;
+import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.developmentcards.Level;
+import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +34,7 @@ public class DevelopmentCardTest {
         testResourcesNeeded.put(ResourceType.COIN,1);
         testResourcesObtained.put(ResourceType.FAITHMARKER,1);
         testProductionPower= new ProductionPower(testResourcesNeeded,testResourcesObtained);
-        testDevelopmentCard= new DevelopmentCard(1,Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
+        testDevelopmentCard= new DevelopmentCard(1, Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
     }
 
     /** Method LevelGetterTest tests DevelopmentCard method getter. */

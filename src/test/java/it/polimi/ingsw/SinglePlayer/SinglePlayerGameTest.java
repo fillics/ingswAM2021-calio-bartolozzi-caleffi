@@ -1,8 +1,9 @@
 package it.polimi.ingsw.SinglePlayer;
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
-import it.polimi.ingsw.Exceptions.NumMaxPlayersReached;
+import it.polimi.ingsw.model.cards.developmentcards.CardColor;
+import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
+import it.polimi.ingsw.model.singleplayer.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -115,7 +116,7 @@ class SinglePlayerGameTest {
      */
     @Test
     void checkTokenDiscard(){
-        SoloActionToken blueToken = new SoloActionToken(SoloActionTokenType.DISCARD, CardColor.BLUE);
+        SoloActionToken blueToken = new SoloActionToken(SoloActionTokenType.DISCARD, CardColor.BLUE, 1);
         blueToken.setStrategy(new ConcreteStrategyDiscard(testSingle, CardColor.BLUE));
         assertEquals(4, testSingle.getDevelopmentGrid().get(3).size());
         blueToken.applyEffect();

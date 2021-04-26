@@ -1,16 +1,20 @@
 package it.polimi.ingsw.Board;
 
-import it.polimi.ingsw.Board.FaithTrack.Cell;
-import it.polimi.ingsw.Board.FaithTrack.PopeFavorTile;
-import it.polimi.ingsw.Board.FaithTrack.PopeFavorTileColor;
-import it.polimi.ingsw.Board.FaithTrack.VaticanReportSection;
-import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
-import it.polimi.ingsw.Board.Resources.Resource;
-import it.polimi.ingsw.Board.Resources.ResourceType;
-import it.polimi.ingsw.Board.Storage.Warehouse;
-import it.polimi.ingsw.Cards.DevelopmentCards.*;
-import it.polimi.ingsw.Exceptions.*;
-import it.polimi.ingsw.Game;
+import it.polimi.ingsw.model.board.Board;
+import it.polimi.ingsw.model.board.faithtrack.Cell;
+import it.polimi.ingsw.model.board.faithtrack.PopeFavorTile;
+import it.polimi.ingsw.model.board.faithtrack.PopeFavorTileColor;
+import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
+import it.polimi.ingsw.model.board.resources.ConcreteStrategyResource;
+import it.polimi.ingsw.model.board.resources.Resource;
+import it.polimi.ingsw.model.board.resources.ResourceType;
+import it.polimi.ingsw.model.board.storage.Warehouse;
+import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.cards.developmentcards.CardColor;
+import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.developmentcards.Level;
+import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
+import it.polimi.ingsw.model.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,7 +88,7 @@ public class BoardTest {
         testBoard.getStrongbox().getStrongbox().put(ResourceType.SHIELD,1);
 
 
-        testDevelopmentCard1 = new DevelopmentCard(1,Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
+        testDevelopmentCard1 = new DevelopmentCard(1, Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
         testDevelopmentCard2 = new DevelopmentCard(2,Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
         testDevelopmentCard3 = new DevelopmentCard(3,Level.ONE, CardColor.GREEN, testProductionPower,testResourcePrice, 1);
         testBoard.getDevelopmentSpaces().get(0).addDevelopmentCard(testDevelopmentCard1);

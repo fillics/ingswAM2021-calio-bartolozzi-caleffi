@@ -1,7 +1,8 @@
 package it.polimi.ingsw.Cards.DevelopmentCards;
 
 import static org.junit.jupiter.api.Assertions.*;
-import it.polimi.ingsw.Board.Resources.ResourceType;
+import it.polimi.ingsw.model.board.resources.ResourceType;
+import it.polimi.ingsw.model.cards.developmentcards.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ public class DevelopmentSpaceTest {
         testResourcesNeeded.put(ResourceType.COIN,2);
         testResourcesObtained.put(ResourceType.FAITHMARKER,2);
         testProductionPower= new ProductionPower(testResourcesNeeded,testResourcesObtained);
-        testDevelopmentCard= new DevelopmentCard(1,Level.ONE, CardColor.GREEN,testProductionPower,testResourcePrice, 4);
+        testDevelopmentCard= new DevelopmentCard(1, Level.ONE, CardColor.GREEN,testProductionPower,testResourcePrice, 4);
         testDevelopmentCard2= new DevelopmentCard(2,Level.TWO, CardColor.PURPLE,testProductionPower,testResourcePrice,1);
         testDevelopmentCard3= new DevelopmentCard(3,Level.THREE, CardColor.YELLOW,testProductionPower,testResourcePrice,1);
         testDevelopmentCard4= new DevelopmentCard(4,Level.ONE, CardColor.BLUE,testProductionPower,testResourcePrice,3);

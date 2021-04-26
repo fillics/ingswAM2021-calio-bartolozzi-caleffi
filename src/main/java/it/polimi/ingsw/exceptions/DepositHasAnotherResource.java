@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Exceptions;
+package it.polimi.ingsw.exceptions;
 
 public class DepositHasAnotherResource extends Exception{
     public DepositHasAnotherResource(){

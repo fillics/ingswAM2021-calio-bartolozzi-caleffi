@@ -1,12 +1,12 @@
 package it.polimi.ingsw.Marbles;
 
-import it.polimi.ingsw.Game;
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.marbles.Marble;
+import it.polimi.ingsw.model.marbles.MarketTray;
+import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class MarketTrayTest {
     MarketTray testMarketTray;
-    Marble [][] testTable;
+    Marble[][] testTable;
     String line, line2;
     int numline, numline2;
     Player testPlayer;

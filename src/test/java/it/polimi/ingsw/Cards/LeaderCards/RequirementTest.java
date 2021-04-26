@@ -1,8 +1,12 @@
 package it.polimi.ingsw.Cards.LeaderCards;
 
-import it.polimi.ingsw.Board.Resources.ResourceType;
-import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
-import it.polimi.ingsw.Cards.DevelopmentCards.Level;
+import it.polimi.ingsw.model.board.resources.ResourceType;
+import it.polimi.ingsw.model.cards.developmentcards.CardColor;
+import it.polimi.ingsw.model.cards.developmentcards.Level;
+import it.polimi.ingsw.model.cards.leadercards.LevelAndColorRequirement;
+import it.polimi.ingsw.model.cards.leadercards.NumAndColorRequirement;
+import it.polimi.ingsw.model.cards.leadercards.Requirement;
+import it.polimi.ingsw.model.cards.leadercards.ResourcesRequirement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

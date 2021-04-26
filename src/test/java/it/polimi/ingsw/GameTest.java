@@ -1,15 +1,17 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.Board.Resources.ConcreteStrategyResource;
-import it.polimi.ingsw.Board.Resources.Resource;
-import it.polimi.ingsw.Board.Resources.ResourceType;
-import it.polimi.ingsw.Board.Storage.Warehouse;
-import it.polimi.ingsw.Cards.DevelopmentCards.CardColor;
-import it.polimi.ingsw.Cards.DevelopmentCards.DevelopmentCard;
-import it.polimi.ingsw.Cards.DevelopmentCards.Level;
-import it.polimi.ingsw.Cards.DevelopmentCards.ProductionPower;
-import it.polimi.ingsw.Cards.LeaderCards.*;
-import it.polimi.ingsw.Exceptions.*;
+import it.polimi.ingsw.model.board.resources.ConcreteStrategyResource;
+import it.polimi.ingsw.model.board.resources.Resource;
+import it.polimi.ingsw.model.board.resources.ResourceType;
+import it.polimi.ingsw.model.board.storage.Warehouse;
+import it.polimi.ingsw.model.cards.developmentcards.CardColor;
+import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.developmentcards.Level;
+import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
+import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.cards.leadercards.*;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

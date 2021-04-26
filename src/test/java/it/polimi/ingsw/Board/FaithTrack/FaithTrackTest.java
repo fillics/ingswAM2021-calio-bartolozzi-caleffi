@@ -1,16 +1,18 @@
 package it.polimi.ingsw.Board.FaithTrack;
 
+import it.polimi.ingsw.model.board.faithtrack.Cell;
+import it.polimi.ingsw.model.board.faithtrack.PopeFavorTile;
+import it.polimi.ingsw.model.board.faithtrack.PopeFavorTileColor;
+import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * BoardTest class tests Board class.
- * @see Cell, VaticanReportSection, PopeFavorTile
+ * @see Cell , VaticanReportSection, PopeFavorTile
  */
 public class FaithTrackTest {
     Cell testCell1;
