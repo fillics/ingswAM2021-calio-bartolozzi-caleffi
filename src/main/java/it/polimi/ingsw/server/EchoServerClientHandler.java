@@ -1,48 +1,54 @@
 package it.polimi.ingsw.server;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class EchoServerClientHandler implements Runnable {
     private Socket socket;
+    private ObjectOutputStream os;
+    private ObjectInputStream is;
+
+
+
+
+
     private boolean quit= false;
+
+
     public EchoServerClientHandler(Socket socket) {
         this.socket = socket;
     }
 
-
+    @Override
     public void run() {
         try {
-            Scanner in = new Scanner(socket.getInputStream());
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
-            // Leggo e scrivo nella connessione finche' non ricevo "quit"
+
+            os = new ObjectOutputStream(socket.getOutputStream());
+            is = new ObjectInputStream(socket.getInputStream());
+
+            askUsername();
+
             while (!quit) {
-                String line = in.nextLine();
-                if (line.equals("quit")) {
-                    quit = true;
-                }
-                else if(line.equals("ciao")){
-                    out.println("Received: " + line);
-                    out.flush();
+                Object packetFromClient = is.readObject();
 
-                }
-                else {
-                    out.println("Received: " + line.toUpperCase(Locale.ROOT));
-                    out.flush();
 
-                }
-                System.out.println(line);
 
             }
             // Chiudo gli stream e il socket
-            in.close();
-            out.close();
+            os.close();
+            is.close();
             socket.close();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
+        } catch (IOException | ClassNotFoundException e) {
         }
+    }
+
+    public void askUsername(){
+
     }
 }
