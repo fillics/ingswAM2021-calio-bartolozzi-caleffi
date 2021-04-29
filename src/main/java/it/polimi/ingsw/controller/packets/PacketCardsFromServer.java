@@ -13,6 +13,7 @@ public class PacketCardsFromServer implements Serializable {
     private final int numberToChoose;
     private final List<LeaderCard> availableCards;
 
+    //TODO aggiungere costruttori
     public PacketCardsFromServer(String to, List<LeaderCard> availableCards) {
         this.to = to;
         this.numberToChoose = 2;

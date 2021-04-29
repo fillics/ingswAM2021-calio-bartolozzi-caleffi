@@ -294,6 +294,10 @@ public class Board implements BoardInterface {
             return true;
     }
 
+
+    /**
+     * Method checkDevSpace verifies that the development card the player wants to buy is placeable in the development space chosen. If not, the method throws an Exception.
+     */
     public void checkDevSpace(DevelopmentCard developmentCard, DevelopmentSpace developmentSpace) throws DevCardNotPlaceable {
         if (!developmentSpace.isPlaceableCard(developmentCard))
             throw new DevCardNotPlaceable();

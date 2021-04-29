@@ -49,7 +49,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         leaderDeck = new ArrayList<>();
         developmentGrid = new ArrayList<>();
         market = new MarketTray();
-        leaderCardsChosen = new ArrayList<>();
     }
 
     /**
@@ -244,6 +243,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     }
 
+    //TODO: modificare color e level con id
     /**
      * Method chooseCardFromDevelopmentGrid returns the selected card that a Player wants to buy
      * @param color (type CardColor) - it indicates the color of the wanted card
@@ -293,24 +293,49 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     }
 
+    /**
+     * Method useDiscountActivation calls the method useDiscount from LeaderCard class if the arrayList leaderCardChosen contains the Leader Cards chosen by the current player.
+     * At the end of the method the array leaderCardsChosen will be null.
+     */
     public void useDiscountActivation(HashMap<ResourceType,Integer> resourcePriceBuffer, DevelopmentCard developmentCard){
         int i;
-        for(i=0; i<leaderCardsChosen.size();i++){
-            leaderCardsChosen.get(i).useDiscount(developmentCard,resourcePriceBuffer);
+        if(leaderCardsChosen!= null) {
+            for (i = 0; i < leaderCardsChosen.size(); i++) {
+                if (activePlayers.get(currentPlayer).getLeaderCards().contains(leaderCardsChosen.get(i)))
+                    leaderCardsChosen.get(i).useDiscount(developmentCard, resourcePriceBuffer);
+                else
+                    break;
+            }
+            leaderCardsChosen = null;
         }
     }
 
+    /**
+     * Override method chooseDiscountActivation is used to set the array leaderCardsChosen with the array in input leaderCards.
+     * @param leaderCards is the array of Leader Cards the player chooses to use to pay the development card cost with a discount.
+     */
     @Override
     public void chooseDiscountActivation(ArrayList<LeaderCard> leaderCards) throws DiscountCannotBeActivated {
         int i;
+        leaderCardsChosen= new ArrayList<>();
         for(i=0; i<leaderCards.size();i++){
             if(!activePlayers.get(currentPlayer).getLeaderCards().contains(leaderCards.get(i)) || !(leaderCards.get(i).getStrategy() instanceof ConcreteStrategyDiscount) || !leaderCards.get(i).getStrategy().isActive())
                 throw new DiscountCannotBeActivated();
-            else
-                leaderCardsChosen=leaderCards;
         }
+        leaderCardsChosen=leaderCards;
     }
 
+    //TODO: modificare color level con id
+    /**
+     * Override method buyDevCard is used to buy a development card from the development grid.
+     * The method puts in development card the return value of chooseCardFromDevelopmentGrid method and calls checkDevSpace method from board to verify that the player can place the development card chosen in the development space chosen.
+     * Then the method calls checkResources from Board to verify that che resources chosen to buy the card are correct; if so, the resources are removed from board with the method removeResources.
+     * @param color (type CardColor) - it specifies the card color chosen from the player
+     * @param level (type Level) - it specifies the card level chosen from the player
+     * @param chosenResources is the array of Resources chosen by the player to buy the card
+     * @param chosenWarehouses is the array of Warehouse objects that shows where the chosen resources come from
+     * @param developmentSpace is the dev space chosen by the player to place the development card
+     */
     @Override
     public void buyDevCard(CardColor color, Level level, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
         DevelopmentCard developmentCard;

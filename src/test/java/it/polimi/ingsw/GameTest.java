@@ -405,6 +405,17 @@ class GameTest {
         assertEquals(leaderCardsChosen,testGame.getLeaderCardsChosen());
     }
 
+    /** Method chooseDiscountActivationTest2 tests Game method chooseDiscountActivation. */
+    @Test
+    @DisplayName("chooseDiscountActivation test 2")
+    void chooseDiscountActivationTest2() {
+       try{
+           testGame.chooseDiscountActivation(leaderCardsChosen);
+       } catch (DiscountCannotBeActivated problems){
+           assertEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
+       }
+    }
+
     /** Method useDiscountActivationTest tests Game method useDiscountActivation. */
     @Test
     @DisplayName("useDiscountActivation test")
