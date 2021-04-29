@@ -226,19 +226,19 @@ public class BoardTest {
     @DisplayName("Remove Resources test for the exceptions")
     void RemoveResourcesTestExceptions() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
         chosenResources.add(ResourceType.COIN);
-        //test differentdimension
+        //test DifferentDimension
         try {
             testBoard.removeResources(chosenResources,chosenWarehouses);
             fail();
         } catch (DifferentDimension | EmptyDeposit | DepositDoesntHaveThisResource ignored) {}
 
-        //test emptydeposit
+        //test EmptyDeposit
         chosenWarehouses.add(testBoard.getDeposits().get(1));
         try {
             testBoard.removeResources(chosenResources,chosenWarehouses);
         } catch (DifferentDimension | EmptyDeposit | DepositDoesntHaveThisResource ignored) {}
 
-        //test deposit doesnthavethisresource
+        //test deposit DepositDoesntHaveThisResource
         Resource stone = new Resource(ResourceType.STONE);
         stone.setStrategy(new ConcreteStrategyResource(1, testBoard, ResourceType.STONE));
         stone.useResource();

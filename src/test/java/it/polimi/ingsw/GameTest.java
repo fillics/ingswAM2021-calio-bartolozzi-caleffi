@@ -769,5 +769,17 @@ class GameTest {
     }
 
 
+    /*@Test
+    void checkLeaderCardExceptions(){
+        ArrayList<LeaderCard> cards = new ArrayList<>();
+        cards.add(testLeaderCardWhiteMarble);
+        try {
+            testGame.takeResourceFromMarket("Row", 1, cards);
+        } catch (LeaderCardNotFound leaderCardNotFound) {
+            leaderCardNotFound.printStackTrace();
+        } catch (LeaderCardNotActivated leaderCardNotActivated) {
+            leaderCardNotActivated.printStackTrace();
+        }
+    }*/
 
 }
