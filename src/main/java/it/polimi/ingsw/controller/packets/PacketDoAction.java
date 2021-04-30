@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.packets;
 import it.polimi.ingsw.controller.ActionType;
 import java.io.Serializable;
 
-public class PacketDoAction implements Serializable {
+public class PacketDoAction {
 
     private final String to;
     private final ActionType actionType;

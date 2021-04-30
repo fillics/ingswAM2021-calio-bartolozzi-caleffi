@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.board.resources.ResourceType;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PacketResourcesFromClient implements Serializable {
+public class PacketResourcesFromClient {
 
     private String to; //persona alla quale prendere le risorse
     private ArrayList<ResourceType> availableResources;

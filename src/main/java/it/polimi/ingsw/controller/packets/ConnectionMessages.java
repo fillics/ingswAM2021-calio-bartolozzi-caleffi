@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * It contains all the messages that the server can send to clients
  */
-public enum ConnectionMessages implements Serializable {
+public enum ConnectionMessages {
 
     INVALID_PACKET("Invalid packet"),
     INSERT_USERNAME("Insert your username"),

@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.packets;
 import java.io.Serializable;
 import java.util.List;
 
-public class PacketCardsFromClient implements Serializable {
+public class PacketCardsFromClient {
 
     private List<Integer> chosenCards; // il client riceve 4 carte complete e lui dovrà rispondere con gli id
 

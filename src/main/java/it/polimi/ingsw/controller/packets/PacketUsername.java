@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.packets;
 
 import java.io.Serializable;
 
-public class PacketUsername implements Serializable {
+public class PacketUsername {
 
     // TODO: 29/04/2021 aggiungere id serializzazione
 

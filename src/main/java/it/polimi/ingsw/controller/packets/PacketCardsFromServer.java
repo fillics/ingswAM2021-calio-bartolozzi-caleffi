@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PacketCardsFromServer implements Serializable {
+public class PacketCardsFromServer {
 
     // TODO: 26/04/2021 aggiungere id serializable
     private final String to; //persona alla quale mandare le carte

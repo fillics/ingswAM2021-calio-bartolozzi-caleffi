@@ -342,12 +342,18 @@ class GameTest {
     void ActivationLeaderTestExceptions() {
         //NotEnoughRequirement exception
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardProdPower);
+        LeaderCard testEmptyLeaderCard = null;
         try {
             testGame.activateLeaderCard(testLeaderCardProdPower);
             fail();
         } catch (LeaderCardNotFound | NotEnoughRequirements ignore) {}
 
-
+        //LeaderCardNotFound exceptiox
+        try {
+            testGame.activateLeaderCard(testEmptyLeaderCard);
+            fail();
+        } catch (LeaderCardNotFound | NotEnoughRequirements ignored) {
+        }
     }
 
     /**
@@ -596,6 +602,18 @@ class GameTest {
     @DisplayName("takeResourcesFromMarketTest test")
     void takeResourcesFromMarketTest() {
         testGame.takeResourcesFromMarket("Row",2);
+    }
+
+    /** Method takeResourcesFromMarketTest tests Game method takeResourcesFromMarket. */
+    @Test
+    @DisplayName("takeResourcesFromMarketTestException test")
+    void takeResourcesFromMarketTestException() {
+        testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardWhiteMarble);
+        try {
+            testGame.takeResourceFromMarket("Column", 2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards());
+            fail();
+        }
+        catch (LeaderCardNotActivated | LeaderCardNotFound ignored) {}
     }
 
     /** Method placeResourceTest tests Game method placeResource. */
