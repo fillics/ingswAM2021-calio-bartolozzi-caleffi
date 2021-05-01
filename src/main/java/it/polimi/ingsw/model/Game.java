@@ -119,6 +119,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @param username (type String) - the username of the player.
      * @return Player - the desired player, null if there's no active player with that nickname.
      */
+    // TODO: 01/05/2021 da mettere nel controller?
     public Player getPlayerByUsername(String username) {
         for (Player player : activePlayers) {
             if (player.getUsername().equalsIgnoreCase(username)) {
@@ -130,15 +131,27 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     /**
      * Override method chooseLeaderCardToRemove used when the player has to choose two leader cards at the beginning of the game
-     * @param chosenCard1 (type LeaderCard) - it is the card that the player wants to discard
-     * @param chosenCard2 (type LeaderCard) - it is the cards that the player wants to discard
+     * @param idCard1 (type int) - it is the card's id that the player wants to discard
+     * @param idCard2 (type int) - it is the card's id that the player wants to discard
      * @throws LeaderCardNotFound if the player has not got the two chosenCards
      */
     @Override
-    public void chooseLeaderCardToRemove(LeaderCard chosenCard1, LeaderCard chosenCard2) throws LeaderCardNotFound {
-        activePlayers.get(currentPlayer).removeLeaderCard(chosenCard1);
-        activePlayers.get(currentPlayer).removeLeaderCard(chosenCard2);
+    public void chooseLeaderCardToRemove(int idCard1, int idCard2) throws LeaderCardNotFound {
+
+        int size = activePlayers.get(currentPlayer).getLeaderCards().size();
+        for (int i = 0; i < size; i++) {
+            LeaderCard leaderCard = activePlayers.get(currentPlayer).getLeaderCards().get(i);
+            if (leaderCard.getId() == idCard1 ||
+                    leaderCard.getId() == idCard2){
+                activePlayers.get(currentPlayer).removeLeaderCard(leaderCard);
+                size-=1;
+            }
+        }
+
+
     }
+
+
     /**
      * Getter method used to return the player's list
      */
@@ -243,19 +256,17 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     }
 
-    //TODO: modificare color e level con id
+
     /**
      * Method chooseCardFromDevelopmentGrid returns the selected card that a Player wants to buy
-     * @param color (type CardColor) - it indicates the color of the wanted card
-     * @param level (type Level) - it indicates the level of the wanted card
+     * @param idCard (type Int) - it is the card's id that the player wants
      * @return the development card with a specific color and level. If there is no card with those characteristics,
      * it returns null
      */
-    public DevelopmentCard chooseCardFromDevelopmentGrid(CardColor color, Level level) throws DevelopmentCardNotFound{
+    public DevelopmentCard chooseCardFromDevelopmentGrid(int idCard) throws DevelopmentCardNotFound{
         DevelopmentCard chosenCard = null;
         for (LinkedList<DevelopmentCard> developmentCards : developmentGrid) {
-            if (!developmentCards.isEmpty() && developmentCards.get(0).getColor().equals(color)
-                    && developmentCards.get(0).getLevel().equals(level)) {
+            if (!developmentCards.isEmpty() && developmentCards.getLast().getId()==idCard) {
                 chosenCard = developmentCards.getLast();
             }
         }
@@ -273,8 +284,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void removeCardFromDevelopmentGrid(DevelopmentCard cardToRemove) throws DevelopmentCardNotFound {
         boolean found = false;
         for (LinkedList<DevelopmentCard> developmentCards : developmentGrid) {
-            if (!developmentCards.isEmpty() && developmentCards.getLast().getLevel().equals(cardToRemove.getLevel()) &&
-                    developmentCards.getLast().getColor().equals(cardToRemove.getColor())) {
+            if (!developmentCards.isEmpty() && developmentCards.getLast().getId() == cardToRemove.getId()) {
                 developmentCards.removeLast();
                 found = true;
             }
@@ -312,36 +322,39 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     /**
      * Override method chooseDiscountActivation is used to set the array leaderCardsChosen with the array in input leaderCards.
-     * @param leaderCards is the array of Leader Cards the player chooses to use to pay the development card cost with a discount.
+     * @param leaderCards (type ArrayList<Integer>) - it is the array of Leader Cards'id the player chooses
+     * to use to pay the development card cost with a discount.
      */
+    // TODO: 01/05/2021 sistemare con arraylist di interi che contiene interi
     @Override
     public void chooseDiscountActivation(ArrayList<LeaderCard> leaderCards) throws DiscountCannotBeActivated {
-        int i;
+
         leaderCardsChosen= new ArrayList<>();
-        for(i=0; i<leaderCards.size();i++){
-            if(!activePlayers.get(currentPlayer).getLeaderCards().contains(leaderCards.get(i)) || !(leaderCards.get(i).getStrategy() instanceof ConcreteStrategyDiscount) || !leaderCards.get(i).getStrategy().isActive())
+        for (LeaderCard leaderCard : leaderCards) {
+            if (!activePlayers.get(currentPlayer).getLeaderCards().contains(leaderCard) ||
+                    !(leaderCard.getStrategy() instanceof ConcreteStrategyDiscount) ||
+                    !leaderCard.getStrategy().isActive())
                 throw new DiscountCannotBeActivated();
         }
-        leaderCardsChosen=leaderCards;
+        leaderCardsChosen = leaderCards;
     }
 
-    //TODO: modificare color level con id
     /**
      * Override method buyDevCard is used to buy a development card from the development grid.
      * The method puts in development card the return value of chooseCardFromDevelopmentGrid method and calls checkDevSpace method from board to verify that the player can place the development card chosen in the development space chosen.
      * Then the method calls checkResources from Board to verify that che resources chosen to buy the card are correct; if so, the resources are removed from board with the method removeResources.
-     * @param color (type CardColor) - it specifies the card color chosen from the player
-     * @param level (type Level) - it specifies the card level chosen from the player
+     * @param idCard
      * @param chosenResources is the array of Resources chosen by the player to buy the card
      * @param chosenWarehouses is the array of Warehouse objects that shows where the chosen resources come from
      * @param developmentSpace is the dev space chosen by the player to place the development card
      */
+    // TODO: 02/05/2021 javadoc idcard 
     @Override
-    public void buyDevCard(CardColor color, Level level, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
+    public void buyDevCard(int idCard, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
         DevelopmentCard developmentCard;
         resourcePriceBuffer= new HashMap<>();
 
-        developmentCard= chooseCardFromDevelopmentGrid(color,level);
+        developmentCard = chooseCardFromDevelopmentGrid(idCard);
         resourcePriceBuffer.putAll(developmentCard.getResourcePrice());
         activePlayers.get(currentPlayer).getBoard().checkDevSpace(developmentCard,developmentSpace);
         useDiscountActivation(resourcePriceBuffer,developmentCard);
@@ -370,8 +383,9 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @param line (type String) - it specifies if the player wants to select a column or a row
      * @param numline (type Int) - it indicates which line the player chose
      */
+    // TODO: 01/05/2021 modificare con arraylist di interi che contiene id delle carte
     @Override
-    public void takeResourceFromMarket(String line, int numline ,ArrayList<LeaderCard> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{
+    public void takeResourceFromMarket(String line, int numline, ArrayList<LeaderCard> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{
         if(whiteMarbleCardChoice == null){
             market.lineSelection(line, numline, activePlayers.get(currentPlayer));
             market.change(line, numline);
@@ -379,7 +393,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         else{
             int i;
             for (i = 0; i < whiteMarbleCardChoice.size(); i++) {
-                if (!activePlayers.get(currentPlayer).getLeaderCards().contains(whiteMarbleCardChoice.get(i)) || !(whiteMarbleCardChoice.get(i).getStrategy() instanceof ConcreteStrategyMarble))
+                if (!activePlayers.get(currentPlayer).getLeaderCards().contains(whiteMarbleCardChoice.get(i))
+                        || !(whiteMarbleCardChoice.get(i).getStrategy() instanceof ConcreteStrategyMarble))
                     throw new LeaderCardNotFound();
                 else if (!whiteMarbleCardChoice.get(i).getStrategy().isActive())
                     throw new LeaderCardNotActivated();
@@ -430,35 +445,44 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     /**
      * Override method activateLeaderCard used when a player wants to activate a leader card using its ability.
-     * @param cardToActivate (type LeaderCard) - it is the card that the player wants to activate
+     * @param idCardToActivate (type int) - it is the card's id that the player wants to activate
      * @throws LeaderCardNotFound if the player has not got the cardToActivate
      */
     @Override
-    public void activateLeaderCard(LeaderCard cardToActivate) throws LeaderCardNotFound, NotEnoughRequirements {
-        if(!activePlayers.get(currentPlayer).getLeaderCards().contains(cardToActivate)) throw new LeaderCardNotFound();
-        else{
-            int indexCard = activePlayers.get(currentPlayer).getLeaderCards().indexOf(cardToActivate);
+    public void activateLeaderCard(int idCardToActivate) throws LeaderCardNotFound, NotEnoughRequirements {
+        boolean found = false;
 
-            if(cardToActivate.getRequirements().checkRequirement(activePlayers.get(currentPlayer).getBoard()))
-                activePlayers.get(currentPlayer).getLeaderCards().get(indexCard).useAbility();
-            else throw new NotEnoughRequirements();
+        for (LeaderCard leaderCard: activePlayers.get(currentPlayer).getLeaderCards()){
+            if (!found && leaderCard.getId() == idCardToActivate){
+                found = true;
+                if(leaderCard.getRequirements().checkRequirement(activePlayers.get(currentPlayer).getBoard()))
+                    leaderCard.useAbility();
+                else throw new NotEnoughRequirements();
+            }
         }
+
+        if(!found) throw new LeaderCardNotFound();
+
     }
 
 
     /**
      * Override method discardLeaderCard used when a player wants to discard a leader card. In doing so, the player
      * receives one faith point.
-     * @param cardToDiscard (type LeaderCard) - it is the card that the player discards
+     * @param idCardToDiscard (type int) - it is the card's id that the player discards
      * @throws LeaderCardNotFound if the player has not got the cardToDiscard
      */
     @Override
-    public void discardLeaderCard(LeaderCard cardToDiscard) throws LeaderCardNotFound {
-        activePlayers.get(currentPlayer).removeLeaderCard(cardToDiscard);
+    public void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound {
+
+        for (LeaderCard leaderCard: activePlayers.get(currentPlayer).getLeaderCards()){
+            if (leaderCard.getId() == idCardToDiscard){
+                activePlayers.get(currentPlayer).removeLeaderCard(leaderCard);
+                break;
+            }
+        }
         activePlayers.get(currentPlayer).getBoard().increaseFaithMarker();
     }
-
-
 
 
     /**

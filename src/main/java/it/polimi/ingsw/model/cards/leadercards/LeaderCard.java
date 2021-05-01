@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * This class represents the Leader Card.
@@ -81,4 +82,7 @@ public class LeaderCard extends Card {
                 ", victorypoint=" + victorypoint +
                 '}';
     }
+
+
+
 }
