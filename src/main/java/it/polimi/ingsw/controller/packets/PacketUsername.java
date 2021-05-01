@@ -1,18 +1,17 @@
 package it.polimi.ingsw.controller.packets;
 
-import java.io.Serializable;
+import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
+import it.polimi.ingsw.model.GameInterface;
 
-public class PacketUsername {
-
-    // TODO: 29/04/2021 aggiungere id serializzazione
-
-    private final String username;
+public class PacketUsername implements HandlePacket {
+    private String username;
 
     public PacketUsername(String username) {
         this.username = username;
     }
 
-    public String getUsername() {
-        return username;
+    @Override
+    public void execute(GameInterface gameInterface) throws NumMaxPlayersReached {
+        gameInterface.createNewPlayer(username);
     }
 }

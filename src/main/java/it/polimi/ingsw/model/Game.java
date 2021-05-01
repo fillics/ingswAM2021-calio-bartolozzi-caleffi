@@ -371,23 +371,23 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @param numline (type Int) - it indicates which line the player chose
      */
     @Override
-    public void takeResourcesFromMarket(String line, int numline) {
-        market.lineSelection(line, numline, activePlayers.get(currentPlayer));
-        market.change(line, numline);
-    }
-
-    @Override
     public void takeResourceFromMarket(String line, int numline ,ArrayList<LeaderCard> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{
-        int i;
-        for(i=0; i<whiteMarbleCardChoice.size();i++){
-            if(!activePlayers.get(currentPlayer).getLeaderCards().contains(whiteMarbleCardChoice.get(i)) || !(whiteMarbleCardChoice.get(i).getStrategy() instanceof ConcreteStrategyMarble))
-                throw new LeaderCardNotFound();
-            else if(!whiteMarbleCardChoice.get(i).getStrategy().isActive())
-                throw new LeaderCardNotActivated();
+        if(whiteMarbleCardChoice == null){
+            market.lineSelection(line, numline, activePlayers.get(currentPlayer));
+            market.change(line, numline);
         }
-        activePlayers.get(currentPlayer).setWhiteMarbleCardChoice(whiteMarbleCardChoice);
-        market.lineSelection(line, numline, activePlayers.get(currentPlayer));
-        market.change(line, numline);
+        else{
+            int i;
+            for (i = 0; i < whiteMarbleCardChoice.size(); i++) {
+                if (!activePlayers.get(currentPlayer).getLeaderCards().contains(whiteMarbleCardChoice.get(i)) || !(whiteMarbleCardChoice.get(i).getStrategy() instanceof ConcreteStrategyMarble))
+                    throw new LeaderCardNotFound();
+                else if (!whiteMarbleCardChoice.get(i).getStrategy().isActive())
+                    throw new LeaderCardNotActivated();
+            }
+            activePlayers.get(currentPlayer).setWhiteMarbleCardChoice(whiteMarbleCardChoice);
+            market.lineSelection(line, numline, activePlayers.get(currentPlayer));
+            market.change(line, numline);
+        }
     }
 
     /**
@@ -405,23 +405,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         activePlayers.get(currentPlayer).getResourceBuffer().remove(resourcePosition);
     }
 
-    /**
-     * Override method useAndChooseProdPower calls the method to check if the production power is usable, if yes the resources obtained
-     * are transferred to the warehouse and the resources needed are removed from the deposits. Method without resourceType.JOLLY
-     * in the resource obtained
-     * @param productionPower is the production power to use
-     * @param resources is the array of resources chosen by the player to activate the production power
-     * @param warehouse is the array of Warehouse objects that shows where the chosen resources come from
-     * @throws DifferentDimension exception thrown because the number of resources is different from the number of deposits chosen
-     * @throws TooManyResourcesRequested exception thrown because there are too many resources requested
-     */
-    @Override
-    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse) throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource {
-        if(productionPower.checkTakenResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard())){
-            activePlayers.get(currentPlayer).getBoard().removeResources(resources,warehouse);
-            productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
-        }
-    }
 
     /**
      * Override method useAndChooseProdPower calls the method to check if the production power is usable, if yes the resources obtained
@@ -437,8 +420,12 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource {
         if(productionPower.checkTakenResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard())) {
             activePlayers.get(currentPlayer).getBoard().removeResources(resources,warehouse);
-            productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
-        }
+            if(newResources == null){
+                productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
+            }
+            else{
+                productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
+            }        }
     }
 
     /**

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller.packets;
 
-import java.io.Serializable;
 
 /**
  * It contains all the messages that the server can send to clients
@@ -21,7 +20,6 @@ public enum ConnectionMessages {
 
     private final String message;
 
-    // TODO: 29/04/2021 inserire serialization id
     ConnectionMessages(String message) {
         this.message = message;
     }

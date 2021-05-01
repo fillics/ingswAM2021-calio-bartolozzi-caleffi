@@ -58,5 +58,6 @@ public class ClientHandler implements Runnable {
         username = in.nextLine();
         multiEchoServer.getLobby().add(username);
         System.out.println("Players in lobby: " + multiEchoServer.getLobby());
+
     }
 }
