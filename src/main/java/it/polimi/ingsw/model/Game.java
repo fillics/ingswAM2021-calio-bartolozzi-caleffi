@@ -34,7 +34,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
     private MarketTray market;
     private HashMap<ResourceType,Integer> resourcePriceBuffer;
-    private ArrayList<LeaderCard> leaderCardsChosen;
+    private ArrayList<Integer> leaderCardsChosen;
     private int currentPlayer = 0;
     private final int NUM_MAXPLAYERS = 4;
     private boolean endgame = false;
@@ -187,7 +187,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         return leaderDeck;
     }
 
-    public ArrayList<LeaderCard> getLeaderCardsChosen() {
+    public ArrayList<Integer> getLeaderCardsChosen() {
         return leaderCardsChosen;
     }
 
@@ -304,17 +304,19 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
     /**
-     * Method useDiscountActivation calls the method useDiscount from LeaderCard class if the arrayList leaderCardChosen contains the Leader Cards chosen by the current player.
+     * Method useDiscountActivation calls the method useDiscount from LeaderCard class if the arrayList leaderCardChosen contains the id of the Leader Cards chosen by the current player.
      * At the end of the method the array leaderCardsChosen will be null.
      */
     public void useDiscountActivation(HashMap<ResourceType,Integer> resourcePriceBuffer, DevelopmentCard developmentCard){
-        int i;
+        int i,j;
         if(leaderCardsChosen!= null) {
             for (i = 0; i < leaderCardsChosen.size(); i++) {
-                if (activePlayers.get(currentPlayer).getLeaderCards().contains(leaderCardsChosen.get(i)))
-                    leaderCardsChosen.get(i).useDiscount(developmentCard, resourcePriceBuffer);
-                else
-                    break;
+                for(j=0; j<activePlayers.get(currentPlayer).getLeaderCards().size();j++){
+                    if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId()==leaderCardsChosen.get(i)){
+                        activePlayers.get(currentPlayer).getLeaderCards().get(j).useDiscount(developmentCard, resourcePriceBuffer);
+                        break;
+                    }
+                }
             }
             leaderCardsChosen = null;
         }
@@ -325,30 +327,34 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @param leaderCards (type ArrayList<Integer>) - it is the array of Leader Cards'id the player chooses
      * to use to pay the development card cost with a discount.
      */
-    // TODO: 01/05/2021 sistemare con arraylist di interi che contiene interi
     @Override
-    public void chooseDiscountActivation(ArrayList<LeaderCard> leaderCards) throws DiscountCannotBeActivated {
-
+    public void chooseDiscountActivation(ArrayList<Integer> leaderCards) throws DiscountCannotBeActivated {
+        int i,j,num;
+        num=0;
         leaderCardsChosen= new ArrayList<>();
-        for (LeaderCard leaderCard : leaderCards) {
-            if (!activePlayers.get(currentPlayer).getLeaderCards().contains(leaderCard) ||
-                    !(leaderCard.getStrategy() instanceof ConcreteStrategyDiscount) ||
-                    !leaderCard.getStrategy().isActive())
-                throw new DiscountCannotBeActivated();
+        for (i=0;i<leaderCards.size();i++) {
+            for(j=0; j<activePlayers.get(currentPlayer).getLeaderCards().size();j++){
+                if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId()== leaderCards.get(i) && activePlayers.get(currentPlayer).getLeaderCards().get(j).getStrategy() instanceof ConcreteStrategyDiscount && activePlayers.get(currentPlayer).getLeaderCards().get(j).getStrategy().isActive()){
+                    num++;
+                    break;
+                }
+            }
         }
-        leaderCardsChosen = leaderCards;
+        if(num==leaderCards.size())
+            leaderCardsChosen = leaderCards;
+        else
+            throw new DiscountCannotBeActivated();
     }
 
     /**
      * Override method buyDevCard is used to buy a development card from the development grid.
      * The method puts in development card the return value of chooseCardFromDevelopmentGrid method and calls checkDevSpace method from board to verify that the player can place the development card chosen in the development space chosen.
      * Then the method calls checkResources from Board to verify that che resources chosen to buy the card are correct; if so, the resources are removed from board with the method removeResources.
-     * @param idCard
-     * @param chosenResources is the array of Resources chosen by the player to buy the card
-     * @param chosenWarehouses is the array of Warehouse objects that shows where the chosen resources come from
-     * @param developmentSpace is the dev space chosen by the player to place the development card
+     * @param idCard is the id of the card that the player wants to buy.
+     * @param chosenResources is the array of Resources chosen by the player to buy the card.
+     * @param chosenWarehouses is the array of Warehouse objects that shows where the chosen resources come from.
+     * @param developmentSpace is the dev space chosen by the player to place the development card.
      */
-    // TODO: 02/05/2021 javadoc idcard 
     @Override
     public void buyDevCard(int idCard, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
         DevelopmentCard developmentCard;
@@ -383,26 +389,27 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @param line (type String) - it specifies if the player wants to select a column or a row
      * @param numline (type Int) - it indicates which line the player chose
      */
-    // TODO: 01/05/2021 modificare con arraylist di interi che contiene id delle carte
     @Override
-    public void takeResourceFromMarket(String line, int numline, ArrayList<LeaderCard> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{
-        if(whiteMarbleCardChoice == null){
-            market.lineSelection(line, numline, activePlayers.get(currentPlayer));
-            market.change(line, numline);
-        }
-        else{
-            int i;
+    public void takeResourceFromMarket(String line, int numline, ArrayList<Integer> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{
+        if (whiteMarbleCardChoice != null) {
+            int i, j, num;
             for (i = 0; i < whiteMarbleCardChoice.size(); i++) {
-                if (!activePlayers.get(currentPlayer).getLeaderCards().contains(whiteMarbleCardChoice.get(i))
-                        || !(whiteMarbleCardChoice.get(i).getStrategy() instanceof ConcreteStrategyMarble))
+                num = 0;
+                for (j = 0; j < activePlayers.get(currentPlayer).getLeaderCards().size(); j++) {
+                    if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId() == whiteMarbleCardChoice.get(i) && activePlayers.get(currentPlayer).getLeaderCards().get(j).getStrategy() instanceof ConcreteStrategyMarble) {
+                        num++;
+                        break;
+                    }
+                }
+                if (num != 1)
                     throw new LeaderCardNotFound();
-                else if (!whiteMarbleCardChoice.get(i).getStrategy().isActive())
+                else if (!activePlayers.get(currentPlayer).getLeaderCards().get(j).getStrategy().isActive())
                     throw new LeaderCardNotActivated();
             }
             activePlayers.get(currentPlayer).setWhiteMarbleCardChoice(whiteMarbleCardChoice);
-            market.lineSelection(line, numline, activePlayers.get(currentPlayer));
-            market.change(line, numline);
         }
+        market.lineSelection(line, numline, activePlayers.get(currentPlayer));
+        market.change(line, numline);
     }
 
     /**
