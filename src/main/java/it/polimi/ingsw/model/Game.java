@@ -21,6 +21,7 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Game class contains the main logic of "Master of Renaissance".
@@ -30,6 +31,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     private ArrayList<Player> players;
     private ArrayList<Player> activePlayers;
+    private int idMatch; // TODO: 02/05/2021 aggiungere al costruttore e metodo get 
     private ArrayList<LeaderCard> leaderDeck;
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
     private MarketTray market;
@@ -249,7 +251,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         } catch (IOException e) {
             System.out.println("LeaderCard.json file was not found");
         }
-
     }
 
 
@@ -261,6 +262,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     public DevelopmentCard chooseCardFromDevelopmentGrid(int idCard) throws DevelopmentCardNotFound{
         DevelopmentCard chosenCard = null;
+
+
         for (LinkedList<DevelopmentCard> developmentCards : developmentGrid) {
             if (!developmentCards.isEmpty() && developmentCards.getLast().getId()==idCard) {
                 chosenCard = developmentCards.getLast();
@@ -271,7 +274,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         else
             return chosenCard;
     }
-
 
     /**
      * Method removeCardFromDevelopmentDeck is called when a Player buys a development card and it removes
@@ -296,7 +298,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             players.get(whichPlayer).addLeaderCard(leaderDeck.get(leaderDeck.size() - 1));
             leaderDeck.remove(leaderDeck.size() - 1);
         });
-
     }
 
     /**
@@ -471,13 +472,15 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     @Override
     public void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound {
 
-        for (LeaderCard leaderCard: activePlayers.get(currentPlayer).getLeaderCards()){
-            if (leaderCard.getId() == idCardToDiscard){
-                activePlayers.get(currentPlayer).removeLeaderCard(leaderCard);
-                break;
-            }
+        LeaderCard[] leaderCards = activePlayers.get(currentPlayer).getLeaderCards().stream().filter(card ->
+                (card.getId()==idCardToDiscard)).
+                toArray(LeaderCard[]::new);
+
+        for (LeaderCard cardToDiscard: leaderCards){
+            activePlayers.get(currentPlayer).removeLeaderCard(cardToDiscard);
+            activePlayers.get(currentPlayer).getBoard().increaseFaithMarker();
         }
-        activePlayers.get(currentPlayer).getBoard().increaseFaithMarker();
+
     }
 
 
