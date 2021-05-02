@@ -1,6 +1,11 @@
 package it.polimi.ingsw.server;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.controller.packets.ConnectionMessages;
+import it.polimi.ingsw.controller.packets.HandlePacket;
+import it.polimi.ingsw.controller.packets.PacketUsername;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -50,14 +55,16 @@ public class ClientHandler implements Runnable {
     }
 
     public void askUsername() throws IOException {
+        HandlePacket object;
         String username;
         OutputStream output = socket.getOutputStream();
         output.write("Insert username: ".getBytes(StandardCharsets.UTF_8));
-
         Scanner in = new Scanner(socket.getInputStream());
         username = in.nextLine();
-        multiEchoServer.getLobby().add(username);
-        System.out.println("Players in lobby: " + multiEchoServer.getLobby());
+        PacketUsername packet = new PacketUsername(username);
 
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonResult = mapper.writeValueAsString(packet);
+        object = multiEchoServer.deserialize(jsonResult);
     }
 }
