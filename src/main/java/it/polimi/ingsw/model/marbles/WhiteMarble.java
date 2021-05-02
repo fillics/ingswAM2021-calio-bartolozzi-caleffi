@@ -15,10 +15,17 @@ public class WhiteMarble extends Marble{
      */
     @Override
     public void transform(Player player) {
+        int id0,i;
         if (!player.getWhiteMarbleCardChoice().isEmpty()) {
-            Resource newResource = new Resource(player.getWhiteMarbleCardChoice().get(0).getStrategy().getResourceType());
-            player.getResourceBuffer().add(newResource);
-            player.getWhiteMarbleCardChoice().remove(0);
+            id0= player.getWhiteMarbleCardChoice().get(0);
+            for(i=0; i<player.getLeaderCards().size();i++) {
+                if (player.getLeaderCards().get(i).getId() == id0) {
+                    Resource newResource = new Resource(player.getLeaderCards().get(i).getStrategy().getResourceType());
+                    player.getResourceBuffer().add(newResource);
+                    player.getWhiteMarbleCardChoice().remove(0);
+                    break;
+                }
+            }
         }
     }
 }

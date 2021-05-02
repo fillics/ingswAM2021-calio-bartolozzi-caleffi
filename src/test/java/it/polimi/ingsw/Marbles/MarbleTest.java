@@ -36,7 +36,7 @@ public class MarbleTest {
     LeaderCardStrategy testStrategyWhiteMarble2;
     NumAndColorRequirement requirementsWhiteMarble2;
     HashMap<CardColor,Integer> colorWhiteMarble2;
-    ArrayList<LeaderCard> whiteMarbleCardChoice;
+    ArrayList<Integer> whiteMarbleCardChoice;
 
     /*
      * Method setup setups tests.
@@ -73,8 +73,8 @@ public class MarbleTest {
         testPlayer.addLeaderCard(testLeaderCardWhiteMarble2);
         testLeaderCardWhiteMarble2.setStrategy(testStrategyWhiteMarble2);
         whiteMarbleCardChoice= new ArrayList<>();
-        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble);
-        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble2);
+        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble.getId());
+        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble2.getId());
     }
 
     /** Method transformTest tests transform method. */
@@ -98,14 +98,15 @@ public class MarbleTest {
         testLeaderCardWhiteMarble.useAbility();
         testLeaderCardWhiteMarble2.useAbility();
 
-        assertEquals(whiteMarbleCardChoice.get(0).getStrategy().getResourceType(),ResourceType.SHIELD);
-        assertEquals(whiteMarbleCardChoice.get(1).getStrategy().getResourceType(),ResourceType.SERVANT);
+        assertEquals(testPlayer.getLeaderCards().get(0).getStrategy().getResourceType(),ResourceType.SHIELD);
+        assertEquals(testPlayer.getLeaderCards().get(1).getStrategy().getResourceType(),ResourceType.SERVANT);
 
         white.transform(testPlayer);
-        assertEquals(whiteMarbleCardChoice.get(0).getStrategy().getResourceType(),ResourceType.SERVANT);
+        assertEquals(testPlayer.getResourceBuffer().get(4).getType(), ResourceType.SHIELD);
         assertEquals(whiteMarbleCardChoice.size(),1);
 
         white2.transform(testPlayer);
+        assertEquals(testPlayer.getResourceBuffer().get(5).getType(), ResourceType.SERVANT);
         assertEquals(whiteMarbleCardChoice.size(),0);
 
         white3.transform(testPlayer);

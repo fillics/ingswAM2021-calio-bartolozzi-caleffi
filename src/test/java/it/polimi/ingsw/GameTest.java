@@ -42,7 +42,7 @@ class GameTest {
     LeaderCard testLeaderCardExtraDep;
     ResourcesRequirement requirementsExtraDep;
     HashMap<ResourceType,Integer> testResourcePrice;
-    ArrayList<LeaderCard> leaderCardsChosen;
+    ArrayList<Integer> leaderCardsChosen;
     LevelAndColorRequirement requirementsLevCol;
 
 
@@ -99,7 +99,7 @@ class GameTest {
         testLeaderCardThatDoesNotExists = new LeaderCard(454, LeaderCardType.PRODUCTION_POWER, requirementsLevCol, ResourceType.STONE, 4);
 
         leaderCardsChosen = new ArrayList<>();
-        leaderCardsChosen.add(testLeaderCardDiscount);
+        leaderCardsChosen.add(testLeaderCardDiscount.getId());
     }
 
     /**
@@ -441,6 +441,7 @@ class GameTest {
     }
 
     /** Method buyDevCardTest tests Game method buyDevCard. */
+    //TODO: Aggiungere test delle eccezioni
     @Test
     @DisplayName("buyDevCard test")
     void buyDevCardTest() throws DiscountCannotBeActivated, EmptyDeposit, DepositDoesntHaveThisResource {
@@ -513,7 +514,7 @@ class GameTest {
     @Test
     @DisplayName("chooseWhiteMarbleActivation test")
     void chooseWhiteMarbleActivationTest(){
-        ArrayList<LeaderCard> whiteMarbleCardChoice= new ArrayList<>();
+        ArrayList<Integer> whiteMarbleCardChoice= new ArrayList<>();
         HashMap<CardColor,Integer> colorWhiteMarble= new HashMap<>();
         colorWhiteMarble.put(CardColor.GREEN,2);
         colorWhiteMarble.put(CardColor.PURPLE,1);
@@ -535,8 +536,8 @@ class GameTest {
         testLeaderCardWhiteMarble.useAbility();
         testLeaderCardWhiteMarble2.useAbility();
 
-        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble);
-        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble2);
+        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble.getId());
+        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble2.getId());
 
         try {
             testGame.takeResourceFromMarket("Row", 2,whiteMarbleCardChoice);
@@ -602,18 +603,21 @@ class GameTest {
     /** Method takeResourcesFromMarketTest tests Game method takeResourcesFromMarket. */
     @Test
     @DisplayName("takeResourcesFromMarketTest test")
-    // TODO: 01/05/2021 sistemare questo test
-    void takeResourcesFromMarketTest() {
-        //testGame.takeResourcesFromMarket("Row",2);
+    void takeResourcesFromMarketTest(){
+        try {
+            testGame.takeResourceFromMarket("Row",2,null);
+        } catch (LeaderCardNotFound | LeaderCardNotActivated leaderCardNotFound) {}
     }
 
     /** Method takeResourcesFromMarketTest tests Game method takeResourcesFromMarket. */
     @Test
     @DisplayName("takeResourcesFromMarketTestException test")
     void takeResourcesFromMarketTestException() {
+        ArrayList<Integer> whiteMarbleCardChoice= new ArrayList<>();
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardWhiteMarble);
+        whiteMarbleCardChoice.add(testLeaderCardWhiteMarble.getId());
         try {
-            testGame.takeResourceFromMarket("Column", 2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards());
+            testGame.takeResourceFromMarket("Column", 2, whiteMarbleCardChoice);
             fail();
         }
         catch (LeaderCardNotActivated | LeaderCardNotFound ignored) {}

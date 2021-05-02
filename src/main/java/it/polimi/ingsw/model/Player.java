@@ -25,7 +25,7 @@ public class Player {
     private int position;
     private GamePlayerInterface gamePlayer;
     private int chosenResource;
-    private ArrayList<LeaderCard> whiteMarbleCardChoice;
+    private ArrayList<Integer> whiteMarbleCardChoice;
 
     /**
      * Constructor Player creates a new Player instance.
@@ -44,12 +44,12 @@ public class Player {
     }
 
 
-    public ArrayList<LeaderCard> getWhiteMarbleCardChoice() {
+    public ArrayList<Integer> getWhiteMarbleCardChoice() {
         return whiteMarbleCardChoice;
     }
 
 
-    public void setWhiteMarbleCardChoice(ArrayList<LeaderCard> whiteMarbleCardChoice) {
+    public void setWhiteMarbleCardChoice(ArrayList<Integer> whiteMarbleCardChoice) {
         this.whiteMarbleCardChoice= whiteMarbleCardChoice;
     }
 

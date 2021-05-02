@@ -18,11 +18,11 @@ import java.util.ArrayList;
 public interface GameInterface {
 
     void createNewPlayer(String username) throws NumMaxPlayersReached;
-    void chooseDiscountActivation(ArrayList<LeaderCard> idLeaderCards) throws DiscountCannotBeActivated;
+    void chooseDiscountActivation(ArrayList<Integer> idLeaderCards) throws DiscountCannotBeActivated;
     void buyDevCard(int idCard, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource;
     void moveResource(int position) throws EmptyDeposit;
     void placeResource(int depositPosition, int resourcePosition) throws DepositHasReachedMaxLimit, DepositHasAnotherResource;
-    void takeResourceFromMarket(String line, int numline ,ArrayList<LeaderCard> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated;
+    void takeResourceFromMarket(String line, int numline ,ArrayList<Integer> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated;
     void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource;
     void activateLeaderCard(int idCardToActivate) throws LeaderCardNotFound, NotEnoughRequirements;
     void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound;
