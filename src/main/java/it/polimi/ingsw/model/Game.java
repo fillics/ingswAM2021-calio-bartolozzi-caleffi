@@ -138,16 +138,12 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     @Override
     public void chooseLeaderCardToRemove(int idCard1, int idCard2) throws LeaderCardNotFound {
 
-        int size = activePlayers.get(currentPlayer).getLeaderCards().size();
-        for (int i = 0; i < size; i++) {
-            LeaderCard leaderCard = activePlayers.get(currentPlayer).getLeaderCards().get(i);
-            if (leaderCard.getId() == idCard1 ||
-                    leaderCard.getId() == idCard2){
-                activePlayers.get(currentPlayer).removeLeaderCard(leaderCard);
-                size-=1;
-            }
-        }
+        LeaderCard[] leaderCards = activePlayers.get(currentPlayer).getLeaderCards().stream().filter(card -> (card.getId()==idCard1 ||
+                card.getId() == idCard2)).toArray(LeaderCard[]::new);
 
+        for (LeaderCard cardToRemove: leaderCards){
+            activePlayers.get(currentPlayer).removeLeaderCard(cardToRemove);
+        }
 
     }
 
