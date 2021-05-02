@@ -1,5 +1,13 @@
 package it.polimi.ingsw.server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.controller.packets.HandlePacket;
+import it.polimi.ingsw.controller.packets.PacketUsername;
+import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameInterface;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,7 +17,8 @@ import java.util.concurrent.Executors;
 
 public class MultiEchoServer {
     private int port;
-    private ArrayList<String> lobby = new ArrayList<>();
+    private ArrayList<PacketUsername> lobby = new ArrayList<>();
+    private Game game = new Game();
 
 
     public MultiEchoServer(int port) {
@@ -48,7 +57,16 @@ public class MultiEchoServer {
         executor.shutdown();
     }
 
-    public ArrayList<String> getLobby() {
-        return lobby;
+
+
+    public HandlePacket deserialize(String jsonResult){
+        ObjectMapper mapper = new ObjectMapper();
+        HandlePacket packet = null;
+        try {
+            packet = mapper.readValue(jsonResult, HandlePacket.class);
+        } catch (JsonProcessingException  e) {
+            e.printStackTrace();
+        }
+        return packet;
     }
 }
