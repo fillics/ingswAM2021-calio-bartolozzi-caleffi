@@ -3,8 +3,8 @@ package it.polimi.ingsw.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.controller.PacketHandler;
-import it.polimi.ingsw.controller.packets.PacketNumPlayers;
-import it.polimi.ingsw.controller.packets.PacketUsername;
+import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
+import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
 
 import java.io.IOException;

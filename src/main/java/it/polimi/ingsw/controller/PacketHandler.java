@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import it.polimi.ingsw.controller.packets.*;
+import it.polimi.ingsw.controller.client_packets.*;
 import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.SocketConnection;

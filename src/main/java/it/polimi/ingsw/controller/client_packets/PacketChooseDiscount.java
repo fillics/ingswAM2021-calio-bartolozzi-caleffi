@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.packets;
+package it.polimi.ingsw.controller.client_packets;
 
 import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.exceptions.NumMaxPlayersReached;

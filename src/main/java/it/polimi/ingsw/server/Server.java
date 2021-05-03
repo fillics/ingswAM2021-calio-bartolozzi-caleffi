@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.PacketHandler;
-import it.polimi.ingsw.controller.packets.PacketUsername;
+import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
 import it.polimi.ingsw.model.Game;
 

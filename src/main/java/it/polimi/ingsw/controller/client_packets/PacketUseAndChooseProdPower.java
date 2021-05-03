@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.packets;
+package it.polimi.ingsw.controller.client_packets;
 
 import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
@@ -11,13 +11,13 @@ import it.polimi.ingsw.server.SocketConnection;
 import java.util.ArrayList;
 
 public class PacketUseAndChooseProdPower implements PacketHandler {
-    private ProductionPower productionPower;
+    private ArrayList<ProductionPower> productionPowers;
     private ArrayList<ResourceType> resourceTypes;
     private ArrayList<Warehouse> warehouse;
     private ArrayList<ResourceType> newResources;
 
-    public PacketUseAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resourceTypes, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) {
-        this.productionPower = productionPower;
+    public PacketUseAndChooseProdPower(ArrayList<ProductionPower> productionPowers, ArrayList<ResourceType> resourceTypes, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) {
+        this.productionPowers = productionPowers;
         this.resourceTypes = resourceTypes;
         this.warehouse = warehouse;
         this.newResources = newResources;
