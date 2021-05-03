@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.controller.packets.PacketUsername;
+import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
 import it.polimi.ingsw.model.Game;
 
 import java.io.IOException;
@@ -76,7 +77,7 @@ public class Server {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                SocketConnection socketConnection = new SocketConnection(i, socket);
+                SocketConnection socketConnection = new SocketConnection(i, socket, i);
 
                 peopleConnected.add(socketConnection);
                 i+=1;
@@ -85,7 +86,7 @@ public class Server {
                 System.out.println(socketConnection.getName() + " connected!");
 
                 //qui devo eseguire solo il primo della lista di peopleConnected
-                executor.submit(new ClientHandler(socket, this)); //per ogni socket noi creiamo un thread
+                executor.submit(new ClientHandler(socketConnection, this)); //per ogni socket noi creiamo un thread
 
             } catch(IOException e) {
                 break; // Entrerei qui se serverSocket venisse chiuso
@@ -96,7 +97,7 @@ public class Server {
 
 
 
-    public PacketHandler deserialize(String jsonResult){
+    public PacketHandler deserialize(String jsonResult, SocketConnection socket) throws NumMaxPlayersReached {
         ObjectMapper mapper = new ObjectMapper();
         PacketHandler packet = null;
         try {
@@ -104,6 +105,10 @@ public class Server {
         } catch (JsonProcessingException  e) {
             e.printStackTrace();
         }
+        packet.execute(game,socket);
+        System.out.println(game.getNumof_players());
         return packet;
     }
+
+
 }

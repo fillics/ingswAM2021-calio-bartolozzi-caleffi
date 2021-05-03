@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.model.board.resources.ConcreteStrategyResource;
 import it.polimi.ingsw.model.board.resources.ResourceActionStrategy;
 import it.polimi.ingsw.model.board.resources.ResourceType;
@@ -22,7 +23,6 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * Game class contains the main logic of "Master of Renaissance".
@@ -40,7 +40,16 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     private ArrayList<Integer> leaderCardsChosen;
     private int currentPlayer = 0;
     private boolean endgame = false;
+    private State state = State.NUMOF_PLAYERS;
+    private int numof_players;
 
+    public int getNumof_players() {
+        return numof_players;
+    }
+
+    public void setNumof_players(int numof_players) {
+        this.numof_players = numof_players;
+    }
 
     /**
      * Constructor Game creates a new Game instance.
@@ -194,6 +203,22 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     public int getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    /**
+     * Method setState sets the state of the model in order to know which command are accepted or discarded
+     * @param state is the new state of the model
+     */
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    /**
+     *
+     */
+    @Override
+    public State getState() {
+        return state;
     }
 
     /**

@@ -8,20 +8,20 @@ public class SocketConnection {
     private String name;
     private int numberOfGuest;
     private Socket socket;
+    private int idClient;
 
-    public SocketConnection(int numberOfGuest, Socket socket) {
+
+    public int getIdClient() {
+        return idClient;
+    }
+
+    public SocketConnection(int numberOfGuest, Socket socket, int id) {
 
         name = guest + String.valueOf(numberOfGuest);
         this.socket = socket;
+        this.idClient = id;
     }
 
-    @Override
-    public String toString() {
-        return "SocketConnection{" +
-                "name='" + name + '\'' +
-                ", socket=" + socket +
-                '}';
-    }
 
     public String getName() {
         return name;
@@ -33,5 +33,14 @@ public class SocketConnection {
 
     public int getNumberOfGuest() {
         return numberOfGuest;
+    }
+
+    @Override
+    public String toString() {
+        return "SocketConnection{" +
+                "name='" + name + '\'' +
+                ", socket=" + socket +
+                ", idClient=" + idClient +
+                '}';
     }
 }

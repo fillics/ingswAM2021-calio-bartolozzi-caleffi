@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.controller.packets.*;
 import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
 import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.server.SocketConnection;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -18,8 +19,10 @@ import it.polimi.ingsw.model.GameInterface;
         @JsonSubTypes.Type(value = PacketPlaceResource.class, name = "PLACERESOURCE"),
         @JsonSubTypes.Type(value = PacketTakeResourceFromMarket.class, name = "TAKERESOURCE"),
         @JsonSubTypes.Type(value = PacketUseAndChooseProdPower.class, name = "USEANDCHOOSEPRODUCTIONPOWER"),
+        @JsonSubTypes.Type(value = PacketNumPlayers.class, name = "NUMOFPLAYERS"),
+
         @JsonSubTypes.Type(value = PacketMoveResource.class, name = "MOVERESOURCE") })
 
 public interface PacketHandler {
-    void execute(GameInterface gameInterface) throws NumMaxPlayersReached;
+    void execute(GameInterface gameInterface, SocketConnection socketConnection) throws NumMaxPlayersReached;
 }

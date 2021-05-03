@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller.packets;
 
 import it.polimi.ingsw.controller.PacketHandler;
+import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
+import it.polimi.ingsw.server.SocketConnection;
 
 import java.util.ArrayList;
 
@@ -22,8 +24,10 @@ public class PacketBuyDevCard implements PacketHandler {
         this.developmentSpace = developmentSpace;
     }
 
+
+
     @Override
-    public void execute(GameInterface gameInterface) {
+    public void execute(GameInterface gameInterface, SocketConnection socketConnection) throws NumMaxPlayersReached {
 
     }
 }
