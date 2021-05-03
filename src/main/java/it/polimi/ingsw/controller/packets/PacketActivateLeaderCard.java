@@ -1,8 +1,9 @@
 package it.polimi.ingsw.controller.packets;
 
+import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.model.GameInterface;
 
-public class PacketActivateLeaderCard implements HandlePacket {
+public class PacketActivateLeaderCard implements PacketHandler {
     private int ID;
 
     public PacketActivateLeaderCard(int ID) {

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.packets;
 
+import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
@@ -8,7 +9,7 @@ import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
 import java.util.ArrayList;
 
 
-public class PacketBuyDevCard implements HandlePacket {
+public class PacketBuyDevCard implements PacketHandler {
     private int id;
     private ArrayList<ResourceType> chosenResources;
     private ArrayList<Warehouse> chosenWarehouses;

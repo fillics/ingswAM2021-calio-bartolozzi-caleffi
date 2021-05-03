@@ -1,8 +1,9 @@
 package it.polimi.ingsw.controller.packets;
 
+import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.model.GameInterface;
 
-public class PacketPlaceResource implements HandlePacket {
+public class PacketPlaceResource implements PacketHandler {
     private int depositPosition;
     private int resourcePosition;
 

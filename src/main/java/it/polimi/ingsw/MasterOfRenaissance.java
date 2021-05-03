@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.server.Server;
 
 import java.util.Scanner;
 
@@ -24,14 +25,14 @@ public class MasterOfRenaissance {
         int choice;
 
         System.out.println("Hi! Welcome to Master of Renaissance!\nWhat do you want to launch?");
-        System.out.println("0. SERVER\n1. CLIENT (CLI INTERFACE)");
+        System.out.println("1) SERVER\n2) CLIENT (CLI INTERFACE)");
         System.out.println("\n>Type the number of the desired option!");
         System.out.print(">");
         choice = scanner.nextInt();
 
         switch (choice){
             case (1):
-                //ServerMain.main(null);
+                Server.main(null);
                 break;
             case (2):
                 //ClientMain.main(null);

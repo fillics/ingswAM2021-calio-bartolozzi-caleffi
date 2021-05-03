@@ -1,8 +1,9 @@
 package it.polimi.ingsw.controller.packets;
 
+import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.model.GameInterface;
 
-public class PacketChooseLeaderCardToRemove implements HandlePacket {
+public class PacketChooseLeaderCardToRemove implements PacketHandler {
     private int ID1;
     private int ID2;
 

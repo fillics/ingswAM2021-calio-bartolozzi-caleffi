@@ -1,10 +1,11 @@
 package it.polimi.ingsw.controller.packets;
 
+import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.model.GameInterface;
 
 import java.util.ArrayList;
 
-public class PacketTakeResourceFromMarket implements HandlePacket {
+public class PacketTakeResourceFromMarket implements PacketHandler {
     private String line;
     private int numline;
     private ArrayList<Integer> leaderCardsID;

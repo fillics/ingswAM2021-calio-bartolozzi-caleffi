@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.packets;
+package it.polimi.ingsw.controller;
 
 
 /**

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.board.resources.ConcreteStrategyResource;
 import it.polimi.ingsw.model.board.resources.ResourceActionStrategy;
 import it.polimi.ingsw.model.board.resources.ResourceType;
@@ -38,7 +39,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     private HashMap<ResourceType,Integer> resourcePriceBuffer;
     private ArrayList<Integer> leaderCardsChosen;
     private int currentPlayer = 0;
-    private final int NUM_MAXPLAYERS = 4;
     private boolean endgame = false;
 
 
@@ -106,7 +106,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     // TODO: 23/04/2021 sistemare il num max player reached: è una cosa del controller? 
     public void createNewPlayer(String username) throws NumMaxPlayersReached {
-        if(players.size()<NUM_MAXPLAYERS){
+        if(players.size()< Constants.getNumMaxplayers()){
             Player player = new Player(username, this);
             players.add(player);
             activePlayers.add(player);

@@ -2,10 +2,11 @@ package it.polimi.ingsw.controller.packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
 import it.polimi.ingsw.model.GameInterface;
 
-public class PacketUsername implements HandlePacket {
+public class PacketUsername implements PacketHandler {
     private String username;
     @JsonCreator
     public PacketUsername(@JsonProperty("username")String username) {

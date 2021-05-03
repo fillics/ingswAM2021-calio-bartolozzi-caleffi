@@ -2,8 +2,7 @@ package it.polimi.ingsw.server;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.controller.packets.ConnectionMessages;
-import it.polimi.ingsw.controller.packets.HandlePacket;
+import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.controller.packets.PacketUsername;
 
 import java.io.IOException;
@@ -15,12 +14,12 @@ import java.util.Scanner;
 public class ClientHandler implements Runnable {
     private Socket socket;
     private boolean quit = false;
-    private MultiEchoServer multiEchoServer;
+    private Server server;
 
 
-    public ClientHandler(Socket socket, MultiEchoServer multiEchoServer) {
+    public ClientHandler(Socket socket, Server server) {
         this.socket = socket;
-        this.multiEchoServer = multiEchoServer;
+        this.server = server;
     }
 
 
@@ -55,7 +54,7 @@ public class ClientHandler implements Runnable {
     }
 
     public void askUsername() throws IOException {
-        HandlePacket object;
+        PacketHandler object;
         String username;
         OutputStream output = socket.getOutputStream();
         output.write("Insert username: ".getBytes(StandardCharsets.UTF_8));
@@ -65,6 +64,6 @@ public class ClientHandler implements Runnable {
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
-        object = multiEchoServer.deserialize(jsonResult);
+        object = server.deserialize(jsonResult);
     }
 }
