@@ -59,7 +59,7 @@ class GameTest {
      * Method initialization initializes values.
      */
     @BeforeEach
-    void initialization() throws NumMaxPlayersReached {
+    void initialization(){
         testGame = new Game();
         testGame.createNewPlayer("fil");
         testGame.createNewPlayer("bea");

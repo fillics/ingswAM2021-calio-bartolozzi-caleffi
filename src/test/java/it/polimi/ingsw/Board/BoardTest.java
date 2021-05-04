@@ -31,35 +31,19 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BoardTest {
     Game testGame;
     Board testBoard;
-    DevelopmentCard testDevelopmentCard1;
-    DevelopmentCard testDevelopmentCard2;
-    DevelopmentCard testDevelopmentCard3;
-    Cell cell1;
-    Cell cell2;
-    Cell cell3;
-    Cell cell4;
-    Cell cell5;
-    Cell cell6;
-    Cell cell7;
-    Cell cell8;
-    Cell cell9;
-    Cell cell10;
-    VaticanReportSection testVaticanReportSection1;
-    VaticanReportSection testVaticanReportSection2;
-    VaticanReportSection testVaticanReportSection3;
+    DevelopmentCard testDevelopmentCard1, testDevelopmentCard2, testDevelopmentCard3;
+    Cell cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, cell10;
+    VaticanReportSection testVaticanReportSection1, testVaticanReportSection2, testVaticanReportSection3;
     ProductionPower testProductionPower;
-    HashMap<ResourceType,Integer> testHashMap;
-    HashMap<ResourceType,Integer> testResourcePrice;
+    HashMap<ResourceType,Integer> testHashMap, testResourcePrice;
     PopeFavorTile testPopeFavorTile;
-    Resource coin;
-    Resource servant;
+    Resource coin, servant;
 
     HashMap<ResourceType,Integer> resourcePriceBuffer;
     DevelopmentCard testDevelopmentCard4;
     ProductionPower testProductionPower4;
-    HashMap<ResourceType,Integer> testResourcePrice4;
-    HashMap<ResourceType,Integer> testResourcesNeeded4;
-    HashMap<ResourceType,Integer> testResourcesObtained4;
+    HashMap<ResourceType,Integer> testResourcePrice4,testResourcesNeeded4, testResourcesObtained4;
+
     ArrayList<ResourceType> chosenResources;
     ArrayList<Warehouse> chosenWarehouses;
 

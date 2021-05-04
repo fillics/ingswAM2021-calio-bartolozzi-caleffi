@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 
+import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.server.Server;
 
@@ -25,7 +26,7 @@ public class MasterOfRenaissance {
         int choice;
 
         System.out.println("Hi! Welcome to Master of Renaissance!\nWhat do you want to launch?");
-        System.out.println("1) SERVER\n2) CLIENT (CLI INTERFACE)");
+        System.out.println("1. SERVER\n2. CLIENT (CLI INTERFACE)\n3. CLIENT (GUI INTERFACE)");
         System.out.println("\n>Type the number of the desired option!");
         System.out.print(">");
         choice = scanner.nextInt();
@@ -35,7 +36,10 @@ public class MasterOfRenaissance {
                 Server.main(null);
                 break;
             case (2):
-                //ClientMain.main(null);
+                CLI.main(null);
+                break;
+            case (3):
+                //GUI.main(null);
                 break;
             default:
                 System.out.print("Invalid input, application will be close");

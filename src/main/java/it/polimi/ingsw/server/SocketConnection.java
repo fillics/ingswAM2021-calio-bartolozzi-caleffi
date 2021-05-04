@@ -17,7 +17,7 @@ public class SocketConnection {
 
     public SocketConnection(int numberOfGuest, Socket socket, int id) {
 
-        name = guest + String.valueOf(numberOfGuest);
+        name = guest + numberOfGuest;
         this.socket = socket;
         this.idClient = id;
     }
@@ -31,9 +31,7 @@ public class SocketConnection {
         return socket;
     }
 
-    public int getNumberOfGuest() {
-        return numberOfGuest;
-    }
+
 
     @Override
     public String toString() {

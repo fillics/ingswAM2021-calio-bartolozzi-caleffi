@@ -2,10 +2,11 @@ package it.polimi.ingsw.server;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
-import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -13,20 +14,22 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class ClientHandler implements Runnable {
-    private SocketConnection socket;
+    private SocketConnection socketConnection;
     private boolean quit = false;
     private Server server;
+    private OutputStream output;
+    private Scanner in;
 
 
-    public ClientHandler(SocketConnection socket, Server server) {
-        this.socket = socket;
+    public ClientHandler(SocketConnection socketConnection, Server server) {
+        this.socketConnection = socketConnection;
         this.server = server;
     }
 
     public void run() {
         try {
-            Scanner in = new Scanner(socket.getSocket().getInputStream());
-            OutputStream out = socket.getSocket().getOutputStream();
+            in = new Scanner(socketConnection.getSocket().getInputStream());
+            output = socketConnection.getSocket().getOutputStream();
 
             askNumberOfPlayers();
             askUsername();
@@ -38,47 +41,66 @@ public class ClientHandler implements Runnable {
                 if (line.equals("quit")) {
                     quit = true;
                 } else {
-                    out.write("Received: ".getBytes(StandardCharsets.UTF_8));
-                    out.write(line.getBytes(StandardCharsets.UTF_8));
-                    out.write("\n".getBytes(StandardCharsets.UTF_8));
-                    System.out.println(socket.getIdClient());
-                    out.flush();
+                    output.write("Received: ".getBytes(StandardCharsets.UTF_8));
+                    output.write(line.getBytes(StandardCharsets.UTF_8));
+                    output.write("\n".getBytes(StandardCharsets.UTF_8));
+                    System.out.println(socketConnection.getIdClient());
+                    output.flush();
                 }
             }
             // Chiudo gli stream e il socket -> client non è più connesso al server
             in.close();
-            out.close();
-            socket.getSocket().close();
-        } catch (IOException | NumMaxPlayersReached e) {
+            output.close();
+            socketConnection.getSocket().close();
+        } catch (IOException  e) {
             System.err.println(e.getMessage());
         }
     }
 
-    public void askUsername() throws IOException, NumMaxPlayersReached {
+    public void askUsername() throws IOException {
         PacketHandler object;
         String username;
-        OutputStream output = socket.getSocket().getOutputStream();
-        output.write("Insert username: ".getBytes(StandardCharsets.UTF_8));
-        Scanner in = new Scanner(socket.getSocket().getInputStream());
+        output = socketConnection.getSocket().getOutputStream();
+
+        internalSend(ConnectionMessages.INSERT_USERNAME);
+
+        in = new Scanner(socketConnection.getSocket().getInputStream());
         username = in.nextLine();
         PacketUsername packet = new PacketUsername(username);
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
-        object = server.deserialize(jsonResult, socket);
+        object = server.deserialize(jsonResult, socketConnection);
 
     }
 
-    public void askNumberOfPlayers() throws IOException, NumMaxPlayersReached {
+    public void askNumberOfPlayers() throws IOException {
         PacketHandler object;
-        String number_of_players;
-        OutputStream output = socket.getSocket().getOutputStream();
-        output.write("Insert number of players: ".getBytes(StandardCharsets.UTF_8));
-        Scanner in = new Scanner(socket.getSocket().getInputStream());
-        number_of_players = in.nextLine();
-        PacketNumPlayers packet = new PacketNumPlayers(Integer.parseInt(number_of_players));
+        boolean numNotValid = false;
+        int number_of_players;
+        output = socketConnection.getSocket().getOutputStream();
+        in = new Scanner(socketConnection.getSocket().getInputStream());
+
+        do {
+            internalSend(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
+            number_of_players = in.nextInt();
+
+            if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
+                numNotValid = true;
+                //throw new NumMaxPlayersReached();
+            }
+        }while(!numNotValid);
+
+        PacketNumPlayers packet = new PacketNumPlayers(number_of_players);
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
-        object = server.deserialize(jsonResult, socket);
+        object = server.deserialize(jsonResult, socketConnection);
+    }
+
+    // TODO: 04/05/2021 bisogna mettere il lock??
+    private void internalSend(ConnectionMessages message) throws IOException{
+
+        output.write(message.getMessage().getBytes(StandardCharsets.UTF_8));
+        output.flush();
     }
 }

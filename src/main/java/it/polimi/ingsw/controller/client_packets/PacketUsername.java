@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.controller.State;
-import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.SocketConnection;
 
@@ -17,7 +16,7 @@ public class PacketUsername implements PacketHandler {
 
     //TODO: Spostare la parte di if nel server
     @Override
-    public void execute(GameInterface gameInterface, SocketConnection socketConnection) throws NumMaxPlayersReached {
+    public void execute(GameInterface gameInterface, SocketConnection socketConnection) {
         if(gameInterface.getState() == State.FILL_LOBBY){
             gameInterface.createNewPlayer(username);
             System.out.println(socketConnection.getIdClient());

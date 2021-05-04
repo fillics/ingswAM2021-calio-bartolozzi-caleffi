@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public interface GameInterface {
     void setState(State state);
-    void createNewPlayer(String username) throws NumMaxPlayersReached;
+    void createNewPlayer(String username);
     void chooseDiscountActivation(ArrayList<Integer> idLeaderCards) throws DiscountCannotBeActivated;
     void buyDevCard(int idCard, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource;
     void moveResource(int position) throws EmptyDeposit;

@@ -113,14 +113,12 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * Method createNewPlayer creates a new player in the match.
      * @param username of type String - the player's username
      */
-    // TODO: 23/04/2021 sistemare il num max player reached: è una cosa del controller? 
-    public void createNewPlayer(String username) throws NumMaxPlayersReached {
-        if(players.size()< Constants.getNumMaxplayers()){
-            Player player = new Player(username, this);
-            players.add(player);
-            activePlayers.add(player);
-        }
-        else throw new NumMaxPlayersReached();
+    public void createNewPlayer(String username) {
+
+        Player player = new Player(username, this);
+        players.add(player);
+        activePlayers.add(player);
+
     }
 
     /**

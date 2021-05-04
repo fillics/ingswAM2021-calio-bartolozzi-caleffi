@@ -2,7 +2,6 @@ package it.polimi.ingsw.SinglePlayer;
 import static org.junit.jupiter.api.Assertions.*;
 
 import it.polimi.ingsw.model.cards.developmentcards.CardColor;
-import it.polimi.ingsw.exceptions.NumMaxPlayersReached;
 import it.polimi.ingsw.model.singleplayer.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,7 @@ class SinglePlayerGameTest {
 
     /** Method instantiation instantiates the SinglePlayerGame classes. */
     @BeforeEach
-    void instantiation() throws NumMaxPlayersReached {
+    void instantiation(){
         assertEquals(0, testSingle.getBlackCross());
         assertEquals(0, testSingle.getDeckSoloActionToken().size());
         assertEquals(0, testSingle.getDeletedSoloActionToken().size());
