@@ -125,22 +125,6 @@ public class Player {
         else throw new LeaderCardNotFound();
     }
 
-    /**
-     * Method chooseResourcesBeginningGame adds to the player's resource buffer array the parameter resource
-     * at the beginning of the game according to the player's position
-     * @see Game
-     */
-    public void addResourcesBeginningGame(int choice){
-        Resource[] availableResource = new Resource[4];
-
-        availableResource[0] = new Resource(ResourceType.COIN);
-        availableResource[1] = new Resource(ResourceType.SERVANT);
-        availableResource[2] = new Resource(ResourceType.SHIELD);
-        availableResource[3] = new Resource(ResourceType.STONE);
-
-        resourceBuffer.add(availableResource[choice]);
-
-    }
 
     /**
      * Method setChosenResource assigns the resource parameter to the chosenResource variable

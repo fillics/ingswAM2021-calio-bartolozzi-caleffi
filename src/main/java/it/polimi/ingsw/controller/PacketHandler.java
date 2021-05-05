@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.controller.client_packets.*;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.SocketClientConnected;
 
@@ -23,5 +24,5 @@ import it.polimi.ingsw.server.SocketClientConnected;
         @JsonSubTypes.Type(value = PacketMoveResource.class, name = "MOVERESOURCE") })
 
 public interface PacketHandler {
-    void execute(GameInterface gameInterface, SocketClientConnected socketClientConnected);
+    void execute(GameInterface gameInterface, SocketClientConnected socketClientConnected) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested;
 }

@@ -14,17 +14,9 @@ public class PacketUsername implements PacketHandler {
         this.username = username;
     }
 
-    //TODO: Spostare la parte di if nel server
     @Override
     public void execute(GameInterface gameInterface, SocketClientConnected socketClientConnected) {
-        if(gameInterface.getState() == State.FILL_LOBBY){
             gameInterface.createNewPlayer(username);
-
-            if(gameInterface.getActivePlayers().size() == gameInterface.getNumof_players() ){
-                gameInterface.setState(State.SETUP);
-            }
-        }
-
     }
 
     public String getUsername() {

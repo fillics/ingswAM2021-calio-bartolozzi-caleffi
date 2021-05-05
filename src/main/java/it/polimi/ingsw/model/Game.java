@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.model.board.resources.ConcreteStrategyResource;
+import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.board.resources.ResourceActionStrategy;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
@@ -70,7 +71,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         createDevelopmentGrid(); //to place the cards in the right order
         createLeaderDeck(); //to create and shuffle the leader card
         distributeLeaderCards(); //to give 4 leader cards to the each player
-        additionalSetup(); //to distribute faith points and resources
+        additionalFaithMarkerSetup();
     }
 
     /**
@@ -89,25 +90,14 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * Method additionalSetup distributes resources and faith points to the players
      * according to their position's turn
      */
-    public void additionalSetup() {
+    public void additionalResourceSetup(Resource resource, int depositPosition) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+        ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(depositPosition, activePlayers.get(currentPlayer).getBoard(), resource.getType());
+        resource.useResource();
+    }
 
-        if(activePlayers.size() >= 2){
-            activePlayers.get(1).addResourcesBeginningGame(activePlayers.get(1).getChosenResource()); //second player receives one resource
-
-            if(activePlayers.size() >= 3){
-                activePlayers.get(2).getBoard().increaseFaithMarker(); //third player receives one faith point
-                activePlayers.get(2).addResourcesBeginningGame(activePlayers.get(2).getChosenResource()); //third player receives one resource
-
-                if(activePlayers.size() == 4){
-                    activePlayers.get(3).getBoard().increaseFaithMarker(); //forth player receives one faith point
-                    for (int i = 0; i < 2; i++) {
-                        activePlayers.get(3).addResourcesBeginningGame(activePlayers.get(3).getChosenResource()); //forth player receives two resources
-                    }
-
-                }
-            }
-        }
-
+    public void additionalFaithMarkerSetup(){
+        activePlayers.get(2).getBoard().increaseFaithMarker();
+        activePlayers.get(3).getBoard().increaseFaithMarker();
     }
     /**
      * Method createNewPlayer creates a new player in the match.

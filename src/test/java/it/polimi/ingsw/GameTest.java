@@ -114,24 +114,6 @@ class GameTest {
 
 
     /**
-     * Test method AdditionalSetupTest checks if the distribution of resources and faith points to the players
-     * at the beginning of the game is correct
-     */
-    @Test
-    void AdditionalSetupTest(){
-        testGame.additionalSetup();
-        for (int j = 1; j < 4; j++) {
-            testGame.getActivePlayers().get(j).setChosenResource(j); //it calls the method to allows to the player to choose the resource
-        }
-
-        assertEquals(1, testGame.getActivePlayers().get(2).getBoard().getFaithMarker());
-        assertEquals(1, testGame.getActivePlayers().get(1).getResourceBuffer().size());
-        assertEquals(1, testGame.getActivePlayers().get(3).getBoard().getFaithMarker());
-        assertEquals(1, testGame.getActivePlayers().get(2).getResourceBuffer().size());
-        assertEquals(2, testGame.getActivePlayers().get(3).getResourceBuffer().size());
-    }
-
-    /**
      * Test method checkGetPlayerByUsername checks if the method getPlayerByUsername returns the correct username of the
      * desire player
      */
@@ -606,7 +588,9 @@ class GameTest {
     void takeResourcesFromMarketTest(){
         try {
             testGame.takeResourceFromMarket("Row",2,null);
-        } catch (LeaderCardNotFound | LeaderCardNotActivated leaderCardNotFound) {}
+        } catch (LeaderCardNotFound | LeaderCardNotActivated leaderCardNotFound) {
+            leaderCardNotFound.printStackTrace();
+        }
     }
 
     /** Method takeResourcesFromMarketTest tests Game method takeResourcesFromMarket. */

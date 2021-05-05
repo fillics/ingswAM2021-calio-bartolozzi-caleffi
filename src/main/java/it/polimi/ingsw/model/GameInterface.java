@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.State;
+import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.model.cards.developmentcards.CardColor;
@@ -9,6 +10,7 @@ import it.polimi.ingsw.model.cards.developmentcards.Level;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.cards.leadercards.ResourcesRequirement;
 
 import java.util.ArrayList;
 
@@ -30,6 +32,7 @@ public interface GameInterface {
     void chooseLeaderCardToRemove(int idCard1, int idCard2) throws LeaderCardNotFound;
     int getCurrentPlayer();
     int getNumof_players();
+    void additionalResourceSetup(Resource resource, int depositPosition) throws DifferentDimension, DepositHasReachedMaxLimit, DepositHasAnotherResource;
     State getState();
     ArrayList<Player> getActivePlayers();
     void setNumof_players(int numof_players);
