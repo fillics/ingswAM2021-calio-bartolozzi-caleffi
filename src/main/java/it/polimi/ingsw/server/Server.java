@@ -83,9 +83,7 @@ public class Server {
             try {
 
                 Socket socket = serverSocket.accept();
-                System.out.println("Client connected\n");
-                System.out.println();
-
+                System.out.println("Client connected " + socket + "\n");
 
                 i++;
                 //waiting.add(socketClientConnected);

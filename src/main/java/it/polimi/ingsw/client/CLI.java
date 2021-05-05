@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.constants.Constants;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -11,6 +12,8 @@ public class CLI implements Runnable{
     private final PrintStream output;
     private final Scanner input;
     private SocketClientConnected socketClientConnected;
+    private boolean quit= false;
+    private DataOutputStream dout;
 
     public CLI() {
         input = new Scanner(System.in);
@@ -35,30 +38,40 @@ public class CLI implements Runnable{
 
     @Override
     public void run() {
-        socketClientConnected = new SocketClientConnected();
-        try {
-            socketClientConnected.setup();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        // TODO: 05/05/2021 CHIEDERE IL NUMERO DI PLAYERS SOLO AL CREATORE DELLA PARTITA
-        //askNumberOfPlayers();
-        //TODO: ENTRO SOLO SE è IL MIO TURNO
-        //makeAction();
         try {
             askUsername();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // TODO: 05/05/2021 CHIEDERE IL NUMERO DI PLAYERS SOLO AL CREATORE DELLA PARTITA
+        //askNumberOfPlayers();
+        //TODO: ENTRO SOLO SE è IL MIO TURNO
+        //makeAction();
+
+        //ciclare in attesa di un messaggio fino a che il game è attivo
+
+
+        input.close();
+        output.close();
     }
 
     public void askUsername() throws IOException {
         String username;
         System.out.println("Inserisci username\n");
         username= input.nextLine();
+
+
+        socketClientConnected = new SocketClientConnected();
+
+        dout=new DataOutputStream(socketClientConnected.getSocket().getOutputStream());
         //TODO verificare correttezza
-        socketClientConnected.setUsername(username);
+
+        dout.writeUTF(username);
+        dout.flush();
+        dout.close();
+
+        //socketClientConnected.setUsername(username);
 
     }
 

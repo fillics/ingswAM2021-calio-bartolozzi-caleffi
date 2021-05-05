@@ -10,6 +10,7 @@ import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -26,6 +27,7 @@ public class ClientHandler implements Runnable {
     private Server server;
     private OutputStream output;
     private Scanner in;
+    private DataInputStream dis;
     private Lock lock = new ReentrantLock();
 
 
@@ -34,7 +36,7 @@ public class ClientHandler implements Runnable {
         this.socket = socket;
         this.server = server;
         try {
-            in = new Scanner(socket.getInputStream());
+             dis= new DataInputStream(socket.getInputStream());
             output = socket.getOutputStream();
         } catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during initialization of the client!");
@@ -45,14 +47,15 @@ public class ClientHandler implements Runnable {
 
     public void run() {
         try {
-
-            askUsername();
+            String str = dis.readUTF();
+            System.out.println("Message is " + str);
+            //askUsername();
 
             // TODO: 05/05/2021 CHIEDERE IL NUMERO DI PLAYERS SOLO AL CREATORE DELLA PARTITA
-            askNumberOfPlayers();
+            //askNumberOfPlayers();
 
             //TODO: ENTRO SOLO SE è IL MIO TURNO
-            makeAction();
+            //makeAction();
 
             // Leggo e scrivo nella connessione finche' non ricevo "quit"
             while (!quit) {

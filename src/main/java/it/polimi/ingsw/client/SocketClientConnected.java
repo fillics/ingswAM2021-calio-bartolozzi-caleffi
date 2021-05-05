@@ -9,7 +9,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
- * class containing the guest name of the client and his socket. it is used for the starting lobby
+ * SocketClientConnected class handles the connection between the client and the server.
+ *
  */
 public class SocketClientConnected {
 
@@ -23,12 +24,12 @@ public class SocketClientConnected {
     public SocketClientConnected() {
         this.serverAddress = Constants.getAddressServer();
         this.port = Constants.getPort();
+        try {
+            socket = new Socket(serverAddress, port);
 
-
-    }
-
-    public void setup() throws IOException {
-        socket = new Socket(serverAddress, port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             in = new Scanner(socket.getInputStream());
             output = socket.getOutputStream();
@@ -37,6 +38,7 @@ public class SocketClientConnected {
             System.err.println(e.getMessage());
         }
     }
+
 
     public Socket getSocket() {
         return socket;
