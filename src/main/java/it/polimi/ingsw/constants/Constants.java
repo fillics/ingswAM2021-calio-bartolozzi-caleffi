@@ -5,6 +5,8 @@ import java.util.Date;
 
 public class Constants {
     private static int port;
+    private static String addressServer;
+
     private static final int NUM_MAXPLAYERS = 4;
     private static final int NUM_MINPLAYERS = 1;
     public static final String ANSI_RESET = "\033[0m";
@@ -42,6 +44,14 @@ public class Constants {
 
     public static void setPort(int port) {
         Constants.port = port;
+    }
+
+    public static String getAddressServer() {
+        return addressServer;
+    }
+
+    public static void setAddressServer(String addressServer) {
+        Constants.addressServer = addressServer;
     }
 
     public static String getInfo() {

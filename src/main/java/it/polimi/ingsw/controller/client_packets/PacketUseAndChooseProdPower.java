@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
-import it.polimi.ingsw.server.SocketClientConnected;
+import it.polimi.ingsw.client.SocketClientConnected;
 
 import java.util.ArrayList;
 

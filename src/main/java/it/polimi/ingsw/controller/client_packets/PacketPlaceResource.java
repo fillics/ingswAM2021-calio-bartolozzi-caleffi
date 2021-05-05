@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.model.GameInterface;
-import it.polimi.ingsw.server.SocketClientConnected;
+import it.polimi.ingsw.client.SocketClientConnected;
 
 public class PacketPlaceResource implements PacketHandler {
     private int depositPosition;
