@@ -14,9 +14,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.ToDoubleBiFunction;
 
 public class ClientHandler implements Runnable {
-    private SocketConnection socketConnection;
+    private SocketClientConnected socketClientConnected;
+    private int idClient, idGame;
     private boolean quit = false;
     private Server server;
     private OutputStream output;
@@ -24,22 +26,27 @@ public class ClientHandler implements Runnable {
     private Lock lock = new ReentrantLock();
 
 
-    public ClientHandler(SocketConnection socketConnection, Server server) {
-        this.socketConnection = socketConnection;
+    public ClientHandler(int idClient, SocketClientConnected socketClientConnected, Server server) {
+        this.idClient = idClient;
+        this.socketClientConnected = socketClientConnected;
         this.server = server;
+        try {
+            in = new Scanner(socketClientConnected.getSocket().getInputStream());
+            output = socketClientConnected.getSocket().getOutputStream();
+        } catch (IOException e) {
+            System.err.println(Constants.getErr() + "Error during initialization of the client!");
+            System.err.println(e.getMessage());
+        }
+
     }
 
     public void run() {
         try {
-            in = new Scanner(socketConnection.getSocket().getInputStream());
-            output = socketConnection.getSocket().getOutputStream();
 
-            if(socketConnection.getSocket().equals(server.getGuestsConnected().get(0).getSocket())){
-                askNumberOfPlayers();
-            }
-
-            // TODO: 04/05/2021 tutti i thread in wait fino a quando il primo player non mette il numero
             askUsername();
+
+            // TODO: 05/05/2021 CHIEDERE IL NUMERO DI PLAYERS SOLO AL CREATORE DELLA PARTITA
+            askNumberOfPlayers();
 
 
             // Leggo e scrivo nella connessione finche' non ricevo "quit"
@@ -51,14 +58,14 @@ public class ClientHandler implements Runnable {
                     output.write("Received: ".getBytes(StandardCharsets.UTF_8));
                     output.write(line.getBytes(StandardCharsets.UTF_8));
                     output.write("\n".getBytes(StandardCharsets.UTF_8));
-                    System.out.println(socketConnection.getIdClient());
+
                     output.flush();
                 }
             }
             // Chiudo gli stream e il socket -> client non è più connesso al server
             in.close();
             output.close();
-            socketConnection.getSocket().close();
+            socketClientConnected.getSocket().close();
         } catch (IOException  e) {
             System.err.println(e.getMessage());
         }
@@ -67,27 +74,36 @@ public class ClientHandler implements Runnable {
     public void askUsername() throws IOException {
         PacketHandler object;
         String username;
-        output = socketConnection.getSocket().getOutputStream();
 
         sendConnectionMessage(ConnectionMessages.INSERT_USERNAME);
 
-        in = new Scanner(socketConnection.getSocket().getInputStream());
         username = in.nextLine();
-        // TODO: 04/05/2021  fare controllo username
+        // TODO: 05/05/2021 CONTROLLO FORMA USERNAME, NO CARATTERI
+        askUsernameAgain();
+        // TODO: 04/05/2021  CONTROLLO SE CI SONO GIA ALTRI USERNAME
+        do {
+
+        }while(server.checkUsername());
+
+
+
         PacketUsername packet = new PacketUsername(username);
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
-        object = server.deserialize(jsonResult, socketConnection);
+        object = server.deserialize(jsonResult, socketClientConnected);
 
+    }
+
+    public void askUsernameAgain() throws IOException {
+        sendConnectionMessage(ConnectionMessages.INVALID_USERNAME);
     }
 
     public void askNumberOfPlayers() throws IOException {
         PacketHandler object;
         boolean numNotValid = false;
         int number_of_players;
-        output = socketConnection.getSocket().getOutputStream();
-        in = new Scanner(socketConnection.getSocket().getInputStream());
+
 
         do {
             sendConnectionMessage(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
@@ -102,19 +118,14 @@ public class ClientHandler implements Runnable {
         PacketNumPlayers packet = new PacketNumPlayers(number_of_players);
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
-        object = server.deserialize(jsonResult, socketConnection);
+        object = server.deserialize(jsonResult, socketClientConnected);
     }
 
 
-    private void sendConnectionMessage(ConnectionMessages message) throws IOException{
-        lock.lock();
-        try{
-            output.write(message.getMessage().getBytes(StandardCharsets.UTF_8));
-            output.flush();
-        }
-        finally {
-            lock.unlock();
-        }
+    private synchronized void sendConnectionMessage(ConnectionMessages message) throws IOException{
+
+        output.write(message.getMessage().getBytes(StandardCharsets.UTF_8));
+        output.flush();
 
     }
 }

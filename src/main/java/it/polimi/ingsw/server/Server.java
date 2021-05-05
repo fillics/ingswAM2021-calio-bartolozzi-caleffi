@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.PacketHandler;
-import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.model.Game;
 
 import java.io.IOException;
@@ -21,21 +20,19 @@ import java.util.concurrent.Executors;
  */
 
 public class Server {
-    private int port;
+
     private int idClient;
 
     private Game game;
 
-    private ArrayList<SocketConnection> guestsConnected;
-    private ArrayList<SocketConnection> lobby;
 
     /** List of clients waiting in the lobby. */
-    private final List<SocketConnection> waiting = new ArrayList<>();
+    private final List<SocketClientConnected> waiting = new ArrayList<>();
 
 
     public Server() {
         game = new Game();
-        guestsConnected = new ArrayList<>();
+
     }
 
     public static void main(String[] args) {
@@ -65,36 +62,38 @@ public class Server {
 
     }
 
-    public ArrayList<SocketConnection> getGuestsConnected() {
-        return guestsConnected;
-    }
 
     public void startServer() {
+        int i=0;
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
 
         try {
             serverSocket = new ServerSocket(Constants.getPort());
+            System.out.println(Constants.getInfo() + "Socket Server started. Listening on port " + Constants.getPort());
+
         } catch (IOException e) {
-            System.err.println(e.getMessage()); // Porta non disponibile
+            System.err.println(Constants.getErr() + "Error during Socket initialization, quitting...");
             return;
         }
 
         System.out.println("Server ready!");
         while (true) {
             try {
+
                 Socket socket = serverSocket.accept();
-                // TODO: 05/05/2021 da sistemare
-                SocketConnection socketConnection = new SocketConnection(createClientID(), socket, createClientID());
 
-                guestsConnected.add(socketConnection);
+                SocketClientConnected socketClientConnected = new SocketClientConnected(i, socket);
+                i++;
+                waiting.add(socketClientConnected);
 
-                System.out.println(socketConnection.getName() + " connected!");
+                System.out.println(socketClientConnected.getName() + " connected!");
 
-                executor.submit(new ClientHandler(socketConnection, this)); //per ogni socket noi creiamo un thread
+                executor.submit(new ClientHandler(createClientID(), socketClientConnected, this)); //per ogni socket noi creiamo un thread
 
             } catch(IOException e) {
-                break; // Entrerei qui se serverSocket venisse chiuso
+                System.err.println("Error! " + e.getMessage()); // Entrerei qui se serverSocket venisse chiuso
+                break;
             }
         }
         executor.shutdown();
@@ -106,8 +105,11 @@ public class Server {
         return id;
     }
 
+    public boolean checkUsername(){
+        return true;
+    }
 
-    public PacketHandler deserialize(String jsonResult, SocketConnection socket){
+    public PacketHandler deserialize(String jsonResult, SocketClientConnected socket){
         ObjectMapper mapper = new ObjectMapper();
         PacketHandler packet = null;
         try {

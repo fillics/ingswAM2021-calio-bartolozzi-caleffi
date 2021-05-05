@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.controller.client_packets.*;
 import it.polimi.ingsw.model.GameInterface;
-import it.polimi.ingsw.server.SocketConnection;
+import it.polimi.ingsw.server.SocketClientConnected;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -23,5 +23,5 @@ import it.polimi.ingsw.server.SocketConnection;
         @JsonSubTypes.Type(value = PacketMoveResource.class, name = "MOVERESOURCE") })
 
 public interface PacketHandler {
-    void execute(GameInterface gameInterface, SocketConnection socketConnection);
+    void execute(GameInterface gameInterface, SocketClientConnected socketClientConnected);
 }

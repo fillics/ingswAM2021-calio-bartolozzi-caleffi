@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
-import it.polimi.ingsw.server.SocketConnection;
+import it.polimi.ingsw.server.SocketClientConnected;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class PacketBuyDevCard implements PacketHandler {
 
 
     @Override
-    public void execute(GameInterface gameInterface, SocketConnection socketConnection){
+    public void execute(GameInterface gameInterface, SocketClientConnected socketClientConnected){
 
     }
 }

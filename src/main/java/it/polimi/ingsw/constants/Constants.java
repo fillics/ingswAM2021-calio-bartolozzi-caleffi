@@ -47,6 +47,9 @@ public class Constants {
     public static String getInfo() {
         return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " INFO: ");
     }
+    public static String getErr() {
+        return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " ERR: ");
+    }
 
     public static int getPort() {
         return port;
