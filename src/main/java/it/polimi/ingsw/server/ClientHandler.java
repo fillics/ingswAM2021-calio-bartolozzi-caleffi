@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientHandler implements Runnable {
     private SocketConnection socketConnection;
@@ -19,6 +21,7 @@ public class ClientHandler implements Runnable {
     private Server server;
     private OutputStream output;
     private Scanner in;
+    private Lock lock = new ReentrantLock();
 
 
     public ClientHandler(SocketConnection socketConnection, Server server) {
@@ -31,7 +34,11 @@ public class ClientHandler implements Runnable {
             in = new Scanner(socketConnection.getSocket().getInputStream());
             output = socketConnection.getSocket().getOutputStream();
 
-            askNumberOfPlayers();
+            if(socketConnection.getSocket().equals(server.getGuestsConnected().get(0).getSocket())){
+                askNumberOfPlayers();
+            }
+
+            // TODO: 04/05/2021 tutti i thread in wait fino a quando il primo player non mette il numero
             askUsername();
 
 
@@ -62,10 +69,11 @@ public class ClientHandler implements Runnable {
         String username;
         output = socketConnection.getSocket().getOutputStream();
 
-        internalSend(ConnectionMessages.INSERT_USERNAME);
+        sendConnectionMessage(ConnectionMessages.INSERT_USERNAME);
 
         in = new Scanner(socketConnection.getSocket().getInputStream());
         username = in.nextLine();
+        // TODO: 04/05/2021  fare controllo username
         PacketUsername packet = new PacketUsername(username);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -82,14 +90,14 @@ public class ClientHandler implements Runnable {
         in = new Scanner(socketConnection.getSocket().getInputStream());
 
         do {
-            internalSend(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
+            sendConnectionMessage(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
             number_of_players = in.nextInt();
 
             if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
                 numNotValid = true;
-                //throw new NumMaxPlayersReached();
+
             }
-        }while(!numNotValid);
+        }while(numNotValid);
 
         PacketNumPlayers packet = new PacketNumPlayers(number_of_players);
         ObjectMapper mapper = new ObjectMapper();
@@ -97,10 +105,16 @@ public class ClientHandler implements Runnable {
         object = server.deserialize(jsonResult, socketConnection);
     }
 
-    // TODO: 04/05/2021 bisogna mettere il lock??
-    private void internalSend(ConnectionMessages message) throws IOException{
 
-        output.write(message.getMessage().getBytes(StandardCharsets.UTF_8));
-        output.flush();
+    private void sendConnectionMessage(ConnectionMessages message) throws IOException{
+        lock.lock();
+        try{
+            output.write(message.getMessage().getBytes(StandardCharsets.UTF_8));
+            output.flush();
+        }
+        finally {
+            lock.unlock();
+        }
+
     }
 }

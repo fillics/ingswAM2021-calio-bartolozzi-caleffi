@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,15 +22,20 @@ import java.util.concurrent.Executors;
 
 public class Server {
     private int port;
-    private ArrayList<PacketUsername> lobby = new ArrayList<>();
+    private int idClient;
+
     private Game game;
 
-    private ArrayList<SocketConnection> peopleConnected;
+    private ArrayList<SocketConnection> guestsConnected;
+    private ArrayList<SocketConnection> lobby;
+
+    /** List of clients waiting in the lobby. */
+    private final List<SocketConnection> waiting = new ArrayList<>();
 
 
     public Server() {
         game = new Game();
-        peopleConnected = new ArrayList<>();
+        guestsConnected = new ArrayList<>();
     }
 
     public static void main(String[] args) {
@@ -59,11 +65,13 @@ public class Server {
 
     }
 
+    public ArrayList<SocketConnection> getGuestsConnected() {
+        return guestsConnected;
+    }
 
     public void startServer() {
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
-        int i = 1;
 
         try {
             serverSocket = new ServerSocket(Constants.getPort());
@@ -76,10 +84,10 @@ public class Server {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                SocketConnection socketConnection = new SocketConnection(i, socket, i);
+                // TODO: 05/05/2021 da sistemare
+                SocketConnection socketConnection = new SocketConnection(createClientID(), socket, createClientID());
 
-                peopleConnected.add(socketConnection);
-                i+=1;
+                guestsConnected.add(socketConnection);
 
                 System.out.println(socketConnection.getName() + " connected!");
 
@@ -92,6 +100,11 @@ public class Server {
         executor.shutdown();
     }
 
+    public synchronized int createClientID() {
+        int id = idClient;
+        idClient+=1;
+        return id;
+    }
 
 
     public PacketHandler deserialize(String jsonResult, SocketConnection socket){
@@ -102,10 +115,14 @@ public class Server {
         } catch (JsonProcessingException  e) {
             e.printStackTrace();
         }
-        //packet.execute(game,socket);
+        if (packet != null) {
+            packet.execute(game,socket);
+        }
         System.out.println("Numero di player: " + game.getNumof_players());
         return packet;
     }
+
+
 
 
 }
