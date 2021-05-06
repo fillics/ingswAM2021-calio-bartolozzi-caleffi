@@ -36,7 +36,7 @@ public class ClientHandler implements Runnable {
         this.socket = socket;
         this.server = server;
         try {
-             dis= new DataInputStream(socket.getInputStream());
+            dis= new DataInputStream(socket.getInputStream());
             output = socket.getOutputStream();
         } catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during initialization of the client!");
@@ -48,7 +48,7 @@ public class ClientHandler implements Runnable {
     public void run() {
         try {
             String str = dis.readUTF();
-            System.out.println("Message is " + str);
+            System.out.println(str);
             //askUsername();
 
             // TODO: 05/05/2021 CHIEDERE IL NUMERO DI PLAYERS SOLO AL CREATORE DELLA PARTITA
@@ -122,7 +122,7 @@ public class ClientHandler implements Runnable {
         PacketNumPlayers packet = new PacketNumPlayers(number_of_players);
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
-       // object = server.deserialize(jsonResult, socketClientConnected);
+        // object = server.deserialize(jsonResult, socketClientConnected);
     }
 
 
@@ -173,7 +173,7 @@ public class ClientHandler implements Runnable {
 
         do{
             sendConnectionMessage(ConnectionMessages.CHOOSE_NUMLINE);
-           // in = new Scanner(socketClientConnected.getSocket().getInputStream());
+            // in = new Scanner(socketClientConnected.getSocket().getInputStream());
             numline = in.nextInt();
             if(line.equals("ROW"))
                 numlimit=3;
@@ -194,7 +194,7 @@ public class ClientHandler implements Runnable {
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
-       // object = server.deserialize(jsonResult, socketClientConnected);
+        // object = server.deserialize(jsonResult, socketClientConnected);
     }
 
     public void activateProduction(){

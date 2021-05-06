@@ -49,7 +49,7 @@ public class SocketClientConnected {
 
     public void setUsername(String username) throws IOException {
         this.username = username;
-        output.write(username.getBytes(StandardCharsets.UTF_8));
-        output.flush();
+        //output.write(username.getBytes(StandardCharsets.UTF_8));
+        //output.flush();
     }
 }
