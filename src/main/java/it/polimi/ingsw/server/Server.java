@@ -2,6 +2,8 @@ package it.polimi.ingsw.server;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.client.CLI;
+import it.polimi.ingsw.client.SocketClientConnected;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.model.Game;
@@ -22,7 +24,6 @@ import java.util.concurrent.Executors;
 public class Server {
 
     private int idClient;
-
     private Game game;
 
 
@@ -82,14 +83,11 @@ public class Server {
             try {
 
                 Socket socket = serverSocket.accept();
+                System.out.println("Client connected " + socket + "\n");
 
-                SocketClientConnected socketClientConnected = new SocketClientConnected(i, socket);
                 i++;
-                waiting.add(socketClientConnected);
-
-                System.out.println(socketClientConnected.getName() + " connected!");
-
-                executor.submit(new ClientHandler(createClientID(), socketClientConnected, this)); //per ogni socket noi creiamo un thread
+                //waiting.add(socketClientConnected);
+                executor.submit(new ClientHandler(createClientID(), socket, this)); //per ogni socket noi creiamo un thread
 
             } catch(IOException e) {
                 System.err.println("Error! " + e.getMessage()); // Entrerei qui se serverSocket venisse chiuso
@@ -120,11 +118,6 @@ public class Server {
         if (packet != null) {
             packet.execute(game,socket);
         }
-        System.out.println("Numero di player: " + game.getNumof_players());
         return packet;
     }
-
-
-
-
 }

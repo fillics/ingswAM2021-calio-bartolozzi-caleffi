@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
 import it.polimi.ingsw.model.GameInterface;
-import it.polimi.ingsw.server.SocketClientConnected;
+import it.polimi.ingsw.client.SocketClientConnected;
 
 public class PacketDiscardLeaderCard implements PacketHandler {
     private int ID;

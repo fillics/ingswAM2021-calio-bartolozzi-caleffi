@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.controller.client_packets.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
-import it.polimi.ingsw.server.SocketClientConnected;
+import it.polimi.ingsw.client.SocketClientConnected;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,

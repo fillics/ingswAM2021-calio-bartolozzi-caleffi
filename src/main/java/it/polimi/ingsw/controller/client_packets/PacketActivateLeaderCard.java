@@ -6,7 +6,7 @@ import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
 import it.polimi.ingsw.exceptions.NotEnoughRequirements;
 import it.polimi.ingsw.model.GameInterface;
-import it.polimi.ingsw.server.SocketClientConnected;
+import it.polimi.ingsw.client.SocketClientConnected;
 
 public class PacketActivateLeaderCard implements PacketHandler {
     private int ID;

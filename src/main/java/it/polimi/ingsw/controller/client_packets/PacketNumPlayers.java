@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.model.GameInterface;
-import it.polimi.ingsw.server.SocketClientConnected;
+import it.polimi.ingsw.client.SocketClientConnected;
 
 public class PacketNumPlayers implements PacketHandler {
     private int numof_players;
