@@ -8,6 +8,8 @@ import it.polimi.ingsw.exceptions.NotEnoughRequirements;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.client.SocketClientConnected;
 
+import java.net.Socket;
+
 public class PacketActivateLeaderCard implements PacketHandler {
     private int ID;
 
@@ -19,7 +21,7 @@ public class PacketActivateLeaderCard implements PacketHandler {
 
 
     @Override
-    public void execute(GameInterface gameInterface, SocketClientConnected socketClientConnected) throws LeaderCardNotFound, NotEnoughRequirements {
+    public void execute(GameInterface gameInterface, Socket socketClientConnected) throws LeaderCardNotFound, NotEnoughRequirements {
         gameInterface.activateLeaderCard(ID);
     }
 }

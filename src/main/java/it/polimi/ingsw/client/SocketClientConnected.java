@@ -1,7 +1,10 @@
 package it.polimi.ingsw.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.controller.client_packets.PacketUsername;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -17,8 +20,7 @@ public class SocketClientConnected {
     private String serverAddress;
     private int port;
     private Socket socket;
-    private String username;
-    private OutputStream output;
+    private DataOutputStream output;
     private Scanner in;
 
     public SocketClientConnected() {
@@ -32,24 +34,16 @@ public class SocketClientConnected {
         }
         try {
             in = new Scanner(socket.getInputStream());
-            output = socket.getOutputStream();
+            output=new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during initialization of the client!");
             System.err.println(e.getMessage());
         }
     }
 
-
-    public Socket getSocket() {
-        return socket;
-    }
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) throws IOException {
-        this.username = username;
-        //output.write(username.getBytes(StandardCharsets.UTF_8));
-        //output.flush();
+    public void connection(String jsonResult) throws IOException {
+        output.writeUTF(jsonResult);
+        output.flush();
+        //output.close();
     }
 }

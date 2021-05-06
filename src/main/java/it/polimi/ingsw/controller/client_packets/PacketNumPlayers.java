@@ -7,6 +7,8 @@ import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.client.SocketClientConnected;
 
+import java.net.Socket;
+
 public class PacketNumPlayers implements PacketHandler {
     private int numof_players;
 
@@ -16,7 +18,8 @@ public class PacketNumPlayers implements PacketHandler {
     }
 
     @Override
-    public void execute(GameInterface gameInterface, SocketClientConnected socketClientConnected) {
+    public void execute(GameInterface gameInterface, Socket socketClientConnected) {
+        System.out.println("prova num players");
         if(gameInterface.getState() == State.NUMOF_PLAYERS){
 
             gameInterface.setNumof_players(numof_players);

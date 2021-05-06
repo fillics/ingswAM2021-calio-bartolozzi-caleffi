@@ -7,6 +7,8 @@ import it.polimi.ingsw.exceptions.LeaderCardNotFound;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.client.SocketClientConnected;
 
+import java.net.Socket;
+
 public class PacketDiscardLeaderCard implements PacketHandler {
     private int ID;
 
@@ -17,7 +19,7 @@ public class PacketDiscardLeaderCard implements PacketHandler {
 
 
     @Override
-    public void execute(GameInterface gameInterface, SocketClientConnected socketClientConnected) throws LeaderCardNotFound {
+    public void execute(GameInterface gameInterface, Socket socketClientConnected) throws LeaderCardNotFound {
         gameInterface.discardLeaderCard(ID);
     }
 }

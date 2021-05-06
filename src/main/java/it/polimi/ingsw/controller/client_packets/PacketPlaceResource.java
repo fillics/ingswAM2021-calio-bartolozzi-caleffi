@@ -8,6 +8,8 @@ import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.client.SocketClientConnected;
 
+import java.net.Socket;
+
 public class PacketPlaceResource implements PacketHandler {
     private int depositPosition;
     private int resourcePosition;
@@ -21,7 +23,7 @@ public class PacketPlaceResource implements PacketHandler {
 
 
     @Override
-    public void execute(GameInterface gameInterface, SocketClientConnected socketClientConnected) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    public void execute(GameInterface gameInterface, Socket socketClientConnected) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
         gameInterface.placeResource(depositPosition,resourcePosition);
     }
 }

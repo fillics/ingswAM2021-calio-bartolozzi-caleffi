@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.CLI;
 import it.polimi.ingsw.client.SocketClientConnected;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.PacketHandler;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 
 import java.io.IOException;
@@ -83,7 +84,7 @@ public class Server {
             try {
 
                 Socket socket = serverSocket.accept();
-                System.out.println("Client connected " + socket + "\n");
+                System.out.println("Client connected\n");
 
                 i++;
                 //waiting.add(socketClientConnected);
@@ -103,21 +104,6 @@ public class Server {
         return id;
     }
 
-    public boolean checkUsername(){
-        return true;
-    }
 
-    public PacketHandler deserialize(String jsonResult, SocketClientConnected socket){
-        ObjectMapper mapper = new ObjectMapper();
-        PacketHandler packet = null;
-        try {
-            packet = mapper.readValue(jsonResult, PacketHandler.class);
-        } catch (JsonProcessingException  e) {
-            e.printStackTrace();
-        }
-        if (packet != null) {
-            packet.execute(game,socket);
-        }
-        return packet;
-    }
+
 }

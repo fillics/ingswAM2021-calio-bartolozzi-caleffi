@@ -7,6 +7,8 @@ import it.polimi.ingsw.exceptions.EmptyDeposit;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.client.SocketClientConnected;
 
+import java.net.Socket;
+
 public class PacketMoveResource implements PacketHandler {
     private int position;
 
@@ -17,7 +19,7 @@ public class PacketMoveResource implements PacketHandler {
 
 
     @Override
-    public void execute(GameInterface gameInterface, SocketClientConnected socketClientConnected) throws EmptyDeposit {
+    public void execute(GameInterface gameInterface, Socket socketClientConnected) throws EmptyDeposit {
             gameInterface.moveResource(position);
     }
 }

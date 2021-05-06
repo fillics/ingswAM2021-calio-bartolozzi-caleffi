@@ -36,4 +36,5 @@ public interface GameInterface {
     State getState();
     ArrayList<Player> getActivePlayers();
     void setNumof_players(int numof_players);
+    boolean isEndgame();
 }

@@ -562,7 +562,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     /**
      *  Method endGame called when the conditions to end the game are satisfied.
      */
-    @Override
     public void endGame(){
         endgame=true;
     }

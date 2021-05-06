@@ -143,18 +143,7 @@ class PlayerTest {
         assertNull(testPlayer.getBoard().getDeposits().get(2).getResourcetype());
     }
 
-    /**
-     * Test method checkChooseResourceBeginningGame verifies if the array containing the player's resources
-     * increases itself, when a player chooses a resource at the beginning of the game.
-     */
-    @Test
-    void checkChooseResourceBeginningGame(){
-        assertEquals(0, testPlayer.getResourceBuffer().size());
-        testPlayer.setChosenResource(2);
-        testPlayer.addResourcesBeginningGame(testPlayer.getChosenResource());
-        assertEquals(1, testPlayer.getResourceBuffer().size());
 
-    }
 
     /**
      * Test method checkIncreaseNumberOfDevCards checks the correct increase of the number of development cards

@@ -1,14 +1,17 @@
 package it.polimi.ingsw.server;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.client.SocketClientConnected;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.PacketHandler;
+import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
-import it.polimi.ingsw.controller.client_packets.PacketUsername;
+import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameInterface;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -22,6 +25,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientHandler implements Runnable {
     private Socket socket;
+    private GameInterface game;
     private int idClient, idGame;
     private boolean quit = false;
     private Server server;
@@ -29,9 +33,11 @@ public class ClientHandler implements Runnable {
     private Scanner in;
     private DataInputStream dis;
     private Lock lock = new ReentrantLock();
+    private String str;
 
 
     public ClientHandler(int idClient, Socket socket, Server server) {
+        game= new Game();
         this.idClient = idClient;
         this.socket = socket;
         this.server = server;
@@ -42,15 +48,10 @@ public class ClientHandler implements Runnable {
             System.err.println(Constants.getErr() + "Error during initialization of the client!");
             System.err.println(e.getMessage());
         }
-
     }
 
     public void run() {
         try {
-            String str = dis.readUTF();
-            System.out.println(str);
-            //askUsername();
-
             // TODO: 05/05/2021 CHIEDERE IL NUMERO DI PLAYERS SOLO AL CREATORE DELLA PARTITA
             //askNumberOfPlayers();
 
@@ -59,7 +60,12 @@ public class ClientHandler implements Runnable {
 
             // Leggo e scrivo nella connessione finche' non ricevo "quit"
             while (!quit) {
-                String line = in.nextLine();
+                str = dis.readUTF();
+                System.out.println(str);
+                deserializePacket(str);
+                if(game.isEndgame())
+                    quit=true;
+                /*String line = in.nextLine();
                 System.out.println(line);
                 if (line.equals("quit")) {
                     quit = true;
@@ -69,7 +75,7 @@ public class ClientHandler implements Runnable {
                     output.write("\n".getBytes(StandardCharsets.UTF_8));
 
                     output.flush();
-                }
+                }*/
             }
             // Chiudo gli stream e il socket -> client non è più connesso al server
             in.close();
@@ -77,60 +83,30 @@ public class ClientHandler implements Runnable {
             socket.close();
         } catch (IOException  e) {
             System.err.println(e.getMessage());
+        } catch (DevelopmentCardNotFound | EmptyDeposit | LeaderCardNotActivated | LeaderCardNotFound | DevCardNotPlaceable | DifferentDimension | DepositDoesntHaveThisResource | DiscountCannotBeActivated | NotEnoughRequirements | TooManyResourcesRequested | DepositHasReachedMaxLimit | NotEnoughResources | DepositHasAnotherResource | WrongChosenResources developmentCardNotFound) {
+            developmentCardNotFound.printStackTrace();
         }
     }
 
-    public void askUsername() throws IOException {
-        PacketHandler object;
-        String username;
-
-        sendConnectionMessage(ConnectionMessages.INSERT_USERNAME);
-
-        username = in.nextLine();
-        // TODO: 05/05/2021 CONTROLLO FORMA USERNAME, NO CARATTERI
-        askUsernameAgain();
-        // TODO: 04/05/2021  CONTROLLO SE CI SONO GIA ALTRI USERNAME
-
-        PacketUsername packet = new PacketUsername(username);
-
+    public void deserialize(String jsonResult, Socket socket) throws DevelopmentCardNotFound,
+            EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
+            DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated,
+            NotEnoughRequirements, TooManyResourcesRequested, DepositHasReachedMaxLimit,
+            NotEnoughResources, DepositHasAnotherResource, WrongChosenResources {
         ObjectMapper mapper = new ObjectMapper();
-        String jsonResult = mapper.writeValueAsString(packet);
-        //object = server.deserialize(jsonResult, socketClientConnected);
-
+        PacketHandler packet = null;
+        try {
+            packet = mapper.readValue(jsonResult, PacketHandler.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        if (packet != null) {
+            packet.execute(game,socket);
+        }
     }
 
-    public void askUsernameAgain() throws IOException {
-        sendConnectionMessage(ConnectionMessages.INVALID_USERNAME);
-    }
-
-    public void askNumberOfPlayers() throws IOException {
-        PacketHandler object;
-        boolean numNotValid = false;
-        int number_of_players;
-
-
-        do {
-            sendConnectionMessage(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
-            number_of_players = in.nextInt();
-
-            if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
-                numNotValid = true;
-
-            }
-        }while(numNotValid);
-
-        PacketNumPlayers packet = new PacketNumPlayers(number_of_players);
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonResult = mapper.writeValueAsString(packet);
-        // object = server.deserialize(jsonResult, socketClientConnected);
-    }
-
-
-    private synchronized void sendConnectionMessage(ConnectionMessages message) throws IOException{
-
-        output.write(message.getMessage().getBytes(StandardCharsets.UTF_8));
-        output.flush();
-
+    public void deserializePacket(String jsonResult) throws IOException, DevelopmentCardNotFound, EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable, DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated, NotEnoughRequirements, TooManyResourcesRequested, DepositHasReachedMaxLimit, NotEnoughResources, DepositHasAnotherResource, WrongChosenResources {
+        deserialize(jsonResult, socket);
     }
 
     public void makeAction() throws IOException {
@@ -140,7 +116,7 @@ public class ClientHandler implements Runnable {
         //in = new Scanner(socketClientConnected.getSocket().getInputStream());
 
         do{
-            sendConnectionMessage(ConnectionMessages.CHOOSE_ACTION);
+            //sendConnectionMessage(ConnectionMessages.CHOOSE_ACTION);
             numOfAction = in.nextInt();
 
             if(numOfAction!= 1 && numOfAction!=2 && numOfAction!=3)
@@ -166,13 +142,13 @@ public class ClientHandler implements Runnable {
         //output = socketClientConnected.getSocket().getOutputStream();
 
         do{
-            sendConnectionMessage(ConnectionMessages.CHOOSE_LINE);
+            //sendConnectionMessage(ConnectionMessages.CHOOSE_LINE);
             //in = new Scanner(socketClientConnected.getSocket().getInputStream());
             line = in.nextLine();
         } while(!line.equals("ROW") && !line.equals("COLUMN"));
 
         do{
-            sendConnectionMessage(ConnectionMessages.CHOOSE_NUMLINE);
+            //sendConnectionMessage(ConnectionMessages.CHOOSE_NUMLINE);
             // in = new Scanner(socketClientConnected.getSocket().getInputStream());
             numline = in.nextInt();
             if(line.equals("ROW"))
