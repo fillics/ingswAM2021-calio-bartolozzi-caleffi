@@ -3,15 +3,13 @@ package it.polimi.ingsw.controller.client_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.controller.PacketHandler;
+import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
-import it.polimi.ingsw.client.SocketClientConnected;
-import it.polimi.ingsw.server.Server;
-
-import java.net.Socket;
+import it.polimi.ingsw.server.ClientHandler;
 import java.util.ArrayList;
 
 
@@ -30,9 +28,12 @@ public class PacketBuyDevCard implements PacketHandler {
     }
 
 
-
+    //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(Server server, GameInterface gameInterface, Socket socket) throws DevelopmentCardNotFound, EmptyDeposit, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources {
-        gameInterface.buyDevCard(id,chosenResources,chosenWarehouses,developmentSpace);
+    public void execute(GameInterface gameInterface, ClientHandler clientHandler) throws DevelopmentCardNotFound, EmptyDeposit, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources {
+        if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getIdClient() == gameInterface.getCurrentPlayer()){
+            gameInterface.buyDevCard(id, chosenResources, chosenWarehouses, developmentSpace);
+            gameInterface.setState(State.PHASE_TWO);
+        }
     }
 }
