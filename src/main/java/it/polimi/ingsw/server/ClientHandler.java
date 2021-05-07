@@ -13,9 +13,7 @@ import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -32,8 +30,8 @@ public class ClientHandler implements Runnable {
     private OutputStream output;
     private Scanner in;
     private DataInputStream dis;
-    private Lock lock = new ReentrantLock();
     private String str;
+    private PrintStream ps;
 
 
     public ClientHandler(int idClient, Socket socket, Server server) {
@@ -42,8 +40,10 @@ public class ClientHandler implements Runnable {
         this.socket = socket;
         this.server = server;
         try {
-            dis= new DataInputStream(socket.getInputStream());
-            output = socket.getOutputStream();
+            dis = new DataInputStream(socket.getInputStream());  // to read data coming from the client
+            output = socket.getOutputStream();// to send data to the client
+
+            ps = new PrintStream(socket.getOutputStream());
         } catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during initialization of the client!");
             System.err.println(e.getMessage());
@@ -53,7 +53,6 @@ public class ClientHandler implements Runnable {
     public void run() {
         try {
             // TODO: 05/05/2021 CHIEDERE IL NUMERO DI PLAYERS SOLO AL CREATORE DELLA PARTITA
-            //askNumberOfPlayers();
 
             //TODO: ENTRO SOLO SE è IL MIO TURNO
             //makeAction();
@@ -61,10 +60,12 @@ public class ClientHandler implements Runnable {
             // Leggo e scrivo nella connessione finche' non ricevo "quit"
             while (!quit) {
                 str = dis.readUTF();
-                System.out.println(str);
+                System.out.println("Stringa da client is" + str);
                 deserializePacket(str);
+                //askNumberOfPlayers();
                 if(game.isEndgame())
                     quit=true;
+
                 /*String line = in.nextLine();
                 System.out.println(line);
                 if (line.equals("quit")) {
@@ -81,12 +82,17 @@ public class ClientHandler implements Runnable {
             in.close();
             output.close();
             socket.close();
+
         } catch (IOException  e) {
             System.err.println(e.getMessage());
         } catch (DevelopmentCardNotFound | EmptyDeposit | LeaderCardNotActivated | LeaderCardNotFound | DevCardNotPlaceable | DifferentDimension | DepositDoesntHaveThisResource | DiscountCannotBeActivated | NotEnoughRequirements | TooManyResourcesRequested | DepositHasReachedMaxLimit | NotEnoughResources | DepositHasAnotherResource | WrongChosenResources developmentCardNotFound) {
             developmentCardNotFound.printStackTrace();
         }
     }
+
+    /*private void askNumberOfPlayers() {
+        ps.println(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
+    }*/
 
     public void deserialize(String jsonResult, Socket socket) throws DevelopmentCardNotFound,
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
@@ -97,11 +103,12 @@ public class ClientHandler implements Runnable {
         PacketHandler packet = null;
         try {
             packet = mapper.readValue(jsonResult, PacketHandler.class);
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         if (packet != null) {
-            packet.execute(game,socket);
+            packet.execute(server,game,socket);
         }
     }
 

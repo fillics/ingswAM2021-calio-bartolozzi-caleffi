@@ -7,6 +7,7 @@ import it.polimi.ingsw.exceptions.LeaderCardNotActivated;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.client.SocketClientConnected;
+import it.polimi.ingsw.server.Server;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class PacketTakeResourceFromMarket implements PacketHandler {
 
 
     @Override
-    public void execute(GameInterface gameInterface, Socket socketClientConnected) throws LeaderCardNotActivated, LeaderCardNotFound {
+    public void execute(Server server, GameInterface gameInterface, Socket socket) throws LeaderCardNotActivated, LeaderCardNotFound {
         gameInterface.takeResourceFromMarket(line,numline,leaderCardsID);
     }
 }

@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
 import it.polimi.ingsw.client.SocketClientConnected;
+import it.polimi.ingsw.server.Server;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class PacketBuyDevCard implements PacketHandler {
 
 
     @Override
-    public void execute(GameInterface gameInterface, Socket socketClientConnected) throws DevelopmentCardNotFound, EmptyDeposit, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources {
+    public void execute(Server server, GameInterface gameInterface, Socket socket) throws DevelopmentCardNotFound, EmptyDeposit, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources {
         gameInterface.buyDevCard(id,chosenResources,chosenWarehouses,developmentSpace);
     }
 }

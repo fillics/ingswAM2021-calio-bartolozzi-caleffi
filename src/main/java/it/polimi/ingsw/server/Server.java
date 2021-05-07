@@ -12,9 +12,7 @@ import it.polimi.ingsw.model.Game;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -27,13 +25,15 @@ public class Server {
     private int idClient;
     private Game game;
 
+    private Map<String, Socket> mapUsername;
 
     /** List of clients waiting in the lobby. */
-    private final List<SocketClientConnected> waiting = new ArrayList<>();
+    private final List<SocketClientConnected> lobby = new ArrayList<>();
 
 
     public Server() {
         game = new Game();
+        mapUsername = new HashMap<>();
 
     }
 
@@ -87,7 +87,7 @@ public class Server {
                 System.out.println("Client connected\n");
 
                 i++;
-                //waiting.add(socketClientConnected);
+                //lobby.add(socketClientConnected);
                 executor.submit(new ClientHandler(createClientID(), socket, this)); //per ogni socket noi creiamo un thread
 
             } catch(IOException e) {
@@ -102,6 +102,20 @@ public class Server {
         int id = idClient;
         idClient+=1;
         return id;
+    }
+
+    public synchronized void lobby(String username, Socket socket){
+
+        if(mapUsername.containsKey(username)){
+            System.out.println("nome gia presente");
+
+        }
+        else{
+            mapUsername.put(username, socket);
+            System.out.println("lobby: " + mapUsername.keySet());
+
+        }
+
     }
 
 

@@ -28,13 +28,13 @@ public class CLI implements Runnable{
     }
 
     public static void main(String[] args) {
-        System.out.println(Constants.MASTEROFRENAISSANCE);
-        System.out.println(Constants.AUTHORS);
+        //System.out.println(Constants.MASTEROFRENAISSANCE);
+        //System.out.println(Constants.AUTHORS);
         Scanner scanner = new Scanner(System.in);
-        System.out.println(">Insert the server IP address");
-        System.out.print(">");
-        String ip = scanner.nextLine();
-        Constants.setAddressServer(ip);
+        //System.out.println(">Insert the server IP address");
+        //System.out.print(">");
+       // String ip = scanner.nextLine(); PER ORA HO TOLTO QUESTA OPZIONE PERCHÈ TANTO È SEMPRE LO STESSO IP ADDRESS
+        Constants.setAddressServer("127.0.0.1");
         System.out.println(">Insert the server port");
         System.out.print(">");
         int port = scanner.nextInt();
@@ -47,21 +47,24 @@ public class CLI implements Runnable{
     public void run() {
 
         //PUOI FARE QUESTE OPERAZIONI 1, 2, 3 ...
+
         try {
             askUsername();
-            askNumberOfPlayers();
+            System.out.println(socketClientConnected.listening());
+            //askNumberOfPlayers();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
         // TODO: 05/05/2021 CHIEDERE IL NUMERO DI PLAYERS SOLO AL CREATORE DELLA PARTITA
-        //askNumberOfPlayers();
+
         //TODO: ENTRO SOLO SE è IL MIO TURNO
         //makeAction();
 
         //ciclare in attesa di un messaggio fino a che il game è attivo
-        input.close();
-        output.close();
+        //input.close();
+        //output.close();
     }
 
     public void askUsername() throws IOException {
@@ -78,7 +81,7 @@ public class CLI implements Runnable{
         socketClientConnected.connection(jsonResult);
     }
 
-    public void askNumberOfPlayers() throws IOException {
+    /*public void askNumberOfPlayers() throws IOException {
         String jsonResult;
         PacketNumPlayers packet;
         boolean numNotValid = false;
@@ -95,7 +98,7 @@ public class CLI implements Runnable{
         mapper = new ObjectMapper();
         jsonResult = mapper.writeValueAsString(packet);
         socketClientConnected.connection(jsonResult);
-    }
+    }*/
 
     public void askUsernameAgain() {
         sendConnectionMessage(ConnectionMessages.INVALID_USERNAME);

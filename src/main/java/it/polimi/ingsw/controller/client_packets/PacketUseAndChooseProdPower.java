@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import it.polimi.ingsw.client.SocketClientConnected;
+import it.polimi.ingsw.server.Server;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class PacketUseAndChooseProdPower implements PacketHandler {
     }
 
     @Override
-    public void execute(GameInterface gameInterface, Socket socketClientConnected) throws EmptyDeposit, DepositDoesntHaveThisResource, TooManyResourcesRequested, DifferentDimension {
+    public void execute(Server server, GameInterface gameInterface, Socket socket) throws EmptyDeposit, DepositDoesntHaveThisResource, TooManyResourcesRequested, DifferentDimension {
         HashMap<ResourceType, Integer> resourceNeeded = new HashMap<>();
         resourceNeeded.put(ResourceType.COIN, 0);
         resourceNeeded.put(ResourceType.STONE, 0);

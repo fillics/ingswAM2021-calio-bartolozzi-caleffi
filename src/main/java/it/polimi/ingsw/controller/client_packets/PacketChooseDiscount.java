@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.exceptions.DiscountCannotBeActivated;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.client.SocketClientConnected;
+import it.polimi.ingsw.server.Server;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class PacketChooseDiscount implements PacketHandler {
 
 
     @Override
-    public void execute(GameInterface gameInterface, Socket socketClientConnected) throws DiscountCannotBeActivated {
+    public void execute(Server server, GameInterface gameInterface, Socket socket) throws DiscountCannotBeActivated {
         gameInterface.chooseDiscountActivation(leaderCards);
     }
 }

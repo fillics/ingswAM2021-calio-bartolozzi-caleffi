@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.client.SocketClientConnected;
+import it.polimi.ingsw.server.Server;
 
 import java.net.Socket;
 
@@ -17,9 +18,10 @@ public class PacketUsername implements PacketHandler {
     }
 
     @Override
-    public void execute(GameInterface gameInterface, Socket socketClientConnected) {
-        gameInterface.createNewPlayer(username);
-        System.out.println("prova usergame");
+    public void execute(Server server, GameInterface gameInterface, Socket socket) {
+        //gameInterface.createNewPlayer(username);
+        server.lobby(username, socket);
+
     }
 
     public String getUsername() {

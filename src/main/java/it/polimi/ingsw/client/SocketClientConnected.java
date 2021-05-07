@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -22,19 +20,19 @@ public class SocketClientConnected {
     private Socket socket;
     private DataOutputStream output;
     private Scanner in;
+    private BufferedReader br;
 
     public SocketClientConnected() {
         this.serverAddress = Constants.getAddressServer();
         this.port = Constants.getPort();
         try {
             socket = new Socket(serverAddress, port);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             in = new Scanner(socket.getInputStream());
-            output=new DataOutputStream(socket.getOutputStream());
+            output = new DataOutputStream(socket.getOutputStream());
+
+            // to read data coming from the server
+            br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
         } catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during initialization of the client!");
             System.err.println(e.getMessage());
@@ -45,5 +43,19 @@ public class SocketClientConnected {
         output.writeUTF(jsonResult);
         output.flush();
         //output.close();
+    }
+
+    public String listening(){
+        String str = null;
+        try {
+            str =  br.readLine();
+        } catch (IOException e) {
+            try {
+                br.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+        return str;
     }
 }
