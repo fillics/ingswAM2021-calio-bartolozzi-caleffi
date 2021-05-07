@@ -90,6 +90,7 @@ public class Server {
                 //waiting.add(socketClientConnected);
                 executor.submit(new ClientHandler(createClientID(), socket, this)); //per ogni socket noi creiamo un thread
 
+
             } catch(IOException e) {
                 System.err.println("Error! " + e.getMessage()); // Entrerei qui se serverSocket venisse chiuso
                 break;

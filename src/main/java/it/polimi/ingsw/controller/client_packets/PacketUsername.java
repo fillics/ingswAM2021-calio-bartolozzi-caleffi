@@ -5,9 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.model.GameInterface;
-import it.polimi.ingsw.client.SocketClientConnected;
+import it.polimi.ingsw.server.ClientHandler;
 
-import java.net.Socket;
 
 public class PacketUsername implements PacketHandler {
     private String username;
@@ -16,10 +15,15 @@ public class PacketUsername implements PacketHandler {
         this.username = username;
     }
 
+    //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(GameInterface gameInterface, Socket socketClientConnected) {
-        gameInterface.createNewPlayer(username);
-        System.out.println("prova usergame");
+    public void execute(GameInterface gameInterface, ClientHandler clientHandler) {
+        if(gameInterface.getState() == State.FILL_LOBBY){
+            gameInterface.createNewPlayer(username);
+            if(gameInterface.getNumof_players() == gameInterface.getActivePlayers().size()){
+                gameInterface.setState(State.NUMOF_PLAYERS);
+            }
+        }
     }
 
     public String getUsername() {

@@ -36,6 +36,10 @@ public class ClientHandler implements Runnable {
     private String str;
 
 
+    public int getIdClient() {
+        return idClient;
+    }
+
     public ClientHandler(int idClient, Socket socket, Server server) {
         game= new Game();
         this.idClient = idClient;
@@ -62,7 +66,7 @@ public class ClientHandler implements Runnable {
             while (!quit) {
                 str = dis.readUTF();
                 System.out.println(str);
-                deserializePacket(str);
+                deserialize(str);
                 if(game.isEndgame())
                     quit=true;
                 /*String line = in.nextLine();
@@ -88,7 +92,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    public void deserialize(String jsonResult, Socket socket) throws DevelopmentCardNotFound,
+    public void deserialize(String jsonResult) throws DevelopmentCardNotFound,
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
             DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated,
             NotEnoughRequirements, TooManyResourcesRequested, DepositHasReachedMaxLimit,
@@ -101,13 +105,11 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
         }
         if (packet != null) {
-            packet.execute(game,socket);
+            packet.execute(game, this);
+            System.out.println(game.getNumof_players());
         }
     }
 
-    public void deserializePacket(String jsonResult) throws IOException, DevelopmentCardNotFound, EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable, DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated, NotEnoughRequirements, TooManyResourcesRequested, DepositHasReachedMaxLimit, NotEnoughResources, DepositHasAnotherResource, WrongChosenResources {
-        deserialize(jsonResult, socket);
-    }
 
     public void makeAction() throws IOException {
         int numOfAction;
