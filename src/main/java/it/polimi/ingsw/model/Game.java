@@ -33,7 +33,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     private ArrayList<Player> players;
     private ArrayList<Player> activePlayers;
-    private int idMatch; // TODO: 02/05/2021 aggiungere al costruttore e metodo get 
+    private int idGame; // TODO: 02/05/2021 aggiungere al costruttore e metodo get
     private ArrayList<LeaderCard> leaderDeck;
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
     private MarketTray market;
@@ -52,6 +52,14 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         this.numof_players = numof_players;
     }
 
+    public int getIdGame() {
+        return idGame;
+    }
+
+    public void setIdGame(int idGame) {
+        this.idGame = idGame;
+    }
+
     /**
      * Constructor Game creates a new Game instance.
      */
@@ -61,6 +69,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         leaderDeck = new ArrayList<>();
         developmentGrid = new ArrayList<>();
         market = new MarketTray();
+
     }
 
     /**

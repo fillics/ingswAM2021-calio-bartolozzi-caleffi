@@ -8,6 +8,7 @@ import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.Server;
 
 
 public class PacketPlaceResource implements PacketHandler {
@@ -22,7 +23,7 @@ public class PacketPlaceResource implements PacketHandler {
 
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(GameInterface gameInterface, ClientHandler clientHandler) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
         if((gameInterface.getState() == State.PHASE_ONE || gameInterface.getState() == State.PHASE_TWO)
                 && clientHandler.getIdClient() == gameInterface.getCurrentPlayer()){
             gameInterface.placeResource(depositPosition, resourcePosition);

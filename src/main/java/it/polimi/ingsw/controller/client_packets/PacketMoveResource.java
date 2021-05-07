@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.exceptions.EmptyDeposit;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.Server;
 
 
 public class PacketMoveResource implements PacketHandler {
@@ -19,7 +20,7 @@ public class PacketMoveResource implements PacketHandler {
 
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit {
         if((gameInterface.getState() == State.PHASE_ONE || gameInterface.getState() == State.PHASE_TWO)
                 && clientHandler.getIdClient() == gameInterface.getCurrentPlayer()){
             gameInterface.moveResource(position);

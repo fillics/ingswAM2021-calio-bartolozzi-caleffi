@@ -41,9 +41,7 @@ public class ClientHandler implements Runnable {
         this.server = server;
         try {
             dis = new DataInputStream(socket.getInputStream());  // to read data coming from the client
-            output = socket.getOutputStream();// to send data to the client
-
-            ps = new PrintStream(socket.getOutputStream());
+            ps = new PrintStream(socket.getOutputStream());// to send data to the client
         } catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during initialization of the client!");
             System.err.println(e.getMessage());
@@ -60,9 +58,9 @@ public class ClientHandler implements Runnable {
             // Leggo e scrivo nella connessione finche' non ricevo "quit"
             while (!quit) {
                 str = dis.readUTF();
-                System.out.println("Stringa da client is" + str);
-                deserializePacket(str);
-                //askNumberOfPlayers();
+                deserialize(str);
+
+
                 if(game.isEndgame())
                     quit=true;
 
@@ -90,11 +88,29 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    /*private void askNumberOfPlayers() {
-        ps.println(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
-    }*/
+    public int getIdClient() {
+        return idClient;
+    }
 
-    public void deserialize(String jsonResult, Socket socket) throws DevelopmentCardNotFound,
+    public Socket getSocket() {
+        return socket;
+    }
+
+    /**
+     * method to ask the number of the players to the first client of the lobby
+     */
+    public void askPlayers(){
+        ps.println(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage());
+    }
+
+    /**
+     * method that sends a message to the client to ask him a new username
+     */
+    public void askUsernameAgain(){
+        ps.println(ConnectionMessages.INVALID_USERNAME.getMessage());
+    }
+
+    public void deserialize(String jsonResult) throws DevelopmentCardNotFound,
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
             DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated,
             NotEnoughRequirements, TooManyResourcesRequested, DepositHasReachedMaxLimit,
@@ -108,13 +124,10 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
         }
         if (packet != null) {
-            packet.execute(server,game,socket);
+            packet.execute(server,game,this);
         }
     }
 
-    public void deserializePacket(String jsonResult) throws IOException, DevelopmentCardNotFound, EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable, DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated, NotEnoughRequirements, TooManyResourcesRequested, DepositHasReachedMaxLimit, NotEnoughResources, DepositHasAnotherResource, WrongChosenResources {
-        deserialize(jsonResult, socket);
-    }
 
     public void makeAction() throws IOException {
         int numOfAction;
@@ -182,4 +195,5 @@ public class ClientHandler implements Runnable {
 
     public void activateProduction(){
     }
+
 }

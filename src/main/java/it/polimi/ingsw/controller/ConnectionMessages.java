@@ -7,10 +7,12 @@ package it.polimi.ingsw.controller;
 public enum ConnectionMessages {
 
     INVALID_PACKET("Invalid packet"),
+    LOBBY_MASTER("You are the lobby master! You will create the match."),
     INSERT_USERNAME("Insert your username: "),
     INVALID_USERNAME("The chosen username is invalid. Enter a new one: "),
     TAKEN_NICKNAME("The chosen username is already taken. Enter a new one: "),
     INSERT_NUMBER_OF_PLAYERS("Insert the desired number of players (1, 2, 3 or 4): "),
+    INVALID_NUM_PLAYERS("The chosen number of players is invalid. Enter a new one: "),
     CHOOSE_ACTION ("Choose the action you want to do: \n" +
             "1: TAKE RESOURCES FROM MARKET \n"+
             "2: BUY ONE DEVELOPMENT CARD \n" +

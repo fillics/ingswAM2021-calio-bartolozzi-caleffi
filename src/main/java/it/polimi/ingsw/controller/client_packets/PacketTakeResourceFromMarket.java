@@ -8,6 +8,8 @@ import it.polimi.ingsw.exceptions.LeaderCardNotActivated;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.Server;
+
 import java.util.ArrayList;
 
 public class PacketTakeResourceFromMarket implements PacketHandler {
@@ -24,7 +26,7 @@ public class PacketTakeResourceFromMarket implements PacketHandler {
 
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(GameInterface gameInterface, ClientHandler clientHandler) throws LeaderCardNotActivated, LeaderCardNotFound {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws LeaderCardNotActivated, LeaderCardNotFound {
         if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getIdClient() == gameInterface.getCurrentPlayer()){
             gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
             gameInterface.setState(State.PHASE_TWO);

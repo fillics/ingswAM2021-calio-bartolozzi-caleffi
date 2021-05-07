@@ -7,6 +7,8 @@ import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.exceptions.DiscountCannotBeActivated;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.Server;
+
 import java.util.ArrayList;
 
 public class PacketChooseDiscount implements PacketHandler {
@@ -19,7 +21,7 @@ public class PacketChooseDiscount implements PacketHandler {
 
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(GameInterface gameInterface, ClientHandler clientHandler) throws DiscountCannotBeActivated {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws DiscountCannotBeActivated {
         if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getIdClient() == gameInterface.getCurrentPlayer()){
             gameInterface.chooseDiscountActivation(leaderCards);
         }

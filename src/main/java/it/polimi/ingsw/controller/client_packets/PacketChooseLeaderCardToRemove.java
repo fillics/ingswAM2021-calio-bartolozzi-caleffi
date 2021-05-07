@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.Server;
 
 
 public class PacketChooseLeaderCardToRemove implements PacketHandler {
@@ -21,7 +22,7 @@ public class PacketChooseLeaderCardToRemove implements PacketHandler {
 
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(GameInterface gameInterface, ClientHandler clientHandler) throws LeaderCardNotFound {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws LeaderCardNotFound {
         if(gameInterface.getState() == State.SETUP){
             gameInterface.chooseLeaderCardToRemove(ID1, ID2);
         }
