@@ -17,6 +17,7 @@ public class CLI implements Runnable{
     private SocketClientConnection socketClientConnection;
     private ObjectMapper mapper;
     private boolean gameStarted = false;
+    private ClientOperationHandler clientOperationHandler;
 
     //private DataOutputStream dout;
 
@@ -24,6 +25,7 @@ public class CLI implements Runnable{
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
         socketClientConnection = new SocketClientConnection();
+        clientOperationHandler = new ClientOperationHandler(socketClientConnection);
     }
 
     public static void main(String[] args) {
@@ -45,7 +47,6 @@ public class CLI implements Runnable{
 
     @Override
     public void run() {
-
         //PUOI FARE QUESTE OPERAZIONI 1, 2, 3 ...
 
         try {
@@ -55,10 +56,24 @@ public class CLI implements Runnable{
             e.printStackTrace();
         }
 
-        while(true){
+        while(!gameStarted){
             String str = socketClientConnection.listening();
             handleSetupMessage(str);
+            gameStarted = true;
+            output.flush();
         }
+        String operation = "";
+        while (!operation.equals("quit")) {
+            operation = input.nextLine();
+            try {
+                clientOperationHandler.HandleOperation(operation);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            output.flush();
+            }
+        }
+
 
 
 
@@ -68,7 +83,7 @@ public class CLI implements Runnable{
         //ciclare in attesa di un messaggio fino a che il game è attivo
         //input.close();
         //output.close();
-    }
+
 
     public SocketClientConnection getSocketClientConnected() {
         return socketClientConnection;
@@ -76,7 +91,7 @@ public class CLI implements Runnable{
 
     /**
      * Method sendUsername asks the username and sends it to the server
-     * @throws IOException
+     * @throws IOException is IOException
      */
     public void sendUsername() throws IOException {
         String jsonResult;
