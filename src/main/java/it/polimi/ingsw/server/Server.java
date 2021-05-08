@@ -19,9 +19,10 @@ public class Server {
     private int idClient = 0;
     private int idGame = 0;
     private Game game;
+    private ArrayList<Game> games = new ArrayList<>();
 
     private Map<String, Integer> mapUsernameId;
-    private Map<Integer, String> mapId;
+    //private Map<Integer, String> mapId;
 
     /** List of clients waiting in the lobby. */
     private final LinkedList<ClientHandler> lobby = new LinkedList<>();
@@ -31,6 +32,10 @@ public class Server {
         game = new Game();
         mapUsernameId = new HashMap<>();
 
+    }
+
+    public LinkedList<ClientHandler> getLobby() {
+        return lobby;
     }
 
     public static void main(String[] args) {
@@ -77,7 +82,6 @@ public class Server {
         System.out.println("Server ready!");
         while (true) {
             try {
-
                 Socket socket = serverSocket.accept();
                 System.out.println("Guest"+i+" connected");
                 i+=1;
@@ -101,35 +105,51 @@ public class Server {
     }
 
 
-    public synchronized void addToLobby(ClientHandler clientHandler){
+    public synchronized void checkFirstPositionInLobby(ClientHandler clientHandler){
 
-        lobby.add(clientHandler); //qua ci sono già le persone che hanno inserito l'username (non ancora controllato)
-        lobby.getFirst().askPlayers();
-
+        if(lobby.getFirst().equals(clientHandler)){
+            clientHandler.askPlayers();
+        }
 
     }
 
     /**
      * controlliamo se qualcuno ha già inserito un username
-     * @param username
-     * @param clientHandler
      */
-    public synchronized void insertUsernameIntoMap(String username, ClientHandler clientHandler){
+    // TODO: 08/05/2021 da sistemare
+    public synchronized boolean checkUsernameAlreadyTaken(String username, ClientHandler clientHandler){
 
         if(mapUsernameId.containsKey(username)){
             clientHandler.askUsernameAgain();
         }
-        else {
-            mapUsernameId.put(username, clientHandler.getIdClient());
-            System.out.println(username + " (id: " +clientHandler.getIdClient()+") joined!");
-        }
-        //System.out.println(mapUsernameId);
+     return false;
     }
 
-    public synchronized  void createMatch(int idClient, int numplayer){
+    // TODO: 08/05/2021 da sistemare
+    public synchronized void addUsernameIntoMap(String username, ClientHandler clientHandler){
+        mapUsernameId.put(username, clientHandler.getIdClient());
+        clientHandler.setUsername(username);
+        System.out.println(username + " (id: " +clientHandler.getIdClient()+") joined!");
+    }
+
+
+    public synchronized void createMatch(int idClient, int numplayer){
+
         game = new Game();
+        games.add(game);
         game.setIdGame(createGameID());
+
         System.out.println("Created the game (idGame: " + game.getIdGame()+ ") with " +numplayer+" players");
+
+        for (int i=0; i<numplayer; i++){
+            game.createNewPlayer(lobby.get(i).getUsername());
+            lobby.getFirst().gameIsStarting();
+            lobby.removeFirst();
+        }
+
+        game.setup();
+
+        //stampare chi c'è nel game
     }
 
 }

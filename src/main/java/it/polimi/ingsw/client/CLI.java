@@ -16,6 +16,7 @@ public class CLI implements Runnable{
     private final Scanner input;
     private SocketClientConnection socketClientConnection;
     private ObjectMapper mapper;
+    private boolean gameStarted = false;
 
     //private DataOutputStream dout;
 
@@ -50,17 +51,16 @@ public class CLI implements Runnable{
         try {
             printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
             sendUsername();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-            while (true){
-                String str = socketClientConnection.listening();
-                handleSetupMessage(str);
-            }
+
+        while(true){
+            String str = socketClientConnection.listening();
+            handleSetupMessage(str);
+        }
 
 
-        // TODO: 05/05/2021 CHIEDERE IL NUMERO DI PLAYERS SOLO AL CREATORE DELLA PARTITA
 
         //TODO: ENTRO SOLO SE è IL MIO TURNO
         //makeAction();

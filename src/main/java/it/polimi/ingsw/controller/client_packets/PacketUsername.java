@@ -26,14 +26,13 @@ public class PacketUsername implements PacketHandler {
             DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources,
             WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested {
 
-        server.addToLobby(clientHandler);
+        server.getLobby().add(clientHandler); //aggiungiamo client handler alla lobby senza aver fatto il controllo dell'username
 
-        server.insertUsernameIntoMap(username, clientHandler);
-        /*if(gameInterface.getState() == State.FILL_LOBBY){
-            gameInterface.createNewPlayer(username);
-            if(gameInterface.getNumof_players() == gameInterface.getActivePlayers().size()){
-                gameInterface.setState(State.NUMOF_PLAYERS);
-            }
-        }*/
+        server.checkFirstPositionInLobby(clientHandler);
+
+        if (server.checkUsernameAlreadyTaken(username, clientHandler)){
+
+        }
+
     }
 }

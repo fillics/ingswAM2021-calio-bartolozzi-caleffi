@@ -105,9 +105,14 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
     public void additionalFaithMarkerSetup(){
-        activePlayers.get(2).getBoard().increaseFaithMarker();
-        activePlayers.get(3).getBoard().increaseFaithMarker();
+        if(activePlayers.size()>2){
+            activePlayers.get(2).getBoard().increaseFaithMarker();
+            if(activePlayers.size()>3){
+                activePlayers.get(3).getBoard().increaseFaithMarker();
+            }
+        }
     }
+
     /**
      * Method createNewPlayer creates a new player in the match.
      * @param username of type String - the player's username

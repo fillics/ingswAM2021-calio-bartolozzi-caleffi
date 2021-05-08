@@ -21,11 +21,10 @@ public class PacketNumPlayers implements PacketHandler {
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
 
-        server.createMatch(clientHandler.getIdClient(), numof_players);
-        /*if(gameInterface.getState() == State.NUMOF_PLAYERS && clientHandler.getIdClient() == 0){
-            gameInterface.setNumof_players(numof_players);
-            gameInterface.setState(State.SETUP);
-        }*/
+        if(numof_players >= server.getLobby().size()){
+            server.createMatch(clientHandler.getIdClient(), numof_players);
+        }
+
 
     }
 

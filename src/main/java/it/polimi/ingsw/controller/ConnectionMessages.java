@@ -13,6 +13,7 @@ public enum ConnectionMessages {
     TAKEN_NICKNAME("The chosen username is already taken. Enter a new one: "),
     INSERT_NUMBER_OF_PLAYERS("Insert the desired number of players (1, 2, 3 or 4): "),
     INVALID_NUM_PLAYERS("The chosen number of players is invalid. Enter a new one: "),
+    GAME_STARTED("The game is starting..."),
     CHOOSE_ACTION ("Choose the action you want to do: \n" +
             "1: TAKE RESOURCES FROM MARKET \n"+
             "2: BUY ONE DEVELOPMENT CARD \n" +

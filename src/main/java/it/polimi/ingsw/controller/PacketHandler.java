@@ -15,6 +15,7 @@ import java.net.Socket;
         property = "command")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PacketUsername.class, name = "USERNAME"),
+        @JsonSubTypes.Type(value = PacketNumPlayers.class, name = "NUMOFPLAYERS"),
         @JsonSubTypes.Type(value = PacketBuyDevCard.class, name = "BUYDEVCARD"),
         @JsonSubTypes.Type(value = PacketDiscardLeaderCard.class, name = "DISCARDLEADERCARD"),
         @JsonSubTypes.Type(value = PacketActivateLeaderCard.class, name = "ACTIVATELEADERCARD"),
@@ -22,10 +23,12 @@ import java.net.Socket;
         @JsonSubTypes.Type(value = PacketPlaceResource.class, name = "PLACERESOURCE"),
         @JsonSubTypes.Type(value = PacketTakeResourceFromMarket.class, name = "TAKERESOURCE"),
         @JsonSubTypes.Type(value = PacketUseAndChooseProdPower.class, name = "USEANDCHOOSEPRODUCTIONPOWER"),
-        @JsonSubTypes.Type(value = PacketNumPlayers.class, name = "NUMOFPLAYERS"),
-
         @JsonSubTypes.Type(value = PacketMoveResource.class, name = "MOVERESOURCE") })
 
 public interface PacketHandler {
-    void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested;
+
+    void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit,
+            DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound,
+            DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources,
+            NotEnoughRequirements, TooManyResourcesRequested;
 }

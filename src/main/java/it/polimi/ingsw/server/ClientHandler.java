@@ -32,6 +32,7 @@ public class ClientHandler implements Runnable {
     private DataInputStream dis;
     private String str;
     private PrintStream ps;
+    private String username;
 
 
     public ClientHandler(int idClient, Socket socket, Server server) {
@@ -88,6 +89,14 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public int getIdClient() {
         return idClient;
     }
@@ -110,11 +119,17 @@ public class ClientHandler implements Runnable {
         ps.println(ConnectionMessages.INVALID_USERNAME.getMessage());
     }
 
+    public void gameIsStarting(){
+        ps.println(ConnectionMessages.GAME_STARTED.getMessage());
+    }
+
+
     public void deserialize(String jsonResult) throws DevelopmentCardNotFound,
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
             DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated,
             NotEnoughRequirements, TooManyResourcesRequested, DepositHasReachedMaxLimit,
             NotEnoughResources, DepositHasAnotherResource, WrongChosenResources {
+
         ObjectMapper mapper = new ObjectMapper();
         PacketHandler packet = null;
         try {
