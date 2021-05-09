@@ -30,6 +30,7 @@ public class PacketTakeResourceFromMarket implements PacketHandler {
         if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getIdClient() == gameInterface.getCurrentPlayer()){
             gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
             gameInterface.setState(State.PHASE_TWO);
+
         }
 
     }

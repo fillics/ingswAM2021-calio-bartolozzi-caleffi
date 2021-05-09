@@ -229,17 +229,17 @@ public class ClientOperationHandler {
 
     //finito
     public void takeResourceFromMarket() throws IOException {
-        System.out.println("Select line or column and which of the lines you choose");
+        System.out.println("Select Row or Column and which of the lines you choose");
 
         String line;
         String numLine;
         String id = "";
 
-        line = input.nextLine();
-        numLine = input.nextLine();
+        line = input.next();
+        numLine = input.next();
 
-        System.out.println("If you have already activated one or more leader cards that transforms the white marble in some resource," +
-                "\n select the id of the leader card to use\n" +
+        System.out.println("If you have already activated one or more leader cards that transforms the white marble in some resource,\n" +
+                "select the id of the leader card to use\n" +
                 "write 0 when you have finished");
 
         ArrayList<Integer> leaderCards = new ArrayList<>();

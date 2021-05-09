@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class CLI implements Runnable{
+public class CLI implements Runnable, ViewInterface{
     private final PrintStream output;
     private final Scanner input;
     private SocketClientConnection socketClientConnection;
@@ -47,8 +47,7 @@ public class CLI implements Runnable{
 
     @Override
     public void run() {
-        //PUOI FARE QUESTE OPERAZIONI 1, 2, 3 ...
-
+        String operation;
         try {
             printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
             sendUsername();
@@ -63,8 +62,7 @@ public class CLI implements Runnable{
             output.flush();
         }
         System.out.println("We're ready to play! Choose one of the operations you can do:\n");
-        String operation = "";
-        while (!operation.equals("quit")) {
+        do{
             System.out.println("1: Activate a Leader Card\n" +
                     "2: Buy a Development Card\n" +
                     "3: Choose Discount\n" +
@@ -74,19 +72,16 @@ public class CLI implements Runnable{
                     "7: Place one of your resources\n" +
                     "8: Take resources from the market\n" +
                     "9: Use production powers\n");
-            operation = input.nextLine();
-            try {
-                clientOperationHandler.HandleOperation(operation);
-            } catch (IOException e) {
-                e.printStackTrace();
+            operation= input.next();
+            if(!operation.equals("quit")){
+                try {
+                    clientOperationHandler.HandleOperation(operation);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            output.flush();
-            }
-        }
-
-
-
-
+        }while(!operation.equals("quit"));
+    }
         //TODO: ENTRO SOLO SE è IL MIO TURNO
         //makeAction();
 
@@ -139,7 +134,6 @@ public class CLI implements Runnable{
         jsonResult = mapper.writeValueAsString(packet);
         socketClientConnection.sendToServer(jsonResult);
         System.out.println("You created a new game with " + number_of_players + " players");
-
     }
 
     private void printConnectionMessage(ConnectionMessages message){
