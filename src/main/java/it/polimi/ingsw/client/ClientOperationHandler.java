@@ -1,85 +1,158 @@
 package it.polimi.ingsw.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.controller.client_packets.*;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
+import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ClientOperationHandler {
     private SocketClientConnection socketClientConnection;
     private ObjectMapper mapper;
-    private final PrintStream output;
     private final Scanner input;
 
     public ClientOperationHandler(SocketClientConnection socketClientConnection) {
         this.socketClientConnection = socketClientConnection;
         input = new Scanner(System.in);
-        output = new PrintStream(System.out);
     }
 
     public void HandleOperation(String input) throws IOException {
         switch(input) {
             case "1":
-                System.out.println("Activate Leader Card");
+                System.out.println("You have chosen to activate a Leader Card\n");
                 activateLeaderCard();
                 break;
             case "2":
-                System.out.println("Buy Development Card");
-                //TODO : scrivere l'ultimo metodo per le dev card
+                System.out.println("You have chosen to buy a Development Card\n");
+                buyDevCard();
                 break;
             case "3":
-                System.out.println("Choose Discount");
+                System.out.println("You have chosen to choose a Discount\n");
                 chooseDiscount();
                 break;
             case "4":
-                System.out.println("Choose Leader Card to remove");
+                System.out.println("You have chosen to remove two Leader Cards\n");
                 chooseLeaderCardToRemove();
                 break;
             case "5":
-                System.out.println("Discard Leader Card");
+                System.out.println("You have chosen to discard one of your Leader Card\n");
                 discardLeaderCard();
                 break;
             case "6":
-                System.out.println("Move Resource");
+                System.out.println("You have chosen to move one of your resources\n");
                 moveResource();
                 break;
             case "7":
-                System.out.println("Place Resource");
+                System.out.println("You have chosen to place one of your resource\n");
                 placeResource();
                 break;
             case "8":
-                System.out.println("Take resource from the market");
+                System.out.println("You have chosen to take some resources from the market\n");
                 takeResourceFromMarket();
                 break;
             case "9":
-                System.out.println("Use and choose production powers");
+                System.out.println("You have chosen to use your production powers\n");
                 useAndChooseProductionPower();
                 break;
             default:
-                System.out.println("invalid choice");
+                System.out.println("invalid choice, retry\n");
         }
     }
 
+    //finito
     public void activateLeaderCard() throws IOException {
         System.out.println("Choose the ID of the leader card to activate");
 
         String ID = input.nextLine();
-        mapper = new ObjectMapper();
         PacketActivateLeaderCard packet = new PacketActivateLeaderCard(Integer.parseInt(ID));
+        mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
         socketClientConnection.sendToServer(jsonResult);
     }
 
-    public void buyDevCard(){
-        System.out.println("You have chosen to buy a development card");
+    public void buyDevCard() {
+        System.out.println("Select the card ID you want to buy");
+
+        String id = input.nextLine();
+
+        System.out.println("Choose the resource and the place in which you want to take it\n" +
+                "write 0 when you have finished");
+
+        String resource = "";
+        String position;
+
+        ArrayList<ResourceType> resources = new ArrayList<>();
+        ArrayList<Warehouse> warehouse = new ArrayList<>();
+
+        while(!resource.equals("0")){
+            resource = input.nextLine();
+            switch (resource) {
+                case "1":
+                    resources.add(ResourceType.COIN);
+                    break;
+                case "2":
+                    resources.add(ResourceType.STONE);
+                    break;
+                case "3":
+                    resources.add(ResourceType.SERVANT);
+                    break;
+                case "4":
+                    resources.add(ResourceType.SHIELD);
+                    break;
+            }
+            if(!resource.equals("0")){
+                position = input.nextLine();
+                switch (position) {
+                    case "1":
+                        //qui inserisco nell'array il deposito 1 della board del giocatore
+                        break;
+                    case "2":
+                        //qui inserisco nell'array il deposito 2 della board del giocatore
+                        break;
+                    case "3":
+                        //qui inserisco nell'array il deposito 3 della board del giocatore
+                        break;
+                    case "4":
+                        //qui inserisco nell'array il forziere della board del giocatore
+                        break;
+                }
+            }
+        }
+
+        System.out.println("Choose in which development space you want to put your new card");
+
+        String devSpace = input.nextLine();
+
+        switch (devSpace) {
+            case "1":
+                /*PacketBuyDevCard packet = new PacketBuyDevCard(id, resources,warehouse, devSpace);
+                mapper = new ObjectMapper();
+                String jsonResult = mapper.writeValueAsString(packet);
+                socketClientConnection.sendToServer(jsonResult);*/
+                //in questo caso inserisco nel pacchetto il devSpace in prima posizione
+                break;
+            case "2":
+                /*PacketBuyDevCard packet = new PacketBuyDevCard(id, resources,warehouse, devSpace);
+                mapper = new ObjectMapper();
+                String jsonResult = mapper.writeValueAsString(packet);
+                socketClientConnection.sendToServer(jsonResult);*/
+                //in questo caso inserisco nel pacchetto il devSpace in prima posizione
+                break;
+            case "3":
+                /*PacketBuyDevCard packet = new PacketBuyDevCard(id, resources,warehouse, devSpace);
+                mapper = new ObjectMapper();
+                String jsonResult = mapper.writeValueAsString(packet);
+                socketClientConnection.sendToServer(jsonResult);*/
+                //in questo caso inserisco nel pacchetto il devSpace in prima posizione
+                break;
+        }
     }
 
+    //finito
     public void chooseDiscount() throws IOException {
         System.out.println("Choose the ID of the leader card to activate, when you have finished write 0");
 
@@ -89,7 +162,6 @@ public class ClientOperationHandler {
             id = input.nextLine();
             if(id.equals("1") || id.equals("2")){
                 leaderCards.add(Integer.parseInt(id));
-                //qui metto l'id della leader card del modello con id 1 nell'arraylist di int per il pacchetto
             }
         }
         mapper = new ObjectMapper();
@@ -98,6 +170,7 @@ public class ClientOperationHandler {
         socketClientConnection.sendToServer(jsonResult);
     }
 
+    //finito
     public void chooseLeaderCardToRemove() throws IOException {
         System.out.println("Choose the 2 IDs of the leader cards to remove");
         String id1;
@@ -112,6 +185,7 @@ public class ClientOperationHandler {
         socketClientConnection.sendToServer(jsonResult);
     }
 
+    //finito
     public void discardLeaderCard() throws IOException {
         System.out.println("Write the ID of the leader card to discard");
         String id;
@@ -124,6 +198,7 @@ public class ClientOperationHandler {
         socketClientConnection.sendToServer(jsonResult);
     }
 
+    //finito
     public void moveResource() throws IOException {
         System.out.println("Choose the deposit in which you want to take the resource");
 
@@ -136,6 +211,7 @@ public class ClientOperationHandler {
         socketClientConnection.sendToServer(jsonResult);
     }
 
+    //finito
     public void placeResource() throws IOException {
         System.out.println("Choose the resource and the deposit in which you want to place the resource");
 
@@ -151,6 +227,7 @@ public class ClientOperationHandler {
         socketClientConnection.sendToServer(jsonResult);
     }
 
+    //finito
     public void takeResourceFromMarket() throws IOException {
         System.out.println("Select line or column and which of the lines you choose");
 
@@ -161,19 +238,17 @@ public class ClientOperationHandler {
         line = input.nextLine();
         numLine = input.nextLine();
 
+        System.out.println("If you have already activated one or more leader cards that transforms the white marble in some resource," +
+                "\n select the id of the leader card to use\n" +
+                "write 0 when you have finished");
+
         ArrayList<Integer> leaderCards = new ArrayList<>();
         while(!id.equals("0")){
             id = input.nextLine();
             if(id.equals("1") || id.equals("2")){
                 leaderCards.add(Integer.parseInt(id));
-                //qui metto l'id della leader card del modello con id 1 nell'arraylist di int per il pacchetto
             }
         }
-
-        System.out.println("If you have already activated one or more leader cards that transforms the white marble in some resource," +
-                "\n select the id of the leader card to use\n" +
-                "write 0 when you have finished");
-
 
         PacketTakeResourceFromMarket packet = new PacketTakeResourceFromMarket(line, Integer.parseInt(numLine),leaderCards);
         mapper = new ObjectMapper();
@@ -182,17 +257,17 @@ public class ClientOperationHandler {
     }
 
 
-    public void useAndChooseProductionPower(){
+    public void useAndChooseProductionPower() throws IOException {
         System.out.println("Select the IDs of the development cards to use for the production. \n" +
                 "write 0 when you have finished");
 
         String id = "";
 
-        ArrayList<Integer> productionPowers = new ArrayList<>();
+        ArrayList<ProductionPower> productionPowers = new ArrayList<>();
         while(!id.equals("0")){
             id = input.nextLine();
-            productionPowers.add(Integer.parseInt(id));
-            //qui metto l'id della leader card del modello con id 1 nell'arraylist di int per il pacchetto
+            //qui metto l'id della development card del modello, e, se esiste (quindi fare il controllo) inserisco
+            //il relativo production power all'interno dell'array che poi invierò come pacchetto.
             }
 
         System.out.println("Choose the resource and the place in which you want to take it\n" +
@@ -263,11 +338,10 @@ public class ClientOperationHandler {
                     break;
             }
         }
-        //TODO: modificare il pacchetto usando le id delle dev card invece dei production power
-        /*PacketUseAndChooseProdPower packet = new PacketUseAndChooseProdPower(productionPowers, resources, warehouse, newResources);
+        PacketUseAndChooseProdPower packet = new PacketUseAndChooseProdPower(productionPowers, resources, warehouse, newResources);
         mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
-        socketClientConnection.sendToServer(jsonResult);*/
+        socketClientConnection.sendToServer(jsonResult);
 
     }
 
