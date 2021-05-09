@@ -20,8 +20,10 @@ public class Server {
     private int idGame = 0;
     private Game game;
     private ArrayList<Game> games = new ArrayList<>();
+    private int numPlayers;
 
-    private Map<String, Integer> mapUsernameId;
+    private Map<String, ClientHandler> mapUsernameClientHandler;
+    private Map<Integer, Integer> mapIdGame; // per sapere a quale idGame appartiene un idPlayer
     //private Map<Integer, String> mapId;
 
     /** List of clients waiting in the lobby. */
@@ -30,7 +32,7 @@ public class Server {
 
     public Server() {
         game = new Game();
-        mapUsernameId = new HashMap<>();
+        mapUsernameClientHandler = new HashMap<>();
 
     }
 
@@ -83,10 +85,11 @@ public class Server {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                System.out.println("Guest"+i+" connected");
+                System.out.println("Guest"+i+" connected: "+socket);
                 i+=1;
 
                 executor.submit(new ClientHandler(createClientID(), socket, this));
+
 
             } catch(IOException e) {
                 System.err.println("Error! " + e.getMessage()); // Entrerei qui se serverSocket venisse chiuso
@@ -104,52 +107,97 @@ public class Server {
         return idGame+=1;
     }
 
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+    }
 
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    /**
+     * aggiungiamo la persona alla lobby
+     */
+    public synchronized void addToLobby(String username, ClientHandler clientHandler){
+        lobby.add(clientHandler);
+        checkFirstPositionInLobby(clientHandler);
+        checkUsernameAlreadyTaken(username, clientHandler);
+    }
+
+    /**
+     * se la persona aggiunta è la prima della lobby, chiediamo il numero di players
+     * @param clientHandler
+     */
     public synchronized void checkFirstPositionInLobby(ClientHandler clientHandler){
-
-        if(lobby.getFirst().equals(clientHandler)){
+        if(lobby.get(0).equals(clientHandler)){
             clientHandler.askPlayers();
         }
-
     }
 
     /**
      * controlliamo se qualcuno ha già inserito un username
      */
-    // TODO: 08/05/2021 da sistemare
-    public synchronized boolean checkUsernameAlreadyTaken(String username, ClientHandler clientHandler){
+    public synchronized void checkUsernameAlreadyTaken(String username, ClientHandler clientHandler){
 
-        if(mapUsernameId.containsKey(username)){
+        if(mapUsernameClientHandler.containsKey(username)){
             clientHandler.askUsernameAgain();
         }
-     return false;
+        else addUsernameIntoMap(username, clientHandler);
     }
 
-    // TODO: 08/05/2021 da sistemare
+    /**
+     * aggiungiamo l'username nella mappa con tutti gli username scelti
+     * @param username
+     * @param clientHandler
+     */
     public synchronized void addUsernameIntoMap(String username, ClientHandler clientHandler){
-        mapUsernameId.put(username, clientHandler.getIdClient());
+        mapUsernameClientHandler.put(username, clientHandler);
         clientHandler.setUsername(username);
-        System.out.println(username + " (id: " +clientHandler.getIdClient()+") joined!");
+        System.out.println(username + " (idPlayer: " +clientHandler.getIdClient()+") joined!");
     }
 
+    public synchronized void checkStartOfTheGame(){
+        System.out.println("sono dentrocheckstart of the game");
+        System.out.println("num players: "+numPlayers);
+        System.out.println("lobby: "+lobby.size());
+        if(numPlayers == lobby.size()){
+            createMatch();
+        }
+    }
 
-    public synchronized void createMatch(int idClient, int numplayer){
+    public synchronized void waitingForPeople(int numPlayers){
+        for (int i = 0; i < numPlayers; i++) {
+            lobby.get(i).waitingPeople();
+        }
+    }
+
+    public synchronized void createMatch(){
 
         game = new Game();
         games.add(game);
         game.setIdGame(createGameID());
 
-        System.out.println("Created the game (idGame: " + game.getIdGame()+ ") with " +numplayer+" players");
+        System.out.println("Created the game (idGame: " + game.getIdGame()+ ") with " +numPlayers+" players");
 
-        for (int i=0; i<numplayer; i++){
-            game.createNewPlayer(lobby.get(i).getUsername());
+        for (int i=0; i<numPlayers; i++){
+            game.createNewPlayer(lobby.getFirst().getUsername());
             lobby.getFirst().gameIsStarting();
             lobby.removeFirst();
         }
 
+
+        if (lobby.size()==0){
+            System.out.println("lobby vuota");
+        }
+
+
         game.setup();
 
         //stampare chi c'è nel game
+
+        if(lobby!=null){
+            lobby.get(0).askPlayers();
+        }
     }
 
 }

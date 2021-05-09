@@ -26,13 +26,7 @@ public class PacketUsername implements PacketHandler {
             DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources,
             WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested {
 
-        server.getLobby().add(clientHandler); //aggiungiamo client handler alla lobby senza aver fatto il controllo dell'username
-
-        server.checkFirstPositionInLobby(clientHandler);
-
-        if (server.checkUsernameAlreadyTaken(username, clientHandler)){
-
-        }
-
+        server.addToLobby(username, clientHandler);
+        if(server.getNumPlayers()!=0) server.checkStartOfTheGame();
     }
 }

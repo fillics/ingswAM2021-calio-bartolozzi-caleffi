@@ -109,20 +109,27 @@ public class ClientHandler implements Runnable {
      * method to ask the number of the players to the first client of the lobby
      */
     public void askPlayers(){
-        ps.println(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage());
+        sendMessageToClient(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
     }
 
     /**
      * method that sends a message to the client to ask him a new username
      */
     public void askUsernameAgain(){
-        ps.println(ConnectionMessages.INVALID_USERNAME.getMessage());
+        sendMessageToClient(ConnectionMessages.TAKEN_NICKNAME);
     }
 
     public void gameIsStarting(){
-        ps.println(ConnectionMessages.GAME_STARTED.getMessage());
+        sendMessageToClient(ConnectionMessages.GAME_STARTED);
     }
 
+    public void waitingPeople(){
+        sendMessageToClient(ConnectionMessages.WAITING_PEOPLE);
+    }
+
+    public void sendMessageToClient(ConnectionMessages msg){
+        ps.println(msg.getMessage());
+    }
 
     public void deserialize(String jsonResult) throws DevelopmentCardNotFound,
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
