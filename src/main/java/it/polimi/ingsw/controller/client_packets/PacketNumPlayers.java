@@ -24,7 +24,9 @@ public class PacketNumPlayers implements PacketHandler {
 
 
         if(numof_players > server.getLobby().size()){
-           server.waitingForPeople(numof_players);
+            System.out.println("NumPlayers Settati: "+server.getNumPlayers());
+            System.out.println("Dimensione Lobby: "+server.getLobby().size());
+            clientHandler.waitingPeople();
         }
         else server.createMatch();
 

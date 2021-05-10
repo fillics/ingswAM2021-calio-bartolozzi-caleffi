@@ -19,7 +19,6 @@ public class SocketClientConnection {
     private int port;
     private Socket socket;
     private DataOutputStream output;
-    private Scanner in;
     private BufferedReader br;
 
     public SocketClientConnection() {
@@ -31,7 +30,6 @@ public class SocketClientConnection {
             System.err.println("Error during connection to the client");
             CLI.main(null);
         }
-
         try {
             output = new DataOutputStream(socket.getOutputStream());
             br = new BufferedReader(new InputStreamReader(socket.getInputStream())); // to read data coming from the server
@@ -41,12 +39,16 @@ public class SocketClientConnection {
     }
 
     /**
-     * sending a new message to the server
+     * Method sendToServer sends a new message to the server.
+     * @param jsonResult (type String) - it is the message to send to the server
      */
-    public void sendToServer(String jsonResult) throws IOException {
-        output.writeUTF(jsonResult);
-        output.flush();
-        //output.close();
+    public void sendToServer(String jsonResult){
+        try {
+            output.writeUTF(jsonResult);
+            output.flush();
+        } catch (IOException e) {
+            System.err.println("Error during the communication from client to server!");
+        }
     }
 
 
@@ -59,6 +61,14 @@ public class SocketClientConnection {
             str =  br.readLine();
         } catch (IOException ignored) {}
         return str;
+    }
+
+    public void closeConnection(){
+        try {
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

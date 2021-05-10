@@ -27,7 +27,7 @@ public class Server {
     //private Map<Integer, String> mapId;
 
     /** List of clients waiting in the lobby. */
-    private final LinkedList<ClientHandler> lobby = new LinkedList<>();
+    private final Queue<ClientHandler> lobby = new LinkedList<>();
 
 
     public Server() {
@@ -36,7 +36,7 @@ public class Server {
 
     }
 
-    public LinkedList<ClientHandler> getLobby() {
+    public Queue<ClientHandler> getLobby() {
         return lobby;
     }
 
@@ -120,8 +120,9 @@ public class Server {
      */
     public synchronized void addToLobby(String username, ClientHandler clientHandler){
         lobby.add(clientHandler);
-        checkFirstPositionInLobby(clientHandler);
         checkUsernameAlreadyTaken(username, clientHandler);
+        checkFirstPositionInLobby(clientHandler);
+
     }
 
     /**
@@ -129,7 +130,7 @@ public class Server {
      * @param clientHandler
      */
     public synchronized void checkFirstPositionInLobby(ClientHandler clientHandler){
-        if(lobby.get(0).equals(clientHandler)){
+        if (lobby.peek() != null && lobby.peek().equals(clientHandler)) {
             clientHandler.askPlayers();
         }
     }
@@ -156,20 +157,18 @@ public class Server {
         System.out.println(username + " (idPlayer: " +clientHandler.getIdClient()+") joined!");
     }
 
+    /**
+     * iniziamo il match solo quando numPlayers è uguale alla dimensione della lobby
+     */
     public synchronized void checkStartOfTheGame(){
-        System.out.println("sono dentrocheckstart of the game");
-        System.out.println("num players: "+numPlayers);
-        System.out.println("lobby: "+lobby.size());
-        if(numPlayers == lobby.size()){
+        //System.out.println("sono dentrocheckstart of the game");
+        System.out.println("num players settati: "+numPlayers);
+        System.out.println("dimensione lobby: "+lobby.size());
+        if(numPlayers <= lobby.size()){
             createMatch();
         }
     }
 
-    public synchronized void waitingForPeople(int numPlayers){
-        for (int i = 0; i < numPlayers; i++) {
-            lobby.get(i).waitingPeople();
-        }
-    }
 
     public synchronized void createMatch(){
 
@@ -180,14 +179,16 @@ public class Server {
         System.out.println("Created the game (idGame: " + game.getIdGame()+ ") with " +numPlayers+" players");
 
         for (int i=0; i<numPlayers; i++){
-            game.createNewPlayer(lobby.getFirst().getUsername());
-            lobby.getFirst().gameIsStarting();
-            lobby.removeFirst();
+            if (lobby.peek() != null) {
+                game.createNewPlayer(lobby.peek().getUsername());
+                lobby.peek().gameIsStarting();
+            }
+            lobby.remove();
         }
+        numPlayers=0;
 
-
-        if (lobby.size()==0){
-            System.out.println("lobby vuota");
+        if (lobby.size()!=0){
+            lobby.peek().askPlayers();
         }
 
 
@@ -195,9 +196,7 @@ public class Server {
 
         //stampare chi c'è nel game
 
-        if(lobby!=null){
-            lobby.get(0).askPlayers();
-        }
+
     }
 
 }

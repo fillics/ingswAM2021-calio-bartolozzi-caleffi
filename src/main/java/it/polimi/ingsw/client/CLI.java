@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
@@ -18,8 +19,11 @@ public class CLI implements Runnable{
     private ObjectMapper mapper;
     private boolean gameStarted = false;
 
-    //private DataOutputStream dout;
 
+    /**
+     * Constructor CLI creates a new CLI instance
+     *
+     */
     public CLI() {
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
@@ -49,8 +53,7 @@ public class CLI implements Runnable{
     @Override
     public void run() {
 
-        beforeGame();
-        System.out.println("sono fuori da before game");
+        beforeBeginningOfTheGame();
 
         //ciclare in attesa di un messaggio fino a che il game è attivo
         //while(game active){
@@ -63,15 +66,12 @@ public class CLI implements Runnable{
     }
 
     /**
+     * Method beforeBeginningOfTheGame handles the
      * gestire fase pre game: username (eventualmente username invalido) e numero di players
      */
-    public void beforeGame(){
+    public void beforeBeginningOfTheGame(){
         printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
-        try {
-            sendUsername();
-        } catch (IOException e) {
-            System.err.println("Sending the username failed!");
-        }
+        sendUsername();
 
         //ciclare fino a quando la fase di setup non è finita
         while(!gameStarted){
@@ -82,23 +82,29 @@ public class CLI implements Runnable{
 
     /**
      * Method sendUsername asks the username and sends it to the server
-     * @throws IOException
      */
-    public void sendUsername() throws IOException {
+    public void sendUsername(){
         String jsonResult;
         PacketUsername packet;
         String username;
 
-        username= input.nextLine();
-        //TODO facciamo il controllo username caratteri speciali
+        username = input.nextLine();
+        //TODO facciamo il controllo username caratteri speciali - metodo che controlla correttezza
 
         mapper = new ObjectMapper();
         packet = new PacketUsername(username);
-        jsonResult = mapper.writeValueAsString(packet);
-        socketClientConnection.sendToServer(jsonResult);
+        try {
+            jsonResult = mapper.writeValueAsString(packet);
+            socketClientConnection.sendToServer(jsonResult);
+        } catch (JsonProcessingException ignored) {
+            System.err.println("Error during the write of the values in the variable jsonResult");
+        }
     }
 
-    public void choosePlayerNumber() throws IOException {
+    /**
+     * Method choosePlayerNumber asks how many players there will be in the game and sends the message to the server
+     */
+    public void choosePlayerNumber(){
         String jsonResult;
         PacketNumPlayers packet;
         int number_of_players = 0;
@@ -117,38 +123,29 @@ public class CLI implements Runnable{
 
         packet = new PacketNumPlayers(number_of_players);
         mapper = new ObjectMapper();
-        jsonResult = mapper.writeValueAsString(packet);
-        socketClientConnection.sendToServer(jsonResult);
-
+        try {
+            jsonResult = mapper.writeValueAsString(packet);
+            socketClientConnection.sendToServer(jsonResult);
+        } catch (JsonProcessingException ignored) {
+            System.err.println("Error during the write of the values in the variable jsonResult");
+        }
     }
 
-    private void printConnectionMessage(ConnectionMessages message){
-        System.out.println(message.getMessage());
-    }
 
     /**
-     * per gestire i messaggi in arrivo solo nella fase di setup
-     * @param message
+     * Method handleSetupMessage handles the messages that the server sends. According to them, it calls the right methods.
+     * @param message (type String) - it is the message arrived from the server
      */
     public void handleSetupMessage(String message){
 
         if (ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage().equals(message)) {
             printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
             System.out.println(message);
-            try {
-                choosePlayerNumber();
-            } catch (IOException e) {
-                System.err.println("Invocation of method choosePlayerNumber failed");
-
-            }
+            choosePlayerNumber();
         }
         else if (ConnectionMessages.TAKEN_NICKNAME.getMessage().equals(message)) {
             System.out.println(message);
-            try {
-                sendUsername();
-            } catch (IOException e) {
-                System.err.println("Invocation of method sendUsername failed");
-            }
+            sendUsername();
         }
         else if (ConnectionMessages.GAME_STARTED.getMessage().equals(message)) {
             System.out.println(message);
@@ -162,7 +159,14 @@ public class CLI implements Runnable{
         else {
             throw new IllegalStateException("Unexpected value: " + message);
         }
-
-
     }
+
+    /**
+     *
+     * @param message
+     */
+    private void printConnectionMessage(ConnectionMessages message){
+        System.out.println(message.getMessage());
+    }
+
 }
