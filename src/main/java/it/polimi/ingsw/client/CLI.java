@@ -18,6 +18,7 @@ public class CLI implements Runnable, ViewInterface{
     private ObjectMapper mapper;
     private boolean gameStarted = false;
     private ClientOperationHandler clientOperationHandler;
+    private ClientModelView clientModelView;
 
     //private DataOutputStream dout;
 
@@ -25,7 +26,7 @@ public class CLI implements Runnable, ViewInterface{
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
         socketClientConnection = new SocketClientConnection();
-        clientOperationHandler = new ClientOperationHandler(socketClientConnection);
+        clientOperationHandler = new ClientOperationHandler(socketClientConnection,clientModelView);
     }
 
     public static void main(String[] args) {
