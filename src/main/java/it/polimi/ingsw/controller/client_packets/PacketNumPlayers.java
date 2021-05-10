@@ -20,11 +20,15 @@ public class PacketNumPlayers implements PacketHandler {
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
+        server.setNumPlayers(numof_players);
 
-        if(numof_players >= server.getLobby().size()){
-            server.createMatch(clientHandler.getIdClient(), numof_players);
+
+        if(numof_players > server.getLobby().size()){
+            System.out.println("NumPlayers Settati: "+server.getNumPlayers());
+            System.out.println("Dimensione Lobby: "+server.getLobby().size());
+            clientHandler.waitingPeople();
         }
-
+        else server.createMatch();
 
     }
 

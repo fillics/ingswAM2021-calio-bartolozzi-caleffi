@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
@@ -11,22 +12,22 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class CLI implements Runnable, ViewInterface{
+public class CLI implements Runnable{
     private final PrintStream output;
     private final Scanner input;
     private SocketClientConnection socketClientConnection;
     private ObjectMapper mapper;
     private boolean gameStarted = false;
-    private ClientOperationHandler clientOperationHandler;
-    private ClientModelView clientModelView;
 
-    //private DataOutputStream dout;
 
+    /**
+     * Constructor CLI creates a new CLI instance
+     *
+     */
     public CLI() {
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
         socketClientConnection = new SocketClientConnection();
-        clientOperationHandler = new ClientOperationHandler(socketClientConnection,clientModelView);
     }
 
     public static void main(String[] args) {
@@ -45,75 +46,65 @@ public class CLI implements Runnable, ViewInterface{
         CLI cli = new CLI();
         cli.run();
     }
-
-    @Override
-    public void run() {
-        String operation;
-        try {
-            printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
-            sendUsername();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        while(!gameStarted){
-            String str = socketClientConnection.listening();
-            handleSetupMessage(str);
-            gameStarted = true;
-            output.flush();
-        }
-        System.out.println("We're ready to play! Choose one of the operations you can do:\n");
-        do{
-            System.out.println("1: Activate a Leader Card\n" +
-                    "2: Buy a Development Card\n" +
-                    "3: Choose Discount\n" +
-                    "4: Choose the 2 Leader Card to remove\n" +
-                    "5: Discard a Leader Card\n" +
-                    "6: Move one of you resources\n" +
-                    "7: Place one of your resources\n" +
-                    "8: Take resources from the market\n" +
-                    "9: Use production powers\n");
-            operation= input.next();
-            if(!operation.equals("quit")){
-                try {
-                    clientOperationHandler.HandleOperation(operation);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }while(!operation.equals("quit"));
-    }
-        //TODO: ENTRO SOLO SE è IL MIO TURNO
-        //makeAction();
-
-        //ciclare in attesa di un messaggio fino a che il game è attivo
-        //input.close();
-        //output.close();
-
-
     public SocketClientConnection getSocketClientConnected() {
         return socketClientConnection;
     }
 
+    @Override
+    public void run() {
+
+        beforeBeginningOfTheGame();
+
+        //ciclare in attesa di un messaggio fino a che il game è attivo
+        //while(game active){
+            //TODO: ENTRO SOLO SE è IL MIO TURNO
+            //makeAction();
+        //}
+
+        input.close();
+        output.close();
+    }
+
+    /**
+     * Method beforeBeginningOfTheGame handles the
+     * gestire fase pre game: username (eventualmente username invalido) e numero di players
+     */
+    public void beforeBeginningOfTheGame(){
+        printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
+        sendUsername();
+
+        //ciclare fino a quando la fase di setup non è finita
+        while(!gameStarted){
+            String str = socketClientConnection.listening();
+            handleSetupMessage(str);
+        }
+    }
+
     /**
      * Method sendUsername asks the username and sends it to the server
-     * @throws IOException is IOException
      */
-    public void sendUsername() throws IOException {
+    public void sendUsername(){
         String jsonResult;
         PacketUsername packet;
         String username;
 
-        username= input.nextLine();
-        //TODO facciamo il controllo username caratteri speciali
+        username = input.nextLine();
+        //TODO facciamo il controllo username caratteri speciali - metodo che controlla correttezza
 
         mapper = new ObjectMapper();
         packet = new PacketUsername(username);
-        jsonResult = mapper.writeValueAsString(packet);
-        socketClientConnection.sendToServer(jsonResult);
+        try {
+            jsonResult = mapper.writeValueAsString(packet);
+            socketClientConnection.sendToServer(jsonResult);
+        } catch (JsonProcessingException ignored) {
+            System.err.println("Error during the write of the values in the variable jsonResult");
+        }
     }
 
-    public void choosePlayerNumber() throws IOException {
+    /**
+     * Method choosePlayerNumber asks how many players there will be in the game and sends the message to the server
+     */
+    public void choosePlayerNumber(){
         String jsonResult;
         PacketNumPlayers packet;
         int number_of_players = 0;
@@ -126,40 +117,56 @@ public class CLI implements Runnable, ViewInterface{
                     printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
                 }
             }catch (NumberFormatException e) {
-                System.out.println("Invalid parameter: insert a numeric value.");
+                System.err.println("Invalid parameter: insert a numeric value.");
             }
         }while(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers());
 
         packet = new PacketNumPlayers(number_of_players);
         mapper = new ObjectMapper();
-        jsonResult = mapper.writeValueAsString(packet);
-        socketClientConnection.sendToServer(jsonResult);
-        System.out.println("You created a new game with " + number_of_players + " players");
+        try {
+            jsonResult = mapper.writeValueAsString(packet);
+            socketClientConnection.sendToServer(jsonResult);
+        } catch (JsonProcessingException ignored) {
+            System.err.println("Error during the write of the values in the variable jsonResult");
+        }
     }
 
+
+    /**
+     * Method handleSetupMessage handles the messages that the server sends. According to them, it calls the right methods.
+     * @param message (type String) - it is the message arrived from the server
+     */
+    public void handleSetupMessage(String message){
+
+        if (ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage().equals(message)) {
+            printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
+            System.out.println(message);
+            choosePlayerNumber();
+        }
+        else if (ConnectionMessages.TAKEN_NICKNAME.getMessage().equals(message)) {
+            System.out.println(message);
+            sendUsername();
+        }
+        else if (ConnectionMessages.GAME_STARTED.getMessage().equals(message)) {
+            System.out.println(message);
+            gameStarted = true;
+        }
+
+        else if(ConnectionMessages.WAITING_PEOPLE.getMessage().equals(message)){
+            System.out.println(message);
+        }
+
+        else {
+            throw new IllegalStateException("Unexpected value: " + message);
+        }
+    }
+
+    /**
+     *
+     * @param message
+     */
     private void printConnectionMessage(ConnectionMessages message){
         System.out.println(message.getMessage());
     }
 
-    public void handleSetupMessage(String message){
-
-        if (message.equals(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage())){
-            printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
-            System.out.println(message);
-            try {
-                choosePlayerNumber();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else if (message.equals(ConnectionMessages.INVALID_USERNAME.getMessage())){
-            System.out.println(message);
-            try {
-                sendUsername();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 }
