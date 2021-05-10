@@ -14,9 +14,11 @@ public class ClientOperationHandler {
     private SocketClientConnection socketClientConnection;
     private ObjectMapper mapper;
     private final Scanner input;
+    private ClientModelView clientModelView;
 
-    public ClientOperationHandler(SocketClientConnection socketClientConnection) {
+    public ClientOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView) {
         this.socketClientConnection = socketClientConnection;
+        this.clientModelView = clientModelView;
         input = new Scanner(System.in);
     }
 
@@ -74,7 +76,7 @@ public class ClientOperationHandler {
         socketClientConnection.sendToServer(jsonResult);
     }
 
-    public void buyDevCard() {
+    public void buyDevCard() throws IOException {
         System.out.println("Select the card ID you want to buy");
 
         String id = input.nextLine();
@@ -108,15 +110,19 @@ public class ClientOperationHandler {
                 position = input.nextLine();
                 switch (position) {
                     case "1":
+                        warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(0));
                         //qui inserisco nell'array il deposito 1 della board del giocatore
                         break;
                     case "2":
+                        warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(1));
                         //qui inserisco nell'array il deposito 2 della board del giocatore
                         break;
                     case "3":
+                        warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(2));
                         //qui inserisco nell'array il deposito 3 della board del giocatore
                         break;
                     case "4":
+                        warehouse.add(clientModelView.getMyPlayer().getBoard().getStrongbox());
                         //qui inserisco nell'array il forziere della board del giocatore
                         break;
                 }
@@ -126,27 +132,29 @@ public class ClientOperationHandler {
         System.out.println("Choose in which development space you want to put your new card");
 
         String devSpace = input.nextLine();
+        String jsonResult;
+        PacketBuyDevCard packet;
 
         switch (devSpace) {
             case "1":
-                /*PacketBuyDevCard packet = new PacketBuyDevCard(id, resources,warehouse, devSpace);
+                packet = new PacketBuyDevCard(Integer.parseInt(id), resources,warehouse, clientModelView.getMyPlayer().getBoard().getDevelopmentSpaces().get(0) );
                 mapper = new ObjectMapper();
-                String jsonResult = mapper.writeValueAsString(packet);
-                socketClientConnection.sendToServer(jsonResult);*/
+                jsonResult = mapper.writeValueAsString(packet);
+                socketClientConnection.sendToServer(jsonResult);
                 //in questo caso inserisco nel pacchetto il devSpace in prima posizione
                 break;
             case "2":
-                /*PacketBuyDevCard packet = new PacketBuyDevCard(id, resources,warehouse, devSpace);
+                packet = new PacketBuyDevCard(Integer.parseInt(id), resources,warehouse, clientModelView.getMyPlayer().getBoard().getDevelopmentSpaces().get(1) );
                 mapper = new ObjectMapper();
-                String jsonResult = mapper.writeValueAsString(packet);
-                socketClientConnection.sendToServer(jsonResult);*/
+                jsonResult = mapper.writeValueAsString(packet);
+                socketClientConnection.sendToServer(jsonResult);
                 //in questo caso inserisco nel pacchetto il devSpace in prima posizione
                 break;
             case "3":
-                /*PacketBuyDevCard packet = new PacketBuyDevCard(id, resources,warehouse, devSpace);
+                packet = new PacketBuyDevCard(Integer.parseInt(id), resources,warehouse, clientModelView.getMyPlayer().getBoard().getDevelopmentSpaces().get(2) );
                 mapper = new ObjectMapper();
-                String jsonResult = mapper.writeValueAsString(packet);
-                socketClientConnection.sendToServer(jsonResult);*/
+                jsonResult = mapper.writeValueAsString(packet);
+                socketClientConnection.sendToServer(jsonResult);
                 //in questo caso inserisco nel pacchetto il devSpace in prima posizione
                 break;
         }
@@ -299,15 +307,19 @@ public class ClientOperationHandler {
                 position = input.nextLine();
                 switch (position) {
                     case "1":
+                        warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(0));
                         //qui inserisco nell'array il deposito 1 della board del giocatore
                         break;
                     case "2":
+                        warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(1));
                         //qui inserisco nell'array il deposito 2 della board del giocatore
                         break;
                     case "3":
+                        warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(2));
                         //qui inserisco nell'array il deposito 3 della board del giocatore
                         break;
                     case "4":
+                        warehouse.add(clientModelView.getMyPlayer().getBoard().getStrongbox());
                         //qui inserisco nell'array il forziere della board del giocatore
                         break;
                 }

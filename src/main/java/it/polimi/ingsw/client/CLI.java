@@ -18,6 +18,7 @@ public class CLI implements Runnable{
     private ObjectMapper mapper;
     private boolean gameStarted = false;
     private ClientOperationHandler clientOperationHandler;
+    private ClientModelView clientModelView;
 
     //private DataOutputStream dout;
 
@@ -25,7 +26,7 @@ public class CLI implements Runnable{
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
         socketClientConnection = new SocketClientConnection();
-        clientOperationHandler = new ClientOperationHandler(socketClientConnection);
+        clientOperationHandler = new ClientOperationHandler(socketClientConnection,clientModelView);
     }
 
     public static void main(String[] args) {
@@ -63,8 +64,8 @@ public class CLI implements Runnable{
             output.flush();
         }
         System.out.println("We're ready to play! Choose one of the operations you can do:\n");
-        String operation = "";
-        while (!operation.equals("quit")) {
+        String operation;
+        do {
             System.out.println("1: Activate a Leader Card\n" +
                     "2: Buy a Development Card\n" +
                     "3: Choose Discount\n" +
@@ -74,17 +75,16 @@ public class CLI implements Runnable{
                     "7: Place one of your resources\n" +
                     "8: Take resources from the market\n" +
                     "9: Use production powers\n");
-            operation = input.nextLine();
+            operation = new Scanner(System.in).nextLine();
+
             try {
                 clientOperationHandler.HandleOperation(operation);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             output.flush();
-            }
+            }while(!operation.equals("quit"));
         }
-
-
 
 
         //TODO: ENTRO SOLO SE è IL MIO TURNO
