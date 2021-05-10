@@ -29,7 +29,7 @@ public class Server {
 
 
     public Server() {
-        game = new Game();
+        //game = new Game();
         mapUsernameId = new HashMap<>();
 
     }
@@ -106,11 +106,9 @@ public class Server {
 
 
     public synchronized void checkFirstPositionInLobby(ClientHandler clientHandler){
-
         if(lobby.getFirst().equals(clientHandler)){
             clientHandler.askPlayers();
         }
-
     }
 
     /**

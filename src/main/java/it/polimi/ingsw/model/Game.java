@@ -18,6 +18,7 @@ import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDiscount;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyMarble;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.marbles.Marble;
 import it.polimi.ingsw.model.marbles.MarketTray;
 
 import java.io.*;
@@ -123,6 +124,14 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         players.add(player);
         activePlayers.add(player);
 
+    }
+
+    //TODO: testare
+    /**
+     * Method getTable return the table representing the position of the marbles.
+     */
+    public Marble[][] getTable() {
+        return market.getTable();
     }
 
     /**
