@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
@@ -11,7 +10,7 @@ import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
 
-public class PacketPlaceResource implements PacketHandler {
+public class PacketPlaceResource implements ClientPacketHandler {
     private int depositPosition;
     private int resourcePosition;
 

@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.exceptions.DepositDoesntHaveThisResource;
 import it.polimi.ingsw.exceptions.DifferentDimension;
@@ -18,7 +17,7 @@ import it.polimi.ingsw.server.Server;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PacketUseAndChooseProdPower implements PacketHandler {
+public class PacketUseAndChooseProdPower implements ClientPacketHandler {
     private ArrayList<ProductionPower> productionPowers;
     private ArrayList<ResourceType> resourceTypes;
     private ArrayList<Warehouse> warehouse;

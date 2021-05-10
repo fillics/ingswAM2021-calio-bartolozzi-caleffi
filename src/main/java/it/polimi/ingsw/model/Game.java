@@ -70,7 +70,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         leaderDeck = new ArrayList<>();
         developmentGrid = new ArrayList<>();
         market = new MarketTray();
-
     }
 
     /**
@@ -421,6 +420,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * and after that it calls the method change() to update the marble's position in the market
      * @param line (type String) - it specifies if the player wants to select a column or a row
      * @param numline (type Int) - it indicates which line the player chose
+     * @param whiteMarbleCardChoice is the array list of the leader card's id with white marble ability the player wants to use to transform the white marbles.
      */
     @Override
     public void takeResourceFromMarket(String line, int numline, ArrayList<Integer> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{

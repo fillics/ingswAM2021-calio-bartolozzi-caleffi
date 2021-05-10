@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
-import java.net.Socket;
+import java.io.IOException;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -25,10 +25,10 @@ import java.net.Socket;
         @JsonSubTypes.Type(value = PacketUseAndChooseProdPower.class, name = "USEANDCHOOSEPRODUCTIONPOWER"),
         @JsonSubTypes.Type(value = PacketMoveResource.class, name = "MOVERESOURCE") })
 
-public interface PacketHandler {
+public interface ClientPacketHandler {
 
     void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit,
             DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound,
             DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources,
-            NotEnoughRequirements, TooManyResourcesRequested;
+            NotEnoughRequirements, TooManyResourcesRequested, IOException, ClassNotFoundException;
 }

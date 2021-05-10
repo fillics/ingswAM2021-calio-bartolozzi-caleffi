@@ -5,21 +5,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.controller.PacketHandler;
-import it.polimi.ingsw.controller.State;
-import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
-import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
+import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientHandler implements Runnable {
     private Socket socket;
@@ -69,8 +62,8 @@ public class ClientHandler implements Runnable {
 
         } catch (IOException  e) {
             System.err.println(e.getMessage());
-        } catch (DevelopmentCardNotFound | EmptyDeposit | LeaderCardNotActivated | LeaderCardNotFound | DevCardNotPlaceable | DifferentDimension | DepositDoesntHaveThisResource | DiscountCannotBeActivated | NotEnoughRequirements | TooManyResourcesRequested | DepositHasReachedMaxLimit | NotEnoughResources | DepositHasAnotherResource | WrongChosenResources developmentCardNotFound) {
-            developmentCardNotFound.printStackTrace();
+        } catch (DevelopmentCardNotFound | EmptyDeposit | LeaderCardNotActivated | LeaderCardNotFound | DevCardNotPlaceable | DifferentDimension | DepositDoesntHaveThisResource | DiscountCannotBeActivated | NotEnoughRequirements | TooManyResourcesRequested | DepositHasReachedMaxLimit | NotEnoughResources | DepositHasAnotherResource | WrongChosenResources | ClassNotFoundException problems) {
+            problems.printStackTrace();
         }
     }
 
@@ -120,12 +113,12 @@ public class ClientHandler implements Runnable {
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
             DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated,
             NotEnoughRequirements, TooManyResourcesRequested, DepositHasReachedMaxLimit,
-            NotEnoughResources, DepositHasAnotherResource, WrongChosenResources {
+            NotEnoughResources, DepositHasAnotherResource, WrongChosenResources, IOException, ClassNotFoundException {
 
         ObjectMapper mapper = new ObjectMapper();
-        PacketHandler packet = null;
+        ClientPacketHandler packet = null;
         try {
-            packet = mapper.readValue(jsonResult, PacketHandler.class);
+            packet = mapper.readValue(jsonResult, ClientPacketHandler.class);
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
