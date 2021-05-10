@@ -51,31 +51,16 @@ public class ClientHandler implements Runnable {
 
     public void run() {
         try {
-            // TODO: 05/05/2021 CHIEDERE IL NUMERO DI PLAYERS SOLO AL CREATORE DELLA PARTITA
-
             //TODO: ENTRO SOLO SE è IL MIO TURNO
-            //makeAction();
 
             // Leggo e scrivo nella connessione finche' non ricevo "quit"
             while (!quit) {
                 str = dis.readUTF();
                 deserialize(str);
 
-
                 if(game.isEndgame())
                     quit=true;
 
-                /*String line = in.nextLine();
-                System.out.println(line);
-                if (line.equals("quit")) {
-                    quit = true;
-                } else {
-                    output.write("Received: ".getBytes(StandardCharsets.UTF_8));
-                    output.write(line.getBytes(StandardCharsets.UTF_8));
-                    output.write("\n".getBytes(StandardCharsets.UTF_8));
-
-                    output.flush();
-                }*/
             }
             // Chiudo gli stream e il socket -> client non è più connesso al server
             in.close();
@@ -149,73 +134,4 @@ public class ClientHandler implements Runnable {
             packet.execute(server,game,this);
         }
     }
-
-
-    public void makeAction() throws IOException {
-        int numOfAction;
-        boolean numNotValid = false;
-        //output = socketClientConnected.getSocket().getOutputStream();
-        //in = new Scanner(socketClientConnected.getSocket().getInputStream());
-
-        do{
-            //sendConnectionMessage(ConnectionMessages.CHOOSE_ACTION);
-            numOfAction = in.nextInt();
-
-            if(numOfAction!= 1 && numOfAction!=2 && numOfAction!=3)
-                numNotValid= true;
-        } while(numNotValid);
-
-        switch (numOfAction){
-            case 1 : takeResources();
-            case 2 : buy();
-            case 3 : activateProduction();
-        }
-    }
-
-    public void buy(){
-    }
-
-    public void takeResources() throws IOException {
-        PacketHandler object;
-        String line;
-        int numline, numlimit;
-        ArrayList<Integer> leaderCardsID = null;
-
-        //output = socketClientConnected.getSocket().getOutputStream();
-
-        do{
-            //sendConnectionMessage(ConnectionMessages.CHOOSE_LINE);
-            //in = new Scanner(socketClientConnected.getSocket().getInputStream());
-            line = in.nextLine();
-        } while(!line.equals("ROW") && !line.equals("COLUMN"));
-
-        do{
-            //sendConnectionMessage(ConnectionMessages.CHOOSE_NUMLINE);
-            // in = new Scanner(socketClientConnected.getSocket().getInputStream());
-            numline = in.nextInt();
-            if(line.equals("ROW"))
-                numlimit=3;
-            else
-                numlimit =4;
-        } while(numline<1 || numline>numlimit);
-
-        /*do{
-            sendConnectionMessage(ConnectionMessages.CHOOSE_LEADERCARDSWHITEMARBLE);
-            in = new Scanner(socketConnection.getSocket().getInputStream());
-            //while()
-            numline = in.nextInt();
-
-
-        } while();*/
-
-        PacketTakeResourceFromMarket packet = new PacketTakeResourceFromMarket(line,numline,leaderCardsID);
-
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonResult = mapper.writeValueAsString(packet);
-        // object = server.deserialize(jsonResult, socketClientConnected);
-    }
-
-    public void activateProduction(){
-    }
-
 }

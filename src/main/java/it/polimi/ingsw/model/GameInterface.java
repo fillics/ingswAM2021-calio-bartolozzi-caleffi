@@ -4,15 +4,14 @@ import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
-import it.polimi.ingsw.model.cards.developmentcards.CardColor;
-import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
-import it.polimi.ingsw.model.cards.developmentcards.Level;
-import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
+import it.polimi.ingsw.model.cards.developmentcards.*;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.cards.leadercards.ResourcesRequirement;
+import it.polimi.ingsw.model.marbles.Marble;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Interface GameInterface represents the interface that contains the callable methods by Game
@@ -37,4 +36,6 @@ public interface GameInterface {
     ArrayList<Player> getActivePlayers();
     void setNumof_players(int numof_players);
     boolean isEndgame();
+    ArrayList<LinkedList<DevelopmentCard>> getDevelopmentGrid();
+    Marble[][] getTable();
 }
