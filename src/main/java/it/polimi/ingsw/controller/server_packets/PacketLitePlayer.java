@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.server_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.client.ClientModelView;
 
 public class PacketLitePlayer implements ServerPacketHandler{
 
@@ -17,5 +18,10 @@ public class PacketLitePlayer implements ServerPacketHandler{
         this.idPlayer = idPlayer;
         this.totalVictoryPoint = totalVictoryPoint;
         //this.chosenResource = chosenResource;
+    }
+
+    @Override
+    public void execute(ClientModelView clientModelView) {
+
     }
 }

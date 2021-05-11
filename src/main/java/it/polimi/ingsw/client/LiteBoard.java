@@ -38,4 +38,20 @@ public class LiteBoard {
     public ArrayList<ProductionPower> getSpecialProductionPowers() {
         return specialProductionPowers;
     }
+
+    public void setStrongbox(Strongbox strongbox) {
+        this.strongbox = strongbox;
+    }
+
+    public void setDeposits(ArrayList<Deposit> deposits) {
+        this.deposits = deposits;
+    }
+
+    public void setDevelopmentSpaces(ArrayList<DevelopmentSpace> developmentSpaces) {
+        this.developmentSpaces = developmentSpaces;
+    }
+
+    public void setSpecialProductionPowers(ArrayList<ProductionPower> specialProductionPowers) {
+        this.specialProductionPowers = specialProductionPowers;
+    }
 }

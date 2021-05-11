@@ -1,13 +1,12 @@
 package it.polimi.ingsw.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.client_packets.PacketUsername;
+import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 /**
  * ConnectionSocket class handles the connection between the client and the server.
@@ -15,13 +14,16 @@ import java.util.Scanner;
  */
 public class SocketClientConnection {
 
+    private CLI cli;
     private String serverAddress;
     private int port;
     private Socket socket;
     private DataOutputStream output;
+    private DataInputStream dataInputStream;
     private BufferedReader br;
 
-    public SocketClientConnection() {
+    public SocketClientConnection(CLI cli) {
+        this.cli= cli;
         this.serverAddress = Constants.getAddressServer();
         this.port = Constants.getPort();
         try {
@@ -32,6 +34,7 @@ public class SocketClientConnection {
         }
         try {
             output = new DataOutputStream(socket.getOutputStream());
+            dataInputStream = new DataInputStream(socket.getInputStream()); // to read data coming from the server
             br = new BufferedReader(new InputStreamReader(socket.getInputStream())); // to read data coming from the server
         } catch (IOException e) {
             System.err.println("Error during initialization of the client!");
@@ -52,14 +55,13 @@ public class SocketClientConnection {
         }
     }
 
-
     /**
      * ci mettiamo in ascolto dei messaggi che arrivano dal server
      */
     public String listening(){
-        String str = null;
+        String str=null;
         try {
-            str =  br.readLine();
+            str = br.readLine();
         } catch (IOException e) {
             //System.out.println("server disconnesso");
         }
@@ -74,4 +76,16 @@ public class SocketClientConnection {
         }
     }
 
+    public void deserialize() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String str = dataInputStream.readUTF();
+        ServerPacketHandler packet;
+
+        try {
+            packet = mapper.readValue(str, ServerPacketHandler.class);
+            packet.execute(cli.getClientModelView());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -2,15 +2,21 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
 
+import java.util.ArrayList;
+
 public class LiteDevelopmentGrid {
 
-    private DevelopmentCard[][] developmentCards= new DevelopmentCard[3][4];
+    private ArrayList<DevelopmentCard> developmentCards;
 
-    public DevelopmentCard[][] getDevelopmentCards() {
+    public LiteDevelopmentGrid(ArrayList<DevelopmentCard> developmentCards) {
+        this.developmentCards = developmentCards;
+    }
+
+    public ArrayList<DevelopmentCard> getDevelopmentCards() {
         return developmentCards;
     }
 
-    public void setDevelopmentCards(DevelopmentCard[][] developmentCards) {
+    public void setDevelopmentCards(ArrayList<DevelopmentCard> developmentCards) {
         this.developmentCards = developmentCards;
     }
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.server_packets;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import it.polimi.ingsw.client.ClientModelView;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -22,4 +23,5 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         })
 
 public interface ServerPacketHandler {
+        void execute(ClientModelView clientModelView);
 }

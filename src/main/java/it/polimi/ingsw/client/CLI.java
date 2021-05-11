@@ -30,7 +30,7 @@ public class CLI implements Runnable, ViewInterface{
     public CLI() {
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
-        socketClientConnection = new SocketClientConnection();
+        socketClientConnection = new SocketClientConnection(this);
         clientModelView = new ClientModelView();
         clientOperationHandler = new ClientOperationHandler(socketClientConnection,clientModelView);
     }
@@ -55,6 +55,10 @@ public class CLI implements Runnable, ViewInterface{
         return socketClientConnection;
     }
 
+    public ClientModelView getClientModelView() {
+        return clientModelView;
+    }
+
     @Override
     public void run() {
 
@@ -65,6 +69,16 @@ public class CLI implements Runnable, ViewInterface{
         if (choiceGame==2){
             beforeBeginningOfTheGame(); //username and number of players
             //the game has been created
+            socketClientConnection.sendToServer(ConnectionMessages.SEND_SETUP_PACKETS.getMessage());
+
+            try {
+                socketClientConnection.deserialize();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("username pescato dal packet : " + clientModelView.getMyPlayer().getUsername());
+
             additionalSetupGame(); //choice of the leader cards and placing additional resources
 
 

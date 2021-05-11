@@ -32,7 +32,7 @@ public class Server {
 
     // TODO: 11/05/2021 aggiungere struttura dati che contiene game e i relativi idplayers
     public Server() {
-        game = new Game();
+        //game = new Game();
         mapUsernameClientHandler = new HashMap<>();
 
     }
@@ -137,7 +137,6 @@ public class Server {
         lobby.add(clientHandler);
         checkUsernameAlreadyTaken(username, clientHandler);
         checkFirstPositionInLobby(clientHandler);
-
     }
 
     /**
@@ -203,11 +202,14 @@ public class Server {
                 "with " +numPlayers+" players");
 
         for (int i=0; i<numPlayers; i++){
+
             if (lobby.peek() != null) {
+                lobby.peek().setGame(game);
                 game.createNewPlayer(lobby.peek().getUsername());
                 lobby.peek().sendMessageToClient(ConnectionMessages.GAME_IS_STARTING);
             }
             lobby.remove();
+
         }
         numPlayers=0;
 
