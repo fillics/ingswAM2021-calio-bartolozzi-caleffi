@@ -13,7 +13,7 @@ public class LitePlayer {
     private ArrayList<LeaderCard> leaderCards;
     private ArrayList<Resource> resourceBuffer;
     private LiteBoard board;
-    private int chosenResource;
+    //private int chosenResource;
     private ArrayList<Integer> whiteMarbleCardChoice;
 
     public LitePlayer(String username, int idPlayer, int totalVictoryPoint, ArrayList<LeaderCard> leaderCards, ArrayList<Resource> resourceBuffer, LiteBoard board, int chosenResource, ArrayList<Integer> whiteMarbleCardChoice) {
@@ -23,7 +23,7 @@ public class LitePlayer {
         this.leaderCards = leaderCards;
         this.resourceBuffer = resourceBuffer;
         this.board = board;
-        this.chosenResource = chosenResource;
+        //this.chosenResource = chosenResource;
         this.whiteMarbleCardChoice = whiteMarbleCardChoice;
     }
 

@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller.server_packets;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import it.polimi.ingsw.controller.client_packets.*;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -11,8 +10,15 @@ import it.polimi.ingsw.controller.client_packets.*;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PacketLiteMarketTray.class, name = "LITE_MARKET_TRAY"),
         @JsonSubTypes.Type(value = PacketLiteDevelopmentGrid.class, name = "LITE_DEV_GRID"),
-        @JsonSubTypes.Type(value = PacketLiteBoard.class, name = "LITE_BOARD"),
-        @JsonSubTypes.Type(value = PacketLitePlayer.class, name = "LITE_PLAYER")
+        @JsonSubTypes.Type(value = PacketWarehouse.class, name = "WAREHOUSES"),
+        @JsonSubTypes.Type(value = PacketLitePlayer.class, name = "LITE_PLAYER"),
+        @JsonSubTypes.Type(value = PacketDevelopmentSpaces.class, name = "DEVELOPMENT_SPACES"),
+        @JsonSubTypes.Type(value = PacketLeaderCards.class, name = "LEADER_CARDS"),
+        @JsonSubTypes.Type(value = PacketResourceBuffer.class, name = "RESOURCE_BUFFER"),
+        @JsonSubTypes.Type(value = PacketSetup.class, name = "SETUP"),
+        @JsonSubTypes.Type(value = PacketSpecialProdPowers.class, name = "SPECIAL_PROD_POWERS"),
+        @JsonSubTypes.Type(value = PacketWhiteMarbleChoice.class, name = "WHITE_MARBLE_CHOICE"),
+        @JsonSubTypes.Type(value = PacketEndofUpdate.class, name = "END_OF_UPDATE")
         })
 
 public interface ServerPacketHandler {
