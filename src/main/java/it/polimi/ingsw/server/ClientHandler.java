@@ -5,8 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.controller.SetupHandler;
+import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
@@ -55,7 +55,7 @@ public class ClientHandler implements Runnable {
             ps.close();
             socket.close();
 
-        } catch (IOException  e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
         } catch (DevelopmentCardNotFound | EmptyDeposit | LeaderCardNotActivated | LeaderCardNotFound | DevCardNotPlaceable | DifferentDimension | DepositDoesntHaveThisResource | DiscountCannotBeActivated | NotEnoughRequirements | TooManyResourcesRequested | DepositHasReachedMaxLimit | NotEnoughResources | DepositHasAnotherResource | WrongChosenResources developmentCardNotFound) {
             developmentCardNotFound.printStackTrace();
@@ -103,7 +103,7 @@ public class ClientHandler implements Runnable {
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
             DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated,
             NotEnoughRequirements, TooManyResourcesRequested, DepositHasReachedMaxLimit,
-            NotEnoughResources, DepositHasAnotherResource, WrongChosenResources {
+            NotEnoughResources, DepositHasAnotherResource, WrongChosenResources, IOException, ClassNotFoundException {
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -119,9 +119,9 @@ public class ClientHandler implements Runnable {
             }
         }
         else{
-            PacketHandler packet = null;
+            ClientPacketHandler packet = null;
             try {
-                packet = mapper.readValue(jsonResult, PacketHandler.class);
+                packet = mapper.readValue(jsonResult, ClientPacketHandler.class);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }

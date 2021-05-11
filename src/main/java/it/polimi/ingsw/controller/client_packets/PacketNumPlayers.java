@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller.client_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.controller.PacketHandler;
 import it.polimi.ingsw.controller.SetupHandler;
 import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.model.GameInterface;
