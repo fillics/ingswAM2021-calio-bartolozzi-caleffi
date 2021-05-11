@@ -1,10 +1,8 @@
-package it.polimi.ingsw.SinglePlayer;
+package it.polimi.ingsw.model.singleplayer;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 import it.polimi.ingsw.model.cards.developmentcards.CardColor;
-import it.polimi.ingsw.model.singleplayer.SoloActionToken;
-import it.polimi.ingsw.model.singleplayer.SoloActionTokenType;
 import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Cards.LeaderCards;
+package it.polimi.ingsw.model.cards.leadercards;
 
 import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.board.resources.ResourceType;

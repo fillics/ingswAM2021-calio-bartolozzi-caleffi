@@ -1,6 +1,5 @@
-package it.polimi.ingsw.Board;
+package it.polimi.ingsw.model.board;
 
-import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.faithtrack.PopeFavorTile;
 import it.polimi.ingsw.model.board.faithtrack.PopeFavorTileColor;

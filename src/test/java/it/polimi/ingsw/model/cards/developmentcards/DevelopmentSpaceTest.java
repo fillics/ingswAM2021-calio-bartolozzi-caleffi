@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Cards.DevelopmentCards;
+package it.polimi.ingsw.model.cards.developmentcards;
 
 import static org.junit.jupiter.api.Assertions.*;
 import it.polimi.ingsw.model.board.resources.ResourceType;

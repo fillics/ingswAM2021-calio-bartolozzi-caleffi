@@ -48,6 +48,7 @@ public class SocketClientConnection {
             output.flush();
         } catch (IOException e) {
             System.err.println("Error during the communication from client to server!");
+            CLI.main(null);
         }
     }
 
@@ -59,7 +60,9 @@ public class SocketClientConnection {
         String str = null;
         try {
             str =  br.readLine();
-        } catch (IOException ignored) {}
+        } catch (IOException e) {
+            //System.out.println("server disconnesso");
+        }
         return str;
     }
 

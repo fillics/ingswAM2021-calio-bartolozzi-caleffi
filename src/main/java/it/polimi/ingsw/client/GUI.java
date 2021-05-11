@@ -5,4 +5,9 @@ public class GUI implements Runnable,ViewInterface{
     public void run() {
 
     }
+
+    @Override
+    public void choiceGameType() {
+
+    }
 }

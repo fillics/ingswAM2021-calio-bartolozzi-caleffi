@@ -1,8 +1,6 @@
-package it.polimi.ingsw.Marbles;
+package it.polimi.ingsw.model.marbles;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.marbles.Marble;
-import it.polimi.ingsw.model.marbles.MarketTray;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

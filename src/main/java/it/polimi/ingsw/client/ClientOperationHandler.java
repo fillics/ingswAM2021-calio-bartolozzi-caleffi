@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class ClientOperationHandler {
     private SocketClientConnection socketClientConnection;
     private ObjectMapper mapper;
@@ -22,41 +23,41 @@ public class ClientOperationHandler {
         input = new Scanner(System.in);
     }
 
-    public void HandleOperation(String input) throws IOException {
+    public void handleOperation(int input) throws IOException {
         switch(input) {
-            case "1":
+            case 1:
                 System.out.println("You have chosen to activate a Leader Card\n");
                 activateLeaderCard();
                 break;
-            case "2":
+            case 2:
                 System.out.println("You have chosen to buy a Development Card\n");
                 buyDevCard();
                 break;
-            case "3":
+            case 3:
                 System.out.println("You have chosen to choose a Discount\n");
                 chooseDiscount();
                 break;
-            case "4":
+            case 4:
                 System.out.println("You have chosen to remove two Leader Cards\n");
                 chooseLeaderCardToRemove();
                 break;
-            case "5":
+            case 5:
                 System.out.println("You have chosen to discard one of your Leader Card\n");
                 discardLeaderCard();
                 break;
-            case "6":
+            case 6:
                 System.out.println("You have chosen to move one of your resources\n");
                 moveResource();
                 break;
-            case "7":
+            case 7:
                 System.out.println("You have chosen to place one of your resource\n");
                 placeResource();
                 break;
-            case "8":
+            case 8:
                 System.out.println("You have chosen to take some resources from the market\n");
                 takeResourceFromMarket();
                 break;
-            case "9":
+            case 9:
                 System.out.println("You have chosen to use your production powers\n");
                 useAndChooseProductionPower();
                 break;
