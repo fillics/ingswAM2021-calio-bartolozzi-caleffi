@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.model.Game;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class Server {
     /** List of clients waiting in the lobby. */
     private final Queue<ClientHandler> lobby = new LinkedList<>();
 
-
+    // TODO: 11/05/2021 aggiungere struttura dati che contiene game e i relativi idplayers
     public Server() {
         game = new Game();
         mapUsernameClientHandler = new HashMap<>();
@@ -99,14 +100,24 @@ public class Server {
         executor.shutdown();
     }
 
+    /**
+     * Method createClientID returns a new idClient to assign to the correct ClientHandler
+     */
     public synchronized int createClientID() {
         return idClient+=1;
     }
 
+    /**
+     * Method createGameID returns a new idGame to assign to the correct Game created
+     */
     public synchronized int createGameID() {
         return idGame+=1;
     }
 
+    /**
+     * Method setNumPlayers sets the number of the players needed to create a new Game.
+     * @param numPlayers (type Int) - it is the number of players that the first person in the lobby has decided
+     */
     public void setNumPlayers(int numPlayers) {
         this.numPlayers = numPlayers;
     }
@@ -116,7 +127,11 @@ public class Server {
     }
 
     /**
-     * aggiungiamo la persona alla lobby
+     * Method addToLobby adds to the lobby's queue the clientHandler who inserted his username. After that, it calls the
+     * method checkUsernameAlreadyTaken to verify the uniqueness of the username and then checks if that person is the
+     * first person in the lobby (to ask him how many players he wants).
+     * @param username (type String) - it is the username to check
+     * @param clientHandler (type ClientHandler) - it is the clientHandler who has that username
      */
     public synchronized void addToLobby(String username, ClientHandler clientHandler){
         lobby.add(clientHandler);
@@ -126,30 +141,36 @@ public class Server {
     }
 
     /**
-     * se la persona aggiunta è la prima della lobby, chiediamo il numero di players
-     * @param clientHandler
+     * Method checkFirstPositionInLobby checks if the ClientHandler, passed as a parameter, is the first person of
+     * the lobby. If so, it asks to him to insert the number of players of the game.
+     * @param clientHandler (type ClientHandler) - it is the person to check
      */
     public synchronized void checkFirstPositionInLobby(ClientHandler clientHandler){
         if (lobby.peek() != null && lobby.peek().equals(clientHandler)) {
-            clientHandler.askPlayers();
+            clientHandler.sendMessageToClient(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
         }
     }
 
     /**
-     * controlliamo se qualcuno ha già inserito un username
+     * Method checkUsernameAlreadyTaken checks if the username of the clientHandler already exists in the map that
+     * contains all the username already taken. If so, it asks to the person to reinsert the username. Otherwise, that
+     * username will be added into the map.
+     * @param username (type String) - it is the username to check
+     * @param clientHandler (type ClientHandler) - it is the clientHandler who has that username
      */
     public synchronized void checkUsernameAlreadyTaken(String username, ClientHandler clientHandler){
 
         if(mapUsernameClientHandler.containsKey(username)){
-            clientHandler.askUsernameAgain();
+            clientHandler.sendMessageToClient(ConnectionMessages.TAKEN_NICKNAME);
         }
         else addUsernameIntoMap(username, clientHandler);
     }
 
     /**
-     * aggiungiamo l'username nella mappa con tutti gli username scelti
-     * @param username
-     * @param clientHandler
+     * Method addUsernameIntoMap adds the username and the clientHandler into the map that contains all the usernames
+     * and the clientHandlers. This method is called by the method checkUsernameAlreadyTaken.
+     * @param username (type String) - it is the username to insert
+     * @param clientHandler (type ClientHandler) - it is the clientHandler to insert
      */
     public synchronized void addUsernameIntoMap(String username, ClientHandler clientHandler){
         mapUsernameClientHandler.put(username, clientHandler);
@@ -158,43 +179,43 @@ public class Server {
     }
 
     /**
-     * iniziamo il match solo quando numPlayers è uguale alla dimensione della lobby
+     * Method checkStartOfTheGame checks if there are enough players in the lobby to start the game.
      */
     public synchronized void checkStartOfTheGame(){
-        //System.out.println("sono dentrocheckstart of the game");
-        System.out.println("num players settati: "+numPlayers);
-        System.out.println("dimensione lobby: "+lobby.size());
         if(numPlayers <= lobby.size()){
             createMatch();
         }
     }
 
 
+    /**
+     * Method createMatch is called by the method checkStartOfTheGame and creates a new match. It removes the people in
+     * the lobby and creates a new Game's player for each person. If there are other people in the lobby, it asks to the
+     * person to insert the number of players to create a new match.
+     */
     public synchronized void createMatch(){
 
         game = new Game();
         games.add(game);
         game.setIdGame(createGameID());
 
-        System.out.println("Created the game (idGame: " + game.getIdGame()+ ") with " +numPlayers+" players");
+        System.out.println("Client " + (lobby.peek() != null ? lobby.peek().getUsername() : null) + " created the game (idGame: " + game.getIdGame()+ ") " +
+                "with " +numPlayers+" players");
 
         for (int i=0; i<numPlayers; i++){
             if (lobby.peek() != null) {
                 game.createNewPlayer(lobby.peek().getUsername());
-                lobby.peek().gameIsStarting();
+                lobby.peek().sendMessageToClient(ConnectionMessages.GAME_IS_STARTING);
             }
             lobby.remove();
         }
         numPlayers=0;
 
         if (lobby.size()!=0){
-            lobby.peek().askPlayers();
+            lobby.peek().sendMessageToClient(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
         }
 
-
         game.setup();
-
-        //stampare chi c'è nel game
 
 
     }

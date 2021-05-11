@@ -1,11 +1,10 @@
-package it.polimi.ingsw.Cards.DevelopmentCards;
+package it.polimi.ingsw.model.cards.developmentcards;
 
 import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.exceptions.DifferentDimension;
 import it.polimi.ingsw.exceptions.TooManyResourcesRequested;
-import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import it.polimi.ingsw.model.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

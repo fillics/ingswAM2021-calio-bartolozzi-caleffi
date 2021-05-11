@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.LocalGame;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 
@@ -12,13 +13,14 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class CLI implements Runnable{
+public class CLI implements Runnable, ViewInterface{
     private final PrintStream output;
     private final Scanner input;
     private SocketClientConnection socketClientConnection;
     private ObjectMapper mapper;
     private boolean gameStarted = false;
-
+    private ClientOperationHandler clientOperationHandler;
+    int choiceGame = 0;
 
     /**
      * Constructor CLI creates a new CLI instance
@@ -28,6 +30,7 @@ public class CLI implements Runnable{
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
         socketClientConnection = new SocketClientConnection();
+        clientOperationHandler = new ClientOperationHandler(socketClientConnection);
     }
 
     public static void main(String[] args) {
@@ -53,30 +56,76 @@ public class CLI implements Runnable{
     @Override
     public void run() {
 
-        beforeBeginningOfTheGame();
+        choiceGameType();
+        if (choiceGame==1) {
+            LocalGame localGame = new LocalGame();
+        }
+        if (choiceGame==2){
+            beforeBeginningOfTheGame(); //username and number of players
+            //the game has been created
+            additionalSetupGame(); //choice of the leader cards and placing additional resources
 
-        //ciclare in attesa di un messaggio fino a che il game è attivo
-        //while(game active){
-            //TODO: ENTRO SOLO SE è IL MIO TURNO
-            //makeAction();
-        //}
 
-        input.close();
-        output.close();
+            System.out.println("We're ready to play! Choose one of the operations you can do:\nText 0 to quit");
+            int operation=0;
+            do{
+                System.out.println("1: Activate a Leader Card\n" +
+                        "2: Buy a Development Card\n" +
+                        "3: Choose Discount\n" +
+                        "4: Choose the 2 Leader Card to remove\n" +
+                        "5: Discard a Leader Card\n" +
+                        "6: Move one of you resources\n" +
+                        "7: Place one of your resources\n" +
+                        "8: Take resources from the market\n" +
+                        "9: Use production powers\n");
+                operation= input.nextInt();
+                if(operation!=0){
+                    try {
+                        clientOperationHandler.handleOperation(operation);
+                    } catch (IOException e) {
+                        System.err.println("Error during the choice of the operation to do");
+                    }
+                }
+            }while(operation!=0);
+
+            input.close();
+            output.close();
+        }
+
     }
 
     /**
-     * Method beforeBeginningOfTheGame handles the
-     * gestire fase pre game: username (eventualmente username invalido) e numero di players
+     * Method choiceGameType asks to the player if he wants to play in solo (without making any connection to the server)
+     * or throught the server
+     */
+    @Override
+    public void choiceGameType(){
+
+        printConnectionMessage(ConnectionMessages.LOCAL_OR_SERVERGAME);
+
+        Scanner in = new Scanner(System.in);
+        do {
+            System.out.print(">");
+            try{
+                choiceGame = in.nextInt();
+                if (choiceGame!=1 && choiceGame!=2) printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
+            }catch (NumberFormatException e) {
+                System.err.println("Invalid parameter: insert a numeric value.");
+            }
+        }while(choiceGame!=1 && choiceGame!=2);
+    }
+
+    /**
+     * Method beforeBeginningOfTheGame handles the initial phase where the game is created (asking for example
+     * to the clients the username)
      */
     public void beforeBeginningOfTheGame(){
         printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
         sendUsername();
 
-        //ciclare fino a quando la fase di setup non è finita
         while(!gameStarted){
             String str = socketClientConnection.listening();
-            handleSetupMessage(str);
+            handleBeforeGameMessage(str);
         }
     }
 
@@ -136,7 +185,7 @@ public class CLI implements Runnable{
      * Method handleSetupMessage handles the messages that the server sends. According to them, it calls the right methods.
      * @param message (type String) - it is the message arrived from the server
      */
-    public void handleSetupMessage(String message){
+    public void handleBeforeGameMessage(String message){
 
         if (ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage().equals(message)) {
             printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
@@ -147,7 +196,7 @@ public class CLI implements Runnable{
             System.out.println(message);
             sendUsername();
         }
-        else if (ConnectionMessages.GAME_STARTED.getMessage().equals(message)) {
+        else if (ConnectionMessages.GAME_IS_STARTING.getMessage().equals(message)) {
             System.out.println(message);
             gameStarted = true;
         }
@@ -161,9 +210,12 @@ public class CLI implements Runnable{
         }
     }
 
+    public void additionalSetupGame(){
+
+    }
+
     /**
-     *
-     * @param message
+     * Method printConnectionMessage prints the Connection Message passed as a parameter
      */
     private void printConnectionMessage(ConnectionMessages message){
         System.out.println(message.getMessage());

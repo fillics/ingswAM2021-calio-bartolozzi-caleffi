@@ -1,8 +1,7 @@
-package it.polimi.ingsw.Board.Storage;
+package it.polimi.ingsw.model.board.storage;
 
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.exceptions.EmptyDeposit;
-import it.polimi.ingsw.model.board.storage.Strongbox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

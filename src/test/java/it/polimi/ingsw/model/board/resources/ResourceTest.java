@@ -1,9 +1,5 @@
-package it.polimi.ingsw.Board.Resources;
+package it.polimi.ingsw.model.board.resources;
 import it.polimi.ingsw.model.board.Board;
-import it.polimi.ingsw.model.board.resources.ConcreteStrategyResource;
-import it.polimi.ingsw.model.board.resources.ConcreteStrategySpecialResource;
-import it.polimi.ingsw.model.board.resources.Resource;
-import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Deposit;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;

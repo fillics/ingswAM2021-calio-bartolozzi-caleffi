@@ -1,10 +1,6 @@
-package it.polimi.ingsw.Cards.DevelopmentCards;
+package it.polimi.ingsw.model.cards.developmentcards;
 import static org.junit.jupiter.api.Assertions.*;
 import it.polimi.ingsw.model.board.resources.ResourceType;
-import it.polimi.ingsw.model.cards.developmentcards.CardColor;
-import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
-import it.polimi.ingsw.model.cards.developmentcards.Level;
-import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

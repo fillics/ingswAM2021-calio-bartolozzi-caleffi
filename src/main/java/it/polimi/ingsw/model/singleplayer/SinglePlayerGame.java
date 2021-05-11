@@ -182,6 +182,14 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
     }
 
 
+    // TODO: 10/05/2021 da sistemare il fatto che in single player uno possa scartare delle risorse, facendo aumentare lorenzo
+    @Override
+    public void increaseFaithMarkerOfOtherPlayers() {
+        increaseBlackCross(1);
+    }
+    
+    
+
     /**
      *  Method endGame called when the conditions to end the game are satisfied.
      */

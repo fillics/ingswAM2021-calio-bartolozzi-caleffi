@@ -6,20 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.PacketHandler;
-import it.polimi.ingsw.controller.State;
-import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
-import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
+import it.polimi.ingsw.controller.SetupHandler;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientHandler implements Runnable {
     private Socket socket;
@@ -27,10 +21,7 @@ public class ClientHandler implements Runnable {
     private int idClient, idGame;
     private boolean quit = false;
     private Server server;
-    private OutputStream output;
-    private Scanner in;
     private DataInputStream dis;
-    private String str;
     private PrintStream ps;
     private String username;
 
@@ -45,17 +36,14 @@ public class ClientHandler implements Runnable {
             ps = new PrintStream(socket.getOutputStream());// to send data to the client
         } catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during initialization of the client!");
-            System.err.println(e.getMessage());
         }
     }
 
     public void run() {
         try {
-            //TODO: ENTRO SOLO SE è IL MIO TURNO
 
-            // Leggo e scrivo nella connessione finche' non ricevo "quit"
             while (!quit) {
-                str = dis.readUTF();
+                String str = dis.readUTF();
                 deserialize(str);
 
                 if(game.isEndgame())
@@ -63,8 +51,8 @@ public class ClientHandler implements Runnable {
 
             }
             // Chiudo gli stream e il socket -> client non è più connesso al server
-            in.close();
-            output.close();
+            dis.close();
+            ps.close();
             socket.close();
 
         } catch (IOException  e) {
@@ -90,31 +78,26 @@ public class ClientHandler implements Runnable {
         return socket;
     }
 
-    /**
-     * method to ask the number of the players to the first client of the lobby
-     */
-    public void askPlayers(){
-        sendMessageToClient(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
-    }
-
-    /**
-     * method that sends a message to the client to ask him a new username
-     */
-    public void askUsernameAgain(){
-        sendMessageToClient(ConnectionMessages.TAKEN_NICKNAME);
-    }
-
-    public void gameIsStarting(){
-        sendMessageToClient(ConnectionMessages.GAME_STARTED);
-    }
-
-    public void waitingPeople(){
-        sendMessageToClient(ConnectionMessages.WAITING_PEOPLE);
-    }
 
     public void sendMessageToClient(ConnectionMessages msg){
-        ps.println(msg.getMessage());
+        String messageToSend = msg.getMessage();
+        try{
+            ps.println(messageToSend);
+        }catch (Exception e){
+            close();
+        }
     }
+
+
+    public void close(){
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public void deserialize(String jsonResult) throws DevelopmentCardNotFound,
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
@@ -123,15 +106,30 @@ public class ClientHandler implements Runnable {
             NotEnoughResources, DepositHasAnotherResource, WrongChosenResources {
 
         ObjectMapper mapper = new ObjectMapper();
-        PacketHandler packet = null;
-        try {
-            packet = mapper.readValue(jsonResult, PacketHandler.class);
 
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+        if (jsonResult.contains("USERNAME") || jsonResult.contains("NUMOFPLAYERS")){
+            SetupHandler packet = null;
+            try {
+                packet = mapper.readValue(jsonResult, SetupHandler.class);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            if (packet != null) {
+                packet.execute(server,this);
+            }
         }
-        if (packet != null) {
-            packet.execute(server,game,this);
+        else{
+            PacketHandler packet = null;
+            try {
+                packet = mapper.readValue(jsonResult, PacketHandler.class);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+
+            if (packet != null) {
+                packet.execute(server,game,this);
+            }
         }
+
     }
 }

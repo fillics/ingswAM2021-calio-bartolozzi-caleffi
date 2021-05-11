@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Marbles;
+package it.polimi.ingsw.model.marbles;
 
 import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.board.resources.ResourceType;

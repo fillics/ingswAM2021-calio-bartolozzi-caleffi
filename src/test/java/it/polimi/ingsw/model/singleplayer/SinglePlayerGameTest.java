@@ -1,4 +1,4 @@
-package it.polimi.ingsw.SinglePlayer;
+package it.polimi.ingsw.model.singleplayer;
 import static org.junit.jupiter.api.Assertions.*;
 
 import it.polimi.ingsw.model.cards.developmentcards.CardColor;
