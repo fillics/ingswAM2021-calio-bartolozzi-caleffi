@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.board.faithtrack.Cell;
-import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
 import it.polimi.ingsw.model.board.storage.Deposit;
 import it.polimi.ingsw.model.board.storage.Strongbox;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
@@ -35,9 +33,7 @@ public class LiteBoard {
         return developmentSpaces;
     }
 
-    public ArrayList<ProductionPower> getSpecialProductionPowers() {
-        return specialProductionPowers;
-    }
+    public ArrayList<ProductionPower>  getSpecialProductionPower() { return specialProductionPowers; }
 
     public void setStrongbox(Strongbox strongbox) {
         this.strongbox = strongbox;

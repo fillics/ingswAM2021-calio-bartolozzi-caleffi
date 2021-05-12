@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
@@ -56,5 +55,13 @@ public class LitePlayer {
 
     public void setWhiteMarbleCardChoice(ArrayList<Integer> whiteMarbleCardChoice) {
         this.whiteMarbleCardChoice = whiteMarbleCardChoice;
+    }
+
+    public ArrayList<Resource> getResourceBuffer() {
+        return resourceBuffer;
+    }
+
+    public ArrayList<LeaderCard> getLeaderCards() {
+        return leaderCards;
     }
 }

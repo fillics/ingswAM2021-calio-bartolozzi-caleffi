@@ -97,7 +97,7 @@ public class CLI implements Runnable, ViewInterface{
                 operation= input.nextInt();
                 if(operation!=0){
                     try {
-                        clientOperationHandler.handleOperation(operation);
+                        clientOperationHandler.HandleCLIOperation(operation);
                     } catch (IOException e) {
                         System.err.println("Error during the choice of the operation to do");
                     }
