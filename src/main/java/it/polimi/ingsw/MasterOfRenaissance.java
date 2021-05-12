@@ -21,6 +21,11 @@ public class MasterOfRenaissance {
      */
 
     public static void main( String[] args ) {
+        for (int i = 0; i < 15; i++) {
+            int random = (int)(Math.random()*(4));
+            System.out.println(random);
+        }
+
         Scanner scanner = new Scanner(System.in);
         int choice;
 

@@ -22,6 +22,8 @@ public class PacketLitePlayer implements ServerPacketHandler{
 
     @Override
     public void execute(ClientModelView clientModelView) {
-
+        clientModelView.getMyPlayer().setIdClient(idPlayer);
+        clientModelView.getMyPlayer().setTotalVictoryPoint(totalVictoryPoint);
+        clientModelView.getMyPlayer().setUsername(username);
     }
 }

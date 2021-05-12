@@ -24,7 +24,7 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
     private ArrayList<ResourceType> newResources;
 
     @JsonCreator
-    public PacketUseAndChooseProdPower(@JsonProperty("production powers: ")ArrayList<ProductionPower> productionPowers,@JsonProperty("resource types: ") ArrayList<ResourceType> resourceTypes,@JsonProperty("warehouse: ") ArrayList<Warehouse> warehouse,@JsonProperty("new resources: ") ArrayList<ResourceType> newResources) {
+    public PacketUseAndChooseProdPower(@JsonProperty("ProductionPowers")ArrayList<ProductionPower> productionPowers,@JsonProperty("ResourceTypes") ArrayList<ResourceType> resourceTypes,@JsonProperty("Warehouse") ArrayList<Warehouse> warehouse,@JsonProperty("NewResources") ArrayList<ResourceType> newResources) {
         this.productionPowers = productionPowers;
         this.resourceTypes = resourceTypes;
         this.warehouse = warehouse;
@@ -34,7 +34,7 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositDoesntHaveThisResource, TooManyResourcesRequested, DifferentDimension {
-        if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getIdClient() == gameInterface.getCurrentPlayer()){
+        if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             HashMap<ResourceType, Integer> resourceNeeded = new HashMap<>();
             resourceNeeded.put(ResourceType.COIN, 0);
             resourceNeeded.put(ResourceType.STONE, 0);
@@ -66,5 +66,21 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
             gameInterface.setState(State.PHASE_TWO);
         }
 
+    }
+
+    public ArrayList<ProductionPower> getProductionPowers() {
+        return productionPowers;
+    }
+
+    public ArrayList<ResourceType> getResourceTypes() {
+        return resourceTypes;
+    }
+
+    public ArrayList<Warehouse> getWarehouse() {
+        return warehouse;
+    }
+
+    public ArrayList<ResourceType> getNewResources() {
+        return newResources;
     }
 }

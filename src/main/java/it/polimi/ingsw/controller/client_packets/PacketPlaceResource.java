@@ -15,7 +15,7 @@ public class PacketPlaceResource implements ClientPacketHandler {
     private int resourcePosition;
 
     @JsonCreator
-    public PacketPlaceResource(@JsonProperty("deposit position: ")int depositPosition,@JsonProperty("resource position: ") int resourcePosition) {
+    public PacketPlaceResource(@JsonProperty("DepositPosition")int depositPosition,@JsonProperty("ResourcePosition") int resourcePosition) {
         this.depositPosition = depositPosition;
         this.resourcePosition = resourcePosition;
     }
@@ -24,8 +24,16 @@ public class PacketPlaceResource implements ClientPacketHandler {
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
         if((gameInterface.getState() == State.PHASE_ONE || gameInterface.getState() == State.PHASE_TWO)
-                && clientHandler.getIdClient() == gameInterface.getCurrentPlayer()){
+                && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.placeResource(depositPosition, resourcePosition);
         }
+    }
+
+    public int getDepositPosition() {
+        return depositPosition;
+    }
+
+    public int getResourcePosition() {
+        return resourcePosition;
     }
 }

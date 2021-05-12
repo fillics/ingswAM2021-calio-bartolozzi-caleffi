@@ -10,20 +10,28 @@ import it.polimi.ingsw.server.Server;
 
 
 public class PacketChooseLeaderCardToRemove implements ClientPacketHandler {
-    private int ID1;
-    private int ID2;
+    private int Id1;
+    private int Id2;
 
     @JsonCreator
-    public PacketChooseLeaderCardToRemove(@JsonProperty("First card: ")int ID1,@JsonProperty("Second card: ") int ID2) {
-        this.ID1 = ID1;
-        this.ID2 = ID2;
+    public PacketChooseLeaderCardToRemove(@JsonProperty("id1")int Id1,@JsonProperty("id2") int Id2) {
+        this.Id1 = Id1;
+        this.Id2 = Id2;
     }
 
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws LeaderCardNotFound {
         if(gameInterface.getState() == State.SETUP){
-            gameInterface.chooseLeaderCardToRemove(ID1, ID2);
+            gameInterface.chooseLeaderCardToRemove(Id1, Id2);
         }
+    }
+
+    public int getId1() {
+        return Id1;
+    }
+
+    public int getId2() {
+        return Id2;
     }
 }

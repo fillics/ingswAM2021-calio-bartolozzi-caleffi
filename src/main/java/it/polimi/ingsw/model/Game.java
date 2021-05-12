@@ -95,11 +95,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * Method changePlayersPosition chooses who the first player is and according to that, the other player's position
      */
     public void changePlayersPosition(){
-        int random = (int)(Math.random()*(activePlayers.size()+1));
-        Collections.rotate(activePlayers, random);
-        for (int i = 0; i < activePlayers.size(); i++) {
-            activePlayers.get(i).setPosition(i+1);
-        }
+        int random = (int)(Math.random()*(activePlayers.size()));
+        currentPlayer = random;
     }
 
 

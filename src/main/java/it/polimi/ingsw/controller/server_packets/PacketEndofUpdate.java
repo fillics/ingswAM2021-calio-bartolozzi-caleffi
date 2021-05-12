@@ -6,6 +6,6 @@ import it.polimi.ingsw.client.ClientModelView;
 public class PacketEndofUpdate implements ServerPacketHandler{
     @Override
     public void execute(ClientModelView clientModelView) {
-
+        System.out.println("Bro ti ho aggiornato anche la mamma");
     }
 }

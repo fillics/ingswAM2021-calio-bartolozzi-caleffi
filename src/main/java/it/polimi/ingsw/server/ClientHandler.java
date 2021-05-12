@@ -24,7 +24,7 @@ import java.util.Scanner;
 public class ClientHandler implements Runnable {
     private Socket socket;
     private Game game;
-    private int idClient, idGame;
+    private int idClient, idGame, posInGame;
     private boolean quit = false;
     private Server server;
     private DataInputStream dis;
@@ -34,6 +34,8 @@ public class ClientHandler implements Runnable {
     private ObjectMapper mapper;
     private String jsonResult;
     private boolean gameStarted= false;
+
+
 
 
     public ClientHandler(int idClient, Socket socket, Server server) {
@@ -96,6 +98,14 @@ public class ClientHandler implements Runnable {
         this.username = username;
     }
 
+    public int getPosInGame() {
+        return posInGame;
+    }
+
+    public void setPosInGame(int posInGame) {
+        this.posInGame = posInGame;
+    }
+
     public int getIdClient() {
         return idClient;
     }
@@ -147,6 +157,7 @@ public class ClientHandler implements Runnable {
 
             if (packet != null) {
                 packet.execute(server,game,this);
+
             }
         }
 

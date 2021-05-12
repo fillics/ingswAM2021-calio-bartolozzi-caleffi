@@ -13,7 +13,7 @@ public class PacketMoveResource implements ClientPacketHandler {
     private int position;
 
     @JsonCreator
-    public PacketMoveResource(@JsonProperty("position: ")int position) {
+    public PacketMoveResource(@JsonProperty("Position")int position) {
         this.position = position;
     }
 
@@ -21,8 +21,12 @@ public class PacketMoveResource implements ClientPacketHandler {
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit {
         if((gameInterface.getState() == State.PHASE_ONE || gameInterface.getState() == State.PHASE_TWO)
-                && clientHandler.getIdClient() == gameInterface.getCurrentPlayer()){
+                && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.moveResource(position);
         }
+    }
+
+    public int getPosition() {
+        return position;
     }
 }

@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller.server_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.ClientModelView;
-import it.polimi.ingsw.client.LiteMarketTray;
 import it.polimi.ingsw.model.marbles.Marble;
 
 public class PacketLiteMarketTray implements ServerPacketHandler{
@@ -17,6 +16,6 @@ public class PacketLiteMarketTray implements ServerPacketHandler{
 
     @Override
     public void execute(ClientModelView clientModelView) {
-
+        clientModelView.getMarketTray().setTable(table);
     }
 }

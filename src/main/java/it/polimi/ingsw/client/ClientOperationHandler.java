@@ -76,7 +76,7 @@ public class ClientOperationHandler {
 
 
     public void activateLeaderCard() throws IOException {
-        System.out.println("Choose the ID of the leader card to activate");
+        System.out.println("Choose the ID of the leader card to activate: ");
         int id;
         boolean LeaderCardcheck = false;
         do {
@@ -143,10 +143,10 @@ public class ClientOperationHandler {
                 do{
                     position = input.nextInt();
                     switch (position) {
-                        case 1 -> warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(0));
-                        case 2 -> warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(1));
-                        case 3 -> warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(2));
-                        case 4 -> warehouse.add(clientModelView.getMyPlayer().getBoard().getStrongbox());
+                        case 1 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(0));
+                        case 2 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(1));
+                        case 3 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(2));
+                        case 4 -> warehouse.add(clientModelView.getLiteBoard().getStrongbox());
                         default -> System.out.println("invalid position\n");
                     }
                 }while(position < 1 || position > 4);
@@ -163,17 +163,17 @@ public class ClientOperationHandler {
             String devSpace = input.nextLine();
             switch (devSpace) {
                 case "1" -> {
-                    packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getMyPlayer().getBoard().getDevelopmentSpaces().get(0));
+                    packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getLiteBoard().getDevelopmentSpaces().get(0));
                     sendPacket(packet);
                     DevSpacecheck = true;
                 }
                 case "2" -> {
-                    packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getMyPlayer().getBoard().getDevelopmentSpaces().get(1));
+                    packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getLiteBoard().getDevelopmentSpaces().get(1));
                     sendPacket(packet);
                     DevSpacecheck = true;
                 }
                 case "3" -> {
-                    packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getMyPlayer().getBoard().getDevelopmentSpaces().get(2));
+                    packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getLiteBoard().getDevelopmentSpaces().get(2));
                     sendPacket(packet);
                     DevSpacecheck = true;
                 }
@@ -193,11 +193,6 @@ public class ClientOperationHandler {
                 if (id == leaderCard.getId()) {
                     leaderCards.add(id);
                 }
-                else {
-                    if(id != 0){
-                        System.out.println("invalid number, retry");
-                    }
-                }
             }
         }while (id != 0);
         PacketChooseDiscount packet = new PacketChooseDiscount(leaderCards);
@@ -205,16 +200,20 @@ public class ClientOperationHandler {
     }
 
     public void chooseLeaderCardToRemove() throws IOException {
-        System.out.println("Choose the 2 IDs of the leader cards to remove");
-        int id1;
-        int id2;
+        System.out.println("Choose the 2 IDs of the leader cards to remove: ");
+
+        for (LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()) {
+            System.out.println(leaderCard.getId());
+        }
+        int Id1;
+        int Id2;
         boolean checkid1 = false;
         boolean checkid2 = false;
 
         do {
-            id1 = input.nextInt();
+            Id1 = input.nextInt();
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
-                if (id1 == leaderCard.getId()) {
+                if (Id1 == leaderCard.getId()) {
                     checkid1 = true;
                     break;
                 }
@@ -223,18 +222,18 @@ public class ClientOperationHandler {
 
 
         do {
-            id2 = input.nextInt();
+            Id2 = input.nextInt();
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
-                if (id2 == leaderCard.getId() && id2 != id1) {
+                if (Id2 == leaderCard.getId() && Id2 != Id1) {
                     checkid2 = true;
                     break;
                 }
             }
         } while (!checkid2);
 
-        PacketChooseLeaderCardToRemove packet = new PacketChooseLeaderCardToRemove(id1, id2);
+        PacketChooseLeaderCardToRemove packet = new PacketChooseLeaderCardToRemove(Id1, Id2);
+        System.out.println(packet);
         sendPacket(packet);
-
     }
 
     public void discardLeaderCard() throws IOException {
@@ -303,6 +302,8 @@ public class ClientOperationHandler {
         do {
             line = input.nextLine();
         } while (!line.equals("Row") && !line.equals("Column"));
+
+
 
         if (line.equals("Row")) {
             do {
@@ -414,10 +415,10 @@ public class ClientOperationHandler {
                 do{
                     position = input.nextInt();
                     switch (position) {
-                        case 1 -> warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(0));
-                        case 2 -> warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(1));
-                        case 3 -> warehouse.add(clientModelView.getMyPlayer().getBoard().getDeposits().get(2));
-                        case 4 -> warehouse.add(clientModelView.getMyPlayer().getBoard().getStrongbox());
+                        case 1 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(0));
+                        case 2 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(1));
+                        case 3 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(2));
+                        case 4 -> warehouse.add(clientModelView.getLiteBoard().getStrongbox());
                         default -> System.out.println("invalid position\n");
                     }
                 }while(position < 1 || position > 4);

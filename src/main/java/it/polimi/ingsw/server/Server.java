@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-    private int idClient = 0;
+    private int idClient = -1;
     private int idGame = 0;
     private Game game;
     private ArrayList<Game> games = new ArrayList<>();
@@ -126,6 +127,10 @@ public class Server {
         return numPlayers;
     }
 
+    public ArrayList<Game> getGames() {
+        return games;
+    }
+
     /**
      * Method addToLobby adds to the lobby's queue the clientHandler who inserted his username. After that, it calls the
      * method checkUsernameAlreadyTaken to verify the uniqueness of the username and then checks if that person is the
@@ -204,6 +209,7 @@ public class Server {
         for (int i=0; i<numPlayers; i++){
 
             if (lobby.peek() != null) {
+                lobby.peek().setPosInGame(i);
                 lobby.peek().setGame(game);
                 game.createNewPlayer(lobby.peek().getUsername(), lobby.peek().getIdClient());
                 lobby.peek().sendMessageToClient(ConnectionMessages.GAME_IS_STARTING);
@@ -219,6 +225,11 @@ public class Server {
         }
 
         game.setup();
+    }
+
+    //invia a tutti i giocatori un update del game in cui giocano
+    public void sendAll(ServerPacketHandler packet) {
+
     }
 
 }

@@ -14,15 +14,19 @@ public class PacketChooseDiscount implements ClientPacketHandler {
     private ArrayList<Integer> leaderCards;
 
     @JsonCreator
-    public PacketChooseDiscount(@JsonProperty("Leader cards: ")ArrayList<Integer> leaderCards) {
+    public PacketChooseDiscount(@JsonProperty("LeaderCards")ArrayList<Integer> leaderCards) {
         this.leaderCards = leaderCards;
     }
 
-    //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
+    //TODO: Aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws DiscountCannotBeActivated {
-        if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getIdClient() == gameInterface.getCurrentPlayer()){
+        if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.chooseDiscountActivation(leaderCards);
         }
+    }
+
+    public ArrayList<Integer> getLeaderCards() {
+        return leaderCards;
     }
 }

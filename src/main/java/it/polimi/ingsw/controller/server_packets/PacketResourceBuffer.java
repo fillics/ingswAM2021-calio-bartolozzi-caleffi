@@ -19,6 +19,6 @@ public class PacketResourceBuffer implements ServerPacketHandler{
 
     @Override
     public void execute(ClientModelView clientModelView) {
-
+        clientModelView.getMyPlayer().setResourceBuffer(resourceBuffer);
     }
 }

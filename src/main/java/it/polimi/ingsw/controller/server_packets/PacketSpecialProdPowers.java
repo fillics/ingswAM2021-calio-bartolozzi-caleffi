@@ -18,6 +18,6 @@ public class PacketSpecialProdPowers implements ServerPacketHandler{
 
     @Override
     public void execute(ClientModelView clientModelView) {
-
+        clientModelView.getLiteBoard().setSpecialProductionPowers(specialProductionPowers);
     }
 }

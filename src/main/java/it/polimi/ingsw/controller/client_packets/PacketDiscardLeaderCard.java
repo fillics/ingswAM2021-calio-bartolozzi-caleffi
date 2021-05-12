@@ -13,7 +13,7 @@ public class PacketDiscardLeaderCard implements ClientPacketHandler {
     private int ID;
 
     @JsonCreator
-    public PacketDiscardLeaderCard(@JsonProperty("ID: ")int ID) {
+    public PacketDiscardLeaderCard(@JsonProperty("id")int ID) {
         this.ID = ID;
     }
 
@@ -21,8 +21,12 @@ public class PacketDiscardLeaderCard implements ClientPacketHandler {
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws LeaderCardNotFound {
         if((gameInterface.getState() == State.PHASE_ONE || gameInterface.getState() == State.PHASE_TWO)
-                && clientHandler.getIdClient() == gameInterface.getCurrentPlayer()){
+                && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.discardLeaderCard(ID);
         }
+    }
+
+    public int getID() {
+        return ID;
     }
 }

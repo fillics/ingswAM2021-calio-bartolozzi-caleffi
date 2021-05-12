@@ -6,12 +6,11 @@ import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import java.util.ArrayList;
 
 public class LitePlayer {
-    private final String username;
+    private  String username;
     private int idClient;
     private int totalVictoryPoint;
     private ArrayList<LeaderCard> leaderCards;
     private ArrayList<Resource> resourceBuffer;
-    private LiteBoard board;
     //private int chosenResource;
     private ArrayList<Integer> whiteMarbleCardChoice;
 
@@ -21,13 +20,9 @@ public class LitePlayer {
         this.totalVictoryPoint = totalVictoryPoint;
         this.leaderCards = leaderCards;
         this.resourceBuffer = resourceBuffer;
-        this.board = board;
         this.whiteMarbleCardChoice = whiteMarbleCardChoice;
     }
 
-    public LiteBoard getBoard() {
-        return board;
-    }
 
     public String getUsername() {
         return username;
@@ -49,10 +44,6 @@ public class LitePlayer {
         this.resourceBuffer = resourceBuffer;
     }
 
-    public void setBoard(LiteBoard board) {
-        this.board = board;
-    }
-
     public void setWhiteMarbleCardChoice(ArrayList<Integer> whiteMarbleCardChoice) {
         this.whiteMarbleCardChoice = whiteMarbleCardChoice;
     }
@@ -64,4 +55,10 @@ public class LitePlayer {
     public ArrayList<LeaderCard> getLeaderCards() {
         return leaderCards;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
 }

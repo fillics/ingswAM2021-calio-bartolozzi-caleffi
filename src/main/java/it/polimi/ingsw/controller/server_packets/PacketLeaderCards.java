@@ -18,6 +18,6 @@ public class PacketLeaderCards implements ServerPacketHandler{
 
     @Override
     public void execute(ClientModelView clientModelView) {
-
+        clientModelView.getMyPlayer().setLeaderCards(leaderCards);
     }
 }

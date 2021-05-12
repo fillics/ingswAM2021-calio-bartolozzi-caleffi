@@ -22,7 +22,6 @@ public class Player {
     private ArrayList<LeaderCard> leaderCards;
     private ArrayList<Resource> resourceBuffer;
     private Board board;
-    private int position;
     private GamePlayerInterface gamePlayer;
     private int chosenResource;
     private ArrayList<Integer> whiteMarbleCardChoice;
@@ -64,24 +63,10 @@ public class Player {
     }
 
     /**
-     * Method getPosition returns the turn's position of the player
-     */
-    public int getPosition() {
-        return position;
-    }
-
-    /**
      * Method getUsername returns the username of this Player object.
      */
     public String getUsername() {
         return this.username;
-    }
-
-    /**
-     * Method setPosition sets the turn's position of the player
-     */
-    public void setPosition(int position) {
-        this.position = position;
     }
 
     /**
