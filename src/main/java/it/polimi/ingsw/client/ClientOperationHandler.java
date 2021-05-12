@@ -208,15 +208,29 @@ public class ClientOperationHandler {
         System.out.println("Choose the 2 IDs of the leader cards to remove");
         int id1;
         int id2;
+        boolean checkid1 = false;
+        boolean checkid2 = false;
 
         do {
             id1 = input.nextInt();
-        } while (id1 < 1 || id1 > 4);
+            for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
+                if (id1 == leaderCard.getId()) {
+                    checkid1 = true;
+                    break;
+                }
+            }
+        } while (!checkid1);
 
 
         do {
             id2 = input.nextInt();
-        } while (id2 == id1 || id2 > 4 || id2 < 1);
+            for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
+                if (id2 == leaderCard.getId() && id2 != id1) {
+                    checkid2 = true;
+                    break;
+                }
+            }
+        } while (!checkid2);
 
         PacketChooseLeaderCardToRemove packet = new PacketChooseLeaderCardToRemove(id1, id2);
         sendPacket(packet);
