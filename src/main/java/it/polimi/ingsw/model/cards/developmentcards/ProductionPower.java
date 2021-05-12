@@ -40,6 +40,14 @@ public class ProductionPower {
     }
 
     /**
+     * Default Constructor ProductionPower creates a new ProductionPower instance.
+     */
+    public ProductionPower() {
+        this.resourcesNeeded = null;
+        this.resourcesObtained= null;
+    }
+
+    /**
      * Method getResourcesNeeded returns the resources needed to activate the production power.
      */
     public HashMap<ResourceType, Integer> getResourcesNeeded() {

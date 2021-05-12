@@ -61,10 +61,10 @@ class GameTest {
     @BeforeEach
     void initialization(){
         testGame = new Game();
-        testGame.createNewPlayer("fil");
-        testGame.createNewPlayer("bea");
-        testGame.createNewPlayer("gio");
-        testGame.createNewPlayer("jack");
+        testGame.createNewPlayer("fil",0);
+        testGame.createNewPlayer("bea",1);
+        testGame.createNewPlayer("gio",2);
+        testGame.createNewPlayer("jack",3);
 
         colorDiscount= new HashMap<>();
         colorProdPower = new HashMap<>();

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.cards.developmentcards;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 
 /**
@@ -43,6 +45,7 @@ public class DevelopmentSpace {
     /**
      * Method getTopCardProductionPower returns the Production Power of the last card placed in the development space.
      */
+    @JsonIgnore
     public ProductionPower getTopCardProductionPower() {
         return topCard.getProductionPower();
     }

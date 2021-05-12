@@ -45,7 +45,7 @@ public class SocketClientConnection {
      * Method sendToServer sends a new message to the server.
      * @param jsonResult (type String) - it is the message to send to the server
      */
-    public void sendToServer(String jsonResult){
+    public synchronized void sendToServer(String jsonResult){
         try {
             output.writeUTF(jsonResult);
             output.flush();
@@ -76,16 +76,19 @@ public class SocketClientConnection {
         }
     }
 
-    public void deserialize() throws IOException {
+    public synchronized void deserialize() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         String str = dataInputStream.readUTF();
-        ServerPacketHandler packet;
+        ServerPacketHandler packet = null;
 
         try {
             packet = mapper.readValue(str, ServerPacketHandler.class);
-            packet.execute(cli.getClientModelView());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+        }
+
+        if (packet != null) {
+            packet.execute(cli.getClientModelView());
         }
     }
 }

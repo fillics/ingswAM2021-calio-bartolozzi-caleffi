@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards.leadercards;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.Card;
@@ -70,6 +71,7 @@ public class LeaderCard extends Card {
         strategy.ability();
     }
 
+    @JsonIgnore
     @Override
     public int getVictoryPoint() {
         return victorypoint;

@@ -18,8 +18,15 @@ public class Deposit extends Warehouse {
      * @param maxLimit (type Int) - it indicates the max resources' quantity that can be stored in the deposit
      */
     public Deposit(int maxLimit) {
-        quantity = 0;
+        this.resourcetype= null;
+        this.quantity = 0;
         this.maxLimit = maxLimit;
+    }
+
+    public Deposit() {
+        this.resourcetype = null;
+        this.quantity = 0;
+        this.maxLimit = 0;
     }
 
     /**

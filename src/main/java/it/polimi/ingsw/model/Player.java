@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class Player {
     private final String username;
-    private int idPlayer; // TODO: 02/05/2021 scrivere nel costruttore e metodo get 
+    private int idClient; // TODO: 02/05/2021 scrivere nel costruttore e metodo get
     private int totalVictoryPoint;
     private ArrayList<LeaderCard> leaderCards;
     private ArrayList<Resource> resourceBuffer;

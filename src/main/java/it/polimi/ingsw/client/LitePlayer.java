@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class LitePlayer {
     private final String username;
-    private int idPlayer;
+    private int idClient;
     private int totalVictoryPoint;
     private ArrayList<LeaderCard> leaderCards;
     private ArrayList<Resource> resourceBuffer;
@@ -17,7 +17,7 @@ public class LitePlayer {
 
     public LitePlayer(String username, int idPlayer, int totalVictoryPoint, ArrayList<LeaderCard> leaderCards, ArrayList<Resource> resourceBuffer, LiteBoard board, ArrayList<Integer> whiteMarbleCardChoice) {
         this.username = username;
-        this.idPlayer = idPlayer;
+        this.idClient = idPlayer;
         this.totalVictoryPoint = totalVictoryPoint;
         this.leaderCards = leaderCards;
         this.resourceBuffer = resourceBuffer;
@@ -33,8 +33,8 @@ public class LitePlayer {
         return username;
     }
 
-    public void setIdPlayer(int idPlayer) {
-        this.idPlayer = idPlayer;
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
     }
 
     public void setTotalVictoryPoint(int totalVictoryPoint) {

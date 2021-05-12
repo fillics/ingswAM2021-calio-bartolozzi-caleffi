@@ -22,7 +22,6 @@ public class PacketNumPlayers implements SetupHandler {
 
     @Override
     public void execute(Server server, ClientHandler clientHandler) {
-        System.out.println("dentro execute");
         server.setNumPlayers(numof_players);
 
         if(numof_players > server.getLobby().size()){

@@ -81,7 +81,6 @@ public class CLI implements Runnable, ViewInterface{
 
             additionalSetupGame(); //choice of the leader cards and placing additional resources
 
-
             System.out.println("We're ready to play! Choose one of the operations you can do:\nText 0 to quit");
             int operation;
             do{

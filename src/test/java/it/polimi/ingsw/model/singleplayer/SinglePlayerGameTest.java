@@ -25,7 +25,7 @@ class SinglePlayerGameTest {
         assertEquals(0, testSingle.getDeckSoloActionToken().size());
         assertEquals(0, testSingle.getDeletedSoloActionToken().size());
         testSingle.setup();
-        testSingle.createNewPlayer("fil");
+        testSingle.createNewPlayer("fil",0);
     }
 
     /**

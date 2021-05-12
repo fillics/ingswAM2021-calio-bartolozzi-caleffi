@@ -31,6 +31,8 @@ public class ClientHandler implements Runnable {
     private PrintStream ps;
     private String username;
     private ObjectMapper mapper;
+    private String jsonResult;
+    private boolean gameStarted= false;
 
 
     public ClientHandler(int idClient, Socket socket, Server server) {
@@ -50,21 +52,28 @@ public class ClientHandler implements Runnable {
         this.game = game;
     }
 
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
+
     public void run() {
         try {
 
             while (!quit) {
                 String str = dis.readUTF();
                 if(str.equals(ConnectionMessages.SEND_SETUP_PACKETS.getMessage())){
-                    sendSetupPacket();
+                    if (gameStarted)
+                        sendSetupPacket();
                 }
                 else {
                     deserialize(str);
                     clientMessagesHandle(str);
                 }
-                //TODO: IMPLEMENTARE FINE DEL WHILE SENZA ENDGAME
-                //if(game.isEndgame())
-                //   quit=true;
+
+                if(gameStarted) {
+                    if(game.isEndgame())
+                        quit=true;
+                }
             }
             // Chiudo gli stream e il socket -> client non è più connesso al server
             dis.close();
@@ -90,7 +99,7 @@ public class ClientHandler implements Runnable {
         return idClient;
     }
 
-    public void sendMessageToClient(ConnectionMessages msg){
+    public synchronized void sendMessageToClient(ConnectionMessages msg){
         String messageToSend = msg.getMessage();
         try{
             ps.println(messageToSend);
@@ -108,7 +117,7 @@ public class ClientHandler implements Runnable {
 
     }
 
-    public void deserialize(String jsonResult) throws DevelopmentCardNotFound,
+    public synchronized void deserialize(String jsonResult) throws DevelopmentCardNotFound,
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
             DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated,
             NotEnoughRequirements, TooManyResourcesRequested, DepositHasReachedMaxLimit,
@@ -142,19 +151,12 @@ public class ClientHandler implements Runnable {
 
     }
 
-    //TODO: SISTEMARE PROBLEMA FOR E CREARE PACCHETTO VERO
-    public void sendSetupPacket() throws JsonProcessingException {
-        String jsonResult;
-        ArrayList<DevelopmentCard> topDevelopmentGrid = new ArrayList<>();
+    public synchronized void sendSetupPacket() throws JsonProcessingException {
         mapper = new ObjectMapper();
-       /*for(int i=0; i<12;i++){
-            topDevelopmentGrid.add(game.getDevelopmentGrid().get(i).getLast());
-        }*/
-        PacketSetup packetSetup = new PacketSetup(username,idClient,0,null,topDevelopmentGrid,null,null,null,null,null,null,null);
 
-        //PacketSetup packetSetup = new PacketSetup(username,idClient,0,game.getTable(), topDevelopmentGrid,game.getActivePlayers().get(0).getBoard().getDevelopmentSpaces(),game.getActivePlayers().get(0).getLeaderCards(),
-        //game.getActivePlayers().get(0).getResourceBuffer(),game.getActivePlayers().get(0).getBoard().getSpecialProductionPowers(),
-       //game.getActivePlayers().get(0).getBoard().getStrongbox(), game.getActivePlayers().get(0).getBoard().getDeposits(), game.getActivePlayers().get(0).getWhiteMarbleCardChoice());
+        PacketSetup packetSetup = new PacketSetup(username,idClient,0,game.getTable(), game.getInitialDevGrid(), game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getActivePlayers().get(0).getLeaderCards(),
+           game.getIdClientActivePlayers().get(idClient).getResourceBuffer(),game.getIdClientActivePlayers().get(idClient).getBoard().getSpecialProductionPowers(),
+           game.getIdClientActivePlayers().get(idClient).getBoard().getStrongbox(),game.getIdClientActivePlayers().get(idClient).getBoard().getDeposits(), game.getIdClientActivePlayers().get(idClient).getWhiteMarbleCardChoice());
 
         jsonResult = mapper.writeValueAsString(packetSetup);
         System.out.println(jsonResult);
@@ -162,10 +164,9 @@ public class ClientHandler implements Runnable {
     }
 
     public void clientMessagesHandle(String jsonResult){
-
     }
 
-    public void sendtoClient(String jsonResult){
+    public synchronized void sendtoClient(String jsonResult){
         try {
             output.writeUTF(jsonResult);
             output.flush();

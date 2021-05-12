@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.cards.leadercards.ResourcesRequirement;
 import it.polimi.ingsw.model.marbles.Marble;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -19,7 +20,7 @@ import java.util.LinkedList;
 
 public interface GameInterface {
     void setState(State state);
-    void createNewPlayer(String username);
+    void createNewPlayer(String username, Integer idClient);
     void chooseDiscountActivation(ArrayList<Integer> idLeaderCards) throws DiscountCannotBeActivated;
     void buyDevCard(int idCard, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource;
     void moveResource(int position) throws EmptyDeposit;
@@ -35,7 +36,9 @@ public interface GameInterface {
     State getState();
     ArrayList<Player> getActivePlayers();
     void setNumof_players(int numof_players);
+    HashMap<Integer, Player> getIdClientActivePlayers();
     boolean isEndgame();
     ArrayList<LinkedList<DevelopmentCard>> getDevelopmentGrid();
+    ArrayList<DevelopmentCard> getInitialDevGrid();
     Marble[][] getTable();
 }

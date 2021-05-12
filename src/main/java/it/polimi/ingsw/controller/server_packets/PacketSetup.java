@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class PacketSetup implements ServerPacketHandler{
 
     private String username;
-    private int idPlayer;
+    private int idClient;
     private int totalVictoryPoint;
     private Marble[][] table;
     private ArrayList<DevelopmentCard> developmentCards;
@@ -31,13 +31,13 @@ public class PacketSetup implements ServerPacketHandler{
 
 
     @JsonCreator
-    public PacketSetup(@JsonProperty("username") String username,@JsonProperty("idPlayer") int idPlayer,@JsonProperty("total victory points") int totalVictoryPoint,
+    public PacketSetup(@JsonProperty("username") String username,@JsonProperty("idClient") int idClient,@JsonProperty("total victory points") int totalVictoryPoint,
                        @JsonProperty("market tray") Marble[][] table,@JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
                        @JsonProperty("development spaces") ArrayList<DevelopmentSpace> developmentSpaces, @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards,
                        @JsonProperty("resource buffer") ArrayList<Resource> resourceBuffer,@JsonProperty("special production powers")  ArrayList<ProductionPower> specialProductionPowers,
                        @JsonProperty("strongbox") Strongbox strongbox,@JsonProperty("deposits") ArrayList<Deposit> deposits, @JsonProperty("white marble leader card's id") ArrayList<Integer> whiteMarbleCardChoice) {
         this.username = username;
-        this.idPlayer = idPlayer;
+        this.idClient = idClient;
         this.totalVictoryPoint = totalVictoryPoint;
         this.table = table;
         this.developmentCards = developmentCards;
@@ -50,8 +50,8 @@ public class PacketSetup implements ServerPacketHandler{
         this.whiteMarbleCardChoice = whiteMarbleCardChoice;
     }
 
-    public int getIdPlayer() {
-        return idPlayer;
+    public int getIdClient() {
+        return idClient;
     }
 
     public int getTotalVictoryPoint() {
@@ -101,7 +101,7 @@ public class PacketSetup implements ServerPacketHandler{
     @Override
     public void execute(ClientModelView clientModelView) {
         LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers);
-        LitePlayer litePlayer = new LitePlayer(username,idPlayer,totalVictoryPoint,leaderCards,resourceBuffer,liteBoard,whiteMarbleCardChoice);
+        LitePlayer litePlayer = new LitePlayer(username, idClient,totalVictoryPoint,leaderCards,resourceBuffer,liteBoard,whiteMarbleCardChoice);
         LiteDevelopmentGrid liteDevelopmentGrid = new LiteDevelopmentGrid(developmentCards);
         LiteMarketTray liteMarketTray = new LiteMarketTray(table);
         clientModelView.setDevelopmentGrid(liteDevelopmentGrid);

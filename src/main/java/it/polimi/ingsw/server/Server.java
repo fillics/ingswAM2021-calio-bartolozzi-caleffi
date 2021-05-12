@@ -205,8 +205,9 @@ public class Server {
 
             if (lobby.peek() != null) {
                 lobby.peek().setGame(game);
-                game.createNewPlayer(lobby.peek().getUsername());
+                game.createNewPlayer(lobby.peek().getUsername(), lobby.peek().getIdClient());
                 lobby.peek().sendMessageToClient(ConnectionMessages.GAME_IS_STARTING);
+                lobby.peek().setGameStarted(true);
             }
             lobby.remove();
 
@@ -218,8 +219,6 @@ public class Server {
         }
 
         game.setup();
-
-
     }
 
 }

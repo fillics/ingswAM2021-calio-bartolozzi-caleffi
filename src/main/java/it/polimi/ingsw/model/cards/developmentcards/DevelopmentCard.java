@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards.developmentcards;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.Card;
 
@@ -26,6 +27,15 @@ public class DevelopmentCard extends Card {
         this.resourcePrice= resourcePrice;
         this.productionPower = productionPower;
         this.victorypoint= victorypoint;
+    }
+
+    public DevelopmentCard() {
+        this.id = 0;
+        this.level = null;
+        this.color = null;
+        this.resourcePrice = null;
+        this.productionPower = null;
+        this.victorypoint = 0;
     }
 
     public int getId() {
@@ -63,6 +73,7 @@ public class DevelopmentCard extends Card {
     /**
      * Override Method getVictoryPoints returns the development card's victory points.
      */
+    @JsonIgnore
     @Override
     public int getVictoryPoint() {
         return victorypoint;

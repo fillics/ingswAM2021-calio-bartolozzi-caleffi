@@ -34,6 +34,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     private ArrayList<Player> players;
     private ArrayList<Player> activePlayers;
+    private HashMap<Integer,Player> idClientActivePlayers;
     private int idGame; // TODO: 02/05/2021 aggiungere al costruttore e metodo get
     private ArrayList<LeaderCard> leaderDeck;
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
@@ -44,6 +45,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     private boolean endgame = false;
     private State state = State.NUMOF_PLAYERS;
     private int numof_players;
+    private ArrayList<DevelopmentCard> initialDevGrid;
 
     public int getNumof_players() {
         return numof_players;
@@ -61,14 +63,20 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         this.idGame = idGame;
     }
 
+    public HashMap<Integer, Player> getIdClientActivePlayers() {
+        return idClientActivePlayers;
+    }
+
     /**
      * Constructor Game creates a new Game instance.
      */
     public Game() {
         players = new ArrayList<>();
         activePlayers = new ArrayList<>();
+        idClientActivePlayers = new HashMap<>();
         leaderDeck = new ArrayList<>();
         developmentGrid = new ArrayList<>();
+        initialDevGrid = new ArrayList<>();
         market = new MarketTray();
     }
 
@@ -117,11 +125,12 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * Method createNewPlayer creates a new player in the match.
      * @param username of type String - the player's username
      */
-    public void createNewPlayer(String username) {
+    public void createNewPlayer(String username, Integer idClient) {
 
         Player player = new Player(username, this);
         players.add(player);
         activePlayers.add(player);
+        idClientActivePlayers.put(idClient,player);
 
     }
 
@@ -268,11 +277,17 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             developmentGrid.add(new LinkedList<>(groupByColorAndLevel.get(CardColor.PURPLE).get(Level.THREE)));
             developmentGrid.add(new LinkedList<>(groupByColorAndLevel.get(CardColor.BLUE).get(Level.THREE)));
 
+            for(int i=0; i<12;i++){
+                initialDevGrid.add(developmentGrid.get(i).getLast());
+            }
         }catch (FileNotFoundException ex){
             System.out.println("Token.json file was not found");
         }
     }
 
+    public ArrayList<DevelopmentCard> getInitialDevGrid(){
+        return initialDevGrid;
+    }
 
     /**
      * Method createLeaderDeck creates and shuffles the Leader Cards' Deck using the JSON file
