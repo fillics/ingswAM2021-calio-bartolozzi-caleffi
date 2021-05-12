@@ -18,7 +18,6 @@ public class PacketDevelopmentSpaces implements ServerPacketHandler{
 
     @Override
     public void execute(ClientModelView clientModelView) {
-
     }
 
 }

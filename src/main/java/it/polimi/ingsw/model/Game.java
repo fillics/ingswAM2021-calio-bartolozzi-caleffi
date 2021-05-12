@@ -344,7 +344,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     /**
      * Method distributeLeaderCards distributes 4 leader cards to each active player
      */
-    public void distributeLeaderCards(){
+    public synchronized void distributeLeaderCards(){
         IntStream.range(0, 4).map(numDealtCards -> activePlayers.size()).flatMap(bound -> IntStream.range(0, bound)).forEach(whichPlayer -> {
             players.get(whichPlayer).addLeaderCard(leaderDeck.get(leaderDeck.size() - 1));
             leaderDeck.remove(leaderDeck.size() - 1);
