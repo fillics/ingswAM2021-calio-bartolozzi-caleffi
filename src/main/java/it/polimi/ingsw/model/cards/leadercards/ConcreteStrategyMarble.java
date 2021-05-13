@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.cards.leadercards;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 
 /**
@@ -10,6 +13,10 @@ public class ConcreteStrategyMarble implements LeaderCardStrategy{
     private ResourceType resourceType;
     private boolean active;
 
+
+    public ConcreteStrategyMarble() {
+        this.resourceType = null;
+    }
 
     /**
      * Constructor ConcreteStrategyMarble creates a new ConcreteStrategyMarble instance.
@@ -22,6 +29,7 @@ public class ConcreteStrategyMarble implements LeaderCardStrategy{
     public ResourceType getResourceType() {
         return resourceType;
     }
+
 
     public boolean isActive() {
         return active;

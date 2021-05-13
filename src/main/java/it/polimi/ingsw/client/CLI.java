@@ -78,8 +78,6 @@ public class CLI implements Runnable, ViewInterface{
                 e.printStackTrace();
             }
 
-            //System.out.println("username pescato dal packet : " + clientModelView.getMyPlayer().getUsername());
-
             additionalSetupGame(); //choice of the leader cards and placing additional resources
 
             try {
@@ -88,10 +86,7 @@ public class CLI implements Runnable, ViewInterface{
                 e.printStackTrace();
             }
 
-            System.out.println("Ti rimangono queste leader cards:" + clientModelView.getMyPlayer().getLeaderCards().get(0).getId());
-            System.out.println("Ti rimangono queste leader cards:" + clientModelView.getMyPlayer().getLeaderCards().get(1).getId());
 
-            System.out.println("----------------");
             System.out.println("We're ready to play! Choose one of the operations you can do:\nText 0 to quit");
             int operation;
             do{
@@ -112,6 +107,8 @@ public class CLI implements Runnable, ViewInterface{
                         System.err.println("Error during the choice of the operation to do");
                     }
                 }
+
+
             }while(operation!=0);
 
             input.close();
@@ -246,13 +243,15 @@ public class CLI implements Runnable, ViewInterface{
     public void additionalSetupGame(){
         //leader cards choice
         try {
-            clientOperationHandler.handleCLIOperation(4);
+            clientOperationHandler.chooseLeaderCardToRemove();
         } catch (IOException e) {
             System.err.println("Error in calling the method to choose the leader cards");
         }
 
         //placing resources only if he has to do it
+
     }
+
 
     /**
      * Method printConnectionMessage prints the Connection Message passed as a parameter

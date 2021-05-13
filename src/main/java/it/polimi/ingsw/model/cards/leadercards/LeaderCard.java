@@ -1,11 +1,10 @@
 package it.polimi.ingsw.model.cards.leadercards;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
+import it.polimi.ingsw.model.marbles.*;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -13,6 +12,8 @@ import java.util.Objects;
 /**
  * This class represents the Leader Card.
  */
+
+
 public class LeaderCard extends Card {
     private int id;
     private LeaderCardType type;
@@ -39,15 +40,25 @@ public class LeaderCard extends Card {
         this.victorypoint= victorypoint;
     }
 
+
     //TODO: javadoc per ogni metodo
 
     public int getId() {
         return id;
     }
 
+    public LeaderCardType getType() {
+        return type;
+    }
+
+    public ResourceType getResourceType() {
+        return resourceType;
+    }
+
     public void setStrategy(LeaderCardStrategy strategy) {
         this.strategy = strategy;
     }
+
 
     public LeaderCardStrategy getStrategy() {
         return strategy;
@@ -75,14 +86,6 @@ public class LeaderCard extends Card {
     @Override
     public int getVictoryPoint() {
         return victorypoint;
-    }
-
-    @Override
-    public String toString() {
-        return "LeaderCard{" +
-                "type=" + type +
-                ", victorypoint=" + victorypoint +
-                '}';
     }
 
 

@@ -4,9 +4,12 @@ import it.polimi.ingsw.model.board.Board;
 
 import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.board.resources.ResourceType;
+import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDeposit;
+import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.exceptions.EmptyDeposit;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
 
 import java.util.ArrayList;
 
@@ -96,6 +99,10 @@ public class Player {
      */
     public void addLeaderCard(LeaderCard card) {
         leaderCards.add(card);
+
+        if (card.getType().equals(LeaderCardType.PRODUCTION_POWER)) card.setStrategy(new ConcreteStrategyProductionPower(getBoard(),card.getResourceType() ));
+        if (card.getType().equals(LeaderCardType.EXTRA_DEPOSIT)) card.setStrategy(new ConcreteStrategyDeposit(card.getResourceType(), getBoard()));
+
     }
 
     /**

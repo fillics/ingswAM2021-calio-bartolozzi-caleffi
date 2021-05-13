@@ -94,7 +94,7 @@ class GameTest {
 
         requirementsLevCol = new LevelAndColorRequirement(colorProdPower, Level.TWO);
         testLeaderCardProdPower = new LeaderCard(4, LeaderCardType.PRODUCTION_POWER, requirementsLevCol, ResourceType.STONE, 4);
-        testLeaderCardProdPower.setStrategy(new ConcreteStrategyProductionPower(testResourcesNeeded, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard(),ResourceType.SHIELD));
+        testLeaderCardProdPower.setStrategy(new ConcreteStrategyProductionPower(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard(),ResourceType.SHIELD));
 
         testLeaderCardThatDoesNotExists = new LeaderCard(454, LeaderCardType.PRODUCTION_POWER, requirementsLevCol, ResourceType.STONE, 4);
 

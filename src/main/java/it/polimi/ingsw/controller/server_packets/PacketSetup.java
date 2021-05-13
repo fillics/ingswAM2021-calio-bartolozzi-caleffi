@@ -9,7 +9,10 @@ import it.polimi.ingsw.model.board.storage.Strongbox;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
+import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDiscount;
+import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyMarble;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
 import it.polimi.ingsw.model.marbles.Marble;
 
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ public class PacketSetup implements ServerPacketHandler{
 
 
     @JsonCreator
-    public PacketSetup(@JsonProperty("username") String username,@JsonProperty("idClient") int idClient,@JsonProperty("total victory points") int totalVictoryPoint,
+    public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient") int idClient,@JsonProperty("total victory points") int totalVictoryPoint,
                        @JsonProperty("market tray") Marble[][] table,@JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
                        @JsonProperty("development spaces") ArrayList<DevelopmentSpace> developmentSpaces, @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards,
                        @JsonProperty("resource buffer") ArrayList<Resource> resourceBuffer,@JsonProperty("special production powers")  ArrayList<ProductionPower> specialProductionPowers,

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.model.board.resources.Resource;
-import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
+import it.polimi.ingsw.model.cards.leadercards.*;
 
 import java.util.ArrayList;
 
@@ -11,12 +11,14 @@ public class LitePlayer {
     private int totalVictoryPoint;
     private ArrayList<LeaderCard> leaderCards;
     private ArrayList<Resource> resourceBuffer;
+    private LiteBoard board;
     //private int chosenResource;
     private ArrayList<Integer> whiteMarbleCardChoice;
 
     public LitePlayer(String username, int idPlayer, int totalVictoryPoint, ArrayList<LeaderCard> leaderCards, ArrayList<Resource> resourceBuffer, LiteBoard board, ArrayList<Integer> whiteMarbleCardChoice) {
         this.username = username;
         this.idClient = idPlayer;
+        this.board = board;
         this.totalVictoryPoint = totalVictoryPoint;
         this.leaderCards = leaderCards;
         this.resourceBuffer = resourceBuffer;

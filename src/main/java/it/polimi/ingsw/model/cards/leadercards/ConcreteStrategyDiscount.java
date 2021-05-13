@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.cards.leadercards;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 
 /**
@@ -10,6 +11,7 @@ public class ConcreteStrategyDiscount implements LeaderCardStrategy{
     private final ResourceType resourceType;
     private boolean active;
 
+
     /**
      * Constructor ConcreteStrategyDiscount creates a new ConcreteStrategyDiscount instance.
      */
@@ -18,6 +20,10 @@ public class ConcreteStrategyDiscount implements LeaderCardStrategy{
         active=false;
     }
 
+    public ConcreteStrategyDiscount(){
+        this.resourceType = null;
+        active=false;
+    }
     public ResourceType getResourceType() {
         return resourceType;
     }

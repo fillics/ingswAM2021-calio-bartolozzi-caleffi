@@ -72,7 +72,7 @@ public class LeaderCardTest {
         resourcePriceDeposit.put(ResourceType.SERVANT,5);
         requirementsDeposit = new ResourcesRequirement(resourcePriceDeposit);
         board= new Board(testGame);
-        testStrategyProdPower = new ConcreteStrategyProductionPower(resourceNeeded,board, ResourceType.SHIELD);
+        testStrategyProdPower = new ConcreteStrategyProductionPower(board, ResourceType.SHIELD);
         testStrategyDeposit = new ConcreteStrategyDeposit(ResourceType.SHIELD,board);
         testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
         testStrategyDiscount= new ConcreteStrategyDiscount(ResourceType.SERVANT);

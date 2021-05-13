@@ -14,12 +14,14 @@ import it.polimi.ingsw.model.board.resources.ResourceActionStrategy;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.model.cards.developmentcards.*;
-import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDiscount;
-import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyMarble;
-import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
+import it.polimi.ingsw.model.cards.leadercards.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.marbles.Marble;
 import it.polimi.ingsw.model.marbles.MarketTray;
+import it.polimi.ingsw.model.singleplayer.ConcreteStrategyDiscard;
+import it.polimi.ingsw.model.singleplayer.ConcreteStrategyPlusOne;
+import it.polimi.ingsw.model.singleplayer.ConcreteStrategyPlusTwo;
+import it.polimi.ingsw.model.singleplayer.SoloActionTokenType;
 
 import java.io.*;
 import java.util.*;
@@ -89,6 +91,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         createLeaderDeck(); //to create and shuffle the leader card
         distributeLeaderCards(); //to give 4 leader cards to the each player
         additionalFaithMarkerSetup();
+
     }
 
     /**
@@ -294,7 +297,14 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try {
-            leaderDeck = mapper.readValue(new File("src/main/resources/json/LeaderCard.json"), new TypeReference<ArrayList<LeaderCard>>() {});
+            leaderDeck = mapper.readValue(new File("src/main/resources/json/LeaderCard.json"), new TypeReference<>() {
+            });
+
+            leaderDeck.forEach(leaderCard -> {
+                if (leaderCard.getType().equals(LeaderCardType.DISCOUNT)) leaderCard.setStrategy(new ConcreteStrategyDiscount(leaderCard.getResourceType()));
+                if (leaderCard.getType().equals(LeaderCardType.WHITE_MARBLE)) leaderCard.setStrategy(new ConcreteStrategyMarble(leaderCard.getResourceType()));
+            });
+
             Collections.shuffle(leaderDeck);
         } catch (IOException e) {
             System.out.println("LeaderCard.json file was not found");

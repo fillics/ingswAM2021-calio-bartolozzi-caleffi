@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -19,13 +20,13 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-    private int idClient = -1;
+    private int idClient = 0;
     private int idGame = 0;
     private final ArrayList<Game> games = new ArrayList<>();
     private int numPlayers;
 
-    private Map<String, ClientHandler> mapUsernameClientHandler;
-    private Map<Integer, Integer> mapIdGame; // per sapere a quale idGame appartiene un idPlayer
+    private final Map<String, ClientHandler> mapUsernameClientHandler;
+    //private Map<Integer, Integer> mapIdGame; // per sapere a quale idGame appartiene un idPlayer
     //private Map<Integer, String> mapId;
 
     /** List of clients waiting in the lobby. */
@@ -198,8 +199,13 @@ public class Server {
      * person to insert the number of players to create a new match.
      */
     public synchronized void createMatch(){
+        Game game;
 
-        Game game = new Game();
+        if(numPlayers==1){
+             game = new SinglePlayerGame();
+        }
+        else game = new Game();
+
         game.setState(State.SETUP);
         games.add(game);
         game.setIdGame(createGameID());

@@ -78,6 +78,12 @@ public class ClientOperationHandler {
     public void activateLeaderCard() throws IOException {
         System.out.println("Choose the ID of the leader card to activate: ");
         int id;
+
+        for (LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()) {
+            System.out.println(leaderCard.getId());
+        }
+
+
         boolean LeaderCardcheck = false;
         do {
             id = input.nextInt();
