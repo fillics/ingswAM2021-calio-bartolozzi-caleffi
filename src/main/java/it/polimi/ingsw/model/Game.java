@@ -43,7 +43,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     private ArrayList<Integer> leaderCardsChosen;
     private int currentPlayer = 0;
     private boolean endgame = false;
-    private State state = State.NUMOF_PLAYERS;
+    private State state = State.FILL_LOBBY;
     private int numof_players;
     private ArrayList<DevelopmentCard> initialDevGrid;
 

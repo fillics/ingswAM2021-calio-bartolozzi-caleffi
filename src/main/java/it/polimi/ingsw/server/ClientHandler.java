@@ -7,19 +7,13 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.SetupHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
-import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
 import it.polimi.ingsw.controller.server_packets.PacketSetup;
+import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameInterface;
-import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
-import it.polimi.ingsw.model.marbles.Marble;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ClientHandler implements Runnable {
     private Socket socket;
@@ -163,23 +157,43 @@ public class ClientHandler implements Runnable {
 
     }
 
-    public synchronized void sendSetupPacket() throws JsonProcessingException {
+    public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
         PacketSetup packetSetup = new PacketSetup(username,idClient,0,game.getTable(), game.getInitialDevGrid(), game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
            game.getIdClientActivePlayers().get(idClient).getResourceBuffer(),game.getIdClientActivePlayers().get(idClient).getBoard().getSpecialProductionPowers(),
            game.getIdClientActivePlayers().get(idClient).getBoard().getStrongbox(),game.getIdClientActivePlayers().get(idClient).getBoard().getDeposits(), game.getIdClientActivePlayers().get(idClient).getWhiteMarbleCardChoice());
 
-        jsonResult = mapper.writeValueAsString(packetSetup);
-        System.out.println(jsonResult);
-        sendtoClient(jsonResult);
+        try {
+            jsonResult = mapper.writeValueAsString(packetSetup);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        //System.out.println(jsonResult);
+        sendToClient(jsonResult);
     }
 
     public void clientMessagesHandle(String jsonResult){
 
     }
 
-    public synchronized void sendtoClient(String jsonResult){
+    /**
+     * Method sendUpdatePacket sends updates to the client
+     * @param serverPacketHandler (type ServerPacketHandler) -
+     */
+    public synchronized void sendUpdatePacket(ServerPacketHandler serverPacketHandler){
+        mapper = new ObjectMapper();
+        try {
+            jsonResult = mapper.writeValueAsString(serverPacketHandler);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        sendToClient(jsonResult);
+
+    }
+
+
+    public synchronized void sendToClient(String jsonResult){
         try {
             output.writeUTF(jsonResult);
             output.flush();

@@ -27,7 +27,6 @@ public class PacketNumPlayers implements SetupHandler {
         }
         else {
             server.createMatch();
-            server.getGames().get(server.getGames().size() - 1).setState(State.SETUP);
         }
     }
 

@@ -26,7 +26,7 @@ public class ClientOperationHandler {
     }
 
 
-    public void HandleCLIOperation(int input) throws IOException {
+    public void handleCLIOperation(int input) throws IOException {
         switch (input) {
             case 1 -> {
                 System.out.println("You have chosen to activate a Leader Card\n");
@@ -41,7 +41,6 @@ public class ClientOperationHandler {
                 chooseDiscount();
             }
             case 4 -> {
-                System.out.println("You have chosen to remove two Leader Cards\n");
                 chooseLeaderCardToRemove();
             }
             case 5 -> {
@@ -72,6 +71,7 @@ public class ClientOperationHandler {
         mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
         socketClientConnection.sendToServer(jsonResult);
+
     }
 
 
@@ -210,6 +210,7 @@ public class ClientOperationHandler {
         boolean checkid1 = false;
         boolean checkid2 = false;
 
+        // TODO: 13/05/2021 mettere frase di errore se il tizio sbaglia a inserire
         do {
             Id1 = input.nextInt();
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
@@ -232,7 +233,7 @@ public class ClientOperationHandler {
         } while (!checkid2);
 
         PacketChooseLeaderCardToRemove packet = new PacketChooseLeaderCardToRemove(Id1, Id2);
-        System.out.println(packet);
+        //System.out.println(packet);
         sendPacket(packet);
     }
 

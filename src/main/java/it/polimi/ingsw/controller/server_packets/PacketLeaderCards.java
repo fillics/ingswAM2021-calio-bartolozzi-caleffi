@@ -16,6 +16,10 @@ public class PacketLeaderCards implements ServerPacketHandler{
         this.leaderCards = leaderCards;
     }
 
+    public ArrayList<LeaderCard> getLeaderCards() {
+        return leaderCards;
+    }
+
     @Override
     public void execute(ClientModelView clientModelView) {
         clientModelView.getMyPlayer().setLeaderCards(leaderCards);

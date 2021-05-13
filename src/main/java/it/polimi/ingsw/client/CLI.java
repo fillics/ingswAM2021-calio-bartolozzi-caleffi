@@ -11,6 +11,7 @@ import it.polimi.ingsw.controller.client_packets.PacketUsername;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CLI implements Runnable, ViewInterface{
@@ -45,7 +46,7 @@ public class CLI implements Runnable, ViewInterface{
         // String ip = scanner.nextLine(); PER ORA HO TOLTO QUESTA OPZIONE PERCHÈ TANTO È SEMPRE LO STESSO IP ADDRESS
         Constants.setAddressServer("127.0.0.1");
         System.out.println(">Insert the server port");
-        System.out.print(">");
+        System.out.print(">"); // TODO: 13/05/2021 prima di chiedere la porta meglio chiedere se vuole giocare in locale o in server
         int port = scanner.nextInt();
         Constants.setPort(port);
         CLI cli = new CLI();
@@ -77,10 +78,20 @@ public class CLI implements Runnable, ViewInterface{
                 e.printStackTrace();
             }
 
-            System.out.println("username pescato dal packet : " + clientModelView.getMyPlayer().getUsername());
+            //System.out.println("username pescato dal packet : " + clientModelView.getMyPlayer().getUsername());
 
             additionalSetupGame(); //choice of the leader cards and placing additional resources
 
+            try {
+                socketClientConnection.deserialize();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Ti rimangono queste leader cards:" + clientModelView.getMyPlayer().getLeaderCards().get(0).getId());
+            System.out.println("Ti rimangono queste leader cards:" + clientModelView.getMyPlayer().getLeaderCards().get(1).getId());
+
+            System.out.println("----------------");
             System.out.println("We're ready to play! Choose one of the operations you can do:\nText 0 to quit");
             int operation;
             do{
@@ -96,7 +107,7 @@ public class CLI implements Runnable, ViewInterface{
                 operation= input.nextInt();
                 if(operation!=0){
                     try {
-                        clientOperationHandler.HandleCLIOperation(operation);
+                        clientOperationHandler.handleCLIOperation(operation);
                     } catch (IOException e) {
                         System.err.println("Error during the choice of the operation to do");
                     }
@@ -124,8 +135,9 @@ public class CLI implements Runnable, ViewInterface{
             try{
                 choiceGame = in.nextInt();
                 if (choiceGame!=1 && choiceGame!=2) printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
-            }catch (NumberFormatException e) {
+            }catch (InputMismatchException e) {
                 System.err.println("Invalid parameter: insert a numeric value.");
+                choiceGameType();
             }
         }while(choiceGame!=1 && choiceGame!=2);
     }
@@ -155,6 +167,7 @@ public class CLI implements Runnable, ViewInterface{
         username = input.nextLine();
         //TODO facciamo il controllo username caratteri speciali - metodo che controlla correttezza
 
+
         mapper = new ObjectMapper();
         packet = new PacketUsername(username);
         try {
@@ -180,8 +193,9 @@ public class CLI implements Runnable, ViewInterface{
                 if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
                     printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
                 }
-            }catch (NumberFormatException e) {
+            }catch (InputMismatchException e) {
                 System.err.println("Invalid parameter: insert a numeric value.");
+                choosePlayerNumber();
             }
         }while(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers());
 
@@ -225,8 +239,19 @@ public class CLI implements Runnable, ViewInterface{
         }
     }
 
+    /**
+     * Method additionalSetupGame handles the initial setup phase where players have to choose the two leader cards
+     * and the resources to place
+     */
     public void additionalSetupGame(){
+        //leader cards choice
+        try {
+            clientOperationHandler.handleCLIOperation(4);
+        } catch (IOException e) {
+            System.err.println("Error in calling the method to choose the leader cards");
+        }
 
+        //placing resources only if he has to do it
     }
 
     /**

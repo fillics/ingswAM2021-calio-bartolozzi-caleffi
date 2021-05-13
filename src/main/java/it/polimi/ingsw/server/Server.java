@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
 
@@ -20,8 +21,7 @@ public class Server {
 
     private int idClient = -1;
     private int idGame = 0;
-    private Game game;
-    private ArrayList<Game> games = new ArrayList<>();
+    private final ArrayList<Game> games = new ArrayList<>();
     private int numPlayers;
 
     private Map<String, ClientHandler> mapUsernameClientHandler;
@@ -199,7 +199,8 @@ public class Server {
      */
     public synchronized void createMatch(){
 
-        game = new Game();
+        Game game = new Game();
+        game.setState(State.SETUP);
         games.add(game);
         game.setIdGame(createGameID());
 
