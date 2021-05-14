@@ -11,7 +11,7 @@ import it.polimi.ingsw.server.Server;
 import java.util.ArrayList;
 
 public class PacketChooseDiscount implements ClientPacketHandler {
-    private ArrayList<Integer> leaderCards;
+    private final ArrayList<Integer> leaderCards;
 
     @JsonCreator
     public PacketChooseDiscount(@JsonProperty("LeaderCards")ArrayList<Integer> leaderCards) {

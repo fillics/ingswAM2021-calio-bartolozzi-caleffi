@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.cards.developmentcards.CardColor;
 
 public class SoloActionToken {
 
-    private SoloActionTokenType type;
+    private final SoloActionTokenType type;
     private CardColor color;
     private TokenActionStrategy strategy;
     private int id;

@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.marbles.Marble;
 
 public class PacketLiteMarketTray implements ServerPacketHandler{
 
-    private Marble[][] table;
+    private final Marble[][] table;
 
     @JsonCreator
     public PacketLiteMarketTray(@JsonProperty("market tray :")Marble[][] table) {

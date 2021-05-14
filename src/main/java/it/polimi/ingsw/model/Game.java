@@ -32,42 +32,24 @@ import java.util.stream.IntStream;
  * Game class contains the main logic of "Master of Renaissance".
  */
 
+// TODO: 11/05/2021 mettere synchronized alcune classi di game per gestire le partite multiple
 public class Game implements GameInterface, GameBoardInterface, GamePlayerInterface {
 
-    private ArrayList<Player> players;
-    private ArrayList<Player> activePlayers;
-    private HashMap<Integer,Player> idClientActivePlayers;
+    private final ArrayList<Player> players;
+    private final ArrayList<Player> activePlayers;
+    private final HashMap<Integer,Player> idClientActivePlayers;
     private int idGame; // TODO: 02/05/2021 aggiungere al costruttore e metodo get
     private ArrayList<LeaderCard> leaderDeck;
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
-    private MarketTray market;
+    private final MarketTray market;
     private HashMap<ResourceType,Integer> resourcePriceBuffer;
     private ArrayList<Integer> leaderCardsChosen;
     private int currentPlayer = 0;
     private boolean endgame = false;
     private State state = State.FILL_LOBBY;
     private int numof_players;
-    private ArrayList<DevelopmentCard> initialDevGrid;
+    private final ArrayList<DevelopmentCard> initialDevGrid;
 
-    public int getNumof_players() {
-        return numof_players;
-    }
-
-    public void setNumof_players(int numof_players) {
-        this.numof_players = numof_players;
-    }
-
-    public int getIdGame() {
-        return idGame;
-    }
-
-    public void setIdGame(int idGame) {
-        this.idGame = idGame;
-    }
-
-    public HashMap<Integer, Player> getIdClientActivePlayers() {
-        return idClientActivePlayers;
-    }
 
     /**
      * Constructor Game creates a new Game instance.
@@ -134,6 +116,18 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     }
 
+
+    public int getIdGame() {
+        return idGame;
+    }
+
+    public void setIdGame(int idGame) {
+        this.idGame = idGame;
+    }
+
+    public HashMap<Integer, Player> getIdClientActivePlayers() {
+        return idClientActivePlayers;
+    }
     //TODO: testare
     /**
      * Method getTable return the table representing the position of the marbles.
@@ -158,6 +152,16 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         }
         return null;
     }
+
+
+    public int getNumof_players() {
+        return numof_players;
+    }
+
+    public void setNumof_players(int numof_players) {
+        this.numof_players = numof_players;
+    }
+
 
     /**
      * Override method chooseLeaderCardToRemove used when the player has to choose two leader cards at the beginning of the game
@@ -288,6 +292,17 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public ArrayList<DevelopmentCard> getInitialDevGrid(){
         return initialDevGrid;
     }
+
+    // TODO: 14/05/2021 togliere getInitialDevGrid e fare una funzione universale che prende le carte visibili nella devGrid
+    // TODO: 14/05/2021 da mandare ai client. gestire anche il caso in cui una pila di carte (per esempio quelle di livello 2 colore blu) sia vuota
+    public ArrayList<DevelopmentCard> getDevGridLite(){
+        ArrayList<DevelopmentCard> liteDevGrid = new ArrayList<>();
+        for(int i=0; i<12;i++){
+            liteDevGrid.add(developmentGrid.get(i).getLast());
+        }
+        return liteDevGrid;
+    }
+
 
     /**
      * Method createLeaderDeck creates and shuffles the Leader Cards' Deck using the JSON file

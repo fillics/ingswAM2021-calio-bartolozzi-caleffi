@@ -41,4 +41,5 @@ public interface GameInterface {
     ArrayList<LinkedList<DevelopmentCard>> getDevelopmentGrid();
     ArrayList<DevelopmentCard> getInitialDevGrid();
     Marble[][] getTable();
+    int getIdGame();
 }

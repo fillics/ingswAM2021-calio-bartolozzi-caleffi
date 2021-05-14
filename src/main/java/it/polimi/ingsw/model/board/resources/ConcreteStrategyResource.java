@@ -11,9 +11,9 @@ import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
  * place them in a specific deposit
  */
 public class ConcreteStrategyResource implements ResourceActionStrategy{
-    private int position;
-    private BoardInterface board;
-    private ResourceType resourcetype;
+    private final int position;
+    private final BoardInterface board;
+    private final ResourceType resourcetype;
 
     /**
      * Class's Constructor made to define the concrete strategy

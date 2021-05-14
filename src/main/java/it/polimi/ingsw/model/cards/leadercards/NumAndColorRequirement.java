@@ -16,7 +16,7 @@ import java.util.HashMap;
  *  color in order to activate a Leader Card.
  */
 public class NumAndColorRequirement extends Requirement{
-    private HashMap<CardColor,Integer> color;
+    private final HashMap<CardColor,Integer> color;
 
     /**
      * Constructor NumAndColorRequirement creates a new NumAndColorRequirement instance.

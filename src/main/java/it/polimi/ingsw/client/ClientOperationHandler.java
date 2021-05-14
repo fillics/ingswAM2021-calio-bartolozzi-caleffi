@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ClientOperationHandler {
-    private SocketClientConnection socketClientConnection;
+    private final SocketClientConnection socketClientConnection;
     private ObjectMapper mapper;
     private final Scanner input;
-    private ClientModelView clientModelView;
+    private final ClientModelView clientModelView;
 
     public ClientOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView) {
         this.socketClientConnection = socketClientConnection;

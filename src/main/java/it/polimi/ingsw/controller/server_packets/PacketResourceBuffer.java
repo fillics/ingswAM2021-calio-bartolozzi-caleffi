@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class PacketResourceBuffer implements ServerPacketHandler{
 
-    private ArrayList<Resource> resourceBuffer;
+    private final ArrayList<Resource> resourceBuffer;
 
     @JsonCreator
     public PacketResourceBuffer(@JsonProperty("resource buffer :") ArrayList<Resource> resourceBuffer) {

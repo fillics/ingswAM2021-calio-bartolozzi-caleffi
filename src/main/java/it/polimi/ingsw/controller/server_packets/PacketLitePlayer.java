@@ -6,9 +6,9 @@ import it.polimi.ingsw.client.ClientModelView;
 
 public class PacketLitePlayer implements ServerPacketHandler{
 
-    private String username;
-    private int idPlayer;
-    private int totalVictoryPoint;
+    private final String username;
+    private final int idPlayer;
+    private final int totalVictoryPoint;
     //TODO: chosenResource (?)
     //private int chosenResource;
 

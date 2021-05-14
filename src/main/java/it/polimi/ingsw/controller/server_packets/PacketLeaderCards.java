@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class PacketLeaderCards implements ServerPacketHandler{
 
-    private ArrayList<LeaderCard> leaderCards;
+    private final ArrayList<LeaderCard> leaderCards;
 
     @JsonCreator
     public PacketLeaderCards(@JsonProperty("leader cards :") ArrayList<LeaderCard> leaderCards) {

@@ -19,18 +19,18 @@ import java.util.ArrayList;
 
 public class PacketSetup implements ServerPacketHandler{
 
-    private String username;
-    private int idClient;
-    private int totalVictoryPoint;
-    private Marble[][] table;
-    private ArrayList<DevelopmentCard> developmentCards;
-    private ArrayList<DevelopmentSpace> developmentSpaces;
-    private ArrayList<LeaderCard> leaderCards;
-    private ArrayList<Resource> resourceBuffer;
-    private ArrayList<ProductionPower> specialProductionPowers;
-    private Strongbox strongbox;
-    private ArrayList<Deposit> deposits;
-    private ArrayList<Integer> whiteMarbleCardChoice;
+    private final String username;
+    private final int idClient;
+    private final int totalVictoryPoint;
+    private final Marble[][] table;
+    private final ArrayList<DevelopmentCard> developmentCards;
+    private final ArrayList<DevelopmentSpace> developmentSpaces;
+    private final ArrayList<LeaderCard> leaderCards;
+    private final ArrayList<Resource> resourceBuffer;
+    private final ArrayList<ProductionPower> specialProductionPowers;
+    private final Strongbox strongbox;
+    private final ArrayList<Deposit> deposits;
+    private final ArrayList<Integer> whiteMarbleCardChoice;
 
 
     @JsonCreator

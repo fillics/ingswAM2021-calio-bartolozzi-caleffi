@@ -7,7 +7,7 @@ import it.polimi.ingsw.client.ClientModelView;
 import java.util.ArrayList;
 
 public class PacketWhiteMarbleChoice implements ServerPacketHandler{
-    private ArrayList<Integer> whiteMarbleCardChoice;
+    private final ArrayList<Integer> whiteMarbleCardChoice;
 
     @JsonCreator
     public PacketWhiteMarbleChoice(@JsonProperty("white marble leader card's id :") ArrayList<Integer> whiteMarbleCardChoice) {

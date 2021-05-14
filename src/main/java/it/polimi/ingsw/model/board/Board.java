@@ -27,13 +27,13 @@ public class Board implements BoardInterface {
     private int numOfDevCards;
     private int faithMarker;
     private int boardVictoryPoint;
-    private Strongbox strongbox;
-    private ArrayList<Deposit> deposits;
-    private ArrayList<DevelopmentSpace> developmentSpaces;
+    private final Strongbox strongbox;
+    private final ArrayList<Deposit> deposits;
+    private final ArrayList<DevelopmentSpace> developmentSpaces;
     private ArrayList<Cell> track;
-    private ArrayList<VaticanReportSection> vaticanReportSections;
-    private ArrayList<ProductionPower> specialProductionPowers;
-    private GameBoardInterface game;
+    private final ArrayList<VaticanReportSection> vaticanReportSections;
+    private final ArrayList<ProductionPower> specialProductionPowers;
+    private final GameBoardInterface game;
 
 
     /**

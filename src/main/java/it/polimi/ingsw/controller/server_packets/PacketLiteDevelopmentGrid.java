@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class PacketLiteDevelopmentGrid implements ServerPacketHandler{
 
-    private ArrayList<DevelopmentCard> developmentCards;
+    private final ArrayList<DevelopmentCard> developmentCards;
 
     @JsonCreator
     public PacketLiteDevelopmentGrid(@JsonProperty("development grid :")ArrayList<DevelopmentCard> developmentCards) {

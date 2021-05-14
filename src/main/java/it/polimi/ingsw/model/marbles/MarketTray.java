@@ -15,7 +15,7 @@ import java.util.Collections;
  */
 
 public class MarketTray {
-    private Marble[][] table= new Marble[3][4];
+    private final Marble[][] table= new Marble[3][4];
     private Marble remainingMarble;
     private ArrayList<Marble> market;
 
@@ -30,7 +30,8 @@ public class MarketTray {
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try {
-            market = mapper.readValue(new File("src/main/resources/json/Marble.json"), new TypeReference<ArrayList<Marble>>() {});
+            market = mapper.readValue(new File("src/main/resources/json/Marble.json"), new TypeReference<>() {
+            });
             Collections.shuffle(market);
             for(i=0;i<3;i++){
                 for(j=0; j<4;j++,k++){

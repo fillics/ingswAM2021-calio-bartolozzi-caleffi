@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.localgame;
 
 /**
  * Class LocalGame used when a person wants to play without making the connection with the server

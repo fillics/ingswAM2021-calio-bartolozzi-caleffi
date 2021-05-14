@@ -14,9 +14,9 @@ import java.net.Socket;
  */
 public class SocketClientConnection {
 
-    private CLI cli;
-    private String serverAddress;
-    private int port;
+    private final CLI cli;
+    private final String serverAddress;
+    private final int port;
     private Socket socket;
     private DataOutputStream output;
     private DataInputStream dataInputStream;

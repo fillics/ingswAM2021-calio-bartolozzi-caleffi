@@ -19,7 +19,7 @@ import java.util.LinkedList;
 public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
 
     private LinkedList<SoloActionToken> deckSoloActionToken;
-    private ArrayList<SoloActionToken> deletedSoloActionToken;
+    private final ArrayList<SoloActionToken> deletedSoloActionToken;
     private int blackCross;
     private boolean noMoreColumnDevCard = false;
     private boolean endgame = false;

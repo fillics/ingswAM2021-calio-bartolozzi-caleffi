@@ -11,7 +11,7 @@ import it.polimi.ingsw.exceptions.EmptyDeposit;
 public class Deposit extends Warehouse {
    private ResourceType resourcetype;
    private int quantity;
-   private int maxLimit;
+   private final int maxLimit;
 
     /**
      * Constructor Deposit creates a new Deposit instance

@@ -11,8 +11,8 @@ import it.polimi.ingsw.server.Server;
 
 
 public class PacketChooseLeaderCardToRemove implements ClientPacketHandler {
-    private int Id1;
-    private int Id2;
+    private final int Id1;
+    private final int Id2;
 
     @JsonCreator
     public PacketChooseLeaderCardToRemove(@JsonProperty("id1")int Id1,@JsonProperty("id2") int Id2) {

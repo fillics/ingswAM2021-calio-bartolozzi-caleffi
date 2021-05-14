@@ -5,23 +5,24 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.controller.SetupHandler;
+import it.polimi.ingsw.controller.client_packets.SetupHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 import it.polimi.ingsw.controller.server_packets.PacketSetup;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
 import java.io.*;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable {
-    private Socket socket;
+    private final Socket socket;
     private Game game;
-    private int idClient, idGame, posInGame;
+    private final int idClient;
+    private int idGame;
+    private int posInGame;
     private boolean quit = false;
-    private Server server;
+    private final Server server;
     private DataInputStream dis;
     private DataOutputStream output;
     private PrintStream ps;

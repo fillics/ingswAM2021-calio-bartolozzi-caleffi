@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class PacketWarehouse implements ServerPacketHandler{
 
-    private Strongbox strongbox;
-    private ArrayList<Deposit> deposits;
+    private final Strongbox strongbox;
+    private final ArrayList<Deposit> deposits;
 
     @JsonCreator
     public PacketWarehouse(@JsonProperty("strongbox :")Strongbox strongbox, @JsonProperty("deposits :")ArrayList<Deposit> deposits ) {

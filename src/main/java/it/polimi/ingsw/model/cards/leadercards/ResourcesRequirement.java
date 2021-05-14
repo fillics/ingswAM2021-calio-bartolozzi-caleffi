@@ -12,7 +12,7 @@ import java.util.HashMap;
  *  a Leader Card.
  */
 public class ResourcesRequirement extends Requirement{
-    private HashMap<ResourceType,Integer> resourcePrice;
+    private final HashMap<ResourceType,Integer> resourcePrice;
 
     /**
      * Constructor ResourcesRequirement creates a new ResourcesRequirement instance.

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class PacketDevelopmentSpaces implements ServerPacketHandler{
 
-    private ArrayList<DevelopmentSpace> developmentSpaces;
+    private final ArrayList<DevelopmentSpace> developmentSpaces;
 
     @JsonCreator
     public PacketDevelopmentSpaces(@JsonProperty("development spaces :")ArrayList<DevelopmentSpace> developmentSpaces) {

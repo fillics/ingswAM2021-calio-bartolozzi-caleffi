@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.controller.LocalGame;
+import it.polimi.ingsw.localgame.LocalGame;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 
@@ -12,16 +12,17 @@ import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class CLI implements Runnable, ViewInterface{
     private final PrintStream output;
     private final Scanner input;
-    private SocketClientConnection socketClientConnection;
+    private final SocketClientConnection socketClientConnection;
     private ObjectMapper mapper;
     private boolean gameStarted = false;
-    private ClientOperationHandler clientOperationHandler;
-    private ClientModelView clientModelView;
+    private final ClientOperationHandler clientOperationHandler;
+    private final ClientModelView clientModelView;
     int choiceGame = 0;
 
     /**
@@ -166,7 +167,7 @@ public class CLI implements Runnable, ViewInterface{
 
 
         mapper = new ObjectMapper();
-        packet = new PacketUsername(username);
+        packet = new PacketUsername(username.toLowerCase(Locale.ROOT));
         try {
             jsonResult = mapper.writeValueAsString(packet);
             socketClientConnection.sendToServer(jsonResult);
