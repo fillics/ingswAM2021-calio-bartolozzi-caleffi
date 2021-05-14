@@ -4,17 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.localgame.LocalGame;
-import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
+import it.polimi.ingsw.controller.client_packets.PacketUsername;
 
 
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CLI implements Runnable, ViewInterface {
+public class CLI{
+    private ClientState clientState;
+    private ServerListener serverListener;
+    private  ServerWriter serverWriter;
     private final PrintStream output;
     private final Scanner input;
     private SocketClientConnection socketClientConnection;
@@ -34,6 +35,10 @@ public class CLI implements Runnable, ViewInterface {
         socketClientConnection = new SocketClientConnection(this);
         clientModelView = new ClientModelView();
         clientOperationHandler = new ClientOperationHandler(socketClientConnection,clientModelView);
+        serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input, mapper, gameStarted
+        , choiceGame);
+        serverListener = new ServerListener(this, socketClientConnection);
+        clientState = ClientState.USERNAME;
     }
 
     public static void main(String[] args) {
@@ -50,7 +55,8 @@ public class CLI implements Runnable, ViewInterface {
         int port = scanner.nextInt();
         Constants.setPort(port);
         CLI cli = new CLI();
-        cli.run();
+        new Thread(cli.serverWriter).start();
+        new Thread(cli.serverListener).start();
     }
     public SocketClientConnection getSocketClientConnected() {
         return socketClientConnection;
@@ -60,105 +66,14 @@ public class CLI implements Runnable, ViewInterface {
         return clientModelView;
     }
 
-    @Override
-    public void run() {
-
-        choiceGameType();
-        if (choiceGame==1) {
-            LocalGame localGame = new LocalGame();
-        }
-        if (choiceGame==2){
-            beforeBeginningOfTheGame(); //username and number of players
-            //the game has been created
-            socketClientConnection.sendToServer(ConnectionMessages.SEND_SETUP_PACKETS.getMessage());
-
-            try {
-                socketClientConnection.deserialize();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                additionalSetupGame(); //choice of the leader cards and placing additional resources
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("We're ready to play! Choose one of the operations you can do:\nText 0 to quit");
-            int operation;
-            do{
-                System.out.println("1: Activate a Leader Card\n" +
-                        "2: Buy a Development Card\n" +
-                        "3: Choose Discount\n" +
-                        "4: Choose the 2 Leader Card to remove\n" +
-                        "5: Discard a Leader Card\n" +
-                        "6: Move one of you resources\n" +
-                        "7: Place one of your resources\n" +
-                        "8: Take resources from the market\n" +
-                        "9: Use production powers\n");
-                operation= input.nextInt();
-                if(operation!=0){
-                    try {
-                        clientOperationHandler.handleCLIOperation(operation);
-                    } catch (IOException e) {
-                        System.err.println("Error during the choice of the operation to do");
-                    }
-                }
-
-
-            }while(operation!=0);
-
-            input.close();
-            output.close();
-        }
-
-    }
-
-    /**
-     * Method choiceGameType asks to the player if he wants to play in solo (without making any connection to the server)
-     * or throught the server
-     */
-    @Override
-    public void choiceGameType(){
-
-        printConnectionMessage(ConnectionMessages.LOCAL_OR_SERVERGAME);
-
-        Scanner in = new Scanner(System.in);
-        do {
-            System.out.print(">");
-            try{
-                choiceGame = in.nextInt();
-                if (choiceGame!=1 && choiceGame!=2) printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
-            }catch (InputMismatchException e) {
-                System.err.println("Invalid parameter: insert a numeric value.");
-                choiceGameType();
-            }
-        }while(choiceGame!=1 && choiceGame!=2);
-    }
-
-    /**
-     * Method beforeBeginningOfTheGame handles the initial phase where the game is created (asking for example
-     * to the clients the username)
-     */
-    public void beforeBeginningOfTheGame(){
-        printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
-        sendUsername();
-
-        while(!gameStarted){
-            String str = socketClientConnection.listening();
-            handleBeforeGameMessage(str);
-        }
-    }
 
     /**
      * Method sendUsername asks the username and sends it to the server
      */
-    public void sendUsername(){
+    public void sendUsername(String username){
         String jsonResult;
         PacketUsername packet;
-        String username;
 
-        username = input.nextLine();
         //TODO facciamo il controllo username caratteri speciali - metodo che controlla correttezza
 
 
@@ -175,21 +90,19 @@ public class CLI implements Runnable, ViewInterface {
     /**
      * Method choosePlayerNumber asks how many players there will be in the game and sends the message to the server
      */
-    public void choosePlayerNumber(){
+    public void choosePlayerNumber(int number_of_players ){
         String jsonResult;
         PacketNumPlayers packet;
-        int number_of_players = 0;
 
+        
         do {
-            System.out.print(">");
             try {
-                number_of_players = input.nextInt();
                 if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
                     printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
+                    number_of_players = input.nextInt();
                 }
             }catch (InputMismatchException e) {
                 System.err.println("Invalid parameter: insert a numeric value.");
-                choosePlayerNumber();
             }
         }while(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers());
 
@@ -205,64 +118,25 @@ public class CLI implements Runnable, ViewInterface {
 
 
     /**
-     * Method handleSetupMessage handles the messages that the server sends. According to them, it calls the right methods.
-     * @param message (type String) - it is the message arrived from the server
-     */
-    public void handleBeforeGameMessage(String message){
-
-        if (ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage().equals(message)) {
-            printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
-            System.out.println(message);
-            choosePlayerNumber();
-        }
-        else if (ConnectionMessages.TAKEN_NICKNAME.getMessage().equals(message)) {
-            System.out.println(message);
-            sendUsername();
-        }
-        else if (ConnectionMessages.GAME_IS_STARTING.getMessage().equals(message)) {
-            System.out.println(message);
-            gameStarted = true;
-        }
-
-        else if(ConnectionMessages.WAITING_PEOPLE.getMessage().equals(message)){
-            System.out.println(message);
-        }
-
-        else {
-            throw new IllegalStateException("Unexpected value: " + message);
-        }
-    }
-
-    /**
-     * Method additionalSetupGame handles the initial setup phase where players have to choose the two leader cards
-     * and the resources to place
-     */
-    public synchronized void additionalSetupGame() throws JsonProcessingException {
-        int i;
-        //leader cards choice
-        try {
-            clientOperationHandler.chooseLeaderCardToRemove();
-        } catch (IOException e) {
-            System.err.println("Error in calling the method to choose the leader cards");
-        }
-        //placing resources only if he has to do it
-        i = clientOperationHandler.chooseInitialResources();
-
-        for(int j= i+1; j>0; j--){
-            try {
-                socketClientConnection.deserialize();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    /**
      * Method printConnectionMessage prints the Connection Message passed as a parameter
      */
-    private void printConnectionMessage(ConnectionMessages message){
+    void printConnectionMessage(ConnectionMessages message){
         System.out.println(message.getMessage());
     }
 
+    public void setClientState(ClientState clientState) {
+        this.clientState = clientState;
+    }
+
+    public ClientState getClientState() {
+        return clientState;
+    }
+
+    public Scanner getInput() {
+        return input;
+    }
+
+    public ClientOperationHandler getClientOperationHandler() {
+        return clientOperationHandler;
+    }
 }

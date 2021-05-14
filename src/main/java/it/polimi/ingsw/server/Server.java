@@ -26,6 +26,8 @@ public class Server {
     private final ArrayList<Game> games = new ArrayList<>();
     private int numPlayers;
 
+
+
     /** Map that contains all the username already taken and the clientHandler associated */
     private final Map<String, ClientHandler> mapUsernameClientHandler;
     private Map<Integer, ArrayList<ClientHandler>> mapIdGameClientHandler;
@@ -251,6 +253,10 @@ public class Server {
         for (ClientHandler clientHandler: mapIdGameClientHandler.get(gameInterface.getIdGame())){
             clientHandler.sendUpdatePacket(packet);
         }
+    }
+
+    public Map<String, ClientHandler> getMapUsernameClientHandler() {
+        return mapUsernameClientHandler;
     }
 
 }
