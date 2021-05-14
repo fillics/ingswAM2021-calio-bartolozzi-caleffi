@@ -26,7 +26,7 @@ public class PacketChooseLeaderCardToRemove implements ClientPacketHandler {
 
         if(gameInterface.getState() == State.SETUP){
             gameInterface.chooseLeaderCardToRemove(Id1, Id2);
-            clientHandler.sendUpdatePacket(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
+            clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
         }
     }
 

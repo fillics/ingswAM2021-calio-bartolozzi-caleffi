@@ -24,7 +24,7 @@ public class PacketDiscardLeaderCard implements ClientPacketHandler {
         if((gameInterface.getState() == State.PHASE_ONE || gameInterface.getState() == State.PHASE_TWO)
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.discardLeaderCard(ID);
-            clientHandler.sendUpdatePacket(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
+            clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
         }
     }
 

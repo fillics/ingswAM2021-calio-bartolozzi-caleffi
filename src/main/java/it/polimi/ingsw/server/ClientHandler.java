@@ -66,7 +66,6 @@ public class ClientHandler implements Runnable {
                 }
                 else {
                     deserialize(str);
-                    clientMessagesHandle(str);
                 }
 
                 if(gameStarted) {
@@ -106,14 +105,6 @@ public class ClientHandler implements Runnable {
         return idClient;
     }
 
-    public synchronized void sendMessageToClient(ConnectionMessages msg){
-        String messageToSend = msg.getMessage();
-        try{
-            ps.println(messageToSend);
-        }catch (Exception e){
-            close();
-        }
-    }
 
     public void close(){
         try {
@@ -185,7 +176,7 @@ public class ClientHandler implements Runnable {
      * Method sendUpdatePacket sends updates to the client
      * @param serverPacketHandler (type ServerPacketHandler) -
      */
-    public synchronized void sendUpdatePacket(ServerPacketHandler serverPacketHandler){
+    public synchronized void sendPacketToClient(ServerPacketHandler serverPacketHandler){
         mapper = new ObjectMapper();
         try {
             jsonResult = mapper.writeValueAsString(serverPacketHandler);
@@ -196,6 +187,14 @@ public class ClientHandler implements Runnable {
 
     }
 
+    public synchronized void sendMessageToClient(ConnectionMessages msg){
+        String messageToSend = msg.getMessage();
+        try{
+            ps.println(messageToSend);
+        }catch (Exception e){
+            close();
+        }
+    }
 
     public synchronized void sendToClient(String jsonResult){
         try {

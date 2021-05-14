@@ -1,7 +1,7 @@
 package it.polimi.ingsw;
 
 
-import it.polimi.ingsw.client.CLI;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.server.Server;
 
 import java.util.Scanner;
@@ -40,7 +40,7 @@ public class MasterOfRenaissance {
                 Server.main(null);
                 break;
             case (2):
-                CLI.main(null);
+                Client.main(null);
                 break;
             case (3):
                 //GUI.main(null);

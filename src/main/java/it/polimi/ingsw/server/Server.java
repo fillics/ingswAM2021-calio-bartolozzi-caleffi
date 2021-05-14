@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.State;
+import it.polimi.ingsw.controller.server_packets.PacketMessage;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
@@ -154,7 +155,7 @@ public class Server {
      */
     public synchronized void checkFirstPositionInLobby(ClientHandler clientHandler){
         if (lobby.peek() != null && lobby.peek().equals(clientHandler)) {
-            clientHandler.sendMessageToClient(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
+            clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS));
         }
     }
 
@@ -168,7 +169,7 @@ public class Server {
     public synchronized void checkUsernameAlreadyTaken(String username, ClientHandler clientHandler){
 
         if(mapUsernameClientHandler.containsKey(username)){
-            clientHandler.sendMessageToClient(ConnectionMessages.TAKEN_NICKNAME);
+            clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.TAKEN_NICKNAME));
         }
         else addUsernameIntoMap(username, clientHandler);
     }
@@ -230,7 +231,7 @@ public class Server {
         for (int i=0; i<numPlayers; i++){
             mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).setPosInGame(i);
             mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).setGame(game);
-            mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).sendMessageToClient(ConnectionMessages.GAME_IS_STARTING);
+            mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).sendPacketToClient(new PacketMessage(ConnectionMessages.GAME_IS_STARTING));
             mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).setGameStarted(true);
         }
         numPlayers=0;
@@ -239,7 +240,7 @@ public class Server {
         mapIdGameClientHandler.put(game.getIdGame(), playersInGame);
 
         if (lobby.size()!=0){
-            lobby.peek().sendMessageToClient(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
+            lobby.peek().sendPacketToClient(new PacketMessage(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS));
         }
     }
 
@@ -251,7 +252,7 @@ public class Server {
     public synchronized void sendAll(ServerPacketHandler packet, GameInterface gameInterface) {
 
         for (ClientHandler clientHandler: mapIdGameClientHandler.get(gameInterface.getIdGame())){
-            clientHandler.sendUpdatePacket(packet);
+            clientHandler.sendPacketToClient(packet);
         }
     }
 

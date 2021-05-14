@@ -9,10 +9,7 @@ import it.polimi.ingsw.model.board.storage.Strongbox;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
-import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDiscount;
-import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyMarble;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
-import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
 import it.polimi.ingsw.model.marbles.Marble;
 
 import java.util.ArrayList;
@@ -121,16 +118,16 @@ public class PacketSetup implements ServerPacketHandler{
     }
 
     @Override
-    public void execute(ClientModelView clientModelView) {
+    public void execute(Client client) {
         LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers);
         LitePlayer litePlayer = new LitePlayer(username, idClient,posInGame, totalVictoryPoint,leaderCards,resourceBuffer,liteBoard,whiteMarbleCardChoice);
         LiteDevelopmentGrid liteDevelopmentGrid = new LiteDevelopmentGrid(developmentCards);
         LiteMarketTray liteMarketTray = new LiteMarketTray(table);
-        clientModelView.setDevelopmentGrid(liteDevelopmentGrid);
-        clientModelView.setMarketTray(liteMarketTray);
-        clientModelView.setLiteBoard(liteBoard);
-        clientModelView.setMyPlayer(litePlayer);
-        clientModelView.setFirstPosition(firstPosition);
-        clientModelView.setNumOfPlayers(numOfPlayers);
+        client.getClientModelView().setDevelopmentGrid(liteDevelopmentGrid);
+        client.getClientModelView().setMarketTray(liteMarketTray);
+        client.getClientModelView().setLiteBoard(liteBoard);
+        client.getClientModelView().setMyPlayer(litePlayer);
+        client.getClientModelView().setFirstPosition(firstPosition);
+        client.getClientModelView().setNumOfPlayers(numOfPlayers);
     }
 }

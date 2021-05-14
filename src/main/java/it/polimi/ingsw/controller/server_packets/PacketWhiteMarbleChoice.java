@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.server_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class PacketWhiteMarbleChoice implements ServerPacketHandler{
     }
 
     @Override
-    public void execute(ClientModelView clientModelView) {
-        clientModelView.getMyPlayer().setWhiteMarbleCardChoice(whiteMarbleCardChoice);
+    public void execute(Client client) {
+        client.getClientModelView().getMyPlayer().setWhiteMarbleCardChoice(whiteMarbleCardChoice);
     }
 }

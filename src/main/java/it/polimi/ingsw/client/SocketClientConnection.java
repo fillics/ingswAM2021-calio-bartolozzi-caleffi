@@ -14,7 +14,7 @@ import java.net.Socket;
  */
 public class SocketClientConnection {
 
-    private final CLI cli;
+    private final Client client;
     private final String serverAddress;
     private final int port;
     private Socket socket;
@@ -22,15 +22,15 @@ public class SocketClientConnection {
     private DataInputStream dataInputStream;
     private BufferedReader br;
 
-    public SocketClientConnection(CLI cli) {
-        this.cli= cli;
+    public SocketClientConnection(Client client) {
+        this.client = client;
         this.serverAddress = Constants.getAddressServer();
         this.port = Constants.getPort();
         try {
             socket = new Socket(serverAddress, port);
         } catch (IOException ignored) {
             System.err.println("Error during connection to the client");
-            CLI.main(null);
+            Client.main(null);
         }
         try {
             output = new DataOutputStream(socket.getOutputStream());
@@ -51,7 +51,7 @@ public class SocketClientConnection {
             output.flush();
         } catch (IOException e) {
             System.err.println("Error during the communication from client to server!");
-            CLI.main(null);
+            Client.main(null);
         }
     }
 
@@ -59,12 +59,15 @@ public class SocketClientConnection {
      * ci mettiamo in ascolto dei messaggi che arrivano dal server
      */
     public String listening(){
+        System.out.println("gino");
         String str=null;
+
         try {
             str = br.readLine();
         } catch (IOException e) {
             System.out.println("Errore nella ricezione di un messaggio dal server");
         }
+        System.out.println(str);
         return str;
     }
 
@@ -89,7 +92,11 @@ public class SocketClientConnection {
         }
 
         if (packet != null) {
-            packet.execute(cli.getClientModelView());
+            packet.execute(client);
         }
+    }
+
+    public Socket getSocket() {
+        return socket;
     }
 }

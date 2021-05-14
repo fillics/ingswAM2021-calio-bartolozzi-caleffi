@@ -27,7 +27,7 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
         if(gameInterface.getState() == State.SETUP){
 
             gameInterface.additionalResourceSetup(resource,depositPosition,clientHandler.getIdClient());
-            clientHandler.sendUpdatePacket(new PacketWarehouse(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getBoard().getStrongbox(),gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getBoard().getDeposits()));
+            clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getBoard().getStrongbox(),gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getBoard().getDeposits()));
         }
     }
 

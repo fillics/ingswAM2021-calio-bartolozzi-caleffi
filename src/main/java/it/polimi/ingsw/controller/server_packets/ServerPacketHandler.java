@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.server_packets;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
 
 @JsonTypeInfo(
@@ -10,6 +11,7 @@ import it.polimi.ingsw.client.ClientModelView;
         property = "command")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PacketLiteMarketTray.class, name = "LITE_MARKET_TRAY"),
+        @JsonSubTypes.Type(value = PacketMessage.class, name = "MESSAGE"),
         @JsonSubTypes.Type(value = PacketLiteDevelopmentGrid.class, name = "LITE_DEV_GRID"),
         @JsonSubTypes.Type(value = PacketWarehouse.class, name = "WAREHOUSES"),
         @JsonSubTypes.Type(value = PacketLitePlayer.class, name = "LITE_PLAYER"),
@@ -23,5 +25,5 @@ import it.polimi.ingsw.client.ClientModelView;
         })
 
 public interface ServerPacketHandler {
-        void execute(ClientModelView clientModelView);
+        void execute(Client client);
 }
