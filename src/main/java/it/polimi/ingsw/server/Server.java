@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 
 import java.io.IOException;
@@ -25,18 +26,17 @@ public class Server {
     private final ArrayList<Game> games = new ArrayList<>();
     private int numPlayers;
 
+    /** Map that contains all the username already taken and the clientHandler associated */
     private final Map<String, ClientHandler> mapUsernameClientHandler;
-    //private Map<Integer, Integer> mapIdGame; // per sapere a quale idGame appartiene un idPlayer
-    //private Map<Integer, String> mapId;
+    private Map<Integer, ArrayList<ClientHandler>> mapIdGameClientHandler;
 
     /** List of clients waiting in the lobby. */
     private final Queue<ClientHandler> lobby = new LinkedList<>();
 
     // TODO: 11/05/2021 aggiungere struttura dati che contiene game e i relativi idplayers
     public Server() {
-        //game = new Game();
         mapUsernameClientHandler = new HashMap<>();
-
+        mapIdGameClientHandler = new HashMap<>();
     }
 
     public Queue<ClientHandler> getLobby() {
@@ -200,6 +200,7 @@ public class Server {
      */
     public synchronized void createMatch(){
         Game game;
+        ArrayList<ClientHandler> playersInGame = new ArrayList<>();
 
         if(numPlayers==1){
              game = new SinglePlayerGame();
@@ -218,6 +219,7 @@ public class Server {
         for (int i=0; i<numPlayers; i++){
             if (lobby.peek()!= null) {
                 game.createNewPlayer(lobby.peek().getUsername(), lobby.peek().getIdClient());
+                playersInGame.add(lobby.peek());
             }
             lobby.remove();
         }
@@ -231,14 +233,24 @@ public class Server {
         }
         numPlayers=0;
 
+        //aggiungiamo alla mappa idGame e array di tutti i players che giocano a una determinata partita
+        mapIdGameClientHandler.put(game.getIdGame(), playersInGame);
+
         if (lobby.size()!=0){
             lobby.peek().sendMessageToClient(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
         }
     }
 
-    //invia a tutti i giocatori un update del game in cui giocano
-    public void sendAll(ServerPacketHandler packet) {
+    /**
+     * Method sendAll sends to all the players of a game an update about changes of the game
+     * @param packet (type ServerPacketHandler)
+     * @param gameInterface (type GameInterface)
+     */
+    public synchronized void sendAll(ServerPacketHandler packet, GameInterface gameInterface) {
 
+        for (ClientHandler clientHandler: mapIdGameClientHandler.get(gameInterface.getIdGame())){
+            clientHandler.sendUpdatePacket(packet);
+        }
     }
 
 }
