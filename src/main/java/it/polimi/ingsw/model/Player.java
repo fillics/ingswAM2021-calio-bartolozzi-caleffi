@@ -22,10 +22,10 @@ public class Player {
     private final String username;
     private int idClient; // TODO: 02/05/2021 scrivere nel costruttore e metodo get
     private int totalVictoryPoint;
-    private ArrayList<LeaderCard> leaderCards;
-    private ArrayList<Resource> resourceBuffer;
-    private Board board;
-    private GamePlayerInterface gamePlayer;
+    private final ArrayList<LeaderCard> leaderCards;
+    private final ArrayList<Resource> resourceBuffer;
+    private final Board board;
+    private final GamePlayerInterface gamePlayer;
     private int chosenResource;
     private ArrayList<Integer> whiteMarbleCardChoice;
 

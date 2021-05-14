@@ -12,9 +12,9 @@ import java.util.HashMap;
  */
 
 public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
-    private HashMap<ResourceType,Integer> resourcesObtained;
+    private final HashMap<ResourceType,Integer> resourcesObtained;
     private ProductionPower extraProductionPower;
-    private BoardInterface board;
+    private final BoardInterface board;
     private boolean active;
     private final ResourceType resourceType;
 

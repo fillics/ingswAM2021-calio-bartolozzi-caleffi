@@ -4,9 +4,9 @@ package it.polimi.ingsw.model.board.faithtrack;
  * Class Cell represents the cells that make up the faith track
  */
 public class Cell {
-    private int victoryPoint;
-    private boolean popeSpace;
-    private int vaticanReportSection;
+    private final int victoryPoint;
+    private final boolean popeSpace;
+    private final int vaticanReportSection;
 
     /**
      * Constructor Cell creates a new Cell instance.

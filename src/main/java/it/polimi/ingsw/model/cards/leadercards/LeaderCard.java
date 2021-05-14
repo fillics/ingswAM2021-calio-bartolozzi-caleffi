@@ -15,12 +15,12 @@ import java.util.Objects;
 
 
 public class LeaderCard extends Card {
-    private int id;
-    private LeaderCardType type;
+    private final int id;
+    private final LeaderCardType type;
     private LeaderCardStrategy strategy;
-    private ResourceType resourceType;
-    private Requirement requirements;
-    private int victorypoint;
+    private final ResourceType resourceType;
+    private final Requirement requirements;
+    private final int victorypoint;
 
     /**
      * constructor LeaderCard creates a new LeaderCard instance,

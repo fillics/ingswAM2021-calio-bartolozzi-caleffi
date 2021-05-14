@@ -11,8 +11,8 @@ import it.polimi.ingsw.server.Server;
 
 
 public class PacketPlaceResource implements ClientPacketHandler {
-    private int depositPosition;
-    private int resourcePosition;
+    private final int depositPosition;
+    private final int resourcePosition;
 
     @JsonCreator
     public PacketPlaceResource(@JsonProperty("DepositPosition")int depositPosition,@JsonProperty("ResourcePosition") int resourcePosition) {

@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * This class represents a Development Space of the Board.
  */
 public class DevelopmentSpace {
-    private ArrayList<DevelopmentCard> developmentCardsOfDevSpace;
+    private final ArrayList<DevelopmentCard> developmentCardsOfDevSpace;
     private DevelopmentCard topCard;
 
     /**
@@ -35,11 +35,7 @@ public class DevelopmentSpace {
             return false;
         } else if((topCard!=null)&&((topCard.getLevel()==Level.ONE)&&((developmentCard.getLevel()==Level.ONE)||(developmentCard.getLevel()==Level.THREE)))){
             return false;
-        } else if((topCard!=null)&&(topCard.getLevel().compareTo(developmentCard.getLevel()))>=0){
-            return false;
-        }else{
-            return true;
-        }
+        } else return (topCard == null) || (topCard.getLevel().compareTo(developmentCard.getLevel())) < 0;
     }
 
     /**

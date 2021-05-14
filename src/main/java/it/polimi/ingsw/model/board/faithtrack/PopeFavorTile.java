@@ -4,8 +4,8 @@ package it.polimi.ingsw.model.board.faithtrack;
  * Class PopeFavorTile represents the pope favor tiles that are present on the faith track
  */
 public class PopeFavorTile {
-    private PopeFavorTileColor color;
-    private int victorypoint;
+    private final PopeFavorTileColor color;
+    private final int victorypoint;
     private boolean visible;
 
     /**

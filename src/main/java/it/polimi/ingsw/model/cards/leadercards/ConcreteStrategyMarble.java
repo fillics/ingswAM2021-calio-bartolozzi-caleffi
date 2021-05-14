@@ -10,7 +10,7 @@ import it.polimi.ingsw.model.board.resources.ResourceType;
  */
 
 public class ConcreteStrategyMarble implements LeaderCardStrategy{
-    private ResourceType resourceType;
+    private final ResourceType resourceType;
     private boolean active;
 
 

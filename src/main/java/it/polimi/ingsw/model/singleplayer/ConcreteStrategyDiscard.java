@@ -11,8 +11,8 @@ import java.util.stream.IntStream;
 public class ConcreteStrategyDiscard implements TokenActionStrategy{
 
     private final int amount = 2;
-    private SinglePlayerGameInterface singleGame;
-    private CardColor color;
+    private final SinglePlayerGameInterface singleGame;
+    private final CardColor color;
 
 
     /**

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class PacketSpecialProdPowers implements ServerPacketHandler{
 
-    private ArrayList<ProductionPower> specialProductionPowers;
+    private final ArrayList<ProductionPower> specialProductionPowers;
 
     @JsonCreator
     public PacketSpecialProdPowers(@JsonProperty("special production powers :")ArrayList<ProductionPower> specialProductionPowers) {

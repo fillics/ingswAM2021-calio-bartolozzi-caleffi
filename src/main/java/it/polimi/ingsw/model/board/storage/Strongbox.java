@@ -9,7 +9,7 @@ import java.util.HashMap;
  * Class Strongbox represents the strongbox of the Board
  */
 public class Strongbox extends Warehouse{
-    private HashMap<ResourceType, Integer> strongbox;
+    private final HashMap<ResourceType, Integer> strongbox;
 
     
     /**

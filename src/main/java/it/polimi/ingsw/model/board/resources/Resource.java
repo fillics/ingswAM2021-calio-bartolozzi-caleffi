@@ -7,7 +7,7 @@ import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
  * Class Resource represents the resources used during the game
  */
 public class Resource {
-    private ResourceType type;
+    private final ResourceType type;
     private ResourceActionStrategy strategy;
 
     /**

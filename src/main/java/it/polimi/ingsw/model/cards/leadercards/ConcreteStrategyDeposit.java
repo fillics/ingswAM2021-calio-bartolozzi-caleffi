@@ -8,9 +8,9 @@ import it.polimi.ingsw.model.board.storage.Deposit;
  */
 
 public class ConcreteStrategyDeposit implements LeaderCardStrategy{
-    private ResourceType resourceType;
+    private final ResourceType resourceType;
     private Deposit extraDeposit;
-    private BoardInterface board;
+    private final BoardInterface board;
     private boolean active;
 
     public boolean isActive() {

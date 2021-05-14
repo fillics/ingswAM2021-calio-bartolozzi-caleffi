@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PacketUseAndChooseProdPower implements ClientPacketHandler {
-    private ArrayList<ProductionPower> productionPowers;
-    private ArrayList<ResourceType> resourceTypes;
-    private ArrayList<Warehouse> warehouse;
-    private ArrayList<ResourceType> newResources;
+    private final ArrayList<ProductionPower> productionPowers;
+    private final ArrayList<ResourceType> resourceTypes;
+    private final ArrayList<Warehouse> warehouse;
+    private final ArrayList<ResourceType> newResources;
 
     @JsonCreator
     public PacketUseAndChooseProdPower(@JsonProperty("ProductionPowers")ArrayList<ProductionPower> productionPowers,@JsonProperty("ResourceTypes") ArrayList<ResourceType> resourceTypes,@JsonProperty("Warehouse") ArrayList<Warehouse> warehouse,@JsonProperty("NewResources") ArrayList<ResourceType> newResources) {

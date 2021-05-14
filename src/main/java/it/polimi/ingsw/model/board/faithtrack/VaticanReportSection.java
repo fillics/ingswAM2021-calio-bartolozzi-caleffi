@@ -6,8 +6,8 @@ import java.util.ArrayList;
  * Class VaticanReportSection represents the vatican report section that contains some cells
  */
 public class VaticanReportSection {
-    private ArrayList<Cell> section;
-    private PopeFavorTile popefavortile;
+    private final ArrayList<Cell> section;
+    private final PopeFavorTile popefavortile;
     private boolean activated = false;
 
     /**

@@ -5,23 +5,24 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.controller.SetupHandler;
+import it.polimi.ingsw.controller.client_packets.SetupHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 import it.polimi.ingsw.controller.server_packets.PacketSetup;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.server.Server;
 
 import java.io.*;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable {
-    private Socket socket;
+    private final Socket socket;
     private Game game;
-    private int idClient, idGame, posInGame;
+    private final int idClient;
+    private int idGame;
+    private int posInGame;
     private boolean quit = false;
-    private Server server;
+    private final Server server;
     private DataInputStream dis;
     private DataOutputStream output;
     private PrintStream ps;
@@ -65,6 +66,7 @@ public class ClientHandler implements Runnable {
                 }
                 else {
                     deserialize(str);
+                    clientMessagesHandle(str);
                 }
 
                 if(gameStarted) {
@@ -161,7 +163,7 @@ public class ClientHandler implements Runnable {
         mapper = new ObjectMapper();
 
 
-        PacketSetup packetSetup = new PacketSetup(username,idClient, posInGame, game.getNumof_players(), game.getCurrentPlayer(), 0,game.getTable(), game.getInitialDevGrid(), game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
+        PacketSetup packetSetup = new PacketSetup(username,idClient,0,game.getTable(), game.getInitialDevGrid(), game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
            game.getIdClientActivePlayers().get(idClient).getResourceBuffer(),game.getIdClientActivePlayers().get(idClient).getBoard().getSpecialProductionPowers(),
            game.getIdClientActivePlayers().get(idClient).getBoard().getStrongbox(),game.getIdClientActivePlayers().get(idClient).getBoard().getDeposits(), game.getIdClientActivePlayers().get(idClient).getWhiteMarbleCardChoice());
 
@@ -171,8 +173,12 @@ public class ClientHandler implements Runnable {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println(jsonResult);
+        //System.out.println(jsonResult);
         sendToClient(jsonResult);
+    }
+
+    public void clientMessagesHandle(String jsonResult){
+
     }
 
     /**
@@ -189,6 +195,7 @@ public class ClientHandler implements Runnable {
         sendToClient(jsonResult);
 
     }
+
 
     public synchronized void sendToClient(String jsonResult){
         try {

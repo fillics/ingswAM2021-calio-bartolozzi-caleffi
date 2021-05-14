@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.client_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.controller.State;
+import it.polimi.ingsw.controller.server_packets.PacketLiteDevelopmentGrid;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
@@ -15,10 +16,10 @@ import java.util.ArrayList;
 
 
 public class PacketBuyDevCard implements ClientPacketHandler {
-    private int id;
-    private ArrayList<ResourceType> chosenResources;
-    private ArrayList<Warehouse> chosenWarehouses;
-    private DevelopmentSpace developmentSpace;
+    private final int id;
+    private final ArrayList<ResourceType> chosenResources;
+    private final ArrayList<Warehouse> chosenWarehouses;
+    private final DevelopmentSpace developmentSpace;
 
     @JsonCreator
     public PacketBuyDevCard(@JsonProperty("Id")int id,@JsonProperty("ChosenResources") ArrayList<ResourceType> chosenResources,@JsonProperty("ChosenWarehouses ") ArrayList<Warehouse> chosenWarehouses,@JsonProperty("DevelopmentSpace") DevelopmentSpace developmentSpace) {
@@ -28,12 +29,15 @@ public class PacketBuyDevCard implements ClientPacketHandler {
         this.developmentSpace = developmentSpace;
     }
 
-    //TODO: Aggiungere l'else all'if che invia il messaggio al client che gli dà errore
+
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested {
         if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.buyDevCard(id, chosenResources, chosenWarehouses, developmentSpace);
             gameInterface.setState(State.PHASE_TWO);
+
+            // TODO: 14/05/2021  mandare a tutti il nuove development grid - sistemare il metodo getInitalDevGrid con getDevGrideLite (vedi metodo di Game)
+            server.sendAll(new PacketLiteDevelopmentGrid(gameInterface.getInitialDevGrid()), gameInterface);
         }
 
     }

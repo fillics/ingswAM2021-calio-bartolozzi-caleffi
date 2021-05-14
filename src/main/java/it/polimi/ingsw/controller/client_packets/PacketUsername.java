@@ -2,13 +2,11 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.controller.SetupHandler;
-import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.ClientHandler;
-
+import it.polimi.ingsw.server.Server;
 
 public class PacketUsername implements SetupHandler {
-    private String username;
+    private final String username;
     @JsonCreator
     public PacketUsername(@JsonProperty("username")String username) {
         this.username = username;

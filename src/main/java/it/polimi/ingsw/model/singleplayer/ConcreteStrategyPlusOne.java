@@ -6,7 +6,7 @@ package it.polimi.ingsw.model.singleplayer;
 public class ConcreteStrategyPlusOne implements TokenActionStrategy{
 
     private final int steps = 1;
-    private SinglePlayerGameInterface single;
+    private final SinglePlayerGameInterface single;
 
     /**
      * Constructor ConcreteStrategyPlusOne creates a new ConcreteStrategyPlusOne instance.

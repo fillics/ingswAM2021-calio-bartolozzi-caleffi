@@ -1,9 +1,8 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
-import it.polimi.ingsw.controller.client_packets.PacketUsername;
+import it.polimi.ingsw.controller.client_packets.*;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 

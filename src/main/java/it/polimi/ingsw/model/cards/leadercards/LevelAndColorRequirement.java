@@ -16,8 +16,8 @@ import java.util.HashMap;
  *  color of a certain level in order to activate a Leader Card.
  */
 public class LevelAndColorRequirement extends Requirement{
-    private Level level;
-    private HashMap<CardColor,Integer> color;
+    private final Level level;
+    private final HashMap<CardColor,Integer> color;
 
     /**
      * Constructor LevelAndColorRequirement creates a new LevelAndColorRequirement instance.

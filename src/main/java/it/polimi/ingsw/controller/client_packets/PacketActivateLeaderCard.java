@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
 public class PacketActivateLeaderCard implements ClientPacketHandler {
-    private int id;
+    private final int id;
 
     @JsonCreator
     public PacketActivateLeaderCard(@JsonProperty("Id")int id) {

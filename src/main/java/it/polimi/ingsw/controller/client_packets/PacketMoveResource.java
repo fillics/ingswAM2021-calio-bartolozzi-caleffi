@@ -10,7 +10,7 @@ import it.polimi.ingsw.server.Server;
 
 
 public class PacketMoveResource implements ClientPacketHandler {
-    private int position;
+    private final int position;
 
     @JsonCreator
     public PacketMoveResource(@JsonProperty("Position")int position) {

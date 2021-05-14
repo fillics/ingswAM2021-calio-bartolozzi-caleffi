@@ -10,12 +10,12 @@ import java.util.HashMap;
  * This class represents the Development Card.
  */
 public class DevelopmentCard extends Card {
-    private int id;
-    private Level level;
-    private CardColor color;
-    private HashMap<ResourceType,Integer> resourcePrice;
-    private ProductionPower productionPower;
-    private int victorypoint;
+    private final int id;
+    private final Level level;
+    private final CardColor color;
+    private final HashMap<ResourceType,Integer> resourcePrice;
+    private final ProductionPower productionPower;
+    private final int victorypoint;
 
     /**
      * Constructor DevelopmentCard creates a new DevelopmentCard instance.
