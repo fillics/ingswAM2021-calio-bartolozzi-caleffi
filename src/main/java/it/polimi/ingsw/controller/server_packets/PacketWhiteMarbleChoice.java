@@ -14,6 +14,10 @@ public class PacketWhiteMarbleChoice implements ServerPacketHandler{
         this.whiteMarbleCardChoice = whiteMarbleCardChoice;
     }
 
+    public ArrayList<Integer> getWhiteMarbleCardChoice() {
+        return whiteMarbleCardChoice;
+    }
+
     @Override
     public void execute(ClientModelView clientModelView) {
         clientModelView.getMyPlayer().setWhiteMarbleCardChoice(whiteMarbleCardChoice);

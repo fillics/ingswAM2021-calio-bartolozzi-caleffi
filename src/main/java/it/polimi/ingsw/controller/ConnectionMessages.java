@@ -21,7 +21,8 @@ public enum ConnectionMessages {
     SEND_SETUP_PACKETS("Send setup packets"),
     SELECT_LEADERCARDS("Choose the leader cards to remove"),
 
-    CHOOSE_LEADERCARDSWHITEMARBLE ("If you want to use leader cards white marbles, choose them now"),
+    //CHOOSE_ONE_INITIAL_MARBLE ("Choose initial marble"),
+    //CHOOSE_TWO_INITIAL_MARBLES (""),
     CONNECTION_CLOSED("Connection closed"),
     MATCH_FINISHED_FAITH("A player reached the last cell of the faith track"),
     MATCH_FINISHED_DEVCARDS("A player bought the seventh development card"),

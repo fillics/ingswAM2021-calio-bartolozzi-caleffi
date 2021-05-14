@@ -26,4 +26,16 @@ public class PacketLitePlayer implements ServerPacketHandler{
         clientModelView.getMyPlayer().setTotalVictoryPoint(totalVictoryPoint);
         clientModelView.getMyPlayer().setUsername(username);
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public int getIdPlayer() {
+        return idPlayer;
+    }
+
+    public int getTotalVictoryPoint() {
+        return totalVictoryPoint;
+    }
 }

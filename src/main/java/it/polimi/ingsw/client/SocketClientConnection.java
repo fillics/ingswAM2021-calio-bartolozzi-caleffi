@@ -63,7 +63,7 @@ public class SocketClientConnection {
         try {
             str = br.readLine();
         } catch (IOException e) {
-            //System.out.println("server disconnesso");
+            System.out.println("Errore nella ricezione di un messaggio dal server");
         }
         return str;
     }
@@ -79,6 +79,7 @@ public class SocketClientConnection {
     public synchronized void deserialize() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         String str = dataInputStream.readUTF();
+        System.out.println(str);
         ServerPacketHandler packet = null;
 
         try {

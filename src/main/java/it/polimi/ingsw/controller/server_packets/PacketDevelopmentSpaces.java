@@ -21,4 +21,7 @@ public class PacketDevelopmentSpaces implements ServerPacketHandler{
         clientModelView.getLiteBoard().setDevelopmentSpaces(developmentSpaces);
     }
 
+    public ArrayList<DevelopmentSpace> getDevelopmentSpaces() {
+        return developmentSpaces;
+    }
 }

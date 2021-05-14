@@ -5,6 +5,8 @@ public class ClientModelView {
     private LiteMarketTray marketTray;
     private LiteDevelopmentGrid developmentGrid;
     private LiteBoard liteBoard;
+    private int numOfPlayers;
+    private int firstPosition;
 
     public LitePlayer getMyPlayer() {
         return MyPlayer;
@@ -36,5 +38,21 @@ public class ClientModelView {
 
     public void setLiteBoard(LiteBoard liteBoard) {
         this.liteBoard = liteBoard;
+    }
+
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public void setNumOfPlayers(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
+    }
+
+    public int getFirstPosition() {
+        return firstPosition;
+    }
+
+    public void setFirstPosition(int firstPosition) {
+        this.firstPosition = firstPosition;
     }
 }

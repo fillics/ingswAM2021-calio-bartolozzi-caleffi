@@ -20,4 +20,8 @@ public class PacketLiteDevelopmentGrid implements ServerPacketHandler{
     public void execute(ClientModelView clientModelView) {
         clientModelView.getDevelopmentGrid().setDevelopmentCards(developmentCards);
     }
+
+    public ArrayList<DevelopmentCard> getDevelopmentCards() {
+        return developmentCards;
+    }
 }

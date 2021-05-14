@@ -2,6 +2,8 @@ package it.polimi.ingsw.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.client.ClientModelView;
+import it.polimi.ingsw.client.SocketClientConnection;
 import it.polimi.ingsw.controller.client_packets.*;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
@@ -463,6 +465,114 @@ public class ClientOperationHandler {
 
         PacketUseAndChooseProdPower packet = new PacketUseAndChooseProdPower(productionPowers, resources, warehouse, newResources);
         sendPacket(packet);
+    }
+
+    public synchronized int chooseInitialResources() throws JsonProcessingException {
+        int n,first,pos, i=0;
+        int position;
+        int resource;
+        ResourceType resourcetype = null;
+
+        n = clientModelView.getNumOfPlayers();
+        first = clientModelView.getFirstPosition();
+        pos = clientModelView.getMyPlayer().getPosInGame();
+        System.out.println("position in game "+pos);
+        System.out.println("first position in game " + first);
+        System.out.println("number of players " + n);
+
+        if(((n ==2 || n ==3) && (pos != first)) ||
+                (n==4 && ( (first== 0 && (pos==1 || pos == 2)) || (first ==1 && (pos == 2 || pos ==3)) ||
+                        (first== 2 && (pos== 3 || pos == 0)) || (first ==3 && (pos ==0 || pos ==1))))){
+            i=1;
+            System.out.println("Choose the initial resource");
+            System.out.println("Write 1 to select COIN, 2 to select STONE, 3 to select SERVANT, 4 to select SHIELD");
+            do{
+                resource = input.nextInt();
+                switch (resource) {
+                    case 0:
+                        break;
+                    case 1:
+                        resourcetype = ResourceType.COIN;
+                        break;
+                    case 2:
+                        resourcetype = ResourceType.STONE;
+                        break;
+                    case 3:
+                        resourcetype = ResourceType.SERVANT;
+                        break;
+                    case 4:
+                        resourcetype = ResourceType.SHIELD;
+                        break;
+                    default:
+                        System.out.println("invalid resource\n");
+                        break;
+                }
+            }while(resource < 0 || resource > 4);
+            System.out.println("Choose the deposit in which you want to place the resource");
+            position = input.nextInt();
+
+            PacketChooseInitialResources packet = new PacketChooseInitialResources(position - 1, resourcetype);
+            sendPacket(packet);
+        }
+        else if(n == 4 && ((first == 0 && pos==3) || ( first == 1 && pos==0) || (first ==2 && pos== 1) || (first== 3 && pos==2))){
+            i=2;
+            System.out.println("Choose the first initial resource");
+            System.out.println("Write 1 to select COIN, 2 to select STONE, 3 to select SERVANT, 4 to select SHIELD");
+            do{
+                resource = input.nextInt();
+                switch (resource) {
+                    case 0:
+                        break;
+                    case 1:
+                        resourcetype = ResourceType.COIN;
+                        break;
+                    case 2:
+                        resourcetype = ResourceType.STONE;
+                        break;
+                    case 3:
+                        resourcetype = ResourceType.SERVANT;
+                        break;
+                    case 4:
+                        resourcetype = ResourceType.SHIELD;
+                        break;
+                    default:
+                        System.out.println("invalid resource\n");
+                        break;
+                }
+            }while(resource < 0 || resource > 4);
+            System.out.println("Choose the deposit in which you want to place the resource");
+            position = input.nextInt();
+            PacketChooseInitialResources packet1 = new PacketChooseInitialResources(position - 1, resourcetype);
+            sendPacket(packet1);
+            System.out.println("Choose the second initial resource");
+                do{
+                    resource = input.nextInt();
+                    switch (resource) {
+                        case 0:
+                            break;
+                        case 1:
+                            resourcetype = ResourceType.COIN;
+                            break;
+                        case 2:
+                            resourcetype = ResourceType.STONE;
+                            break;
+                        case 3:
+                            resourcetype = ResourceType.SERVANT;
+                            break;
+                        case 4:
+                            resourcetype = ResourceType.SHIELD;
+                            break;
+                        default:
+                            System.out.println("invalid resource\n");
+                            break;
+                    }
+                }while(resource < 0 || resource > 4);
+            System.out.println("Choose the deposit in which you want to place the resource");
+            position = input.nextInt();
+            PacketChooseInitialResources packet2 = new PacketChooseInitialResources(position - 1, resourcetype);
+            sendPacket(packet2);
+        }
+        return i;
     }
 }
 

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.LocalGame;
-import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
+import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class CLI implements Runnable, ViewInterface{
+public class CLI implements Runnable, ViewInterface {
     private final PrintStream output;
     private final Scanner input;
     private SocketClientConnection socketClientConnection;
@@ -78,14 +78,11 @@ public class CLI implements Runnable, ViewInterface{
                 e.printStackTrace();
             }
 
-            additionalSetupGame(); //choice of the leader cards and placing additional resources
-
             try {
-                socketClientConnection.deserialize();
-            } catch (IOException e) {
+                additionalSetupGame(); //choice of the leader cards and placing additional resources
+            } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-
 
             System.out.println("We're ready to play! Choose one of the operations you can do:\nText 0 to quit");
             int operation;
@@ -240,16 +237,24 @@ public class CLI implements Runnable, ViewInterface{
      * Method additionalSetupGame handles the initial setup phase where players have to choose the two leader cards
      * and the resources to place
      */
-    public void additionalSetupGame(){
+    public synchronized void additionalSetupGame() throws JsonProcessingException {
+        int i;
         //leader cards choice
         try {
             clientOperationHandler.chooseLeaderCardToRemove();
         } catch (IOException e) {
             System.err.println("Error in calling the method to choose the leader cards");
         }
-
         //placing resources only if he has to do it
+        i = clientOperationHandler.chooseInitialResources();
 
+        for(int j= i+1; j>0; j--){
+            try {
+                socketClientConnection.deserialize();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 

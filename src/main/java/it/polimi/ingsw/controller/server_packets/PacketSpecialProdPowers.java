@@ -16,6 +16,10 @@ public class PacketSpecialProdPowers implements ServerPacketHandler{
         this.specialProductionPowers = specialProductionPowers;
     }
 
+    public ArrayList<ProductionPower> getSpecialProductionPowers() {
+        return specialProductionPowers;
+    }
+
     @Override
     public void execute(ClientModelView clientModelView) {
         clientModelView.getLiteBoard().setSpecialProductionPowers(specialProductionPowers);

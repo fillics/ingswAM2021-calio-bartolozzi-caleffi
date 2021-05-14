@@ -107,8 +107,10 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * Method additionalSetup distributes resources and faith points to the players
      * according to their position's turn
      */
-    public void additionalResourceSetup(Resource resource, int depositPosition) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
-        ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(depositPosition, activePlayers.get(currentPlayer).getBoard(), resource.getType());
+    public void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+        ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(depositPosition, idClientActivePlayers.get(idClient).getBoard(), resourceType);
+        Resource resource = new Resource(resourceType);
+        resource.setStrategy(concreteStrategyResource);
         resource.useResource();
     }
 

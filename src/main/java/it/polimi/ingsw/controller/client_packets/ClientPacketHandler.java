@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import it.polimi.ingsw.controller.client_packets.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
@@ -21,6 +20,7 @@ import java.io.IOException;
         @JsonSubTypes.Type(value = PacketActivateLeaderCard.class, name = "ACTIVATELEADERCARD"),
         @JsonSubTypes.Type(value = PacketChooseLeaderCardToRemove.class, name = "CHOOSELEADERCARDTOREMOVE"),
         @JsonSubTypes.Type(value = PacketChooseDiscount.class, name = "CHOOSEDISCOUNT"),
+        @JsonSubTypes.Type(value = PacketChooseInitialResources.class, name = "CHOOSE_INITIAL_RESOURCE"),
         @JsonSubTypes.Type(value = PacketPlaceResource.class, name = "PLACERESOURCE"),
         @JsonSubTypes.Type(value = PacketTakeResourceFromMarket.class, name = "TAKERESOURCE"),
         @JsonSubTypes.Type(value = PacketUseAndChooseProdPower.class, name = "USEANDCHOOSEPRODUCTIONPOWER"),

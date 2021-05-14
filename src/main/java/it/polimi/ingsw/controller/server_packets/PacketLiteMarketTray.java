@@ -18,4 +18,8 @@ public class PacketLiteMarketTray implements ServerPacketHandler{
     public void execute(ClientModelView clientModelView) {
         clientModelView.getMarketTray().setTable(table);
     }
+
+    public Marble[][] getTable() {
+        return table;
+    }
 }

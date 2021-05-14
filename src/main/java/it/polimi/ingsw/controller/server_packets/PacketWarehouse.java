@@ -24,4 +24,12 @@ public class PacketWarehouse implements ServerPacketHandler{
         clientModelView.getLiteBoard().setDeposits(deposits);
         clientModelView.getLiteBoard().setStrongbox(strongbox);
     }
+
+    public ArrayList<Deposit> getDeposits() {
+        return deposits;
+    }
+
+    public Strongbox getStrongbox() {
+        return strongbox;
+    }
 }

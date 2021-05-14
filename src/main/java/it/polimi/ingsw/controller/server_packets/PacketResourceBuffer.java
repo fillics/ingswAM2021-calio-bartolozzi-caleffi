@@ -16,6 +16,9 @@ public class PacketResourceBuffer implements ServerPacketHandler{
         this.resourceBuffer = resourceBuffer;
     }
 
+    public ArrayList<Resource> getResourceBuffer() {
+        return resourceBuffer;
+    }
 
     @Override
     public void execute(ClientModelView clientModelView) {

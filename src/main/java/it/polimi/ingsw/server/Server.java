@@ -213,25 +213,27 @@ public class Server {
         System.out.println("Client " + (lobby.peek() != null ? lobby.peek().getUsername() : null) + " created the game (idGame: " + game.getIdGame()+ ") " +
                 "with " +numPlayers+" players");
 
-        for (int i=0; i<numPlayers; i++){
+        game.setNumof_players(numPlayers);
 
-            if (lobby.peek() != null) {
-                lobby.peek().setPosInGame(i);
-                lobby.peek().setGame(game);
+        for (int i=0; i<numPlayers; i++){
+            if (lobby.peek()!= null) {
                 game.createNewPlayer(lobby.peek().getUsername(), lobby.peek().getIdClient());
-                lobby.peek().sendMessageToClient(ConnectionMessages.GAME_IS_STARTING);
-                lobby.peek().setGameStarted(true);
             }
             lobby.remove();
+        }
+        game.setup();
 
+        for (int i=0; i<numPlayers; i++){
+            mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).setPosInGame(i);
+            mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).setGame(game);
+            mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).sendMessageToClient(ConnectionMessages.GAME_IS_STARTING);
+            mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).setGameStarted(true);
         }
         numPlayers=0;
 
         if (lobby.size()!=0){
             lobby.peek().sendMessageToClient(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS);
         }
-
-        game.setup();
     }
 
     //invia a tutti i giocatori un update del game in cui giocano

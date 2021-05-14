@@ -31,16 +31,23 @@ public class PacketSetup implements ServerPacketHandler{
     private Strongbox strongbox;
     private ArrayList<Deposit> deposits;
     private ArrayList<Integer> whiteMarbleCardChoice;
+    private int posInGame;
+    private int numOfPlayers;
+    private int firstPosition;
 
 
     @JsonCreator
-    public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient") int idClient,@JsonProperty("total victory points") int totalVictoryPoint,
+    public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient") int idClient,@JsonProperty("posInGame") int posInGame,
+                       @JsonProperty("numOfPlayers") int numOfPlayers, @JsonProperty("first position") int firstPosition, @JsonProperty("total victory points") int totalVictoryPoint,
                        @JsonProperty("market tray") Marble[][] table,@JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
                        @JsonProperty("development spaces") ArrayList<DevelopmentSpace> developmentSpaces, @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards,
                        @JsonProperty("resource buffer") ArrayList<Resource> resourceBuffer,@JsonProperty("special production powers")  ArrayList<ProductionPower> specialProductionPowers,
                        @JsonProperty("strongbox") Strongbox strongbox,@JsonProperty("deposits") ArrayList<Deposit> deposits, @JsonProperty("white marble leader card's id") ArrayList<Integer> whiteMarbleCardChoice) {
         this.username = username;
         this.idClient = idClient;
+        this.posInGame = posInGame;
+        this.numOfPlayers = numOfPlayers;
+        this.firstPosition = firstPosition;
         this.totalVictoryPoint = totalVictoryPoint;
         this.table = table;
         this.developmentCards = developmentCards;
@@ -55,6 +62,18 @@ public class PacketSetup implements ServerPacketHandler{
 
     public int getIdClient() {
         return idClient;
+    }
+
+    public int getPosInGame() {
+        return posInGame;
+    }
+
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public int getFirstPosition() {
+        return firstPosition;
     }
 
     public int getTotalVictoryPoint() {
@@ -104,12 +123,14 @@ public class PacketSetup implements ServerPacketHandler{
     @Override
     public void execute(ClientModelView clientModelView) {
         LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers);
-        LitePlayer litePlayer = new LitePlayer(username, idClient,totalVictoryPoint,leaderCards,resourceBuffer,liteBoard,whiteMarbleCardChoice);
+        LitePlayer litePlayer = new LitePlayer(username, idClient,posInGame, totalVictoryPoint,leaderCards,resourceBuffer,liteBoard,whiteMarbleCardChoice);
         LiteDevelopmentGrid liteDevelopmentGrid = new LiteDevelopmentGrid(developmentCards);
         LiteMarketTray liteMarketTray = new LiteMarketTray(table);
         clientModelView.setDevelopmentGrid(liteDevelopmentGrid);
         clientModelView.setMarketTray(liteMarketTray);
         clientModelView.setLiteBoard(liteBoard);
         clientModelView.setMyPlayer(litePlayer);
+        clientModelView.setFirstPosition(firstPosition);
+        clientModelView.setNumOfPlayers(numOfPlayers);
     }
 }

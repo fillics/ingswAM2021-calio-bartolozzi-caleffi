@@ -32,7 +32,7 @@ public interface GameInterface {
     void chooseLeaderCardToRemove(int idCard1, int idCard2) throws LeaderCardNotFound;
     int getCurrentPlayer();
     int getNumof_players();
-    void additionalResourceSetup(Resource resource, int depositPosition) throws DifferentDimension, DepositHasReachedMaxLimit, DepositHasAnotherResource;
+    void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DifferentDimension, DepositHasReachedMaxLimit, DepositHasAnotherResource;
     State getState();
     ArrayList<Player> getActivePlayers();
     void setNumof_players(int numof_players);
