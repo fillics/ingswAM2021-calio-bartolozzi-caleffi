@@ -6,10 +6,12 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
+import it.polimi.ingsw.localgame.LocalGame;
 
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Client {
@@ -45,6 +47,24 @@ public class Client {
         //System.out.println(Constants.MASTEROFRENAISSANCE);
         //System.out.println(Constants.AUTHORS);
         System.out.println("Master of Renaissance CLI | Welcome!");
+
+        /*int choiceGame = choiceGameType();
+
+        if (choiceGame == 1) {
+            LocalGame localGame = new LocalGame();
+            LocalGame.main(null);
+        }
+        */
+        //ricordarsi di mettere l'else se choiceGame == 2
+        serverMatch();
+
+
+    }
+
+    /**
+     * Static method serverMatch used to create the communication with the server to play online
+     */
+    public static void serverMatch(){
         Scanner scanner = new Scanner(System.in);
         //System.out.println(">Insert the server IP address");
         //System.out.print(">");
@@ -59,13 +79,6 @@ public class Client {
         new Thread(client.serverListener).start();
     }
 
-    public SocketClientConnection getSocketClientConnected() {
-        return socketClientConnection;
-    }
-
-    public ClientModelView getClientModelView() {
-        return clientModelView;
-    }
 
 
     /**
@@ -77,9 +90,8 @@ public class Client {
 
         //TODO facciamo il controllo username caratteri speciali - metodo che controlla correttezza
 
-
         mapper = new ObjectMapper();
-        packet = new PacketUsername(username);
+        packet = new PacketUsername(username.toLowerCase(Locale.ROOT));
         try {
             jsonResult = mapper.writeValueAsString(packet);
             socketClientConnection.sendToServer(jsonResult);
@@ -95,11 +107,10 @@ public class Client {
         String jsonResult;
         PacketNumPlayers packet;
 
-        
         do {
             try {
                 if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
-                    printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
+                    Constants.printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
                     number_of_players = input.nextInt();
                 }
             }catch (InputMismatchException e) {
@@ -119,11 +130,29 @@ public class Client {
 
 
     /**
-     * Method printConnectionMessage prints the Connection Message passed as a parameter
+     * Method choiceGameType asks to the player if he wants to play in solo (without making any connection to the server)
+     * or throught the server
      */
-    void printConnectionMessage(ConnectionMessages message){
-        System.out.println(message.getMessage());
+    public static int choiceGameType(){
+
+        Constants.printConnectionMessage(ConnectionMessages.LOCAL_OR_SERVERGAME);
+
+        Scanner in = new Scanner(System.in);
+        int choiceGame=0;
+        do {
+            System.out.print(">");
+            try{
+                choiceGame = in.nextInt();
+                if (choiceGame!=1 && choiceGame!=2) Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
+            }catch (InputMismatchException e) {
+                System.err.println("Invalid parameter: insert a numeric value.");
+                choiceGameType();
+            }
+        }while(choiceGame!=1 && choiceGame!=2);
+
+        return choiceGame;
     }
+
 
     public void setClientState(ClientState clientState) {
         this.clientState = clientState;
@@ -135,5 +164,8 @@ public class Client {
 
     public ClientOperationHandler getClientOperationHandler() {
         return clientOperationHandler;
+    }
+    public ClientModelView getClientModelView() {
+        return clientModelView;
     }
 }

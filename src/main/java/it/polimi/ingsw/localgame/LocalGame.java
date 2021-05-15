@@ -5,4 +5,7 @@ package it.polimi.ingsw.localgame;
  */
 public class LocalGame {
 
+    public static void main(String[] args) {
+
+    }
 }

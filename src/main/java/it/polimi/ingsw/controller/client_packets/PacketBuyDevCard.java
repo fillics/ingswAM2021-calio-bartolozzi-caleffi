@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.controller.State;
+import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketLiteDevelopmentGrid;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
@@ -32,9 +32,9 @@ public class PacketBuyDevCard implements ClientPacketHandler {
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested {
-        if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+        if(gameInterface.getState() == GameStates.PHASE_ONE && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.buyDevCard(id, chosenResources, chosenWarehouses, developmentSpace);
-            gameInterface.setState(State.PHASE_TWO);
+            gameInterface.setState(GameStates.PHASE_TWO);
 
             // TODO: 14/05/2021  mandare a tutti il nuove development grid - sistemare il metodo getInitalDevGrid con getDevGrideLite (vedi metodo di Game)
             server.sendAll(new PacketLiteDevelopmentGrid(gameInterface.getInitialDevGrid()), gameInterface);

@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientState;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
+
+import java.lang.constant.Constable;
 
 public class PacketMessage implements ServerPacketHandler {
 
@@ -23,22 +26,21 @@ public class PacketMessage implements ServerPacketHandler {
     @Override
     public void execute(Client client) {
         if (message.equals(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS)) {
-            printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
-            System.out.println(message.getMessage());
+            Constants.printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
+            Constants.printConnectionMessage(message);
             client.setClientState(ClientState.NUMPLAYERS);
         }
         else if (message.equals(ConnectionMessages.TAKEN_NICKNAME)) {
-            System.out.println(message.getMessage());
+            Constants.printConnectionMessage(message);
             client.setClientState(ClientState.USERNAME);
         }
         else if(message.equals(ConnectionMessages.WAITING_PEOPLE)){
-            System.out.println(message.getMessage());
+            Constants.printConnectionMessage(message);
             client.setClientState(ClientState.WAITPLAYERS);
         }
         else if (message.equals(ConnectionMessages.GAME_IS_STARTING)) {
-            System.out.println(message.getMessage());
+            Constants.printConnectionMessage(message);
             client.setClientState(ClientState.CREATEMODEL);
-
         }
         else {
             throw new IllegalStateException("Unexpected value: " + message);
@@ -49,10 +51,5 @@ public class PacketMessage implements ServerPacketHandler {
         return message;
     }
 
-    /**
-     * Method printConnectionMessage prints the Connection Message passed as a parameter
-     */
-    void printConnectionMessage(ConnectionMessages message){
-        System.out.println(message.getMessage());
-    }
+
 }

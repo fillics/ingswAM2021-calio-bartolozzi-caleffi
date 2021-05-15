@@ -20,7 +20,7 @@ public class ClientHandler implements Runnable {
     private Game game;
     private final int idClient;
     private int idGame;
-    private int posInGame;
+    private int posInGame; //parte da 0
     private boolean quit = false;
     private final Server server;
     private DataInputStream dis;
@@ -30,6 +30,7 @@ public class ClientHandler implements Runnable {
     private ObjectMapper mapper;
     private String jsonResult;
     private boolean gameStarted= false;
+    private boolean sendSetup = false;
 
 
 
@@ -51,15 +52,14 @@ public class ClientHandler implements Runnable {
         this.game = game;
     }
 
-    public void setGameStarted(boolean gameStarted) {
-        this.gameStarted = gameStarted;
+    public void setGameStarted() {
+        gameStarted = true;
     }
 
     public void run() {
         try {
-
             while (!quit) {
-                if (gameStarted) sendSetupPacket();
+                if (sendSetup) sendSetupPacket();
 
                 String str = dis.readUTF();
                 deserialize(str);
@@ -150,7 +150,7 @@ public class ClientHandler implements Runnable {
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
-        PacketSetup packetSetup = new PacketSetup(username,idClient,posInGame,game.getNumof_players(), game.getCurrentPlayer(),0,game.getTable(), game.getInitialDevGrid(), game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
+        PacketSetup packetSetup = new PacketSetup(username,idClient,posInGame,0,game.getTable(), game.getInitialDevGrid(), game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
            game.getIdClientActivePlayers().get(idClient).getResourceBuffer(),game.getIdClientActivePlayers().get(idClient).getBoard().getSpecialProductionPowers(),
            game.getIdClientActivePlayers().get(idClient).getBoard().getStrongbox(),game.getIdClientActivePlayers().get(idClient).getBoard().getDeposits(), game.getIdClientActivePlayers().get(idClient).getWhiteMarbleCardChoice());
 
@@ -186,8 +186,11 @@ public class ClientHandler implements Runnable {
     }
 
     public synchronized void sendToClient(String jsonResult){
-        System.out.println(jsonResult);
         output.println(jsonResult);
         output.flush();
+    }
+
+    public void setSetupEnded() {
+        sendSetup = false;
     }
 }

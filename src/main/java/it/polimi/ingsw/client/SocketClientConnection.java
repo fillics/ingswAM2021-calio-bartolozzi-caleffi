@@ -48,6 +48,7 @@ public class SocketClientConnection {
     public synchronized void sendToServer(String jsonResult){
         try {
             output.writeUTF(jsonResult);
+            System.out.println(jsonResult);
             output.flush();
         } catch (IOException e) {
             System.err.println("Error during the communication from client to server!");
@@ -55,29 +56,7 @@ public class SocketClientConnection {
         }
     }
 
-    /**
-     * ci mettiamo in ascolto dei messaggi che arrivano dal server
-     */
-    public String listening(){
-        System.out.println("gino");
-        String str=null;
 
-        try {
-            str = br.readLine();
-        } catch (IOException e) {
-            System.out.println("Errore nella ricezione di un messaggio dal server");
-        }
-        System.out.println(str);
-        return str;
-    }
-
-    public void closeConnection(){
-        try {
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public synchronized void deserialize() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -96,6 +75,13 @@ public class SocketClientConnection {
         }
     }
 
+    public void closeConnection(){
+        try {
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public Socket getSocket() {
         return socket;
     }

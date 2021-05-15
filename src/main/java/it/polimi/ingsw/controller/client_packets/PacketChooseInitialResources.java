@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.controller.State;
+import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketWarehouse;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
@@ -24,7 +24,7 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested, IOException, ClassNotFoundException {
-        if(gameInterface.getState() == State.SETUP){
+        if(gameInterface.getState() == GameStates.SETUP){
 
             gameInterface.additionalResourceSetup(resource,depositPosition,clientHandler.getIdClient());
             clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getBoard().getStrongbox(),gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getBoard().getDeposits()));

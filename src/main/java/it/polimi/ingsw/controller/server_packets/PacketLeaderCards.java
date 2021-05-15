@@ -26,6 +26,6 @@ public class PacketLeaderCards implements ServerPacketHandler{
     public void execute(Client client) {
         if(client.getClientState().equals(ClientState.LEADERSETUP)) client.getClientModelView().getMyPlayer().setLeaderCards(leaderCards);
         client.setClientState(ClientState.RESOURCESETUP);
-        System.out.println("Choose your action: 1. Choose your optional resources");
+        //System.out.println("Choose your action: 1. Choose your optional resources");
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-public enum State {
+public enum GameStates {
     FILL_LOBBY("People connecting to the server..."),
     SETUP("Creation of the game and the players choose which leader card to use during the game "),
     PHASE_ONE("in this phase you can call any method related to the player turn"),
@@ -9,7 +9,7 @@ public enum State {
 
     private final String descriptionState;
 
-    State(String descriptionState) {
+    GameStates(String descriptionState) {
         this.descriptionState = descriptionState;
     }
 

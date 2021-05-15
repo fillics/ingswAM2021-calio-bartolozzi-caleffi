@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.controller.State;
+import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketLiteMarketTray;
 import it.polimi.ingsw.exceptions.LeaderCardNotActivated;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
@@ -27,9 +27,9 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws LeaderCardNotActivated, LeaderCardNotFound {
-        if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+        if(gameInterface.getState() == GameStates.PHASE_ONE && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
-            gameInterface.setState(State.PHASE_TWO);
+            gameInterface.setState(GameStates.PHASE_TWO);
 
             server.sendAll(new PacketLiteMarketTray(gameInterface.getTable()), gameInterface);
 

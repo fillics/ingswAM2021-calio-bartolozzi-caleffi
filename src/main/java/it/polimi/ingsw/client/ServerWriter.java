@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.localgame.LocalGame;
 
@@ -36,113 +37,85 @@ public class ServerWriter implements Runnable, ViewInterface{
     @Override
     public void run() {
         String in;
-        choiceGameType();
-        if (choiceGame == 1) {
-            LocalGame localGame = new LocalGame();
-        }
-        if (choiceGame == 2) {
-            System.out.println("insert username");
-            while (client.getClientState() != ClientState.END) {
-                in = input.nextLine();
-                if (client.getClientState() == ClientState.USERNAME) {
-                    client.sendUsername(in);
-                }
 
-                else if (client.getClientState() == ClientState.NUMPLAYERS) {
-                    client.choosePlayerNumber(Integer.parseInt(in));
-                }
+        Constants.printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
+        System.out.print(">");
+        while (!client.getClientState().equals(ClientState.END)) {
+            in = input.nextLine();
 
-                else if (client.getClientState() == ClientState.LEADERSETUP) {
-                    try {
-                        while(!in.equals("1")){
-                            in = input.nextLine();
-                        }
-                        client.getClientOperationHandler().chooseLeaderCardToRemove();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            if (client.getClientState().equals(ClientState.USERNAME)) {
+                client.sendUsername(in);
+            }
+
+            else if (client.getClientState().equals(ClientState.NUMPLAYERS)) {
+                client.choosePlayerNumber(Integer.parseInt(in));
+            }
+
+            else if (client.getClientState().equals(ClientState.LEADERSETUP)) {
+                try {
+                    while(!in.equals("1")){
+                        in = input.nextLine();
+                        if(!in.equals("1")) System.err.println("Number not valid");
                     }
-
+                    client.getClientOperationHandler().chooseLeaderCardToRemove();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                else if (client.getClientState() == ClientState.RESOURCESETUP) {
-                    try {
-                        while(!in.equals("1")){
-                            in = input.nextLine();
-                        }
+
+            }
+            else if (client.getClientState().equals(ClientState.RESOURCESETUP)) {
+
+                try {
+                    while(!in.equals("1")){
+                        in = input.nextLine();
+                    }
+                    if (client.getClientModelView().getMyPlayer().getPosInGame()!=0){
+                        System.out.println("sei in posizione: " + client.getClientModelView().getMyPlayer().getPosInGame());
                         client.getClientOperationHandler().chooseInitialResources();
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
                     }
-                }
+                    else System.out.println("You're the first player, you can't have any resources or faith points");
 
-                else if (client.getClientState() == ClientState.GAMESTARTED) {
-                    System.out.println("We're ready to play! Choose one of the operations you can do:\nText 0 to quit");
-                    int operation;
-                    do {
-                        System.out.println("1: Activate a Leader Card\n" +
-                                "2: Buy a Development Card\n" +
-                                "3: Choose Discount\n" +
-                                "4: Use production powers\n" +
-                                "5: Discard a Leader Card\n" +
-                                "6: Move one of you resources\n" +
-                                "7: Place one of your resources\n" +
-                                "8: Take resources from the market\n" +
-                                "9: End Turn\n");
-                        operation = input.nextInt();
-                        if (operation != 0) {
-                            try {
-                                clientOperationHandler.handleCLIOperation(operation);
-                            } catch (IOException e) {
-                                System.err.println("Error during the choice of the operation to do");
-                            }
+
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            else if (client.getClientState().equals(ClientState.GAMESTARTED)) {
+                System.out.println("We're ready to play! Choose one of the operations you can do:\nText 0 to quit");
+                int operation;
+                do {
+                    System.out.println("1: Activate a Leader Card\n" +
+                            "2: Buy a Development Card\n" +
+                            "3: Choose Discount\n" +
+                            "4: Use production powers\n" +
+                            "5: Discard a Leader Card\n" +
+                            "6: Move one of you resources\n" +
+                            "7: Place one of your resources\n" +
+                            "8: Take resources from the market\n" +
+                            "9: End Turn\n");
+                    operation = input.nextInt();
+                    if (operation != 0) {
+                        try {
+                            clientOperationHandler.handleCLIOperation(operation);
+                        } catch (IOException e) {
+                            System.err.println("Error during the choice of the operation to do");
                         }
-                    } while (operation != 0);
-                }
+                    }
+                } while (operation != 0);
             }
-
-            //System.out.println("username pescato dal packet : " + clientModelView.getMyPlayer().getUsername());
-
-
-            try {
-                socketClientConnection.deserialize();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("Ti rimangono queste leader cards:" + clientModelView.getMyPlayer().getLeaderCards().get(0).getId());
-            System.out.println("Ti rimangono queste leader cards:" + clientModelView.getMyPlayer().getLeaderCards().get(1).getId());
-
-            System.out.println("----------------");
-
-
-            input.close();
-            output.close();
-        }
-
         }
 
 
-    /**
-     * Method choiceGameType asks to the player if he wants to play in solo (without making any connection to the server)
-     * or throught the server
-     */
-    @Override
-    public void choiceGameType(){
+        try {
+            socketClientConnection.deserialize();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        client.printConnectionMessage(ConnectionMessages.LOCAL_OR_SERVERGAME);
-
-        Scanner in = new Scanner(System.in);
-        do {
-            System.out.print(">");
-            try{
-                choiceGame = in.nextInt();
-                if (choiceGame!=1 && choiceGame!=2) client.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
-            }catch (InputMismatchException e) {
-                System.err.println("Invalid parameter: insert a numeric value.");
-                choiceGameType();
-            }
-        }while(choiceGame!=1 && choiceGame!=2);
+        input.close();
+        output.close();
     }
-
 
 
 }

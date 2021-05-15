@@ -113,15 +113,7 @@ class GameTest {
     }
 
 
-    /**
-     * Test method checkGetPlayerByUsername checks if the method getPlayerByUsername returns the correct username of the
-     * desire player
-     */
-    @Test
-    public void checkGetPlayerByUsername(){
-        Player player = testGame.getPlayerByUsername("fil");
-        assertEquals(player.getUsername() ,testGame.getActivePlayers().get(0).getUsername());
-    }
+
     /**
      * Test method SizeDevelopmentGridTest checks if the method createDevelopmentGrid creates
      * the grid with the correct dimension

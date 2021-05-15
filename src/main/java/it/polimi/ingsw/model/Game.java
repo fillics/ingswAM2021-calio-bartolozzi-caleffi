@@ -6,8 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.State;
+import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.model.board.resources.ConcreteStrategyResource;
 import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.board.resources.ResourceActionStrategy;
@@ -18,10 +17,6 @@ import it.polimi.ingsw.model.cards.leadercards.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.marbles.Marble;
 import it.polimi.ingsw.model.marbles.MarketTray;
-import it.polimi.ingsw.model.singleplayer.ConcreteStrategyDiscard;
-import it.polimi.ingsw.model.singleplayer.ConcreteStrategyPlusOne;
-import it.polimi.ingsw.model.singleplayer.ConcreteStrategyPlusTwo;
-import it.polimi.ingsw.model.singleplayer.SoloActionTokenType;
 
 import java.io.*;
 import java.util.*;
@@ -38,15 +33,14 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     private final ArrayList<Player> players;
     private final ArrayList<Player> activePlayers;
     private final HashMap<Integer,Player> idClientActivePlayers;
-    private int idGame; // TODO: 02/05/2021 aggiungere al costruttore e metodo get
+    private int idGame;
     private ArrayList<LeaderCard> leaderDeck;
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
     private final MarketTray market;
-    private HashMap<ResourceType,Integer> resourcePriceBuffer;
     private ArrayList<Integer> leaderCardsChosen;
     private int currentPlayer = 0;
     private boolean endgame = false;
-    private State state = State.FILL_LOBBY;
+    private GameStates gameStates = GameStates.FILL_LOBBY;
     private int numof_players;
     private final ArrayList<DevelopmentCard> initialDevGrid;
 
@@ -80,8 +74,18 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * Method changePlayersPosition chooses who the first player is and according to that, the other player's position
      */
     public void changePlayersPosition(){
+        int position=0;
         int random = (int)(Math.random()*(activePlayers.size()));
-        currentPlayer = random;
+        //currentPlayer = random;
+
+        Collections.rotate(activePlayers, random);
+
+        for (Player player: activePlayers){
+            player.setPosition(position);
+            position++;
+        }
+
+
     }
 
 
@@ -111,13 +115,23 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     public void createNewPlayer(String username, Integer idClient) {
 
-        Player player = new Player(username, this);
+        Player player = new Player(username, this, idClient);
         players.add(player);
         activePlayers.add(player);
         idClientActivePlayers.put(idClient,player);
 
     }
 
+    /**
+     * return the position in the game of a player
+     */
+    public int getPositionPlayer(String username){
+       int position = -1;
+        for (Player player: activePlayers){
+            if (player.getUsername().equals(username)) position = activePlayers.indexOf(player);
+        }
+        return position;
+    }
 
     public int getIdGame() {
         return idGame;
@@ -130,6 +144,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public HashMap<Integer, Player> getIdClientActivePlayers() {
         return idClientActivePlayers;
     }
+
+
     //TODO: testare
     /**
      * Method getTable return the table representing the position of the marbles.
@@ -138,22 +154,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         return market.getTable();
     }
 
-    /**
-     * Method getPlayerByUsername searches the player identified by his username in the list of active
-     * player.
-     *
-     * @param username (type String) - the username of the player.
-     * @return Player - the desired player, null if there's no active player with that nickname.
-     */
-    // TODO: 01/05/2021 da mettere nel controller?
-    public Player getPlayerByUsername(String username) {
-        for (Player player : activePlayers) {
-            if (player.getUsername().equalsIgnoreCase(username)) {
-                return player;
-            }
-        }
-        return null;
-    }
 
 
     public int getNumof_players() {
@@ -232,18 +232,18 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     /**
      * Method setState sets the state of the model in order to know which command are accepted or discarded
-     * @param state is the new state of the model
+     * @param gameStates is the new state of the model
      */
-    public void setState(State state) {
-        this.state = state;
+    public void setState(GameStates gameStates) {
+        this.gameStates = gameStates;
     }
 
     /**
      *
      */
     @Override
-    public State getState() {
-        return state;
+    public GameStates getState() {
+        return gameStates;
     }
 
     /**
@@ -430,7 +430,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     @Override
     public void buyDevCard(int idCard, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
         DevelopmentCard developmentCard;
-        resourcePriceBuffer= new HashMap<>();
+        HashMap<ResourceType, Integer> resourcePriceBuffer = new HashMap<>();
 
         developmentCard = chooseCardFromDevelopmentGrid(idCard);
         resourcePriceBuffer.putAll(developmentCard.getResourcePrice());

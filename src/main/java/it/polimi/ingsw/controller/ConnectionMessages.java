@@ -12,7 +12,7 @@ public enum ConnectionMessages {
     LOCAL_OR_SERVERGAME("Choose how you want to play:\n" + "" +
             "1. Solo game without making a connection with the server\n"+
             "2. Game with connection to the server"),
-    INVALID_CHOICE("The choice is invalid. Enter 1 or 2: "),
+    INVALID_CHOICE("The choice is invalid. Enter a new one: "),
     INVALID_USERNAME("The chosen username is invalid. Enter a new one: "),
     TAKEN_NICKNAME("The chosen username is already taken. Enter a new one: "),
     INSERT_NUMBER_OF_PLAYERS("Insert the desired number of players (1, 2, 3 or 4): "),
@@ -21,9 +21,11 @@ public enum ConnectionMessages {
     SEND_SETUP_PACKETS("Send setup packets"),
     YOU_TURN("It's your turn bro"),
     SELECT_LEADERCARDS("Choose the leader cards to remove"),
+    CHOOSE_FIRST_RESOURCE("Choose the first initial resource:"),
+    CHOOSE_SECOND_RESOURCE("Choose the second initial resource:"),
+    RESOURCE_CHOICES("Write 1 to select COIN, 2 to select STONE, 3 to select SERVANT, 4 to select SHIELD"),
+    CHOOSE_DEPOSIT("Choose the deposit in which you want to place the resource [1, 2, 3]"),
 
-    //CHOOSE_ONE_INITIAL_MARBLE ("Choose initial marble"),
-    //CHOOSE_TWO_INITIAL_MARBLES (""),
     CONNECTION_CLOSED("Connection closed"),
     MATCH_FINISHED_FAITH("A player reached the last cell of the faith track"),
     MATCH_FINISHED_DEVCARDS("A player bought the seventh development card"),

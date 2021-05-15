@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.board.Board;
 
 import it.polimi.ingsw.model.board.resources.Resource;
-import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDeposit;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
@@ -20,7 +19,8 @@ import java.util.ArrayList;
 
 public class Player {
     private final String username;
-    private int idClient; // TODO: 02/05/2021 scrivere nel costruttore e metodo get
+    private int idClient;
+    private int position;
     private int totalVictoryPoint;
     private final ArrayList<LeaderCard> leaderCards;
     private final ArrayList<Resource> resourceBuffer;
@@ -34,17 +34,20 @@ public class Player {
      *
      * @param username of type String.
      */
-    public Player(String username, Game game) {
+    public Player(String username, Game game, int idClient) {
         this.username = username;
         totalVictoryPoint = 0;
         leaderCards = new ArrayList<>();
         resourceBuffer = new ArrayList<>();
         whiteMarbleCardChoice = new ArrayList<>();
-
+        this.idClient = idClient;
         board = new Board(game);
         this.gamePlayer = game;
     }
 
+    public int getIdClient() {
+        return idClient;
+    }
 
     public ArrayList<Integer> getWhiteMarbleCardChoice() {
         return whiteMarbleCardChoice;
@@ -150,4 +153,16 @@ public class Player {
         }
         resourceBuffer.clear();
     }
+
+    /**
+     * return the position of the player in the game
+     */
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
 }

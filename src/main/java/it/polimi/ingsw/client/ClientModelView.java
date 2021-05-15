@@ -40,19 +40,4 @@ public class ClientModelView {
         this.liteBoard = liteBoard;
     }
 
-    public int getNumOfPlayers() {
-        return numOfPlayers;
-    }
-
-    public void setNumOfPlayers(int numOfPlayers) {
-        this.numOfPlayers = numOfPlayers;
-    }
-
-    public int getFirstPosition() {
-        return firstPosition;
-    }
-
-    public void setFirstPosition(int firstPosition) {
-        this.firstPosition = firstPosition;
-    }
 }
