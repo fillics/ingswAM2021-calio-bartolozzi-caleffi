@@ -58,6 +58,7 @@ public class Client {
         new Thread(client.serverWriter).start();
         new Thread(client.serverListener).start();
     }
+
     public SocketClientConnection getSocketClientConnected() {
         return socketClientConnection;
     }

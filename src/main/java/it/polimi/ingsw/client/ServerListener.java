@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 
 public class ServerListener implements Runnable {
@@ -17,7 +18,6 @@ public class ServerListener implements Runnable {
     private Client client;
     private SocketClientConnection socketClientConnection;
     private BufferedReader br;
-    private DataInputStream dataInputStream;
 
     public ServerListener(Client client, SocketClientConnection socketClientConnection) {
         this.socketClientConnection = socketClientConnection;
@@ -31,16 +31,23 @@ public class ServerListener implements Runnable {
 
     @Override
     public void run() {
-        while(true){
+        while (true) {
+            System.out.println(client.getClientState());
             ObjectMapper mapper = new ObjectMapper();
             String str = null;
+            ServerPacketHandler packet;
             try {
-                str = dataInputStream.readUTF();
+                str = new Scanner(socketClientConnection.getSocket().getInputStream()).nextLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(str);
+            try {
+                packet = mapper.readValue(str, ServerPacketHandler.class);
+                packet.execute(client);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
-    }
 
+    }
 }

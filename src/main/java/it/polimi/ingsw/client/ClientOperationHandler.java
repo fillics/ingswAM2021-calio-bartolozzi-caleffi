@@ -197,16 +197,13 @@ public class ClientOperationHandler {
         sendPacket(packet);
     }
 
-    public void chooseLeaderCardToRemove(int Id1) throws IOException {
-
-
-        for (LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()) {
-            System.out.println(leaderCard.getId());
-        }
-
+    public void chooseLeaderCardToRemove() throws IOException {
+        int Id1;
         int Id2;
         boolean checkid1 = false;
         boolean checkid2 = false;
+
+        System.out.println("Choose 2 cards: ");
 
         // TODO: 13/05/2021 mettere frase di errore se il tizio sbaglia a inserire
         do {
@@ -466,9 +463,6 @@ public class ClientOperationHandler {
         n = clientModelView.getNumOfPlayers();
         first = clientModelView.getFirstPosition();
         pos = clientModelView.getMyPlayer().getPosInGame();
-        System.out.println("position in game "+pos);
-        System.out.println("first position in game " + first);
-        System.out.println("number of players " + n);
 
         if(((n ==2 || n ==3) && (pos != first)) ||
                 (n==4 && ( (first== 0 && (pos==1 || pos == 2)) || (first ==1 && (pos == 2 || pos ==3)) ||
@@ -561,6 +555,10 @@ public class ClientOperationHandler {
             position = input.nextInt();
             PacketChooseInitialResources packet2 = new PacketChooseInitialResources(position - 1, resourcetype);
             sendPacket(packet2);
+        }
+        else{
+            System.out.println("You're the first player, you can't have any resources or faith points" +
+                    "");
         }
         return i;
     }

@@ -24,24 +24,20 @@ public class PacketMessage implements ServerPacketHandler {
     public void execute(Client client) {
         if (message.equals(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS)) {
             printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
-            System.out.println(message);
+            System.out.println(message.getMessage());
             client.setClientState(ClientState.NUMPLAYERS);
         }
         else if (message.equals(ConnectionMessages.TAKEN_NICKNAME)) {
-            System.out.println(message);
+            System.out.println(message.getMessage());
             client.setClientState(ClientState.USERNAME);
         }
         else if(message.equals(ConnectionMessages.WAITING_PEOPLE)){
-            System.out.println(message);
+            System.out.println(message.getMessage());
             client.setClientState(ClientState.WAITPLAYERS);
         }
         else if (message.equals(ConnectionMessages.GAME_IS_STARTING)) {
-            System.out.println(message);
-            client.setClientState(ClientState.LEADERSETUP);
-            System.out.println("Choose the 2 IDs of the leader cards to remove: ");
-            for (LeaderCard leaderCard : client.getClientModelView().getMyPlayer().getLeaderCards()) {
-                System.out.println(leaderCard.getId());
-            }
+            System.out.println(message.getMessage());
+            client.setClientState(ClientState.CREATEMODEL);
 
         }
         else {

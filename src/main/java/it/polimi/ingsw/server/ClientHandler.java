@@ -24,7 +24,7 @@ public class ClientHandler implements Runnable {
     private boolean quit = false;
     private final Server server;
     private DataInputStream dis;
-    private DataOutputStream output;
+    private PrintStream output;
     private PrintStream ps;
     private String username;
     private ObjectMapper mapper;
@@ -41,7 +41,7 @@ public class ClientHandler implements Runnable {
         try {
             dis = new DataInputStream(socket.getInputStream());  // to read data coming from the client
             ps = new PrintStream(socket.getOutputStream());// to send data to the client
-            output = new DataOutputStream(socket.getOutputStream());
+            output = new PrintStream(socket.getOutputStream());
         } catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during initialization of the client!");
         }
@@ -59,14 +59,11 @@ public class ClientHandler implements Runnable {
         try {
 
             while (!quit) {
+                if (gameStarted) sendSetupPacket();
+
                 String str = dis.readUTF();
-                if(str.equals(ConnectionMessages.SEND_SETUP_PACKETS.getMessage())){
-                    if (gameStarted)
-                        sendSetupPacket();
-                }
-                else {
-                    deserialize(str);
-                }
+                deserialize(str);
+
 
                 if(gameStarted) {
                     if(game.isEndgame())
@@ -153,19 +150,11 @@ public class ClientHandler implements Runnable {
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
-
         PacketSetup packetSetup = new PacketSetup(username,idClient,posInGame,game.getNumof_players(), game.getCurrentPlayer(),0,game.getTable(), game.getInitialDevGrid(), game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
            game.getIdClientActivePlayers().get(idClient).getResourceBuffer(),game.getIdClientActivePlayers().get(idClient).getBoard().getSpecialProductionPowers(),
            game.getIdClientActivePlayers().get(idClient).getBoard().getStrongbox(),game.getIdClientActivePlayers().get(idClient).getBoard().getDeposits(), game.getIdClientActivePlayers().get(idClient).getWhiteMarbleCardChoice());
 
-
-        try {
-            jsonResult = mapper.writeValueAsString(packetSetup);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        //System.out.println(jsonResult);
-        sendToClient(jsonResult);
+        sendPacketToClient(packetSetup);
     }
 
     public void clientMessagesHandle(String jsonResult){
@@ -197,11 +186,8 @@ public class ClientHandler implements Runnable {
     }
 
     public synchronized void sendToClient(String jsonResult){
-        try {
-            output.writeUTF(jsonResult);
-            output.flush();
-        } catch (IOException e) {
-            System.err.println("Error during the communication from server to client!");
-        }
+        System.out.println(jsonResult);
+        output.println(jsonResult);
+        output.flush();
     }
 }

@@ -119,15 +119,23 @@ public class PacketSetup implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
-        LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers);
-        LitePlayer litePlayer = new LitePlayer(username, idClient,posInGame, totalVictoryPoint,leaderCards,resourceBuffer,liteBoard,whiteMarbleCardChoice);
-        LiteDevelopmentGrid liteDevelopmentGrid = new LiteDevelopmentGrid(developmentCards);
-        LiteMarketTray liteMarketTray = new LiteMarketTray(table);
-        client.getClientModelView().setDevelopmentGrid(liteDevelopmentGrid);
-        client.getClientModelView().setMarketTray(liteMarketTray);
-        client.getClientModelView().setLiteBoard(liteBoard);
-        client.getClientModelView().setMyPlayer(litePlayer);
-        client.getClientModelView().setFirstPosition(firstPosition);
-        client.getClientModelView().setNumOfPlayers(numOfPlayers);
+        if(client.getClientState().equals(ClientState.CREATEMODEL)) {
+            LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers);
+            LitePlayer litePlayer = new LitePlayer(username, idClient,posInGame, totalVictoryPoint,leaderCards,resourceBuffer,liteBoard,whiteMarbleCardChoice);
+            LiteDevelopmentGrid liteDevelopmentGrid = new LiteDevelopmentGrid(developmentCards);
+            LiteMarketTray liteMarketTray = new LiteMarketTray(table);
+            client.getClientModelView().setDevelopmentGrid(liteDevelopmentGrid);
+            client.getClientModelView().setMarketTray(liteMarketTray);
+            client.getClientModelView().setLiteBoard(liteBoard);
+            client.getClientModelView().setMyPlayer(litePlayer);
+            client.getClientModelView().setFirstPosition(firstPosition);
+            client.getClientModelView().setNumOfPlayers(numOfPlayers);
+            System.out.println("Choose your action: 1.Choose the 2 IDs of the leader cards to remove: ");
+            for (LeaderCard leaderCard : client.getClientModelView().getMyPlayer().getLeaderCards()) {
+                System.out.println(leaderCard.getId()); //TODO: sarà da commentare
+            }
+            client.setClientState(ClientState.LEADERSETUP);
+        }
+
     }
 }

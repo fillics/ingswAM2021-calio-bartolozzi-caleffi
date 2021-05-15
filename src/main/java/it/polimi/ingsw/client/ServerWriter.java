@@ -52,10 +52,12 @@ public class ServerWriter implements Runnable, ViewInterface{
                     client.choosePlayerNumber(Integer.parseInt(in));
                 }
 
-
                 else if (client.getClientState() == ClientState.LEADERSETUP) {
                     try {
-                        client.getClientOperationHandler().chooseLeaderCardToRemove(Integer.parseInt(in));
+                        while(!in.equals("1")){
+                            in = input.nextLine();
+                        }
+                        client.getClientOperationHandler().chooseLeaderCardToRemove();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -63,6 +65,9 @@ public class ServerWriter implements Runnable, ViewInterface{
                 }
                 else if (client.getClientState() == ClientState.RESOURCESETUP) {
                     try {
+                        while(!in.equals("1")){
+                            in = input.nextLine();
+                        }
                         client.getClientOperationHandler().chooseInitialResources();
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();

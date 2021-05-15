@@ -4,6 +4,7 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.State;
 import it.polimi.ingsw.controller.server_packets.PacketMessage;
+import it.polimi.ingsw.controller.server_packets.PacketSetup;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
@@ -232,12 +233,29 @@ public class Server {
             mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).setPosInGame(i);
             mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).setGame(game);
             mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).sendPacketToClient(new PacketMessage(ConnectionMessages.GAME_IS_STARTING));
+            System.out.println("sono nel ciclo SOPRA");
             mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).setGameStarted(true);
         }
+
+      /*  for (int i=0; i<numPlayers; i++){
+            System.out.println("sono nel ciclo");
+
+            mapUsernameClientHandler.get(game.getActivePlayers().get(i).getUsername()).sendSetupPacket();
+        }*/
+
+        mapIdGameClientHandler.put(game.getIdGame(), playersInGame);
+
+        for (ClientHandler clientHandler: mapIdGameClientHandler.get(game.getIdGame())){
+            clientHandler.sendSetupPacket();
+        }
+
         numPlayers=0;
 
         //aggiungiamo alla mappa idGame e array di tutti i players che giocano a una determinata partita
         mapIdGameClientHandler.put(game.getIdGame(), playersInGame);
+
+
+
 
         if (lobby.size()!=0){
             lobby.peek().sendPacketToClient(new PacketMessage(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS));
