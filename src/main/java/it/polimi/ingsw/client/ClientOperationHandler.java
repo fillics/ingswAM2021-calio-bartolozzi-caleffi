@@ -95,20 +95,20 @@ public class ClientOperationHandler {
         sendPacket(packet);
     }
 
-    public void buyDevCard() throws IOException {
+    public void buyDevCard(){
         System.out.println("Select the card ID you want to buy");
 
         int id;
-        boolean DevCardcheck = false;
+        boolean devCardcheck = false;
         do {
             id = input.nextInt();
             for(DevelopmentCard developmentCard : clientModelView.getDevelopmentGrid().getDevelopmentCards()){
                 if(id == developmentCard.getId()){
-                    DevCardcheck = true;
+                    devCardcheck = true;
                     break;
                 }
             }
-        } while (!DevCardcheck);
+        } while (!devCardcheck);
 
         System.out.println("Choose the resource and the place in which you want to take it\n" +
                 "write 0 when you have finished");
@@ -122,23 +122,11 @@ public class ClientOperationHandler {
             do{
                 resource = input.nextInt();
                 switch (resource) {
-                    case 0:
-                        break;
-                    case 1:
-                        resources.add(ResourceType.COIN);
-                        break;
-                    case 2:
-                        resources.add(ResourceType.STONE);
-                        break;
-                    case 3:
-                        resources.add(ResourceType.SERVANT);
-                        break;
-                    case 4:
-                        resources.add(ResourceType.SHIELD);
-                        break;
-                    default:
-                        System.out.println("invalid resource\n");
-                        break;
+                    case 1 -> resources.add(ResourceType.COIN);
+                    case 2 -> resources.add(ResourceType.STONE);
+                    case 3 -> resources.add(ResourceType.SERVANT);
+                    case 4 -> resources.add(ResourceType.SHIELD);
+                    default -> System.out.println("invalid resource\n");
                 }
             }while(resource < 0 || resource > 4);
 
@@ -161,28 +149,40 @@ public class ClientOperationHandler {
 
         PacketBuyDevCard packet;
 
-        boolean DevSpacecheck = false;
+        boolean devSpacecheck = false;
         do {
             String devSpace = input.nextLine();
             switch (devSpace) {
                 case "1" -> {
                     packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getLiteBoard().getDevelopmentSpaces().get(0));
-                    sendPacket(packet);
-                    DevSpacecheck = true;
+                    try {
+                        sendPacket(packet);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                    devSpacecheck = true;
                 }
                 case "2" -> {
                     packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getLiteBoard().getDevelopmentSpaces().get(1));
-                    sendPacket(packet);
-                    DevSpacecheck = true;
+                    try {
+                        sendPacket(packet);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                    devSpacecheck = true;
                 }
                 case "3" -> {
                     packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getLiteBoard().getDevelopmentSpaces().get(2));
-                    sendPacket(packet);
-                    DevSpacecheck = true;
+                    try {
+                        sendPacket(packet);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                    devSpacecheck = true;
                 }
                 default -> System.out.println("invalid development space\n");
             }
-        } while (!DevSpacecheck);
+        } while (!devSpacecheck);
     }
 
     public void chooseDiscount() throws IOException {
@@ -202,7 +202,7 @@ public class ClientOperationHandler {
         sendPacket(packet);
     }
 
-    public void chooseLeaderCardToRemove() throws IOException {
+    public void chooseLeaderCardToRemove() {
         int Id1;
         int Id2;
         boolean checkid1 = false;
@@ -226,7 +226,6 @@ public class ClientOperationHandler {
             }
         } while (!checkid1);
 
-
         do {
             Id2 = input.nextInt();
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
@@ -239,10 +238,14 @@ public class ClientOperationHandler {
 
         PacketChooseLeaderCardToRemove packet = new PacketChooseLeaderCardToRemove(Id1, Id2);
 
-        sendPacket(packet);
+        try {
+            sendPacket(packet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void discardLeaderCard() throws IOException {
+    public void discardLeaderCard(){
         System.out.println("Write the ID of the leader card to discard");
         boolean check = false;
         int id;
@@ -258,11 +261,15 @@ public class ClientOperationHandler {
         }while(!check);
 
         PacketDiscardLeaderCard packet = new PacketDiscardLeaderCard(id);
-        sendPacket(packet);
+        try {
+            sendPacket(packet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public void moveResource() throws IOException {
+    public void moveResource(){
         System.out.println("Choose the deposit in which you want to take the resource");
         int position;
 
@@ -271,11 +278,15 @@ public class ClientOperationHandler {
         }while(position < 1 || position > 3);
 
         PacketMoveResource packet = new PacketMoveResource(position - 1);
-        sendPacket(packet);
+        try {
+            sendPacket(packet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public void placeResource() throws IOException {
+    public void placeResource() {
         if(clientModelView.getMyPlayer().getResourceBuffer().size() == 0){
             System.out.println("I'm sorry, you don't have any resource to place");
         }
@@ -293,13 +304,17 @@ public class ClientOperationHandler {
             }while(position < 1 || position > 3);
 
             PacketPlaceResource packet = new PacketPlaceResource(resource - 1, position - 1);
-            sendPacket(packet);
+            try {
+                sendPacket(packet);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
 
 
     }
 
-    public void takeResourceFromMarket() throws IOException {
+    public void takeResourceFromMarket(){
         System.out.println("Select Row or Column and which of the lines you choose");
 
         String line;
@@ -337,11 +352,15 @@ public class ClientOperationHandler {
         } while (id != 0);
 
         PacketTakeResourceFromMarket packet = new PacketTakeResourceFromMarket(line, numLine, leaderCards);
-        sendPacket(packet);
+        try {
+            sendPacket(packet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public void useAndChooseProductionPower() throws IOException {
+    public void useAndChooseProductionPower(){
         System.out.println("Select the IDs of the development space to use for the production. \n" +
                 "Press 0 when you have finished");
 
@@ -397,23 +416,11 @@ public class ClientOperationHandler {
             do{
                 resource = input.nextInt();
                 switch (resource) {
-                    case 0:
-                        break;
-                    case 1:
-                        resources.add(ResourceType.COIN);
-                        break;
-                    case 2:
-                        resources.add(ResourceType.STONE);
-                        break;
-                    case 3:
-                        resources.add(ResourceType.SERVANT);
-                        break;
-                    case 4:
-                        resources.add(ResourceType.SHIELD);
-                        break;
-                    default:
-                        System.out.println("invalid resource\n");
-                        break;
+                    case 1 -> resources.add(ResourceType.COIN);
+                    case 2 -> resources.add(ResourceType.STONE);
+                    case 3 -> resources.add(ResourceType.SERVANT);
+                    case 4 -> resources.add(ResourceType.SHIELD);
+                    default -> System.out.println("invalid resource\n");
                 }
             }while(resource < 0 || resource > 4);
 
@@ -425,7 +432,7 @@ public class ClientOperationHandler {
                         case 2 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(1));
                         case 3 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(2));
                         case 4 -> warehouse.add(clientModelView.getLiteBoard().getStrongbox());
-                        default -> System.out.println("invalid position\n");
+                        default -> System.out.println("Invalid position\n");
                     }
                 }while(position < 1 || position > 4);
             }
@@ -440,33 +447,25 @@ public class ClientOperationHandler {
         do{
             newResource = input.nextInt();
             switch (newResource) {
-                case 0:
-                    break;
-                case 1:
-                    newResources.add(ResourceType.COIN);
-                    break;
-                case 2:
-                    newResources.add(ResourceType.STONE);
-                    break;
-                case 3:
-                    newResources.add(ResourceType.SERVANT);
-                    break;
-                case 4:
-                    newResources.add(ResourceType.SHIELD);
-                    break;
-                default:
-                    System.out.println("invalid resource\n");
-                    break;
+                case 1 -> newResources.add(ResourceType.COIN);
+                case 2 -> newResources.add(ResourceType.STONE);
+                case 3 -> newResources.add(ResourceType.SERVANT);
+                case 4 -> newResources.add(ResourceType.SHIELD);
+                default -> System.out.println("invalid resource\n");
             }
         }while(newResource < 0 || newResource > 4);
 
         PacketUseAndChooseProdPower packet = new PacketUseAndChooseProdPower(productionPowers, resources, warehouse, newResources);
-        sendPacket(packet);
+        try {
+            sendPacket(packet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
 
 
-    public synchronized void chooseInitialResources() throws JsonProcessingException {
+    public synchronized void chooseInitialResources(){
 
         int howManyResources;
         int whichDeposit;
@@ -483,7 +482,11 @@ public class ClientOperationHandler {
             whichDeposit = scannerChooseDeposit();
 
             PacketChooseInitialResources packet = new PacketChooseInitialResources(whichDeposit - 1, resourcetype);
-            sendPacket(packet);
+            try {
+                sendPacket(packet);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
 
     }

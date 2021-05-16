@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.Game;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientHandler implements Runnable {
     private final Socket socket;
@@ -31,14 +32,14 @@ public class ClientHandler implements Runnable {
     private String jsonResult;
     private boolean gameStarted= false;
     private boolean sendSetup = false;
-
-
+    private final AtomicBoolean clientConnected;
 
 
     public ClientHandler(int idClient, Socket socket, Server server) {
         this.idClient = idClient;
         this.socket = socket;
         this.server = server;
+        clientConnected = new AtomicBoolean(true);
         try {
             dis = new DataInputStream(socket.getInputStream());  // to read data coming from the client
             ps = new PrintStream(socket.getOutputStream());// to send data to the client
@@ -60,26 +61,34 @@ public class ClientHandler implements Runnable {
         try {
             while (!quit) {
                 if (sendSetup) sendSetupPacket();
-
-                String str = dis.readUTF();
-                deserialize(str);
-
-
-                if(gameStarted) {
+                try{
+                    String str = dis.readUTF();
+                    deserialize(str);
+                }catch (Exception e){
+                    System.out.println(username + " si è disconnesso");
+                    clientConnected.compareAndSet(true, false);
+                    // TODO Altre operazioni da fare: rimuoverlo dalla lobby e se username != null toglierlo dalla mappa che contiene tutti i nomi
+                }finally {
+                    if(!clientConnected.get()){
+                        // Chiudo gli stream e il socket -> client non è più connesso al server
+                        dis.close();
+                        ps.close();
+                        socket.close();
+                        quit=true;
+                    }
+                }
+                /*if(gameStarted) {
                     if(game.isEndgame())
                         quit=true;
-                }
+                }*/
             }
-            // Chiudo gli stream e il socket -> client non è più connesso al server
-            dis.close();
-            ps.close();
-            socket.close();
+            System.out.println("La connessione con il socket di " + username + " è stata ufficialmente chiusa!");
 
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             System.err.println(e.getMessage());
-        } catch (DevelopmentCardNotFound | EmptyDeposit | LeaderCardNotActivated | LeaderCardNotFound | DevCardNotPlaceable | DifferentDimension | DepositDoesntHaveThisResource | DiscountCannotBeActivated | NotEnoughRequirements | TooManyResourcesRequested | DepositHasReachedMaxLimit | NotEnoughResources | DepositHasAnotherResource | WrongChosenResources developmentCardNotFound) {
+        }/* catch (DevelopmentCardNotFound | EmptyDeposit | LeaderCardNotActivated | LeaderCardNotFound | DevCardNotPlaceable | DifferentDimension | DepositDoesntHaveThisResource | DiscountCannotBeActivated | NotEnoughRequirements | TooManyResourcesRequested | DepositHasReachedMaxLimit | NotEnoughResources | DepositHasAnotherResource | WrongChosenResources developmentCardNotFound) {
             developmentCardNotFound.printStackTrace();
-        }
+        }*/
     }
 
     public String getUsername() {

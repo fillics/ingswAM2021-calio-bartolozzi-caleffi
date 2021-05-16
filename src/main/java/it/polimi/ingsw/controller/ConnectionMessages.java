@@ -27,7 +27,7 @@ public enum ConnectionMessages {
     RESOURCE_CHOICES("Write 1 to select COIN, 2 to select STONE, 3 to select SERVANT, 4 to select SHIELD"),
     CHOOSE_DEPOSIT("Choose the deposit in which you want to place the resource [1, 2, 3]"),
 
-    CONNECTION_CLOSED("Connection closed"),
+    CONNECTION_CLOSED("The served closed its connection."),
     MATCH_FINISHED_FAITH("A player reached the last cell of the faith track"),
     MATCH_FINISHED_DEVCARDS("A player bought the seventh development card"),
     TIMER_ENDED("You took too long to make your decision"),

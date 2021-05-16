@@ -7,6 +7,8 @@ import it.polimi.ingsw.controller.ConnectionMessages;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ServerWriter implements Runnable, ViewInterface{
 
@@ -17,10 +19,10 @@ public class ServerWriter implements Runnable, ViewInterface{
     private final Scanner input;
     private ObjectMapper mapper;
     private boolean gameStarted;
-    int choiceGame;
-    Client client;
+    private Client client;
 
-    public ServerWriter(Client client, ClientModelView clientModelView, SocketClientConnection socketClientConnection, ClientOperationHandler clientOperationHandler, PrintStream output, Scanner input, ObjectMapper mapper, boolean gameStarted, int choiceGame) {
+    // TODO servono tutti questi parametri in ingresso??
+    public ServerWriter(Client client, ClientModelView clientModelView, SocketClientConnection socketClientConnection, ClientOperationHandler clientOperationHandler, PrintStream output, Scanner input, ObjectMapper mapper, boolean gameStarted) {
         this.clientModelView = clientModelView;
         this.socketClientConnection = socketClientConnection;
         this.clientOperationHandler = clientOperationHandler;
@@ -28,7 +30,6 @@ public class ServerWriter implements Runnable, ViewInterface{
         this.input = input;
         this.mapper = mapper;
         this.gameStarted = gameStarted;
-        this.choiceGame = choiceGame;
         this.client = client;
     }
 
@@ -39,6 +40,11 @@ public class ServerWriter implements Runnable, ViewInterface{
         Constants.printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
         System.out.print(">");
         while (!client.getClientState().equals(ClientStates.END)) {
+
+
+
+
+
             in = input.nextLine();
 
             if (client.getClientState().equals(ClientStates.USERNAME)) {
@@ -56,7 +62,7 @@ public class ServerWriter implements Runnable, ViewInterface{
                         if(!in.equals("1")) System.err.println("Number not valid");
                     }
                     client.getClientOperationHandler().chooseLeaderCardToRemove();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -72,7 +78,7 @@ public class ServerWriter implements Runnable, ViewInterface{
                     }
 
 
-                } catch (JsonProcessingException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

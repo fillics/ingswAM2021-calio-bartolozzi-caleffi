@@ -36,10 +36,17 @@ public class Client {
         socketClientConnection = new SocketClientConnection(this);
         clientModelView = new ClientModelView();
         clientOperationHandler = new ClientOperationHandler(socketClientConnection,clientModelView);
-        serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input, mapper, gameStarted
-        , choiceGame);
-        serverListener = new ServerListener(this, socketClientConnection);
+
+        //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
+        if(socketClientConnection.getConnectionToServer().get()){
+            serverListener = new ServerListener(this, socketClientConnection);
+            serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input, mapper, gameStarted);
+            new Thread(serverWriter).start();
+            new Thread(serverListener).start();
+        }
+
         clientStates = ClientStates.USERNAME;
+
     }
 
     public static void main(String[] args) {
@@ -57,7 +64,6 @@ public class Client {
         //ricordarsi di mettere l'else se choiceGame == 2
         serverMatch();
 
-
     }
 
     /**
@@ -74,8 +80,7 @@ public class Client {
         int port = scanner.nextInt();
         Constants.setPort(port);
         Client client = new Client();
-        new Thread(client.serverWriter).start();
-        new Thread(client.serverListener).start();
+
     }
 
 
@@ -102,7 +107,7 @@ public class Client {
     /**
      * Method choosePlayerNumber asks how many players there will be in the game and sends the message to the server
      */
-    public void choosePlayerNumber(int number_of_players ){
+    public void choosePlayerNumber(int number_of_players){
         String jsonResult;
         PacketNumPlayers packet;
 
@@ -164,6 +169,7 @@ public class Client {
     public ClientOperationHandler getClientOperationHandler() {
         return clientOperationHandler;
     }
+
     public ClientModelView getClientModelView() {
         return clientModelView;
     }

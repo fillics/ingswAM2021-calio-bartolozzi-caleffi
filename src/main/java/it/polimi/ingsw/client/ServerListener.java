@@ -12,7 +12,9 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class ServerListener implements Runnable {
@@ -21,10 +23,14 @@ public class ServerListener implements Runnable {
     private SocketClientConnection socketClientConnection;
     private BufferedReader br;
     private Scanner scanner;
+    /** if it true, client and server are connected; if it is false, they are not  */
+    private final AtomicBoolean connectionToServer;
+
 
     public ServerListener(Client client, SocketClientConnection socketClientConnection) {
         this.socketClientConnection = socketClientConnection;
         this.client = client;
+        connectionToServer = new AtomicBoolean(true);
         try {
             br = new BufferedReader(new InputStreamReader(socketClientConnection.getSocket().getInputStream()));
             scanner = new Scanner(socketClientConnection.getSocket().getInputStream());
@@ -35,19 +41,31 @@ public class ServerListener implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+
+        while (connectionToServer.get()) {
             //System.out.println("Stato del client: " + client.getClientState());
             ObjectMapper mapper = new ObjectMapper();
-            String str;
+            String str = null;
             ServerPacketHandler packet;
-            str = scanner.nextLine();
-            System.out.println(str);
-            try {
-                packet = mapper.readValue(str, ServerPacketHandler.class);
-                packet.execute(client);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
+            try{
+                str = scanner.nextLine();
+            }catch(NoSuchElementException ignored){
+                connectionToServer.set(false);
             }
+            if(connectionToServer.get()){
+                try {
+                    packet = mapper.readValue(str, ServerPacketHandler.class);
+                    packet.execute(client);
+                } catch (JsonProcessingException|IllegalArgumentException ignored) {
+                }
+            }
+
+        }
+
+        if (!connectionToServer.get()) {
+            System.out.println("\n");
+            Constants.printConnectionMessage(ConnectionMessages.CONNECTION_CLOSED);
+            System.exit(0); // Terminates JVM
         }
 
     }

@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * ConnectionSocket class handles the connection between the client and the server.
@@ -21,6 +22,7 @@ public class SocketClientConnection {
     private DataOutputStream output;
     private DataInputStream dataInputStream;
     private BufferedReader br;
+    private final AtomicBoolean connectionToServer = new AtomicBoolean(false);
 
     public SocketClientConnection(Client client) {
         this.client = client;
@@ -28,10 +30,15 @@ public class SocketClientConnection {
         this.port = Constants.getPort();
         try {
             socket = new Socket(serverAddress, port);
+            connectionToServer.compareAndSet(false, true);
         } catch (IOException ignored) {
             System.err.println("Error during connection to the client");
             Client.main(null);
         }
+        if (connectionToServer.get()) creationStreams();
+    }
+
+    public synchronized void creationStreams() {
         try {
             output = new DataOutputStream(socket.getOutputStream());
             dataInputStream = new DataInputStream(socket.getInputStream()); // to read data coming from the server
@@ -39,6 +46,10 @@ public class SocketClientConnection {
         } catch (IOException e) {
             System.err.println("Error during initialization of the client!");
         }
+    }
+
+    public AtomicBoolean getConnectionToServer() {
+        return connectionToServer;
     }
 
     /**
