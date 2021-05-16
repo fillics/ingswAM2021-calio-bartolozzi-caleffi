@@ -109,7 +109,7 @@ public class PacketSetup implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
-        if(client.getClientState().equals(ClientState.CREATEMODEL)) {
+        if(client.getClientState().equals(ClientStates.CREATEMODEL)) {
             LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers);
             LitePlayer litePlayer = new LitePlayer(username, idClient, posInGame, totalVictoryPoint, leaderCards,resourceBuffer, liteBoard, whiteMarbleCardChoice);
             LiteDevelopmentGrid liteDevelopmentGrid = new LiteDevelopmentGrid(developmentCards);
@@ -121,7 +121,7 @@ public class PacketSetup implements ServerPacketHandler{
             // TODO: 15/05/2021 da togliere questo e chiedere subito all'utente
             System.out.println("Choose your action: \n" + "1. Choose the 2 IDs of the leader cards to remove: ");
 
-            client.setClientState(ClientState.LEADERSETUP);
+            client.setClientState(ClientStates.LEADERSETUP);
         }
 
     }

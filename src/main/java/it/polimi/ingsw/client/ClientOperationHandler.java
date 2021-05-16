@@ -62,7 +62,10 @@ public class ClientOperationHandler {
                 System.out.println("You have chosen to take some resources from the market\n");
                 takeResourceFromMarket();
             }
-            case 9 -> System.out.println("Ending turn");
+            case 9 -> {
+                System.out.println("Ending turn");
+                endTurn();
+            }
             default -> System.out.println("invalid choice, retry\n");
         }
     }

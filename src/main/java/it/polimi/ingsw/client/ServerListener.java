@@ -40,7 +40,6 @@ public class ServerListener implements Runnable {
             ServerPacketHandler packet;
             try {
                 str = new Scanner(socketClientConnection.getSocket().getInputStream()).nextLine();
-                System.out.println(str);
             } catch (IOException e) {
                 // TODO: 15/05/2021 cosa fare quando il server si disconnette 
             }

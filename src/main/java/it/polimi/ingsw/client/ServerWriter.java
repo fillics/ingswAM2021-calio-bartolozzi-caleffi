@@ -3,11 +3,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.localgame.LocalGame;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ServerWriter implements Runnable, ViewInterface{
@@ -40,18 +38,18 @@ public class ServerWriter implements Runnable, ViewInterface{
 
         Constants.printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
         System.out.print(">");
-        while (!client.getClientState().equals(ClientState.END)) {
+        while (!client.getClientState().equals(ClientStates.END)) {
             in = input.nextLine();
 
-            if (client.getClientState().equals(ClientState.USERNAME)) {
+            if (client.getClientState().equals(ClientStates.USERNAME)) {
                 client.sendUsername(in);
             }
 
-            else if (client.getClientState().equals(ClientState.NUMPLAYERS)) {
+            else if (client.getClientState().equals(ClientStates.NUMPLAYERS)) {
                 client.choosePlayerNumber(Integer.parseInt(in));
             }
 
-            else if (client.getClientState().equals(ClientState.LEADERSETUP)) {
+            else if (client.getClientState().equals(ClientStates.LEADERSETUP)) {
                 try {
                     while(!in.equals("1")){
                         in = input.nextLine();
@@ -63,17 +61,15 @@ public class ServerWriter implements Runnable, ViewInterface{
                 }
 
             }
-            else if (client.getClientState().equals(ClientState.RESOURCESETUP)) {
+            else if (client.getClientState().equals(ClientStates.RESOURCESETUP)) {
 
                 try {
                     while(!in.equals("1")){
                         in = input.nextLine();
                     }
                     if (client.getClientModelView().getMyPlayer().getPosInGame()!=0){
-                        System.out.println("sei in posizione: " + client.getClientModelView().getMyPlayer().getPosInGame());
                         client.getClientOperationHandler().chooseInitialResources();
                     }
-                    else System.out.println("You're the first player, you can't have any resources or faith points");
 
 
                 } catch (JsonProcessingException e) {
@@ -81,28 +77,14 @@ public class ServerWriter implements Runnable, ViewInterface{
                 }
             }
 
-            else if (client.getClientState().equals(ClientState.GAMESTARTED)) {
-                System.out.println("We're ready to play! Choose one of the operations you can do:\nText 0 to quit");
-                int operation;
-                do {
-                    System.out.println("1: Activate a Leader Card\n" +
-                            "2: Buy a Development Card\n" +
-                            "3: Choose Discount\n" +
-                            "4: Use production powers\n" +
-                            "5: Discard a Leader Card\n" +
-                            "6: Move one of you resources\n" +
-                            "7: Place one of your resources\n" +
-                            "8: Take resources from the market\n" +
-                            "9: End Turn\n");
-                    operation = input.nextInt();
-                    if (operation != 0) {
-                        try {
-                            clientOperationHandler.handleCLIOperation(operation);
-                        } catch (IOException e) {
-                            System.err.println("Error during the choice of the operation to do");
-                        }
+            else if (client.getClientState().equals(ClientStates.GAMESTARTED)) {
+                if (!in.equals("0")) {
+                    try {
+                        clientOperationHandler.handleCLIOperation(Integer.parseInt(in));
+                    } catch (IOException e) {
+                        System.err.println("Error during the choice of the operation to do");
                     }
-                } while (operation != 0);
+                }
             }
         }
 

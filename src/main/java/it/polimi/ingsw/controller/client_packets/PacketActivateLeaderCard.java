@@ -19,10 +19,13 @@ public class PacketActivateLeaderCard implements ClientPacketHandler {
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested {
-        if((gameInterface.getState() == GameStates.PHASE_ONE || gameInterface.getState() == GameStates.PHASE_TWO)
+        if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.activateLeaderCard(id);
             clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
+        }
+        else {
+            System.out.println("I'm sorry, you can't do this action in this moment of the game");
         }
     }
 
