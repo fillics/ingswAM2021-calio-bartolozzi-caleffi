@@ -76,7 +76,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void changePlayersPosition(){
         int position=0;
         int random = (int)(Math.random()*(activePlayers.size()));
-        //currentPlayer = random;
 
         Collections.rotate(activePlayers, random);
 
@@ -90,8 +89,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
 
     /**
-     * Method additionalSetup distributes resources and faith points to the players
-     * according to their position's turn
+     * Method additionalSetup distributes resources to the players according to their position's turn
      */
     public void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
         ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(depositPosition, idClientActivePlayers.get(idClient).getBoard(), resourceType);
@@ -100,6 +98,9 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         resource.useResource();
     }
 
+    /**
+     * Method additionalFaithMarkerSetup increase the faith points of the players according to their position's turn
+     */
     public void additionalFaithMarkerSetup(){
         if(activePlayers.size()>2){
             activePlayers.get(2).getBoard().increaseFaithMarker();
@@ -114,7 +115,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @param username of type String - the player's username
      */
     public void createNewPlayer(String username, Integer idClient) {
-
         Player player = new Player(username, this, idClient);
         players.add(player);
         activePlayers.add(player);
@@ -123,7 +123,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
     /**
-     * return the position in the game of a player
+     * Method getPositionPlayer returns the position in the game of a player
+     * @param username (type String) - it is the username of the player
      */
     public int getPositionPlayer(String username){
        int position = -1;
@@ -153,7 +154,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public Marble[][] getTable() {
         return market.getTable();
     }
-
 
 
     public int getNumof_players() {
