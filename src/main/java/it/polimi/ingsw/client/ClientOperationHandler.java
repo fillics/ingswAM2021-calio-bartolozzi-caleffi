@@ -466,10 +466,13 @@ public class ClientOperationHandler {
 
 
 
-    public synchronized void chooseInitialResources(int howManyResources) throws JsonProcessingException {
+    public synchronized void chooseInitialResources() throws JsonProcessingException {
 
+        int howManyResources;
         int whichDeposit;
         ResourceType resourcetype;
+
+        howManyResources = input.nextInt();
 
         if (howManyResources==1) System.out.println("You can choose one resource");
         if (howManyResources==2) System.out.println("You can choose two resources");
