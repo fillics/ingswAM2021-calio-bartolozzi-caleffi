@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketLeaderCards;
 import it.polimi.ingsw.exceptions.*;
@@ -24,6 +26,7 @@ public class PacketActivateLeaderCard implements ClientPacketHandler {
             gameInterface.activateLeaderCard(id);
             clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
         }
+        else Constants.printConnectionMessage(ConnectionMessages.NOT_YOU_TURN);
     }
 
     public int getId() {

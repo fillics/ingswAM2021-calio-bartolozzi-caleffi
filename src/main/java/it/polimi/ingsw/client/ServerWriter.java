@@ -70,10 +70,20 @@ public class ServerWriter implements Runnable, ViewInterface{
                         in = input.nextLine();
                     }
                     if (client.getClientModelView().getMyPlayer().getPosInGame()!=0){
-                        System.out.println("sei in posizione: " + client.getClientModelView().getMyPlayer().getPosInGame());
-                        client.getClientOperationHandler().chooseInitialResources();
+                        int howManyResources = 0;
+
+                        if(client.getClientModelView().getMyPlayer().getPosInGame() == 1 ||
+                                client.getClientModelView().getMyPlayer().getPosInGame() == 2) howManyResources=1;
+                        if(client.getClientModelView().getMyPlayer().getPosInGame() == 3) howManyResources=2;
+
+                        client.getClientOperationHandler().chooseInitialResources(howManyResources);
+
+
                     }
-                    else System.out.println("You're the first player, you can't have any resources or faith points");
+                    else{
+                        System.out.println("You're the first player, you can't have any resources or faith points");
+                        client.setClientState(ClientState.GAMESTARTED);
+                    }
 
 
                 } catch (JsonProcessingException e) {
@@ -82,6 +92,8 @@ public class ServerWriter implements Runnable, ViewInterface{
             }
 
             else if (client.getClientState().equals(ClientState.GAMESTARTED)) {
+                System.out.println("Sei in posizione: " + client.getClientModelView().getMyPlayer().getPosInGame());
+
                 System.out.println("We're ready to play! Choose one of the operations you can do:\nText 0 to quit");
                 int operation;
                 do {
