@@ -19,7 +19,7 @@ public enum ConnectionMessages {
     INVALID_NUM_PLAYERS("The chosen number of players is invalid. Enter a new one: "),
     GAME_IS_STARTING("The game is starting..."),
     SEND_SETUP_PACKETS("Send setup packets"),
-    YOU_TURN("It's your turn bro"),
+    YOUR_TURN("It's your turn bro"),
     NOT_YOU_TURN("It's NOT your turn bro"),
     SELECT_LEADERCARDS("Choose the leader cards to remove"),
     CHOOSE_FIRST_RESOURCE("Choose the first initial resource:"),

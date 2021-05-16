@@ -32,12 +32,15 @@ public class PacketBuyDevCard implements ClientPacketHandler {
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested {
-        if(gameInterface.getState() == GameStates.PHASE_ONE && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+        if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.buyDevCard(id, chosenResources, chosenWarehouses, developmentSpace);
             gameInterface.setState(GameStates.PHASE_TWO);
 
             // TODO: 14/05/2021  mandare a tutti il nuove development grid - sistemare il metodo getInitalDevGrid con getDevGrideLite (vedi metodo di Game)
             server.sendAll(new PacketLiteDevelopmentGrid(gameInterface.getInitialDevGrid()), gameInterface);
+        }
+        else {
+            System.out.println("I'm sorry, you can't do this action in this moment of the game");
         }
 
     }

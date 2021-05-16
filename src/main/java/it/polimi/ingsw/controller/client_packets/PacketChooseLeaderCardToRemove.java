@@ -23,7 +23,7 @@ public class PacketChooseLeaderCardToRemove implements ClientPacketHandler {
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws LeaderCardNotFound {
 
-        if(gameInterface.getState() == GameStates.SETUP){
+        if(gameInterface.getState().equals(GameStates.SETUP) || gameInterface.getState().equals(GameStates.PHASE_ONE)){
             gameInterface.chooseLeaderCardToRemove(Id1, Id2);
             System.out.println("Player "+clientHandler.getUsername() + " removed the two initial leader cards");
             clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));

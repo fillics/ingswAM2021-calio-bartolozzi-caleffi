@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-public enum ClientState {
+public enum ClientStates {
     USERNAME,
     NUMPLAYERS,
     WAITPLAYERS,

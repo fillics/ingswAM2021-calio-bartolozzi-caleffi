@@ -62,7 +62,10 @@ public class ClientOperationHandler {
                 System.out.println("You have chosen to take some resources from the market\n");
                 takeResourceFromMarket();
             }
-            case 9 -> System.out.println("Ending turn");
+            case 9 -> {
+                System.out.println("Ending turn");
+                endTurn();
+            }
             default -> System.out.println("invalid choice, retry\n");
         }
     }
@@ -463,10 +466,13 @@ public class ClientOperationHandler {
 
 
 
-    public synchronized void chooseInitialResources(int howManyResources) throws JsonProcessingException {
+    public synchronized void chooseInitialResources() throws JsonProcessingException {
 
+        int howManyResources;
         int whichDeposit;
         ResourceType resourcetype;
+
+        howManyResources = input.nextInt();
 
         if (howManyResources==1) System.out.println("You can choose one resource");
         if (howManyResources==2) System.out.println("You can choose two resources");

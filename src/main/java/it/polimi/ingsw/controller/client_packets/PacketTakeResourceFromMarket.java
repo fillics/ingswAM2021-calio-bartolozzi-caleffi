@@ -27,12 +27,15 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws LeaderCardNotActivated, LeaderCardNotFound {
-        if(gameInterface.getState() == GameStates.PHASE_ONE && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+        if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
             gameInterface.setState(GameStates.PHASE_TWO);
 
             server.sendAll(new PacketLiteMarketTray(gameInterface.getTable()), gameInterface);
 
+        }
+        else {
+            System.out.println("I'm sorry, you can't do this action in this moment of the game");
         }
     }
 

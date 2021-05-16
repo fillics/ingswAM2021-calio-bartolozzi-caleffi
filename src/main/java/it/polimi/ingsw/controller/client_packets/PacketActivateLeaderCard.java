@@ -2,8 +2,6 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketLeaderCards;
 import it.polimi.ingsw.exceptions.*;
@@ -21,12 +19,14 @@ public class PacketActivateLeaderCard implements ClientPacketHandler {
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested {
-        if((gameInterface.getState() == GameStates.PHASE_ONE || gameInterface.getState() == GameStates.PHASE_TWO)
+        if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             gameInterface.activateLeaderCard(id);
             clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
         }
-        else Constants.printConnectionMessage(ConnectionMessages.NOT_YOU_TURN);
+        else {
+            System.out.println("I'm sorry, you can't do this action in this moment of the game");
+        }
     }
 
     public int getId() {

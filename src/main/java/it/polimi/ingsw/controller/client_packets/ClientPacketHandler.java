@@ -13,6 +13,7 @@ import java.io.IOException;
         use = JsonTypeInfo.Id.NAME,
         property = "command")
 @JsonSubTypes({
+        @JsonSubTypes.Type(value = PacketEndTurn.class, name = "ENDTURN"),
         @JsonSubTypes.Type(value = PacketUsername.class, name = "USERNAME"),
         @JsonSubTypes.Type(value = PacketNumPlayers.class, name = "NUMOFPLAYERS"),
         @JsonSubTypes.Type(value = PacketBuyDevCard.class, name = "BUYDEVCARD"),

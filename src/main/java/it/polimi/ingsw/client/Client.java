@@ -6,7 +6,6 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
-import it.polimi.ingsw.localgame.LocalGame;
 
 
 import java.io.PrintStream;
@@ -15,7 +14,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class Client {
-    private ClientState clientState;
+    private ClientStates clientStates;
     private ServerListener serverListener;
     private  ServerWriter serverWriter;
     private final PrintStream output;
@@ -40,7 +39,7 @@ public class Client {
         serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input, mapper, gameStarted
         , choiceGame);
         serverListener = new ServerListener(this, socketClientConnection);
-        clientState = ClientState.USERNAME;
+        clientStates = ClientStates.USERNAME;
     }
 
     public static void main(String[] args) {
@@ -154,12 +153,12 @@ public class Client {
     }
 
 
-    public void setClientState(ClientState clientState) {
-        this.clientState = clientState;
+    public void setClientState(ClientStates clientStates) {
+        this.clientStates = clientStates;
     }
 
-    public ClientState getClientState() {
-        return clientState;
+    public ClientStates getClientState() {
+        return clientStates;
     }
 
     public ClientOperationHandler getClientOperationHandler() {

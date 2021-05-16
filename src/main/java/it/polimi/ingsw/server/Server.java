@@ -37,6 +37,11 @@ public class Server {
     /** List of clients waiting in the lobby. */
     private final Queue<ClientHandler> lobby = new LinkedList<>();
 
+
+    public Map<Integer, ArrayList<ClientHandler>> getMapIdGameClientHandler() {
+        return mapIdGameClientHandler;
+    }
+
     // TODO: 11/05/2021 aggiungere struttura dati che contiene game e i relativi idplayers
     public Server() {
         mapUsernameClientHandler = new HashMap<>();
