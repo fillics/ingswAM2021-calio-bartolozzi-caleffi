@@ -466,35 +466,23 @@ public class ClientOperationHandler {
 
 
 
-    public synchronized void chooseInitialResources() throws JsonProcessingException {
-        int pos;
-        int whichDeposit;
+    public synchronized void chooseInitialResources(int howManyResources) throws JsonProcessingException {
 
+        int whichDeposit;
         ResourceType resourcetype;
 
-        pos = clientModelView.getMyPlayer().getPosInGame();
-
-        if(pos==1 || pos == 2){
-            System.out.println("puoi scegliere una risorsa");
-            Constants.printConnectionMessage(ConnectionMessages.CHOOSE_FIRST_RESOURCE);
+        if (howManyResources==1) System.out.println("You can choose one resource");
+        if (howManyResources==2) System.out.println("You can choose two resources");
+        for (int i = 0; i < howManyResources; i++) {
+            if(i==0) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_FIRST_RESOURCE);
+            if(i==1) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_SECOND_RESOURCE);
             resourcetype = scannerChooseResources();
             whichDeposit = scannerChooseDeposit();
 
             PacketChooseInitialResources packet = new PacketChooseInitialResources(whichDeposit - 1, resourcetype);
             sendPacket(packet);
         }
-        else if (pos == 3){
-            System.out.println("puoi scegliere due risorse");
-            for (int j = 0; j < 2; j++) {
-                if(j==0) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_FIRST_RESOURCE);
-                if(j==1) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_SECOND_RESOURCE);
 
-                resourcetype = scannerChooseResources();
-                whichDeposit = scannerChooseDeposit();
-                PacketChooseInitialResources packet1 = new PacketChooseInitialResources(whichDeposit - 1, resourcetype);
-                sendPacket(packet1);
-            }
-        }
     }
 
     public ResourceType scannerChooseResources(){

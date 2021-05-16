@@ -38,7 +38,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
     private final MarketTray market;
     private ArrayList<Integer> leaderCardsChosen;
-    private int currentPlayer = 0;
+    private volatile int currentPlayer = 0;
     private boolean endgame = false;
     private GameStates gameStates = GameStates.FILL_LOBBY;
     private int numof_players;
@@ -609,11 +609,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             if(currentPlayer==activePlayers.size()-1){
                 currentPlayer=0;
             }
-            else currentPlayer+=1;
+            else currentPlayer++;
         }
         else {
             if(currentPlayer!=activePlayers.size()-1){
-                currentPlayer+=1;
+                currentPlayer++;
             }
             else {
                 winner();
