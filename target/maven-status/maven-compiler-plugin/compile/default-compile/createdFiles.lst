@@ -81,6 +81,7 @@ it\polimi\ingsw\constants\Constants.class
 it\polimi\ingsw\exceptions\DepositDoesntHaveThisResource.class
 it\polimi\ingsw\model\singleplayer\ConcreteStrategyPlusOne.class
 it\polimi\ingsw\model\singleplayer\TokenActionStrategy.class
+it\polimi\ingsw\client\PingThread.class
 it\polimi\ingsw\model\Game.class
 it\polimi\ingsw\client\ServerListener.class
 it\polimi\ingsw\controller\client_packets\PacketDiscardLeaderCard.class

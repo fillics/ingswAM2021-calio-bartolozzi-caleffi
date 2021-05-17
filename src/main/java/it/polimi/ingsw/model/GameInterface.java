@@ -40,4 +40,5 @@ public interface GameInterface {
     Marble[][] getTable();
     int getIdGame();
     void nextPlayer();
+    String getWinner();
 }
