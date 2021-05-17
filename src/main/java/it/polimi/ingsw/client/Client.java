@@ -10,10 +10,11 @@ import it.polimi.ingsw.controller.client_packets.PacketUsername;
 
 import java.io.PrintStream;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Client {
-    private ClientState clientState;
+    private ClientStates clientStates;
     private ServerListener serverListener;
     private  ServerWriter serverWriter;
     private final PrintStream output;
@@ -35,16 +36,40 @@ public class Client {
         socketClientConnection = new SocketClientConnection(this);
         clientModelView = new ClientModelView();
         clientOperationHandler = new ClientOperationHandler(socketClientConnection,clientModelView);
-        serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input, mapper, gameStarted
-        , choiceGame);
-        serverListener = new ServerListener(this, socketClientConnection);
-        clientState = ClientState.USERNAME;
+
+        //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
+        if(socketClientConnection.getConnectionToServer().get()){
+            serverListener = new ServerListener(this, socketClientConnection);
+            serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input, mapper, gameStarted);
+            new Thread(serverWriter).start();
+            new Thread(serverListener).start();
+        }
+
+        clientStates = ClientStates.USERNAME;
+
     }
 
     public static void main(String[] args) {
         //System.out.println(Constants.MASTEROFRENAISSANCE);
         //System.out.println(Constants.AUTHORS);
         System.out.println("Master of Renaissance CLI | Welcome!");
+
+        /*int choiceGame = choiceGameType();
+
+        if (choiceGame == 1) {
+            LocalGame localGame = new LocalGame();
+            LocalGame.main(null);
+        }
+        */
+        //ricordarsi di mettere l'else se choiceGame == 2
+        serverMatch();
+
+    }
+
+    /**
+     * Static method serverMatch used to create the communication with the server to play online
+     */
+    public static void serverMatch(){
         Scanner scanner = new Scanner(System.in);
         //System.out.println(">Insert the server IP address");
         //System.out.print(">");
@@ -55,17 +80,9 @@ public class Client {
         int port = scanner.nextInt();
         Constants.setPort(port);
         Client client = new Client();
-        new Thread(client.serverWriter).start();
-        new Thread(client.serverListener).start();
+
     }
 
-    public SocketClientConnection getSocketClientConnected() {
-        return socketClientConnection;
-    }
-
-    public ClientModelView getClientModelView() {
-        return clientModelView;
-    }
 
 
     /**
@@ -77,9 +94,8 @@ public class Client {
 
         //TODO facciamo il controllo username caratteri speciali - metodo che controlla correttezza
 
-
         mapper = new ObjectMapper();
-        packet = new PacketUsername(username);
+        packet = new PacketUsername(username.toLowerCase(Locale.ROOT));
         try {
             jsonResult = mapper.writeValueAsString(packet);
             socketClientConnection.sendToServer(jsonResult);
@@ -91,15 +107,14 @@ public class Client {
     /**
      * Method choosePlayerNumber asks how many players there will be in the game and sends the message to the server
      */
-    public void choosePlayerNumber(int number_of_players ){
+    public void choosePlayerNumber(int number_of_players){
         String jsonResult;
         PacketNumPlayers packet;
 
-        
         do {
             try {
                 if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
-                    printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
+                    Constants.printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
                     number_of_players = input.nextInt();
                 }
             }catch (InputMismatchException e) {
@@ -119,21 +134,43 @@ public class Client {
 
 
     /**
-     * Method printConnectionMessage prints the Connection Message passed as a parameter
+     * Method choiceGameType asks to the player if he wants to play in solo (without making any connection to the server)
+     * or throught the server
      */
-    void printConnectionMessage(ConnectionMessages message){
-        System.out.println(message.getMessage());
+    public static int choiceGameType(){
+
+        Constants.printConnectionMessage(ConnectionMessages.LOCAL_OR_SERVERGAME);
+
+        Scanner in = new Scanner(System.in);
+        int choiceGame=0;
+        do {
+            System.out.print(">");
+            try{
+                choiceGame = in.nextInt();
+                if (choiceGame!=1 && choiceGame!=2) Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
+            }catch (InputMismatchException e) {
+                System.err.println("Invalid parameter: insert a numeric value.");
+                choiceGameType();
+            }
+        }while(choiceGame!=1 && choiceGame!=2);
+
+        return choiceGame;
     }
 
-    public void setClientState(ClientState clientState) {
-        this.clientState = clientState;
+
+    public void setClientState(ClientStates clientStates) {
+        this.clientStates = clientStates;
     }
 
-    public ClientState getClientState() {
-        return clientState;
+    public ClientStates getClientState() {
+        return clientStates;
     }
 
     public ClientOperationHandler getClientOperationHandler() {
         return clientOperationHandler;
+    }
+
+    public ClientModelView getClientModelView() {
+        return clientModelView;
     }
 }

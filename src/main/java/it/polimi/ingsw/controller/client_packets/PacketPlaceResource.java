@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.controller.State;
+import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
 import it.polimi.ingsw.model.GameInterface;
@@ -22,10 +22,19 @@ public class PacketPlaceResource implements ClientPacketHandler {
 
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
-        if((gameInterface.getState() == State.PHASE_ONE || gameInterface.getState() == State.PHASE_TWO)
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
+        if(gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
-            gameInterface.placeResource(depositPosition, resourcePosition);
+            try {
+                gameInterface.placeResource(depositPosition, resourcePosition);
+            } catch (DepositHasReachedMaxLimit depositHasReachedMaxLimit) {
+                depositHasReachedMaxLimit.printStackTrace();
+            } catch (DepositHasAnotherResource depositHasAnotherResource) {
+                depositHasAnotherResource.printStackTrace();
+            }
+        }
+        else {
+            System.out.println("I'm sorry, you can't do this action in this moment of the game");
         }
     }
 

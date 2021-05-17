@@ -1,5 +1,7 @@
 package it.polimi.ingsw.constants;
 
+import it.polimi.ingsw.controller.ConnectionMessages;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -72,4 +74,12 @@ public class Constants {
     public static int getNumMinPlayers() {
         return NUM_MINPLAYERS;
     }
+
+    /**
+     * Method printConnectionMessage prints the Connection Message passed as a parameter
+     */
+    public static void printConnectionMessage(ConnectionMessages message){
+        System.out.println(message.getMessage());
+    }
+
 }

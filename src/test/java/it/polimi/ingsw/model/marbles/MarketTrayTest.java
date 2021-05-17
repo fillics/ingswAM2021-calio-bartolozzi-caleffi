@@ -23,6 +23,10 @@ public class MarketTrayTest {
     int position;
     Game game;
 
+    public int createIdPlayer(){
+        return (int)(Math.random()*(20));
+    }
+
     /*
      * Method setup setups tests.
      * */
@@ -36,7 +40,7 @@ public class MarketTrayTest {
         testTable= new Marble[3][4];
         username= "Beatrice";
         game= new Game();
-        testPlayer= new Player(username,game);
+        testPlayer= new Player(username,game, createIdPlayer());
     }
 
     /** Method getRemainingMarbleTest tests getRemainingMarble method. */

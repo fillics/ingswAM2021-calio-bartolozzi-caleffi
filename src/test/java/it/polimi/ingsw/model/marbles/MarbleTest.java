@@ -38,6 +38,10 @@ public class MarbleTest {
     HashMap<CardColor,Integer> colorWhiteMarble2;
     ArrayList<Integer> whiteMarbleCardChoice;
 
+    public int createIdPlayer(){
+        return (int)(Math.random()*(20));
+    }
+
     /*
      * Method setup setups tests.
      * */
@@ -55,7 +59,7 @@ public class MarbleTest {
         username= "Beatrice";
         game= new Game();
         board= new Board(testGame);
-        testPlayer= new Player(username,game);
+        testPlayer= new Player(username,game, createIdPlayer());
         colorWhiteMarble= new HashMap<>();
         colorWhiteMarble.put(CardColor.GREEN,2);
         colorWhiteMarble.put(CardColor.PURPLE,1);

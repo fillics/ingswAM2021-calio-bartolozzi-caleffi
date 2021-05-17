@@ -3,9 +3,9 @@ package it.polimi.ingsw.controller.server_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.ClientState;
+import it.polimi.ingsw.client.ClientStates;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
 public class PacketMessage implements ServerPacketHandler {
 
@@ -23,23 +23,39 @@ public class PacketMessage implements ServerPacketHandler {
     @Override
     public void execute(Client client) {
         if (message.equals(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS)) {
-            printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
-            System.out.println(message.getMessage());
-            client.setClientState(ClientState.NUMPLAYERS);
+            Constants.printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
+            Constants.printConnectionMessage(message);
+            client.setClientState(ClientStates.NUMPLAYERS);
         }
         else if (message.equals(ConnectionMessages.TAKEN_NICKNAME)) {
-            System.out.println(message.getMessage());
-            client.setClientState(ClientState.USERNAME);
+            Constants.printConnectionMessage(message);
+            client.setClientState(ClientStates.USERNAME);
         }
         else if(message.equals(ConnectionMessages.WAITING_PEOPLE)){
-            System.out.println(message.getMessage());
-            client.setClientState(ClientState.WAITPLAYERS);
+            Constants.printConnectionMessage(message);
+            client.setClientState(ClientStates.WAITPLAYERS);
         }
         else if (message.equals(ConnectionMessages.GAME_IS_STARTING)) {
-            System.out.println(message.getMessage());
-            client.setClientState(ClientState.CREATEMODEL);
-
+            Constants.printConnectionMessage(message);
+            client.setClientState(ClientStates.CREATEMODEL);
         }
+        else if (message.equals(ConnectionMessages.YOUR_TURN)) {
+            Constants.printConnectionMessage(message);
+            client.setClientState(ClientStates.GAMESTARTED);
+        }
+        else if (message.equals(ConnectionMessages.DISCARDDEVCARD)) {
+            Constants.printConnectionMessage(message);
+            client.setClientState(ClientStates.GAMESTARTED);
+        }
+        else if (message.equals(ConnectionMessages.BLACKCROSS1)) {
+            Constants.printConnectionMessage(message);
+            client.setClientState(ClientStates.GAMESTARTED);
+        }
+        else if (message.equals(ConnectionMessages.BLACKCROSS2)) {
+            Constants.printConnectionMessage(message);
+            client.setClientState(ClientStates.GAMESTARTED);
+        }
+
         else {
             throw new IllegalStateException("Unexpected value: " + message);
         }
@@ -49,10 +65,5 @@ public class PacketMessage implements ServerPacketHandler {
         return message;
     }
 
-    /**
-     * Method printConnectionMessage prints the Connection Message passed as a parameter
-     */
-    void printConnectionMessage(ConnectionMessages message){
-        System.out.println(message.getMessage());
-    }
+
 }

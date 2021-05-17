@@ -29,13 +29,10 @@ public class PacketSetup implements ServerPacketHandler{
     private ArrayList<Deposit> deposits;
     private ArrayList<Integer> whiteMarbleCardChoice;
     private int posInGame;
-    private int numOfPlayers;
-    private int firstPosition;
 
 
     @JsonCreator
-    public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient") int idClient,@JsonProperty("posInGame") int posInGame,
-                       @JsonProperty("numOfPlayers") int numOfPlayers, @JsonProperty("first position") int firstPosition, @JsonProperty("total victory points") int totalVictoryPoint,
+    public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient") int idClient,@JsonProperty("posInGame") int posInGame, @JsonProperty("total victory points") int totalVictoryPoint,
                        @JsonProperty("market tray") Marble[][] table,@JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
                        @JsonProperty("development spaces") ArrayList<DevelopmentSpace> developmentSpaces, @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards,
                        @JsonProperty("resource buffer") ArrayList<Resource> resourceBuffer,@JsonProperty("special production powers")  ArrayList<ProductionPower> specialProductionPowers,
@@ -43,8 +40,7 @@ public class PacketSetup implements ServerPacketHandler{
         this.username = username;
         this.idClient = idClient;
         this.posInGame = posInGame;
-        this.numOfPlayers = numOfPlayers;
-        this.firstPosition = firstPosition;
+
         this.totalVictoryPoint = totalVictoryPoint;
         this.table = table;
         this.developmentCards = developmentCards;
@@ -65,13 +61,7 @@ public class PacketSetup implements ServerPacketHandler{
         return posInGame;
     }
 
-    public int getNumOfPlayers() {
-        return numOfPlayers;
-    }
 
-    public int getFirstPosition() {
-        return firstPosition;
-    }
 
     public int getTotalVictoryPoint() {
         return totalVictoryPoint;
@@ -119,22 +109,19 @@ public class PacketSetup implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
-        if(client.getClientState().equals(ClientState.CREATEMODEL)) {
+        if(client.getClientState().equals(ClientStates.CREATEMODEL)) {
             LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers);
-            LitePlayer litePlayer = new LitePlayer(username, idClient,posInGame, totalVictoryPoint,leaderCards,resourceBuffer,liteBoard,whiteMarbleCardChoice);
+            LitePlayer litePlayer = new LitePlayer(username, idClient, posInGame, totalVictoryPoint, leaderCards,resourceBuffer, liteBoard, whiteMarbleCardChoice);
             LiteDevelopmentGrid liteDevelopmentGrid = new LiteDevelopmentGrid(developmentCards);
             LiteMarketTray liteMarketTray = new LiteMarketTray(table);
             client.getClientModelView().setDevelopmentGrid(liteDevelopmentGrid);
             client.getClientModelView().setMarketTray(liteMarketTray);
             client.getClientModelView().setLiteBoard(liteBoard);
             client.getClientModelView().setMyPlayer(litePlayer);
-            client.getClientModelView().setFirstPosition(firstPosition);
-            client.getClientModelView().setNumOfPlayers(numOfPlayers);
-            System.out.println("Choose your action: 1.Choose the 2 IDs of the leader cards to remove: ");
-            for (LeaderCard leaderCard : client.getClientModelView().getMyPlayer().getLeaderCards()) {
-                System.out.println(leaderCard.getId()); //TODO: sarà da commentare
-            }
-            client.setClientState(ClientState.LEADERSETUP);
+            // TODO: 15/05/2021 da togliere questo e chiedere subito all'utente
+            System.out.println("Choose your action: \n" + "1. Choose the 2 IDs of the leader cards to remove: ");
+
+            client.setClientState(ClientStates.LEADERSETUP);
         }
 
     }

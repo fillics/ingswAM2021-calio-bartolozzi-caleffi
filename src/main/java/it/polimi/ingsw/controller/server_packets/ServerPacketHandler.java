@@ -21,8 +21,9 @@ import it.polimi.ingsw.client.ClientModelView;
         @JsonSubTypes.Type(value = PacketSetup.class, name = "SETUP"),
         @JsonSubTypes.Type(value = PacketSpecialProdPowers.class, name = "SPECIAL_PROD_POWERS"),
         @JsonSubTypes.Type(value = PacketWhiteMarbleChoice.class, name = "WHITE_MARBLE_CHOICE"),
-        @JsonSubTypes.Type(value = PacketEndofUpdate.class, name = "END_OF_UPDATE")
-        })
+        @JsonSubTypes.Type(value = PacketEndofUpdate.class, name = "END_OF_UPDATE"),
+        @JsonSubTypes.Type(value = PacketEndGameStarted.class, name = "ENDGAME_STARTED")
+})
 
 public interface ServerPacketHandler {
         void execute(Client client);

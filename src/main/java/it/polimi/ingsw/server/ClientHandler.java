@@ -5,8 +5,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
+import it.polimi.ingsw.controller.server_packets.PacketEndGameStarted;
+import it.polimi.ingsw.controller.server_packets.PacketMessage;
 import it.polimi.ingsw.controller.server_packets.PacketSetup;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.exceptions.*;
@@ -14,13 +17,14 @@ import it.polimi.ingsw.model.Game;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientHandler implements Runnable {
     private final Socket socket;
     private Game game;
     private final int idClient;
     private int idGame;
-    private int posInGame;
+    private int posInGame; //parte da 0
     private boolean quit = false;
     private final Server server;
     private DataInputStream dis;
@@ -30,14 +34,15 @@ public class ClientHandler implements Runnable {
     private ObjectMapper mapper;
     private String jsonResult;
     private boolean gameStarted= false;
-
-
+    private boolean sendSetup = false;
+    private final AtomicBoolean clientConnected;
 
 
     public ClientHandler(int idClient, Socket socket, Server server) {
         this.idClient = idClient;
         this.socket = socket;
         this.server = server;
+        clientConnected = new AtomicBoolean(true);
         try {
             dis = new DataInputStream(socket.getInputStream());  // to read data coming from the client
             ps = new PrintStream(socket.getOutputStream());// to send data to the client
@@ -51,35 +56,44 @@ public class ClientHandler implements Runnable {
         this.game = game;
     }
 
-    public void setGameStarted(boolean gameStarted) {
-        this.gameStarted = gameStarted;
+    public void setGameStarted() {
+        gameStarted = true;
     }
 
     public void run() {
         try {
-
             while (!quit) {
-                if (gameStarted) sendSetupPacket();
-
-                String str = dis.readUTF();
-                deserialize(str);
-
-
+                if (sendSetup) sendSetupPacket();
+                try{
+                    String str = dis.readUTF();
+                    deserialize(str);
+                }catch (Exception e){
+                    System.out.println(username + " si è disconnesso");
+                    clientConnected.compareAndSet(true, false);
+                    // TODO Altre operazioni da fare: rimuoverlo dalla lobby e se username != null toglierlo dalla mappa che contiene tutti i nomi
+                }finally {
+                    if(!clientConnected.get()){
+                        // Chiudo gli stream e il socket -> client non è più connesso al server
+                        dis.close();
+                        ps.close();
+                        socket.close();
+                        quit=true;
+                    }
+                }
                 if(gameStarted) {
                     if(game.isEndgame())
                         quit=true;
+                        server.sendAll(new PacketEndGameStarted(username), game);
+                        game.setState(GameStates.FINAL_TURN);
                 }
             }
-            // Chiudo gli stream e il socket -> client non è più connesso al server
-            dis.close();
-            ps.close();
-            socket.close();
+            System.out.println("La connessione con il socket di " + username + " è stata ufficialmente chiusa!");
 
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             System.err.println(e.getMessage());
-        } catch (DevelopmentCardNotFound | EmptyDeposit | LeaderCardNotActivated | LeaderCardNotFound | DevCardNotPlaceable | DifferentDimension | DepositDoesntHaveThisResource | DiscountCannotBeActivated | NotEnoughRequirements | TooManyResourcesRequested | DepositHasReachedMaxLimit | NotEnoughResources | DepositHasAnotherResource | WrongChosenResources developmentCardNotFound) {
+        }/* catch (DevelopmentCardNotFound | EmptyDeposit | LeaderCardNotActivated | LeaderCardNotFound | DevCardNotPlaceable | DifferentDimension | DepositDoesntHaveThisResource | DiscountCannotBeActivated | NotEnoughRequirements | TooManyResourcesRequested | DepositHasReachedMaxLimit | NotEnoughResources | DepositHasAnotherResource | WrongChosenResources developmentCardNotFound) {
             developmentCardNotFound.printStackTrace();
-        }
+        }*/
     }
 
     public String getUsername() {
@@ -145,12 +159,13 @@ public class ClientHandler implements Runnable {
             }
         }
 
+
     }
 
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
-        PacketSetup packetSetup = new PacketSetup(username,idClient,posInGame,game.getNumof_players(), game.getCurrentPlayer(),0,game.getTable(), game.getInitialDevGrid(), game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
+        PacketSetup packetSetup = new PacketSetup(username,idClient,posInGame,0,game.getTable(), game.getInitialDevGrid(), game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
            game.getIdClientActivePlayers().get(idClient).getResourceBuffer(),game.getIdClientActivePlayers().get(idClient).getBoard().getSpecialProductionPowers(),
            game.getIdClientActivePlayers().get(idClient).getBoard().getStrongbox(),game.getIdClientActivePlayers().get(idClient).getBoard().getDeposits(), game.getIdClientActivePlayers().get(idClient).getWhiteMarbleCardChoice());
 
@@ -186,8 +201,11 @@ public class ClientHandler implements Runnable {
     }
 
     public synchronized void sendToClient(String jsonResult){
-        System.out.println(jsonResult);
         output.println(jsonResult);
         output.flush();
+    }
+
+    public void setSetupEnded() {
+        sendSetup = false;
     }
 }

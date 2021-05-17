@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.controller.State;
+import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketLiteMarketTray;
 import it.polimi.ingsw.exceptions.LeaderCardNotActivated;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
@@ -26,13 +26,22 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
 
 
     @Override
-    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws LeaderCardNotActivated, LeaderCardNotFound {
-        if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
-            gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
-            gameInterface.setState(State.PHASE_TWO);
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
+        if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+            try {
+                gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
+            } catch (LeaderCardNotFound leaderCardNotFound) {
+                leaderCardNotFound.printStackTrace();
+            } catch (LeaderCardNotActivated leaderCardNotActivated) {
+                leaderCardNotActivated.printStackTrace();
+            }
+            gameInterface.setState(GameStates.PHASE_TWO);
 
             server.sendAll(new PacketLiteMarketTray(gameInterface.getTable()), gameInterface);
 
+        }
+        else {
+            System.out.println("I'm sorry, you can't do this action in this moment of the game");
         }
     }
 

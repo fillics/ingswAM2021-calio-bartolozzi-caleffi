@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * ConnectionSocket class handles the connection between the client and the server.
@@ -21,6 +22,7 @@ public class SocketClientConnection {
     private DataOutputStream output;
     private DataInputStream dataInputStream;
     private BufferedReader br;
+    private final AtomicBoolean connectionToServer = new AtomicBoolean(false);
 
     public SocketClientConnection(Client client) {
         this.client = client;
@@ -28,10 +30,15 @@ public class SocketClientConnection {
         this.port = Constants.getPort();
         try {
             socket = new Socket(serverAddress, port);
+            connectionToServer.compareAndSet(false, true);
         } catch (IOException ignored) {
             System.err.println("Error during connection to the client");
             Client.main(null);
         }
+        if (connectionToServer.get()) creationStreams();
+    }
+
+    public synchronized void creationStreams() {
         try {
             output = new DataOutputStream(socket.getOutputStream());
             dataInputStream = new DataInputStream(socket.getInputStream()); // to read data coming from the server
@@ -41,6 +48,10 @@ public class SocketClientConnection {
         }
     }
 
+    public AtomicBoolean getConnectionToServer() {
+        return connectionToServer;
+    }
+
     /**
      * Method sendToServer sends a new message to the server.
      * @param jsonResult (type String) - it is the message to send to the server
@@ -48,6 +59,7 @@ public class SocketClientConnection {
     public synchronized void sendToServer(String jsonResult){
         try {
             output.writeUTF(jsonResult);
+            System.out.println(jsonResult);
             output.flush();
         } catch (IOException e) {
             System.err.println("Error during the communication from client to server!");
@@ -55,29 +67,7 @@ public class SocketClientConnection {
         }
     }
 
-    /**
-     * ci mettiamo in ascolto dei messaggi che arrivano dal server
-     */
-    public String listening(){
-        System.out.println("gino");
-        String str=null;
 
-        try {
-            str = br.readLine();
-        } catch (IOException e) {
-            System.out.println("Errore nella ricezione di un messaggio dal server");
-        }
-        System.out.println(str);
-        return str;
-    }
-
-    public void closeConnection(){
-        try {
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public synchronized void deserialize() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -96,6 +86,13 @@ public class SocketClientConnection {
         }
     }
 
+    public void closeConnection(){
+        try {
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public Socket getSocket() {
         return socket;
     }

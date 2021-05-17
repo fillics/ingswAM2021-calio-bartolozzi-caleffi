@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.controller.State;
+import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.exceptions.DepositDoesntHaveThisResource;
 import it.polimi.ingsw.exceptions.DifferentDimension;
 import it.polimi.ingsw.exceptions.EmptyDeposit;
@@ -33,8 +33,8 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
 
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositDoesntHaveThisResource, TooManyResourcesRequested, DifferentDimension {
-        if(gameInterface.getState() == State.PHASE_ONE && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
+        if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             HashMap<ResourceType, Integer> resourceNeeded = new HashMap<>();
             resourceNeeded.put(ResourceType.COIN, 0);
             resourceNeeded.put(ResourceType.STONE, 0);
@@ -61,11 +61,23 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
             }
 
             ProductionPower newProductionPower = new ProductionPower(resourceNeeded, resourceObtained);
-            gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, warehouse, newResources);
+            try {
+                gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, warehouse, newResources);
+            } catch (DifferentDimension differentDimension) {
+                differentDimension.printStackTrace();
+            } catch (TooManyResourcesRequested tooManyResourcesRequested) {
+                tooManyResourcesRequested.printStackTrace();
+            } catch (EmptyDeposit emptyDeposit) {
+                emptyDeposit.printStackTrace();
+            } catch (DepositDoesntHaveThisResource depositDoesntHaveThisResource) {
+                depositDoesntHaveThisResource.printStackTrace();
+            }
 
-            gameInterface.setState(State.PHASE_TWO);
+            gameInterface.setState(GameStates.PHASE_TWO);
         }
-
+        else {
+            System.out.println("I'm sorry, you can't do this action in this moment of the game");
+        }
     }
 
     public ArrayList<ProductionPower> getProductionPowers() {

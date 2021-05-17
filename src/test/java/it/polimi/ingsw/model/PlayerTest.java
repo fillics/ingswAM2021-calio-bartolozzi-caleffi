@@ -47,12 +47,15 @@ class PlayerTest {
     HashMap<ResourceType,Integer> testResourcesNeeded;
     HashMap<ResourceType,Integer> testResourcesObtained;
 
+    public int createIdPlayer(){
+        return (int)(Math.random()*(20));
+    }
 
     /** Method setup setups test. */
     @BeforeEach
     void setup(){
         testGame = new Game();
-        testPlayer = new Player(username, testGame);
+        testPlayer = new Player(username, testGame, createIdPlayer());
 
         colorDiscount= new HashMap<>();
         colorDiscount.put(CardColor.YELLOW,1);
