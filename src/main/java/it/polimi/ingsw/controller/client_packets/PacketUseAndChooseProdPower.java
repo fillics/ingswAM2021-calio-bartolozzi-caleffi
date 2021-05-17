@@ -33,7 +33,7 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
 
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositDoesntHaveThisResource, TooManyResourcesRequested, DifferentDimension {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             HashMap<ResourceType, Integer> resourceNeeded = new HashMap<>();
             resourceNeeded.put(ResourceType.COIN, 0);
@@ -61,7 +61,17 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
             }
 
             ProductionPower newProductionPower = new ProductionPower(resourceNeeded, resourceObtained);
-            gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, warehouse, newResources);
+            try {
+                gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, warehouse, newResources);
+            } catch (DifferentDimension differentDimension) {
+                differentDimension.printStackTrace();
+            } catch (TooManyResourcesRequested tooManyResourcesRequested) {
+                tooManyResourcesRequested.printStackTrace();
+            } catch (EmptyDeposit emptyDeposit) {
+                emptyDeposit.printStackTrace();
+            } catch (DepositDoesntHaveThisResource depositDoesntHaveThisResource) {
+                depositDoesntHaveThisResource.printStackTrace();
+            }
 
             gameInterface.setState(GameStates.PHASE_TWO);
         }

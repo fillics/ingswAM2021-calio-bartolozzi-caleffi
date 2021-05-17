@@ -19,10 +19,14 @@ public class PacketMoveResource implements ClientPacketHandler {
 
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
-            gameInterface.moveResource(position);
+            try {
+                gameInterface.moveResource(position);
+            } catch (EmptyDeposit emptyDeposit) {
+                emptyDeposit.printStackTrace();
+            }
         }
         else {
             System.out.println("I'm sorry, you can't do this action in this moment of the game");

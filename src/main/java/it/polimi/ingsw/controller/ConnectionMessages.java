@@ -20,12 +20,16 @@ public enum ConnectionMessages {
     GAME_IS_STARTING("The game is starting..."),
     SEND_SETUP_PACKETS("Send setup packets"),
     YOUR_TURN("It's your turn bro"),
-    NOT_YOU_TURN("It's NOT your turn bro"),
+    NOT_YOUR_TURN("It's NOT your turn bro"),
     SELECT_LEADERCARDS("Choose the leader cards to remove"),
     CHOOSE_FIRST_RESOURCE("Choose the first initial resource:"),
     CHOOSE_SECOND_RESOURCE("Choose the second initial resource:"),
     RESOURCE_CHOICES("Write 1 to select COIN, 2 to select STONE, 3 to select SERVANT, 4 to select SHIELD"),
     CHOOSE_DEPOSIT("Choose the deposit in which you want to place the resource [1, 2, 3]"),
+    DISCARDDEVCARD("Lorenzo The Great discarded a development card"),
+    BLACKCROSS1("Lorenzo The Great's black cross has stepped forward of one cell"),
+    BLACKCROSS2("Lorenzo The Great's black cross has stepped forward of two cell"),
+
 
     CONNECTION_CLOSED("The served closed its connection."),
     MATCH_FINISHED_FAITH("A player reached the last cell of the faith track"),

@@ -23,7 +23,6 @@ public class PacketNumPlayers implements SetupHandler {
 
         if(numof_players > server.getLobby().size()){
             clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.WAITING_PEOPLE));
-
         }
         else {
             server.createMatch();

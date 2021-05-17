@@ -5,8 +5,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
+import it.polimi.ingsw.controller.server_packets.PacketEndGameStarted;
+import it.polimi.ingsw.controller.server_packets.PacketMessage;
 import it.polimi.ingsw.controller.server_packets.PacketSetup;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.exceptions.*;
@@ -77,10 +80,12 @@ public class ClientHandler implements Runnable {
                         quit=true;
                     }
                 }
-                /*if(gameStarted) {
+                if(gameStarted) {
                     if(game.isEndgame())
                         quit=true;
-                }*/
+                        server.sendAll(new PacketEndGameStarted(username), game);
+                        game.setState(GameStates.FINAL_TURN);
+                }
             }
             System.out.println("La connessione con il socket di " + username + " è stata ufficialmente chiusa!");
 

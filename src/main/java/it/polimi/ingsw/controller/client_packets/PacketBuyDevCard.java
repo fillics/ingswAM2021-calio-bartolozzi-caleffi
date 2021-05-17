@@ -31,9 +31,25 @@ public class PacketBuyDevCard implements ClientPacketHandler {
 
 
     @Override
-    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
-            gameInterface.buyDevCard(id, chosenResources, chosenWarehouses, developmentSpace);
+            try {
+                gameInterface.buyDevCard(id, chosenResources, chosenWarehouses, developmentSpace);
+            } catch (DevelopmentCardNotFound developmentCardNotFound) {
+                developmentCardNotFound.printStackTrace();
+            } catch (DevCardNotPlaceable devCardNotPlaceable) {
+                devCardNotPlaceable.printStackTrace();
+            } catch (NotEnoughResources notEnoughResources) {
+                notEnoughResources.printStackTrace();
+            } catch (WrongChosenResources wrongChosenResources) {
+                wrongChosenResources.printStackTrace();
+            } catch (DifferentDimension differentDimension) {
+                differentDimension.printStackTrace();
+            } catch (EmptyDeposit emptyDeposit) {
+                emptyDeposit.printStackTrace();
+            } catch (DepositDoesntHaveThisResource depositDoesntHaveThisResource) {
+                depositDoesntHaveThisResource.printStackTrace();
+            }
             gameInterface.setState(GameStates.PHASE_TWO);
 
             // TODO: 14/05/2021  mandare a tutti il nuove development grid - sistemare il metodo getInitalDevGrid con getDevGrideLite (vedi metodo di Game)

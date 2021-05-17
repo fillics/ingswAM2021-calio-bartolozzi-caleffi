@@ -18,10 +18,16 @@ public class PacketActivateLeaderCard implements ClientPacketHandler {
     }
 
     @Override
-    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
-            gameInterface.activateLeaderCard(id);
+            try {
+                gameInterface.activateLeaderCard(id);
+            } catch (LeaderCardNotFound leaderCardNotFound) {
+                leaderCardNotFound.printStackTrace();
+            } catch (NotEnoughRequirements notEnoughRequirements) {
+                notEnoughRequirements.printStackTrace();
+            }
             clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
         }
         else {

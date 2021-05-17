@@ -20,10 +20,14 @@ public class PacketDiscardLeaderCard implements ClientPacketHandler {
 
     //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws LeaderCardNotFound {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
-            gameInterface.discardLeaderCard(ID);
+            try {
+                gameInterface.discardLeaderCard(ID);
+            } catch (LeaderCardNotFound leaderCardNotFound) {
+                leaderCardNotFound.printStackTrace();
+            }
             clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
         }
         else {

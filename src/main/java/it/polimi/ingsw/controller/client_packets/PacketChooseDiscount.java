@@ -20,9 +20,13 @@ public class PacketChooseDiscount implements ClientPacketHandler {
 
     //TODO: Aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
-    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws DiscountCannotBeActivated {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
-            gameInterface.chooseDiscountActivation(leaderCards);
+            try {
+                gameInterface.chooseDiscountActivation(leaderCards);
+            } catch (DiscountCannotBeActivated discountCannotBeActivated) {
+                discountCannotBeActivated.printStackTrace();
+            }
         }
         else {
             System.out.println("I'm sorry, you can't do this action in this moment of the game");

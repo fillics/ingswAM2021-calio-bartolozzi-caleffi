@@ -12,8 +12,6 @@ import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
-import java.io.IOException;
-
 public class PacketChooseInitialResources implements ClientPacketHandler{
     private int depositPosition;
     private ResourceType resource;
@@ -25,10 +23,18 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
     }
 
     @Override
-    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested, IOException, ClassNotFoundException {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.SETUP) || gameInterface.getState().equals(GameStates.PHASE_ONE)){
 
-            gameInterface.additionalResourceSetup(resource,depositPosition,clientHandler.getIdClient());
+            try {
+                gameInterface.additionalResourceSetup(resource,depositPosition,clientHandler.getIdClient());
+            } catch (DifferentDimension differentDimension) {
+                differentDimension.printStackTrace();
+            } catch (DepositHasReachedMaxLimit depositHasReachedMaxLimit) {
+                depositHasReachedMaxLimit.printStackTrace();
+            } catch (DepositHasAnotherResource depositHasAnotherResource) {
+                depositHasAnotherResource.printStackTrace();
+            }
             if(clientHandler.getPosInGame() == 0){
                 clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.YOUR_TURN));
             }

@@ -41,10 +41,6 @@ public class ServerWriter implements Runnable, ViewInterface{
         System.out.print(">");
         while (!client.getClientState().equals(ClientStates.END)) {
 
-
-
-
-
             in = input.nextLine();
 
             if (client.getClientState().equals(ClientStates.USERNAME)) {
@@ -65,19 +61,16 @@ public class ServerWriter implements Runnable, ViewInterface{
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
             else if (client.getClientState().equals(ClientStates.RESOURCESETUP)) {
-
                 try {
                     while(!in.equals("1")){
                         in = input.nextLine();
+                        if(!in.equals("1")) System.err.println("Number not valid");
                     }
                     if (client.getClientModelView().getMyPlayer().getPosInGame()!=0){
                         client.getClientOperationHandler().chooseInitialResources();
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

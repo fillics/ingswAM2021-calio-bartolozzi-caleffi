@@ -43,6 +43,19 @@ public class PacketMessage implements ServerPacketHandler {
             Constants.printConnectionMessage(message);
             client.setClientState(ClientStates.GAMESTARTED);
         }
+        else if (message.equals(ConnectionMessages.DISCARDDEVCARD)) {
+            Constants.printConnectionMessage(message);
+            client.setClientState(ClientStates.GAMESTARTED);
+        }
+        else if (message.equals(ConnectionMessages.BLACKCROSS1)) {
+            Constants.printConnectionMessage(message);
+            client.setClientState(ClientStates.GAMESTARTED);
+        }
+        else if (message.equals(ConnectionMessages.BLACKCROSS2)) {
+            Constants.printConnectionMessage(message);
+            client.setClientState(ClientStates.GAMESTARTED);
+        }
+
         else {
             throw new IllegalStateException("Unexpected value: " + message);
         }
