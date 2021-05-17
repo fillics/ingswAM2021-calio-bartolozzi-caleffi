@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.cards.leadercards;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.BoardInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
@@ -55,6 +57,20 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
             board.getSpecialProductionPowers().add(extraProductionPower);
             active = true;
         }
+    }
+
+    @Override
+    public String toString(){
+        String escape= "";
+        if(resourceType.equals(ResourceType.COIN))
+            escape= escape + "1"+ Color.ANSI_YELLOW.escape() + Printable.SQUARE.print() + Color.RESET + "} 1? 1" + Color.ANSI_RED.escape() + Printable.CROSS.print() + Color.RESET;
+        if(resourceType.equals(ResourceType.SERVANT))
+            escape = escape + "1" + Color.ANSI_PURPLE.escape() + Printable.SQUARE.print() + Color.RESET + "}1? 1" + Color.ANSI_RED.escape() + Printable.CROSS.print() + Color.RESET;
+        if(resourceType.equals(ResourceType.SHIELD))
+            escape = escape + "1" + Color.ANSI_BLUE.escape() + Printable.SQUARE.print() + Color.RESET + "}1? 1" + Color.ANSI_RED.escape() + Printable.CROSS.print() + Color.RESET;
+        if(resourceType.equals(ResourceType.STONE))
+            escape = escape + "1" + Color.ANSI_GREY.escape() + Printable.SQUARE.print() + Color.RESET + "}1? 1" + Color.ANSI_RED.escape() + Printable.CROSS.print() + Color.RESET;
+        return escape;
     }
 
 }

@@ -3,7 +3,10 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.board.resources.ResourceType;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -100,5 +103,32 @@ public class MarketTray {
             }
             table[2][numline-1]=temp;
         }
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder escape= new StringBuilder();
+        for(int i=0; i<3;i++){
+            for(int j=0; j<4; j++){
+                if(this.table[i][j] instanceof YellowMarble)
+                    escape.append(Color.ANSI_YELLOW.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+                if(this.table[i][j] instanceof PurpleMarble)
+                    escape.append(Color.ANSI_PURPLE.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+                if(this.table[i][j] instanceof BlueMarble)
+                    escape.append(Color.ANSI_BLUE.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+                if(this.table[i][j] instanceof GreyMarble)
+                    escape.append(Color.ANSI_GREY.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+                if(this.table[i][j] instanceof WhiteMarble)
+                    escape.append(Printable.WHITE_MARBLE.print()).append(" ");
+                if(this.table[i][j] instanceof RedMarble)
+                    escape.append(Color.ANSI_RED.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+            }
+            escape.append(" ").append(Printable.ARROW_RIGHT.print()).append("\n");
+        }
+        escape.append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ");
+        return escape.toString();
+    }
+    public void dump(){
+        System.out.println(this);
     }
 }

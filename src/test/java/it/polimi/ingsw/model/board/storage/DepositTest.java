@@ -15,38 +15,44 @@ import static org.junit.jupiter.api.Assertions.*;
  * @see Deposit
  */
 public class DepositTest {
-    Deposit testDeposit;
+    Deposit testDeposit1;
+    Deposit testDeposit2;
+    Deposit testDeposit3;
     Resource testResource;
-    private final int maxLimit = 3;
+    private final int maxLimit3 = 3;
+    private final int maxLimit2 = 2;
+    private final int maxLimit1 = 1;
 
     /** Method setup setups tests. */
     @BeforeEach
     void setup() {
-        testDeposit = new Deposit(maxLimit);
+        testDeposit1 = new Deposit(maxLimit1);
+        testDeposit2 = new Deposit(maxLimit2);
+        testDeposit3 = new Deposit(maxLimit3);
     }
 
     /** Method DepositGetterTest tests deposit methods getter. */
     @Test
     @DisplayName("Deposit attributes' get-methods test")
     void DepositGetterTest() {
-        assertEquals(0, testDeposit.getQuantity());
-        assertEquals(3, testDeposit.getMaxLimit());
-        assertNull(testDeposit.getResourcetype());
+        assertEquals(0, testDeposit3.getQuantity());
+        assertEquals(3, testDeposit3.getMaxLimit());
+        assertNull(testDeposit3.getResourcetype());
     }
 
     /** Method DepositModifierTest tests deposit methods setter without throwing any exceptions. */
     @Test
     @DisplayName("Deposit set-methods test without exceptions")
     void DepositModifierTest() throws EmptyDeposit {
-        testDeposit.setResourcetype(ResourceType.COIN);
-        assertEquals(ResourceType.COIN, testDeposit.getResourcetype());
+        testDeposit3.setResourcetype(ResourceType.COIN);
+        assertEquals(ResourceType.COIN, testDeposit3.getResourcetype());
 
-        assertEquals(1,testDeposit.increaseNumberOfResources());
-        assertEquals(2,testDeposit.increaseNumberOfResources());
+        assertEquals(1, testDeposit3.increaseNumberOfResources());
+        assertEquals(2, testDeposit3.increaseNumberOfResources());
 
-        testResource = testDeposit.takeResource();
+        testResource = testDeposit3.takeResource();
         assertEquals(ResourceType.COIN, testResource.getType());
-        assertEquals(1, testDeposit.getQuantity());
+        assertEquals(1, testDeposit3.getQuantity());
     }
 
     /** Method EmptyDepositTest tests EmptyDeposit exception. */
@@ -55,7 +61,7 @@ public class DepositTest {
     void EmptyDepositTest() {
         boolean exception = false;
         try {
-            testDeposit.takeResource();
+            testDeposit3.takeResource();
         }catch(EmptyDeposit e){
             exception = true;
         }
@@ -66,26 +72,26 @@ public class DepositTest {
     @Test
     @DisplayName("Deposit get-methods to obtain the total number of a specific resource test")
     void GetSpecificResource() {
-        testDeposit.setResourcetype(ResourceType.COIN);
-        testDeposit.increaseNumberOfResources();
-        testDeposit.increaseNumberOfResources();
+        testDeposit3.setResourcetype(ResourceType.COIN);
+        testDeposit3.increaseNumberOfResources();
+        testDeposit3.increaseNumberOfResources();
 
-        assertEquals(0, testDeposit.getTotalStones());
-        assertEquals(0, testDeposit.getTotalServants());
-        assertEquals(0, testDeposit.getTotalShields());
-        assertEquals(2, testDeposit.getTotalCoins());
+        assertEquals(0, testDeposit3.getTotalStones());
+        assertEquals(0, testDeposit3.getTotalServants());
+        assertEquals(0, testDeposit3.getTotalShields());
+        assertEquals(2, testDeposit3.getTotalCoins());
     }
 
     /** Method removeTest tests remove method. */
     @Test
     @DisplayName("removeTest used to test the correct functioning of the method")
     void removeTest() throws EmptyDeposit, DepositDoesntHaveThisResource {
-        testDeposit.setResourcetype(ResourceType.COIN);
-        testDeposit.increaseNumberOfResources();
-        testDeposit.increaseNumberOfResources();
+        testDeposit3.setResourcetype(ResourceType.COIN);
+        testDeposit3.increaseNumberOfResources();
+        testDeposit3.increaseNumberOfResources();
 
-        testDeposit.remove(ResourceType.COIN);
-        assertEquals(1,testDeposit.getQuantity());
+        testDeposit3.remove(ResourceType.COIN);
+        assertEquals(1, testDeposit3.getQuantity());
 
     }
 
@@ -93,26 +99,41 @@ public class DepositTest {
     @Test
     @DisplayName("removeTestException used to test if the exception are thrown when it's needed")
     void removeTestException() {
-        testDeposit.setResourcetype(ResourceType.COIN);
-        testDeposit.increaseNumberOfResources();
-        testDeposit.increaseNumberOfResources();
+        testDeposit3.setResourcetype(ResourceType.COIN);
+        testDeposit3.increaseNumberOfResources();
+        testDeposit3.increaseNumberOfResources();
         try {
-            testDeposit.remove(ResourceType.STONE);
+            testDeposit3.remove(ResourceType.STONE);
             fail();
         } catch (DepositDoesntHaveThisResource | EmptyDeposit ignored) {}
 
         try {
-            testDeposit.remove(ResourceType.COIN);
-            testDeposit.remove(ResourceType.COIN);
+            testDeposit3.remove(ResourceType.COIN);
+            testDeposit3.remove(ResourceType.COIN);
         }
         catch (DepositDoesntHaveThisResource | EmptyDeposit ignored) {}
 
         try {
-            testDeposit.remove(ResourceType.COIN);
+            testDeposit3.remove(ResourceType.COIN);
             fail();
         } catch (DepositDoesntHaveThisResource | EmptyDeposit ignored) {}
 
     }
 
+    @Test
+    @DisplayName(" print test")
+    void printTest(){
+        testDeposit1.setResourcetype(ResourceType.COIN);
+        testDeposit2.setResourcetype(ResourceType.SERVANT);
+        testDeposit3.setResourcetype(ResourceType.STONE);
+        testDeposit1.increaseNumberOfResources();
+        testDeposit2.increaseNumberOfResources();
+        testDeposit3.increaseNumberOfResources();
+        testDeposit3.increaseNumberOfResources();
+        assertEquals(testDeposit3.getQuantity(),2);
+        testDeposit1.dump();
+        testDeposit2.dump();
+        testDeposit3.dump();
+    }
 
 }

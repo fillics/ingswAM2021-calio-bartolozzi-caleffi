@@ -2,8 +2,11 @@ package it.polimi.ingsw.model.cards.leadercards;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.board.resources.ResourceType;
+import it.polimi.ingsw.model.cards.developmentcards.CardColor;
 
 import java.util.HashMap;
 
@@ -49,6 +52,23 @@ public class ResourcesRequirement extends Requirement{
             }
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        String escape="";
+
+        if(resourcePrice.containsKey(ResourceType.SHIELD))
+        escape= resourcePrice.get(ResourceType.SHIELD) + " " + Color.ANSI_BLUE.escape() + Printable.CIRCLE.print() + Color.RESET;
+        if(resourcePrice.containsKey(ResourceType.COIN))
+            escape = escape + resourcePrice.get(ResourceType.COIN) + " " + Color.ANSI_YELLOW.escape() + Printable.CIRCLE.print() + Color.RESET;
+        if(resourcePrice.containsKey(ResourceType.SERVANT))
+            escape = escape + resourcePrice.get(ResourceType.SERVANT) + " " + Color.ANSI_PURPLE.escape() + Printable.CIRCLE.print() + Color.RESET;
+        if(resourcePrice.containsKey(ResourceType.STONE))
+            escape = escape + resourcePrice.get(ResourceType.STONE) + " " + Color.ANSI_GREY.escape() + Printable.CIRCLE.print() + Color.RESET;
+        escape = escape + "   ";
+
+        return escape;
     }
 
 }

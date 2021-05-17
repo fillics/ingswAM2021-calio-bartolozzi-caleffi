@@ -1,4 +1,6 @@
 package it.polimi.ingsw.model.cards.leadercards;
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.BoardInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Deposit;
@@ -45,6 +47,21 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
             board.getDeposits().add(extraDeposit);
             active = true;
         }
+    }
+
+    public String toString(){
+        String escape= "";
+        assert resourceType != null;
+        if(resourceType.equals(ResourceType.COIN))
+            escape= escape + Color.ANSI_YELLOW.escape() + Printable.SQUARE.print() + " " + Printable.SQUARE.print()+ Color.RESET;
+        if(resourceType.equals(ResourceType.SERVANT))
+            escape = escape + Color.ANSI_PURPLE.escape() + Printable.SQUARE.print()+ " "  + Printable.SQUARE.print() + Color.RESET;
+        if(resourceType.equals(ResourceType.SHIELD))
+            escape = escape + Color.ANSI_BLUE.escape() + Printable.SQUARE.print() + " " + Printable.SQUARE.print() + Color.RESET;
+        if(resourceType.equals(ResourceType.STONE))
+            escape = escape + Color.ANSI_GREY.escape() + Printable.SQUARE.print() + " " + Printable.SQUARE.print() + Color.RESET;
+        escape= escape + "     ";
+        return escape;
     }
 
 }

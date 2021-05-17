@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.cards.leadercards;
 
 import com.fasterxml.jackson.annotation.*;
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.Card;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
@@ -88,6 +90,18 @@ public class LeaderCard extends Card {
         return victorypoint;
     }
 
+    @Override
+    public String toString(){
+        String victoryPoints = victorypoint + Color.ANSI_YELLOW.escape() + " VP" + Color.RESET;
+        return Printable.UPPER_BOX.print() + Printable.DOUBLE_LINE.print() + "id: " + this.id + "   " + Printable.DOUBLE_LINE.print() +"\n"+
+        Printable.DOUBLE_LINE.print() + this.requirements.toString() + "  "+ Printable.DOUBLE_LINE.print()+ "\n" +
+        Printable.DOUBLE_LINE.print() + victoryPoints + "    " + Printable.DOUBLE_LINE.print() +"\n" +
+        Printable.DOUBLE_LINE.print() + this.strategy.toString() +  Printable.DOUBLE_LINE.print() +"\n" +
+        Printable.BOTTOM_BOX.print();
+    }
 
+    public void dump(){
+        System.out.println(this);
+    }
 
 }

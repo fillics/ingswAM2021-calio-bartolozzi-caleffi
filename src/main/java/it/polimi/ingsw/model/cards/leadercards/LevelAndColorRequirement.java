@@ -2,6 +2,8 @@ package it.polimi.ingsw.model.cards.leadercards;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.cards.developmentcards.CardColor;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
@@ -75,5 +77,31 @@ public class LevelAndColorRequirement extends Requirement{
             }
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        String escape= "";
+        if(this.color.containsKey(CardColor.BLUE))
+            escape= color.get(CardColor.BLUE) + " " + Color.BACKGROUND_BLUE.escape() + this.printLevel() + Color.RESET;
+        if(color.containsKey(CardColor.GREEN))
+            escape = escape + color.get(CardColor.GREEN) + " " + Color.BACKGROUND_GREEN.escape() + this.printLevel() + Color.RESET;
+        if(color.containsKey(CardColor.PURPLE))
+            escape = escape + color.get(CardColor.PURPLE) + " " + Color.BACKGROUND_PURPLE.escape() + this.printLevel() + Color.RESET;
+        if(color.containsKey(CardColor.YELLOW))
+            escape = escape + color.get(CardColor.YELLOW)+ " " + Color.BACKGROUND_YELLOW.escape() + this.printLevel() + Color.RESET;
+        escape = escape + "   ";
+        return escape;
+    }
+
+    public String printLevel(){
+        String level = null;
+        if(this.level.equals(Level.ONE))
+            level = Printable.ONE_POINT.print();
+        else if(this.level.equals(Level.TWO))
+            level= Printable.TWO_POINTS.print();
+        else if (this.level.equals(Level.THREE))
+            level= Printable.THREE_POINTS.print();
+        return level;
     }
 }

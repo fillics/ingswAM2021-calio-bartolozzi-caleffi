@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.board.storage;
 
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.exceptions.DepositDoesntHaveThisResource;
@@ -149,5 +151,31 @@ public class Deposit extends Warehouse {
         else {
             quantity -= 1;
         }
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder escape= new StringBuilder();
+        if(this.maxLimit==1)
+            escape.append("  ");
+        if(this.maxLimit==2)
+            escape.append(" ");
+        for(int j=0; j<this.quantity; j++){
+                if(this.resourcetype.equals(ResourceType.COIN))
+                    escape.append(Color.ANSI_YELLOW.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");
+                if(this.resourcetype.equals(ResourceType.SERVANT))
+                    escape.append(Color.ANSI_PURPLE.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");
+                if(this.resourcetype.equals(ResourceType.SHIELD))
+                    escape.append(Color.ANSI_BLUE.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");
+                if(this.resourcetype.equals(ResourceType.STONE))
+                    escape.append(Color.ANSI_GREY.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");
+        }
+        for(int k=this.quantity; k<this.maxLimit ; k++)
+            escape.append(Printable.WHITE_SQUARE.print()).append(" ");
+        return escape.toString();
+    }
+
+    public void dump(){
+        System.out.println(this);
     }
 }
