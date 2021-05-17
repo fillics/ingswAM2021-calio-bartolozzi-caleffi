@@ -24,14 +24,13 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
+        System.out.println("sono dentro al pacchetto chooseinitialresouces");
         if(gameInterface.getState().equals(GameStates.SETUP) || gameInterface.getState().equals(GameStates.PHASE_ONE)){
 
             try {
                 gameInterface.additionalResourceSetup(resource,depositPosition,clientHandler.getIdClient());
-            } catch (DifferentDimension differentDimension) {
+            } catch (DifferentDimension | DepositHasReachedMaxLimit differentDimension) {
                 differentDimension.printStackTrace();
-            } catch (DepositHasReachedMaxLimit depositHasReachedMaxLimit) {
-                depositHasReachedMaxLimit.printStackTrace();
             } catch (DepositHasAnotherResource depositHasAnotherResource) {
                 depositHasAnotherResource.printStackTrace();
             }

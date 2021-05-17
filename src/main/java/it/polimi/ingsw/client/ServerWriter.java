@@ -1,5 +1,4 @@
 package it.polimi.ingsw.client;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
@@ -7,8 +6,6 @@ import it.polimi.ingsw.controller.ConnectionMessages;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ServerWriter implements Runnable, ViewInterface{
 
@@ -36,57 +33,72 @@ public class ServerWriter implements Runnable, ViewInterface{
     @Override
     public void run() {
         String in;
-
         Constants.printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
         System.out.print(">");
+
         while (!client.getClientState().equals(ClientStates.END)) {
+            //in = input.nextLine();
+            //handleSetupPhase(in);
 
             in = input.nextLine();
+
 
             if (client.getClientState().equals(ClientStates.USERNAME)) {
                 client.sendUsername(in);
             }
-
             else if (client.getClientState().equals(ClientStates.NUMPLAYERS)) {
-                client.choosePlayerNumber(Integer.parseInt(in));
+                try{
+                    client.choosePlayerNumber(Integer.parseInt(in));
+                }catch(NumberFormatException e){
+                    System.out.println("do not insert strings");
+                }
             }
-
             else if (client.getClientState().equals(ClientStates.LEADERSETUP)) {
-                try {
-                    while(!in.equals("1")){
+                System.out.println("scegli carte leader");
+                client.getClientOperationHandler().chooseLeaderCardToRemove();
+
+               /* try {
+                    while (!in.equals("1")) {
                         in = input.nextLine();
-                        if(!in.equals("1")) System.err.println("Number not valid");
+                        if (!in.equals("1")) System.err.println("Number not valid");
                     }
                     client.getClientOperationHandler().chooseLeaderCardToRemove();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
             }
             else if (client.getClientState().equals(ClientStates.RESOURCESETUP)) {
-                try {
-                    while(!in.equals("1")){
+                int howManyResources = 0;
+
+                if (client.getClientModelView().getMyPlayer().getPosInGame()==1 ||
+                        client.getClientModelView().getMyPlayer().getPosInGame()==2) howManyResources = 1;
+                if(client.getClientModelView().getMyPlayer().getPosInGame()==3) howManyResources = 2;
+
+                client.getClientOperationHandler().chooseInitialResources(howManyResources);
+                /*try {
+                    while (!in.equals("1")) {
                         in = input.nextLine();
-                        if(!in.equals("1")) System.err.println("Number not valid");
+                        if (!in.equals("1")) System.err.println("Number not valid");
                     }
-                    if (client.getClientModelView().getMyPlayer().getPosInGame()!=0){
+                    if (client.getClientModelView().getMyPlayer().getPosInGame() != 0) {
                         client.getClientOperationHandler().chooseInitialResources();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
             }
-
             else if (client.getClientState().equals(ClientStates.GAMESTARTED)) {
                 if (!in.equals("0")) {
                     try {
                         clientOperationHandler.handleCLIOperation(Integer.parseInt(in));
-                    } catch (IOException e) {
+                    } catch (IOException | NumberFormatException e) {
                         System.err.println("Error during the choice of the operation to do");
                     }
                 }
-            }
-        }
 
+            }
+
+        }
 
         try {
             socketClientConnection.deserialize();
@@ -98,5 +110,60 @@ public class ServerWriter implements Runnable, ViewInterface{
         output.close();
     }
 
+    public void handleSetupPhase(String in){
+        System.out.println("sono dentro handlesetup");
+
+        switch (client.getClientState()){
+            case USERNAME -> {
+                client.sendUsername(in);
+            }
+            case NUMPLAYERS -> {
+                try{
+                    client.choosePlayerNumber(Integer.parseInt(in));
+                }catch(NumberFormatException e){
+                    System.out.println("reinsert value");
+                }
+            }
+
+            case LEADERSETUP -> {
+
+                // TODO: 17/05/2021 mettere number not valid gia prima
+                try {
+                    while (!in.equals("1")) {
+                        in = input.nextLine();
+                        if (!in.equals("1")) System.err.println("Number not valid");
+                    }
+                    client.getClientOperationHandler().chooseLeaderCardToRemove();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            case RESOURCESETUP -> {
+                try {
+                    while (!in.equals("1")) {
+                        in = input.nextLine();
+                        if (!in.equals("1")) System.err.println("Number not valid");
+                    }
+                    if (client.getClientModelView().getMyPlayer().getPosInGame() != 0) {
+                        client.getClientOperationHandler().chooseInitialResources(1);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            case GAMESTARTED -> {
+                if (!in.equals("0")) {
+                    try {
+                        clientOperationHandler.handleCLIOperation(Integer.parseInt(in));
+                    } catch (IOException | NumberFormatException e) {
+                        System.err.println("Error during the choice of the operation to do");
+                    }
+                }
+            }
+        }
+
+    }
 
 }

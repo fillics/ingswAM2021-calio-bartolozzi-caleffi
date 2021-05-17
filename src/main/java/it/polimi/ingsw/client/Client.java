@@ -77,7 +77,12 @@ public class Client {
         Constants.setAddressServer("127.0.0.1");
         System.out.println(">Insert the server port");
         System.out.print(">"); // TODO: 13/05/2021 prima di chiedere la porta meglio chiedere se vuole giocare in locale o in server
-        int port = scanner.nextInt();
+        int port = 0;
+        try{
+            port = scanner.nextInt();
+        }catch(InputMismatchException e){
+            System.err.println("insert only numbers");
+        }
         Constants.setPort(port);
         Client client = new Client();
 

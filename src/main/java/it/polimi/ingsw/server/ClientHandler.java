@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ClientHandler implements Runnable {
     private final Socket socket;
     private Game game;
+    private int numberOfGuest;
     private final int idClient;
     private int idGame;
     private int posInGame; //parte da 0
@@ -38,10 +39,11 @@ public class ClientHandler implements Runnable {
     private final AtomicBoolean clientConnected;
 
 
-    public ClientHandler(int idClient, Socket socket, Server server) {
+    public ClientHandler(int idClient, Socket socket, Server server, int numberOfGuest) {
         this.idClient = idClient;
         this.socket = socket;
         this.server = server;
+        this.numberOfGuest = numberOfGuest;
         clientConnected = new AtomicBoolean(true);
         try {
             dis = new DataInputStream(socket.getInputStream());  // to read data coming from the client
@@ -68,8 +70,19 @@ public class ClientHandler implements Runnable {
                     String str = dis.readUTF();
                     deserialize(str);
                 }catch (Exception e){
-                    System.out.println(username + " si è disconnesso");
-                    clientConnected.compareAndSet(true, false);
+                    String guest = "Guest";
+                    if(username!=null){ //il player ha inserito l'username
+                        System.out.println(username + " disconnected!");
+                    }
+                    else{ //il player non ha ancora inserito l'username: lo togliamo solo dalla lobby
+                        System.out.println(guest+numberOfGuest + " disconnected!");
+
+                    }
+
+                    clientConnected.compareAndSet(true, false); //setto la variabile a false
+                    server.handleDisconnection();
+
+
                     // TODO Altre operazioni da fare: rimuoverlo dalla lobby e se username != null toglierlo dalla mappa che contiene tutti i nomi
                 }finally {
                     if(!clientConnected.get()){
@@ -81,13 +94,15 @@ public class ClientHandler implements Runnable {
                     }
                 }
                 if(gameStarted) {
-                    if(game.isEndgame())
+                    if(game.isEndgame()){
                         quit=true;
                         server.sendAll(new PacketEndGameStarted(username), game);
                         game.setState(GameStates.FINAL_TURN);
+                    }
+
                 }
             }
-            System.out.println("La connessione con il socket di " + username + " è stata ufficialmente chiusa!");
+            System.out.println("Connection with " + username + " is closed!");
 
         } catch (IOException e) {
             System.err.println(e.getMessage());

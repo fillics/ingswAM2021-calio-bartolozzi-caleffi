@@ -59,7 +59,6 @@ public class SocketClientConnection {
     public synchronized void sendToServer(String jsonResult){
         try {
             output.writeUTF(jsonResult);
-            System.out.println(jsonResult);
             output.flush();
         } catch (IOException e) {
             System.err.println("Error during the communication from client to server!");

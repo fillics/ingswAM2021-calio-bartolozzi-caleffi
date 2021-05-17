@@ -27,8 +27,7 @@ public class PacketLeaderCards implements ServerPacketHandler{
             client.getClientModelView().getMyPlayer().setLeaderCards(leaderCards);
             if (client.getClientModelView().getMyPlayer().getPosInGame() != 0) {
                 client.setClientState(ClientStates.RESOURCESETUP);
-                System.out.println("sei in posizione: " + (client.getClientModelView().getMyPlayer().getPosInGame() + 1));
-                System.out.println("Choose your action: 1. Choose your optional resources");
+                System.out.println("Choose your action:\n1. Choose your optional resources");
             } else {
                 client.setClientState(ClientStates.GAMESTARTED);
                 System.out.println("You're the first player, you can't have any resources or faith points");

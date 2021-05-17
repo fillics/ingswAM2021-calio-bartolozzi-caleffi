@@ -8,7 +8,6 @@ it\polimi\ingsw\model\cards\leadercards\ResourcesRequirement.class
 it\polimi\ingsw\controller\server_packets\ServerPacketHandler.class
 it\polimi\ingsw\controller\client_packets\PacketActivateLeaderCard.class
 it\polimi\ingsw\model\GamePlayerInterface.class
-it\polimi\ingsw\client\ClientState.class
 it\polimi\ingsw\controller\server_packets\PacketWarehouse.class
 it\polimi\ingsw\model\cards\leadercards\ConcreteStrategyMarble.class
 it\polimi\ingsw\client\ClientModelView.class
@@ -29,6 +28,7 @@ it\polimi\ingsw\controller\client_packets\ClientPacketHandler.class
 it\polimi\ingsw\model\board\resources\ConcreteStrategyResource.class
 it\polimi\ingsw\model\cards\developmentcards\DevelopmentCard.class
 it\polimi\ingsw\model\board\Board.class
+it\polimi\ingsw\controller\server_packets\PacketEndGameStarted.class
 it\polimi\ingsw\model\board\resources\Resource.class
 it\polimi\ingsw\model\marbles\MarketTray.class
 it\polimi\ingsw\model\singleplayer\ConcreteStrategyPlusTwo.class
@@ -37,6 +37,7 @@ it\polimi\ingsw\client\CLI.class
 it\polimi\ingsw\model\GameInterface.class
 it\polimi\ingsw\exceptions\LeaderCardNotActivated.class
 it\polimi\ingsw\model\cards\leadercards\NumAndColorRequirement.class
+it\polimi\ingsw\controller\GameStates.class
 it\polimi\ingsw\model\singleplayer\SinglePlayerGameInterface.class
 it\polimi\ingsw\model\board\Board$1.class
 it\polimi\ingsw\controller\client_packets\PacketPlaceResource.class
@@ -56,6 +57,7 @@ it\polimi\ingsw\client\Client.class
 it\polimi\ingsw\controller\server_packets\PacketMessage.class
 it\polimi\ingsw\client\ServerWriter.class
 it\polimi\ingsw\controller\client_packets\PacketUsername.class
+it\polimi\ingsw\client\ClientStates.class
 it\polimi\ingsw\model\cards\Card.class
 it\polimi\ingsw\exceptions\DepositHasAnotherResource.class
 it\polimi\ingsw\model\marbles\MarketTray$1.class
@@ -65,6 +67,7 @@ it\polimi\ingsw\controller\server_packets\PacketDevelopmentSpaces.class
 it\polimi\ingsw\controller\client_packets\PacketChooseDiscount.class
 it\polimi\ingsw\controller\client_packets\SetupHandler.class
 it\polimi\ingsw\exceptions\TooManyResourcesRequested.class
+it\polimi\ingsw\client\ServerWriter$1.class
 it\polimi\ingsw\server\Server.class
 it\polimi\ingsw\model\board\storage\Strongbox.class
 it\polimi\ingsw\client\ViewInterface.class
@@ -76,7 +79,6 @@ it\polimi\ingsw\model\Player.class
 it\polimi\ingsw\model\board\resources\ResourceActionStrategy.class
 it\polimi\ingsw\constants\Constants.class
 it\polimi\ingsw\exceptions\DepositDoesntHaveThisResource.class
-it\polimi\ingsw\controller\State.class
 it\polimi\ingsw\model\singleplayer\ConcreteStrategyPlusOne.class
 it\polimi\ingsw\model\singleplayer\TokenActionStrategy.class
 it\polimi\ingsw\model\Game.class
@@ -93,6 +95,7 @@ it\polimi\ingsw\model\cards\leadercards\ConcreteStrategyDeposit.class
 it\polimi\ingsw\controller\server_packets\PacketLiteMarketTray.class
 it\polimi\ingsw\controller\client_packets\PacketMoveResource.class
 it\polimi\ingsw\model\cards\leadercards\LevelAndColorRequirement.class
+it\polimi\ingsw\controller\server_packets\PacketMessage$1.class
 it\polimi\ingsw\model\marbles\GreyMarble.class
 it\polimi\ingsw\model\singleplayer\SinglePlayerGame$1.class
 it\polimi\ingsw\client\LitePlayer.class
