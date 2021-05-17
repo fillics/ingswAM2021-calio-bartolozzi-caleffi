@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.storage.Deposit;
 import it.polimi.ingsw.model.board.storage.Strongbox;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
@@ -13,12 +14,14 @@ public class LiteBoard {
     private ArrayList<Deposit> deposits;
     private ArrayList<DevelopmentSpace> developmentSpaces;
     private ArrayList<ProductionPower> specialProductionPowers;
+    private ArrayList<Cell> track;
 
-    public LiteBoard(Strongbox strongbox, ArrayList<Deposit> deposits, ArrayList<DevelopmentSpace> developmentSpaces, ArrayList<ProductionPower> specialProductionPowers) {
+    public LiteBoard(Strongbox strongbox, ArrayList<Deposit> deposits, ArrayList<DevelopmentSpace> developmentSpaces, ArrayList<ProductionPower> specialProductionPowers, ArrayList<Cell> vaticanReportSection) {
         this.strongbox = strongbox;
         this.deposits = deposits;
         this.developmentSpaces = developmentSpaces;
         this.specialProductionPowers = specialProductionPowers;
+        this.track = vaticanReportSection;
     }
 
     public Strongbox getStrongbox() {
@@ -49,5 +52,13 @@ public class LiteBoard {
 
     public void setSpecialProductionPowers(ArrayList<ProductionPower> specialProductionPowers) {
         this.specialProductionPowers = specialProductionPowers;
+    }
+
+    public ArrayList<Cell> getTrack() {
+        return track;
+    }
+
+    public void setTrack(ArrayList<Cell> track) {
+        this.track = track;
     }
 }

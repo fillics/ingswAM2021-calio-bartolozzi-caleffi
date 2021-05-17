@@ -63,7 +63,7 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
     public String toString(){
         String escape= "";
         if(resourceType.equals(ResourceType.COIN))
-            escape= escape + "1"+ Color.ANSI_YELLOW.escape() + Printable.SQUARE.print() + Color.RESET + "} 1? 1" + Color.ANSI_RED.escape() + Printable.CROSS.print() + Color.RESET;
+            escape= escape + "1"+ Color.ANSI_YELLOW.escape() + Printable.SQUARE.print() + Color.RESET + "}1? 1" + Color.ANSI_RED.escape() + Printable.CROSS.print() + Color.RESET;
         if(resourceType.equals(ResourceType.SERVANT))
             escape = escape + "1" + Color.ANSI_PURPLE.escape() + Printable.SQUARE.print() + Color.RESET + "}1? 1" + Color.ANSI_RED.escape() + Printable.CROSS.print() + Color.RESET;
         if(resourceType.equals(ResourceType.SHIELD))

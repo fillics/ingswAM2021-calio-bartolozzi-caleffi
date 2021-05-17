@@ -20,6 +20,7 @@ public class ClientOperationHandler {
     private ObjectMapper mapper;
     private final Scanner input;
     private ClientModelView clientModelView;
+    private ViewInterface viewInterface;
 
     public ClientOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView) {
         this.socketClientConnection = socketClientConnection;
@@ -27,6 +28,9 @@ public class ClientOperationHandler {
         input = new Scanner(System.in);
     }
 
+    public void setViewInterface(ViewInterface viewInterface) {
+        this.viewInterface = viewInterface;
+    }
 
     public void handleCLIOperation(int input) throws IOException {
         switch (input) {
@@ -84,7 +88,7 @@ public class ClientOperationHandler {
         boolean LeaderCardcheck = false;
         do {
             id = input.nextInt();
-            for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
+            for(LeaderCard leaderCard : viewInterface.getClientModelView().getMyPlayer().getLeaderCards()){
                 if (id == leaderCard.getId()) {
                     LeaderCardcheck = true;
                     break;
@@ -208,11 +212,7 @@ public class ClientOperationHandler {
         boolean checkid1 = false;
         boolean checkid2 = false;
 
-        System.out.println("Your leader cards:");
-        for (LeaderCard card: clientModelView.getMyPlayer().getLeaderCards()){
-            System.out.print("[ " + card.getId() + " ] ");
-        }
-        System.out.print("\n");
+        viewInterface.printLeaderCards();
 
 
         // TODO: 13/05/2021 mettere frase di errore se il tizio sbaglia a inserire

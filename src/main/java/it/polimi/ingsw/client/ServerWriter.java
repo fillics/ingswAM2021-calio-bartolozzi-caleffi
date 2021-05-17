@@ -1,5 +1,4 @@
 package it.polimi.ingsw.client;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
@@ -7,10 +6,8 @@ import it.polimi.ingsw.controller.ConnectionMessages;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class ServerWriter implements Runnable, ViewInterface{
+public class ServerWriter implements Runnable {
 
     private ClientModelView clientModelView;
     private SocketClientConnection socketClientConnection;
@@ -97,6 +94,5 @@ public class ServerWriter implements Runnable, ViewInterface{
         input.close();
         output.close();
     }
-
 
 }

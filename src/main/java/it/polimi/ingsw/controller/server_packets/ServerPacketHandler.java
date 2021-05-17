@@ -4,13 +4,13 @@ package it.polimi.ingsw.controller.server_packets;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.ClientModelView;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "command")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PacketLiteMarketTray.class, name = "LITE_MARKET_TRAY"),
+        @JsonSubTypes.Type(value = PacketFaithTrack.class, name = "FAITH_TRACK"),
         @JsonSubTypes.Type(value = PacketMessage.class, name = "MESSAGE"),
         @JsonSubTypes.Type(value = PacketLiteDevelopmentGrid.class, name = "LITE_DEV_GRID"),
         @JsonSubTypes.Type(value = PacketWarehouse.class, name = "WAREHOUSES"),

@@ -13,10 +13,10 @@ import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class Client {
+public class Client{
     private ClientStates clientStates;
     private ServerListener serverListener;
-    private  ServerWriter serverWriter;
+    private ServerWriter serverWriter;
     private final PrintStream output;
     private final Scanner input;
     private SocketClientConnection socketClientConnection;
@@ -24,10 +24,11 @@ public class Client {
     private boolean gameStarted = false;
     private ClientOperationHandler clientOperationHandler;
     private ClientModelView clientModelView;
+
     int choiceGame = 0;
 
     /**
-     * Constructor CLI creates a new CLI instance
+     * Constructor Client creates a new Client instance
      *
      */
     public Client() {
@@ -79,11 +80,22 @@ public class Client {
         System.out.print(">"); // TODO: 13/05/2021 prima di chiedere la porta meglio chiedere se vuole giocare in locale o in server
         int port = scanner.nextInt();
         Constants.setPort(port);
+        System.out.println("Choose the view interface \n" + "1.CLI \n" + "2.GUI");
+        System.out.print(">");
+        int choice = scanner.nextInt();
         Client client = new Client();
 
+        if(choice==1)
+            client.setInterface(new CLI(client.getClientModelView()));
+        else if(choice==2)
+            client.setInterface(new GUI(client.getClientModelView()));
+        else
+            System.out.println("Errore");
     }
 
-
+    public void setInterface(ViewInterface viewInterface){
+        clientOperationHandler.setViewInterface(viewInterface);
+    }
 
     /**
      * Method sendUsername asks the username and sends it to the server
@@ -132,7 +144,6 @@ public class Client {
         }
     }
 
-
     /**
      * Method choiceGameType asks to the player if he wants to play in solo (without making any connection to the server)
      * or throught the server
@@ -173,4 +184,5 @@ public class Client {
     public ClientModelView getClientModelView() {
         return clientModelView;
     }
+
 }

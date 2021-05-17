@@ -92,8 +92,11 @@ public class LeaderCard extends Card {
 
     @Override
     public String toString(){
+        String backspace= "";
         String victoryPoints = victorypoint + Color.ANSI_YELLOW.escape() + " VP" + Color.RESET;
-        return Printable.UPPER_BOX.print() + Printable.DOUBLE_LINE.print() + "id: " + this.id + "   " + Printable.DOUBLE_LINE.print() +"\n"+
+        if(this.id<10)
+            backspace=" ";
+        return Printable.UPPER_BOX.print() + Printable.DOUBLE_LINE.print() + "id: " + this.id + "  " + backspace + Printable.DOUBLE_LINE.print() +"\n"+
         Printable.DOUBLE_LINE.print() + this.requirements.toString() + "  "+ Printable.DOUBLE_LINE.print()+ "\n" +
         Printable.DOUBLE_LINE.print() + victoryPoints + "    " + Printable.DOUBLE_LINE.print() +"\n" +
         Printable.DOUBLE_LINE.print() + this.strategy.toString() +  Printable.DOUBLE_LINE.print() +"\n" +
