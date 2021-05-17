@@ -43,7 +43,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     private GameStates gameStates = GameStates.FILL_LOBBY;
     private int numof_players;
     private final ArrayList<DevelopmentCard> initialDevGrid;
-
+    protected String winner;
 
     /**
      * Constructor Game creates a new Game instance.
@@ -236,6 +236,10 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     public void setState(GameStates gameStates) {
         this.gameStates = gameStates;
+    }
+
+    public String getWinner() {
+        return winner;
     }
 
     /**
@@ -632,7 +636,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     /**
      * Method winner indicates which player has more victory points than other players
      */
-    public String winner(){
+    public void winner(){
         ArrayList<Integer> victoryPointsPlayers = new ArrayList<>();
         ArrayList<Integer> resourcesPlayers = new ArrayList<>();
         int maxVictoryPoints;
@@ -654,7 +658,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             maxResources = Collections.max(resourcesPlayers);
             winnerUsername = activePlayers.get(resourcesPlayers.indexOf(maxResources)).getUsername();
         }
-        return winnerUsername;
+        winner = winnerUsername;
     }
 
 
