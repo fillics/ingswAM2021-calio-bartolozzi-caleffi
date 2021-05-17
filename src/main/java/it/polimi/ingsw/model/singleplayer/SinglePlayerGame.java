@@ -196,7 +196,6 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
     @Override
     public void endGame() {
         endgame=true;
-        winner();
     }
 
 
@@ -204,7 +203,7 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
      * Override method winner indicates who wins the match between the player and Lorenzo il Magnifico
      */
     @Override
-    public String winner() {
+    public void winner() {
         String winnerUsername = null;
         if(blackCross>=24 || noMoreColumnDevCard){
             winnerUsername = "Lorenzo Il Magnifico";
@@ -214,6 +213,6 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
                 getActivePlayers().get(0).getBoard().getNumOfDevCards()==7){
             winnerUsername = getActivePlayers().get(0).getUsername();
         }
-        return winnerUsername;
+        winner = winnerUsername;
     }
 }

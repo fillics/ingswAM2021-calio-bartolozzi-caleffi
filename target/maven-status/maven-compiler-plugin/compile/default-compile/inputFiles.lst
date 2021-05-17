@@ -3,6 +3,7 @@ C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\i
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\model\cards\leadercards\LeaderCard.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\controller\client_packets\SetupHandler.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\model\board\faithtrack\VaticanReportSection.java
+C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\controller\GameStates.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\exceptions\DepositHasAnotherResource.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\model\marbles\PurpleMarble.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\controller\server_packets\PacketResourceBuffer.java
@@ -11,7 +12,10 @@ C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\i
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\model\cards\developmentcards\Level.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\controller\server_packets\PacketLiteMarketTray.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\client\ServerWriter.java
+C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\client\PingThread.java
+C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\client\ClientStates.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\model\marbles\RedMarble.java
+C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\controller\server_packets\PacketEndGameStarted.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\model\GamePlayerInterface.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\model\board\resources\ConcreteStrategyResource.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\localgame\LocalGame.java
@@ -47,7 +51,6 @@ C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\i
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\model\board\resources\ResourceActionStrategy.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\client\CLI.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\controller\client_packets\PacketBuyDevCard.java
-C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\controller\State.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\controller\client_packets\PacketUseAndChooseProdPower.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\controller\server_packets\PacketWarehouse.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\client\ClientModelView.java
@@ -58,7 +61,6 @@ C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\i
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\model\singleplayer\ConcreteStrategyPlusTwo.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\controller\client_packets\PacketChooseInitialResources.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\controller\client_packets\PacketEndTurn.java
-C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\client\ClientState.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\model\board\storage\Warehouse.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\model\marbles\Marble.java
 C:\Users\giova\IdeaProjects\ingswAM2021-calio-bartolozzi-caleffi\src\main\java\it\polimi\ingsw\server\ClientHandler.java

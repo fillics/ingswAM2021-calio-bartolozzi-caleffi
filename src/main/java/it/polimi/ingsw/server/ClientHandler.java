@@ -81,10 +81,10 @@ public class ClientHandler implements Runnable {
                     }
                 }
                 if(gameStarted) {
-                    if(game.isEndgame())
-                        quit=true;
+                    if(game.isEndgame()) {
+                        quit = true;
                         server.sendAll(new PacketEndGameStarted(username), game);
-                        game.setState(GameStates.FINAL_TURN);
+                    }
                 }
             }
             System.out.println("La connessione con il socket di " + username + " è stata ufficialmente chiusa!");
