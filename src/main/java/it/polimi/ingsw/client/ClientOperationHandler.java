@@ -11,7 +11,10 @@ import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -493,6 +496,10 @@ public class ClientOperationHandler {
 
         int whichDeposit;
         ResourceType resourcetype;
+        ArrayList<Integer> deposits = new ArrayList<>();
+        ArrayList<ResourceType> resources = new ArrayList<>();
+
+        BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 
         // TODO: 18/05/2021 da fixare richiesta due risorse 
         if (howManyResources==1) System.out.println("You can choose one resource");
@@ -500,34 +507,46 @@ public class ClientOperationHandler {
         for (int i = 0; i < howManyResources; i++) {
             if(i==0) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_FIRST_RESOURCE);
             if(i==1) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_SECOND_RESOURCE);
-            resourcetype = scannerChooseResources();
-            whichDeposit = scannerChooseDeposit();
 
-            System.out.println("you have chosen "+resourcetype.toString()+" in the deposit "+whichDeposit);
-            PacketChooseInitialResources packet = new PacketChooseInitialResources(whichDeposit - 1, resourcetype);
+            //resourcetype = scannerChooseResources(bufferRead);
+
+            //whichDeposit = scannerChooseDeposit(bufferRead);
+
+            resources.add(scannerChooseResources(bufferRead));
+            deposits.add(scannerChooseDeposit(bufferRead));
+
+            System.out.println("you have chosen "+resources.get(i).toString()+" in the deposit "+deposits.get(i));
+            /*PacketChooseInitialResources packet = new PacketChooseInitialResources(whichDeposit - 1, resourcetype);
+
             try {
                 sendPacket(packet);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
-
+        PacketChooseInitialResources packet = new PacketChooseInitialResources(deposits, resources);
+        try {
+            sendPacket(packet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
-    public ResourceType scannerChooseResources(){
+    public ResourceType scannerChooseResources(BufferedReader bufferRead){
 
         Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
         int whichResource=0;
-        System.out.println("fuori do");
+        //System.out.println("fuori do");
         ResourceType resourcetype = null;
         do{
-            System.out.println("dentro do prima next int");
-            try{
-                whichResource = Integer.parseInt(input.nextLine());
-            }catch (NumberFormatException e){
-                System.err.println("insert integer");
+            //System.out.println("dentro do prima next int");
+            try {
+                whichResource = Integer.parseInt(bufferRead.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            System.out.println("dentro do dopo next int");
+
+            //System.out.println("dentro do dopo next int");
             switch (whichResource) {
                 case 1 -> resourcetype = ResourceType.COIN;
                 case 2 -> resourcetype = ResourceType.STONE;
@@ -536,24 +555,29 @@ public class ClientOperationHandler {
                 default -> Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
             }
         }while(whichResource < 1 || whichResource > 4);
-        System.out.println("sono dopo il do");
-        System.out.println(whichResource);
+
+        //System.out.println("sono dopo il do");
+        //System.out.println(whichResource);
         return resourcetype;
     }
 
-    public int scannerChooseDeposit(){
+    public int scannerChooseDeposit(BufferedReader bufferRead){
         int position=0;
         Constants.printConnectionMessage(ConnectionMessages.CHOOSE_DEPOSIT);
         do{
             try{
-                position = Integer.parseInt(input.nextLine());
+                try {
+                    position = Integer.parseInt(bufferRead.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }catch (NumberFormatException e){
                 System.err.println("insert integer");
             }
             if(position< 0|| position>3) Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
 
         }while(position< 0|| position>3);
-        System.out.println(position);
+        //System.out.println(position);
 
         return position;
     }

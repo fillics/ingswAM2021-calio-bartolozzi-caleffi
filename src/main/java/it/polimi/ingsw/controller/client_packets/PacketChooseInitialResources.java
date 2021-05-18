@@ -12,28 +12,32 @@ import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
+import java.util.ArrayList;
+
 public class PacketChooseInitialResources implements ClientPacketHandler{
-    private int depositPosition;
-    private ResourceType resource;
+    private ArrayList<Integer> depositPosition;
+    private ArrayList<ResourceType> resource;
+
 
     @JsonCreator
-    public PacketChooseInitialResources(@JsonProperty("DepositPosition")int depositPosition, @JsonProperty("Resource") ResourceType resource) {
+    public PacketChooseInitialResources(@JsonProperty("DepositPositions") ArrayList<Integer> depositPosition, @JsonProperty("Resources") ArrayList<ResourceType> resource) {
         this.depositPosition = depositPosition;
         this.resource = resource;
     }
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
-        System.out.println("sono dentro al pacchetto chooseinitialresouces");
         if(gameInterface.getState().equals(GameStates.SETUP) || gameInterface.getState().equals(GameStates.PHASE_ONE)){
 
-            try {
-                gameInterface.additionalResourceSetup(resource,depositPosition,clientHandler.getIdClient());
-            } catch (DifferentDimension | DepositHasReachedMaxLimit differentDimension) {
-                differentDimension.printStackTrace();
-            } catch (DepositHasAnotherResource depositHasAnotherResource) {
-                depositHasAnotherResource.printStackTrace();
+            for (int i = 0; i < depositPosition.size(); i++) {
+                try {
+                    gameInterface.additionalResourceSetup(resource.get(i),depositPosition.get(i)-1,clientHandler.getIdClient());
+                } catch (DifferentDimension | DepositHasReachedMaxLimit | DepositHasAnotherResource differentDimension) {
+                    differentDimension.printStackTrace();
+                }
             }
+
+
             if(clientHandler.getPosInGame() == 0){
                 clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.YOUR_TURN));
             }
@@ -42,11 +46,11 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
         }
     }
 
-    public int getDepositPosition() {
+    public ArrayList<Integer> getDepositPosition() {
         return depositPosition;
     }
 
-    public ResourceType getResource() {
+    public ArrayList<ResourceType> getResource() {
         return resource;
     }
 }

@@ -110,13 +110,11 @@ public class ServerWriter implements Runnable, ViewInterface{
         output.close();
     }
 
-    public void handleSetupPhase(String in){
-        System.out.println("sono dentro handlesetup");
+    /*public void handleSetupPhase(String in){
 
         switch (client.getClientState()){
-            case USERNAME -> {
-                client.sendUsername(in);
-            }
+            case USERNAME -> client.sendUsername(in);
+
             case NUMPLAYERS -> {
                 try{
                     client.choosePlayerNumber(Integer.parseInt(in));
@@ -164,6 +162,6 @@ public class ServerWriter implements Runnable, ViewInterface{
             }
         }
 
-    }
+    }*/
 
 }
