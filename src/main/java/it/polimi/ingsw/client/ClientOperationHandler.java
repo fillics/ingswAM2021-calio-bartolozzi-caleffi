@@ -24,6 +24,7 @@ public class ClientOperationHandler {
     private ObjectMapper mapper;
     private final Scanner input;
     private ClientModelView clientModelView;
+    private ViewInterface viewInterface;
 
     public ClientOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView) {
         this.socketClientConnection = socketClientConnection;
@@ -31,6 +32,9 @@ public class ClientOperationHandler {
         input = new Scanner(System.in);
     }
 
+    public void setViewInterface(ViewInterface viewInterface) {
+        this.viewInterface = viewInterface;
+    }
 
     public void handleCLIOperation(int input) throws IOException {
         switch (input) {
@@ -213,13 +217,7 @@ public class ClientOperationHandler {
         boolean checkid2 = false;
         boolean inputString = false;
 
-        // TODO: 17/05/2021 non facciamo qui la stampa
-        System.out.println("Your leader cards:");
-        for (LeaderCard card: clientModelView.getMyPlayer().getLeaderCards()){
-            System.out.print("[ " + card.getId() + " ] ");
-        }
-        System.out.print("\n");
-
+        viewInterface.printLeaderCards();
 
         do {
             try{

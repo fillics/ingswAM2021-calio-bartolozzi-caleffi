@@ -95,4 +95,14 @@ public class ServerWriter implements Runnable, ViewInterface{
 
     }
 
+
+    @Override
+    public ClientModelView getClientModelView() {
+        return null;
+    }
+
+    @Override
+    public void printLeaderCards() {
+
+    }
 }
