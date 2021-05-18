@@ -54,6 +54,7 @@ it\polimi\ingsw\model\board\storage\Warehouse.class
 it\polimi\ingsw\client\SocketClientConnection.class
 it\polimi\ingsw\controller\client_packets\PacketChooseInitialResources.class
 it\polimi\ingsw\controller\server_packets\PacketSetup.class
+it\polimi\ingsw\controller\server_packets\PacketWinner.class
 it\polimi\ingsw\client\Client.class
 it\polimi\ingsw\controller\server_packets\PacketMessage.class
 it\polimi\ingsw\client\ServerWriter.class

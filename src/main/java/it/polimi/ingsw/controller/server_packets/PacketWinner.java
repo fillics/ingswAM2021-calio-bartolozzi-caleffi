@@ -16,4 +16,8 @@ public class PacketWinner implements ServerPacketHandler {
     public void execute(Client client) {
         System.out.println("The winner of this game is "+ username);
     }
+
+    public String getUsername() {
+        return username;
+    }
 }

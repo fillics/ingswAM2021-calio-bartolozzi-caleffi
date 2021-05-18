@@ -242,6 +242,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         return winner;
     }
 
+
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
+
     /**
      *
      */
@@ -658,7 +663,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             maxResources = Collections.max(resourcesPlayers);
             winnerUsername = activePlayers.get(resourcesPlayers.indexOf(maxResources)).getUsername();
         }
-        winner = winnerUsername;
+        setWinner(winnerUsername);
     }
 
 

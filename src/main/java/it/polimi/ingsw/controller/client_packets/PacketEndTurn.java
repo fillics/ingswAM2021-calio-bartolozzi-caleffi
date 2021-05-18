@@ -23,19 +23,21 @@ public class PacketEndTurn implements ClientPacketHandler{
             if ((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
                 if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
                     ((SinglePlayerGame) gameInterface).winner();
+                    System.out.println(gameInterface.getWinner());
                     clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
                 }
                 SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
+                System.out.println(token);
                 if (token.getType().equals(SoloActionTokenType.DISCARD)) {
-                    ((SinglePlayerGame) gameInterface).useSoloActionToken();
+                    ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
                     clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(((SinglePlayerGame) gameInterface).getDevGridLite()));
                     clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.DISCARDDEVCARD));
                 } else if (token.getType().equals(SoloActionTokenType.BLACKCROSS_1)) {
-                    ((SinglePlayerGame) gameInterface).useSoloActionToken();
+                    ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
                     //TODO: aggiungere un paccchetto che invia il tracciato fede modificato
                     clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.BLACKCROSS1));
                 } else if (token.getType().equals(SoloActionTokenType.BLACKCROSS_2)) {
-                    ((SinglePlayerGame) gameInterface).useSoloActionToken();
+                    ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
                     //TODO: aggiungere un paccchetto che invia il tracciato fede modificato
                     clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.BLACKCROSS2));
                 }

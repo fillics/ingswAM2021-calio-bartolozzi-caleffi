@@ -145,8 +145,9 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
      * @return the drawn token (type SoloActionToken) that is the last element of the deck
      */
     public SoloActionToken drawSoloActionToken() {
-        SoloActionToken token = deckSoloActionToken.get(deckSoloActionToken.size() - 1);
+        SoloActionToken token = deckSoloActionToken.getLast();
         deckSoloActionToken.removeLast();
+        deletedSoloActionToken.add(token);
         return token;
     }
 
@@ -154,10 +155,8 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
      * Method useSoloActionToken calls the method drawSoloActionToken and applies the drawn token's effect.
      * Then the method adds the token to the deck containing the token already used.
      */
-    public void useSoloActionToken(){
-        SoloActionToken token = drawSoloActionToken();
+    public void useSoloActionToken(SoloActionToken token){
         token.applyEffect();
-        deletedSoloActionToken.add(token);
     }
 
     /**
@@ -207,12 +206,13 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
         String winnerUsername = null;
         if(blackCross>=24 || noMoreColumnDevCard){
             winnerUsername = "Lorenzo Il Magnifico";
-
         }
         else if(getActivePlayers().get(0).getBoard().getFaithMarker() >= 24 ||
                 getActivePlayers().get(0).getBoard().getNumOfDevCards()==7){
             winnerUsername = getActivePlayers().get(0).getUsername();
         }
-        winner = winnerUsername;
+        setWinner(winnerUsername);
     }
+
+
 }
