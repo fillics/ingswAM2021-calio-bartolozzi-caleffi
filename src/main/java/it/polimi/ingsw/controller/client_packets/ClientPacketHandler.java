@@ -14,8 +14,6 @@ import java.io.IOException;
         property = "command")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PacketEndTurn.class, name = "ENDTURN"),
-        @JsonSubTypes.Type(value = PacketUsername.class, name = "USERNAME"),
-        @JsonSubTypes.Type(value = PacketNumPlayers.class, name = "NUMOFPLAYERS"),
         @JsonSubTypes.Type(value = PacketBuyDevCard.class, name = "BUYDEVCARD"),
         @JsonSubTypes.Type(value = PacketDiscardLeaderCard.class, name = "DISCARDLEADERCARD"),
         @JsonSubTypes.Type(value = PacketActivateLeaderCard.class, name = "ACTIVATELEADERCARD"),

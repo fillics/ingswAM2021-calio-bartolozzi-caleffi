@@ -46,7 +46,6 @@ public class ServerListener implements Runnable {
                 str = scanner.nextLine();
             }catch(NoSuchElementException ignored){
                 connectionToServer.set(false);
-
             }
 
             if(connectionToServer.get()){
@@ -56,7 +55,6 @@ public class ServerListener implements Runnable {
                 } catch (JsonProcessingException|IllegalArgumentException ignored) {
                 }
             }
-
         }
 
         //se connessione terminata, chiudo il client

@@ -7,6 +7,8 @@ import it.polimi.ingsw.server.Server;
 
 public class PacketUsername implements SetupHandler {
     private final String username;
+
+
     @JsonCreator
     public PacketUsername(@JsonProperty("username")String username) {
         this.username = username;

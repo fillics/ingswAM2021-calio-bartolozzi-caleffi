@@ -30,7 +30,7 @@ public class PacketEndTurn implements ClientPacketHandler{
                 System.out.println(token);
                 if (token.getType().equals(SoloActionTokenType.DISCARD)) {
                     ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                    clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(((SinglePlayerGame) gameInterface).getDevGridLite()));
+                    //clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(((SinglePlayerGame) gameInterface).getDevGridLite()));
                     clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.DISCARDDEVCARD));
                 } else if (token.getType().equals(SoloActionTokenType.BLACKCROSS_1)) {
                     ((SinglePlayerGame) gameInterface).useSoloActionToken(token);

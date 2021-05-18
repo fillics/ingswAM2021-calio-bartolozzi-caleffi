@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
+import it.polimi.ingsw.controller.client_packets.PacketPongFromClient;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
+import it.polimi.ingsw.controller.client_packets.SetupHandler;
+import it.polimi.ingsw.controller.server_packets.PacketMessage;
 
 
 import java.io.PrintStream;
@@ -108,26 +111,16 @@ public class Client{
      * Method sendUsername asks the username and sends it to the server
      */
     public void sendUsername(String username){
-        String jsonResult;
+
         PacketUsername packet;
-
-        //TODO facciamo il controllo username caratteri speciali - metodo che controlla correttezza
-
-        mapper = new ObjectMapper();
         packet = new PacketUsername(username.toLowerCase(Locale.ROOT));
-        try {
-            jsonResult = mapper.writeValueAsString(packet);
-            socketClientConnection.sendToServer(jsonResult);
-        } catch (JsonProcessingException ignored) {
-            System.err.println("Error during the write of the values in the variable jsonResult");
-        }
+        serializeAndSend(packet);
     }
 
     /**
      * Method choosePlayerNumber asks how many players there will be in the game and sends the message to the server
      */
     public void choosePlayerNumber(int number_of_players){
-        String jsonResult;
         PacketNumPlayers packet;
 
         do {
@@ -142,6 +135,11 @@ public class Client{
         }while(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers());
 
         packet = new PacketNumPlayers(number_of_players);
+        serializeAndSend(packet);
+    }
+
+    public void serializeAndSend(SetupHandler packet){
+        String jsonResult;
         mapper = new ObjectMapper();
         try {
             jsonResult = mapper.writeValueAsString(packet);
@@ -150,6 +148,19 @@ public class Client{
             System.err.println("Error during the write of the values in the variable jsonResult");
         }
     }
+
+    public void sendPong(){
+        String jsonResult;
+        PacketMessage packet = new PacketMessage(ConnectionMessages.PONG);
+        mapper = new ObjectMapper();
+        try {
+            jsonResult = mapper.writeValueAsString(packet);
+            socketClientConnection.sendToServer(jsonResult);
+        } catch (JsonProcessingException ignored) {
+            System.err.println("Error during the write of the values in the variable jsonResult");
+        }
+    }
+
 
     /**
      * Method choiceGameType asks to the player if he wants to play in solo (without making any connection to the server)
