@@ -22,42 +22,35 @@ public class PacketMessage implements ServerPacketHandler {
      */
     @Override
     public void execute(Client client) {
-        if (message.equals(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS)) {
-            Constants.printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
-            Constants.printConnectionMessage(message);
-            client.setClientState(ClientStates.NUMPLAYERS);
-        }
-        else if (message.equals(ConnectionMessages.TAKEN_NICKNAME)) {
-            Constants.printConnectionMessage(message);
-            client.setClientState(ClientStates.USERNAME);
-        }
-        else if(message.equals(ConnectionMessages.WAITING_PEOPLE)){
-            Constants.printConnectionMessage(message);
-            client.setClientState(ClientStates.WAITPLAYERS);
-        }
-        else if (message.equals(ConnectionMessages.GAME_IS_STARTING)) {
-            Constants.printConnectionMessage(message);
-            client.setClientState(ClientStates.CREATEMODEL);
-        }
-        else if (message.equals(ConnectionMessages.YOUR_TURN)) {
-            Constants.printConnectionMessage(message);
-            client.setClientState(ClientStates.GAMESTARTED);
-        }
-        else if (message.equals(ConnectionMessages.DISCARDDEVCARD)) {
-            Constants.printConnectionMessage(message);
-            client.setClientState(ClientStates.GAMESTARTED);
-        }
-        else if (message.equals(ConnectionMessages.BLACKCROSS1)) {
-            Constants.printConnectionMessage(message);
-            client.setClientState(ClientStates.GAMESTARTED);
-        }
-        else if (message.equals(ConnectionMessages.BLACKCROSS2)) {
-            Constants.printConnectionMessage(message);
-            client.setClientState(ClientStates.GAMESTARTED);
-        }
+        switch (message){
+            case INSERT_NUMBER_OF_PLAYERS -> {
+                Constants.printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
+                Constants.printConnectionMessage(message);
+                client.setClientState(ClientStates.NUMPLAYERS);
+            }
 
-        else {
-            throw new IllegalStateException("Unexpected value: " + message);
+            case TAKEN_NICKNAME -> {
+                Constants.printConnectionMessage(message);
+                client.setClientState(ClientStates.USERNAME);
+            }
+
+            case WAITING_PEOPLE -> {
+                Constants.printConnectionMessage(message);
+                client.setClientState(ClientStates.WAITPLAYERS);
+            }
+
+            case GAME_IS_STARTING -> {
+                Constants.printConnectionMessage(message);
+                client.setClientState(ClientStates.CREATEMODEL);
+            }
+
+            case YOUR_TURN, DISCARDDEVCARD, BLACKCROSS1, BLACKCROSS2 -> {
+                Constants.printConnectionMessage(message);
+                client.setClientState(ClientStates.GAMESTARTED);
+            }
+
+            default ->  throw new IllegalStateException("Unexpected value: " + message);
+
         }
     }
 

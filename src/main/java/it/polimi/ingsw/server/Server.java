@@ -32,10 +32,17 @@ public class Server {
 
     /** Map that contains all the username already taken and the clientHandler associated */
     private final Map<String, ClientHandler> mapUsernameClientHandler;
-    private Map<Integer, ArrayList<ClientHandler>> mapIdGameClientHandler;
+
+    /** Map that contains all the games with the players of that game */
+    private final Map<Integer, ArrayList<ClientHandler>> mapIdGameClientHandler;
+
+
+    /** Map that contains all the games with the players of that game */
+    //private final Map<Integer, ArrayList<ClientHandler>> map;
+
 
     /** List of clients waiting in the lobby. */
-    private final Queue<ClientHandler> lobby = new LinkedList<>();
+    private final LinkedList<ClientHandler> lobby = new LinkedList<>();
 
 
     public Map<Integer, ArrayList<ClientHandler>> getMapIdGameClientHandler() {
@@ -100,7 +107,7 @@ public class Server {
                 System.out.println("Guest"+i+" connected");
                 i+=1;
 
-                executor.submit(new ClientHandler(createClientID(), socket, this));
+                executor.submit(new ClientHandler(createClientID(), socket, this, i));
 
 
             } catch(IOException e) {
@@ -223,6 +230,7 @@ public class Server {
         games.add(game);
         game.setIdGame(createGameID());
         game.setNumof_players(numPlayers);
+        
         System.out.println("Client " + (lobby.peek() != null ? lobby.peek().getUsername() : null) + " created the game (idGame: " + game.getIdGame()+ ") " +
                 "with " +numPlayers+" players");
 
@@ -232,6 +240,7 @@ public class Server {
                 playersInGame.add(lobby.peek());
             }
             lobby.remove();
+
         }
 
         //to print players in the game
@@ -294,5 +303,20 @@ public class Server {
     public Map<String, ClientHandler> getMapUsernameClientHandler() {
         return mapUsernameClientHandler;
     }
+
+
+    public synchronized void handleDisconnection(){
+
+    }
+
+    // TODO: 17/05/2021 da testare 
+    /**
+     * 
+     * @param clientHandlerToRemove
+     */
+    public synchronized void deleteFromLobby(ClientHandler clientHandlerToRemove){
+        lobby.remove(clientHandlerToRemove);
+    }
+
 
 }

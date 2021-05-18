@@ -11,8 +11,12 @@ import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ClientOperationHandler {
@@ -20,7 +24,6 @@ public class ClientOperationHandler {
     private ObjectMapper mapper;
     private final Scanner input;
     private ClientModelView clientModelView;
-    private ViewInterface viewInterface;
 
     public ClientOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView) {
         this.socketClientConnection = socketClientConnection;
@@ -28,9 +31,6 @@ public class ClientOperationHandler {
         input = new Scanner(System.in);
     }
 
-    public void setViewInterface(ViewInterface viewInterface) {
-      this.viewInterface = viewInterface;
-    }
 
     public void handleCLIOperation(int input) throws IOException {
         switch (input) {
@@ -207,31 +207,56 @@ public class ClientOperationHandler {
     }
 
     public void chooseLeaderCardToRemove() {
-        int Id1;
-        int Id2;
+        int Id1 = 0;
+        int Id2 = 0;
         boolean checkid1 = false;
         boolean checkid2 = false;
+        boolean inputString = false;
 
-        viewInterface.printLeaderCards();
+        // TODO: 17/05/2021 non facciamo qui la stampa
+        System.out.println("Your leader cards:");
+        for (LeaderCard card: clientModelView.getMyPlayer().getLeaderCards()){
+            System.out.print("[ " + card.getId() + " ] ");
+        }
+        System.out.print("\n");
 
-        // TODO: 13/05/2021 mettere frase di errore se il tizio sbaglia a inserire
+
         do {
-            Id1 = input.nextInt();
+            try{
+                Id1 = input.nextInt();
+            }catch(InputMismatchException e){
+                System.err.println("insert a number!");
+                inputString=true;
+            }
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
                 if (Id1 == leaderCard.getId()) {
                     checkid1 = true;
                     break;
                 }
             }
+            if(!checkid1) {
+                if(!inputString) System.err.println("chosen id not present. please reinsert the id:");
+                input.nextLine();
+            }
         } while (!checkid1);
-
+        inputString=false;
         do {
-            Id2 = input.nextInt();
+            try{
+                Id2 = input.nextInt();
+            }catch(InputMismatchException e){
+                System.err.println("insert a number!");
+                inputString=true;
+            }
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
                 if (Id2 == leaderCard.getId() && Id2 != Id1) {
                     checkid2 = true;
                     break;
                 }
+            }
+            if(!checkid2) {
+                if(Id2==Id1) System.err.println("card already discarded");
+                else if(!inputString) System.err.println("chosen id not present. please reinsert the id:");
+                input.nextLine();
             }
         } while (!checkid2);
 
@@ -243,6 +268,8 @@ public class ClientOperationHandler {
             e.printStackTrace();
         }
     }
+
+
 
     public void discardLeaderCard(){
         System.out.println("Write the ID of the leader card to discard");
@@ -403,7 +430,7 @@ public class ClientOperationHandler {
         }
 
         System.out.println("Choose the resource and the place in which you want to take it\n" +
-                        "write 0 when you have finished");
+                        "write 0 once you have finished");
 
             int resource;
             int position;
@@ -421,7 +448,7 @@ public class ClientOperationHandler {
                     case 4 -> resources.add(ResourceType.SHIELD);
                     default -> System.out.println("invalid resource\n");
                 }
-            }while(resource < 0 || resource > 4);
+            }while(resource < 1 || resource > 4);
 
             if (resource != 0) {
                 do{
@@ -452,7 +479,7 @@ public class ClientOperationHandler {
                 case 4 -> newResources.add(ResourceType.SHIELD);
                 default -> System.out.println("invalid resource\n");
             }
-        }while(newResource < 0 || newResource > 4);
+        }while(newResource < 1 || newResource > 4);
 
         PacketUseAndChooseProdPower packet = new PacketUseAndChooseProdPower(productionPowers, resources, warehouse, newResources);
         try {
@@ -464,39 +491,47 @@ public class ClientOperationHandler {
 
 
 
-    public synchronized void chooseInitialResources(){
+    public synchronized void chooseInitialResources(int howManyResources){
 
-        int howManyResources;
-        int whichDeposit;
-        ResourceType resourcetype;
 
-        howManyResources = input.nextInt();
+        ArrayList<Integer> deposits = new ArrayList<>();
+        ArrayList<ResourceType> resources = new ArrayList<>();
+
+        BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 
         if (howManyResources==1) System.out.println("You can choose one resource");
         if (howManyResources==2) System.out.println("You can choose two resources");
         for (int i = 0; i < howManyResources; i++) {
             if(i==0) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_FIRST_RESOURCE);
             if(i==1) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_SECOND_RESOURCE);
-            resourcetype = scannerChooseResources();
-            whichDeposit = scannerChooseDeposit();
 
-            PacketChooseInitialResources packet = new PacketChooseInitialResources(whichDeposit - 1, resourcetype);
-            try {
-                sendPacket(packet);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
+            resources.add(scannerChooseResources(bufferRead));
+            deposits.add(scannerChooseDeposit(bufferRead));
+
+            System.out.println("you have chosen "+resources.get(i).toString()+" in the deposit "+deposits.get(i));
+
         }
-
+        PacketChooseInitialResources packet = new PacketChooseInitialResources(deposits, resources);
+        try {
+            sendPacket(packet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
-    public ResourceType scannerChooseResources(){
+    public ResourceType scannerChooseResources(BufferedReader bufferRead){
 
         Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
-        int whichResource;
+        int whichResource=0;
+
         ResourceType resourcetype = null;
         do{
-            whichResource = input.nextInt();
+
+            try {
+                whichResource = Integer.parseInt(bufferRead.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             switch (whichResource) {
                 case 1 -> resourcetype = ResourceType.COIN;
                 case 2 -> resourcetype = ResourceType.STONE;
@@ -505,18 +540,25 @@ public class ClientOperationHandler {
                 default -> Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
             }
         }while(whichResource < 1 || whichResource > 4);
-
         return resourcetype;
     }
 
-    public int scannerChooseDeposit(){
-        int position;
+    public int scannerChooseDeposit(BufferedReader bufferRead){
+        int position=0;
         Constants.printConnectionMessage(ConnectionMessages.CHOOSE_DEPOSIT);
         do{
-            position = input.nextInt();
-            if(position< 0|| position>3) Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
+            try{
+                try {
+                    position = Integer.parseInt(bufferRead.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }catch (NumberFormatException e){
+                System.err.println("insert integer");
+            }
+            if(position < 1|| position > 3) Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
 
-        }while(position< 0|| position>3);
+        }while(position< 1|| position>3);
         return position;
     }
 

@@ -68,6 +68,7 @@ it\polimi\ingsw\controller\server_packets\PacketDevelopmentSpaces.class
 it\polimi\ingsw\controller\client_packets\PacketChooseDiscount.class
 it\polimi\ingsw\controller\client_packets\SetupHandler.class
 it\polimi\ingsw\exceptions\TooManyResourcesRequested.class
+it\polimi\ingsw\client\ServerWriter$1.class
 it\polimi\ingsw\server\Server.class
 it\polimi\ingsw\model\board\storage\Strongbox.class
 it\polimi\ingsw\client\ViewInterface.class
@@ -98,6 +99,7 @@ it\polimi\ingsw\model\cards\leadercards\ConcreteStrategyDeposit.class
 it\polimi\ingsw\controller\server_packets\PacketLiteMarketTray.class
 it\polimi\ingsw\controller\client_packets\PacketMoveResource.class
 it\polimi\ingsw\model\cards\leadercards\LevelAndColorRequirement.class
+it\polimi\ingsw\controller\server_packets\PacketMessage$1.class
 it\polimi\ingsw\model\marbles\GreyMarble.class
 it\polimi\ingsw\model\singleplayer\SinglePlayerGame$1.class
 it\polimi\ingsw\client\LitePlayer.class

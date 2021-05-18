@@ -41,7 +41,7 @@ public class Client{
         //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
         if(socketClientConnection.getConnectionToServer().get()){
             serverListener = new ServerListener(this, socketClientConnection);
-            serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input, mapper, gameStarted);
+            serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input);
             new Thread(serverWriter).start();
             new Thread(serverListener).start();
         }
@@ -79,7 +79,12 @@ public class Client{
         Constants.setAddressServer("127.0.0.1");
         System.out.println(">Insert the server port");
         System.out.print(">"); // TODO: 13/05/2021 prima di chiedere la porta meglio chiedere se vuole giocare in locale o in server
-        int port = scanner.nextInt();
+        int port = 0;
+        try{
+            port = scanner.nextInt();
+        }catch(InputMismatchException e){
+            System.err.println("insert only numbers");
+        }
         Constants.setPort(port);
         do{
           System.out.println("Choose the view interface: \n" + "1.CLI \n" + "2.GUI");

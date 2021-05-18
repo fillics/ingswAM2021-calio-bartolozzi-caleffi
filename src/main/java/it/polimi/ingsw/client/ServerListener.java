@@ -39,7 +39,6 @@ public class ServerListener implements Runnable {
     public void run() {
 
         while (connectionToServer.get()) {
-            //System.out.println("Stato del client: " + client.getClientState());
             ObjectMapper mapper = new ObjectMapper();
             String str = null;
             ServerPacketHandler packet;
@@ -48,7 +47,9 @@ public class ServerListener implements Runnable {
                 //System.out.println(str);
             }catch(NoSuchElementException ignored){
                 connectionToServer.set(false);
+
             }
+
             if(connectionToServer.get()){
                 try {
                     //System.out.println("dentro al try");
@@ -60,10 +61,10 @@ public class ServerListener implements Runnable {
 
         }
 
+        //se connessione terminata, chiudo il client
         if (!connectionToServer.get()) {
-            System.out.println("\n");
             Constants.printConnectionMessage(ConnectionMessages.CONNECTION_CLOSED);
-            System.exit(0); // Terminates JVM
+            System.exit(0);
         }
 
     }
