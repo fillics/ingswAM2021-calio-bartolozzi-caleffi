@@ -11,7 +11,7 @@ import it.polimi.ingsw.client.Client;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PacketLiteMarketTray.class, name = "LITE_MARKET_TRAY"),
         @JsonSubTypes.Type(value = PacketFaithTrack.class, name = "FAITH_TRACK"),
-        @JsonSubTypes.Type(value = PacketMessage.class, name = "MESSAGE"),
+        @JsonSubTypes.Type(value = PacketConnectionMessages.class, name = "MESSAGE"),
         @JsonSubTypes.Type(value = PacketLiteDevelopmentGrid.class, name = "LITE_DEV_GRID"),
         @JsonSubTypes.Type(value = PacketWarehouse.class, name = "WAREHOUSES"),
         @JsonSubTypes.Type(value = PacketLitePlayer.class, name = "LITE_PLAYER"),
@@ -23,7 +23,8 @@ import it.polimi.ingsw.client.Client;
         @JsonSubTypes.Type(value = PacketWhiteMarbleChoice.class, name = "WHITE_MARBLE_CHOICE"),
         @JsonSubTypes.Type(value = PacketEndofUpdate.class, name = "END_OF_UPDATE"),
         @JsonSubTypes.Type(value = PacketEndGameStarted.class, name = "ENDGAME_STARTED"),
-        @JsonSubTypes.Type(value = PacketWinner.class, name = "WINNER")
+        @JsonSubTypes.Type(value = PacketWinner.class, name = "WINNER"),
+        @JsonSubTypes.Type(value = PacketExceptionMessages.class, name = "EXCEPTIONS")
 
 })
 

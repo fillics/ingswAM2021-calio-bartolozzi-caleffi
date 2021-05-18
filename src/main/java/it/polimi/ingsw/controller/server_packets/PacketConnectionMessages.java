@@ -7,12 +7,12 @@ import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 
-public class PacketMessage implements ServerPacketHandler {
+public class PacketConnectionMessages implements ServerPacketHandler {
 
     private ConnectionMessages message;
 
     @JsonCreator
-    public PacketMessage(@JsonProperty("message") ConnectionMessages message) {
+    public PacketConnectionMessages(@JsonProperty("message") ConnectionMessages message) {
         this.message = message;
     }
 
@@ -47,6 +47,10 @@ public class PacketMessage implements ServerPacketHandler {
             case YOUR_TURN, DISCARDDEVCARD, BLACKCROSS1, BLACKCROSS2 -> {
                 Constants.printConnectionMessage(message);
                 client.setClientState(ClientStates.GAMESTARTED);
+            }
+
+            case IMPOSSIBLEMOVE -> {
+                Constants.printConnectionMessage(message);
             }
 
             default ->  throw new IllegalStateException("Unexpected value: " + message);

@@ -26,10 +26,10 @@ public enum ConnectionMessages {
     CHOOSE_SECOND_RESOURCE("Choose the second initial resource:"),
     RESOURCE_CHOICES("Write 1 to select COIN, 2 to select STONE, 3 to select SERVANT, 4 to select SHIELD"),
     CHOOSE_DEPOSIT("Choose the deposit in which you want to place the resource [1, 2, 3]"),
-    DISCARDDEVCARD("Lorenzo The Great discarded a development card"),
-    BLACKCROSS1("Lorenzo The Great's black cross has stepped forward of one cell"),
-    BLACKCROSS2("Lorenzo The Great's black cross has stepped forward of two cell"),
-
+    DISCARDDEVCARD("Lorenzo Il Magnifico discarded a development card"),
+    BLACKCROSS1("Lorenzo Il Magnifico's black cross has stepped forward of one cell"),
+    BLACKCROSS2("Lorenzo Il Magnifico's black cross has stepped forward of two cell"),
+    IMPOSSIBLEMOVE("I'm sorry, you can't do this action in this moment of the game"),
 
     CONNECTION_CLOSED("The served closed its connection."),
     MATCH_FINISHED_FAITH("A player reached the last cell of the faith track"),

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.constants;
 
 import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.ExceptionMessages;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +22,17 @@ public class Constants {
     public static final String ANSI_WHITE = "\033[37m";
     public static final String ANSI_BACKGROUND_BLACK = "\033[40m";
     public static final String ANSI_BACKGROUND_PURPLE = "\033[45m";
+    public static final String menu = "Choose one of the operations you can do:\n"+
+                        "1: Activate a Leader Card\n" +
+                        "2: Buy a Development Card\n" +
+                        "3: Choose Discount\n" +
+                        "4: Use production powers\n" +
+                        "5: Discard a Leader Card\n" +
+                        "6: Move one of you resources\n" +
+                        "7: Place one of your resources\n" +
+                        "8: Take resources from the market\n" +
+                        "9: End Turn\n";
+
 
     public static final String MASTEROFRENAISSANCE =
     "███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗      ██████╗ ███████╗    ██████╗ ███████╗███╗   ██╗ █████╗ ██╗███████╗███████╗ █████╗ ███╗   ██╗ ██████╗███████╗\n"
@@ -81,5 +93,10 @@ public class Constants {
     public static void printConnectionMessage(ConnectionMessages message){
         System.out.println(message.getMessage());
     }
+
+    public static void printExceptionMessage(ExceptionMessages message){
+        System.out.println(message.getMessage());
+    }
+
 
 }

@@ -2,7 +2,11 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
+import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketLiteDevelopmentGrid;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
@@ -36,19 +40,19 @@ public class PacketBuyDevCard implements ClientPacketHandler {
             try {
                 gameInterface.buyDevCard(id, chosenResources, chosenWarehouses, developmentSpace);
             } catch (DevelopmentCardNotFound developmentCardNotFound) {
-                developmentCardNotFound.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEVELOPMENTCARDNOTFOURND));
             } catch (DevCardNotPlaceable devCardNotPlaceable) {
-                devCardNotPlaceable.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEVCARDNOTPLACEABLE));
             } catch (NotEnoughResources notEnoughResources) {
-                notEnoughResources.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.NOTENOUGHRESOURCES));
             } catch (WrongChosenResources wrongChosenResources) {
-                wrongChosenResources.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.WRONGCHOSENRESOURCES));
             } catch (DifferentDimension differentDimension) {
-                differentDimension.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DIFFERENTDIMENSION));
             } catch (EmptyDeposit emptyDeposit) {
-                emptyDeposit.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.EMPTYDEPOSIT));
             } catch (DepositDoesntHaveThisResource depositDoesntHaveThisResource) {
-                depositDoesntHaveThisResource.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITDOESNTHAVETHISRESOURCE));
             }
             gameInterface.setState(GameStates.PHASE_TWO);
 
@@ -56,7 +60,7 @@ public class PacketBuyDevCard implements ClientPacketHandler {
             server.sendAll(new PacketLiteDevelopmentGrid(gameInterface.getInitialDevGrid()), gameInterface);
         }
         else {
-            System.out.println("I'm sorry, you can't do this action in this moment of the game");
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
         }
 
     }

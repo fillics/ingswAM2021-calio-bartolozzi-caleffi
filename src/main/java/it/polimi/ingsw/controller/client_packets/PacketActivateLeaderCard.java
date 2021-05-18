@@ -2,7 +2,11 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
+import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketLeaderCards;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
@@ -22,16 +26,17 @@ public class PacketActivateLeaderCard implements ClientPacketHandler {
         if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEVCARDNOTPLACEABLE));
                 gameInterface.activateLeaderCard(id);
             } catch (LeaderCardNotFound leaderCardNotFound) {
-                leaderCardNotFound.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
             } catch (NotEnoughRequirements notEnoughRequirements) {
-                notEnoughRequirements.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.NOTENOUGHREQUIREMENTS));
             }
             clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
         }
         else {
-            System.out.println("I'm sorry, you can't do this action in this moment of the game");
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
         }
     }
 

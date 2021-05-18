@@ -2,7 +2,11 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
+import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.exceptions.DiscountCannotBeActivated;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
@@ -25,11 +29,11 @@ public class PacketChooseDiscount implements ClientPacketHandler {
             try {
                 gameInterface.chooseDiscountActivation(leaderCards);
             } catch (DiscountCannotBeActivated discountCannotBeActivated) {
-                discountCannotBeActivated.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DISCOUNTCANNOTBEACTIVATED));
             }
         }
         else {
-            System.out.println("I'm sorry, you can't do this action in this moment of the game");
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
         }
     }
 

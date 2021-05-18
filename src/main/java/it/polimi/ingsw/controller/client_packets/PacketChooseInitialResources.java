@@ -3,8 +3,10 @@ package it.polimi.ingsw.controller.client_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
-import it.polimi.ingsw.controller.server_packets.PacketMessage;
+import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketWarehouse;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
@@ -32,17 +34,24 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
             for (int i = 0; i < depositPosition.size(); i++) {
                 try {
                     gameInterface.additionalResourceSetup(resource.get(i),depositPosition.get(i)-1,clientHandler.getIdClient());
-                } catch (DifferentDimension | DepositHasReachedMaxLimit | DepositHasAnotherResource differentDimension) {
-                    differentDimension.printStackTrace();
+                } catch (DifferentDimension differentDimension) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DIFFERENTDIMENSION));
+                } catch (DepositHasReachedMaxLimit depositHasReachedMaxLimit) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITHASREACHEDMAXLIMIT));
+                } catch (DepositHasAnotherResource depositHasAnotherResource) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITHASANOTHERRSOURCE));
                 }
+
             }
 
-
             if(clientHandler.getPosInGame() == 0){
-                clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.YOUR_TURN));
+                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
             }
             clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getBoard().getStrongbox(),gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getBoard().getDeposits()));
             gameInterface.setState(GameStates.PHASE_ONE);
+        }
+        else{
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
         }
     }
 

@@ -9,7 +9,6 @@ import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 import it.polimi.ingsw.controller.server_packets.PacketEndGameStarted;
-import it.polimi.ingsw.controller.server_packets.PacketMessage;
 import it.polimi.ingsw.controller.server_packets.PacketSetup;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.exceptions.*;

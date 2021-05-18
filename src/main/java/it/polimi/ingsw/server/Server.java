@@ -3,7 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
-import it.polimi.ingsw.controller.server_packets.PacketMessage;
+import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
@@ -168,7 +168,7 @@ public class Server {
      */
     public synchronized void checkFirstPositionInLobby(ClientHandler clientHandler){
         if (lobby.peek() != null && lobby.peek().equals(clientHandler)) {
-            clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS));
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS));
         }
     }
 
@@ -182,7 +182,7 @@ public class Server {
     public synchronized void checkUsernameAlreadyTaken(String username, ClientHandler clientHandler){
 
         if(mapUsernameClientHandler.containsKey(username)){
-            clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.TAKEN_NICKNAME));
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.TAKEN_NICKNAME));
         }
         else {
             addUsernameIntoMap(username, clientHandler);
@@ -223,10 +223,14 @@ public class Server {
 
         if(numPlayers==1){
              game = new SinglePlayerGame();
+            game.setState(GameStates.PHASE_ONE);
         }
-        else game = new Game();
+        else{
+            game = new Game();
+            game.setState(GameStates.SETUP);
+        }
 
-        game.setState(GameStates.SETUP);
+
         games.add(game);
         game.setIdGame(createGameID());
         game.setNumof_players(numPlayers);
@@ -255,7 +259,7 @@ public class Server {
 
         for (ClientHandler clientHandler: playersInGame){
             clientHandler.setGame(game);
-            clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.GAME_IS_STARTING));
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.GAME_IS_STARTING));
             clientHandler.setGameStarted();
             clientHandler.setPosInGame(game.getPositionPlayer(clientHandler.getUsername()));
             clientHandler.sendSetupPacket();
@@ -278,7 +282,7 @@ public class Server {
 
 
         if (lobby.size()!=0){
-            lobby.peek().sendPacketToClient(new PacketMessage(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS));
+            lobby.peek().sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS));
         }
     }
 
@@ -296,7 +300,7 @@ public class Server {
 
     public synchronized void sendWaitMessageToLobby(){
         for(ClientHandler clientHandler: lobby){
-            clientHandler.sendPacketToClient(new PacketMessage(ConnectionMessages.WAITING_PEOPLE));
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.WAITING_PEOPLE));
         }
     }
 

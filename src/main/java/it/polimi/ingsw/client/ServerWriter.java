@@ -38,7 +38,12 @@ public class ServerWriter implements Runnable, ViewInterface{
             }while(inputString.length()==0);
 
 
-            handleInitialGamePhase(inputString);
+            if(inputString.equals("commands")){
+                System.out.println(Constants.menu);
+            }
+            else{
+                handleInitialGamePhase(inputString);
+            }
 
         }
 

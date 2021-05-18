@@ -2,7 +2,11 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
+import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketLiteMarketTray;
 import it.polimi.ingsw.exceptions.LeaderCardNotActivated;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
@@ -31,9 +35,9 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
             try {
                 gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
             } catch (LeaderCardNotFound leaderCardNotFound) {
-                leaderCardNotFound.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
             } catch (LeaderCardNotActivated leaderCardNotActivated) {
-                leaderCardNotActivated.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTACTIVATED));
             }
             gameInterface.setState(GameStates.PHASE_TWO);
 
@@ -41,7 +45,7 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
 
         }
         else {
-            System.out.println("I'm sorry, you can't do this action in this moment of the game");
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
         }
     }
 

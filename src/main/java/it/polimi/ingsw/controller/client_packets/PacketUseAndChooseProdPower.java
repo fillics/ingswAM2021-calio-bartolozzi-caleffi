@@ -2,7 +2,11 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
+import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.exceptions.DepositDoesntHaveThisResource;
 import it.polimi.ingsw.exceptions.DifferentDimension;
 import it.polimi.ingsw.exceptions.EmptyDeposit;
@@ -64,19 +68,19 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
             try {
                 gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, warehouse, newResources);
             } catch (DifferentDimension differentDimension) {
-                differentDimension.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DIFFERENTDIMENSION));
             } catch (TooManyResourcesRequested tooManyResourcesRequested) {
-                tooManyResourcesRequested.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.TOOMANYRESOURCESREQUESTED));
             } catch (EmptyDeposit emptyDeposit) {
-                emptyDeposit.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.EMPTYDEPOSIT));
             } catch (DepositDoesntHaveThisResource depositDoesntHaveThisResource) {
-                depositDoesntHaveThisResource.printStackTrace();
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITDOESNTHAVETHISRESOURCE));
             }
 
             gameInterface.setState(GameStates.PHASE_TWO);
         }
         else {
-            System.out.println("I'm sorry, you can't do this action in this moment of the game");
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
         }
     }
 
