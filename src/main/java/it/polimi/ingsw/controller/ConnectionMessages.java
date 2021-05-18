@@ -35,7 +35,8 @@ public enum ConnectionMessages {
     MATCH_FINISHED_FAITH("A player reached the last cell of the faith track"),
     MATCH_FINISHED_DEVCARDS("A player bought the seventh development card"),
     TIMER_ENDED("You took too long to make your decision"),
-    PING("Ping");
+    PING("Ping"),
+    PONG("Pong");
 
     private final String message;
 

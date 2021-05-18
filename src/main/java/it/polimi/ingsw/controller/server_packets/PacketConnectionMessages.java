@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.client_packets.PacketPongFromClient;
 
 public class PacketConnectionMessages implements ServerPacketHandler {
 
@@ -18,11 +19,13 @@ public class PacketConnectionMessages implements ServerPacketHandler {
 
 
     /**
-     * Method handleSetupMessage handles the messages that the server sends. According to them, it calls the right methods.
+     * Method handleSetupMessage handles the messages that the server sends.
+     * According to them, it calls the right methods.
      */
     @Override
     public void execute(Client client) {
         switch (message){
+
             case INSERT_NUMBER_OF_PLAYERS -> {
                 Constants.printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
                 Constants.printConnectionMessage(message);

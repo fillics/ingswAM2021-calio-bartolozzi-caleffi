@@ -104,11 +104,11 @@ public class Server {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
+                socket.setSoTimeout(20000);
                 System.out.println("Guest"+i+" connected");
                 i+=1;
 
                 executor.submit(new ClientHandler(createClientID(), socket, this, i));
-
 
             } catch(IOException e) {
                 System.err.println("Error! " + e.getMessage()); // Entrerei qui se serverSocket venisse chiuso
