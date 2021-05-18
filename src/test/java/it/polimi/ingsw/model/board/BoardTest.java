@@ -109,7 +109,7 @@ public class BoardTest {
         testBoard.getVaticanReportSections().get(2).getSection().add(cell10);
 
 
-        testBoard.getTrack().add(cell1);
+        /*testBoard.getTrack().add(cell1);
         testBoard.getTrack().add(cell2);
         testBoard.getTrack().add(cell3);
         testBoard.getTrack().add(cell4);
@@ -118,7 +118,7 @@ public class BoardTest {
         testBoard.getTrack().add(cell7);
         testBoard.getTrack().add(cell8);
         testBoard.getTrack().add(cell9);
-        testBoard.getTrack().add(cell10);
+        testBoard.getTrack().add(cell10);*/
 
         resourcePriceBuffer=new HashMap<>();
         resourcePriceBuffer.put(ResourceType.SERVANT,1);
@@ -236,6 +236,12 @@ public class BoardTest {
         } catch (DifferentDimension | EmptyDeposit | DepositDoesntHaveThisResource ignored) {}
 
     }
+
+    /*@Test
+    @DisplayName(" print faith track test")
+    void printTest(){
+        System.out.println(testBoard.getTrack());
+    }*/
 
 }
 

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class ServerWriter implements Runnable {
+public class ServerWriter implements Runnable, ViewInterface {
 
     private ClientModelView clientModelView;
     private SocketClientConnection socketClientConnection;
@@ -95,4 +95,13 @@ public class ServerWriter implements Runnable {
         output.close();
     }
 
+    @Override
+    public ClientModelView getClientModelView() {
+        return clientModelView;
+    }
+
+    @Override
+    public void printLeaderCards() {
+
+    }
 }

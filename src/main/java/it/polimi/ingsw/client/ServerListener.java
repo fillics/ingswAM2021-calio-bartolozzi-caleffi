@@ -45,11 +45,13 @@ public class ServerListener implements Runnable {
             ServerPacketHandler packet;
             try{
                 str = scanner.nextLine();
+                //System.out.println(str);
             }catch(NoSuchElementException ignored){
                 connectionToServer.set(false);
             }
             if(connectionToServer.get()){
                 try {
+                    //System.out.println("dentro al try");
                     packet = mapper.readValue(str, ServerPacketHandler.class);
                     packet.execute(client);
                 } catch (JsonProcessingException|IllegalArgumentException ignored) {

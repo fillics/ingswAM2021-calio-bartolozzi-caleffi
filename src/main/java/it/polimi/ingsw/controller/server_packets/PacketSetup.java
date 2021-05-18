@@ -28,7 +28,7 @@ public class PacketSetup implements ServerPacketHandler{
     private ArrayList<ProductionPower> specialProductionPowers;
     private Strongbox strongbox;
     private ArrayList<Deposit> deposits;
-    private ArrayList<Cell> track;
+    //private ArrayList<Cell> track;
     private ArrayList<Integer> whiteMarbleCardChoice;
     private int posInGame;
 
@@ -38,7 +38,7 @@ public class PacketSetup implements ServerPacketHandler{
                        @JsonProperty("market tray") Marble[][] table,@JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
                        @JsonProperty("development spaces") ArrayList<DevelopmentSpace> developmentSpaces, @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards,
                        @JsonProperty("resource buffer") ArrayList<Resource> resourceBuffer,@JsonProperty("special production powers")  ArrayList<ProductionPower> specialProductionPowers,
-                       @JsonProperty("strongbox") Strongbox strongbox,@JsonProperty("deposits") ArrayList<Deposit> deposits, @JsonProperty("faith track :") ArrayList<Cell> track, @JsonProperty("white marble leader card's id") ArrayList<Integer> whiteMarbleCardChoice) {
+                       @JsonProperty("strongbox") Strongbox strongbox,@JsonProperty("deposits") ArrayList<Deposit> deposits, @JsonProperty("white marble leader card's id") ArrayList<Integer> whiteMarbleCardChoice) {
         this.username = username;
         this.idClient = idClient;
         this.posInGame = posInGame;
@@ -51,7 +51,7 @@ public class PacketSetup implements ServerPacketHandler{
         this.specialProductionPowers = specialProductionPowers;
         this.strongbox = strongbox;
         this.deposits = deposits;
-        this.track = track;
+        //this.track = track;
         this.whiteMarbleCardChoice = whiteMarbleCardChoice;
     }
 
@@ -62,8 +62,6 @@ public class PacketSetup implements ServerPacketHandler{
     public int getPosInGame() {
         return posInGame;
     }
-
-
 
     public int getTotalVictoryPoint() {
         return totalVictoryPoint;
@@ -109,14 +107,15 @@ public class PacketSetup implements ServerPacketHandler{
         return username;
     }
 
-    public ArrayList<Cell> getTrack() {
+    /*public ArrayList<Cell> getTrack() {
         return track;
-    }
+    }*/
 
     @Override
     public void execute(Client client) {
+        //System.out.println("dentro execute fuori if");
         if(client.getClientState().equals(ClientStates.CREATEMODEL)) {
-            LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers, track);
+            LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers);
             LitePlayer litePlayer = new LitePlayer(username, idClient, posInGame, totalVictoryPoint, leaderCards,resourceBuffer, liteBoard, whiteMarbleCardChoice);
             LiteDevelopmentGrid liteDevelopmentGrid = new LiteDevelopmentGrid(developmentCards);
             LiteMarketTray liteMarketTray = new LiteMarketTray(table);

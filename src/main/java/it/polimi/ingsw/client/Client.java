@@ -72,6 +72,7 @@ public class Client{
      */
     public static void serverMatch(){
         Scanner scanner = new Scanner(System.in);
+        int choice;
         //System.out.println(">Insert the server IP address");
         //System.out.print(">");
         // String ip = scanner.nextLine(); PER ORA HO TOLTO QUESTA OPZIONE PERCHÈ TANTO È SEMPRE LO STESSO IP ADDRESS
@@ -80,17 +81,18 @@ public class Client{
         System.out.print(">"); // TODO: 13/05/2021 prima di chiedere la porta meglio chiedere se vuole giocare in locale o in server
         int port = scanner.nextInt();
         Constants.setPort(port);
-        System.out.println("Choose the view interface \n" + "1.CLI \n" + "2.GUI");
-        System.out.print(">");
-        int choice = scanner.nextInt();
+        do{
+          System.out.println("Choose the view interface: \n" + "1.CLI \n" + "2.GUI");
+          System.out.print(">");
+          choice = scanner.nextInt();
+          if(choice!=1 && choice!=2)
+              System.out.println("Your choice is not available, please retry");
+        } while(choice!=1 && choice!=2);
         Client client = new Client();
 
         if(choice==1)
             client.setInterface(new CLI(client.getClientModelView()));
-        else if(choice==2)
-            client.setInterface(new GUI(client.getClientModelView()));
-        else
-            System.out.println("Errore");
+        else client.setInterface(new GUI(client.getClientModelView()));
     }
 
     public void setInterface(ViewInterface viewInterface){

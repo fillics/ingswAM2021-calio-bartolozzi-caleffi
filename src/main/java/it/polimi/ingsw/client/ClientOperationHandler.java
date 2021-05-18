@@ -29,7 +29,7 @@ public class ClientOperationHandler {
     }
 
     public void setViewInterface(ViewInterface viewInterface) {
-        this.viewInterface = viewInterface;
+      this.viewInterface = viewInterface;
     }
 
     public void handleCLIOperation(int input) throws IOException {
@@ -88,7 +88,7 @@ public class ClientOperationHandler {
         boolean LeaderCardcheck = false;
         do {
             id = input.nextInt();
-            for(LeaderCard leaderCard : viewInterface.getClientModelView().getMyPlayer().getLeaderCards()){
+            for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
                 if (id == leaderCard.getId()) {
                     LeaderCardcheck = true;
                     break;
@@ -213,7 +213,6 @@ public class ClientOperationHandler {
         boolean checkid2 = false;
 
         viewInterface.printLeaderCards();
-
 
         // TODO: 13/05/2021 mettere frase di errore se il tizio sbaglia a inserire
         do {

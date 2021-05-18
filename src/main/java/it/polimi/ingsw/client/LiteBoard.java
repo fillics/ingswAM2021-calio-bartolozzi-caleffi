@@ -14,14 +14,14 @@ public class LiteBoard {
     private ArrayList<Deposit> deposits;
     private ArrayList<DevelopmentSpace> developmentSpaces;
     private ArrayList<ProductionPower> specialProductionPowers;
-    private ArrayList<Cell> track;
+    //private ArrayList<Cell> track;
 
-    public LiteBoard(Strongbox strongbox, ArrayList<Deposit> deposits, ArrayList<DevelopmentSpace> developmentSpaces, ArrayList<ProductionPower> specialProductionPowers, ArrayList<Cell> vaticanReportSection) {
+    public LiteBoard(Strongbox strongbox, ArrayList<Deposit> deposits, ArrayList<DevelopmentSpace> developmentSpaces, ArrayList<ProductionPower> specialProductionPowers) {
         this.strongbox = strongbox;
         this.deposits = deposits;
         this.developmentSpaces = developmentSpaces;
         this.specialProductionPowers = specialProductionPowers;
-        this.track = vaticanReportSection;
+        //this.track = vaticanReportSection;
     }
 
     public Strongbox getStrongbox() {
@@ -54,11 +54,11 @@ public class LiteBoard {
         this.specialProductionPowers = specialProductionPowers;
     }
 
-    public ArrayList<Cell> getTrack() {
+    /*public ArrayList<Cell> getTrack() {
         return track;
     }
 
     public void setTrack(ArrayList<Cell> track) {
         this.track = track;
-    }
+    }*/
 }
