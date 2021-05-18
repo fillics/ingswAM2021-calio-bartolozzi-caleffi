@@ -221,7 +221,6 @@ public class ClientOperationHandler {
         System.out.print("\n");
 
 
-        // TODO: 13/05/2021 mettere frase di errore se il tizio sbaglia a inserire
         do {
             try{
                 Id1 = input.nextInt();
@@ -431,7 +430,7 @@ public class ClientOperationHandler {
         }
 
         System.out.println("Choose the resource and the place in which you want to take it\n" +
-                        "write 0 when you have finished");
+                        "write 0 once you have finished");
 
             int resource;
             int position;
@@ -449,7 +448,7 @@ public class ClientOperationHandler {
                     case 4 -> resources.add(ResourceType.SHIELD);
                     default -> System.out.println("invalid resource\n");
                 }
-            }while(resource < 0 || resource > 4);
+            }while(resource < 1 || resource > 4);
 
             if (resource != 0) {
                 do{
@@ -480,7 +479,7 @@ public class ClientOperationHandler {
                 case 4 -> newResources.add(ResourceType.SHIELD);
                 default -> System.out.println("invalid resource\n");
             }
-        }while(newResource < 0 || newResource > 4);
+        }while(newResource < 1 || newResource > 4);
 
         PacketUseAndChooseProdPower packet = new PacketUseAndChooseProdPower(productionPowers, resources, warehouse, newResources);
         try {
@@ -494,35 +493,23 @@ public class ClientOperationHandler {
 
     public synchronized void chooseInitialResources(int howManyResources){
 
-        int whichDeposit;
-        ResourceType resourcetype;
+
         ArrayList<Integer> deposits = new ArrayList<>();
         ArrayList<ResourceType> resources = new ArrayList<>();
 
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 
-        // TODO: 18/05/2021 da fixare richiesta due risorse 
         if (howManyResources==1) System.out.println("You can choose one resource");
         if (howManyResources==2) System.out.println("You can choose two resources");
         for (int i = 0; i < howManyResources; i++) {
             if(i==0) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_FIRST_RESOURCE);
             if(i==1) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_SECOND_RESOURCE);
 
-            //resourcetype = scannerChooseResources(bufferRead);
-
-            //whichDeposit = scannerChooseDeposit(bufferRead);
-
             resources.add(scannerChooseResources(bufferRead));
             deposits.add(scannerChooseDeposit(bufferRead));
 
             System.out.println("you have chosen "+resources.get(i).toString()+" in the deposit "+deposits.get(i));
-            /*PacketChooseInitialResources packet = new PacketChooseInitialResources(whichDeposit - 1, resourcetype);
 
-            try {
-                sendPacket(packet);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }*/
         }
         PacketChooseInitialResources packet = new PacketChooseInitialResources(deposits, resources);
         try {
@@ -536,17 +523,15 @@ public class ClientOperationHandler {
 
         Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
         int whichResource=0;
-        //System.out.println("fuori do");
+
         ResourceType resourcetype = null;
         do{
-            //System.out.println("dentro do prima next int");
+
             try {
                 whichResource = Integer.parseInt(bufferRead.readLine());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            //System.out.println("dentro do dopo next int");
             switch (whichResource) {
                 case 1 -> resourcetype = ResourceType.COIN;
                 case 2 -> resourcetype = ResourceType.STONE;
@@ -555,9 +540,6 @@ public class ClientOperationHandler {
                 default -> Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
             }
         }while(whichResource < 1 || whichResource > 4);
-
-        //System.out.println("sono dopo il do");
-        //System.out.println(whichResource);
         return resourcetype;
     }
 
@@ -574,11 +556,9 @@ public class ClientOperationHandler {
             }catch (NumberFormatException e){
                 System.err.println("insert integer");
             }
-            if(position< 0|| position>3) Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
+            if(position < 1|| position > 3) Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
 
-        }while(position< 0|| position>3);
-        //System.out.println(position);
-
+        }while(position< 1|| position>3);
         return position;
     }
 

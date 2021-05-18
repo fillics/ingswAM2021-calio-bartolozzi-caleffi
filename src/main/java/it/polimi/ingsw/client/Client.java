@@ -40,7 +40,7 @@ public class Client {
         //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
         if(socketClientConnection.getConnectionToServer().get()){
             serverListener = new ServerListener(this, socketClientConnection);
-            serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input, mapper, gameStarted);
+            serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input);
             new Thread(serverWriter).start();
             new Thread(serverListener).start();
         }
