@@ -107,6 +107,7 @@ public class ClientOperationHandler {
     public void buyDevCard(){
         System.out.println("Select the card ID you want to buy");
 
+        Scanner input1 = new Scanner(System.in);
         int id;
         boolean devCardcheck = false;
         do {
@@ -136,7 +137,7 @@ public class ClientOperationHandler {
                     case 2 -> resources.add(ResourceType.STONE);
                     case 3 -> resources.add(ResourceType.SERVANT);
                     case 4 -> resources.add(ResourceType.SHIELD);
-                    case 0 -> System.out.println("\n");
+                    case 0 -> {}
                     default -> System.err.println("invalid resource\n");
                 }
             }while(resource < 0 || resource > 4);
@@ -162,7 +163,7 @@ public class ClientOperationHandler {
 
         boolean devSpacecheck = false;
         do {
-            String devSpace = input.nextLine();
+            String devSpace = input1.nextLine();
             switch (devSpace) {
                 case "1" -> {
                     packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getLiteBoard().getDevelopmentSpaces().get(0));
@@ -191,6 +192,7 @@ public class ClientOperationHandler {
                     }
                     devSpacecheck = true;
                 }
+                case "0" -> {}
                 default -> System.err.println("invalid development space\n");
             }
         } while (!devSpacecheck);
@@ -351,11 +353,12 @@ public class ClientOperationHandler {
 
     public void takeResourceFromMarket(){
         System.out.println("Select Row or Column and which of the lines you choose");
+        Scanner input1 = new Scanner(System.in);
         boolean check = false;
         String line;
         int numLine = 0;
         do {
-            line = input.nextLine();
+            line = input1.nextLine();
             if(!line.equals("Row") && !line.equals("Column")) System.err.println("invalid choice");
         } while (!line.equals("Row") && !line.equals("Column"));
 
@@ -457,13 +460,14 @@ public class ClientOperationHandler {
 
             do{
                prodPositions = input.nextInt();
-               if(prodPositions > 0 && prodPositions < clientModelView.getLiteBoard().getSpecialProductionPower().size()){
+               if(prodPositions > 0 && prodPositions <= clientModelView.getLiteBoard().getSpecialProductionPower().size()){
                    if(!productionPowers.contains(clientModelView.getLiteBoard().getSpecialProductionPower().get(prodPositions - 1))){
                        productionPowers.add(clientModelView.getLiteBoard().getSpecialProductionPower().get(prodPositions - 1));
                    }
                }
+               else if(prodPositions == 0){}
                else{
-                   System.err.println("invalid prodPositions, retry");
+                   System.err.println("invalid special production power positions, retry");
                }
             }while(prodPositions != 0);
 
@@ -485,7 +489,8 @@ public class ClientOperationHandler {
                     case 2 -> resources.add(ResourceType.STONE);
                     case 3 -> resources.add(ResourceType.SERVANT);
                     case 4 -> resources.add(ResourceType.SHIELD);
-                    default -> System.out.println("invalid resource\n");
+                    case 0 -> {}
+                    default -> System.err.println("invalid resource\n");
                 }
             }while(resource < 0 || resource > 4);
 
@@ -506,7 +511,7 @@ public class ClientOperationHandler {
 
 
         for(ProductionPower productionPower : productionPowers){
-            if (productionPower.getResourcesObtained().containsKey(ResourceType.JOLLY)) {
+            if (productionPower.getResourcesObtained().get(ResourceType.JOLLY) > 0) {
                 checkProd = true;
                 break;
             }
@@ -525,6 +530,7 @@ public class ClientOperationHandler {
                     case 2 -> newResources.add(ResourceType.STONE);
                     case 3 -> newResources.add(ResourceType.SERVANT);
                     case 4 -> newResources.add(ResourceType.SHIELD);
+                    case 0 -> {}
                     default -> System.out.println("invalid resource\n");
                 }
             } while (newResource < 1 || newResource > 4);

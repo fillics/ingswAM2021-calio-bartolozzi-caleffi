@@ -29,10 +29,10 @@ public class PacketDiscardLeaderCard implements ClientPacketHandler {
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
                 gameInterface.discardLeaderCard(ID);
+                clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
             } catch (LeaderCardNotFound leaderCardNotFound) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
             }
-            clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

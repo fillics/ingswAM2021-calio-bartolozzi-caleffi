@@ -35,17 +35,14 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
                 gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
+                clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
+                server.sendAll(new PacketLiteMarketTray(gameInterface.getTable()), gameInterface);
+                gameInterface.setState(GameStates.PHASE_TWO);
             } catch (LeaderCardNotFound leaderCardNotFound) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
             } catch (LeaderCardNotActivated leaderCardNotActivated) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTACTIVATED));
             }
-            gameInterface.setState(GameStates.PHASE_TWO);
-
-            clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
-            System.out.println(gameInterface.getIdGame());
-            server.sendAll(new PacketLiteMarketTray(gameInterface.getTable()), gameInterface);
-
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

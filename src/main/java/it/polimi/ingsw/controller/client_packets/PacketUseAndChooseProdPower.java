@@ -70,6 +70,7 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
                 gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, warehouse, newResources);
                 clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
                         gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));
+                gameInterface.setState(GameStates.PHASE_TWO);
             } catch (DifferentDimension differentDimension) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DIFFERENTDIMENSION));
             } catch (TooManyResourcesRequested tooManyResourcesRequested) {
@@ -80,7 +81,6 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITDOESNTHAVETHISRESOURCE));
             }
 
-            gameInterface.setState(GameStates.PHASE_TWO);
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
