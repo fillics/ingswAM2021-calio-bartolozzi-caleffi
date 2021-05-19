@@ -30,6 +30,7 @@ public class SocketClientConnection {
         this.port = Constants.getPort();
         try {
             socket = new Socket(serverAddress, port);
+            socket.setSoTimeout(20000);
             connectionToServer.compareAndSet(false, true);
         } catch (IOException ignored) {
             System.err.println("Error during connection to the client");

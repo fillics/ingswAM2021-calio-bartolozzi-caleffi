@@ -8,15 +8,13 @@ import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
-import it.polimi.ingsw.controller.server_packets.PacketEndGameStarted;
-import it.polimi.ingsw.controller.server_packets.PacketMessage;
-import it.polimi.ingsw.controller.server_packets.PacketSetup;
-import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
+import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientHandler implements Runnable {
@@ -30,7 +28,6 @@ public class ClientHandler implements Runnable {
     private final Server server;
     private DataInputStream dis;
     private PrintStream output;
-    private PrintStream ps;
     private String username;
     private ObjectMapper mapper;
     private String jsonResult;
@@ -47,38 +44,32 @@ public class ClientHandler implements Runnable {
         clientConnected = new AtomicBoolean(true);
         try {
             dis = new DataInputStream(socket.getInputStream());  // to read data coming from the client
-            ps = new PrintStream(socket.getOutputStream());// to send data to the client
-            output = new PrintStream(socket.getOutputStream());
+            output = new PrintStream(socket.getOutputStream());// to send data to the client
         } catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during initialization of the client!");
         }
+        startPingPong();
     }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
 
-    public void setGameStarted() {
-        gameStarted = true;
-    }
 
     public void run() {
         try {
             while (!quit) {
                 if (sendSetup) sendSetupPacket();
+
                 try{
                     String str = dis.readUTF();
                     deserialize(str);
                 }catch (Exception e){
                     String guest = "Guest";
-                    if(username!=null){ //il player ha inserito l'username
+                    /*if(username!=null){ //il player ha inserito l'username
                         System.out.println(username + " disconnected!");
                     }
                     else{ //il player non ha ancora inserito l'username: lo togliamo solo dalla lobby
                         System.out.println(guest+numberOfGuest + " disconnected!");
 
-                    }
-
+                    }*/
                     clientConnected.compareAndSet(true, false); //setto la variabile a false
                     server.handleDisconnection();
 
@@ -88,7 +79,6 @@ public class ClientHandler implements Runnable {
                     if(!clientConnected.get()){
                         // Chiudo gli stream e il socket -> client non è più connesso al server
                         dis.close();
-                        ps.close();
                         socket.close();
                         quit=true;
                     }
@@ -111,6 +101,13 @@ public class ClientHandler implements Runnable {
         }*/
     }
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public void setGameStarted() {
+        gameStarted = true;
+    }
     public String getUsername() {
         return username;
     }
@@ -132,6 +129,21 @@ public class ClientHandler implements Runnable {
     }
 
 
+    public synchronized void startPingPong(){
+
+        new Thread(() -> {
+            while (!quit) {
+                sendPacketToClient(new PacketPingFromServer());
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+    }
+
     public void close(){
         try {
             socket.close();
@@ -149,7 +161,7 @@ public class ClientHandler implements Runnable {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        if (jsonResult.contains("USERNAME") || jsonResult.contains("NUMOFPLAYERS")){
+        if (jsonResult.contains("USERNAME") || jsonResult.contains("NUMOFPLAYERS") || jsonResult.contains("PONG") ){
             SetupHandler packet = null;
             try {
                 packet = mapper.readValue(jsonResult, SetupHandler.class);
@@ -205,24 +217,17 @@ public class ClientHandler implements Runnable {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println(jsonResult);
+
         sendToClient(jsonResult);
 
     }
 
-    public synchronized void sendMessageToClient(ConnectionMessages msg){
-        String messageToSend = msg.getMessage();
-        try{
-            ps.println(messageToSend);
-        }catch (Exception e){
-            close();
-        }
-    }
 
     public synchronized void sendToClient(String jsonResult){
         output.println(jsonResult);
         output.flush();
     }
+
 
     public void setSetupEnded() {
         sendSetup = false;

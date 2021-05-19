@@ -2,7 +2,11 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
+import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.exceptions.DepositDoesntHaveThisResource;
 import it.polimi.ingsw.exceptions.DifferentDimension;
 import it.polimi.ingsw.exceptions.EmptyDeposit;
@@ -51,26 +55,32 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
 
 
             for (ProductionPower productionPower : productionPowers) {
-                for (ResourceType key : productionPower.getResourceNeeded().keySet()) {
-                    resourceNeeded.replace(key, resourceNeeded.get(key) + productionPower.getResourceNeeded().get(key));
+                for (ResourceType key : productionPower.getResourcesNeeded().keySet()) {
+                    resourceNeeded.replace(key, resourceNeeded.get(key) + productionPower.getResourcesNeeded().get(key));
                 }
 
-                for (ResourceType key : productionPower.getResourceNeeded().keySet()) {
-                    resourceObtained.replace(key, resourceObtained.get(key) + productionPower.getResourceObtained().get(key));
+                for (ResourceType key : productionPower.getResourcesNeeded().keySet()) {
+                    resourceObtained.replace(key, resourceObtained.get(key) + productionPower.getResourcesObtained().get(key));
                 }
             }
 
             ProductionPower newProductionPower = new ProductionPower(resourceNeeded, resourceObtained);
             try {
                 gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, warehouse, newResources);
-            } catch (DifferentDimension | TooManyResourcesRequested | EmptyDeposit | DepositDoesntHaveThisResource differentDimension) {
-                differentDimension.printStackTrace();
+            } catch (DifferentDimension differentDimension) {
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DIFFERENTDIMENSION));
+            } catch (TooManyResourcesRequested tooManyResourcesRequested) {
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.TOOMANYRESOURCESREQUESTED));
+            } catch (EmptyDeposit emptyDeposit) {
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.EMPTYDEPOSIT));
+            } catch (DepositDoesntHaveThisResource depositDoesntHaveThisResource) {
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITDOESNTHAVETHISRESOURCE));
             }
 
             gameInterface.setState(GameStates.PHASE_TWO);
         }
         else {
-            System.out.println("I'm sorry, you can't do this action in this moment of the game");
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
         }
     }
 
