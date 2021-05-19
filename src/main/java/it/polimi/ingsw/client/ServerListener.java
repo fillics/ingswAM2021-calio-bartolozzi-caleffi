@@ -53,6 +53,7 @@ public class ServerListener implements Runnable {
                     packet = mapper.readValue(str, ServerPacketHandler.class);
                     packet.execute(client);
                 } catch (JsonProcessingException|IllegalArgumentException ignored) {
+                    ignored.printStackTrace();
                 }
             }
         }

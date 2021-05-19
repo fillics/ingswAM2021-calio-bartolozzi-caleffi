@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketLiteMarketTray;
+import it.polimi.ingsw.controller.server_packets.PacketResourceBuffer;
 import it.polimi.ingsw.exceptions.LeaderCardNotActivated;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
 import it.polimi.ingsw.model.GameInterface;
@@ -40,7 +41,9 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTACTIVATED));
             }
             gameInterface.setState(GameStates.PHASE_TWO);
-            
+
+            clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
+            System.out.println(gameInterface.getIdGame());
             server.sendAll(new PacketLiteMarketTray(gameInterface.getTable()), gameInterface);
 
         }

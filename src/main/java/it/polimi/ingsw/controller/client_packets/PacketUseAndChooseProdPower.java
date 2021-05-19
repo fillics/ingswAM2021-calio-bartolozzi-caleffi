@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketWarehouse;
 import it.polimi.ingsw.exceptions.DepositDoesntHaveThisResource;
 import it.polimi.ingsw.exceptions.DifferentDimension;
 import it.polimi.ingsw.exceptions.EmptyDeposit;
@@ -67,6 +68,8 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
             ProductionPower newProductionPower = new ProductionPower(resourceNeeded, resourceObtained);
             try {
                 gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, warehouse, newResources);
+                clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
+                        gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));
             } catch (DifferentDimension differentDimension) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DIFFERENTDIMENSION));
             } catch (TooManyResourcesRequested tooManyResourcesRequested) {

@@ -277,8 +277,8 @@ public class Server {
 
         mapIdGameClientHandler.put(game.getIdGame(), playersInGame);
 
+
         numPlayers=0;
-        playersInGame.clear();
 
 
         if (lobby.size()!=0){
@@ -292,8 +292,7 @@ public class Server {
      * @param gameInterface (type GameInterface)
      */
     public synchronized void sendAll(ServerPacketHandler packet, GameInterface gameInterface) {
-
-        for (ClientHandler clientHandler: mapIdGameClientHandler.get(gameInterface.getIdGame())){
+        for (ClientHandler clientHandler : mapIdGameClientHandler.get(gameInterface.getIdGame())){
             clientHandler.sendPacketToClient(packet);
         }
     }

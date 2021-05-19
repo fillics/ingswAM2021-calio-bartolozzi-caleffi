@@ -45,6 +45,7 @@ public class PacketEndTurn implements ClientPacketHandler{
                     ((SinglePlayerGame) gameInterface).winner();
                     clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
                 }
+                gameInterface.setState(GameStates.PHASE_ONE);
             }
         }
         else{
