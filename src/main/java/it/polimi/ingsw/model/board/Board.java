@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model.board;
 
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
@@ -55,11 +59,12 @@ public class Board implements BoardInterface {
         specialProductionPowers.add(baseProductionPower);
 
 
-        Gson gson = new Gson();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
-            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/json/FaithTrack.json"));
-            track = gson.fromJson(br, new TypeToken<List<Cell>>(){}.getType());
-        } catch (FileNotFoundException e) {
+            track= mapper.readValue(new File("src/main/resources/json/FaithTrack.json"), new TypeReference<>() {
+            });
+        } catch (IOException e) {
             System.out.println("FaithTrack.json file was not found");
         }
 
@@ -88,13 +93,13 @@ public class Board implements BoardInterface {
         VaticanReportSection vaticanReportSection2 = new VaticanReportSection(orangePopeFavorTile);
         VaticanReportSection vaticanReportSection3 = new VaticanReportSection(redPopeFavorTile);
         for(Cell cell : track){
-            if(cell.getVaticaReportSection() == 1){
+            if(cell.getVaticanReportSection() == 1){
                 vaticanReportSection1.getSection().add(cell);
             }
-            if(cell.getVaticaReportSection() == 2){
+            if(cell.getVaticanReportSection() == 2){
                 vaticanReportSection2.getSection().add(cell);
             }
-            if(cell.getVaticaReportSection() == 3){
+            if(cell.getVaticanReportSection() == 3){
                 vaticanReportSection3.getSection().add(cell);
             }
         }
@@ -174,9 +179,9 @@ public class Board implements BoardInterface {
         if(faithMarker == 24){
             game.endGame();
         }
-        if(track.get(faithMarker - 1).isPopeSpace()){
-            if(track.get(faithMarker - 1).getVaticaReportSection() > 0){
-                if(!vaticanReportSections.get(track.get(faithMarker - 1).getVaticaReportSection()-1).isActivated()){
+        if(track.get(faithMarker - 1).getPopeSpace()){
+            if(track.get(faithMarker - 1).getVaticanReportSection() > 0){
+                if(!vaticanReportSections.get(track.get(faithMarker - 1).getVaticanReportSection()-1).isActivated()){
                     game.checkPlayersFaithMarkers(faithMarker);
                 }
             }
@@ -196,7 +201,7 @@ public class Board implements BoardInterface {
         }
         for (DevelopmentSpace developmentSpace : developmentSpaces) {
             for (int i = 0; i < developmentSpace.getDevelopmentCardsOfDevSpace().size(); i++) {
-                boardVictoryPoint += developmentSpace.getDevelopmentCardsOfDevSpace().get(i).getVictoryPoint();
+                boardVictoryPoint += developmentSpace.getDevelopmentCardsOfDevSpace().get(i).getVictorypoint();
             }
         }
         for (int i = 0; i< faithMarker; i++){

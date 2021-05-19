@@ -12,7 +12,7 @@ public class PacketResourceBuffer implements ServerPacketHandler{
     private final ArrayList<Resource> resourceBuffer;
 
     @JsonCreator
-    public PacketResourceBuffer(@JsonProperty("resource buffer :") ArrayList<Resource> resourceBuffer) {
+    public PacketResourceBuffer(@JsonProperty("resourcebuffer") ArrayList<Resource> resourceBuffer) {
         this.resourceBuffer = resourceBuffer;
     }
 

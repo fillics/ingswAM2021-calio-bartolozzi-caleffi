@@ -59,13 +59,13 @@ public class ResourcesRequirement extends Requirement{
         String escape="";
 
         if(resourcePrice.containsKey(ResourceType.SHIELD))
-        escape= resourcePrice.get(ResourceType.SHIELD) + " " + Color.ANSI_BLUE.escape() + Printable.CIRCLE.print() + Color.RESET;
+        escape= resourcePrice.get(ResourceType.SHIELD) + " " + Color.ANSI_BLUE.escape() + Printable.SQUARE.print() + Color.RESET;
         if(resourcePrice.containsKey(ResourceType.COIN))
-            escape = escape + resourcePrice.get(ResourceType.COIN) + " " + Color.ANSI_YELLOW.escape() + Printable.CIRCLE.print() + Color.RESET;
+            escape = escape + resourcePrice.get(ResourceType.COIN) + " " + Color.ANSI_YELLOW.escape() + Printable.SQUARE.print() + Color.RESET;
         if(resourcePrice.containsKey(ResourceType.SERVANT))
-            escape = escape + resourcePrice.get(ResourceType.SERVANT) + " " + Color.ANSI_PURPLE.escape() + Printable.CIRCLE.print() + Color.RESET;
+            escape = escape + resourcePrice.get(ResourceType.SERVANT) + " " + Color.ANSI_PURPLE.escape() + Printable.SQUARE.print() + Color.RESET;
         if(resourcePrice.containsKey(ResourceType.STONE))
-            escape = escape + resourcePrice.get(ResourceType.STONE) + " " + Color.ANSI_GREY.escape() + Printable.CIRCLE.print() + Color.RESET;
+            escape = escape + resourcePrice.get(ResourceType.STONE) + " " + Color.ANSI_GREY.escape() + Printable.SQUARE.print() + Color.RESET;
         escape = escape + "   ";
 
         return escape;

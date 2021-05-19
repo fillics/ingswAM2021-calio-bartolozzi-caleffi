@@ -13,7 +13,25 @@ public class GUI implements ViewInterface {
     }
 
     @Override
-    public void printLeaderCards() {
+    public void printLeaderCards() {}
+
+    @Override
+    public void printDeposits() {}
+
+    @Override
+    public void printStrongbox() {
+    }
+
+    @Override
+    public void printDevGrid() {
+    }
+
+    @Override
+    public void printResourceBuffer() {
+    }
+
+    @Override
+    public void printMarketTray() {
 
     }
 }

@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.cards.developmentcards.CardColor;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.developmentcards.Level;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
-import it.polimi.ingsw.model.cards.leadercards.*;
 import it.polimi.ingsw.model.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -97,7 +96,7 @@ public class LeaderCardTest {
     @Test
     @DisplayName("VictoryPoint getter test")
     void VictoryPointGetterTest() {
-        assertEquals(testLeaderCardProdPower.getVictoryPoint(),4);
+        assertEquals(testLeaderCardProdPower.getVictorypoint(),4);
     }
 
     /** Method StrategySetterTest tests LeaderCard method Strategy setter. */

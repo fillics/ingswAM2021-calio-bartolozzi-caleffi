@@ -75,11 +75,4 @@ public class MarketTrayTest {
         assertEquals(testTable[2][3],testMarketTray.getMarket().get(0));
         assertEquals(testMarketTray.getRemainingMarble(),testMarketTray.getMarket().get(9));
     }
-
-    @Test
-    @DisplayName(" print test")
-    void printTest(){
-        testMarketTray.dump();
-    }
-
 }

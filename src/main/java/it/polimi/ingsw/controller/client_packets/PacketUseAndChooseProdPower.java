@@ -51,26 +51,20 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
 
 
             for (ProductionPower productionPower : productionPowers) {
-                for (ResourceType key : productionPower.getResourcesNeeded().keySet()) {
-                    resourceNeeded.replace(key, resourceNeeded.get(key) + productionPower.getResourcesNeeded().get(key));
+                for (ResourceType key : productionPower.getResourceNeeded().keySet()) {
+                    resourceNeeded.replace(key, resourceNeeded.get(key) + productionPower.getResourceNeeded().get(key));
                 }
 
-                for (ResourceType key : productionPower.getResourcesNeeded().keySet()) {
-                    resourceObtained.replace(key, resourceObtained.get(key) + productionPower.getResourcesObtained().get(key));
+                for (ResourceType key : productionPower.getResourceNeeded().keySet()) {
+                    resourceObtained.replace(key, resourceObtained.get(key) + productionPower.getResourceObtained().get(key));
                 }
             }
 
             ProductionPower newProductionPower = new ProductionPower(resourceNeeded, resourceObtained);
             try {
                 gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, warehouse, newResources);
-            } catch (DifferentDimension differentDimension) {
+            } catch (DifferentDimension | TooManyResourcesRequested | EmptyDeposit | DepositDoesntHaveThisResource differentDimension) {
                 differentDimension.printStackTrace();
-            } catch (TooManyResourcesRequested tooManyResourcesRequested) {
-                tooManyResourcesRequested.printStackTrace();
-            } catch (EmptyDeposit emptyDeposit) {
-                emptyDeposit.printStackTrace();
-            } catch (DepositDoesntHaveThisResource depositDoesntHaveThisResource) {
-                depositDoesntHaveThisResource.printStackTrace();
             }
 
             gameInterface.setState(GameStates.PHASE_TWO);

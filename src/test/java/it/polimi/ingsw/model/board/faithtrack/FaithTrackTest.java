@@ -37,10 +37,10 @@ public class FaithTrackTest {
         assertEquals(1, testCell3.getVictoryPoint());
         assertEquals(5, testCell4.getVictoryPoint());
 
-        assertFalse(testCell1.isPopeSpace());
-        assertFalse(testCell2.isPopeSpace());
-        assertFalse(testCell3.isPopeSpace());
-        assertTrue(testCell4.isPopeSpace());
+        assertFalse(testCell1.getPopeSpace());
+        assertFalse(testCell2.getPopeSpace());
+        assertFalse(testCell3.getPopeSpace());
+        assertTrue(testCell4.getPopeSpace());
 
     }
     /** Method PopeFavorTileTest tests board getter. */

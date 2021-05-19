@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.model.board.resources.ConcreteStrategyResource;
 import it.polimi.ingsw.model.board.resources.Resource;
@@ -155,6 +154,9 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         return market.getTable();
     }
 
+    public Marble getRemainingMarble(){
+        return market.getRemainingMarble();
+    }
 
     public int getNumof_players() {
         return numof_players;
@@ -254,12 +256,19 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * Method createDevelopmentDeck creates and shuffles the Development Cards' Deck using the JSON file
      */
     public void createDevelopmentGrid() {
-        ArrayList<DevelopmentCard> deckToOrder;
+        ArrayList<DevelopmentCard> deckToOrder = null;
         Gson gson = new Gson();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try{
-            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/json/DevelopmentCard.json"));
-            deckToOrder = gson.fromJson(br, new TypeToken<List<DevelopmentCard>>(){}.getType());
+            try {
+                deckToOrder = mapper.readValue(new File("src/main/resources/json/DevelopmentCard.json"), new TypeReference<>() {
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            assert deckToOrder != null;
             Collections.shuffle(deckToOrder);
 
             Map<CardColor, Map<Level, List<DevelopmentCard>>> groupByColorAndLevel =
@@ -290,8 +299,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             for(int i=0; i<12;i++){
                 initialDevGrid.add(developmentGrid.get(i).getLast());
             }
-        }catch (FileNotFoundException ex){
-            System.out.println("Token.json file was not found");
+        }catch (Exception ex){
+            System.out.println("DevCard.json file was not found");
         }
     }
 
@@ -582,12 +591,12 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         int x;
         for (Player player : activePlayers){
             if(player.getBoard().getFaithMarker() > 0){
-                x = player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() - 1;
-                if(player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticaReportSection() == activePlayers.get(currentPlayer).getBoard().getTrack().get(faithmarker - 1).getVaticaReportSection()){
+                x = player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticanReportSection() - 1;
+                if(player.getBoard().getTrack().get(player.getBoard().getFaithMarker() - 1).getVaticanReportSection() == activePlayers.get(currentPlayer).getBoard().getTrack().get(faithmarker - 1).getVaticanReportSection()){
                     player.getBoard().getVaticanReportSections().get(x).getPopefavortile().setVisible();
                 }
             }
-            player.getBoard().getVaticanReportSections().get(player.getBoard().getTrack().get(faithmarker - 1).getVaticaReportSection()-1).setActivated();
+            player.getBoard().getVaticanReportSections().get(player.getBoard().getTrack().get(faithmarker - 1).getVaticanReportSection()-1).setActivated();
         }
     }
 

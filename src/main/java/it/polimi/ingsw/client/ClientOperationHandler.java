@@ -88,6 +88,7 @@ public class ClientOperationHandler {
 
     public void activateLeaderCard() throws IOException {
         System.out.println("Choose the ID of the leader card to activate: ");
+        viewInterface.printLeaderCards();
         int id;
         boolean LeaderCardcheck = false;
         do {
@@ -105,6 +106,7 @@ public class ClientOperationHandler {
 
     public void buyDevCard(){
         System.out.println("Select the card ID you want to buy");
+        viewInterface.printDevGrid();
 
         int id;
         boolean devCardcheck = false;
@@ -120,6 +122,9 @@ public class ClientOperationHandler {
 
         System.out.println("Choose the resource and the place in which you want to take it\n" +
                 "write 0 when you have finished");
+
+        viewInterface.printDeposits();
+        viewInterface.printStrongbox();
 
         int resource;
         int position;
@@ -194,7 +199,8 @@ public class ClientOperationHandler {
     }
 
     public void chooseDiscount() throws IOException {
-        System.out.println("Choose the IDs of the leader cards to activate, when you have finished write 0");
+        System.out.println("Choose the IDs of the leader cards Discount to activate, when you have finished write 0");
+        viewInterface.printLeaderCards();
 
         int id;
         ArrayList<Integer> leaderCards = new ArrayList<>();
@@ -271,6 +277,7 @@ public class ClientOperationHandler {
 
     public void discardLeaderCard(){
         System.out.println("Write the ID of the leader card to discard");
+        viewInterface.printLeaderCards();
         boolean check = false;
         int id;
 
@@ -295,6 +302,7 @@ public class ClientOperationHandler {
 
     public void moveResource(){
         System.out.println("Choose the deposit in which you want to take the resource");
+        viewInterface.printDeposits();
         int position;
 
         do{
@@ -315,7 +323,9 @@ public class ClientOperationHandler {
             System.out.println("I'm sorry, you don't have any resource to place");
         }
         else{
+            viewInterface.printResourceBuffer();
             System.out.println("Choose the resource and the deposit in which you want to place the resource");
+            viewInterface.printDeposits();
             int position;
             int resource;
 
@@ -341,22 +351,24 @@ public class ClientOperationHandler {
     public void takeResourceFromMarket(){
         System.out.println("Select Row or Column and which of the lines you choose");
 
+        viewInterface.printMarketTray();
+
         String line;
         int numLine = 0;
 
         do {
             line = input.nextLine();
-        } while (!line.equals("Row") && !line.equals("Column"));
+        } while (!line.equals("Row") && !line.equals("ROW") && !line.equals("Column") && !line.equals("COLUMN"));
 
 
 
-        if (line.equals("Row")) {
+        if (line.equals("Row") || line.equals("ROW")) {
             do {
                 numLine = input.nextInt();
             } while (numLine < 1 || numLine > 3);
         }
 
-        if (line.equals("Column")) {
+        if (line.equals("Column") || line.equals("COLUMN")) {
             do {
                 numLine = input.nextInt();
             } while (numLine < 1 || numLine > 4);
@@ -385,7 +397,7 @@ public class ClientOperationHandler {
 
 
     public void useAndChooseProductionPower(){
-        System.out.println("Select the IDs of the development space to use for the production. \n" +
+        System.out.println("Select the IDs of the development spaces to use for the production. \n" +
                 "Press 0 when you have finished");
 
         int id;
@@ -429,6 +441,9 @@ public class ClientOperationHandler {
 
         System.out.println("Choose the resource and the place in which you want to take it\n" +
                         "write 0 once you have finished");
+
+        viewInterface.printDeposits();
+        viewInterface.printStrongbox();
 
             int resource;
             int position;

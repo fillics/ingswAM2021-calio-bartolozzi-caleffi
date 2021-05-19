@@ -69,15 +69,17 @@ public class Deposit extends Warehouse {
      * @throws EmptyDeposit if the deposit is empty
      */
     public Resource takeResource() throws EmptyDeposit {
+        Resource resource;
         if(quantity == 0){
             throw new EmptyDeposit();
         }
         else {
+            resource= new Resource(resourcetype);
             quantity -= 1;
             if(quantity == 0){
-                resourcetype = null;
+                this.resourcetype = null;
             }
-            return new Resource(resourcetype);
+            return resource;
         }
     }
 
@@ -157,9 +159,11 @@ public class Deposit extends Warehouse {
     public String toString(){
         StringBuilder escape= new StringBuilder();
         if(this.maxLimit==1)
-            escape.append("  ");
+            escape.append("1:").append("  ");
         if(this.maxLimit==2)
-            escape.append(" ");
+            escape.append("2:").append(" ");
+        if(this.maxLimit==3)
+            escape.append("3:");
         for(int j=0; j<this.quantity; j++){
                 if(this.resourcetype.equals(ResourceType.COIN))
                     escape.append(Color.ANSI_YELLOW.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");

@@ -180,11 +180,12 @@ public class ClientHandler implements Runnable {
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
-        PacketSetup packetSetup = new PacketSetup(username,idClient,posInGame,0,game.getTable(), game.getInitialDevGrid(),
-                game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
-                game.getIdClientActivePlayers().get(idClient).getResourceBuffer(),game.getIdClientActivePlayers().get(idClient).getBoard().getSpecialProductionPowers(),
-                game.getIdClientActivePlayers().get(idClient).getBoard().getStrongbox(),game.getIdClientActivePlayers().get(idClient).getBoard().getDeposits(),
-                game.getIdClientActivePlayers().get(idClient).getWhiteMarbleCardChoice());
+        PacketSetup packetSetup = new PacketSetup(username, idClient, posInGame,0, game.getInitialDevGrid(), game.getTable(), game.getRemainingMarble(),
+                game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getResourceBuffer(), game.getIdClientActivePlayers().get(idClient).getBoard().getSpecialProductionPowers(),
+                game.getIdClientActivePlayers().get(idClient).getBoard().getStrongbox(),
+                game.getIdClientActivePlayers().get(idClient).getBoard().getDeposits(),
+                game.getIdClientActivePlayers().get(idClient).getWhiteMarbleCardChoice(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
+                game.getIdClientActivePlayers().get(idClient).getBoard().getTrack());
 
         sendPacketToClient(packetSetup);
     }
