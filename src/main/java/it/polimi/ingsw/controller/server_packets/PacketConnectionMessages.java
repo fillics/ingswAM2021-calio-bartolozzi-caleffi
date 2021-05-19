@@ -26,6 +26,10 @@ public class PacketConnectionMessages implements ServerPacketHandler {
     public void execute(Client client) {
         switch (message){
 
+            case USERNAME_VALID, IMPOSSIBLEMOVE -> {
+                Constants.printConnectionMessage(message);
+            }
+
             case INSERT_NUMBER_OF_PLAYERS -> {
                 Constants.printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
                 Constants.printConnectionMessage(message);
@@ -50,10 +54,6 @@ public class PacketConnectionMessages implements ServerPacketHandler {
             case YOUR_TURN, DISCARDDEVCARD, BLACKCROSS1, BLACKCROSS2 -> {
                 Constants.printConnectionMessage(message);
                 client.setClientState(ClientStates.GAMESTARTED);
-            }
-
-            case IMPOSSIBLEMOVE -> {
-                Constants.printConnectionMessage(message);
             }
 
             default ->  throw new IllegalStateException("Unexpected value: " + message);

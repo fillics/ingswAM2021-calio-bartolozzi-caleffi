@@ -8,7 +8,8 @@ import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketPongFromClient;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
-import it.polimi.ingsw.controller.server_packets.PacketMessage;
+import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
+
 
 
 import java.io.PrintStream;
@@ -151,7 +152,7 @@ public class Client{
 
     public void sendPong(){
         String jsonResult;
-        PacketMessage packet = new PacketMessage(ConnectionMessages.PONG);
+        PacketConnectionMessages packet = new PacketConnectionMessages(ConnectionMessages.PONG);
         mapper = new ObjectMapper();
         try {
             jsonResult = mapper.writeValueAsString(packet);
