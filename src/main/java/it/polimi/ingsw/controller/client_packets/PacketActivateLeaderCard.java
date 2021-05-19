@@ -26,7 +26,6 @@ public class PacketActivateLeaderCard implements ClientPacketHandler {
         if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEVCARDNOTPLACEABLE));
                 gameInterface.activateLeaderCard(id);
             } catch (LeaderCardNotFound leaderCardNotFound) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));

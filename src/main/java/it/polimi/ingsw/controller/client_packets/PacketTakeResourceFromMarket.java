@@ -40,7 +40,7 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTACTIVATED));
             }
             gameInterface.setState(GameStates.PHASE_TWO);
-
+            
             server.sendAll(new PacketLiteMarketTray(gameInterface.getTable()), gameInterface);
 
         }

@@ -349,26 +349,25 @@ public class ClientOperationHandler {
     }
 
     public void takeResourceFromMarket(){
-        System.out.println("Select row or column and which of the lines you choose");
+        System.out.println("Select Row or Column and which of the lines you choose");
 
         String line;
         int numLine = 0;
-
         do {
             line = input.nextLine();
-            if(!line.equals("row") && !line.equals("column")) System.err.println("invalid choice");
-        } while (!line.equals("row") && !line.equals("column"));
+            if(!line.equals("Row") && !line.equals("Column")) System.err.println("invalid choice");
+        } while (!line.equals("Row") && !line.equals("Column"));
 
 
 
-        if (line.equals("row")) {
+        if (line.equals("Row")) {
             do {
                 numLine = input.nextInt();
                 if(numLine < 1 || numLine > 3) System.err.println("invalid row");
             } while (numLine < 1 || numLine > 3);
         }
 
-        if (line.equals("column")) {
+        if (line.equals("Column")) {
             do {
                 numLine = input.nextInt();
                 if(numLine < 1 || numLine > 4) System.err.println("invalid column");
