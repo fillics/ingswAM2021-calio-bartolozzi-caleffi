@@ -1,8 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.Board;
 
 import it.polimi.ingsw.model.board.resources.Resource;
+import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDeposit;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
@@ -83,7 +86,7 @@ public class Player {
         totalVictoryPoint += board.getBoardVictoryPoint();
         for(LeaderCard leaderCard : leaderCards){
             if(leaderCard.getStrategy().isActive()){
-                totalVictoryPoint += leaderCard.getVictoryPoint();
+                totalVictoryPoint += leaderCard.getVictorypoint();
             }
         }
         return totalVictoryPoint;
@@ -164,5 +167,6 @@ public class Player {
     public void setPosition(int position) {
         this.position = position;
     }
+
 
 }

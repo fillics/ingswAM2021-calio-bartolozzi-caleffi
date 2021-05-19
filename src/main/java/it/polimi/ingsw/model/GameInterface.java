@@ -36,6 +36,7 @@ public interface GameInterface {
     ArrayList<LinkedList<DevelopmentCard>> getDevelopmentGrid();
     ArrayList<DevelopmentCard> getInitialDevGrid();
     Marble[][] getTable();
+    Marble getRemainingMarble();
     int getIdGame();
     void nextPlayer();
     String getWinner();

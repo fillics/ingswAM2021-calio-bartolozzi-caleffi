@@ -9,10 +9,10 @@ import it.polimi.ingsw.model.cards.developmentcards.Level;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.cards.leadercards.*;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.junit.jupiter.api.BeforeEach;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -141,9 +141,11 @@ class PlayerTest {
 
         testPlayer.fillBuffer(2);
         testPlayer.fillBuffer(2);
+
         assertEquals(3,testPlayer.getResourceBuffer().size());
         assertEquals(0,testPlayer.getBoard().getDeposits().get(2).getQuantity());
         assertNull(testPlayer.getBoard().getDeposits().get(2).getResourcetype());
+
     }
 
 
@@ -182,8 +184,8 @@ class PlayerTest {
         assertTrue(testPlayer.getLeaderCards().get(0).getStrategy().isActive());
         assertTrue(testPlayer.getLeaderCards().get(1).getStrategy().isActive());
 
-        leaderpoints1 = testPlayer.getLeaderCards().get(0).getVictoryPoint();
-        leaderpoints2 = testPlayer.getLeaderCards().get(1).getVictoryPoint();
+        leaderpoints1 = testPlayer.getLeaderCards().get(0).getVictorypoint();
+        leaderpoints2 = testPlayer.getLeaderCards().get(1).getVictorypoint();
         for (int k = 0; k < 10; k++) {
             testPlayer.getBoard().increaseFaithMarker();
         }
@@ -193,7 +195,5 @@ class PlayerTest {
         totalpoints = testPlayer.getTotalVictoryPoints();
         assertEquals(leaderpoints1 + leaderpoints2 + boardpoints, totalpoints);
     }
-
-
 
 }

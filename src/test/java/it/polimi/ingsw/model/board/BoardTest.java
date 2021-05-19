@@ -237,11 +237,12 @@ public class BoardTest {
 
     }
 
-    /*@Test
+    @Test
     @DisplayName(" print faith track test")
     void printTest(){
-        System.out.println(testBoard.getTrack());
-    }*/
+        System.out.println(testBoard.getSpecialProductionPowers());
+        System.out.println(testBoard.getSpecialProductionPowers().get(0).getResourceObtained());
+    }
 
 }
 

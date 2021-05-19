@@ -70,14 +70,14 @@ public class ProductionPowerTest {
     @Test
     @DisplayName("Resource Needed getter test")
     void ResourceNeededGetterTest(){
-        assertEquals(testResourcesNeeded,testProductionPower.getResourcesNeeded());
+        assertEquals(testResourcesNeeded,testProductionPower.getResourceNeeded());
     }
 
     /** Method ResourceObtainedGetterTest tests ProductionPower method getter. */
     @Test
     @DisplayName("Resource Obtained getter test")
     void ResourceObtainedGetterTest(){
-        assertEquals(testResourcesObtained,testProductionPower.getResourcesObtained());
+        assertEquals(testResourcesObtained,testProductionPower.getResourceObtained());
     }
 
     @Test
@@ -201,7 +201,7 @@ public class ProductionPowerTest {
     @Test
     @DisplayName("addResourcesTest2 to verify that the resources obtained from the prod power are inserted in the strongbox, test case with jolly resources")
     void addResourcesTest2(){
-        testProductionPower.getResourcesObtained().put(ResourceType.JOLLY,4);
+        testProductionPower.getResourceObtained().put(ResourceType.JOLLY,4);
         ArrayList<ResourceType> testresources= new ArrayList<>();
         testresources.add(ResourceType.COIN);
         testresources.add(ResourceType.STONE);
@@ -222,7 +222,7 @@ public class ProductionPowerTest {
     @Test
     @DisplayName("addResourcesTestException created to test the exception")
     void addResourcesTestException(){
-        testProductionPower.getResourcesObtained().put(ResourceType.JOLLY,4);
+        testProductionPower.getResourceObtained().put(ResourceType.JOLLY,4);
         ArrayList<ResourceType> testresources= new ArrayList<>();
         testresources.add(ResourceType.COIN);
         testresources.add(ResourceType.STONE);

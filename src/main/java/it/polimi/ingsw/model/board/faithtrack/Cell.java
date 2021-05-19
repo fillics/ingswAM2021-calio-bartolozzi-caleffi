@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.board.faithtrack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Class Cell represents the cells that make up the faith track
  */
@@ -14,7 +17,8 @@ public class Cell {
      * @param popeSpace (type boolean) - it indicates if the cell is a pope space
      * @param vaticanReportSection (type Int) - it indicates to which vatican report section it belongs
      */
-    public Cell(int victoryPoint, boolean popeSpace, int vaticanReportSection) {
+    @JsonCreator
+    public Cell(@JsonProperty("victoryPoint")int victoryPoint,@JsonProperty("popeSpace") boolean popeSpace,@JsonProperty("vaticanReportSection") int vaticanReportSection) {
         this.victoryPoint = victoryPoint;
         this.popeSpace = popeSpace;
         this.vaticanReportSection = vaticanReportSection;
@@ -30,14 +34,15 @@ public class Cell {
     /**
      * Method isPopeSpace returns the boolean attribute to know if the cell is a pope space
      */
-    public boolean isPopeSpace() {
+    public boolean getPopeSpace() {
         return popeSpace;
     }
+
 
     /**
      * Method getVaticanReportSection returns the vatican report section the cell belongs
      */
-    public int getVaticaReportSection() {
+    public int getVaticanReportSection() {
         return vaticanReportSection;
     }
 }

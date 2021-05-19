@@ -17,7 +17,7 @@ public class PacketFaithTrack implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
-        //client.getClientModelView().getLiteBoard().setTrack(track);
+        client.getClientModelView().getLiteBoard().setTrack(track);
     }
 
     public ArrayList<Cell> getTrack() {

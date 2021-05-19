@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.board.storage;
 
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.exceptions.EmptyDeposit;
 
@@ -73,5 +75,80 @@ public class Strongbox extends Warehouse{
         else {
             strongbox.replace(resourceType, strongbox.get(resourceType)-1);
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder escape = new StringBuilder();
+        int numCifre=0,num;
+        if(strongbox.containsKey(ResourceType.SHIELD)){
+            num=strongbox.get(ResourceType.SHIELD);
+            if(num==0)
+                numCifre+=1;
+            else{
+                while(num!=0) {
+                    num= num/10;
+                    numCifre += 1;
+                }
+            }
+        }
+        if(strongbox.containsKey(ResourceType.COIN)){
+            num=strongbox.get(ResourceType.COIN);
+            if(num==0)
+                numCifre+=1;
+            else{
+                while(num!=0) {
+                    num= num/10;
+                    numCifre += 1;
+                }
+            }
+        }
+        if(strongbox.containsKey(ResourceType.SERVANT)){
+            num=strongbox.get(ResourceType.SERVANT);
+            if(num==0)
+                numCifre+=1;
+            else{
+                while(num!=0) {
+                    num= num/10;
+                    numCifre += 1;
+                }
+            }
+        }
+        if(strongbox.containsKey(ResourceType.STONE)){
+            num=strongbox.get(ResourceType.STONE);
+            if(num==0)
+                numCifre+=1;
+            else{
+                while(num!=0) {
+                    num= num/10;
+                    numCifre += 1;
+                }
+            }
+        }
+
+        escape.append("4: \n");
+        escape.append(Printable.NORD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(15+numCifre)).append(Printable.NORD_EST.print()).append("\n");
+        escape.append(Printable.DOUBLE_LINE.print()).append("  ");
+        if(strongbox.containsKey(ResourceType.SHIELD)){
+            escape.append(Color.ANSI_BLUE.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(":").append(strongbox.get(ResourceType.SHIELD)).append(" ");
+        }
+        if(strongbox.containsKey(ResourceType.COIN)){
+            escape.append(Color.ANSI_YELLOW.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(":").append(strongbox.get(ResourceType.COIN)).append(" ");
+        }
+        if(strongbox.containsKey(ResourceType.SERVANT)){
+            escape.append(Color.ANSI_PURPLE.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(":").append(strongbox.get(ResourceType.SERVANT)).append(" ");
+        }
+        if(strongbox.containsKey(ResourceType.STONE)){
+            escape.append(Color.ANSI_GREY.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(":").append(strongbox.get(ResourceType.STONE)).append(" ");
+        }
+        escape.append(" ").append(Printable.DOUBLE_LINE.print()).append("\n");
+        escape.append(Printable.SUD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(15+numCifre)).append(Printable.SUD_EST.print());
+        escape.append("\n");
+
+        return escape.toString();
+    }
+
+    public void dump(){
+        System.out.println(this);
     }
 }

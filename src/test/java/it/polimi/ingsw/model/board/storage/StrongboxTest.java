@@ -19,10 +19,10 @@ public class StrongboxTest {
     @BeforeEach
     void setup() {
         testStrongbox = new Strongbox();
-        testStrongbox.getStrongbox().put(ResourceType.COIN, 2);
-        testStrongbox.getStrongbox().put(ResourceType.STONE, 1);
-        testStrongbox.getStrongbox().put(ResourceType.SERVANT, 56);
-        testStrongbox.getStrongbox().put(ResourceType.SHIELD, 4);
+        testStrongbox.getStrongbox().put(ResourceType.COIN, 3);
+        testStrongbox.getStrongbox().put(ResourceType.STONE, 2);
+        testStrongbox.getStrongbox().put(ResourceType.SERVANT, 57);
+        testStrongbox.getStrongbox().put(ResourceType.SHIELD, 5);
     }
 
     /** Method GetSpecificResource tests EmptyDeposit exception. */
@@ -33,10 +33,10 @@ public class StrongboxTest {
 
         testStrongbox.getStrongbox().replaceAll((chiave , valore) -> valore + 1);
 
-        assertEquals(3, testStrongbox.getTotalCoins());
-        assertEquals(2, testStrongbox.getTotalStones());
-        assertEquals(57, testStrongbox.getTotalServants());
-        assertEquals(5, testStrongbox.getTotalShields());
+        assertEquals(4, testStrongbox.getTotalCoins());
+        assertEquals(3, testStrongbox.getTotalStones());
+        assertEquals(58, testStrongbox.getTotalServants());
+        assertEquals(6, testStrongbox.getTotalShields());
 
     }
 
@@ -62,5 +62,11 @@ public class StrongboxTest {
             fail();
         } catch (EmptyDeposit ignored) {}
 
+    }
+
+    @Test
+    @DisplayName(" print test")
+    void printTest(){
+        testStrongbox.dump();
     }
 }
