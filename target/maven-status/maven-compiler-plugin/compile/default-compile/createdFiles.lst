@@ -9,6 +9,7 @@ it\polimi\ingsw\controller\server_packets\ServerPacketHandler.class
 it\polimi\ingsw\controller\client_packets\PacketActivateLeaderCard.class
 it\polimi\ingsw\model\GamePlayerInterface.class
 it\polimi\ingsw\controller\server_packets\PacketWarehouse.class
+it\polimi\ingsw\controller\server_packets\PacketConnectionMessages$1.class
 it\polimi\ingsw\model\cards\leadercards\ConcreteStrategyMarble.class
 it\polimi\ingsw\client\ClientModelView.class
 it\polimi\ingsw\model\board\faithtrack\Cell.class
@@ -18,7 +19,6 @@ it\polimi\ingsw\model\marbles\WhiteMarble.class
 it\polimi\ingsw\client\Printable.class
 it\polimi\ingsw\exceptions\NotEnoughRequirements.class
 it\polimi\ingsw\model\cards\developmentcards\DevelopmentSpace.class
-it\polimi\ingsw\controller\server_packets\PacketEndofUpdate.class
 it\polimi\ingsw\model\marbles\BlueMarble.class
 it\polimi\ingsw\model\cards\developmentcards\Level.class
 it\polimi\ingsw\controller\client_packets\PacketChooseLeaderCardToRemove.class
@@ -33,6 +33,7 @@ it\polimi\ingsw\controller\server_packets\PacketEndGameStarted.class
 it\polimi\ingsw\model\board\resources\Resource.class
 it\polimi\ingsw\model\marbles\MarketTray.class
 it\polimi\ingsw\model\singleplayer\ConcreteStrategyPlusTwo.class
+it\polimi\ingsw\controller\client_packets\PacketReconnection.class
 it\polimi\ingsw\model\singleplayer\SoloActionTokenType.class
 it\polimi\ingsw\client\CLI.class
 it\polimi\ingsw\model\GameInterface.class
@@ -56,7 +57,6 @@ it\polimi\ingsw\controller\client_packets\PacketChooseInitialResources.class
 it\polimi\ingsw\controller\server_packets\PacketSetup.class
 it\polimi\ingsw\controller\server_packets\PacketWinner.class
 it\polimi\ingsw\client\Client.class
-it\polimi\ingsw\controller\server_packets\PacketMessage.class
 it\polimi\ingsw\client\ServerWriter.class
 it\polimi\ingsw\controller\client_packets\PacketUsername.class
 it\polimi\ingsw\client\ClientStates.class
@@ -84,8 +84,8 @@ it\polimi\ingsw\constants\Constants.class
 it\polimi\ingsw\exceptions\DepositDoesntHaveThisResource.class
 it\polimi\ingsw\model\singleplayer\ConcreteStrategyPlusOne.class
 it\polimi\ingsw\model\singleplayer\TokenActionStrategy.class
-it\polimi\ingsw\client\PingThread.class
 it\polimi\ingsw\model\Game.class
+it\polimi\ingsw\controller\server_packets\PacketConnectionMessages.class
 it\polimi\ingsw\client\ServerListener.class
 it\polimi\ingsw\controller\client_packets\PacketDiscardLeaderCard.class
 it\polimi\ingsw\server\ClientHandler.class
@@ -100,7 +100,6 @@ it\polimi\ingsw\model\cards\leadercards\ConcreteStrategyDeposit.class
 it\polimi\ingsw\controller\server_packets\PacketLiteMarketTray.class
 it\polimi\ingsw\controller\client_packets\PacketMoveResource.class
 it\polimi\ingsw\model\cards\leadercards\LevelAndColorRequirement.class
-it\polimi\ingsw\controller\server_packets\PacketMessage$1.class
 it\polimi\ingsw\model\marbles\GreyMarble.class
 it\polimi\ingsw\model\singleplayer\SinglePlayerGame$1.class
 it\polimi\ingsw\client\LitePlayer.class
@@ -116,13 +115,17 @@ it\polimi\ingsw\client\LiteDevelopmentGrid.class
 it\polimi\ingsw\controller\client_packets\PacketBuyDevCard.class
 it\polimi\ingsw\controller\client_packets\PacketTakeResourceFromMarket.class
 it\polimi\ingsw\model\cards\leadercards\LeaderCardType.class
+it\polimi\ingsw\controller\client_packets\PacketPongFromClient.class
 it\polimi\ingsw\model\cards\leadercards\LeaderCard.class
 it\polimi\ingsw\model\board\faithtrack\PopeFavorTileColor.class
 it\polimi\ingsw\model\cards\leadercards\ConcreteStrategyDiscount.class
 it\polimi\ingsw\controller\server_packets\PacketSpecialProdPowers.class
 it\polimi\ingsw\model\marbles\PurpleMarble.class
 it\polimi\ingsw\model\board\BoardInterface.class
+it\polimi\ingsw\controller\ExceptionMessages.class
 it\polimi\ingsw\controller\client_packets\PacketNumPlayers.class
 it\polimi\ingsw\model\cards\leadercards\Requirement.class
+it\polimi\ingsw\controller\server_packets\PacketPingFromServer.class
 it\polimi\ingsw\controller\server_packets\PacketLeaderCards.class
+it\polimi\ingsw\controller\server_packets\PacketExceptionMessages.class
 it\polimi\ingsw\controller\server_packets\PacketWhiteMarbleChoice.class

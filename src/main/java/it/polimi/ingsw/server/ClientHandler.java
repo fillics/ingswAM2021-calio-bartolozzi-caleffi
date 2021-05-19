@@ -75,10 +75,8 @@ public class ClientHandler implements Runnable {
                     }
                     clientConnected.compareAndSet(true, false); //setto la variabile a false
 
-
                 }finally {
-                    if(!clientConnected.get()){
-                        // Chiudo gli stream e il socket -> client non è più connesso al server
+                    if(!clientConnected.get()){ //se client non più connesso al server
                         dis.close();
                         socket.close();
                         quit=true;
@@ -101,9 +99,7 @@ public class ClientHandler implements Runnable {
 
         } catch (IOException e) {
             System.err.println(e.getMessage());
-        }/* catch (DevelopmentCardNotFound | EmptyDeposit | LeaderCardNotActivated | LeaderCardNotFound | DevCardNotPlaceable | DifferentDimension | DepositDoesntHaveThisResource | DiscountCannotBeActivated | NotEnoughRequirements | TooManyResourcesRequested | DepositHasReachedMaxLimit | NotEnoughResources | DepositHasAnotherResource | WrongChosenResources developmentCardNotFound) {
-            developmentCardNotFound.printStackTrace();
-        }*/
+        }
     }
 
     public void setGame(Game game) {
@@ -113,10 +109,6 @@ public class ClientHandler implements Runnable {
 
     public Game getGame() {
         return game;
-    }
-
-    public void setGameStarted() {
-        gameStarted = true;
     }
 
     public String getUsername() {
@@ -158,14 +150,6 @@ public class ClientHandler implements Runnable {
         }).start();
     }
 
-    public void close(){
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public synchronized void deserialize(String jsonResult) throws DevelopmentCardNotFound,
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
@@ -214,10 +198,6 @@ public class ClientHandler implements Runnable {
 
         sendPacketToClient(packetSetup);
         sendSetup = false;
-    }
-
-    public void clientMessagesHandle(String jsonResult){
-
     }
 
     /**

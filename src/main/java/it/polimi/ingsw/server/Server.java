@@ -94,14 +94,13 @@ public class Server {
 
         try {
             serverSocket = new ServerSocket(Constants.getPort());
-            System.out.println("Socket Server started. Listening on port " + Constants.getPort());
 
         } catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during Socket initialization, quitting...");
             return;
         }
 
-        System.out.println("Server ready!");
+        System.out.println("Server ready! Listening on port " + Constants.getPort());
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
@@ -145,14 +144,16 @@ public class Server {
         return numPlayers;
     }
 
-    public ArrayList<Game> getGames() {
-        return games;
-    }
 
     public Map<String, ClientHandler> getMapUsernameClientHandler() {
         return mapUsernameClientHandler;
     }
-    
+
+
+    public synchronized void addToLobby(ClientHandler clientToAdd){
+        System.out.println("Added "+clientToAdd.getUsername()+ " to the lobby.");
+        lobby.add(clientToAdd);
+    }
 
     /**
      * Method checkFirstPositionInLobby checks if the ClientHandler, passed as a parameter, is the first person of
@@ -160,9 +161,10 @@ public class Server {
      * @param clientHandler (type ClientHandler) - it is the person to check
      */
     public synchronized void checkFirstPositionInLobby(ClientHandler clientHandler){
-        if (lobby.peek() != null && lobby.peek().equals(clientHandler)) {
+        if (lobby.size() != 0 && lobby.peek() != null && lobby.peek().equals(clientHandler)) {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS));
         }
+
     }
 
     /**
@@ -179,12 +181,20 @@ public class Server {
 
         }
         else {
-            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.USERNAME_VALID));
 
-            addUsernameIntoMap(username, clientHandler);
-            System.out.println("Adding "+username+ " to the lobby.");
-            lobby.add(clientHandler);
-            checkFirstPositionInLobby(clientHandler);
+            if (peopleDisconnected.containsKey(username)){
+                System.out.println("Client " +username+" reconnected");
+                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.PLAYER_RECONNECTED));
+                peopleDisconnected.remove(username);
+            }
+            else{
+                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.USERNAME_VALID));
+
+                registerUsername(username, clientHandler);
+                addToLobby(clientHandler);
+                checkFirstPositionInLobby(clientHandler);
+            }
+
 
         }
     }
@@ -195,7 +205,7 @@ public class Server {
      * @param username (type String) - it is the username to insert
      * @param clientHandler (type ClientHandler) - it is the clientHandler to insert
      */
-    public synchronized void addUsernameIntoMap(String username, ClientHandler clientHandler){
+    public synchronized void registerUsername(String username, ClientHandler clientHandler){
         mapUsernameClientHandler.put(username, clientHandler);
         clientHandler.setUsername(username);
         System.out.println(Constants.ANSI_GREEN+username+Constants.ANSI_RESET+ " (idPlayer: " +clientHandler.getIdClient()+") "+ Constants.ANSI_GREEN+"joined!"+Constants.ANSI_RESET);
@@ -229,14 +239,11 @@ public class Server {
             game.setState(GameStates.SETUP);
         }
 
-
         games.add(game);
         game.setIdGame(createGameID());
-        game.setNumof_players(numPlayers);
-        
+
         System.out.print(Constants.ANSI_BLUE+"Client " + (lobby.peek() != null ? lobby.peek().getUsername() : null) + " created the game (idGame: " + game.getIdGame()+ ") " +
                 "with " +numPlayers+" players: "+Constants.ANSI_RESET);
-
 
         for (int i=0; i<numPlayers; i++){
             if (lobby.peek()!= null) {
@@ -251,15 +258,17 @@ public class Server {
 
         printPlayersOrder(game);
 
-        mapIdGameClientHandler.put(game.getIdGame(), playersInGame);
 
-        numPlayers=0;
+        checkFirstPositionInLobby(lobby.peek());
 
-        if (lobby.size()!=0){
-            lobby.peek().sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS));
-        }
     }
 
+    /**
+     * Method setupPlayersGame calls the method setup of the Game and send to each player of the game a setup Packet,
+     * containing all of the informations they need to play the game
+     * @param game (type Game)
+     * @param playersInGame (type ArrayList<ClientHandler>)
+     */
     public synchronized void setupPlayersGame(Game game, ArrayList<ClientHandler> playersInGame){
         //to print players in the game
         for (ClientHandler clientHandler: playersInGame){
@@ -277,6 +286,8 @@ public class Server {
             clientHandler.sendSetupPacket();
         }
 
+        mapIdGameClientHandler.put(game.getIdGame(), playersInGame);
+        numPlayers=0;
     }
 
     public void printPlayersOrder(Game game){
@@ -290,6 +301,47 @@ public class Server {
 
 
     /**
+     * Method handleDisconnection handles the operations to do when a player disconnected himself.
+     * @param clientHandlerToRemove (type ClientHandler) - it is the client handler to remove
+     */
+    public synchronized void handleDisconnection(ClientHandler clientHandlerToRemove){
+        //caso in cui è già dentro una partita
+        if(clientHandlerToRemove.getGame()!=null){
+            unregisterUsername(clientHandlerToRemove);
+
+        }
+        //caso in cui non è ancora entrato in partita
+        else{
+            deleteFromLobby(clientHandlerToRemove);
+            unregisterUsername(clientHandlerToRemove);
+            checkFirstPositionInLobby(lobby.peek());
+
+        }
+    }
+
+    /**
+     * Method unregisterUsername unregisters the username of the client handler to remove from the map containing
+     * all the username and we put that username in a map
+     * @param clientHandlerToRemove (type ClientHandler) - it is the client handler to unregister because it disconnected
+     */
+    public void unregisterUsername(ClientHandler clientHandlerToRemove){
+        System.out.println("Unregistered the username " + clientHandlerToRemove.getUsername()+ "!");
+        mapUsernameClientHandler.remove(clientHandlerToRemove.getUsername());
+        peopleDisconnected.put(clientHandlerToRemove.getUsername(), clientHandlerToRemove.getGame().getIdGame());
+
+    }
+
+    /**
+     * Method deleteFromLobby deletes the client handler from the lobby of the game
+     * @param clientHandlerToRemove (type ClientHandler) - it is the client handler to remove because it disconnected
+     */
+    public synchronized void deleteFromLobby(ClientHandler clientHandlerToRemove){
+        System.out.println("Deleted " +clientHandlerToRemove.getUsername()+ " from the lobby!");
+        lobby.remove(clientHandlerToRemove);
+    }
+
+
+    /**
      * Method sendAll sends to all the players of a game an update about changes of the game
      * @param packet (type ServerPacketHandler)
      * @param gameInterface (type GameInterface)
@@ -300,43 +352,5 @@ public class Server {
             clientHandler.sendPacketToClient(packet);
         }
     }
-
-    public synchronized void sendWaitMessageToLobby(){
-        for(ClientHandler clientHandler: lobby){
-            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.WAITING_PEOPLE));
-        }
-    }
-
-
-
-
-    public synchronized void handleDisconnection(ClientHandler clientHandlerToRemove){
-        //caso in cui è già dentro una partita
-        if(clientHandlerToRemove.getGame()!=null){
-            deleteUsernameFromMap(clientHandlerToRemove);
-            peopleDisconnected.put(clientHandlerToRemove.getUsername(), clientHandlerToRemove.getGame().getIdGame());
-        }
-        //caso in cui non è ancora entrato in partita
-        else{
-            deleteFromLobby(clientHandlerToRemove);
-        }
-    }
-
-    public void deleteUsernameFromMap(ClientHandler clientHandlerToRemove){
-
-    }
-
-    // TODO: 17/05/2021 da testare 
-    /**
-     * Method deleteFromLobby deletes the client handler from the lobby of the game
-     * @param clientHandlerToRemove (type ClientHandler) - it is the client handler to remove because it disconnected
-     */
-    public synchronized void deleteFromLobby(ClientHandler clientHandlerToRemove){
-        lobby.remove(clientHandlerToRemove);
-        for (ClientHandler client : lobby) {
-            System.out.println(client.getUsername());
-        }
-    }
-
 
 }

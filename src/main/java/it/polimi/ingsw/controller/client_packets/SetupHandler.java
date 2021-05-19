@@ -11,6 +11,7 @@ import it.polimi.ingsw.server.Server;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PacketUsername.class, name = "USERNAME"),
         @JsonSubTypes.Type(value = PacketPongFromClient.class, name = "PONG"),
+        @JsonSubTypes.Type(value = PacketReconnection.class, name = "RECONNECTION"),
         @JsonSubTypes.Type(value = PacketNumPlayers.class, name = "NUMOFPLAYERS") })
 
 public interface SetupHandler {
