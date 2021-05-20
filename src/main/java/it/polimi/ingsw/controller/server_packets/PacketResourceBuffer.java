@@ -12,16 +12,18 @@ public class PacketResourceBuffer implements ServerPacketHandler{
     private final ArrayList<Resource> resourceBuffer;
 
     @JsonCreator
-    public PacketResourceBuffer(@JsonProperty("resourcebuffer") ArrayList<Resource> resourceBuffer) {
+    public PacketResourceBuffer(@JsonProperty("resourceBuffer") ArrayList<Resource> resourceBuffer) {
         this.resourceBuffer = resourceBuffer;
+    }
+
+    @Override
+    public void execute(Client client) {
+        System.out.println("Resource buffer updated");
+        client.getClientModelView().getMyPlayer().setResourceBuffer(resourceBuffer);
     }
 
     public ArrayList<Resource> getResourceBuffer() {
         return resourceBuffer;
     }
-
-    @Override
-    public void execute(Client client) {
-        client.getClientModelView().getMyPlayer().setResourceBuffer(resourceBuffer);
-    }
 }
+

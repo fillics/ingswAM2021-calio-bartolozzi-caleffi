@@ -19,16 +19,7 @@ public class PacketDevelopmentSpaces implements ServerPacketHandler{
     @Override
     public void execute(Client client) {
         client.getClientModelView().getLiteBoard().setDevelopmentSpaces(developmentSpaces);
-        System.out.println("Choose one of the operations you can do:\nPress 0 to quit");
-        System.out.println("1: Activate a Leader Card\n" +
-                "2: Buy a Development Card\n" +
-                "3: Choose Discount\n" +
-                "4: Use production powers\n" +
-                "5: Discard a Leader Card\n" +
-                "6: Move one of you resources\n" +
-                "7: Place one of your resources\n" +
-                "8: Take resources from the market\n" +
-                "9: End Turn\n");
+        System.out.println("Development spaces updated");
     }
 
     public ArrayList<DevelopmentSpace> getDevelopmentSpaces() {

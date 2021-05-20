@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.board.storage;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Color;
 import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.resources.ResourceType;
@@ -13,7 +15,11 @@ import java.util.HashMap;
 public class Strongbox extends Warehouse{
     private final HashMap<ResourceType, Integer> strongbox;
 
-    
+    @JsonCreator
+    public Strongbox(@JsonProperty("strongbox") HashMap<ResourceType, Integer> strongbox) {
+        this.strongbox = strongbox;
+    }
+
     /**
      * Constructor Strongbox creates a new Strongbox instance, 
      * used to create the map where all the strongobox resources will be inserted

@@ -31,11 +31,11 @@ public class BoardTest {
     Game testGame;
     Board testBoard;
     DevelopmentCard testDevelopmentCard1, testDevelopmentCard2, testDevelopmentCard3;
-    Cell cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, cell10;
-    VaticanReportSection testVaticanReportSection1, testVaticanReportSection2, testVaticanReportSection3;
+    //Cell cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, cell10;
+    //VaticanReportSection testVaticanReportSection1, testVaticanReportSection2, testVaticanReportSection3;
     ProductionPower testProductionPower;
     HashMap<ResourceType,Integer> testHashMap, testResourcePrice;
-    PopeFavorTile testPopeFavorTile;
+    //PopeFavorTile testPopeFavorTile;
     Resource coin, servant;
 
     HashMap<ResourceType,Integer> resourcePriceBuffer;
@@ -79,7 +79,7 @@ public class BoardTest {
         testBoard.getDevelopmentSpaces().get(2).addDevelopmentCard(testDevelopmentCard3);
 
 
-        testPopeFavorTile = new PopeFavorTile(PopeFavorTileColor.YELLOW, 1);
+        /*testPopeFavorTile = new PopeFavorTile(PopeFavorTileColor.YELLOW, 1);
         testPopeFavorTile.setVisible();
         cell1 = new Cell(1,true,1);
         cell2 = new Cell(1,true,1);
@@ -106,19 +106,7 @@ public class BoardTest {
         testBoard.getVaticanReportSections().get(2).getSection().add(cell7);
         testBoard.getVaticanReportSections().get(2).getSection().add(cell8);
         testBoard.getVaticanReportSections().get(2).getSection().add(cell9);
-        testBoard.getVaticanReportSections().get(2).getSection().add(cell10);
-
-
-        /*testBoard.getTrack().add(cell1);
-        testBoard.getTrack().add(cell2);
-        testBoard.getTrack().add(cell3);
-        testBoard.getTrack().add(cell4);
-        testBoard.getTrack().add(cell5);
-        testBoard.getTrack().add(cell6);
-        testBoard.getTrack().add(cell7);
-        testBoard.getTrack().add(cell8);
-        testBoard.getTrack().add(cell9);
-        testBoard.getTrack().add(cell10);*/
+        testBoard.getVaticanReportSections().get(2).getSection().add(cell10);*/
 
         resourcePriceBuffer=new HashMap<>();
         resourcePriceBuffer.put(ResourceType.SERVANT,1);
@@ -147,7 +135,7 @@ public class BoardTest {
     @Test
     @DisplayName("getBoardVictoryPoint test")
     void VictoryPointGetterTest() {
-        assertEquals(19,testBoard.getBoardVictoryPoint());
+        assertEquals(16,testBoard.getBoardVictoryPoint());
     }
 
     /** Method BoardTest tests board getter. */
@@ -235,13 +223,6 @@ public class BoardTest {
             testBoard.removeResources(chosenResources2,chosenWarehouse2);
         } catch (DifferentDimension | EmptyDeposit | DepositDoesntHaveThisResource ignored) {}
 
-    }
-
-    @Test
-    @DisplayName(" print faith track test")
-    void printTest(){
-        System.out.println(testBoard.getSpecialProductionPowers());
-        System.out.println(testBoard.getSpecialProductionPowers().get(0).getResourceObtained());
     }
 
 }

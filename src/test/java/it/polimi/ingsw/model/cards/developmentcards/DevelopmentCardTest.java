@@ -26,7 +26,7 @@ public class DevelopmentCardTest {
         testResourcePrice= new HashMap<>();
         testResourcesNeeded = new HashMap<>();
         testResourcesObtained = new HashMap<>();
-        testResourcePrice.put(ResourceType.COIN,6);
+        testResourcePrice.put(ResourceType.SHIELD,1);
         //testResourcePrice.put(ResourceType.SERVANT,2);
         //testResourcePrice.put(ResourceType.SHIELD,5);
 
@@ -38,14 +38,14 @@ public class DevelopmentCardTest {
         testResourcesObtained.put(ResourceType.FAITHMARKER,1);
 
         testProductionPower= new ProductionPower(testResourcesNeeded,testResourcesObtained);
-        testDevelopmentCard= new DevelopmentCard(38, Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
+        testDevelopmentCard= new DevelopmentCard(38, Level.THREE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
     }
 
     /** Method LevelGetterTest tests DevelopmentCard method getter. */
     @Test
     @DisplayName("Level getter test")
     void LevelGetterTest(){
-        assertEquals(Level.ONE,testDevelopmentCard.getLevel());
+        assertEquals(Level.THREE,testDevelopmentCard.getLevel());
     }
 
     /** Method ColorGetterTest tests DevelopmentCard method getter. */

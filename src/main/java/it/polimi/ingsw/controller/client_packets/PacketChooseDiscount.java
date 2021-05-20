@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketLeaderCards;
 import it.polimi.ingsw.exceptions.DiscountCannotBeActivated;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
@@ -22,12 +23,12 @@ public class PacketChooseDiscount implements ClientPacketHandler {
         this.leaderCards = leaderCards;
     }
 
-    //TODO: Aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
                 gameInterface.chooseDiscountActivation(leaderCards);
+                clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards()));
             } catch (DiscountCannotBeActivated discountCannotBeActivated) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DISCOUNTCANNOTBEACTIVATED));
             }

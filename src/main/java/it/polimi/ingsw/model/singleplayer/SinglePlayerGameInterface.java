@@ -6,5 +6,5 @@ public interface SinglePlayerGameInterface {
     void increaseBlackCross(int amount);
     void shuffleSoloActionToken();
     void removeDevCard(CardColor color);
-
+    int getBlackCross();
 }

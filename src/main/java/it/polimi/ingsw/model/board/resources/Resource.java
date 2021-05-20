@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.board.resources;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
 
@@ -9,6 +11,12 @@ import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
 public class Resource {
     private final ResourceType type;
     private ResourceActionStrategy strategy;
+
+    @JsonCreator
+    public Resource(@JsonProperty("type")ResourceType type,@JsonProperty("strategy")ResourceActionStrategy strategy) {
+        this.type = type;
+        this.strategy = strategy;
+    }
 
     /**
      * Constructor Resource creates a new Resource instance.

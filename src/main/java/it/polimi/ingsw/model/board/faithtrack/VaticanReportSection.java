@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.board.faithtrack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 
 /**
@@ -8,15 +11,17 @@ import java.util.ArrayList;
 public class VaticanReportSection {
     private final ArrayList<Cell> section;
     private final PopeFavorTile popefavortile;
-    private boolean activated = false;
+    private boolean activated;
 
     /**
      * Constructor VaticanReportSection creates a new VaticanReportSection instance
      * @param popefavortile (type PopeFavorTile) - it indicates the pope favor tile present in the vatican section
      */
-    public VaticanReportSection(PopeFavorTile popefavortile) {
+    @JsonCreator
+    public VaticanReportSection(@JsonProperty("popefavortile")PopeFavorTile popefavortile) {
         section = new ArrayList<>();
         this.popefavortile = popefavortile;
+        activated = false;
     }
 
     /**
@@ -42,7 +47,7 @@ public class VaticanReportSection {
     /**
      * Method isActivated returns the boolean attribute to know if the vatican report section is activated
      */
-    public boolean isActivated() {
+    public boolean getActivated() {
         return activated;
     }
 }

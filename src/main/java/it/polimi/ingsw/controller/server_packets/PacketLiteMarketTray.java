@@ -10,12 +10,13 @@ public class PacketLiteMarketTray implements ServerPacketHandler{
     private final Marble[][] table;
 
     @JsonCreator
-    public PacketLiteMarketTray(@JsonProperty("market tray :")Marble[][] table) {
+    public PacketLiteMarketTray(@JsonProperty("market tray")Marble[][] table) {
         this.table=table;
     }
 
     @Override
     public void execute(Client client) {
+        System.out.println("Market Tray updated");
         client.getClientModelView().getMarketTray().setTable(table);
     }
 
