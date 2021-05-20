@@ -16,6 +16,7 @@ public enum Printable {
     MIDDLE("═"),
 
     CROSS ("\u2020"),
+    BLACK_CROSS("\u271D"),
     CIRCLE ("\u25CF"),
     SQUARE("\u25A0"),
     WHITE_MARBLE ("\u25EF"),

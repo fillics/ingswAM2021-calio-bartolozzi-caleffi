@@ -34,4 +34,9 @@ public class GUI implements ViewInterface {
     public void printMarketTray() {
 
     }
+
+    @Override
+    public void printFaithTrack() {
+
+    }
 }

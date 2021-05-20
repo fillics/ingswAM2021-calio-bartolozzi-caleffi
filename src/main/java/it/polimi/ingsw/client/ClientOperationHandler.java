@@ -306,6 +306,7 @@ public class ClientOperationHandler {
             e.printStackTrace();
         }
 
+        viewInterface.printFaithTrack();
     }
 
     public void moveResource(){
@@ -370,7 +371,8 @@ public class ClientOperationHandler {
 
         do {
             line = input.nextLine();
-            if(!line.equals("row") && !line.equals("column")) System.err.println("invalid choice");
+            if(!line.equals("row") && !line.equals("column"))
+                System.err.println("invalid choice");
         } while (!line.equals("row") && !line.equals("column"));
 
 
@@ -412,6 +414,7 @@ public class ClientOperationHandler {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        viewInterface.printFaithTrack();
     }
 
 
@@ -524,6 +527,7 @@ public class ClientOperationHandler {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        viewInterface.printFaithTrack();
     }
 
 

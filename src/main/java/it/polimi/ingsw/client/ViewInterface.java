@@ -11,4 +11,5 @@ public interface ViewInterface {
     void printDevGrid();
     void printResourceBuffer();
     void printMarketTray();
+    void printFaithTrack();
 }

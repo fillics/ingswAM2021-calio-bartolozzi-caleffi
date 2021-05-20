@@ -4,7 +4,6 @@ package it.polimi.ingsw.server;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
@@ -192,12 +191,12 @@ public class ClientHandler implements Runnable {
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
-        PacketSetup packetSetup = new PacketSetup(username, idClient, posInGame,0, game.getInitialDevGrid(), game.getTable(), game.getRemainingMarble(),
+        PacketSetupMultiplayer packetSetup = new PacketSetupMultiplayer(username, idClient, posInGame,0,game.getIdClientActivePlayers().get(idClient).getBoard().getFaithMarker(), game.getInitialDevGrid(), game.getTable(), game.getRemainingMarble(),
                 game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getResourceBuffer(), game.getIdClientActivePlayers().get(idClient).getBoard().getSpecialProductionPowers(),
                 game.getIdClientActivePlayers().get(idClient).getBoard().getStrongbox(),
                 game.getIdClientActivePlayers().get(idClient).getBoard().getDeposits(),
                 game.getIdClientActivePlayers().get(idClient).getWhiteMarbleCardChoice(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
-                game.getIdClientActivePlayers().get(idClient).getBoard().getTrack());
+                game.getIdClientActivePlayers().get(idClient).getBoard().getTrack(), game.getIdClientActivePlayers().get(idClient).getBoard().getVaticanReportSections());
 
         sendPacketToClient(packetSetup);
     }
