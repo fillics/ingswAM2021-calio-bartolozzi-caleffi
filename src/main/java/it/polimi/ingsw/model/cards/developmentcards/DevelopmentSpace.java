@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.cards.developmentcards;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 
 import java.util.ArrayList;
 
@@ -51,5 +53,42 @@ public class DevelopmentSpace {
      */
     public ArrayList<DevelopmentCard> getDevelopmentCardsOfDevSpace() {
         return developmentCardsOfDevSpace;
+    }
+
+    public DevelopmentCard getTopCard() {
+        return topCard;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder escape = new StringBuilder();
+        int size = developmentCardsOfDevSpace.size();
+
+        if(size!=0){
+            escape.append(topCard).append("\n");
+            if(size>1){
+                for(int i=size-2;i>=0;i--){
+                    escape.append(Printable.DOUBLE_LINE.print());
+                    escape.append(developmentCardsOfDevSpace.get(i).printColor());
+                    escape.append("   ");
+                    escape.append(developmentCardsOfDevSpace.get(i).getVictorypoint()).append(Color.ANSI_YELLOW.escape()).append("VP").append(Color.RESET);
+                    if(developmentCardsOfDevSpace.get(i).getLevel()==Level.THREE)
+                        escape.append(" ".repeat(3));
+                    else if((developmentCardsOfDevSpace.get(i).getLevel()==Level.ONE || developmentCardsOfDevSpace.get(i).getLevel()==Level.TWO) && developmentCardsOfDevSpace.get(i).getVictorypoint()>9)
+                        escape.append(" ".repeat(2));
+                    else if ((developmentCardsOfDevSpace.get(i).getLevel()==Level.ONE || developmentCardsOfDevSpace.get(i).getLevel()==Level.TWO) && developmentCardsOfDevSpace.get(i).getVictorypoint()<10)
+                        escape.append(" ".repeat(3));
+                    escape.append(developmentCardsOfDevSpace.get(i).printColor()).append(Printable.DOUBLE_LINE.print()).append("\n");
+                    escape.append(Printable.SUD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(11)).append(Printable.SUD_EST.print());
+                    escape.append("\n");
+                }
+            }
+        }
+
+        return escape.toString();
+    }
+
+    public void dump(){
+        System.out.println(this);
     }
 }

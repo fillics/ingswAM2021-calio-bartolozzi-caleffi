@@ -12,4 +12,6 @@ public interface ViewInterface {
     void printResourceBuffer();
     void printMarketTray();
     void printFaithTrack();
+    void printDevSpaces();
+    void printBaseProdPower();
 }

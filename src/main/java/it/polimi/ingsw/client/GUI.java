@@ -39,4 +39,14 @@ public class GUI implements ViewInterface {
     public void printFaithTrack() {
 
     }
+
+    @Override
+    public void printDevSpaces() {
+
+    }
+
+    @Override
+    public void printBaseProdPower() {
+
+    }
 }

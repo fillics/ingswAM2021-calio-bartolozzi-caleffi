@@ -14,7 +14,6 @@ import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -414,13 +413,14 @@ public class ClientOperationHandler {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        viewInterface.printFaithTrack();
+        //TODO: STAMPARE FAITH TRACK AGGIORNATO?
     }
 
 
     public void useAndChooseProductionPower(){
         System.out.println("Select the IDs of the development space to use for the production. \n" +
                 "Press 0 when you have finished");
+        viewInterface.printDevSpaces();
 
         int id;
 
@@ -451,6 +451,7 @@ public class ClientOperationHandler {
         if(clientModelView.getLiteBoard().getSpecialProductionPower().size() >= 1){
             System.out.println("You have other production powers thanks to the leader cards you have selected, also you can use the board production power, select one or more" +
                     "of them, otherwise press 0 to finish");
+            viewInterface.printBaseProdPower();
             int position;
 
             do{

@@ -101,8 +101,10 @@ public class DevelopmentCard extends Card {
 
         matrix.append(Printable.DOUBLE_LINE.print());
         matrix.append(this.printColor());
-        if(numOfResourcePrice()==1)
+        if(numOfResourcePrice()==1 && this.level!=Level.THREE)
             matrix.append((" ").repeat(3));
+        else if(numOfResourcePrice()==1 && this.level==Level.THREE)
+            matrix.append((" ").repeat(4));
         else if(numOfResourcePrice()==2)
             matrix.append((" ").repeat(2));
         else if(numOfResourcePrice()==3)

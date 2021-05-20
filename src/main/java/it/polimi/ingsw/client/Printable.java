@@ -14,9 +14,9 @@ public enum Printable {
     SUD_OVEST("╚"),
     SUD_EST("╝"),
     MIDDLE("═"),
+    QUESTION_MARK("\uFFFD"),
 
     CROSS ("\u2020"),
-    BLACK_CROSS("\u271D"),
     CIRCLE ("\u25CF"),
     SQUARE("\u25A0"),
     WHITE_MARBLE ("\u25EF"),
