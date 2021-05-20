@@ -132,6 +132,24 @@ class GameTest {
         assertEquals(16, testGame.getLeaderDeck().size());
     }
 
+    @Test
+    void checkGetLiteDevGrid() throws DevelopmentCardNotFound {
+        testGame.createDevelopmentGrid();
+        assertEquals(12, testGame.getDevGridLite().size());
+
+        testGame.removeCardFromDevelopmentGrid(testGame.getDevelopmentGrid().get(2).getLast());
+        assertEquals(12, testGame.getDevGridLite().size());
+        testGame.removeCardFromDevelopmentGrid(testGame.getDevelopmentGrid().get(2).getLast());
+        testGame.removeCardFromDevelopmentGrid(testGame.getDevelopmentGrid().get(2).getLast());
+        testGame.removeCardFromDevelopmentGrid(testGame.getDevelopmentGrid().get(2).getLast());
+        for (int i = 0; i < 12; i++) {
+            System.out.println(testGame.getDevGridLite().get(i));
+        }
+        assertEquals(12, testGame.getDevGridLite().size());
+        assertNull(testGame.getDevGridLite().get(2));
+    }
+
+
     /**
      * Test method SizeLeaderDeckAfterDistributeTest checks the size of the leader deck
      * after the distribution of the leader cards to each player

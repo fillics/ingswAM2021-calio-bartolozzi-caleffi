@@ -189,7 +189,7 @@ public class ClientHandler implements Runnable {
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
-        PacketSetupMultiplayer packetSetup = new PacketSetupMultiplayer(username, idClient, posInGame,0,game.getIdClientActivePlayers().get(idClient).getBoard().getFaithMarker(), game.getInitialDevGrid(), game.getTable(), game.getRemainingMarble(),
+        PacketSetupMultiplayer packetSetup = new PacketSetupMultiplayer(username, idClient, posInGame,0,game.getIdClientActivePlayers().get(idClient).getBoard().getFaithMarker(), game.getDevGridLite(), game.getTable(), game.getRemainingMarble(),
                 game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getResourceBuffer(), game.getIdClientActivePlayers().get(idClient).getBoard().getSpecialProductionPowers(),
                 game.getIdClientActivePlayers().get(idClient).getBoard().getStrongbox(),
                 game.getIdClientActivePlayers().get(idClient).getBoard().getDeposits(),

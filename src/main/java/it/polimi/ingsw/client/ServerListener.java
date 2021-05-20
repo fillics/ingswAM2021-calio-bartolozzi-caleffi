@@ -44,7 +44,6 @@ public class ServerListener implements Runnable {
             ServerPacketHandler packet;
             try{
                 str = scanner.nextLine();
-                System.out.println(str);
             }catch(NoSuchElementException ignored){
                 connectionToServer.set(false);
             }

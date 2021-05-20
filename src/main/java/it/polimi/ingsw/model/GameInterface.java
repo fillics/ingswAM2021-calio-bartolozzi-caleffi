@@ -28,6 +28,7 @@ public interface GameInterface {
     void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound;
     void chooseLeaderCardToRemove(int idCard1, int idCard2) throws LeaderCardNotFound;
     int getCurrentPlayer();
+    ArrayList<DevelopmentCard> getDevGridLite();
     void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DifferentDimension, DepositHasReachedMaxLimit, DepositHasAnotherResource;
     GameStates getState();
     ArrayList<Player> getActivePlayers();

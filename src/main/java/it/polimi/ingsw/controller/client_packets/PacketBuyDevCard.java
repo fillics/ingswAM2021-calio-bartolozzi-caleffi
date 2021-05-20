@@ -40,8 +40,8 @@ public class PacketBuyDevCard implements ClientPacketHandler {
                 clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces()));
                 clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
                         gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));
-                // TODO: 14/05/2021  mandare a tutti il nuove development grid - sistemare il metodo getInitalDevGrid con getDevGrideLite (vedi metodo di Game)
-                server.sendAll(new PacketLiteDevelopmentGrid(gameInterface.getInitialDevGrid()), gameInterface);
+
+                server.sendAll(new PacketLiteDevelopmentGrid(gameInterface.getDevGridLite()), gameInterface);
                 gameInterface.setState(GameStates.PHASE_TWO);
             } catch (DevelopmentCardNotFound developmentCardNotFound) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEVELOPMENTCARDNOTFOURND));

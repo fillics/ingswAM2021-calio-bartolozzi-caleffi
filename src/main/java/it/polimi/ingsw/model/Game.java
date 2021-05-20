@@ -290,9 +290,9 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             developmentGrid.add(new LinkedList<>(groupByColorAndLevel.get(CardColor.PURPLE).get(Level.THREE)));
             developmentGrid.add(new LinkedList<>(groupByColorAndLevel.get(CardColor.BLUE).get(Level.THREE)));
 
-            for(int i=0; i<12;i++){
+            /*for(int i=0; i<12;i++){
                 initialDevGrid.add(developmentGrid.get(i).getLast());
-            }
+            }*/
         }catch (Exception ex){
             System.out.println("DevCard.json file was not found");
         }
@@ -303,15 +303,21 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
 
+    /**
+     * Method getDevGridLite returns only the cards on the top of the development grid. If there is no card in a position,
+     * it will be null.
+     * @return
+     */
     public synchronized ArrayList<DevelopmentCard> getDevGridLite(){
 
         ArrayList<DevelopmentCard> liteDevGrid = new ArrayList<>();
 
         for(int i=0; i<12;i++){
-            if(developmentGrid.get(i)!=null){
-                liteDevGrid.add(developmentGrid.get(i).getLast());
-            }
+            DevelopmentCard card = null;
+            if(!developmentGrid.get(i).isEmpty()) card = developmentGrid.get(i).getLast();
+            liteDevGrid.add(card);
         }
+
         return liteDevGrid;
     }
 
