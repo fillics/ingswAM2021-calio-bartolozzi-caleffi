@@ -40,7 +40,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     private volatile int currentPlayer = 0;
     private boolean endgame = false;
     private GameStates gameStates = GameStates.FILL_LOBBY;
-    private int numof_players;
     private final ArrayList<DevelopmentCard> initialDevGrid;
     protected String winner;
 
@@ -157,15 +156,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public Marble getRemainingMarble(){
         return market.getRemainingMarble();
     }
-
-    public int getNumof_players() {
-        return numof_players;
-    }
-
-    public void setNumof_players(int numof_players) {
-        this.numof_players = numof_players;
-    }
-
 
     /**
      * Override method chooseLeaderCardToRemove used when the player has to choose two leader cards at the beginning of the game

@@ -64,6 +64,10 @@ public class ServerWriter implements Runnable{
         switch (client.getClientState()){
             case USERNAME -> client.sendUsername(inputString);
 
+            case RECONNECT -> {
+                client.chooseReconnection(Integer.parseInt(inputString));
+            }
+
             case NUMPLAYERS -> {
                 try{
                     client.choosePlayerNumber(Integer.parseInt(inputString));

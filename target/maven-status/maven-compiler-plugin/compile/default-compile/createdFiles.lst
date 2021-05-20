@@ -19,7 +19,6 @@ it\polimi\ingsw\model\marbles\WhiteMarble.class
 it\polimi\ingsw\client\Printable.class
 it\polimi\ingsw\exceptions\NotEnoughRequirements.class
 it\polimi\ingsw\model\cards\developmentcards\DevelopmentSpace.class
-it\polimi\ingsw\controller\server_packets\PacketEndofUpdate.class
 it\polimi\ingsw\model\marbles\BlueMarble.class
 it\polimi\ingsw\model\cards\developmentcards\Level.class
 it\polimi\ingsw\controller\client_packets\PacketChooseLeaderCardToRemove.class
@@ -34,6 +33,7 @@ it\polimi\ingsw\controller\server_packets\PacketEndGameStarted.class
 it\polimi\ingsw\model\board\resources\Resource.class
 it\polimi\ingsw\model\marbles\MarketTray.class
 it\polimi\ingsw\model\singleplayer\ConcreteStrategyPlusTwo.class
+it\polimi\ingsw\controller\client_packets\PacketReconnection.class
 it\polimi\ingsw\model\singleplayer\SoloActionTokenType.class
 it\polimi\ingsw\client\CLI.class
 it\polimi\ingsw\model\GameInterface.class

@@ -10,6 +10,7 @@ import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 
 import java.io.*;
 import java.net.Socket;
@@ -53,6 +54,7 @@ public class ClientHandler implements Runnable {
 
 
     public void run() {
+        String guest = "Guest";
         try {
             while (!quit) {
                 if (sendSetup) sendSetupPacket();
@@ -61,52 +63,53 @@ public class ClientHandler implements Runnable {
                     String str = dis.readUTF();
                     deserialize(str);
                 }catch (Exception e){
-                    String guest = "Guest";
-                    /*if(username!=null){ //il player ha inserito l'username
+
+                    if(username!=null){ //il player ha inserito l'username
                         System.out.println(username + " disconnected!");
+                        server.handleDisconnection(this);
                     }
-                    else{ //il player non ha ancora inserito l'username: lo togliamo solo dalla lobby
+                    else{ //il player non ha ancora inserito l'username: viene solo chiusa la disconnessione
                         System.out.println(guest+numberOfGuest + " disconnected!");
 
-                    }*/
+                    }
                     clientConnected.compareAndSet(true, false); //setto la variabile a false
-                    server.handleDisconnection();
 
-
-                    // TODO Altre operazioni da fare: rimuoverlo dalla lobby e se username != null toglierlo dalla mappa che contiene tutti i nomi
                 }finally {
-                    if(!clientConnected.get()){
-                        // Chiudo gli stream e il socket -> client non è più connesso al server
+                    if(!clientConnected.get()){ //se client non più connesso al server
                         dis.close();
                         socket.close();
                         quit=true;
                     }
                 }
-                if(gameStarted) {
-                    if(game.isEndgame()){
-                        quit=true;
+                if(gameStarted && game.isEndgame()) {
+                    quit=true;
+
+                    if(!(game instanceof SinglePlayerGame)){
                         server.sendAll(new PacketEndGameStarted(username), game);
                         game.setState(GameStates.FINAL_TURN);
                     }
 
                 }
             }
-            System.out.println("Connection with " + username + " is closed!");
+
+            if(username!=null) System.out.println("Connection with " + username + " is closed!");
+            else System.out.println("Connection with " + guest+numberOfGuest + " is closed!");
+
 
         } catch (IOException e) {
             System.err.println(e.getMessage());
-        }/* catch (DevelopmentCardNotFound | EmptyDeposit | LeaderCardNotActivated | LeaderCardNotFound | DevCardNotPlaceable | DifferentDimension | DepositDoesntHaveThisResource | DiscountCannotBeActivated | NotEnoughRequirements | TooManyResourcesRequested | DepositHasReachedMaxLimit | NotEnoughResources | DepositHasAnotherResource | WrongChosenResources developmentCardNotFound) {
-            developmentCardNotFound.printStackTrace();
-        }*/
+        }
     }
 
     public void setGame(Game game) {
         this.game = game;
+        gameStarted=true;
     }
 
-    public void setGameStarted() {
-        gameStarted = true;
+    public Game getGame() {
+        return game;
     }
+
     public String getUsername() {
         return username;
     }
@@ -128,6 +131,9 @@ public class ClientHandler implements Runnable {
     }
 
 
+    /**
+     * Method startPingPong sends a Ping Packet to the client to check if it is connected
+     */
     public synchronized void startPingPong(){
 
         new Thread(() -> {
@@ -143,14 +149,6 @@ public class ClientHandler implements Runnable {
         }).start();
     }
 
-    public void close(){
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public synchronized void deserialize(String jsonResult) throws DevelopmentCardNotFound,
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
@@ -199,10 +197,7 @@ public class ClientHandler implements Runnable {
                 game.getIdClientActivePlayers().get(idClient).getBoard().getTrack(), game.getIdClientActivePlayers().get(idClient).getBoard().getVaticanReportSections());
 
         sendPacketToClient(packetSetup);
-    }
-
-    public void clientMessagesHandle(String jsonResult){
-
+        sendSetup = false;
     }
 
     /**

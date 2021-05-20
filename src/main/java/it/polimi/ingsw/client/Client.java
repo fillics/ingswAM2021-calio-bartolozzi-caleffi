@@ -11,6 +11,7 @@ import it.polimi.ingsw.controller.client_packets.SetupHandler;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 
 
+
 import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.Locale;
@@ -18,17 +19,12 @@ import java.util.Scanner;
 
 public class Client{
     private ClientStates clientStates;
-    private ServerListener serverListener;
-    private ServerWriter serverWriter;
-    private final PrintStream output;
     private final Scanner input;
-    private SocketClientConnection socketClientConnection;
-    private ObjectMapper mapper;
-    private boolean gameStarted = false;
-    private ClientOperationHandler clientOperationHandler;
-    private ClientModelView clientModelView;
+    private final SocketClientConnection socketClientConnection;
+    private final boolean gameStarted = false;
+    private final ClientOperationHandler clientOperationHandler;
+    private final ClientModelView clientModelView;
 
-    int choiceGame = 0;
 
     /**
      * Constructor Client creates a new Client instance
@@ -36,15 +32,15 @@ public class Client{
      */
     public Client() {
         input = new Scanner(System.in);
-        output = new PrintStream(System.out);
+        PrintStream output = new PrintStream(System.out);
         socketClientConnection = new SocketClientConnection(this);
         clientModelView = new ClientModelView();
         clientOperationHandler = new ClientOperationHandler(socketClientConnection,clientModelView);
 
         //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
         if(socketClientConnection.getConnectionToServer().get()){
-            serverListener = new ServerListener(this, socketClientConnection);
-            serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input);
+            ServerListener serverListener = new ServerListener(this, socketClientConnection);
+            ServerWriter serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input);
             new Thread(serverWriter).start();
             new Thread(serverListener).start();
         }
@@ -54,9 +50,8 @@ public class Client{
     }
 
     public static void main(String[] args) {
-        //System.out.println(Constants.MASTEROFRENAISSANCE);
-        //System.out.println(Constants.AUTHORS);
-        System.out.println("Master of Renaissance CLI | Welcome!");
+        System.out.println(Constants.MASTEROFRENAISSANCE);
+        System.out.println(Constants.AUTHORS);
 
         /*int choiceGame = choiceGameType();
 
@@ -66,6 +61,7 @@ public class Client{
         }
         */
         //ricordarsi di mettere l'else se choiceGame == 2
+
         serverMatch();
 
     }
@@ -75,13 +71,13 @@ public class Client{
      */
     public static void serverMatch(){
         Scanner scanner = new Scanner(System.in);
-        int choice;
-        //System.out.println(">Insert the server IP address");
-        //System.out.print(">");
-        // String ip = scanner.nextLine(); PER ORA HO TOLTO QUESTA OPZIONE PERCHÈ TANTO È SEMPRE LO STESSO IP ADDRESS
-        Constants.setAddressServer("127.0.0.1");
+        int choiceInterface;
+        System.out.println(">Insert the server IP address");
+        System.out.print(">");
+        String ip = scanner.nextLine();
+        Constants.setAddressServer(ip);
         System.out.println(">Insert the server port");
-        System.out.print(">"); // TODO: 13/05/2021 prima di chiedere la porta meglio chiedere se vuole giocare in locale o in server
+        System.out.print(">");
         int port = 0;
         try{
             port = scanner.nextInt();
@@ -89,19 +85,34 @@ public class Client{
             System.err.println("insert only numbers");
         }
         Constants.setPort(port);
-        do{
-          System.out.println("Choose the view interface: \n" + "1.CLI \n" + "2.GUI");
-          System.out.print(">");
-          choice = scanner.nextInt();
-          if(choice!=1 && choice!=2)
-              System.out.println("Your choice is not available, please retry");
-        } while(choice!=1 && choice!=2);
+
+        choiceInterface = viewInterfaceChoice();
+
         Client client = new Client();
 
-        if(choice==1)
+        if(choiceInterface==1)
             client.setInterface(new CLI(client.getClientModelView()));
         else client.setInterface(new GUI(client.getClientModelView()));
     }
+
+    /**
+     * Method viewInterfaceChoice asks to the client if he wants to play using CLI or GUI
+     * @return the choice of the chosen view
+     */
+    public static int viewInterfaceChoice(){
+        Scanner in = new Scanner(System.in);
+        int choiceInterface;
+        do{
+            System.out.println("Choose the view interface: \n" + "1.CLI \n" + "2.GUI");
+            System.out.print(">");
+            choiceInterface = in.nextInt();
+            if(choiceInterface!=1 && choiceInterface!=2)
+                System.err.println("Your choice is not available, please retry");
+        } while(choiceInterface!=1 && choiceInterface!=2);
+
+        return choiceInterface;
+    }
+
 
     public void setInterface(ViewInterface viewInterface){
         clientOperationHandler.setViewInterface(viewInterface);
@@ -138,21 +149,33 @@ public class Client{
         serializeAndSend(packet);
     }
 
-    public void serializeAndSend(SetupHandler packet){
-        String jsonResult;
-        mapper = new ObjectMapper();
-        try {
-            jsonResult = mapper.writeValueAsString(packet);
-            socketClientConnection.sendToServer(jsonResult);
-        } catch (JsonProcessingException ignored) {
-            System.err.println("Error during the write of the values in the variable jsonResult");
-        }
+    /**
+     * Method chooseReconnection
+     * @param reconnectionChoice (type Integer)
+     */
+    public void chooseReconnection(int reconnectionChoice){
+
+        do {
+            try {
+                if(reconnectionChoice < 1 || reconnectionChoice > 2){
+                    Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
+                    reconnectionChoice = input.nextInt();
+                }
+            }catch (InputMismatchException e) {
+                System.err.println("Invalid parameter: insert a numeric value.");
+            }
+        }while(reconnectionChoice < 1 || reconnectionChoice > 2);
+
     }
 
-    public void sendPong(){
+
+    /**
+     * Method serializeAndSend serializes and sends to the server the packet passed as a parameter
+     * @param packet (type SetupHandler) - it is the packet to send
+     */
+    public void serializeAndSend(SetupHandler packet){
         String jsonResult;
-        PacketConnectionMessages packet = new PacketConnectionMessages(ConnectionMessages.PONG);
-        mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         try {
             jsonResult = mapper.writeValueAsString(packet);
             socketClientConnection.sendToServer(jsonResult);
