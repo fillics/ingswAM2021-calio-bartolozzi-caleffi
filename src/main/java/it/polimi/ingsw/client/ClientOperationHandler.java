@@ -88,6 +88,7 @@ public class ClientOperationHandler {
 
     public void activateLeaderCard() throws IOException {
         System.out.println("Choose the ID of the leader card to activate: ");
+        viewInterface.printLeaderCards();
         int id;
         boolean LeaderCardcheck = false;
         do {
@@ -106,6 +107,7 @@ public class ClientOperationHandler {
 
     public void buyDevCard(){
         System.out.println("Select the card ID you want to buy");
+        viewInterface.printDevGrid();
 
         Scanner input1 = new Scanner(System.in);
         int id;
@@ -126,6 +128,9 @@ public class ClientOperationHandler {
 
         int resource;
         int position;
+
+        viewInterface.printStrongbox();
+        viewInterface.printDeposits();
 
         ArrayList<ResourceType> resources = new ArrayList<>();
         ArrayList<Warehouse> warehouse = new ArrayList<>();
@@ -200,7 +205,7 @@ public class ClientOperationHandler {
 
     public void chooseDiscount() throws IOException {
         System.out.println("Choose the IDs of the leader cards to activate, press 0 to finish");
-
+        viewInterface.printLeaderCards();
         boolean check = false;
         int id;
         ArrayList<Integer> leaderCards = new ArrayList<>();
@@ -279,6 +284,7 @@ public class ClientOperationHandler {
 
     public void discardLeaderCard(){
         System.out.println("Write the ID of the leader card to discard");
+        viewInterface.printLeaderCards();
         boolean check = false;
         int id;
 
@@ -304,10 +310,15 @@ public class ClientOperationHandler {
 
     public void moveResource(){
         System.out.println("Choose the deposit in which you want to take the resource");
-        int position;
+        viewInterface.printDeposits();
+        int position = 0;
 
         do{
-            position = input.nextInt();
+            try{
+                position = input.nextInt();
+            }catch(InputMismatchException e){
+                System.err.println("Don't write strings");
+            }
             if(position < 1 || position > 3) System.err.println("Invalid position, retry");
         }while(position < 1 || position > 3);
 
@@ -327,6 +338,7 @@ public class ClientOperationHandler {
         }
         else{
             System.out.println("Choose the resource and the deposit in which you want to place the resource");
+            viewInterface.printResourceBuffer();
             int position;
             int resource;
 
@@ -353,6 +365,9 @@ public class ClientOperationHandler {
 
     public void takeResourceFromMarket(){
         System.out.println("Select Row or Column and which of the lines you choose");
+
+        viewInterface.printMarketTray();
+
         Scanner input1 = new Scanner(System.in);
         boolean check = false;
         String line;
@@ -475,6 +490,9 @@ public class ClientOperationHandler {
         System.out.println("Choose the resource and the place in which you want to take it\n" +
                         "press 0 once you have finished");
 
+        viewInterface.printDeposits();
+        viewInterface.printStrongbox();
+
             int resource;
             int position;
 
@@ -511,7 +529,7 @@ public class ClientOperationHandler {
 
 
         for(ProductionPower productionPower : productionPowers){
-            if (productionPower.getResourcesObtained().get(ResourceType.JOLLY) > 0) {
+            if (productionPower.getResourceObtained().get(ResourceType.JOLLY) > 0) {
                 checkProd = true;
                 break;
             }

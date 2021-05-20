@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.board.storage;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Color;
 import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.resources.Resource;
@@ -14,6 +16,14 @@ public class Deposit extends Warehouse {
    private ResourceType resourcetype;
    private int quantity;
    private final int maxLimit;
+
+    @JsonCreator
+    public Deposit(@JsonProperty("resourcetype") ResourceType resourcetype, @JsonProperty("quantity") int quantity, @JsonProperty("maxLimit") int maxLimit) {
+        this.resourcetype = resourcetype;
+        this.quantity = quantity;
+        this.maxLimit = maxLimit;
+    }
+
 
     /**
      * Constructor Deposit creates a new Deposit instance

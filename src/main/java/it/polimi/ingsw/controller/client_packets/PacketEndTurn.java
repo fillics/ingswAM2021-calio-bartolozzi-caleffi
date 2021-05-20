@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
+import it.polimi.ingsw.controller.server_packets.PacketFaithTrack;
 import it.polimi.ingsw.controller.server_packets.PacketLiteDevelopmentGrid;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketWinner;
@@ -29,15 +30,15 @@ public class PacketEndTurn implements ClientPacketHandler{
                 SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
                 if (token.getType().equals(SoloActionTokenType.DISCARD)) {
                     ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                //    clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(((SinglePlayerGame) gameInterface).getDevGridLite()));
+                    clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(((SinglePlayerGame) gameInterface).getDevGridLite()));
                     clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.DISCARDDEVCARD));
                 } else if (token.getType().equals(SoloActionTokenType.BLACKCROSS_1)) {
                     ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                    //TODO: aggiungere un paccchetto che invia il tracciato fede modificato
+                    clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack()));
                     clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS1));
                 } else if (token.getType().equals(SoloActionTokenType.BLACKCROSS_2)) {
                     ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                    //TODO: aggiungere un paccchetto che invia il tracciato fede modificato
+                    clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack()));
                     clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS2));
                 }
                 if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
