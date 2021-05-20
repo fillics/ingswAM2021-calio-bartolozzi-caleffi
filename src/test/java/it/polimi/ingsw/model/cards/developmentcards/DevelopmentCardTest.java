@@ -45,7 +45,7 @@ public class DevelopmentCardTest {
     @Test
     @DisplayName("Level getter test")
     void LevelGetterTest(){
-        assertEquals(Level.ONE,testDevelopmentCard.getLevel());
+        assertEquals(Level.THREE,testDevelopmentCard.getLevel());
     }
 
     /** Method ColorGetterTest tests DevelopmentCard method getter. */
