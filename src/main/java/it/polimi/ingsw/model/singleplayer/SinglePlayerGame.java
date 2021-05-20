@@ -93,7 +93,7 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
         }
         if(getActivePlayers().get(getCurrentPlayer()).getBoard().getTrack().get(blackCross - 1).getPopeSpace()){
             if(getActivePlayers().get(getCurrentPlayer()).getBoard().getTrack().get(blackCross - 1).getVaticanReportSection() > 0){
-                if(!getActivePlayers().get(getCurrentPlayer()).getBoard().getVaticanReportSections().get(getActivePlayers().get(getCurrentPlayer()).getBoard().getTrack().get(blackCross - 1).getVaticanReportSection()-1).isActivated()){
+                if(!getActivePlayers().get(getCurrentPlayer()).getBoard().getVaticanReportSections().get(getActivePlayers().get(getCurrentPlayer()).getBoard().getTrack().get(blackCross - 1).getVaticanReportSection()-1).getActivated()){
                     checkPlayersFaithMarkers(blackCross);
                 }
             }

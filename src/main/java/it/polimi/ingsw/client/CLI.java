@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.model.board.faithtrack.PopeFavorTileColor;
 import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.developmentcards.Level;
@@ -184,7 +185,7 @@ public class CLI implements ViewInterface{
                 escape.append(Color.ANSI_PURPLE.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");
         }
         escape.append(Printable.DOUBLE_LINE.print()).append("\n");
-        escape.append(Printable.SUD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(numOfResources*2 +1)).append(Printable.SUD_EST.print()).append("\n");
+        escape.append(Printable.SUD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(numOfResources*2 +1)).append(Printable.SUD_EST.print());
 
         System.out.println(escape);
     }
@@ -192,5 +193,140 @@ public class CLI implements ViewInterface{
     @Override
     public void printMarketTray() {
         clientModelView.getMarketTray().dump();
+    }
+
+    public String printColor(int i){
+        StringBuilder escape = new StringBuilder();
+        if((clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection())!=0 && clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace()){
+            if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()== PopeFavorTileColor.YELLOW)
+                escape.append(Color.ANSI_PURPLE.escape());
+            else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE)
+                escape.append(Color.ANSI_GREEN.escape());
+            else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED)
+                escape.append(Color.ANSI_RED.escape());
+        }
+        else if((clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection())!=0 && !clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace())
+            escape.append(Color.ANSI_YELLOW.escape());
+        return escape.toString();
+    }
+
+    @Override
+    public void printFaithTrack() {
+        StringBuilder escape = new StringBuilder();
+        for(int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++){
+                escape.append(printColor(i));
+                escape.append(Printable.NORD_OVEST.print());
+                if(i+1<10)
+                    escape.append(Printable.MIDDLE.print().repeat(2));
+                else
+                    escape.append(Printable.MIDDLE.print().repeat(1));
+                escape.append(i+1).append(Printable.MIDDLE.print().repeat(2)).append(Printable.NORD_EST.print());
+                if(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()!=0)
+                    escape.append(Color.RESET);
+            }
+            escape.append("\n");
+            for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
+                escape.append(printColor(i));
+                escape.append(Printable.DOUBLE_LINE.print());
+                if (clientModelView.getLiteBoard().getTrack().get(i).getVictoryPoint() != 0)
+                    escape.append((" ").repeat(1));
+                else
+                    escape.append((" ").repeat(2));
+                if (clientModelView.getLiteBoard().getTrack().get(i).getVictoryPoint() != 0) {
+                    escape.append(Color.RESET).append(Color.ANSI_YELLOW.escape()).append(clientModelView.getLiteBoard().getTrack().get(i).getVictoryPoint()).append("VP").append(Color.RESET);
+                    escape.append(printColor(i));
+
+                    if (clientModelView.getLiteBoard().getTrack().get(i).getVictoryPoint() < 10)
+                        escape.append(" ".repeat(1));
+                } else
+                    escape.append(" ".repeat(3));
+                escape.append(Printable.DOUBLE_LINE.print());
+
+                if(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()!=0)
+                    escape.append(Color.RESET);
+            }
+
+            escape.append("\n");
+            for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
+                escape.append(printColor(i));
+                escape.append(Printable.DOUBLE_LINE.print());
+                if(clientModelView.getLiteBoard().getFaithMarker()==i+1){
+                    escape.append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_RED.escape()).append(Printable.CROSS.print()).append(Color.RESET).append(" ".repeat(2));
+                    escape.append(printColor(i));
+                }
+                else
+                    escape.append(" ".repeat(5));
+                escape.append(Printable.DOUBLE_LINE.print());
+                if(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()!=0)
+                    escape.append(Color.RESET);
+            }
+            escape.append("\n");
+
+            for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
+                escape.append(printColor(i));
+                escape.append(Printable.DOUBLE_LINE.print());
+                if(clientModelView.getLiteBoard().getBlackCross()!=0 && clientModelView.getLiteBoard().getBlackCross()==i){
+                    escape.append(" ".repeat(2)).append(Color.RESET).append(Printable.CROSS.print()).append(" ".repeat(2));
+                    escape.append(printColor(i));
+                }
+                else
+                    escape.append(" ".repeat(5));
+                escape.append(Printable.DOUBLE_LINE.print());
+                if(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()!=0)
+                    escape.append(Color.RESET);
+            }
+            escape.append("\n");
+
+            for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
+                escape.append(printColor(i));
+
+                escape.append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print());
+                if(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()!=0)
+                    escape.append(Color.RESET);
+            }
+            escape.append("\n");
+
+            for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
+                if(clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace()){
+                    if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()== PopeFavorTileColor.YELLOW)
+                        escape.append(Color.ANSI_PURPLE.escape()).append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.NORD_EST.print()).append(Color.RESET);
+                    else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE)
+                        escape.append(Color.ANSI_GREEN.escape()).append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.NORD_EST.print()).append(Color.RESET);
+                    else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED)
+                        escape.append(Color.ANSI_RED.escape()).append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.NORD_EST.print()).append(Color.RESET);
+
+                }
+                else
+                    escape.append(" ".repeat(7));
+            }
+            escape.append("\n");
+            for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
+                if(clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace()){
+                    if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.YELLOW)
+                        escape.append(Color.ANSI_PURPLE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(1)).append(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVictorypoint()).append("VP").append(" ".repeat(1)).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
+                    else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE)
+                        escape.append(Color.ANSI_GREEN.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(1)).append(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVictorypoint()).append("VP").append(" ".repeat(1)).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
+                    else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED)
+                        escape.append(Color.ANSI_RED.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(1)).append(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVictorypoint()).append("VP").append(" ".repeat(1)).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
+
+                }
+                else
+                    escape.append(" ".repeat(7));
+            }
+            escape.append("\n");
+            for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
+                if(clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace()){
+                    if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.YELLOW)
+                        escape.append(Color.ANSI_PURPLE.escape()).append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print()).append(Color.RESET);
+                    else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE)
+                        escape.append(Color.ANSI_GREEN.escape()).append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print()).append(Color.RESET);
+                    else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED)
+                        escape.append(Color.ANSI_RED.escape()).append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print()).append(Color.RESET);
+
+                }
+                else
+                    escape.append(" ".repeat(7));
+            }
+            System.out.println(escape);
     }
 }

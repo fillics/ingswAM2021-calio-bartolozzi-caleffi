@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.faithtrack.PopeFavorTile;
 import it.polimi.ingsw.model.board.faithtrack.PopeFavorTileColor;
@@ -38,6 +36,7 @@ public class Board implements BoardInterface {
     private final ArrayList<VaticanReportSection> vaticanReportSections;
     private final ArrayList<ProductionPower> specialProductionPowers;
     private final GameBoardInterface game;
+    //private final SinglePlayerGameInterface singleGame;
 
 
     /**
@@ -49,6 +48,7 @@ public class Board implements BoardInterface {
         faithMarker = 0;
         boardVictoryPoint = 0;
         this.game = game;
+        //this.singleGame=singleGame;
 
         specialProductionPowers = new ArrayList<>();
         HashMap<ResourceType,Integer> resourceNeeded = new HashMap<>();
@@ -181,7 +181,7 @@ public class Board implements BoardInterface {
         }
         if(track.get(faithMarker - 1).getPopeSpace()){
             if(track.get(faithMarker - 1).getVaticanReportSection() > 0){
-                if(!vaticanReportSections.get(track.get(faithMarker - 1).getVaticanReportSection()-1).isActivated()){
+                if(!vaticanReportSections.get(track.get(faithMarker - 1).getVaticanReportSection()-1).getActivated()){
                     game.checkPlayersFaithMarkers(faithMarker);
                 }
             }
@@ -195,7 +195,7 @@ public class Board implements BoardInterface {
     public int getBoardVictoryPoint() {
         boardVictoryPoint = 0;
         for (VaticanReportSection vaticanReportSection : vaticanReportSections) {
-            if (vaticanReportSection.getPopefavortile().isVisible()) {
+            if (vaticanReportSection.getPopefavortile().getVisible()) {
                 boardVictoryPoint += vaticanReportSection.getPopefavortile().getVictorypoint();
             }
         }
@@ -336,4 +336,6 @@ public class Board implements BoardInterface {
         numOfDevCards+=1;
         if(numOfDevCards==7) game.endGame();
     }
+
+
 }

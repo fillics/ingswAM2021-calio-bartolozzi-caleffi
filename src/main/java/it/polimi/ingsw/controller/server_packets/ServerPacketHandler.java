@@ -19,7 +19,7 @@ import it.polimi.ingsw.client.Client;
         @JsonSubTypes.Type(value = PacketDevelopmentSpaces.class, name = "DEVELOPMENT_SPACES"),
         @JsonSubTypes.Type(value = PacketLeaderCards.class, name = "LEADER_CARDS"),
         @JsonSubTypes.Type(value = PacketResourceBuffer.class, name = "RESOURCE_BUFFER"),
-        @JsonSubTypes.Type(value = PacketSetup.class, name = "SETUP"),
+        @JsonSubTypes.Type(value = PacketSetupMultiplayer.class, name = "SETUP"),
         @JsonSubTypes.Type(value = PacketSpecialProdPowers.class, name = "SPECIAL_PROD_POWERS"),
         @JsonSubTypes.Type(value = PacketWhiteMarbleChoice.class, name = "WHITE_MARBLE_CHOICE"),
         @JsonSubTypes.Type(value = PacketEndGameStarted.class, name = "ENDGAME_STARTED"),

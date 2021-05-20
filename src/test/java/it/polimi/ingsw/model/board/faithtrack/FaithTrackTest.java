@@ -47,9 +47,9 @@ public class FaithTrackTest {
     @Test
     @DisplayName("PopeFavorTile getters test")
     void PopeFavorTileTest() {
-        assertFalse(testPopeFavorTile.isVisible());
+        assertFalse(testPopeFavorTile.getVisible());
         testPopeFavorTile.setVisible();
-        assertTrue(testPopeFavorTile.isVisible());
+        assertTrue(testPopeFavorTile.getVisible());
         assertEquals(3,testPopeFavorTile.getVictorypoint());
         assertEquals(PopeFavorTileColor.YELLOW, testPopeFavorTile.getColor());
     }

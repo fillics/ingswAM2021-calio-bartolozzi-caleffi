@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.board.faithtrack;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Class PopeFavorTile represents the pope favor tiles that are present on the faith track
  */
@@ -13,7 +16,8 @@ public class PopeFavorTile {
      * @param color (type PopeFavorTileColor) - it indicates which color the tile is
      * @param victorypoint (type Int) - it indicates how many victory points the tile contains
      */
-    public PopeFavorTile(PopeFavorTileColor color, int victorypoint) {
+    @JsonCreator
+    public PopeFavorTile(@JsonProperty("color")PopeFavorTileColor color, @JsonProperty("victorypoint")int victorypoint) {
         this.color = color;
         this.victorypoint = victorypoint;
         visible = false;
@@ -36,7 +40,7 @@ public class PopeFavorTile {
     /**
      * Method isVisible returns the boolean attribute to know if the pope favor tile is visible
      */
-    public boolean isVisible() {
+    public boolean getVisible() {
         return visible;
     }
 
