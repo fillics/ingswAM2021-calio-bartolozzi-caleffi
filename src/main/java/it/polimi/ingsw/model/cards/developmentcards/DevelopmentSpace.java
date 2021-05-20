@@ -59,9 +59,6 @@ public class DevelopmentSpace {
         return developmentCardsOfDevSpace;
     }
 
-    public DevelopmentCard getTopCard() {
-        return topCard;
-    }
 
     @Override
     public String toString(){

@@ -429,6 +429,7 @@ public class ClientOperationHandler {
     public void useAndChooseProductionPower(){
         System.out.println("Select the IDs of the development space to use for the production. \n" +
                 "Press 0 when you have finished");
+        viewInterface.printDevSpaces();
         boolean checkProd = false;
         int id;
 
@@ -466,10 +467,12 @@ public class ClientOperationHandler {
 
         if(clientModelView.getLiteBoard().getSpecialProductionPower().size() == 1) {
             System.out.println("Press 1 to use the special production power of the board, otherwise press 0 to continue the production");
+            viewInterface.printBaseProdPower();
         }
         if(clientModelView.getLiteBoard().getSpecialProductionPower().size() > 1) {
             System.out.println("You have other production powers thanks to the leader cards you have selected, also you can use the board production power, select one or more" +
                     "of them, otherwise press 0 to finish");
+            viewInterface.printBaseProdPower();
         }
             int prodPositions;
 
