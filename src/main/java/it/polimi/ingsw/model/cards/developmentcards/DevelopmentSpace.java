@@ -21,6 +21,10 @@ public class DevelopmentSpace {
         topCard = null;
     }
 
+    public DevelopmentCard getTopCard() {
+        return topCard;
+    }
+
     /**
      * Method addDevelopmentCard adds the developmentCard to the developmentSpace and sets topCard to the last devCard bought
      */

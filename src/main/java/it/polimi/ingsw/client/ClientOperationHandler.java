@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -108,6 +109,7 @@ public class ClientOperationHandler {
         System.out.println("Select the card ID you want to buy");
         viewInterface.printDevGrid();
 
+        Scanner input1 = new Scanner(System.in);
         int id;
         boolean devCardcheck = false;
         do {
@@ -124,11 +126,11 @@ public class ClientOperationHandler {
         System.out.println("Choose the resource and the place in which you want to take it\n" +
                 "write 0 when you have finished");
 
-        viewInterface.printDeposits();
-        viewInterface.printStrongbox();
-
         int resource;
         int position;
+
+        viewInterface.printStrongbox();
+        viewInterface.printDeposits();
 
         ArrayList<ResourceType> resources = new ArrayList<>();
         ArrayList<Warehouse> warehouse = new ArrayList<>();
@@ -140,6 +142,7 @@ public class ClientOperationHandler {
                     case 2 -> resources.add(ResourceType.STONE);
                     case 3 -> resources.add(ResourceType.SERVANT);
                     case 4 -> resources.add(ResourceType.SHIELD);
+                    case 0 -> {}
                     default -> System.err.println("invalid resource\n");
                 }
             }while(resource < 0 || resource > 4);
@@ -165,7 +168,7 @@ public class ClientOperationHandler {
 
         boolean devSpacecheck = false;
         do {
-            String devSpace = input.nextLine();
+            String devSpace = input1.nextLine();
             switch (devSpace) {
                 case "1" -> {
                     packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getLiteBoard().getDevelopmentSpaces().get(0));
@@ -194,16 +197,16 @@ public class ClientOperationHandler {
                     }
                     devSpacecheck = true;
                 }
+                case "0" -> {}
                 default -> System.err.println("invalid development space\n");
             }
         } while (!devSpacecheck);
     }
 
     public void chooseDiscount() throws IOException {
-        System.out.println("Choose the IDs of the leader cards Discount to activate, when you have finished write 0");
+        System.out.println("Choose the IDs of the leader cards to activate, press 0 to finish");
         viewInterface.printLeaderCards();
-
-        boolean leadercardCheck = false;
+        boolean check = false;
         int id;
         ArrayList<Integer> leaderCards = new ArrayList<>();
         do {
@@ -211,11 +214,10 @@ public class ClientOperationHandler {
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
                 if (id == leaderCard.getId()) {
                     leaderCards.add(id);
-                    leadercardCheck = true;
+                    check = true;
                 }
             }
-            if(!leadercardCheck) System.err.println("You don't have this Leader card ");
-            leadercardCheck = false;
+            if(!check && id != 0) System.err.println("You don't have this leader card");
         }while (id != 0);
         PacketChooseDiscount packet = new PacketChooseDiscount(leaderCards);
         sendPacket(packet);
@@ -283,7 +285,6 @@ public class ClientOperationHandler {
     public void discardLeaderCard(){
         System.out.println("Write the ID of the leader card to discard");
         viewInterface.printLeaderCards();
-
         boolean check = false;
         int id;
 
@@ -305,17 +306,19 @@ public class ClientOperationHandler {
             e.printStackTrace();
         }
 
-        viewInterface.printFaithTrack();
     }
 
     public void moveResource(){
         System.out.println("Choose the deposit in which you want to take the resource");
         viewInterface.printDeposits();
-
-        int position;
+        int position = 0;
 
         do{
-            position = input.nextInt();
+            try{
+                position = input.nextInt();
+            }catch(InputMismatchException e){
+                System.err.println("Don't write strings");
+            }
             if(position < 1 || position > 3) System.err.println("Invalid position, retry");
         }while(position < 1 || position > 3);
 
@@ -328,14 +331,14 @@ public class ClientOperationHandler {
 
     }
 
-    public void placeResource() {
+    public void
+    placeResource() {
         if(clientModelView.getMyPlayer().getResourceBuffer().size() == 0){
             System.out.println("I'm sorry, you don't have any resource to place");
         }
         else{
-            viewInterface.printResourceBuffer();
             System.out.println("Choose the resource and the deposit in which you want to place the resource");
-            viewInterface.printDeposits();
+            viewInterface.printResourceBuffer();
             int position;
             int resource;
 
@@ -349,7 +352,7 @@ public class ClientOperationHandler {
                 if(position < 1 || position > 3) System.err.println("Invalid position, retry");
             }while(position < 1 || position > 3);
 
-            PacketPlaceResource packet = new PacketPlaceResource(resource - 1, position - 1);
+            PacketPlaceResource packet = new PacketPlaceResource(position - 1, resource - 1);
             try {
                 sendPacket(packet);
             } catch (JsonProcessingException e) {
@@ -365,47 +368,54 @@ public class ClientOperationHandler {
 
         viewInterface.printMarketTray();
 
+        Scanner input1 = new Scanner(System.in);
+        boolean check = false;
         String line;
         int numLine = 0;
-
         do {
-            line = input.nextLine();
-            if(!line.equals("row") && !line.equals("column"))
-                System.err.println("invalid choice");
-        } while (!line.equals("row") && !line.equals("column"));
+            line = input1.nextLine();
+            if(!line.equals("Row") && !line.equals("Column")) System.err.println("invalid choice");
+        } while (!line.equals("Row") && !line.equals("Column"));
 
 
 
-        if (line.equals("row")) {
+        if (line.equals("Row")) {
             do {
                 numLine = input.nextInt();
                 if(numLine < 1 || numLine > 3) System.err.println("invalid row");
             } while (numLine < 1 || numLine > 3);
         }
 
-        if (line.equals("column")) {
+        if (line.equals("Column")) {
             do {
                 numLine = input.nextInt();
                 if(numLine < 1 || numLine > 4) System.err.println("invalid column");
             } while (numLine < 1 || numLine > 4);
         }
 
-        System.out.println("If you have already activated one or more leader cards that transforms the white marble in some resource,\n" +
-                "select the id of the leader card to use, otherwise write 0\n"+
-                "write 0 when you have finished");
+        for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
+            if(leaderCard.getStrategy().isActive()) check = true;
+        }
 
-        int id;
         ArrayList<Integer> leaderCards = new ArrayList<>();
-        do {
-            id = input.nextInt();
-            if (id == clientModelView.getMyPlayer().getLeaderCards().get(0).getId() || id == clientModelView.getMyPlayer().getLeaderCards().get(1).getId()) {
-                leaderCards.add(id);
-            }
-            else if( id == 0){}
-            else{
-                System.err.println("invalid id");
-            }
-        } while (id != 0);
+
+        if(check){
+            System.out.println("You have already activated one or more leader cards that transforms the white marble in some resource,\n" +
+                    "select the id of the leader card to use if you want, otherwise press 0 to finish");
+
+            int id;
+            do {
+                id = input.nextInt();
+                if (id == clientModelView.getMyPlayer().getLeaderCards().get(0).getId() || id == clientModelView.getMyPlayer().getLeaderCards().get(1).getId()) {
+                    leaderCards.add(id);
+                }
+                else if( id == 0){}
+                else{
+                    System.err.println("invalid id");
+                }
+            } while (id != 0);
+        }
+
 
         PacketTakeResourceFromMarket packet = new PacketTakeResourceFromMarket(line, numLine, leaderCards);
         try {
@@ -413,15 +423,13 @@ public class ClientOperationHandler {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        //TODO: STAMPARE FAITH TRACK AGGIORNATO?
     }
 
 
     public void useAndChooseProductionPower(){
         System.out.println("Select the IDs of the development space to use for the production. \n" +
                 "Press 0 when you have finished");
-        viewInterface.printDevSpaces();
-
+        boolean checkProd = false;
         int id;
 
         ArrayList<ProductionPower> productionPowers = new ArrayList<>();
@@ -429,46 +437,58 @@ public class ClientOperationHandler {
             id = input.nextInt();
             switch (id) {
                 case 1:
-                    if (!productionPowers.contains(clientModelView.getLiteBoard().getDevelopmentSpaces().get(0).getTopCardProductionPower()) && clientModelView.getLiteBoard().getDevelopmentSpaces().get(0) != null) {
-                        productionPowers.add(clientModelView.getLiteBoard().getDevelopmentSpaces().get(0).getTopCardProductionPower());
+                    if (clientModelView.getLiteBoard().getDevelopmentSpaces().get(0).getTopCard() != null) {
+                        if(!productionPowers.contains(clientModelView.getLiteBoard().getDevelopmentSpaces().get(0).getTopCardProductionPower())){
+                            productionPowers.add(clientModelView.getLiteBoard().getDevelopmentSpaces().get(0).getTopCardProductionPower());
+                        }
                     }
                     break;
                 case 2:
-                    if (!productionPowers.contains(clientModelView.getLiteBoard().getDevelopmentSpaces().get(1).getTopCardProductionPower()) && clientModelView.getLiteBoard().getDevelopmentSpaces().get(0) != null) {
-                        productionPowers.add(clientModelView.getLiteBoard().getDevelopmentSpaces().get(1).getTopCardProductionPower());
+                    if (clientModelView.getLiteBoard().getDevelopmentSpaces().get(1).getTopCard() != null) {
+                        if(!productionPowers.contains(clientModelView.getLiteBoard().getDevelopmentSpaces().get(1).getTopCardProductionPower())){
+                            productionPowers.add(clientModelView.getLiteBoard().getDevelopmentSpaces().get(1).getTopCardProductionPower());
+                        }
                     }
                     break;
                 case 3:
-                    if (!productionPowers.contains(clientModelView.getLiteBoard().getDevelopmentSpaces().get(2).getTopCardProductionPower()) && clientModelView.getLiteBoard().getDevelopmentSpaces().get(0) != null) {
-                        productionPowers.add(clientModelView.getLiteBoard().getDevelopmentSpaces().get(2).getTopCardProductionPower());
+                    if (clientModelView.getLiteBoard().getDevelopmentSpaces().get(2).getTopCard() != null) {
+                        if(!productionPowers.contains(clientModelView.getLiteBoard().getDevelopmentSpaces().get(2).getTopCardProductionPower())){
+                            productionPowers.add(clientModelView.getLiteBoard().getDevelopmentSpaces().get(2).getTopCardProductionPower());
+                        }
                     }
+                    break;
+                case 0:
                     break;
                 default:
                     System.err.println("Invalid development space");
             }
         }while (id != 0);
 
-        if(clientModelView.getLiteBoard().getSpecialProductionPower().size() >= 1){
+        if(clientModelView.getLiteBoard().getSpecialProductionPower().size() == 1) {
+            System.out.println("Press 1 to use the special production power of the board, otherwise press 0 to continue the production");
+        }
+        if(clientModelView.getLiteBoard().getSpecialProductionPower().size() > 1) {
             System.out.println("You have other production powers thanks to the leader cards you have selected, also you can use the board production power, select one or more" +
                     "of them, otherwise press 0 to finish");
-            viewInterface.printBaseProdPower();
-            int position;
+        }
+            int prodPositions;
 
             do{
-               position = input.nextInt();
-               if(position > 0 && position < clientModelView.getLiteBoard().getSpecialProductionPower().size()){
-                   if(!productionPowers.contains(clientModelView.getLiteBoard().getSpecialProductionPower().get(position - 1))){
-                       productionPowers.add(clientModelView.getLiteBoard().getSpecialProductionPower().get(position - 1));
+               prodPositions = input.nextInt();
+               if(prodPositions > 0 && prodPositions <= clientModelView.getLiteBoard().getSpecialProductionPower().size()){
+                   if(!productionPowers.contains(clientModelView.getLiteBoard().getSpecialProductionPower().get(prodPositions - 1))){
+                       productionPowers.add(clientModelView.getLiteBoard().getSpecialProductionPower().get(prodPositions - 1));
                    }
                }
+               else if(prodPositions == 0){}
                else{
-                   System.err.println("invalid position, retry");
+                   System.err.println("invalid special production power positions, retry");
                }
-            }while(position != 0);
-        }
+            }while(prodPositions != 0);
+
 
         System.out.println("Choose the resource and the place in which you want to take it\n" +
-                "write 0 once you have finished");
+                        "press 0 once you have finished");
 
         viewInterface.printDeposits();
         viewInterface.printStrongbox();
@@ -487,7 +507,8 @@ public class ClientOperationHandler {
                     case 2 -> resources.add(ResourceType.STONE);
                     case 3 -> resources.add(ResourceType.SERVANT);
                     case 4 -> resources.add(ResourceType.SHIELD);
-                    default -> System.out.println("invalid resource\n");
+                    case 0 -> {}
+                    default -> System.err.println("invalid resource\n");
                 }
             }while(resource < 0 || resource > 4);
 
@@ -499,28 +520,39 @@ public class ClientOperationHandler {
                         case 2 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(1));
                         case 3 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(2));
                         case 4 -> warehouse.add(clientModelView.getLiteBoard().getStrongbox());
-                        default -> System.out.println("Invalid position\n");
+                        default -> System.out.println("Invalid prodPositions\n");
                     }
                 }while(position < 1 || position > 4);
             }
         }while (resource != 0);
 
-            System.out.println("If the production powers you selected have some jolly resource, choose the resource instead of the jolly\n" +
-                    "if there's no jolly resource obtainable or in case you have finished press 0");
 
-            ArrayList<ResourceType> newResources = new ArrayList<>();
+
+        for(ProductionPower productionPower : productionPowers){
+            if (productionPower.getResourceObtained().get(ResourceType.JOLLY) > 0) {
+                checkProd = true;
+                break;
+            }
+        }
+        ArrayList<ResourceType> newResources = new ArrayList<>();
+        if(checkProd){
+            System.out.println("The production powers you selected have some jolly resource, choose the resources instead of the jolly\n" +
+                    "press 0 to finish");
+
             int newResource;
 
-        do{
-            newResource = input.nextInt();
-            switch (newResource) {
-                case 1 -> newResources.add(ResourceType.COIN);
-                case 2 -> newResources.add(ResourceType.STONE);
-                case 3 -> newResources.add(ResourceType.SERVANT);
-                case 4 -> newResources.add(ResourceType.SHIELD);
-                default -> System.out.println("invalid resource\n");
-            }
-        }while(newResource < 1 || newResource > 4);
+            do {
+                newResource = input.nextInt();
+                switch (newResource) {
+                    case 1 -> newResources.add(ResourceType.COIN);
+                    case 2 -> newResources.add(ResourceType.STONE);
+                    case 3 -> newResources.add(ResourceType.SERVANT);
+                    case 4 -> newResources.add(ResourceType.SHIELD);
+                    case 0 -> {}
+                    default -> System.out.println("invalid resource\n");
+                }
+            } while (newResource < 1 || newResource > 4);
+        }
 
         PacketUseAndChooseProdPower packet = new PacketUseAndChooseProdPower(productionPowers, resources, warehouse, newResources);
         try {
@@ -528,7 +560,6 @@ public class ClientOperationHandler {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        viewInterface.printFaithTrack();
     }
 
 

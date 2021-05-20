@@ -19,6 +19,7 @@ public class PacketLiteDevelopmentGrid implements ServerPacketHandler{
     @Override
     public void execute(Client client) {
         client.getClientModelView().getDevelopmentGrid().setDevelopmentCards(developmentCards);
+        System.out.println("Development grid updated");
     }
 
     public ArrayList<DevelopmentCard> getDevelopmentCards() {

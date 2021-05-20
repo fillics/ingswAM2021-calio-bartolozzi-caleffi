@@ -7,6 +7,8 @@ import it.polimi.ingsw.controller.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketResourceBuffer;
+import it.polimi.ingsw.controller.server_packets.PacketWarehouse;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
 import it.polimi.ingsw.model.GameInterface;
@@ -24,18 +26,22 @@ public class PacketPlaceResource implements ClientPacketHandler {
         this.resourcePosition = resourcePosition;
     }
 
-    //TODO: Decidere se aggiungere l'else all'if che invia il messaggio al client che gli dà errore
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+
             try {
                 gameInterface.placeResource(depositPosition, resourcePosition);
+                clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
+                clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
+                        gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));
             } catch (DepositHasReachedMaxLimit depositHasReachedMaxLimit) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITHASREACHEDMAXLIMIT));
             } catch (DepositHasAnotherResource depositHasAnotherResource) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITHASANOTHERRSOURCE));
             }
+
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

@@ -36,6 +36,7 @@ public class PacketLeaderCards implements ServerPacketHandler{
             }
         }
         if(client.getClientState().equals(ClientStates.GAMESTARTED)) {
+            System.out.println("Leader cards updated");
             client.getClientModelView().getMyPlayer().setLeaderCards(leaderCards);
         }
     }

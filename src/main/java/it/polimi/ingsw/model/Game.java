@@ -54,6 +54,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         developmentGrid = new ArrayList<>();
         initialDevGrid = new ArrayList<>();
         market = new MarketTray();
+        leaderCardsChosen =  new ArrayList<>();
     }
 
     /**
@@ -389,7 +390,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     public void useDiscountActivation(HashMap<ResourceType,Integer> resourcePriceBuffer, DevelopmentCard developmentCard){
         int i,j;
-        if(leaderCardsChosen!= null) {
+        if(!leaderCardsChosen.isEmpty()) {
             for (i = 0; i < leaderCardsChosen.size(); i++) {
                 for(j=0; j<activePlayers.get(currentPlayer).getLeaderCards().size();j++){
                     if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId()==leaderCardsChosen.get(i)){
@@ -398,7 +399,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
                     }
                 }
             }
-            leaderCardsChosen = null;
+            leaderCardsChosen.clear();
         }
     }
 
@@ -411,7 +412,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void chooseDiscountActivation(ArrayList<Integer> leaderCards) throws DiscountCannotBeActivated {
         int i,j,num;
         num=0;
-        leaderCardsChosen= new ArrayList<>();
         for (i=0;i<leaderCards.size();i++) {
             for(j=0; j<activePlayers.get(currentPlayer).getLeaderCards().size();j++){
                 if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId()== leaderCards.get(i) && activePlayers.get(currentPlayer).getLeaderCards().get(j).getStrategy() instanceof ConcreteStrategyDiscount && activePlayers.get(currentPlayer).getLeaderCards().get(j).getStrategy().isActive()){
@@ -472,7 +472,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     @Override
     public void takeResourceFromMarket(String line, int numline, ArrayList<Integer> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{
-        if (whiteMarbleCardChoice != null) {
+        if (!whiteMarbleCardChoice.isEmpty()) {
             int i, j, num;
             for (i = 0; i < whiteMarbleCardChoice.size(); i++) {
                 num = 0;

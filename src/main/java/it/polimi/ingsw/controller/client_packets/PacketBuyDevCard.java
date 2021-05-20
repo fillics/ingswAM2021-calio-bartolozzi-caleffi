@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
-import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
-import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
-import it.polimi.ingsw.controller.server_packets.PacketLiteDevelopmentGrid;
+import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
@@ -39,6 +37,12 @@ public class PacketBuyDevCard implements ClientPacketHandler {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
                 gameInterface.buyDevCard(id, chosenResources, chosenWarehouses, developmentSpace);
+                clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces()));
+                clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
+                        gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));
+                // TODO: 14/05/2021  mandare a tutti il nuove development grid - sistemare il metodo getInitalDevGrid con getDevGrideLite (vedi metodo di Game)
+                server.sendAll(new PacketLiteDevelopmentGrid(gameInterface.getInitialDevGrid()), gameInterface);
+                gameInterface.setState(GameStates.PHASE_TWO);
             } catch (DevelopmentCardNotFound developmentCardNotFound) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEVELOPMENTCARDNOTFOURND));
             } catch (DevCardNotPlaceable devCardNotPlaceable) {
@@ -54,10 +58,6 @@ public class PacketBuyDevCard implements ClientPacketHandler {
             } catch (DepositDoesntHaveThisResource depositDoesntHaveThisResource) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITDOESNTHAVETHISRESOURCE));
             }
-            gameInterface.setState(GameStates.PHASE_TWO);
-
-            // TODO: 14/05/2021  mandare a tutti il nuove development grid - sistemare il metodo getInitalDevGrid con getDevGrideLite (vedi metodo di Game)
-            server.sendAll(new PacketLiteDevelopmentGrid(gameInterface.getInitialDevGrid()), gameInterface);
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

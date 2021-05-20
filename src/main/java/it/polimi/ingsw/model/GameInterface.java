@@ -40,4 +40,5 @@ public interface GameInterface {
     int getIdGame();
     void nextPlayer();
     String getWinner();
+
 }

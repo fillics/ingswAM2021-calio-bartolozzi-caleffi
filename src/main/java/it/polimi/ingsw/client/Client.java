@@ -2,14 +2,12 @@ package it.polimi.ingsw.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.GUI.ClientGUI;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
-import it.polimi.ingsw.controller.client_packets.PacketPongFromClient;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
-import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
-
 
 
 import java.io.PrintStream;
@@ -92,7 +90,7 @@ public class Client{
 
         if(choiceInterface==1)
             client.setInterface(new CLI(client.getClientModelView()));
-        else client.setInterface(new GUI(client.getClientModelView()));
+        else {}// client.setInterface(new ClientGUI(client.getClientModelView()));
     }
 
     /**
