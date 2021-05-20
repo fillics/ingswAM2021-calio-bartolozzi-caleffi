@@ -252,14 +252,12 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     public void createDevelopmentGrid() {
         ArrayList<DevelopmentCard> deckToOrder = null;
-        Gson gson = new Gson();
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try{
             try {
-                deckToOrder = mapper.readValue(new File("src/main/resources/json/DevelopmentCard.json"), new TypeReference<>() {
-                });
+                deckToOrder = mapper.readValue(new File("src/main/resources/json/DevelopmentCard.json"), new TypeReference<>() {});
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -303,15 +301,19 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         return initialDevGrid;
     }
 
-    // TODO: 14/05/2021 togliere getInitialDevGrid e fare una funzione universale che prende le carte visibili nella devGrid
-    // TODO: 14/05/2021 da mandare ai client. gestire anche il caso in cui una pila di carte (per esempio quelle di livello 2 colore blu) sia vuota
-    public ArrayList<DevelopmentCard> getDevGridLite(){
+
+    public synchronized ArrayList<DevelopmentCard> getDevGridLite(){
+
         ArrayList<DevelopmentCard> liteDevGrid = new ArrayList<>();
+
         for(int i=0; i<12;i++){
-            liteDevGrid.add(developmentGrid.get(i).getLast());
+            if(developmentGrid.get(i)!=null){
+                liteDevGrid.add(developmentGrid.get(i).getLast());
+            }
         }
         return liteDevGrid;
     }
+
 
 
     /**

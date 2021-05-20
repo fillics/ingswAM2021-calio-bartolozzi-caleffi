@@ -223,8 +223,4 @@ public class ClientHandler implements Runnable {
         output.flush();
     }
 
-
-    public void setSetupEnded() {
-        sendSetup = false;
-    }
 }

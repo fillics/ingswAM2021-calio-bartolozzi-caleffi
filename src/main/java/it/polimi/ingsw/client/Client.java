@@ -45,8 +45,8 @@ public class Client{
             new Thread(serverListener).start();
         }
 
+        //clientStates = ClientStates.RECONNECT_or_CONNECT;
         clientStates = ClientStates.USERNAME;
-
     }
 
     public static void main(String[] args) {
@@ -70,8 +70,11 @@ public class Client{
      * Static method serverMatch used to create the communication with the server to play online
      */
     public static void serverMatch(){
-        Scanner scanner = new Scanner(System.in);
+
         int choiceInterface;
+
+        Scanner scanner = new Scanner(System.in);
+
         System.out.println(">Insert the server IP address");
         System.out.print(">");
         String ip = scanner.nextLine();
@@ -153,7 +156,7 @@ public class Client{
      * Method chooseReconnection
      * @param reconnectionChoice (type Integer)
      */
-    public void chooseReconnection(int reconnectionChoice){
+    public void chooseTypeConnection(int reconnectionChoice){
 
         do {
             try {

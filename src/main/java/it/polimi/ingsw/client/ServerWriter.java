@@ -28,6 +28,10 @@ public class ServerWriter implements Runnable{
     @Override
     public void run() {
         String inputString;
+
+        //Constants.printConnectionMessage(ConnectionMessages.WELCOME);
+        //Constants.printConnectionMessage(ConnectionMessages.CONNECTION_OR_RECONNECTION);
+
         Constants.printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
 
         while (!client.getClientState().equals(ClientStates.END)) {
@@ -62,11 +66,13 @@ public class ServerWriter implements Runnable{
     public void handleInitialGamePhase(String inputString){
 
         switch (client.getClientState()){
+
             case USERNAME -> client.sendUsername(inputString);
 
-            case RECONNECT -> {
-                client.chooseReconnection(Integer.parseInt(inputString));
+            case RECONNECTION -> {
+
             }
+
 
             case NUMPLAYERS -> {
                 try{

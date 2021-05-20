@@ -4,6 +4,7 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketReconnection;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.GameInterface;
@@ -150,6 +151,10 @@ public class Server {
     }
 
 
+    /**
+     * Method addToLobby adds the client handler to the lobby, waiting for the start of the game
+     * @param clientToAdd (type ClientHandler) - it is the client to add to the lobby
+     */
     public synchronized void addToLobby(ClientHandler clientToAdd){
         System.out.println("Added "+clientToAdd.getUsername()+ " to the lobby.");
         lobby.add(clientToAdd);
@@ -184,12 +189,11 @@ public class Server {
 
             if (peopleDisconnected.containsKey(username)){
                 System.out.println("Client " +username+" reconnected");
-                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.PLAYER_RECONNECTED));
+                clientHandler.sendPacketToClient(new PacketReconnection());
                 peopleDisconnected.remove(username);
             }
             else{
                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.USERNAME_VALID));
-
                 registerUsername(username, clientHandler);
                 addToLobby(clientHandler);
                 checkFirstPositionInLobby(clientHandler);
@@ -257,7 +261,6 @@ public class Server {
         setupPlayersGame(game, playersInGame);
 
         printPlayersOrder(game);
-
 
         checkFirstPositionInLobby(lobby.peek());
 
@@ -328,7 +331,6 @@ public class Server {
         System.out.println("Unregistered the username " + clientHandlerToRemove.getUsername()+ "!");
         mapUsernameClientHandler.remove(clientHandlerToRemove.getUsername());
         peopleDisconnected.put(clientHandlerToRemove.getUsername(), clientHandlerToRemove.getGame().getIdGame());
-
     }
 
     /**

@@ -19,9 +19,8 @@ public enum ConnectionMessages {
     TAKEN_NICKNAME(Constants.ANSI_RED+"The chosen username is already taken. Enter a new one: "+Constants.ANSI_RESET),
     INSERT_NUMBER_OF_PLAYERS("Insert the desired number of players (1, 2, 3 or 4): "),
     INVALID_NUM_PLAYERS("The chosen number of players is invalid. Enter a new one: "),
-    PLAYER_RECONNECTED("You were playing in a game.\nDo you want to continue playing to that game [1] or connect to the lobby " +
-            "waiting for a new game [2]?"),
 
+    PLAYER_RECONNECTED("You were playing in a match. Reconnecting to the game..."),
     GAME_IS_STARTING("The game is starting..."),
     YOUR_TURN("It's your turn bro"),
     NOT_YOUR_TURN("It's NOT your turn bro"),

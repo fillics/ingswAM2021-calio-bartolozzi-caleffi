@@ -30,10 +30,6 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 Constants.printConnectionMessage(message);
             }
 
-            case PLAYER_RECONNECTED -> {
-                Constants.printConnectionMessage(message);
-                client.setClientState(ClientStates.RECONNECT);
-            }
 
             case INSERT_NUMBER_OF_PLAYERS -> {
                 Constants.printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
