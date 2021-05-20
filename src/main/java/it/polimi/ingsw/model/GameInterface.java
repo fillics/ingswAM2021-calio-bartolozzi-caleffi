@@ -28,16 +28,15 @@ public interface GameInterface {
     void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound;
     void chooseLeaderCardToRemove(int idCard1, int idCard2) throws LeaderCardNotFound;
     int getCurrentPlayer();
-    int getNumof_players();
     void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DifferentDimension, DepositHasReachedMaxLimit, DepositHasAnotherResource;
     GameStates getState();
     ArrayList<Player> getActivePlayers();
-    void setNumof_players(int numof_players);
     HashMap<Integer, Player> getIdClientActivePlayers();
     boolean isEndgame();
     ArrayList<LinkedList<DevelopmentCard>> getDevelopmentGrid();
     ArrayList<DevelopmentCard> getInitialDevGrid();
     Marble[][] getTable();
+    Marble getRemainingMarble();
     int getIdGame();
     void nextPlayer();
     String getWinner();

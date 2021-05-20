@@ -25,7 +25,7 @@ public class PacketNumPlayers implements SetupHandler {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.WAITING_PEOPLE));
         }
         else {
-            server.createMatch();
+            server.checkStartOfTheGame();
         }
     }
 

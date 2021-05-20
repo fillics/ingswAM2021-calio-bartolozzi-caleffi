@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model.board.storage;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Color;
 import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.resources.Resource;
@@ -16,13 +14,6 @@ public class Deposit extends Warehouse {
    private ResourceType resourcetype;
    private int quantity;
    private final int maxLimit;
-
-   @JsonCreator
-    public Deposit(@JsonProperty("resourcetype") ResourceType resourcetype,@JsonProperty("quantity") int quantity,@JsonProperty("maxLimit") int maxLimit) {
-        this.resourcetype = resourcetype;
-        this.quantity = quantity;
-        this.maxLimit = maxLimit;
-    }
 
     /**
      * Constructor Deposit creates a new Deposit instance
@@ -83,10 +74,10 @@ public class Deposit extends Warehouse {
             throw new EmptyDeposit();
         }
         else {
-            resource = new Resource(resourcetype);
+            resource= new Resource(resourcetype);
             quantity -= 1;
             if(quantity == 0){
-                resourcetype = null;
+                this.resourcetype = null;
             }
             return resource;
         }
@@ -168,9 +159,11 @@ public class Deposit extends Warehouse {
     public String toString(){
         StringBuilder escape= new StringBuilder();
         if(this.maxLimit==1)
-            escape.append("  ");
+            escape.append("1:").append("  ");
         if(this.maxLimit==2)
-            escape.append(" ");
+            escape.append("2:").append(" ");
+        if(this.maxLimit==3)
+            escape.append("3:");
         for(int j=0; j<this.quantity; j++){
                 if(this.resourcetype.equals(ResourceType.COIN))
                     escape.append(Color.ANSI_YELLOW.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");

@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LiteDevelopmentGrid {
 
@@ -19,4 +20,5 @@ public class LiteDevelopmentGrid {
     public void setDevelopmentCards(ArrayList<DevelopmentCard> developmentCards) {
         this.developmentCards = developmentCards;
     }
+
 }

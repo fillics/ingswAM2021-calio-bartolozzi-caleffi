@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
 
+import it.polimi.ingsw.constants.Constants;
+
 /**
  * It contains all the messages that the server can send to clients
  */
@@ -8,17 +10,19 @@ public enum ConnectionMessages {
 
     WAITING_PEOPLE("Waiting for people to start the game..."),
     LOBBY_MASTER("You are the lobby master! You will create the match."),
+    USERNAME_VALID(Constants.ANSI_GREEN+"Username chosen is valid!"+Constants.ANSI_RESET),
     INSERT_USERNAME("Insert your username: "),
     LOCAL_OR_SERVERGAME("Choose how you want to play:\n" + "" +
             "1. Solo game without making a connection with the server\n"+
             "2. Game with connection to the server"),
-    INVALID_CHOICE("The choice is invalid. Enter a new one: "),
-    INVALID_USERNAME("The chosen username is invalid. Enter a new one: "),
-    TAKEN_NICKNAME("The chosen username is already taken. Enter a new one: "),
+    INVALID_CHOICE(Constants.ANSI_RED+"The choice is invalid. Enter a new one: "+Constants.ANSI_RESET),
+    TAKEN_NICKNAME(Constants.ANSI_RED+"The chosen username is already taken. Enter a new one: "+Constants.ANSI_RESET),
     INSERT_NUMBER_OF_PLAYERS("Insert the desired number of players (1, 2, 3 or 4): "),
     INVALID_NUM_PLAYERS("The chosen number of players is invalid. Enter a new one: "),
+    PLAYER_RECONNECTED("You were playing in a game.\nDo you want to continue playing to that game [1] or connect to the lobby " +
+            "waiting for a new game [2]?"),
+
     GAME_IS_STARTING("The game is starting..."),
-    SEND_SETUP_PACKETS("Send setup packets"),
     YOUR_TURN("It's your turn bro"),
     NOT_YOUR_TURN("It's NOT your turn bro"),
     SELECT_LEADERCARDS("Choose the leader cards to remove"),
@@ -34,7 +38,6 @@ public enum ConnectionMessages {
     CONNECTION_CLOSED("The served closed its connection."),
     MATCH_FINISHED_FAITH("A player reached the last cell of the faith track"),
     MATCH_FINISHED_DEVCARDS("A player bought the seventh development card"),
-    TIMER_ENDED("You took too long to make your decision"),
     PING("Ping"),
     PONG("Pong");
 

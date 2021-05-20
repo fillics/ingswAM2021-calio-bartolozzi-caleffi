@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class ServerWriter implements Runnable, ViewInterface{
+public class ServerWriter implements Runnable{
 
     private final ClientModelView clientModelView;
     private final SocketClientConnection socketClientConnection;
@@ -64,6 +64,10 @@ public class ServerWriter implements Runnable, ViewInterface{
         switch (client.getClientState()){
             case USERNAME -> client.sendUsername(inputString);
 
+            case RECONNECT -> {
+                client.chooseReconnection(Integer.parseInt(inputString));
+            }
+
             case NUMPLAYERS -> {
                 try{
                     client.choosePlayerNumber(Integer.parseInt(inputString));
@@ -72,10 +76,9 @@ public class ServerWriter implements Runnable, ViewInterface{
                 }
             }
 
-            case LEADERSETUP -> {
-                System.out.println("choose your leader cards");
+            case LEADERSETUP ->
                 client.getClientOperationHandler().chooseLeaderCardToRemove();
-            }
+
 
             case RESOURCESETUP -> {
                 int howManyResources = 0;
@@ -97,17 +100,6 @@ public class ServerWriter implements Runnable, ViewInterface{
                 }
             }
         }
-
-    }
-
-
-    @Override
-    public ClientModelView getClientModelView() {
-        return null;
-    }
-
-    @Override
-    public void printLeaderCards() {
 
     }
 }

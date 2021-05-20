@@ -6,4 +6,9 @@ package it.polimi.ingsw.client;
 public interface ViewInterface {
     ClientModelView getClientModelView();
     void printLeaderCards();
+    void printDeposits();
+    void printStrongbox();
+    void printDevGrid();
+    void printResourceBuffer();
+    void printMarketTray();
 }

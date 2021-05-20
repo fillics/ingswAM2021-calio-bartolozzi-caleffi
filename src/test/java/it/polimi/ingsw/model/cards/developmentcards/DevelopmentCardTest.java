@@ -26,11 +26,19 @@ public class DevelopmentCardTest {
         testResourcePrice= new HashMap<>();
         testResourcesNeeded = new HashMap<>();
         testResourcesObtained = new HashMap<>();
-        testResourcePrice.put(ResourceType.SERVANT,2);
-        testResourcesNeeded.put(ResourceType.COIN,1);
+        testResourcePrice.put(ResourceType.COIN,6);
+        //testResourcePrice.put(ResourceType.SERVANT,2);
+        //testResourcePrice.put(ResourceType.SHIELD,5);
+
+        testResourcesNeeded.put(ResourceType.SERVANT,2);
+        //testResourcesNeeded.put(ResourceType.COIN,1);
+
+        //testResourcesObtained.put(ResourceType.STONE,1);
+        testResourcesObtained.put(ResourceType.SHIELD,3);
         testResourcesObtained.put(ResourceType.FAITHMARKER,1);
+
         testProductionPower= new ProductionPower(testResourcesNeeded,testResourcesObtained);
-        testDevelopmentCard= new DevelopmentCard(1, Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
+        testDevelopmentCard= new DevelopmentCard(38, Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
     }
 
     /** Method LevelGetterTest tests DevelopmentCard method getter. */
@@ -65,6 +73,13 @@ public class DevelopmentCardTest {
     @Test
     @DisplayName("VictoryPoint getter test")
     void VictoryPointGetterTest() {
-        assertEquals(3,testDevelopmentCard.getVictoryPoint());
+        assertEquals(3,testDevelopmentCard.getVictorypoint());
+    }
+
+    @Test
+    @DisplayName("print test")
+    void print(){
+        System.out.println(testDevelopmentCard.getProductionPower().toString().length());
+        testDevelopmentCard.dump();
     }
 }
