@@ -90,7 +90,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     /**
      * Method additionalSetup distributes resources to the players according to their position's turn
      */
-    public void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    public void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
         ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(depositPosition, idClientActivePlayers.get(idClient).getBoard(), resourceType);
         Resource resource = new Resource(resourceType);
         resource.setStrategy(concreteStrategyResource);
@@ -165,13 +165,18 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @throws LeaderCardNotFound if the player has not got the two chosenCards
      */
     @Override
-    public void chooseLeaderCardToRemove(int idCard1, int idCard2) throws LeaderCardNotFound {
-
-        LeaderCard[] leaderCards = activePlayers.get(currentPlayer).getLeaderCards().stream().filter(card -> (card.getId()==idCard1 ||
-                card.getId() == idCard2)).toArray(LeaderCard[]::new);
+    public void chooseLeaderCardToRemove(int idCard1, int idCard2, int IdPlayer) throws LeaderCardNotFound {
+        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
+        for(LeaderCard leaderCard : idClientActivePlayers.get(IdPlayer).getLeaderCards()){
+            if(leaderCard.getId() == idCard1 || leaderCard.getId() == idCard2){
+                if(!leaderCards.contains(leaderCard)){
+                    leaderCards.add(leaderCard);
+                }
+            }
+        }
 
         for (LeaderCard cardToRemove: leaderCards){
-            activePlayers.get(currentPlayer).removeLeaderCard(cardToRemove);
+            idClientActivePlayers.get(IdPlayer).removeLeaderCard(cardToRemove);
         }
 
     }
@@ -501,7 +506,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @param resourcePosition (type Int) - it indicates which resource we want to place
      */
     @Override
-    public void placeResource(int depositPosition, int resourcePosition) throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    public void placeResource(int depositPosition, int resourcePosition) throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
         ResourceActionStrategy strategy = new ConcreteStrategyResource(depositPosition, activePlayers.get(currentPlayer).getBoard(), activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).getType());
         activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).setStrategy(strategy);
         activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).useResource();
@@ -523,12 +528,13 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource {
         if(productionPower.checkTakenResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard())) {
             activePlayers.get(currentPlayer).getBoard().removeResources(resources,warehouse);
-            if(newResources == null){
+            if(newResources.isEmpty()){
                 productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
             }
             else{
                 productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
-            }        }
+            }
+        }
     }
 
     /**

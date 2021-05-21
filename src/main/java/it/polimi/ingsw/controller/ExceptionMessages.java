@@ -14,8 +14,8 @@ public enum ExceptionMessages {
     DEPOSITHASREACHEDMAXLIMIT("This deposit has reached is max limit"),
     DEPOSITHASANOTHERRSOURCE("This deposit has already another type of resource"),
     LEADERCARDNOTACTIVATED("The leader card you chose isn't active"),
-    TOOMANYRESOURCESREQUESTED("The warehouse doesn't have sufficient resources");
-
+    TOOMANYRESOURCESREQUESTED("The warehouse doesn't have sufficient resources"),
+    ANOTHERDEPOSITCONTAINSTHISRESOURCE("Another deposit already has this resource");
 
 
     private final String message;

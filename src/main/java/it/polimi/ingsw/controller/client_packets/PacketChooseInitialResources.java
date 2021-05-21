@@ -40,6 +40,8 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
                     clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITHASREACHEDMAXLIMIT));
                 } catch (DepositHasAnotherResource depositHasAnotherResource) {
                     clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITHASANOTHERRSOURCE));
+                } catch (AnotherDepositContainsThisResource anotherDepositContainsThisResource){
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.ANOTHERDEPOSITCONTAINSTHISRESOURCE));
                 }
 
             }

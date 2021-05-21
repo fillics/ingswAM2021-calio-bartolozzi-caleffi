@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketResourceBuffer;
 import it.polimi.ingsw.controller.server_packets.PacketWarehouse;
+import it.polimi.ingsw.exceptions.AnotherDepositContainsThisResource;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
 import it.polimi.ingsw.model.GameInterface;
@@ -40,6 +41,8 @@ public class PacketPlaceResource implements ClientPacketHandler {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITHASREACHEDMAXLIMIT));
             } catch (DepositHasAnotherResource depositHasAnotherResource) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITHASANOTHERRSOURCE));
+            } catch (AnotherDepositContainsThisResource anotherDepositContainsThisResource) {
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.ANOTHERDEPOSITCONTAINSTHISRESOURCE));
             }
 
         }

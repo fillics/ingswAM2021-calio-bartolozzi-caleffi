@@ -2,10 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import it.polimi.ingsw.controller.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
-import it.polimi.ingsw.controller.server_packets.PacketFaithTrack;
-import it.polimi.ingsw.controller.server_packets.PacketLiteDevelopmentGrid;
-import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
-import it.polimi.ingsw.controller.server_packets.PacketWinner;
+import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 import it.polimi.ingsw.model.singleplayer.SoloActionToken;
@@ -22,6 +19,11 @@ public class PacketEndTurn implements ClientPacketHandler{
         if(gameInterface instanceof SinglePlayerGame){
             if(gameInterface.getState().equals(GameStates.SETUP)) gameInterface.setState(GameStates.PHASE_ONE);
             if ((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
+                gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer().clear();
+                if(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer().size() != 0){
+                    System.out.println("ginopino");
+                    clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer()));
+                }
                 if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
                     ((SinglePlayerGame) gameInterface).winner();
                     System.out.println(gameInterface.getWinner());
@@ -51,6 +53,9 @@ public class PacketEndTurn implements ClientPacketHandler{
         else{
             if ((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
                 gameInterface.nextPlayer();
+                System.out.println(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer());
+                clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer()));
+
                 if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
                     clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
                 }

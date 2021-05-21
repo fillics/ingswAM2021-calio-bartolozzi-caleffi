@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.board.resources;
+import it.polimi.ingsw.exceptions.AnotherDepositContainsThisResource;
 import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.board.storage.Deposit;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
@@ -88,7 +89,7 @@ public class ResourceTest {
      * that the position of the player's faith marker has increased*/
     @Test
     @DisplayName("Test that fill all the deposit with different resources without calling any exceptions")
-    void useResourceTest1() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    void useResourceTest1() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
         coin.setStrategy(strategy1);
         stone.setStrategy(strategy2);
         servant.setStrategy(strategy3);
@@ -105,7 +106,7 @@ public class ResourceTest {
     }
     @Test
     @DisplayName("Test that calls the DepositHasReachedMaxLimit exception")
-    void useResourceTest2() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    void useResourceTest2() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
         boolean exception = false;
         coin.setStrategy(strategy1);
         stone.setStrategy(strategy2);
@@ -127,7 +128,7 @@ public class ResourceTest {
     }
     @Test
     @DisplayName("Test that calls the DepositHasAnotherResource exception")
-    void useResourceTest3() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    void useResourceTest3() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
         boolean exception = false;
         coin.setStrategy(strategy1);
         stone.setStrategy(strategy2);
@@ -149,7 +150,7 @@ public class ResourceTest {
     }
     @Test
     @DisplayName("Test that verify that the position of the player changes")
-    void useResourceTest4() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    void useResourceTest4() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
         faithmarker.setStrategy(strategy5);
 
         faithmarker.useResource();

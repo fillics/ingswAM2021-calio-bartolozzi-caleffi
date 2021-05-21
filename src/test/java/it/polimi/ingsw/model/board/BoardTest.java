@@ -48,7 +48,7 @@ public class BoardTest {
 
     /** Method setup setups tests. */
     @BeforeEach
-    void setup() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    void setup() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
         testBoard = new Board(testGame);
         coin = new Resource(ResourceType.COIN);
         servant = new Resource(ResourceType.SERVANT);
@@ -195,7 +195,7 @@ public class BoardTest {
     /** Method RemoveResourcesTest tests board method removeResources exceptions. */
     @Test
     @DisplayName("Remove Resources test for the exceptions")
-    void RemoveResourcesTestExceptions() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    void RemoveResourcesTestExceptions() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
         chosenResources.add(ResourceType.COIN);
         //test DifferentDimension
         try {

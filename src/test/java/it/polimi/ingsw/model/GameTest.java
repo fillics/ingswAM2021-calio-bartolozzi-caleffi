@@ -240,7 +240,7 @@ class GameTest {
      * @throws LeaderCardNotFound if the player has not got the card to activate
      */
     @Test
-    void ActivationLeaderCardExtraDepTest() throws LeaderCardNotFound, NotEnoughRequirements, DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    void ActivationLeaderCardExtraDepTest() throws LeaderCardNotFound, NotEnoughRequirements, DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
         assertEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
 
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardExtraDep);
@@ -365,7 +365,7 @@ class GameTest {
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardProdPower);
 
         assertEquals(4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
-        testGame.chooseLeaderCardToRemove(testLeaderCardExtraDep.getId(), testLeaderCardProdPower.getId());
+        testGame.chooseLeaderCardToRemove(testLeaderCardExtraDep.getId(), testLeaderCardProdPower.getId(),  testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getIdClient());
         assertEquals(2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
 
         assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(testLeaderCardDiscount));
@@ -550,7 +550,7 @@ class GameTest {
     /** Method moveResourceTest tests Game method moveResource. */
     @Test
     @DisplayName("moveResourceTest test")
-    void moveResourceTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, EmptyDeposit {
+    void moveResourceTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, EmptyDeposit, AnotherDepositContainsThisResource {
         //putting 3 coins in a deposit
         Resource resource1 = new Resource(ResourceType.COIN);
         ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(2,testGame.getActivePlayers().get(0).getBoard(),resource1.getType());
@@ -600,12 +600,12 @@ class GameTest {
     /** Method placeResourceTest tests Game method placeResource. */
     @Test
     @DisplayName("placeResourceTest test")
-    void placeResourceTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    void placeResourceTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
         Resource resource1 = new Resource(ResourceType.COIN);
         Resource resource2 = new Resource(ResourceType.COIN);
         Resource resource3 = new Resource(ResourceType.STONE);
-        Resource resource4 = new Resource(ResourceType.STONE);
-        Resource resource5 = new Resource(ResourceType.STONE);
+        Resource resource4 = new Resource(ResourceType.SERVANT);
+        Resource resource5 = new Resource(ResourceType.SERVANT);
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().addAll(Arrays.asList(
                 resource1,resource3,resource2,resource4,resource5
         ));
@@ -624,7 +624,7 @@ class GameTest {
         testGame.placeResource(2,1);
         testGame.placeResource(2,1);
         assertEquals(2,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getQuantity());
-        assertEquals(ResourceType.STONE,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getResourcetype());
+        assertEquals(ResourceType.SERVANT,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getDeposits().get(2).getResourcetype());
         assertEquals(1, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
 
     }
@@ -659,7 +659,9 @@ class GameTest {
         assertEquals(10,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalServants());
         assertEquals(10,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalShields());
 
-        testGame.useAndChooseProdPower(productionPower,resources,warehouse, null);
+        ArrayList<ResourceType> newResources = new ArrayList<>();
+
+        testGame.useAndChooseProdPower(productionPower,resources,warehouse, newResources);
 
 
         assertEquals(6,testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getTotalCoins());

@@ -28,6 +28,7 @@ it\polimi\ingsw\model\cards\developmentcards\ProductionPower.class
 it\polimi\ingsw\controller\client_packets\ClientPacketHandler.class
 it\polimi\ingsw\model\board\resources\ConcreteStrategyResource.class
 it\polimi\ingsw\model\cards\developmentcards\DevelopmentCard.class
+it\polimi\ingsw\GUI\SecondaryController.class
 it\polimi\ingsw\model\board\Board.class
 it\polimi\ingsw\controller\server_packets\PacketEndGameStarted.class
 it\polimi\ingsw\model\board\resources\Resource.class
@@ -41,6 +42,7 @@ it\polimi\ingsw\exceptions\LeaderCardNotActivated.class
 it\polimi\ingsw\model\cards\leadercards\NumAndColorRequirement.class
 it\polimi\ingsw\controller\GameStates.class
 it\polimi\ingsw\model\singleplayer\SinglePlayerGameInterface.class
+module-info.class
 it\polimi\ingsw\model\board\Board$1.class
 it\polimi\ingsw\controller\client_packets\PacketPlaceResource.class
 it\polimi\ingsw\localgame\LocalGame.class
@@ -75,11 +77,12 @@ it\polimi\ingsw\client\ViewInterface.class
 it\polimi\ingsw\model\singleplayer\SinglePlayerGame.class
 it\polimi\ingsw\client\LiteMarketTray.class
 it\polimi\ingsw\controller\server_packets\PacketFaithTrack.class
-it\polimi\ingsw\client\GUI.class
 it\polimi\ingsw\model\cards\leadercards\ConcreteStrategyProductionPower.class
 it\polimi\ingsw\model\Player.class
 it\polimi\ingsw\model\board\resources\ResourceActionStrategy.class
+it\polimi\ingsw\GUI\ClientGUI.class
 it\polimi\ingsw\constants\Constants.class
+it\polimi\ingsw\GUI\PrimaryController.class
 it\polimi\ingsw\exceptions\DepositDoesntHaveThisResource.class
 it\polimi\ingsw\model\singleplayer\ConcreteStrategyPlusOne.class
 it\polimi\ingsw\model\singleplayer\TokenActionStrategy.class

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.board.resources;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.exceptions.AnotherDepositContainsThisResource;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
 
@@ -52,7 +53,7 @@ public class Resource {
      * @throws DepositHasReachedMaxLimit if the deposit is full
      * @throws DepositHasAnotherResource if the deposit already contains another resources' type
      */
-    public void useResource() throws DepositHasReachedMaxLimit, DepositHasAnotherResource {
+    public void useResource() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
         strategy.action();
     }
 }
