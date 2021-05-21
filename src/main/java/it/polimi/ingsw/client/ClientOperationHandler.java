@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class ClientOperationHandler {
@@ -38,38 +39,50 @@ public class ClientOperationHandler {
     public void handleCLIOperation(int input) throws IOException {
         switch (input) {
             case 1 -> {
-                System.out.println("You have chosen to activate a Leader Card\n");
+                System.out.println("You have chosen to activate a Leader Card");
                 activateLeaderCard();
             }
             case 2 -> {
-                System.out.println("You have chosen to buy a Development Card\n");
+                System.out.println("You have chosen to buy a Development Card");
                 buyDevCard();
             }
             case 3 -> {
-                System.out.println("You have chosen to choose a Discount\n");
+                System.out.println("You have chosen to choose a Discount");
                 chooseDiscount();
             }
             case 4 -> {
-                System.out.println("You have chosen to use your production powers\n");
+                System.out.println("You have chosen to use your production powers");
                 useAndChooseProductionPower();
             }
             case 5 -> {
-                System.out.println("You have chosen to discard one of your Leader Card\n");
+                System.out.println("You have chosen to discard one of your Leader Card");
                 discardLeaderCard();
             }
             case 6 -> {
-                System.out.println("You have chosen to move one of your resources\n");
+                System.out.println("You have chosen to move one of your resource");
                 moveResource();
             }
             case 7 -> {
-                System.out.println("You have chosen to place one of your resource\n");
+                System.out.println("You have chosen to place one of your resource");
                 placeResource();
             }
             case 8 -> {
-                System.out.println("You have chosen to take some resources from the market\n");
+                System.out.println("You have chosen to take some resources from the market");
                 takeResourceFromMarket();
             }
             case 9 -> {
+                System.out.println("You have chosen to see the market tray");
+                viewInterface.printMarketTray();
+            }
+            case 10 -> {
+                System.out.println("You have chosen to see the development grid");
+                viewInterface.printDevGrid();
+            }
+            case 11 -> {
+                System.out.println("You have chosen to see the faith track");
+                viewInterface.printFaithTrack();
+            }
+            case 12 ->{
                 System.out.println("Ending turn");
                 endTurn();
             }
@@ -83,7 +96,6 @@ public class ClientOperationHandler {
         socketClientConnection.sendToServer(jsonResult);
 
     }
-
 
     public void activateLeaderCard() throws IOException {
         System.out.println("Choose the ID of the leader card to activate: ");
@@ -330,14 +342,14 @@ public class ClientOperationHandler {
 
     }
 
-    public void
-    placeResource() {
+    public void placeResource() {
         if(clientModelView.getMyPlayer().getResourceBuffer().size() == 0){
             System.out.println("I'm sorry, you don't have any resource to place");
         }
         else{
             System.out.println("Choose the resource and the deposit in which you want to place the resource");
             viewInterface.printResourceBuffer();
+            viewInterface.printDeposits();
             int position;
             int resource;
 
@@ -372,20 +384,18 @@ public class ClientOperationHandler {
         String line;
         int numLine = 0;
         do {
-            line = input1.nextLine();
-            if(!line.equals("Row") && !line.equals("Column")) System.err.println("invalid choice");
-        } while (!line.equals("Row") && !line.equals("Column"));
+            line = input1.nextLine().toLowerCase(Locale.ROOT);
+            if(!line.equals("row") && !line.equals("column")) System.err.println("invalid choice");
+        } while (!line.equals("row") && !line.equals("column"));
 
-
-
-        if (line.equals("Row")) {
+        if (line.equals("row")) {
             do {
                 numLine = input.nextInt();
                 if(numLine < 1 || numLine > 3) System.err.println("invalid row");
             } while (numLine < 1 || numLine > 3);
         }
 
-        if (line.equals("Column")) {
+        if (line.equals("column")) {
             do {
                 numLine = input.nextInt();
                 if(numLine < 1 || numLine > 4) System.err.println("invalid column");
@@ -426,7 +436,9 @@ public class ClientOperationHandler {
 
 
     public void useAndChooseProductionPower(){
-        //TODO: rivedere un attimo questo metodo con tutti i possibili errori, uno trovato: il server si disconnette se il potere di produzione passato è vuoto
+        /*TODO: rivedere un attimo questo metodo con tutti i possibili errori, uno trovato: il server si disconnette se il potere di produzione passato è vuoto
+          un altro trovato: il server si disconnette se si attiva solo il potere di produzione base
+        */
 
         System.out.println("Select the IDs of the development space to use for the production. \n" +
                 "Press 0 when you have finished");
@@ -493,6 +505,7 @@ public class ClientOperationHandler {
 
         System.out.println("Choose the resource and the place in which you want to take it\n" +
                         "press 0 once you have finished");
+        Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
 
         viewInterface.printDeposits();
         viewInterface.printStrongbox();
@@ -542,6 +555,7 @@ public class ClientOperationHandler {
         if(checkProd){
             System.out.println("The production powers you selected have some jolly resource, choose the resources instead of the jolly\n" +
                     "press 0 to finish");
+            Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
 
             int newResource;
 
@@ -577,7 +591,7 @@ public class ClientOperationHandler {
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 
         if (howManyResources==1) System.out.println(Constants.ANSI_YELLOW+"You can choose one resource"+Constants.ANSI_RESET);
-        if (howManyResources==2) System.out.println("You can choose two resources");
+        if (howManyResources==2) System.out.println(Constants.ANSI_YELLOW+"You can choose two resources"+Constants.ANSI_RESET);
         for (int i = 0; i < howManyResources; i++) {
             if(i==0) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_FIRST_RESOURCE);
             if(i==1) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_SECOND_RESOURCE);

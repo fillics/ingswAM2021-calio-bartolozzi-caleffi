@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.messages;
 
 
+import it.polimi.ingsw.client.Color;
 import it.polimi.ingsw.constants.Constants;
 
 /**
@@ -22,12 +23,28 @@ public enum ConnectionMessages {
 
     PLAYER_RECONNECTED("You were playing in a match. Reconnecting to the game..."),
     GAME_IS_STARTING(Constants.UNDERLINE+"The game is starting..."+Constants.ANSI_RESET),
-    YOUR_TURN("It's your turn bro"),
+    YOUR_TURN("It's your turn bro \n" + "Choose one of the operations you can do:\n"+
+            "1: Activate a Leader Card\n" +
+            "2: Buy a Development Card\n" +
+            "3: Choose Discount\n" +
+            "4: Use production powers\n" +
+            "5: Discard a Leader Card\n" +
+            "6: Move one of you resources\n" +
+            "7: Place one of your resources\n" +
+            "8: Take resources from the market\n" +
+            "9: See the market tray\n"+
+            "10: See the development grid\n"+
+            "11: See the faith track\n"+
+            "12: End Turn\n"),
     NOT_YOUR_TURN("It's NOT your turn bro"),
     SELECT_LEADERCARDS("Choose the leader cards to remove"),
     CHOOSE_FIRST_RESOURCE("Choose the first initial resource:"),
     CHOOSE_SECOND_RESOURCE("Choose the second initial resource:"),
-    RESOURCE_CHOICES("Write 1 to select "+Constants.ANSI_YELLOW+"COIN"+Constants.ANSI_RESET+", 2 to select STONE, 3 to select SERVANT, 4 to select SHIELD"),
+    RESOURCE_CHOICES("Write: \n"+
+            "1 to select "+Color.ANSI_YELLOW.escape() +"COIN" +Color.RESET+ "\n"+
+            "2 to select "+ Color.ANSI_GREY.escape()+ "STONE" + Color.RESET + "\n"+
+            "3 to select " + Color.ANSI_PURPLE.escape() +"SERVANT" + Color.RESET + "\n"+
+            "4 to select "+ Color.ANSI_BLUE.escape()+"SHIELD" + Color.RESET),
     CHOOSE_DEPOSIT("Choose the deposit in which you want to place the resource [1, 2, 3]"),
     DISCARDDEVCARD(Constants.ANSI_YELLOW+"Lorenzo Il Magnifico discarded a development card"+Constants.ANSI_RESET),
     BLACKCROSS1(Constants.ANSI_YELLOW+"Lorenzo Il Magnifico's black cross has stepped forward of one cell"+Constants.ANSI_RESET),

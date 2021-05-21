@@ -2,6 +2,7 @@ it\polimi\ingsw\model\Game$2.class
 it\polimi\ingsw\exceptions\DevelopmentCardNotFound.class
 it\polimi\ingsw\model\GameBoardInterface.class
 it\polimi\ingsw\exceptions\DiscountCannotBeActivated.class
+it\polimi\ingsw\exceptions\AnotherDepositContainsThisResource.class
 it\polimi\ingsw\controller\server_packets\PacketResourceBuffer.class
 it\polimi\ingsw\client\ClientOperationHandler.class
 it\polimi\ingsw\model\cards\leadercards\ResourcesRequirement.class

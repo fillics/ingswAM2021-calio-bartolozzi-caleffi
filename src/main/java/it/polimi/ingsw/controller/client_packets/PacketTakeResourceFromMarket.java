@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
-import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
-import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
-import it.polimi.ingsw.controller.server_packets.PacketLiteMarketTray;
-import it.polimi.ingsw.controller.server_packets.PacketResourceBuffer;
+import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.LeaderCardNotActivated;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
 import it.polimi.ingsw.model.GameInterface;
@@ -36,7 +33,8 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
             try {
                 gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
                 clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
-                server.sendAll(new PacketLiteMarketTray(gameInterface.getTable()), gameInterface);
+                clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker()));
+                server.sendAll(new PacketLiteMarketTray(gameInterface.getTable(), gameInterface.getRemainingMarble()), gameInterface);
                 gameInterface.setState(GameStates.PHASE_TWO);
             } catch (LeaderCardNotFound leaderCardNotFound) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
