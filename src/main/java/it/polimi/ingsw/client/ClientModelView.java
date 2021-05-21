@@ -5,8 +5,6 @@ public class ClientModelView {
     private LiteMarketTray marketTray;
     private LiteDevelopmentGrid developmentGrid;
     private LiteBoard liteBoard;
-    private int numOfPlayers;
-    private int firstPosition;
 
     public LitePlayer getMyPlayer() {
         return MyPlayer;

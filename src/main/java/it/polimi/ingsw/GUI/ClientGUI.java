@@ -10,9 +10,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ClientGUI extends Application {
+public class ClientGUI extends Application implements ViewInterface {
 
     private static Scene scene;
+    private final ClientModelView clientModelView;
+
+    public ClientGUI(ClientModelView clientModelView) {
+        this.clientModelView = clientModelView;
+
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -32,5 +38,55 @@ public class ClientGUI extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    @Override
+    public ClientModelView getClientModelView() {
+        return null;
+    }
+
+    @Override
+    public void printLeaderCards() {
+
+    }
+
+    @Override
+    public void printDeposits() {
+
+    }
+
+    @Override
+    public void printStrongbox() {
+
+    }
+
+    @Override
+    public void printDevGrid() {
+
+    }
+
+    @Override
+    public void printResourceBuffer() {
+
+    }
+
+    @Override
+    public void printMarketTray() {
+
+    }
+
+    @Override
+    public void printFaithTrack() {
+
+    }
+
+    @Override
+    public void printDevSpaces() {
+
+    }
+
+    @Override
+    public void printBaseProdPower() {
+
     }
 }

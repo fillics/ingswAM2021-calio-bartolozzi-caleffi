@@ -575,7 +575,7 @@ public class ClientOperationHandler {
 
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 
-        if (howManyResources==1) System.out.println("You can choose one resource");
+        if (howManyResources==1) System.out.println(Constants.ANSI_YELLOW+"You can choose one resource"+Constants.ANSI_RESET);
         if (howManyResources==2) System.out.println("You can choose two resources");
         for (int i = 0; i < howManyResources; i++) {
             if(i==0) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_FIRST_RESOURCE);

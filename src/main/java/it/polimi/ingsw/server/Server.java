@@ -311,6 +311,8 @@ public class Server {
         //caso in cui è già dentro una partita
         if(clientHandlerToRemove.getGame()!=null){
             unregisterUsername(clientHandlerToRemove);
+            int index = clientHandlerToRemove.getGame().getIndexOfPlayer(clientHandlerToRemove.getUsername());
+            clientHandlerToRemove.getGame().disconnectPlayer(clientHandlerToRemove.getGame().getActivePlayers().get(index));
 
         }
         //caso in cui non è ancora entrato in partita

@@ -31,7 +31,7 @@ public class PacketLeaderCards implements ServerPacketHandler{
                 System.out.println("Choose your action:\n1. Choose your optional resources");
             } else {
                 client.setClientState(ClientStates.GAMESTARTED);
-                System.out.println("You're the first player, you can't have any resources or faith points");
+                System.out.println(Constants.ANSI_YELLOW+"You're the first player, you can't have any resources or faith points."+Constants.ANSI_RESET);
                 System.out.println(Constants.menu);
             }
         }

@@ -35,11 +35,13 @@ public interface GameInterface {
     HashMap<Integer, Player> getIdClientActivePlayers();
     boolean isEndgame();
     ArrayList<LinkedList<DevelopmentCard>> getDevelopmentGrid();
-    ArrayList<DevelopmentCard> getInitialDevGrid();
     Marble[][] getTable();
     Marble getRemainingMarble();
     int getIdGame();
     void nextPlayer();
     String getWinner();
+    void disconnectPlayer(Player playerToDisconnect);
+    void reconnectPlayer(Player playerToReconnect);
+    int getIndexOfPlayer(String usernameToFind);
 
 }

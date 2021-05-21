@@ -18,8 +18,7 @@ import java.util.Scanner;
 public class Client{
     private ClientStates clientStates;
     private final Scanner input;
-    private final SocketClientConnection socketClientConnection;
-    private final boolean gameStarted = false;
+    private SocketClientConnection socketClientConnection;
     private final ClientOperationHandler clientOperationHandler;
     private final ClientModelView clientModelView;
 
@@ -31,6 +30,9 @@ public class Client{
     public Client() {
         input = new Scanner(System.in);
         PrintStream output = new PrintStream(System.out);
+
+        serverMatch();
+
         socketClientConnection = new SocketClientConnection(this);
         clientModelView = new ClientModelView();
         clientOperationHandler = new ClientOperationHandler(socketClientConnection,clientModelView);
@@ -43,24 +45,26 @@ public class Client{
             new Thread(serverListener).start();
         }
 
-        //clientStates = ClientStates.RECONNECT_or_CONNECT;
         clientStates = ClientStates.USERNAME;
     }
 
     public static void main(String[] args) {
         System.out.println(Constants.MASTEROFRENAISSANCE);
         System.out.println(Constants.AUTHORS);
+        int choiceInterface;
 
-        /*int choiceGame = choiceGameType();
+        choiceInterface = viewInterfaceChoice();
 
-        if (choiceGame == 1) {
-            LocalGame localGame = new LocalGame();
-            LocalGame.main(null);
+        Client client = new Client();
+
+        if(choiceInterface==1){
+            client.setInterface(new CLI(client.getClientModelView()));
         }
-        */
-        //ricordarsi di mettere l'else se choiceGame == 2
 
-        serverMatch();
+        if (choiceInterface==2){
+            client.setInterface(new ClientGUI(client.getClientModelView()));
+        }
+
 
     }
 
@@ -68,8 +72,6 @@ public class Client{
      * Static method serverMatch used to create the communication with the server to play online
      */
     public static void serverMatch(){
-
-        int choiceInterface;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -87,13 +89,7 @@ public class Client{
         }
         Constants.setPort(port);
 
-        choiceInterface = viewInterfaceChoice();
 
-        Client client = new Client();
-
-        if(choiceInterface==1)
-            client.setInterface(new CLI(client.getClientModelView()));
-        else {}// client.setInterface(new ClientGUI(client.getClientModelView()));
     }
 
     /**
@@ -110,6 +106,9 @@ public class Client{
             if(choiceInterface!=1 && choiceInterface!=2)
                 System.err.println("Your choice is not available, please retry");
         } while(choiceInterface!=1 && choiceInterface!=2);
+
+        if(choiceInterface==1) System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the CLI. Enjoy the game!"+Constants.ANSI_RESET);
+        if(choiceInterface==2) System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the GUII. Enjoy the game!"+Constants.ANSI_RESET);
 
         return choiceInterface;
     }
