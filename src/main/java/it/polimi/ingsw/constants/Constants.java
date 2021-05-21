@@ -12,6 +12,9 @@ public class Constants {
 
     private static final int NUM_MAXPLAYERS = 4;
     private static final int NUM_MINPLAYERS = 1;
+    public static final String ITALIC= "\u001B[3m";
+    public static final String UNDERLINE = "\u001B[4m";
+    public static final String ANSI_BACKGROUND_GREEN = "\u001B[42m";
     public static final String ANSI_RESET = "\033[0m";
     public static final String ANSI_RED = "\033[31m";
     public static final String ANSI_GREEN = "\033[32m";

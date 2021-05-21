@@ -9,7 +9,7 @@ import it.polimi.ingsw.constants.Constants;
 public enum ConnectionMessages {
 
     WAITING_PEOPLE("Waiting for people to start the game..."),
-    LOBBY_MASTER("You are the lobby master! You will create the match."),
+    LOBBY_MASTER("You are the "+Constants.ITALIC+"lobby master"+Constants.ANSI_RESET+"! You will create the match."),
     USERNAME_VALID(Constants.ANSI_GREEN+"Username chosen is valid!"+Constants.ANSI_RESET),
     INSERT_USERNAME("Insert your username: "),
     LOCAL_OR_SERVERGAME("Choose how you want to play:\n" + "" +
@@ -18,21 +18,20 @@ public enum ConnectionMessages {
     INVALID_CHOICE(Constants.ANSI_RED+"The choice is invalid. Enter a new one: "+Constants.ANSI_RESET),
     TAKEN_NICKNAME(Constants.ANSI_RED+"The chosen username is already taken. Enter a new one: "+Constants.ANSI_RESET),
     INSERT_NUMBER_OF_PLAYERS("Insert the desired number of players (1, 2, 3 or 4): "),
-    INVALID_NUM_PLAYERS("The chosen number of players is invalid. Enter a new one: "),
-    PLAYER_RECONNECTED("You were playing in a game.\nDo you want to continue playing to that game [1] or connect to the lobby " +
-            "waiting for a new game [2]?"),
+    INVALID_NUM_PLAYERS(Constants.ANSI_RED+"The chosen number of players is invalid. Enter a new one: "+Constants.ANSI_RESET),
 
-    GAME_IS_STARTING("The game is starting..."),
+    PLAYER_RECONNECTED("You were playing in a match. Reconnecting to the game..."),
+    GAME_IS_STARTING(Constants.UNDERLINE+"The game is starting..."+Constants.ANSI_RESET),
     YOUR_TURN("It's your turn bro"),
     NOT_YOUR_TURN("It's NOT your turn bro"),
     SELECT_LEADERCARDS("Choose the leader cards to remove"),
     CHOOSE_FIRST_RESOURCE("Choose the first initial resource:"),
     CHOOSE_SECOND_RESOURCE("Choose the second initial resource:"),
-    RESOURCE_CHOICES("Write 1 to select COIN, 2 to select STONE, 3 to select SERVANT, 4 to select SHIELD"),
+    RESOURCE_CHOICES("Write 1 to select "+Constants.ANSI_YELLOW+"COIN"+Constants.ANSI_RESET+", 2 to select STONE, 3 to select SERVANT, 4 to select SHIELD"),
     CHOOSE_DEPOSIT("Choose the deposit in which you want to place the resource [1, 2, 3]"),
-    DISCARDDEVCARD("Lorenzo Il Magnifico discarded a development card"),
-    BLACKCROSS1("Lorenzo Il Magnifico's black cross has stepped forward of one cell"),
-    BLACKCROSS2("Lorenzo Il Magnifico's black cross has stepped forward of two cell"),
+    DISCARDDEVCARD(Constants.ANSI_YELLOW+"Lorenzo Il Magnifico discarded a development card"+Constants.ANSI_RESET),
+    BLACKCROSS1(Constants.ANSI_YELLOW+"Lorenzo Il Magnifico's black cross has stepped forward of one cell"+Constants.ANSI_RESET),
+    BLACKCROSS2(Constants.ANSI_YELLOW+"Lorenzo Il Magnifico's black cross has stepped forward of two cell"+Constants.ANSI_RESET),
     IMPOSSIBLEMOVE("I'm sorry, you can't do this action in this moment of the game"),
 
     CONNECTION_CLOSED("The served closed its connection."),

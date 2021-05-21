@@ -101,6 +101,7 @@ it\polimi\ingsw\model\singleplayer\ConcreteStrategyDiscard.class
 it\polimi\ingsw\model\cards\leadercards\ConcreteStrategyDeposit.class
 it\polimi\ingsw\controller\server_packets\PacketLiteMarketTray.class
 it\polimi\ingsw\controller\client_packets\PacketMoveResource.class
+it\polimi\ingsw\controller\server_packets\PacketReconnection.class
 it\polimi\ingsw\model\cards\leadercards\LevelAndColorRequirement.class
 it\polimi\ingsw\model\marbles\GreyMarble.class
 it\polimi\ingsw\model\singleplayer\SinglePlayerGame$1.class

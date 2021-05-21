@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.model.board.resources.ConcreteStrategyResource;
 import it.polimi.ingsw.model.board.resources.Resource;
@@ -40,7 +39,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     private volatile int currentPlayer = 0;
     private boolean endgame = false;
     private GameStates gameStates = GameStates.FILL_LOBBY;
-    private final ArrayList<DevelopmentCard> initialDevGrid;
     protected String winner;
 
     /**
@@ -52,7 +50,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         idClientActivePlayers = new HashMap<>();
         leaderDeck = new ArrayList<>();
         developmentGrid = new ArrayList<>();
-        initialDevGrid = new ArrayList<>();
         market = new MarketTray();
         leaderCardsChosen =  new ArrayList<>();
     }
@@ -258,14 +255,12 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     public void createDevelopmentGrid() {
         ArrayList<DevelopmentCard> deckToOrder = null;
-        Gson gson = new Gson();
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try{
             try {
-                deckToOrder = mapper.readValue(new File("src/main/resources/json/DevelopmentCard.json"), new TypeReference<>() {
-                });
+                deckToOrder = mapper.readValue(new File("src/main/resources/json/DevelopmentCard.json"), new TypeReference<>() {});
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -297,27 +292,30 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             developmentGrid.add(new LinkedList<>(groupByColorAndLevel.get(CardColor.PURPLE).get(Level.THREE)));
             developmentGrid.add(new LinkedList<>(groupByColorAndLevel.get(CardColor.BLUE).get(Level.THREE)));
 
-            for(int i=0; i<12;i++){
-                initialDevGrid.add(developmentGrid.get(i).getLast());
-            }
         }catch (Exception ex){
             System.out.println("DevCard.json file was not found");
         }
     }
 
-    public ArrayList<DevelopmentCard> getInitialDevGrid(){
-        return initialDevGrid;
-    }
 
-    // TODO: 14/05/2021 togliere getInitialDevGrid e fare una funzione universale che prende le carte visibili nella devGrid
-    // TODO: 14/05/2021 da mandare ai client. gestire anche il caso in cui una pila di carte (per esempio quelle di livello 2 colore blu) sia vuota
-    public ArrayList<DevelopmentCard> getDevGridLite(){
+    /**
+     * Method getDevGridLite returns only the cards on the top of the development grid. If there is no card in a position,
+     * it will be null.
+     * @return development grid lite
+     */
+    public synchronized ArrayList<DevelopmentCard> getDevGridLite(){
+
         ArrayList<DevelopmentCard> liteDevGrid = new ArrayList<>();
+
         for(int i=0; i<12;i++){
-            liteDevGrid.add(developmentGrid.get(i).getLast());
+            DevelopmentCard card = null;
+            if(!developmentGrid.get(i).isEmpty()) card = developmentGrid.get(i).getLast();
+            liteDevGrid.add(card);
         }
+
         return liteDevGrid;
     }
+
 
 
     /**
@@ -443,10 +441,9 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     @Override
     public void buyDevCard(int idCard, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
         DevelopmentCard developmentCard;
-        HashMap<ResourceType, Integer> resourcePriceBuffer = new HashMap<>();
 
         developmentCard = chooseCardFromDevelopmentGrid(idCard);
-        resourcePriceBuffer.putAll(developmentCard.getResourcePrice());
+        HashMap<ResourceType, Integer> resourcePriceBuffer = new HashMap<>(developmentCard.getResourcePrice());
         activePlayers.get(currentPlayer).getBoard().checkDevSpace(developmentCard,developmentSpace);
         useDiscountActivation(resourcePriceBuffer,developmentCard);
 
@@ -671,5 +668,28 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         setWinner(winnerUsername);
     }
 
+    /**
+     * Method disconnectPlayer called by the server to handle the disconnection of a player from the game.
+     * @param playerToDisconnect (type Player) - it is the player to disconnect
+     */
+    public void disconnectPlayer(Player playerToDisconnect){
+        if(activePlayers.contains(playerToDisconnect)) activePlayers.remove(playerToDisconnect);
+    }
+
+    /**
+     * Method reconnectPlayer called by the server to handle the reconnection of a player to the game.
+     * @param playerToReconnect (type Player) - it is the player to reconnect
+     */
+    public void reconnectPlayer(Player playerToReconnect){
+        if(players.contains(playerToReconnect)) activePlayers.add(playerToReconnect.getPosition(), playerToReconnect);
+    }
+
+    public int getIndexOfPlayer(String usernameToFind){
+        int index = 0;
+        for (Player player: activePlayers){
+            if(player.getUsername().equals(usernameToFind)) index = activePlayers.indexOf(player);
+        }
+        return index;
+    }
 
 }

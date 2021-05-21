@@ -132,6 +132,24 @@ class GameTest {
         assertEquals(16, testGame.getLeaderDeck().size());
     }
 
+    @Test
+    void checkGetLiteDevGrid() throws DevelopmentCardNotFound {
+        testGame.createDevelopmentGrid();
+        assertEquals(12, testGame.getDevGridLite().size());
+
+        testGame.removeCardFromDevelopmentGrid(testGame.getDevelopmentGrid().get(2).getLast());
+        assertEquals(12, testGame.getDevGridLite().size());
+        testGame.removeCardFromDevelopmentGrid(testGame.getDevelopmentGrid().get(2).getLast());
+        testGame.removeCardFromDevelopmentGrid(testGame.getDevelopmentGrid().get(2).getLast());
+        testGame.removeCardFromDevelopmentGrid(testGame.getDevelopmentGrid().get(2).getLast());
+        for (int i = 0; i < 12; i++) {
+            System.out.println(testGame.getDevGridLite().get(i));
+        }
+        assertEquals(12, testGame.getDevGridLite().size());
+        assertNull(testGame.getDevGridLite().get(2));
+    }
+
+
     /**
      * Test method SizeLeaderDeckAfterDistributeTest checks the size of the leader deck
      * after the distribution of the leader cards to each player
@@ -723,13 +741,13 @@ class GameTest {
     @DisplayName("endTurnAndIncreaseFaithMarkerTest test")
     void endGameAndIncreaseFaithMarkerTest() throws LeaderCardNotFound, LeaderCardNotActivated {
 
-        //testGame.takeResourceFromMarket("Row", 2, null);
-        //assertNotEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
+        /*testGame.takeResourceFromMarket("Row", 2, null);
+        assertNotEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).endTurn();
         for(int i = 1; i< 4; i++){
-            //assertEquals(1,testGame.getActivePlayers().get(i).getBoard().getFaithMarker());
+            assertEquals(1,testGame.getActivePlayers().get(i).getBoard().getFaithMarker());
 
-        }
+        }*/
     }
 
     /**
@@ -795,5 +813,32 @@ class GameTest {
             leaderCardNotActivated.printStackTrace();
         }
     }*/
+
+    @Test
+    void checkDisconnection(){
+        assertEquals(4, testGame.getActivePlayers().size());
+        testGame.disconnectPlayer(testGame.getActivePlayers().get(0));
+        assertEquals(3, testGame.getActivePlayers().size());
+        assertEquals("bea", testGame.getActivePlayers().get(0).getUsername());
+    }
+
+
+    @Test
+    void checkReconnection(){
+        testGame.disconnectPlayer(testGame.getActivePlayers().get(0));
+        assertEquals(3, testGame.getActivePlayers().size());
+        testGame.reconnectPlayer(testGame.getPlayers().get(0));
+        assertEquals(4, testGame.getActivePlayers().size());
+        assertEquals("fil", testGame.getActivePlayers().get(0).getUsername());
+    }
+
+    @Test
+    void checkGetIndexOfPlayer(){
+        assertEquals(0, testGame.getIndexOfPlayer("fil"));
+        testGame.disconnectPlayer(testGame.getActivePlayers().get(0));
+        assertEquals(0, testGame.getIndexOfPlayer("bea"));
+
+
+    }
 
 }

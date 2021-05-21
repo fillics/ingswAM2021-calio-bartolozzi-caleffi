@@ -21,24 +21,27 @@ public interface GameInterface {
     void chooseDiscountActivation(ArrayList<Integer> idLeaderCards) throws DiscountCannotBeActivated;
     void buyDevCard(int idCard, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource;
     void moveResource(int position) throws EmptyDeposit;
-    void placeResource(int depositPosition, int resourcePosition) throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource;
+    void placeResource(int depositPosition, int resourcePosition) throws DepositHasReachedMaxLimit, DepositHasAnotherResource;
     void takeResourceFromMarket(String line, int numline ,ArrayList<Integer> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated;
     void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource;
     void activateLeaderCard(int idCardToActivate) throws LeaderCardNotFound, NotEnoughRequirements;
     void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound;
-    void chooseLeaderCardToRemove(int idCard1, int idCard2, int IdPlayer) throws LeaderCardNotFound;
+    void chooseLeaderCardToRemove(int idCard1, int idCard2) throws LeaderCardNotFound;
     int getCurrentPlayer();
-    void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DifferentDimension, DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource;
+    ArrayList<DevelopmentCard> getDevGridLite();
+    void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DifferentDimension, DepositHasReachedMaxLimit, DepositHasAnotherResource;
     GameStates getState();
     ArrayList<Player> getActivePlayers();
     HashMap<Integer, Player> getIdClientActivePlayers();
     boolean isEndgame();
     ArrayList<LinkedList<DevelopmentCard>> getDevelopmentGrid();
-    ArrayList<DevelopmentCard> getInitialDevGrid();
     Marble[][] getTable();
     Marble getRemainingMarble();
     int getIdGame();
     void nextPlayer();
     String getWinner();
+    void disconnectPlayer(Player playerToDisconnect);
+    void reconnectPlayer(Player playerToReconnect);
+    int getIndexOfPlayer(String usernameToFind);
 
 }
