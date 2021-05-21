@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.cards.developmentcards;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import it.polimi.ingsw.constants.Color;
-import it.polimi.ingsw.constants.Printable;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 
 import java.util.ArrayList;
 
@@ -12,6 +14,12 @@ import java.util.ArrayList;
 public class DevelopmentSpace {
     private final ArrayList<DevelopmentCard> developmentCardsOfDevSpace;
     private DevelopmentCard topCard;
+
+    @JsonCreator
+    public DevelopmentSpace(@JsonProperty("developmentCardsOfDevSpace") ArrayList<DevelopmentCard> developmentCardsOfDevSpace,@JsonProperty("topCard")DevelopmentCard topCard) {
+        this.developmentCardsOfDevSpace = developmentCardsOfDevSpace;
+        this.topCard = topCard;
+    }
 
     /**
      * Constructor DevelopmentSpace creates a new DevelopmentSpace instance.

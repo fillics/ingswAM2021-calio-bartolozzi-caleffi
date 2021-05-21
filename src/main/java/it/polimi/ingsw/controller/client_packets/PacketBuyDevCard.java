@@ -37,10 +37,13 @@ public class PacketBuyDevCard implements ClientPacketHandler {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
                 gameInterface.buyDevCard(id, chosenResources, chosenWarehouses, developmentSpace);
+                System.out.println(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces());
+                System.out.println(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
+                System.out.println(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits());
+
                 clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces()));
                 clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
                         gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));
-
                 server.sendAll(new PacketLiteDevelopmentGrid(gameInterface.getDevGridLite()), gameInterface);
                 gameInterface.setState(GameStates.PHASE_TWO);
             } catch (DevelopmentCardNotFound developmentCardNotFound) {

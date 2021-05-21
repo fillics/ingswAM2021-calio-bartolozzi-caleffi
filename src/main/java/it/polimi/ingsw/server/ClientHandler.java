@@ -208,6 +208,7 @@ public class ClientHandler implements Runnable {
         mapper = new ObjectMapper();
         try {
             jsonResult = mapper.writeValueAsString(serverPacketHandler);
+            System.out.println(jsonResult);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
