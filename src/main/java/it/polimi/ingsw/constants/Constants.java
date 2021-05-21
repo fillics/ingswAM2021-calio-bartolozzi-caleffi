@@ -37,7 +37,7 @@ public class Constants {
                         "9: Show the market tray\n"+
                         "10: Show the development grid\n"+
                         "11: Show the personal board\n"+
-                        "12: Show Leader cards" +
+                        "12: Show Leader cards\n" +
                         "13: End Turn\n";
 
 
