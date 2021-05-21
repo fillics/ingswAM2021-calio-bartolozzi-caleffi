@@ -79,10 +79,17 @@ public class ClientOperationHandler {
                 viewInterface.printDevGrid();
             }
             case 11 -> {
-                System.out.println("You have chosen to see the faith track");
+                System.out.println("You have chosen to see the board");
                 viewInterface.printFaithTrack();
+                viewInterface.printStrongbox();
+                viewInterface.printDeposits();
+                viewInterface.printDevSpaces();
             }
             case 12 ->{
+                System.out.println("You have chosen to see your leadercards");
+                viewInterface.printLeaderCards();
+            }
+            case 13 ->{
                 System.out.println("Ending turn");
                 endTurn();
             }

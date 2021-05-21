@@ -149,7 +149,9 @@ public class Player {
      */
     public void endTurn(){
         if(resourceBuffer.size() > 0){
-            gamePlayer.increaseFaithMarkerOfOtherPlayers();
+            for(int i = 0; i < resourceBuffer.size(); i++){
+                gamePlayer.increaseFaithMarkerOfOtherPlayers();
+            }
         }
         resourceBuffer.clear();
     }
