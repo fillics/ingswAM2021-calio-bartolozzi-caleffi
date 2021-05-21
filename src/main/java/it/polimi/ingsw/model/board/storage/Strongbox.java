@@ -2,8 +2,8 @@ package it.polimi.ingsw.model.board.storage;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.client.Color;
-import it.polimi.ingsw.client.Printable;
+import it.polimi.ingsw.constants.Color;
+import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.exceptions.EmptyDeposit;
 

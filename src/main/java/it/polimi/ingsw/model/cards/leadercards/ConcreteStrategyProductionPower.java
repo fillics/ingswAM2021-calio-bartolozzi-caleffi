@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model.cards.leadercards;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import it.polimi.ingsw.client.Color;
-import it.polimi.ingsw.client.Printable;
+import it.polimi.ingsw.constants.Color;
+import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.model.board.BoardInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;

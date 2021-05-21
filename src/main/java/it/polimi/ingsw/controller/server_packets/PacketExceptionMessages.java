@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.ExceptionMessages;
+import it.polimi.ingsw.controller.messages.ExceptionMessages;
 
 public class PacketExceptionMessages implements ServerPacketHandler{
     ExceptionMessages message;

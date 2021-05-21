@@ -49,4 +49,6 @@ module it.polimi.ingsw {
     opens it.polimi.ingsw.constants;
     opens it.polimi.ingsw.localgame;
     opens it.polimi.ingsw.server;
+    exports it.polimi.ingsw.controller.messages;
+    opens it.polimi.ingsw.controller.messages;
 }

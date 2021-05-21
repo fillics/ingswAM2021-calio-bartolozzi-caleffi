@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.messages;
 
 
 import it.polimi.ingsw.constants.Constants;

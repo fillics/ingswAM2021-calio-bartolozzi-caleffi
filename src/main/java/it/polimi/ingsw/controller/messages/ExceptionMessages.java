@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.messages;
 
 public enum ExceptionMessages {
     DEVELOPMENTCARDNOTFOURND("Development card not found"),

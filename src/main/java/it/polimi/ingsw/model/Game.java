@@ -684,6 +684,12 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         if(players.contains(playerToReconnect)) activePlayers.add(playerToReconnect.getPosition(), playerToReconnect);
     }
 
+    /**
+     * Method getIndexOfPlayer gets the index of the player with the username passed as a parameter in the array containing
+     * all the active players.
+     * @param usernameToFind (type String)
+     * @return the index
+     */
     public int getIndexOfPlayer(String usernameToFind){
         int index = 0;
         for (Player player: activePlayers){

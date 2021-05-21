@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
 import java.io.IOException;
 import java.io.PrintStream;

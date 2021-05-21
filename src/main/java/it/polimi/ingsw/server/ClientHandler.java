@@ -65,7 +65,7 @@ public class ClientHandler implements Runnable {
                 }catch (Exception e){
 
                     if(username!=null){ //il player ha inserito l'username
-                        System.out.println(username + " disconnected!");
+                        System.out.println(Constants.ANSI_RED+username+Constants.ANSI_RESET+ " (idPlayer: " +idClient+") "+ Constants.ANSI_RED+"disconnected!"+Constants.ANSI_RESET);
                         server.handleDisconnection(this);
                     }
                     else{ //il player non ha ancora inserito l'username: viene solo chiusa la disconnessione

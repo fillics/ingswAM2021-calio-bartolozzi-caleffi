@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.cards.developmentcards;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import it.polimi.ingsw.client.Color;
-import it.polimi.ingsw.client.Printable;
+import it.polimi.ingsw.constants.Color;
+import it.polimi.ingsw.constants.Printable;
 
 import java.util.ArrayList;
 

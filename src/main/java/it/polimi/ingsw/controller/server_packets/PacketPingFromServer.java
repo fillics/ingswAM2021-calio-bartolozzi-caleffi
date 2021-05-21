@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.server_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.PacketPongFromClient;
 
 public class PacketPingFromServer implements ServerPacketHandler {

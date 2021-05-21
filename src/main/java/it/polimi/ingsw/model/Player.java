@@ -1,11 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.client.Color;
-import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.Board;
 
 import it.polimi.ingsw.model.board.resources.Resource;
-import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDeposit;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.constants;
 
-import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.controller.ExceptionMessages;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
+import it.polimi.ingsw.controller.messages.ExceptionMessages;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

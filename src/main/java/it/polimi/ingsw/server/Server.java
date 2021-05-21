@@ -1,7 +1,8 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketReconnection;
@@ -30,7 +31,6 @@ public class Server {
     private int numPlayers;
 
 
-
     /** Map that contains all the username already taken and the clientHandler associated */
     private final Map<String, ClientHandler> mapUsernameClientHandler;
 
@@ -41,25 +41,21 @@ public class Server {
     /** Map that contains all the disconnected player's username and the Game's id associated **/
     private final Map<String, Integer> peopleDisconnected;
 
+    private final Map<String, ClientModelView> mapForReconnection;
+
 
     /** List of clients waiting in the lobby. */
     private final LinkedList<ClientHandler> lobby = new LinkedList<>();
-
-
-    public Map<Integer, ArrayList<ClientHandler>> getMapIdGameClientHandler() {
-        return mapIdGameClientHandler;
-    }
 
 
     public Server() {
         mapUsernameClientHandler = new HashMap<>();
         mapIdGameClientHandler = new HashMap<>();
         peopleDisconnected = new HashMap<>();
+        mapForReconnection = new HashMap<>();
     }
 
-    public LinkedList<ClientHandler> getLobby() {
-        return lobby;
-    }
+
 
     public static void main(String[] args) {
 
@@ -133,6 +129,12 @@ public class Server {
         return idGame+=1;
     }
 
+    public Map<Integer, ArrayList<ClientHandler>> getMapIdGameClientHandler() {
+        return mapIdGameClientHandler;
+    }
+    public LinkedList<ClientHandler> getLobby() {
+        return lobby;
+    }
     /**
      * Method setNumPlayers sets the number of the players needed to create a new Game.
      * @param numPlayers (type Int) - it is the number of players that the first person in the lobby has decided
@@ -144,7 +146,6 @@ public class Server {
     public int getNumPlayers() {
         return numPlayers;
     }
-
 
     public Map<String, ClientHandler> getMapUsernameClientHandler() {
         return mapUsernameClientHandler;
@@ -190,6 +191,7 @@ public class Server {
             if (peopleDisconnected.containsKey(username)){
                 System.out.println("Client " +username+" reconnected");
                 clientHandler.sendPacketToClient(new PacketReconnection());
+                // TODO: 21/05/2021 riaggiungerlo a mapIdGameClientHandler
                 peopleDisconnected.remove(username);
             }
             else{
@@ -223,7 +225,6 @@ public class Server {
             createMatch();
         }
     }
-
 
     /**
      * Method createMatch is called by the method checkStartOfTheGame and creates a new match. It removes the people in
@@ -310,6 +311,8 @@ public class Server {
     public synchronized void handleDisconnection(ClientHandler clientHandlerToRemove){
         //caso in cui è già dentro una partita
         if(clientHandlerToRemove.getGame()!=null){
+
+            /// TODO: 21/05/2021 rimuoverlo da mapIdGameClientHandler
             unregisterUsername(clientHandlerToRemove);
             int index = clientHandlerToRemove.getGame().getIndexOfPlayer(clientHandlerToRemove.getUsername());
             clientHandlerToRemove.getGame().disconnectPlayer(clientHandlerToRemove.getGame().getActivePlayers().get(index));
