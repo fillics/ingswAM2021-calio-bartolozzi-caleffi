@@ -8,19 +8,26 @@ import it.polimi.ingsw.model.marbles.Marble;
 public class PacketLiteMarketTray implements ServerPacketHandler{
 
     private final Marble[][] table;
+    private Marble remainingMarble;
 
     @JsonCreator
-    public PacketLiteMarketTray(@JsonProperty("market tray")Marble[][] table) {
+    public PacketLiteMarketTray(@JsonProperty("market tray")Marble[][] table, @JsonProperty("remainingMarble")Marble remainingMarble) {
         this.table=table;
+        this.remainingMarble = remainingMarble;
     }
 
     @Override
     public void execute(Client client) {
         System.out.println("Market Tray updated");
         client.getClientModelView().getMarketTray().setTable(table);
+        client.getClientModelView().getMarketTray().setRemainingMarble(remainingMarble);
     }
 
     public Marble[][] getTable() {
         return table;
+    }
+
+    public Marble getRemainingMarble() {
+        return remainingMarble;
     }
 }

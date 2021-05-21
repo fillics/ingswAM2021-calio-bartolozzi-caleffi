@@ -36,11 +36,11 @@ public class PacketEndTurn implements ClientPacketHandler{
                     clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.DISCARDDEVCARD));
                 } else if (token.getType().equals(SoloActionTokenType.BLACKCROSS_1)) {
                     ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                    clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack()));
+                    clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker()));
                     clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS1));
                 } else if (token.getType().equals(SoloActionTokenType.BLACKCROSS_2)) {
                     ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                    clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack()));
+                    clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker()));
                     clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS2));
                 }
                 if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
@@ -51,6 +51,7 @@ public class PacketEndTurn implements ClientPacketHandler{
             }
         }
         else{
+            //TODO: Fare condizione invio pacchetto di risorse
             if ((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
                 gameInterface.nextPlayer();
                 System.out.println(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer());

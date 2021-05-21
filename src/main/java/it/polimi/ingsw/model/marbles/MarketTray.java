@@ -70,11 +70,11 @@ public class MarketTray {
      */
     public void lineSelection(String line, int numline, Player player){
         int i,j;
-        if(line.equals("Row")){
+        if(line.equals("row")){
             for(i=numline-1,j=0;j<4;j++){
                 table[i][j].transform(player);
             }
-        } else if(line.equals("Column")){
+        } else if(line.equals("column")){
             for(i=0,j=numline-1;i<3;i++){
                 table[i][j].transform(player);
             }
@@ -87,14 +87,14 @@ public class MarketTray {
     public void change(String line, int numline){
         Marble temp;
         int i,j;
-        if(line.equals("Row")){
+        if(line.equals("row")){
             temp= remainingMarble;
             remainingMarble= table[numline-1][0];
             for(j=0; j<3;j++){
                 table[numline-1][j]=table[numline-1][j+1];
             }
             table[numline-1][3]=temp;
-        }else if(line.equals("Column")){
+        }else if(line.equals("column")){
             temp= remainingMarble;
             remainingMarble= table[0][numline-1];
             for(i=0;i<2;i++){
@@ -102,5 +102,47 @@ public class MarketTray {
             }
             table[2][numline-1]=temp;
         }
+    }
+
+    public String toString(){
+        StringBuilder escape= new StringBuilder();
+        escape.append(String.valueOf(Printable.UNDER_LINE.print()).repeat(11)).append("\n").append(Printable.LINE.print()).append(" ").append(String.valueOf(Printable.UNDER_LINE.print()).repeat(9));
+        if(this.remainingMarble instanceof YellowMarble)
+            escape.append(Color.ANSI_YELLOW.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+        if(this.remainingMarble instanceof PurpleMarble)
+            escape.append(Color.ANSI_PURPLE.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+        if(this.remainingMarble instanceof BlueMarble)
+            escape.append(Color.ANSI_BLUE.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+        if(this.remainingMarble instanceof GreyMarble)
+            escape.append(Color.ANSI_GREY.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+        if(this.remainingMarble instanceof WhiteMarble)
+            escape.append(Printable.WHITE_MARBLE.print()).append(" ");
+        if(this.remainingMarble instanceof RedMarble)
+            escape.append(Color.ANSI_RED.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+        escape.append("\n");
+
+        for(int i=0; i<3;i++){
+            escape.append(Printable.LINE.print()).append(" ").append(Printable.LINE.print()).append(" ");
+            for(int j=0; j<4; j++){
+                if(this.table[i][j] instanceof YellowMarble)
+                    escape.append(Color.ANSI_YELLOW.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+                if(this.table[i][j] instanceof PurpleMarble)
+                    escape.append(Color.ANSI_PURPLE.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+                if(this.table[i][j] instanceof BlueMarble)
+                    escape.append(Color.ANSI_BLUE.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+                if(this.table[i][j] instanceof GreyMarble)
+                    escape.append(Color.ANSI_GREY.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+                if(this.table[i][j] instanceof WhiteMarble)
+                    escape.append(Printable.WHITE_MARBLE.print()).append(" ");
+                if(this.table[i][j] instanceof RedMarble)
+                    escape.append(Color.ANSI_RED.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
+            }
+            escape.append(Printable.ARROW_RIGHT.print()).append("\n");
+        }
+        escape.append("    ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ");
+        return escape.toString();
+    }
+    public void dump(){
+        System.out.println(this);
     }
 }
