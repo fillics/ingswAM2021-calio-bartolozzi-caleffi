@@ -34,10 +34,11 @@ public class Constants {
                         "6: Move one of you resources\n" +
                         "7: Place one of your resources\n" +
                         "8: Take resources from the market\n" +
-                        "9: See the market tray\n"+
-                        "10: See the development grid\n"+
-                        "11: See the faith track\n"+
-                        "12: End Turn\n";
+                        "9: Show the market tray\n"+
+                        "10: Show the development grid\n"+
+                        "11: Show the personal board\n"+
+                        "12: Show Leader cards" +
+                        "13: End Turn\n";
 
 
     public static final String MASTEROFRENAISSANCE =
