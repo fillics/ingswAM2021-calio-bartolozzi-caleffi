@@ -126,6 +126,7 @@ public class ClientOperationHandler {
 
     // TODO: 22/05/2021 sistemare 
     public void buyDevCard(){
+        viewInterface.printResourceBuffer();
         viewInterface.printDevGrid();
 
         System.out.println("Select the card ID you want to buy");
