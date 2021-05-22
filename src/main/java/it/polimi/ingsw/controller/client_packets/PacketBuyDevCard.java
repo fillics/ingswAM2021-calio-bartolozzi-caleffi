@@ -20,11 +20,11 @@ import java.util.ArrayList;
 public class PacketBuyDevCard implements ClientPacketHandler {
     private final int id;
     private final ArrayList<ResourceType> chosenResources;
-    private final ArrayList<Warehouse> chosenWarehouses;
-    private final DevelopmentSpace developmentSpace;
+    private final ArrayList<Integer> chosenWarehouses;
+    private final int developmentSpace;
 
     @JsonCreator
-    public PacketBuyDevCard(@JsonProperty("Id")int id,@JsonProperty("ChosenResources") ArrayList<ResourceType> chosenResources,@JsonProperty("ChosenWarehouses ") ArrayList<Warehouse> chosenWarehouses,@JsonProperty("DevelopmentSpace") DevelopmentSpace developmentSpace) {
+    public PacketBuyDevCard(@JsonProperty("Id")int id,@JsonProperty("ChosenResources") ArrayList<ResourceType> chosenResources,@JsonProperty("ChosenWarehouses ") ArrayList<Integer> chosenWarehouses,@JsonProperty("DevelopmentSpace") int developmentSpace) {
         this.id = id;
         this.chosenResources = chosenResources;
         this.chosenWarehouses = chosenWarehouses;
@@ -36,7 +36,17 @@ public class PacketBuyDevCard implements ClientPacketHandler {
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
-                gameInterface.buyDevCard(id, chosenResources, chosenWarehouses, developmentSpace);
+                ArrayList<Warehouse> realChosenWarehouses = new ArrayList<>();
+                for(int i : chosenWarehouses){
+                    switch (i) {
+                        case 1 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(0));
+                        case 2 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(1));
+                        case 3 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(2));
+                        case 4 ->realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
+                    }
+                }
+
+                gameInterface.buyDevCard(id, chosenResources, realChosenWarehouses, gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(developmentSpace - 1));
 
                 clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces()));
                 clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
@@ -74,11 +84,11 @@ public class PacketBuyDevCard implements ClientPacketHandler {
         return chosenResources;
     }
 
-    public ArrayList<Warehouse> getChosenWarehouses() {
+    public ArrayList<Integer> getChosenWarehouses() {
         return chosenWarehouses;
     }
 
-    public DevelopmentSpace getDevelopmentSpace() {
+    public int getDevelopmentSpace() {
         return developmentSpace;
     }
 }

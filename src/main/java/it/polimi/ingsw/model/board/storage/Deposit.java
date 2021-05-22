@@ -161,7 +161,11 @@ public class Deposit extends Warehouse {
             throw new DepositDoesntHaveThisResource();
         }
         else {
+            System.out.println("gino pono");
             quantity -= 1;
+            if(quantity == 0){
+                this.resourcetype = null;
+            }
         }
     }
 

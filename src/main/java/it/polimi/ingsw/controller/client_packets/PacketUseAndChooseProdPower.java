@@ -24,22 +24,46 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PacketUseAndChooseProdPower implements ClientPacketHandler {
-    private final ArrayList<ProductionPower> productionPowers;
+    private final ArrayList<Integer> productionPowers;
+    private final ArrayList<Integer> newProductionPowers;
     private final ArrayList<ResourceType> resourceTypes;
-    private final ArrayList<Warehouse> warehouse;
+    private final ArrayList<Integer> warehouse;
     private final ArrayList<ResourceType> newResources;
 
     @JsonCreator
-    public PacketUseAndChooseProdPower(@JsonProperty("ProductionPowers")ArrayList<ProductionPower> productionPowers,@JsonProperty("ResourceTypes") ArrayList<ResourceType> resourceTypes,@JsonProperty("Warehouse") ArrayList<Warehouse> warehouse,@JsonProperty("NewResources") ArrayList<ResourceType> newResources) {
+    public PacketUseAndChooseProdPower(@JsonProperty("ProductionPowers")ArrayList<Integer> productionPowers,@JsonProperty("new" +
+            "ProductionPowers")ArrayList<Integer> newProductionPowers,@JsonProperty("ResourceTypes") ArrayList<ResourceType> resourceTypes,@JsonProperty("Warehouse") ArrayList<Integer> warehouse,@JsonProperty("NewResources") ArrayList<ResourceType> newResources) {
         this.productionPowers = productionPowers;
         this.resourceTypes = resourceTypes;
         this.warehouse = warehouse;
         this.newResources = newResources;
+        this.newProductionPowers = newProductionPowers;
     }
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+            ArrayList<ProductionPower> realProductionPowers = new ArrayList<>();
+            if(productionPowers.size() >= 1){
+                for(int i: productionPowers){
+                    realProductionPowers.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(i - 1).getTopCardProductionPower());
+                }
+            }
+            if(newProductionPowers.size() >= 1){
+                for(int i: newProductionPowers){
+                    realProductionPowers.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getSpecialProductionPowers().get(i -1));
+                }
+            }
+            ArrayList<Warehouse> realChosenWarehouses = new ArrayList<>();
+            for(int i : warehouse){
+                switch (i) {
+                    case 1 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(0));
+                    case 2 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(1));
+                    case 3 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(2));
+                    case 4 ->realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
+                }
+            }
+
             HashMap<ResourceType, Integer> resourceNeeded = new HashMap<>();
             resourceNeeded.put(ResourceType.COIN, 0);
             resourceNeeded.put(ResourceType.STONE, 0);
@@ -55,7 +79,7 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
             resourceObtained.put(ResourceType.JOLLY, 0);
 
 
-            for (ProductionPower productionPower : productionPowers) {
+            for (ProductionPower productionPower : realProductionPowers) {
                 for (ResourceType key : productionPower.getResourceNeeded().keySet()) {
                     resourceNeeded.replace(key, resourceNeeded.get(key) + productionPower.getResourceNeeded().get(key));
                 }
@@ -67,7 +91,7 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
 
             ProductionPower newProductionPower = new ProductionPower(resourceNeeded, resourceObtained);
             try {
-                gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, warehouse, newResources);
+                gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, realChosenWarehouses, newResources);
                 clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
                         gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));
                 clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker()));
@@ -88,7 +112,7 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
         }
     }
 
-    public ArrayList<ProductionPower> getProductionPowers() {
+    public ArrayList<Integer> getProductionPowers() {
         return productionPowers;
     }
 
@@ -96,11 +120,15 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
         return resourceTypes;
     }
 
-    public ArrayList<Warehouse> getWarehouse() {
+    public ArrayList<Integer> getWarehouse() {
         return warehouse;
     }
 
     public ArrayList<ResourceType> getNewResources() {
         return newResources;
+    }
+
+    public ArrayList<Integer> getNewProductionPowers() {
+        return newProductionPowers;
     }
 }

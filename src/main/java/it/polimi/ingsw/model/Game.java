@@ -443,22 +443,38 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void buyDevCard(int idCard, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
 
         //take the card from the grid
+        System.out.println("op1");
         DevelopmentCard developmentCard = chooseCardFromDevelopmentGrid(idCard);
 
         //creating a map of resource price buffer with the price of the chosen card
+        System.out.println("op2");
         HashMap<ResourceType, Integer> resourcePriceBuffer = new HashMap<>(developmentCard.getResourcePrice());
 
         //throws exception if i can't place the card
+        System.out.println("op3");
         activePlayers.get(currentPlayer).getBoard().checkDevSpace(developmentCard,developmentSpace);
 
+        System.out.println("op4");
         useDiscountActivation(resourcePriceBuffer,developmentCard);
 
         if(activePlayers.get(currentPlayer).getBoard().checkResources(resourcePriceBuffer, chosenResources)){
+            System.out.println("ciclo");
             activePlayers.get(currentPlayer).getBoard().removeResources(chosenResources,chosenWarehouses);
         }
+        System.out.println("op5");
         removeCardFromDevelopmentGrid(developmentCard);
+        System.out.println("op6");
+
+
+        System.out.println(activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces().get(0));
         developmentSpace.addDevelopmentCard(developmentCard);
+        System.out.println(activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces().get(0));
+
+
+        System.out.println("op7");
+        System.out.println(activePlayers.get(currentPlayer).getBoard().getNumOfDevCards());
         activePlayers.get(currentPlayer).getBoard().increaseNumOfDevCards();
+        System.out.println(activePlayers.get(currentPlayer).getBoard().getNumOfDevCards());
     }
 
 
