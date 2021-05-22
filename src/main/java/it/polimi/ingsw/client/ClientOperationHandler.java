@@ -3,7 +3,7 @@ package it.polimi.ingsw.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.*;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
@@ -14,7 +14,6 @@ import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Locale;
@@ -37,57 +36,64 @@ public class ClientOperationHandler {
         this.viewInterface = viewInterface;
     }
 
-    public void handleCLIOperation(int input) throws IOException {
+    public void handleCLIOperation(String input) throws IOException {
         switch (input) {
-            case 1 -> {
+            case "1", "activate" -> {
                 System.out.println("You have chosen to activate a Leader Card");
                 activateLeaderCard();
             }
-            case 2 -> {
+            case "2", "buy" -> {
                 System.out.println("You have chosen to buy a Development Card");
                 buyDevCard();
             }
-            case 3 -> {
+            case "3", "choose" -> {
                 System.out.println("You have chosen to choose a Discount");
                 chooseDiscount();
             }
-            case 4 -> {
+            case "4", "prodpowers" -> {
                 System.out.println("You have chosen to use your production powers");
                 useAndChooseProductionPower();
             }
-            case 5 -> {
+            case "5", "discard" -> {
                 System.out.println("You have chosen to discard one of your Leader Card");
                 discardLeaderCard();
             }
-            case 6 -> {
+            case "6", "move" -> {
                 System.out.println("You have chosen to move one of your resource");
                 moveResource();
             }
-            case 7 -> {
+            case "7", "place" -> {
                 System.out.println("You have chosen to place one of your resource");
                 placeResource();
             }
-            case 8 -> {
+            case "8", "take" -> {
                 System.out.println("You have chosen to take some resources from the market");
                 takeResourceFromMarket();
             }
-            case 9 -> {
+            case "9", "showmarket" -> {
                 System.out.println("You have chosen to see the market tray");
                 viewInterface.printMarketTray();
             }
-            case 10 -> {
+            case "10", "showgrid" -> {
                 System.out.println("You have chosen to see the development grid");
                 viewInterface.printDevGrid();
             }
-            case 11 -> {
-                System.out.println("You have chosen to see the faith track");
+            case "11", "showboard" -> {
+                System.out.println("You have chosen to see the board");
                 viewInterface.printFaithTrack();
+                viewInterface.printStrongbox();
+                viewInterface.printDeposits();
+                viewInterface.printDevSpaces();
             }
-            case 12 ->{
+            case "12", "showleader" ->{
+                System.out.println("You have chosen to see your leadercards");
+                viewInterface.printLeaderCards();
+            }
+            case "13", "end" ->{
                 System.out.println("Ending turn");
                 endTurn();
             }
-            default -> System.out.println("invalid choice, retry\n");
+            default -> System.err.println("Invalid choice, retry. "+Constants.commands);
         }
     }
 
@@ -99,12 +105,13 @@ public class ClientOperationHandler {
     }
 
     public void activateLeaderCard() throws IOException {
-        System.out.println("Choose the ID of the leader card to activate: ");
         viewInterface.printLeaderCards();
+        System.out.println("Choose the ID of the leader card to activate: ");
+
         int id;
         boolean LeaderCardcheck = false;
         do {
-            id = input.nextInt();
+            id = Integer.parseInt(input.nextLine());
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
                 if (id == leaderCard.getId()) {
                     LeaderCardcheck = true;
@@ -117,16 +124,16 @@ public class ClientOperationHandler {
         sendPacket(packet);
     }
 
+    // TODO: 22/05/2021 sistemare 
     public void buyDevCard(){
-        System.out.println("Select the card ID you want to buy");
-        viewInterface.printResourcesLegend();
         viewInterface.printDevGrid();
 
+        System.out.println("Select the card ID you want to buy");
         Scanner input1 = new Scanner(System.in);
         int id;
         boolean devCardcheck = false;
         do {
-            id = input.nextInt();
+            id = Integer.parseInt(input.nextLine());
             for(DevelopmentCard developmentCard : clientModelView.getDevelopmentGrid().getDevelopmentCards()){
                 if(id == developmentCard.getId()){
                     devCardcheck = true;
@@ -139,7 +146,7 @@ public class ClientOperationHandler {
         System.out.println("Choose the resource and the place in which you want to take it\n" +
                 "write 0 when you have finished");
 
-        int resource;
+        String resource;
         int position;
 
         viewInterface.printDeposits();
@@ -149,20 +156,24 @@ public class ClientOperationHandler {
         ArrayList<Warehouse> warehouse = new ArrayList<>();
         do {
             do{
-                resource = input.nextInt();
+                System.out.println("Choose the resources: ");
+                Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
+                resource = input.nextLine();
                 switch (resource) {
-                    case 1 -> resources.add(ResourceType.COIN);
-                    case 2 -> resources.add(ResourceType.STONE);
-                    case 3 -> resources.add(ResourceType.SERVANT);
-                    case 4 -> resources.add(ResourceType.SHIELD);
-                    case 0 -> {}
+                    case "1", "coin" -> resources.add(ResourceType.COIN);
+                    case "2", "stone" -> resources.add(ResourceType.STONE);
+                    case "3", "servant" -> resources.add(ResourceType.SERVANT);
+                    case "4", "shield" -> resources.add(ResourceType.SHIELD);
+                    case "0" -> {}
                     default -> System.err.println("invalid resource\n");
                 }
-            }while(resource < 0 || resource > 4);
+            }while(Integer.parseInt(resource) < 0 || Integer.parseInt(resource) > 4 ||
+                    resource.equals("coin") || resource.equals("stone") || resource.equals("servant") || resource.equals("shield"));
 
-            if (resource != 0) {
+            if (Integer.parseInt(resource) != 0) {
                 do{
-                    position = input.nextInt();
+                    System.out.println("Choose the place in which you want to take it (write 0 when you have finished");
+                    position = Integer.parseInt(input.nextLine());
                     switch (position) {
                         case 1 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(0));
                         case 2 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(1));
@@ -173,7 +184,7 @@ public class ClientOperationHandler {
                 }while(position < 1 || position > 4);
 
             }
-        }while (resource != 0);
+        }while (Integer.parseInt(resource) != 0);
 
         System.out.println("Choose in which development space you want to put your new card");
 
@@ -223,7 +234,7 @@ public class ClientOperationHandler {
         int id;
         ArrayList<Integer> leaderCards = new ArrayList<>();
         do {
-            id = input.nextInt();
+            id = Integer.parseInt(input.nextLine());
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
                 if (id == leaderCard.getId()) {
                     leaderCards.add(id);
@@ -241,16 +252,16 @@ public class ClientOperationHandler {
         int Id2 = 0;
         boolean checkid1 = false;
         boolean checkid2 = false;
-        boolean inputString = false;
 
         viewInterface.printLeaderCards();
 
         do {
             try{
-                Id1 = input.nextInt();
-            }catch(InputMismatchException e){
-                System.err.println("insert a number!");
-                inputString=true;
+                System.out.println("First card to remove: ");
+                Id1 = Integer.parseInt(input.nextLine());
+            }catch(InputMismatchException|NumberFormatException e){
+                System.err.println("Please, insert a number!");
+
             }
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
                 if (Id1 == leaderCard.getId()) {
@@ -259,17 +270,18 @@ public class ClientOperationHandler {
                 }
             }
             if(!checkid1) {
-                if(!inputString) System.err.println("chosen id not present. please reinsert the id:");
-                input.nextLine();
+                System.err.println("Chosen id not present. Please reinsert the id of the first card to remove:");
             }
         } while (!checkid1);
-        inputString=false;
+
+
         do {
             try{
-                Id2 = input.nextInt();
-            }catch(InputMismatchException e){
+                System.out.println("Second card to remove: ");
+                Id2 = Integer.parseInt(input.nextLine());
+            }catch(InputMismatchException|NumberFormatException e){
                 System.err.println("insert a number!");
-                inputString=true;
+
             }
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
                 if (Id2 == leaderCard.getId() && Id2 != Id1) {
@@ -279,8 +291,7 @@ public class ClientOperationHandler {
             }
             if(!checkid2) {
                 if(Id2==Id1) System.err.println("card already discarded");
-                else if(!inputString) System.err.println("chosen id not present. please reinsert the id:");
-                input.nextLine();
+                else System.err.println("Chosen id not present. Please reinsert the id of the second card to remove:");
             }
         } while (!checkid2);
 
@@ -296,13 +307,13 @@ public class ClientOperationHandler {
 
 
     public void discardLeaderCard(){
-        System.out.println("Write the ID of the leader card to discard");
         viewInterface.printLeaderCards();
+        System.out.println("Write the ID of the leader card to discard");
         boolean check = false;
         int id;
 
         do{
-            id = input.nextInt();
+            id = Integer.parseInt(input.nextLine());
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
                 if (id == leaderCard.getId()) {
                     check = true;
@@ -328,7 +339,7 @@ public class ClientOperationHandler {
 
         do{
             try{
-                position = input.nextInt();
+                position = Integer.parseInt(input.nextLine());
             }catch(InputMismatchException e){
                 System.err.println("Don't write strings");
             }
@@ -346,22 +357,24 @@ public class ClientOperationHandler {
 
     public void placeResource() {
         if(clientModelView.getMyPlayer().getResourceBuffer().size() == 0){
-            System.out.println("I'm sorry, you don't have any resource to place");
+            System.err.println("I'm sorry, you don't have any resource to place.");
+            System.out.println(Constants.commands);
         }
         else{
-            System.out.println("Choose the resource and the deposit in which you want to place the resource");
             viewInterface.printResourceBuffer();
             viewInterface.printDeposits();
             int position;
             int resource;
 
             do{
-                resource = input.nextInt();
+                System.out.println("Choose the resource you want to place:");
+                resource = Integer.parseInt(input.nextLine());
                 if(resource > clientModelView.getMyPlayer().getResourceBuffer().size()) System.err.println("Invalid resource position, retry");
             }while(resource > clientModelView.getMyPlayer().getResourceBuffer().size());
 
             do{
-                position = input.nextInt();
+                System.out.println("Choose the deposit in which you want to place the resource "+clientModelView.getMyPlayer().getResourceBuffer().get(resource-1).getType());
+                position = Integer.parseInt(input.nextLine());
                 if(position < 1 || position > 3) System.err.println("Invalid position, retry");
             }while(position < 1 || position > 3);
 
@@ -377,9 +390,9 @@ public class ClientOperationHandler {
     }
 
     public void takeResourceFromMarket(){
-        System.out.println("Select Row or Column and which of the lines you choose");
-
         viewInterface.printMarketTray();
+
+        System.out.println("Do you want a:\n-ROW\n-COLUMN");
 
         Scanner input1 = new Scanner(System.in);
         boolean check = false;
@@ -390,16 +403,17 @@ public class ClientOperationHandler {
             if(!line.equals("row") && !line.equals("column")) System.err.println("invalid choice");
         } while (!line.equals("row") && !line.equals("column"));
 
+        System.out.println("Which "+line.toUpperCase(Locale.ROOT)+" do you choose?");
         if (line.equals("row")) {
             do {
-                numLine = input.nextInt();
+                numLine = Integer.parseInt(input.nextLine());
                 if(numLine < 1 || numLine > 3) System.err.println("invalid row");
             } while (numLine < 1 || numLine > 3);
         }
 
         if (line.equals("column")) {
             do {
-                numLine = input.nextInt();
+                numLine = Integer.parseInt(input.nextLine());
                 if(numLine < 1 || numLine > 4) System.err.println("invalid column");
             } while (numLine < 1 || numLine > 4);
         }
@@ -416,7 +430,7 @@ public class ClientOperationHandler {
 
             int id;
             do {
-                id = input.nextInt();
+                id = Integer.parseInt(input.nextLine());
                 if (id == clientModelView.getMyPlayer().getLeaderCards().get(0).getId() || id == clientModelView.getMyPlayer().getLeaderCards().get(1).getId()) {
                     leaderCards.add(id);
                 }
@@ -450,7 +464,7 @@ public class ClientOperationHandler {
 
         ArrayList<ProductionPower> productionPowers = new ArrayList<>();
         do {
-            id = input.nextInt();
+            id = Integer.parseInt(input.nextLine());
             switch (id) {
                 case 1:
                     if (clientModelView.getLiteBoard().getDevelopmentSpaces().get(0).getTopCard() != null) {
@@ -492,7 +506,7 @@ public class ClientOperationHandler {
             int prodPositions;
 
             do{
-               prodPositions = input.nextInt();
+               prodPositions = Integer.parseInt(input.nextLine());
                if(prodPositions > 0 && prodPositions <= clientModelView.getLiteBoard().getSpecialProductionPower().size()){
                    if(!productionPowers.contains(clientModelView.getLiteBoard().getSpecialProductionPower().get(prodPositions - 1))){
                        productionPowers.add(clientModelView.getLiteBoard().getSpecialProductionPower().get(prodPositions - 1));
@@ -520,7 +534,7 @@ public class ClientOperationHandler {
 
         do {
             do{
-                resource = input.nextInt();
+                resource = Integer.parseInt(input.nextLine());
                 switch (resource) {
                     case 1 -> resources.add(ResourceType.COIN);
                     case 2 -> resources.add(ResourceType.STONE);
@@ -533,7 +547,7 @@ public class ClientOperationHandler {
 
             if (resource != 0) {
                 do{
-                    position = input.nextInt();
+                    position = Integer.parseInt(input.nextLine());
                     switch (position) {
                         case 1 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(0));
                         case 2 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(1));
@@ -562,7 +576,7 @@ public class ClientOperationHandler {
             int newResource;
 
             do {
-                newResource = input.nextInt();
+                newResource = Integer.parseInt(input.nextLine());
                 switch (newResource) {
                     case 1 -> newResources.add(ResourceType.COIN);
                     case 2 -> newResources.add(ResourceType.STONE);

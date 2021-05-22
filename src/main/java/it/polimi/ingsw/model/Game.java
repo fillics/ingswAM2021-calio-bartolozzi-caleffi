@@ -388,14 +388,15 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
     /**
-     * Method useDiscountActivation calls the method useDiscount from LeaderCard class if the arrayList leaderCardChosen contains the id of the Leader Cards chosen by the current player.
+     * Method useDiscountActivation calls the method useDiscount from LeaderCard class if the arrayList leaderCardChosen
+     * contains the id of the Leader Cards chosen by the current player.
      * At the end of the method the array leaderCardsChosen will be null.
      */
     public void useDiscountActivation(HashMap<ResourceType,Integer> resourcePriceBuffer, DevelopmentCard developmentCard){
-        int i,j;
+
         if(!leaderCardsChosen.isEmpty()) {
-            for (i = 0; i < leaderCardsChosen.size(); i++) {
-                for(j=0; j<activePlayers.get(currentPlayer).getLeaderCards().size();j++){
+            for (int i = 0; i < leaderCardsChosen.size(); i++) {
+                for(int j=0; j<activePlayers.get(currentPlayer).getLeaderCards().size();j++){
                     if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId()==leaderCardsChosen.get(i)){
                         activePlayers.get(currentPlayer).getLeaderCards().get(j).useDiscount(developmentCard, resourcePriceBuffer);
                         break;
@@ -440,11 +441,16 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     @Override
     public void buyDevCard(int idCard, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
-        DevelopmentCard developmentCard;
 
-        developmentCard = chooseCardFromDevelopmentGrid(idCard);
+        //take the card from the grid
+        DevelopmentCard developmentCard = chooseCardFromDevelopmentGrid(idCard);
+
+        //creating a map of resource price buffer with the price of the chosen card
         HashMap<ResourceType, Integer> resourcePriceBuffer = new HashMap<>(developmentCard.getResourcePrice());
+
+        //throws exception if i can't place the card
         activePlayers.get(currentPlayer).getBoard().checkDevSpace(developmentCard,developmentSpace);
+
         useDiscountActivation(resourcePriceBuffer,developmentCard);
 
         if(activePlayers.get(currentPlayer).getBoard().checkResources(resourcePriceBuffer, chosenResources)){
@@ -684,7 +690,13 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         if(players.contains(playerToReconnect)) activePlayers.add(playerToReconnect.getPosition(), playerToReconnect);
     }
 
-    public int getIndexOfPlayer(String usernameToFind){
+    /**
+     * Method getIndexOfPlayer gets the index of the player with the username passed as a parameter in the array containing
+     * all the active players.
+     * @param usernameToFind (type String)
+     * @return the index
+     */
+    public int getIndexOfActivePlayer(String usernameToFind){
         int index = 0;
         for (Player player: activePlayers){
             if(player.getUsername().equals(usernameToFind)) index = activePlayers.indexOf(player);
@@ -692,4 +704,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         return index;
     }
 
+    public int getIndexOfPlayer(String usernameToFind){
+        int index = 0;
+        for (Player player: players){
+            if(player.getUsername().equals(usernameToFind)) index = players.indexOf(player);
+        }
+        return index;
+    }
 }

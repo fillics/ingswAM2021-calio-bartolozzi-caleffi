@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.controller.client_packets.PacketPongFromClient;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
 public class PacketConnectionMessages implements ServerPacketHandler {
 

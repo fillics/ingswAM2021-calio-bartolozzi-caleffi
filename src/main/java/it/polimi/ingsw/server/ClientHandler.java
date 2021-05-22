@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ClientHandler implements Runnable {
     private final Socket socket;
     private Game game;
-    private int numberOfGuest;
+    private final int numberOfGuest;
     private final int idClient;
     private int idGame;
     private int posInGame; //parte da 0
@@ -65,7 +65,7 @@ public class ClientHandler implements Runnable {
                 }catch (Exception e){
 
                     if(username!=null){ //il player ha inserito l'username
-                        System.out.println(username + " disconnected!");
+                        System.out.println(Constants.ANSI_RED+username+Constants.ANSI_RESET+ " (idPlayer: " +idClient+") "+ Constants.ANSI_RED+"disconnected!"+Constants.ANSI_RESET);
                         server.handleDisconnection(this);
                     }
                     else{ //il player non ha ancora inserito l'username: viene solo chiusa la disconnessione
@@ -208,6 +208,7 @@ public class ClientHandler implements Runnable {
         mapper = new ObjectMapper();
         try {
             jsonResult = mapper.writeValueAsString(serverPacketHandler);
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

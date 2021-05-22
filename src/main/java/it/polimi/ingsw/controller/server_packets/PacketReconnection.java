@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
 public class PacketReconnection implements ServerPacketHandler{
 
@@ -20,5 +20,13 @@ public class PacketReconnection implements ServerPacketHandler{
     @Override
     public void execute(Client client) {
         Constants.printConnectionMessage(message);
+    }
+
+    public ConnectionMessages getMessage() {
+        return message;
+    }
+
+    public ClientModelView getClientModelView() {
+        return clientModelView;
     }
 }

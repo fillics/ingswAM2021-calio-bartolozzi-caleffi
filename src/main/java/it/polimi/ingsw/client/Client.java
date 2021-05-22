@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.GUI.ClientGUI;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class Client{
     private ClientStates clientStates;
     private final Scanner input;
-    private SocketClientConnection socketClientConnection;
+    private final SocketClientConnection socketClientConnection;
     private final ClientOperationHandler clientOperationHandler;
     private final ClientModelView clientModelView;
 
@@ -99,17 +99,22 @@ public class Client{
      */
     public static int viewInterfaceChoice(){
         Scanner in = new Scanner(System.in);
-        int choiceInterface;
+        int choiceInterface = 0;
         do{
             System.out.println("Choose the view interface: \n" + "1.CLI \n" + "2.GUI");
             System.out.print(">");
-            choiceInterface = in.nextInt();
+            try{
+                choiceInterface = Integer.parseInt(in.nextLine());
+            }catch (InputMismatchException|NumberFormatException e){
+                System.err.println("Please, insert a number!");
+                viewInterfaceChoice();
+            }
             if(choiceInterface!=1 && choiceInterface!=2)
                 System.err.println("Your choice is not available, please retry");
         } while(choiceInterface!=1 && choiceInterface!=2);
 
         if(choiceInterface==1) System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the CLI. Enjoy the game!"+Constants.ANSI_RESET);
-        if(choiceInterface==2) System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the GUII. Enjoy the game!"+Constants.ANSI_RESET);
+        if(choiceInterface==2) System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the GUI. Enjoy the game!"+Constants.ANSI_RESET);
 
         return choiceInterface;
     }

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketNewPositionInGame;
 import it.polimi.ingsw.controller.server_packets.PacketReconnection;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
@@ -30,7 +32,6 @@ public class Server {
     private int numPlayers;
 
 
-
     /** Map that contains all the username already taken and the clientHandler associated */
     private final Map<String, ClientHandler> mapUsernameClientHandler;
 
@@ -41,25 +42,21 @@ public class Server {
     /** Map that contains all the disconnected player's username and the Game's id associated **/
     private final Map<String, Integer> peopleDisconnected;
 
+    private final Map<String, ClientModelView> mapForReconnection;
+
 
     /** List of clients waiting in the lobby. */
     private final LinkedList<ClientHandler> lobby = new LinkedList<>();
-
-
-    public Map<Integer, ArrayList<ClientHandler>> getMapIdGameClientHandler() {
-        return mapIdGameClientHandler;
-    }
 
 
     public Server() {
         mapUsernameClientHandler = new HashMap<>();
         mapIdGameClientHandler = new HashMap<>();
         peopleDisconnected = new HashMap<>();
+        mapForReconnection = new HashMap<>();
     }
 
-    public LinkedList<ClientHandler> getLobby() {
-        return lobby;
-    }
+
 
     public static void main(String[] args) {
 
@@ -133,6 +130,12 @@ public class Server {
         return idGame+=1;
     }
 
+    public Map<Integer, ArrayList<ClientHandler>> getMapIdGameClientHandler() {
+        return mapIdGameClientHandler;
+    }
+    public LinkedList<ClientHandler> getLobby() {
+        return lobby;
+    }
     /**
      * Method setNumPlayers sets the number of the players needed to create a new Game.
      * @param numPlayers (type Int) - it is the number of players that the first person in the lobby has decided
@@ -144,7 +147,6 @@ public class Server {
     public int getNumPlayers() {
         return numPlayers;
     }
-
 
     public Map<String, ClientHandler> getMapUsernameClientHandler() {
         return mapUsernameClientHandler;
@@ -188,13 +190,13 @@ public class Server {
         else {
 
             if (peopleDisconnected.containsKey(username)){
-                System.out.println("Client " +username+" reconnected");
-                clientHandler.sendPacketToClient(new PacketReconnection());
-                peopleDisconnected.remove(username);
+                handleReconnection(username, clientHandler);
             }
             else{
                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.USERNAME_VALID));
                 registerUsername(username, clientHandler);
+                System.out.println(Constants.ANSI_GREEN+username+Constants.ANSI_RESET+ " (idPlayer: " +clientHandler.getIdClient()+") "+ Constants.ANSI_GREEN+"joined!"+Constants.ANSI_RESET);
+
                 addToLobby(clientHandler);
                 checkFirstPositionInLobby(clientHandler);
             }
@@ -212,7 +214,6 @@ public class Server {
     public synchronized void registerUsername(String username, ClientHandler clientHandler){
         mapUsernameClientHandler.put(username, clientHandler);
         clientHandler.setUsername(username);
-        System.out.println(Constants.ANSI_GREEN+username+Constants.ANSI_RESET+ " (idPlayer: " +clientHandler.getIdClient()+") "+ Constants.ANSI_GREEN+"joined!"+Constants.ANSI_RESET);
     }
 
     /**
@@ -223,7 +224,6 @@ public class Server {
             createMatch();
         }
     }
-
 
     /**
      * Method createMatch is called by the method checkStartOfTheGame and creates a new match. It removes the people in
@@ -302,6 +302,41 @@ public class Server {
     }
 
 
+    public synchronized void handleReconnection(String username, ClientHandler clientHandlerToAdd){
+
+        System.out.println("Client " +username+" reconnected");
+
+        //mi risalvo l'username nella mappa che contiene tutti gli username
+        registerUsername(username, clientHandlerToAdd);
+
+        //a quale game stava giocando il tizio disconnesso
+        int idGame = peopleDisconnected.get(username); //id game del giocatore disconnesso
+
+        System.out.println("id game : "+idGame);
+
+        //Cerco il game del tizio e lo riconnetto da modello (=lo inserisco di nuovo nell'array dei player attivi)
+        for(Game game: games){
+            if (game.getIdGame()==idGame){
+
+                int index = game.getIndexOfPlayer(clientHandlerToAdd.getUsername());
+
+                game.reconnectPlayer(game.getPlayers().get(index));
+
+                clientHandlerToAdd.setGame(game);
+            }
+        }
+
+
+        //lo aggiungiamo alla mappa che contiene tutti i player di una partita
+        mapIdGameClientHandler.get(idGame).add(clientHandlerToAdd);
+
+        //lo rimuovo dalle persone disconnesse
+        peopleDisconnected.remove(username);
+
+
+        //mando al client riconnesso il pacchetto di riconnessione che contiene tutte le info salvate
+        clientHandlerToAdd.sendPacketToClient(new PacketReconnection());
+    }
 
     /**
      * Method handleDisconnection handles the operations to do when a player disconnected himself.
@@ -310,9 +345,18 @@ public class Server {
     public synchronized void handleDisconnection(ClientHandler clientHandlerToRemove){
         //caso in cui è già dentro una partita
         if(clientHandlerToRemove.getGame()!=null){
+
             unregisterUsername(clientHandlerToRemove);
-            int index = clientHandlerToRemove.getGame().getIndexOfPlayer(clientHandlerToRemove.getUsername());
+            int index = clientHandlerToRemove.getGame().getIndexOfActivePlayer(clientHandlerToRemove.getUsername());
+
+
+            //lo rimuovo dagli active players della partita nel modello
             clientHandlerToRemove.getGame().disconnectPlayer(clientHandlerToRemove.getGame().getActivePlayers().get(index));
+
+            //lo rimuovo dalla mappa che contiene tutti i giocatori di una partita lato server
+            mapIdGameClientHandler.get(clientHandlerToRemove.getGame().getIdGame()).remove(clientHandlerToRemove);
+
+
 
         }
         //caso in cui non è ancora entrato in partita
@@ -321,6 +365,18 @@ public class Server {
             unregisterUsername(clientHandlerToRemove);
             checkFirstPositionInLobby(lobby.peek());
 
+        }
+    }
+
+    /**
+     * to send to each player of a game the new position of the game
+     * @param disconnectedClientHandler (type ClientHandler)
+     */
+    public void sendNewPositionInGame(ClientHandler disconnectedClientHandler){
+        //prendiamo il game del giocatore disconnesso
+        for (ClientHandler clientHandler: mapIdGameClientHandler.get(disconnectedClientHandler.getGame().getIdGame())){
+            int newPos = clientHandler.getGame().getIndexOfActivePlayer(clientHandler.getUsername());
+            clientHandler.sendPacketToClient(new PacketNewPositionInGame(newPos));
         }
     }
 

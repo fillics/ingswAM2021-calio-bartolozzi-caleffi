@@ -2,8 +2,8 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.controller.ConnectionMessages;
-import it.polimi.ingsw.controller.ExceptionMessages;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
+import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
@@ -34,6 +34,7 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
             for (int i = 0; i < depositPosition.size(); i++) {
                 try {
                     gameInterface.additionalResourceSetup(resource.get(i),depositPosition.get(i)-1,clientHandler.getIdClient());
+                    System.out.println("[idGame "+clientHandler.getGame().getIdGame()+"]: "+"Player "+clientHandler.getUsername() + " choose the initial resource");
                 } catch (DifferentDimension differentDimension) {
                     clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DIFFERENTDIMENSION));
                 } catch (DepositHasReachedMaxLimit depositHasReachedMaxLimit) {

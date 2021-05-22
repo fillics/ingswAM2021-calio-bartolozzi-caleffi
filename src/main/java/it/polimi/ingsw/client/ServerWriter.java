@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.ConnectionMessages;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -99,7 +99,7 @@ public class ServerWriter implements Runnable{
             case GAMESTARTED -> {
                 if (!inputString.equals("0")) {
                     try {
-                        clientOperationHandler.handleCLIOperation(Integer.parseInt(inputString));
+                        clientOperationHandler.handleCLIOperation(inputString);
                     } catch (IOException | NumberFormatException e) {
                         System.err.println("Error during the choice of the operation to do");
                     }

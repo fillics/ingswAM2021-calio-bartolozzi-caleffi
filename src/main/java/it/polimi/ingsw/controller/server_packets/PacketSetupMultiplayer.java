@@ -146,7 +146,6 @@ public class PacketSetupMultiplayer implements ServerPacketHandler{
 
             System.out.println("Your turn position is: " + (client.getClientModelView().getMyPlayer().getPosInGame() + 1));
 
-            // TODO: 15/05/2021 da togliere questo e chiedere subito all'utente
             System.out.println("Choose your action: \n" + "1. Choose the 2 IDs of the leader cards to remove: ");
 
             client.setClientState(ClientStates.LEADERSETUP);

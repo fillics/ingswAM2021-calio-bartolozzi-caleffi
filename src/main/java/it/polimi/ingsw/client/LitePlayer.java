@@ -32,6 +32,10 @@ public class LitePlayer {
         return posInGame;
     }
 
+    public void setPosInGame(int posInGame) {
+        this.posInGame = posInGame;
+    }
+
     public String getUsername() {
         return username;
     }
