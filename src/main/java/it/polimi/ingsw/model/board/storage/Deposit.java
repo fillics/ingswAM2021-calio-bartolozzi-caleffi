@@ -168,12 +168,19 @@ public class Deposit extends Warehouse {
     @Override
     public String toString(){
         StringBuilder escape= new StringBuilder();
-        if(this.maxLimit==1)
-            escape.append("1:").append("  ");
-        if(this.maxLimit==2)
-            escape.append("2:").append(" ");
-        if(this.maxLimit==3)
-            escape.append("3:");
+        if(this.maxLimit==1){
+            escape.append("     ").append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(3)).append(Printable.NORD_EST.print()).append("\n");
+            escape.append("1:").append("   ").append(Printable.DOUBLE_LINE.print()).append(" ");
+        }
+        if(this.maxLimit==2){
+            escape.append("    ").append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.NORD_EST.print()).append("\n");
+            escape.append("2:").append("  ").append(Printable.DOUBLE_LINE.print()).append(" ");
+        }
+        if(this.maxLimit==3){
+            escape.append("   ").append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(7)).append(Printable.NORD_EST.print()).append("\n");
+            escape.append("3:").append(" ").append(Printable.DOUBLE_LINE.print()).append(" ");
+        }
+
         for(int j=0; j<this.quantity; j++){
                 if(this.resourcetype.equals(ResourceType.COIN))
                     escape.append(Color.ANSI_YELLOW.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");
@@ -186,6 +193,19 @@ public class Deposit extends Warehouse {
         }
         for(int k=this.quantity; k<this.maxLimit ; k++)
             escape.append(Printable.WHITE_SQUARE.print()).append(" ");
+
+        escape.append(Printable.DOUBLE_LINE.print()).append("\n");
+
+        if(this.maxLimit==1){
+            escape.append("     ").append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(3)).append(Printable.SUD_EST.print());
+        }
+        if(this.maxLimit==2){
+            escape.append("    ").append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print());
+        }
+        if(this.maxLimit==3){
+            escape.append("   ").append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(7)).append(Printable.SUD_EST.print());
+        }
+
         return escape.toString();
     }
 

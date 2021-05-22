@@ -18,8 +18,8 @@ public class PacketResourceBuffer implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
-        System.out.println("Resource buffer updated");
         client.getClientModelView().getMyPlayer().setResourceBuffer(resourceBuffer);
+        client.getClientOperationHandler().getViewInterface().printResourceBuffer();
     }
 
     public ArrayList<Resource> getResourceBuffer() {

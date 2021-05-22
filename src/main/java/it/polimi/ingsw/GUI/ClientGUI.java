@@ -89,4 +89,9 @@ public class ClientGUI extends Application implements ViewInterface {
     public void printBaseProdPower() {
 
     }
+
+    @Override
+    public void printResourcesLegend() {
+
+    }
 }

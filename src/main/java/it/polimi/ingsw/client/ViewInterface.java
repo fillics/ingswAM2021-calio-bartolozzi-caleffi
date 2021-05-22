@@ -14,4 +14,5 @@ public interface ViewInterface {
     void printFaithTrack();
     void printDevSpaces();
     void printBaseProdPower();
+    void printResourcesLegend();
 }

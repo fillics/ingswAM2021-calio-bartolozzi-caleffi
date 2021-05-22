@@ -119,6 +119,7 @@ public class ClientOperationHandler {
 
     public void buyDevCard(){
         System.out.println("Select the card ID you want to buy");
+        viewInterface.printResourcesLegend();
         viewInterface.printDevGrid();
 
         Scanner input1 = new Scanner(System.in);
@@ -141,8 +142,8 @@ public class ClientOperationHandler {
         int resource;
         int position;
 
-        viewInterface.printStrongbox();
         viewInterface.printDeposits();
+        viewInterface.printStrongbox();
 
         ArrayList<ResourceType> resources = new ArrayList<>();
         ArrayList<Warehouse> warehouse = new ArrayList<>();

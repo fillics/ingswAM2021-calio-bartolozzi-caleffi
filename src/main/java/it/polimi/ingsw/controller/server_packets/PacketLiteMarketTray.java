@@ -18,7 +18,7 @@ public class PacketLiteMarketTray implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
-        System.out.println("Market Tray updated");
+        //System.out.println("Market Tray updated");
         client.getClientModelView().getMarketTray().setTable(table);
         client.getClientModelView().getMarketTray().setRemainingMarble(remainingMarble);
     }
