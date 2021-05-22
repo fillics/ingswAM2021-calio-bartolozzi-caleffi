@@ -42,6 +42,6 @@ public interface GameInterface {
     String getWinner();
     void disconnectPlayer(Player playerToDisconnect);
     void reconnectPlayer(Player playerToReconnect);
-    int getIndexOfPlayer(String usernameToFind);
+    int getIndexOfActivePlayer(String usernameToFind);
 
 }

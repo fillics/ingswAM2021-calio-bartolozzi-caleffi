@@ -149,8 +149,8 @@ public class ClientOperationHandler {
         String resource;
         int position;
 
-        viewInterface.printStrongbox();
         viewInterface.printDeposits();
+        viewInterface.printStrongbox();
 
         ArrayList<ResourceType> resources = new ArrayList<>();
         ArrayList<Warehouse> warehouse = new ArrayList<>();

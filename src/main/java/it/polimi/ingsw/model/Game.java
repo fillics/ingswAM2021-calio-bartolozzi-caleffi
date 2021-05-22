@@ -696,7 +696,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @param usernameToFind (type String)
      * @return the index
      */
-    public int getIndexOfPlayer(String usernameToFind){
+    public int getIndexOfActivePlayer(String usernameToFind){
         int index = 0;
         for (Player player: activePlayers){
             if(player.getUsername().equals(usernameToFind)) index = activePlayers.indexOf(player);
@@ -704,4 +704,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         return index;
     }
 
+    public int getIndexOfPlayer(String usernameToFind){
+        int index = 0;
+        for (Player player: players){
+            if(player.getUsername().equals(usernameToFind)) index = players.indexOf(player);
+        }
+        return index;
+    }
 }

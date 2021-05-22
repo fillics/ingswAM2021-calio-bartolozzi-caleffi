@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class Client{
     private ClientStates clientStates;
     private final Scanner input;
-    private SocketClientConnection socketClientConnection;
+    private final SocketClientConnection socketClientConnection;
     private final ClientOperationHandler clientOperationHandler;
     private final ClientModelView clientModelView;
 

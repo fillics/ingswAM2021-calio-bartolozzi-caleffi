@@ -834,9 +834,9 @@ class GameTest {
 
     @Test
     void checkGetIndexOfPlayer(){
-        assertEquals(0, testGame.getIndexOfPlayer("fil"));
+        assertEquals(0, testGame.getIndexOfActivePlayer("fil"));
         testGame.disconnectPlayer(testGame.getActivePlayers().get(0));
-        assertEquals(0, testGame.getIndexOfPlayer("bea"));
+        assertEquals(0, testGame.getIndexOfActivePlayer("bea"));
 
 
     }
