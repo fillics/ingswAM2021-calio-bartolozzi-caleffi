@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.server_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.marbles.Marble;
 
 public class PacketLiteMarketTray implements ServerPacketHandler{
@@ -18,7 +19,7 @@ public class PacketLiteMarketTray implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
-        System.out.println("Market Tray updated");
+        System.out.println("[from server]"+ Constants.ANSI_GREEN+" Market Tray updated!"+Constants.ANSI_RESET);
         client.getClientModelView().getMarketTray().setTable(table);
         client.getClientModelView().getMarketTray().setRemainingMarble(remainingMarble);
     }

@@ -7,30 +7,26 @@ import it.polimi.ingsw.client.Color;
 import it.polimi.ingsw.client.Printable;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * This class represents a Development Space of the Board.
  */
 public class DevelopmentSpace {
-    private final ArrayList<DevelopmentCard> developmentCardsOfDevSpace;
-    private DevelopmentCard topCard;
+    private final LinkedList<DevelopmentCard> developmentCardsOfDevSpace;
 
-    @JsonCreator
-    public DevelopmentSpace(@JsonProperty("developmentCardsOfDevSpace") ArrayList<DevelopmentCard> developmentCardsOfDevSpace,@JsonProperty("topCard")DevelopmentCard topCard) {
-        this.developmentCardsOfDevSpace = developmentCardsOfDevSpace;
-        this.topCard = topCard;
-    }
 
     /**
      * Constructor DevelopmentSpace creates a new DevelopmentSpace instance.
      */
     public DevelopmentSpace() {
-        developmentCardsOfDevSpace = new ArrayList<>();
-        topCard = null;
+        developmentCardsOfDevSpace = new LinkedList<>();
     }
 
+    @JsonIgnore
     public DevelopmentCard getTopCard() {
-        return topCard;
+        if(developmentCardsOfDevSpace.isEmpty()) return null;
+        else return developmentCardsOfDevSpace.getLast();
     }
 
     /**
@@ -38,18 +34,20 @@ public class DevelopmentSpace {
      */
     public void addDevelopmentCard(DevelopmentCard developmentCard){
         developmentCardsOfDevSpace.add(developmentCard);
-        topCard = developmentCard;
     }
 
     /**
      * Method placeableCard verifies if the developmentCard is placeable in the development space.
      */
     public boolean isPlaceableCard(DevelopmentCard developmentCard){
-        if((topCard==null)&&((developmentCard.getLevel()==Level.TWO)||(developmentCard.getLevel()==Level.THREE))){
+
+        if((developmentCardsOfDevSpace.isEmpty()) && ((developmentCard.getLevel()==Level.TWO)||(developmentCard.getLevel()==Level.THREE))){
             return false;
-        } else if((topCard!=null)&&((topCard.getLevel()==Level.ONE)&&((developmentCard.getLevel()==Level.ONE)||(developmentCard.getLevel()==Level.THREE)))){
+        }
+        else if(!(developmentCardsOfDevSpace.isEmpty())&&((developmentCardsOfDevSpace.getLast().getLevel()==Level.ONE)&&((developmentCard.getLevel()==Level.ONE)||(developmentCard.getLevel()==Level.THREE)))){
             return false;
-        } else return (topCard == null) || (topCard.getLevel().compareTo(developmentCard.getLevel())) < 0;
+        }
+        else return (developmentCardsOfDevSpace.isEmpty()) || (developmentCardsOfDevSpace.getLast().getLevel().compareTo(developmentCard.getLevel())) < 0;
     }
 
     /**
@@ -57,13 +55,13 @@ public class DevelopmentSpace {
      */
     @JsonIgnore
     public ProductionPower getTopCardProductionPower() {
-        return topCard.getProductionPower();
+        return developmentCardsOfDevSpace.getLast().getProductionPower();
     }
 
     /**
      * Method getDevelopmentSpace returns the arraylist of Development Cards of the Development Space.
      */
-    public ArrayList<DevelopmentCard> getDevelopmentCardsOfDevSpace() {
+    public LinkedList<DevelopmentCard> getDevelopmentCardsOfDevSpace() {
         return developmentCardsOfDevSpace;
     }
 
@@ -74,7 +72,7 @@ public class DevelopmentSpace {
         int size = developmentCardsOfDevSpace.size();
 
         if(size!=0){
-            escape.append(topCard).append("\n");
+            escape.append(developmentCardsOfDevSpace.getLast()).append("\n");
             if(size>1){
                 for(int i=size-2;i>=0;i--){
                     escape.append(Printable.DOUBLE_LINE.print());

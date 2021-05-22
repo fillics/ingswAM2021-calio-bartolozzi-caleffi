@@ -10,6 +10,7 @@ public class ClientModelView {
         return MyPlayer;
     }
 
+
     public LiteMarketTray getMarketTray() {
         return marketTray;
     }

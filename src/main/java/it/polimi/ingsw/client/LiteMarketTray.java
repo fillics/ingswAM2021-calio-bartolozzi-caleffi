@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.constants.Color;
-import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.model.marbles.*;
 
 public class LiteMarketTray {

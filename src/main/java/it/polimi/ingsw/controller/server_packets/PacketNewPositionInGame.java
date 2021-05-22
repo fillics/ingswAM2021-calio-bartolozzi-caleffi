@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller.server_packets;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.LitePlayer;
+
 
 public class PacketNewPositionInGame  implements ServerPacketHandler {
 
@@ -12,6 +14,6 @@ public class PacketNewPositionInGame  implements ServerPacketHandler {
 
     @Override
     public void execute(Client client) {
-        client.getClientModelView().getMyPlayer().setPosInGame(posInGame);
+        //client.getClientModelView().getMyPlayer().setPosInGame(posInGame);
     }
 }

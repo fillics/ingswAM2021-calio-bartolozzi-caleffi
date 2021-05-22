@@ -3,6 +3,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.Player;
 
 import java.io.*;

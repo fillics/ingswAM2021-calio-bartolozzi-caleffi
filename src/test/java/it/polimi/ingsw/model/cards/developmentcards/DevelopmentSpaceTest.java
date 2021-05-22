@@ -2,8 +2,8 @@ package it.polimi.ingsw.model.cards.developmentcards;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.ingsw.constants.Color;
-import it.polimi.ingsw.constants.Printable;
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

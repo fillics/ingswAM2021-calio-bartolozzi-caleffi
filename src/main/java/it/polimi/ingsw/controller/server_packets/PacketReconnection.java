@@ -21,4 +21,12 @@ public class PacketReconnection implements ServerPacketHandler{
     public void execute(Client client) {
         Constants.printConnectionMessage(message);
     }
+
+    public ConnectionMessages getMessage() {
+        return message;
+    }
+
+    public ClientModelView getClientModelView() {
+        return clientModelView;
+    }
 }

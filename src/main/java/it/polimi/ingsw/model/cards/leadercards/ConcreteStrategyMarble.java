@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.cards.leadercards;
 
-import it.polimi.ingsw.constants.Color;
-import it.polimi.ingsw.constants.Printable;
+import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.client.Printable;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 
 /**

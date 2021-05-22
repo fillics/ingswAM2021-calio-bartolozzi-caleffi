@@ -25,18 +25,21 @@ public class PacketLeaderCards implements ServerPacketHandler{
     @Override
     public void execute(Client client) {
         client.getClientModelView().getMyPlayer().setLeaderCards(leaderCards);
+
+        if(client.getClientState().equals(ClientStates.GAMESTARTED)) {
+            System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
+        }
         if(client.getClientState().equals(ClientStates.LEADERSETUP)) {
             if (client.getClientModelView().getMyPlayer().getPosInGame() != 0) {
                 client.setClientState(ClientStates.RESOURCESETUP);
                 System.out.println("Choose your action:\n1. Choose your optional resources");
             } else {
                 client.setClientState(ClientStates.GAMESTARTED);
+                System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
                 System.out.println(Constants.ANSI_YELLOW+"You're the first player, you can't have any resources or faith points."+Constants.ANSI_RESET);
                 System.out.println(Constants.menu);
             }
         }
-        if(client.getClientState().equals(ClientStates.GAMESTARTED)) {
-            System.out.println("Leader cards updated");
-        }
+
     }
 }

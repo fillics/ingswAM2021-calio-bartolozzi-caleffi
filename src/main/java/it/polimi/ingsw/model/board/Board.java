@@ -280,6 +280,7 @@ public class Board implements BoardInterface {
 
 
     public boolean checkResources(HashMap<ResourceType,Integer> resourcePriceBuffer, ArrayList<ResourceType> chosenResources) throws NotEnoughResources, WrongChosenResources {
+
         if((resourcePriceBuffer.containsKey(ResourceType.COIN)&&(resourcePriceBuffer.get(ResourceType.COIN)>getTotalCoins()))||
                 (resourcePriceBuffer.containsKey(ResourceType.STONE)&&(resourcePriceBuffer.get(ResourceType.STONE)>getTotalStones()))||
                 (resourcePriceBuffer.containsKey(ResourceType.SERVANT)&&(resourcePriceBuffer.get(ResourceType.SERVANT)>getTotalServants()))||
