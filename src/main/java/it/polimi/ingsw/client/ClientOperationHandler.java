@@ -76,18 +76,22 @@ public class ClientOperationHandler {
             }
             case "10", "showgrid" -> {
                 System.out.println("You have chosen to see the development grid");
+                viewInterface.printResourcesLegend();
                 viewInterface.printDevGrid();
             }
             case "11", "showboard" -> {
                 System.out.println("You have chosen to see the board");
                 viewInterface.printFaithTrack();
-                viewInterface.printStrongbox();
+                viewInterface.printResourcesLegend();
                 viewInterface.printDeposits();
+                viewInterface.printStrongbox();
                 viewInterface.printDevSpaces();
-            }
-            case "12", "showleader" ->{
-                System.out.println("You have chosen to see your leadercards");
                 viewInterface.printLeaderCards();
+            }
+            case "12", "showotherboards" ->{
+                System.out.println("You have chosen to see the boards of the other players");
+                viewInterface.printResourcesLegend();
+                System.out.println("DA FARE");
             }
             case "13", "end" ->{
                 System.out.println("Ending turn");
@@ -126,7 +130,7 @@ public class ClientOperationHandler {
 
     // TODO: 22/05/2021 sistemare 
     public void buyDevCard(){
-        viewInterface.printResourceBuffer();
+        viewInterface.printResourcesLegend();
         viewInterface.printDevGrid();
 
         System.out.println("Select the card ID you want to buy");

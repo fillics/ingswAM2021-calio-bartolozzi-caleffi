@@ -22,7 +22,7 @@ public class CLI implements ViewInterface{
     public void printLeaderCards(){
         StringBuilder matrix= new StringBuilder();
         int size= clientModelView.getMyPlayer().getLeaderCards().size();
-        System.out.println("Your leader cards:");
+        //System.out.println("Your leader cards:");
         String backspace= "";
 
         for(int i=0; i<size;i++){

@@ -36,8 +36,8 @@ public class Constants {
                         "8: Take resources from the market ["+printItalic("take")+"]\n" +
                         "9: Show the market tray ["+printItalic("showmarket")+"]\n"+
                         "10: Show the development grid ["+printItalic("showgrid")+"]\n"+
-                        "11: Show the personal board["+printItalic("showboard")+"]\n"+
-                        "12: Show Leader cards ["+printItalic("showleader")+"]\n" +
+                        "11: Show my personal board["+printItalic("showboard")+"]\n"+
+                        "12: Show the boards of the other players ["+printItalic("showotherboards")+"]\n" +
                         "13: End Turn ["+printItalic("end")+"]\n";
 
 
