@@ -159,7 +159,7 @@ public class ClientOperationHandler {
         viewInterface.printStrongbox();
 
         ArrayList<ResourceType> resources = new ArrayList<>();
-        ArrayList<Warehouse> warehouse = new ArrayList<>();
+        ArrayList<Integer> warehouse = new ArrayList<>();
         do {
             do{
                 System.out.println("Choose the resources: ");
@@ -181,10 +181,7 @@ public class ClientOperationHandler {
                     System.out.println("Choose the place in which you want to take it (write 0 when you have finished");
                     position = Integer.parseInt(input.nextLine());
                     switch (position) {
-                        case 1 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(0));
-                        case 2 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(1));
-                        case 3 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(2));
-                        case 4 -> warehouse.add(clientModelView.getLiteBoard().getStrongbox());
+                        case 1, 2, 3, 4 -> warehouse.add(position);
                         default -> System.err.println("invalid position\n");
                     }
                 }while(position < 1 || position > 4);
@@ -200,26 +197,8 @@ public class ClientOperationHandler {
         do {
             String devSpace = input1.nextLine();
             switch (devSpace) {
-                case "1" -> {
-                    packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getLiteBoard().getDevelopmentSpaces().get(0));
-                    try {
-                        sendPacket(packet);
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                    devSpacecheck = true;
-                }
-                case "2" -> {
-                    packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getLiteBoard().getDevelopmentSpaces().get(1));
-                    try {
-                        sendPacket(packet);
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                    devSpacecheck = true;
-                }
-                case "3" -> {
-                    packet = new PacketBuyDevCard(id, resources, warehouse, clientModelView.getLiteBoard().getDevelopmentSpaces().get(2));
+                case "1", "2", "3" -> {
+                    packet = new PacketBuyDevCard(id, resources, warehouse, Integer.parseInt(devSpace));
                     try {
                         sendPacket(packet);
                     } catch (JsonProcessingException e) {
@@ -349,8 +328,8 @@ public class ClientOperationHandler {
             }catch(InputMismatchException e){
                 System.err.println("Don't write strings");
             }
-            if(position < 1 || position > 3) System.err.println("Invalid position, retry");
-        }while(position < 1 || position > 3);
+            if(position < 1 || position > clientModelView.getLiteBoard().getDeposits().size()) System.err.println("Invalid position, retry");
+        }while(position < 1 || position > clientModelView.getLiteBoard().getDeposits().size());
 
         PacketMoveResource packet = new PacketMoveResource(position - 1);
         try {
@@ -381,8 +360,8 @@ public class ClientOperationHandler {
             do{
                 System.out.println("Choose the deposit in which you want to place the resource "+clientModelView.getMyPlayer().getResourceBuffer().get(resource-1).getType());
                 position = Integer.parseInt(input.nextLine());
-                if(position < 1 || position > 3) System.err.println("Invalid position, retry");
-            }while(position < 1 || position > 3);
+                if(position < 1 || position > clientModelView.getLiteBoard().getDeposits().size()) System.err.println("Invalid position, retry");
+            }while(position < 1 || position > clientModelView.getLiteBoard().getDeposits().size());
 
             PacketPlaceResource packet = new PacketPlaceResource(position - 1, resource - 1);
             try {
@@ -458,9 +437,6 @@ public class ClientOperationHandler {
 
 
     public void useAndChooseProductionPower(){
-        /*TODO: rivedere un attimo questo metodo con tutti i possibili errori, uno trovato: il server si disconnette se il potere di produzione passato è vuoto
-          un altro trovato: il server si disconnette se si attiva solo il potere di produzione base
-        */
 
         System.out.println("Select the IDs of the development space to use for the production. \n" +
                 "Press 0 when you have finished");
@@ -468,28 +444,29 @@ public class ClientOperationHandler {
         boolean checkProd = false;
         int id;
 
-        ArrayList<ProductionPower> productionPowers = new ArrayList<>();
+        ArrayList<Integer> productionPowers = new ArrayList<>();
+        ArrayList<Integer> newProductionPowers = new ArrayList<>();
         do {
             id = Integer.parseInt(input.nextLine());
             switch (id) {
                 case 1:
                     if (clientModelView.getLiteBoard().getDevelopmentSpaces().get(0).getTopCard() != null) {
-                        if(!productionPowers.contains(clientModelView.getLiteBoard().getDevelopmentSpaces().get(0).getTopCardProductionPower())){
-                            productionPowers.add(clientModelView.getLiteBoard().getDevelopmentSpaces().get(0).getTopCardProductionPower());
+                        if(!productionPowers.contains(id)){
+                            productionPowers.add(id);
                         }
                     }
                     break;
                 case 2:
                     if (clientModelView.getLiteBoard().getDevelopmentSpaces().get(1).getTopCard() != null) {
-                        if(!productionPowers.contains(clientModelView.getLiteBoard().getDevelopmentSpaces().get(1).getTopCardProductionPower())){
-                            productionPowers.add(clientModelView.getLiteBoard().getDevelopmentSpaces().get(1).getTopCardProductionPower());
+                        if(!productionPowers.contains(id)){
+                            productionPowers.add(id);
                         }
                     }
                     break;
                 case 3:
                     if (clientModelView.getLiteBoard().getDevelopmentSpaces().get(2).getTopCard() != null) {
-                        if(!productionPowers.contains(clientModelView.getLiteBoard().getDevelopmentSpaces().get(2).getTopCardProductionPower())){
-                            productionPowers.add(clientModelView.getLiteBoard().getDevelopmentSpaces().get(2).getTopCardProductionPower());
+                        if(!productionPowers.contains(id)){
+                            productionPowers.add(id);
                         }
                     }
                     break;
@@ -509,20 +486,20 @@ public class ClientOperationHandler {
                     "of them, press 0 to continue the production");
             viewInterface.printBaseProdPower();
         }
-            int prodPositions;
+            int prodPosition;
 
             do{
-               prodPositions = Integer.parseInt(input.nextLine());
-               if(prodPositions > 0 && prodPositions <= clientModelView.getLiteBoard().getSpecialProductionPower().size()){
-                   if(!productionPowers.contains(clientModelView.getLiteBoard().getSpecialProductionPower().get(prodPositions - 1))){
-                       productionPowers.add(clientModelView.getLiteBoard().getSpecialProductionPower().get(prodPositions - 1));
+               prodPosition = Integer.parseInt(input.nextLine());
+               if(prodPosition > 0 && prodPosition <= clientModelView.getLiteBoard().getSpecialProductionPower().size()){
+                   if(!newProductionPowers.contains(prodPosition)){
+                       newProductionPowers.add(prodPosition);
                    }
                }
-               else if(prodPositions == 0){}
+               else if(prodPosition == 0){}
                else{
                    System.err.println("invalid special production power positions, retry");
                }
-            }while(prodPositions != 0);
+            }while(prodPosition != 0);
 
 
         System.out.println("Choose the resource and the place in which you want to take it\n" +
@@ -536,7 +513,7 @@ public class ClientOperationHandler {
             int position;
 
             ArrayList<ResourceType> resources = new ArrayList<>();
-            ArrayList<Warehouse> warehouse = new ArrayList<>();
+            ArrayList<Integer> warehouse = new ArrayList<>();
 
         do {
             do{
@@ -555,11 +532,8 @@ public class ClientOperationHandler {
                 do{
                     position = Integer.parseInt(input.nextLine());
                     switch (position) {
-                        case 1 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(0));
-                        case 2 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(1));
-                        case 3 -> warehouse.add(clientModelView.getLiteBoard().getDeposits().get(2));
-                        case 4 -> warehouse.add(clientModelView.getLiteBoard().getStrongbox());
-                        default -> System.out.println("Invalid prodPositions\n");
+                        case 1, 2, 3, 4 -> warehouse.add(position);
+                        default -> System.err.println("invalid position\n");
                     }
                 }while(position < 1 || position > 4);
             }
@@ -567,8 +541,16 @@ public class ClientOperationHandler {
 
 
 
-        for(ProductionPower productionPower : productionPowers){
-            if (productionPower.getResourceObtained().get(ResourceType.JOLLY) > 0) {
+        for(int i : productionPowers){
+            if(clientModelView.getLiteBoard().getDevelopmentSpaces().get(i).getTopCard() != null){
+                if (clientModelView.getLiteBoard().getDevelopmentSpaces().get(i - 1).getTopCardProductionPower().getResourceObtained().get(ResourceType.JOLLY) > 0) {
+                    checkProd = true;
+                    break;
+                }
+            }
+        }
+        for(int i : newProductionPowers){
+            if (clientModelView.getLiteBoard().getSpecialProductionPower().get(i - 1).getResourceObtained().get(ResourceType.JOLLY) > 0) {
                 checkProd = true;
                 break;
             }
@@ -594,7 +576,7 @@ public class ClientOperationHandler {
             } while (newResource < 0 || newResource > 4);
         }
 
-        PacketUseAndChooseProdPower packet = new PacketUseAndChooseProdPower(productionPowers, resources, warehouse, newResources);
+        PacketUseAndChooseProdPower packet = new PacketUseAndChooseProdPower(productionPowers, newProductionPowers, resources, warehouse, newResources);
         try {
             sendPacket(packet);
         } catch (JsonProcessingException e) {
@@ -615,6 +597,7 @@ public class ClientOperationHandler {
         if (howManyResources==1) System.out.println(Constants.ANSI_YELLOW+"You can choose one resource"+Constants.ANSI_RESET);
         if (howManyResources==2) System.out.println(Constants.ANSI_YELLOW+"You can choose two resources"+Constants.ANSI_RESET);
         for (int i = 0; i < howManyResources; i++) {
+            //TODO: Mettere il ciclo do while per fare il controllo che la risorsa e il deposito siano input giusti
             if(i==0) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_FIRST_RESOURCE);
             if(i==1) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_SECOND_RESOURCE);
 

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.board.resources;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.board.BoardInterface;
 
 /**
@@ -13,7 +15,8 @@ public class ConcreteStrategySpecialResource implements ResourceActionStrategy {
      * Constructor ConcreteStrategySpecialResource creates a new ConcreteStrategySpecialResource instance.
      * @param board (type BoardInterface) - to use the board's method increaseFaithMarker
      */
-    public ConcreteStrategySpecialResource(BoardInterface board) {
+    @JsonCreator
+    public ConcreteStrategySpecialResource(@JsonProperty("board")BoardInterface board) {
         this.board = board;
     }
 

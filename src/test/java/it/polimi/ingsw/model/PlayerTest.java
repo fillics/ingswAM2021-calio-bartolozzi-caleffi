@@ -119,7 +119,7 @@ class PlayerTest {
      * Test method FillBufferTest checks the correct increase of the player's resource buffer
      */
     @Test
-    void FillBufferTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, EmptyDeposit, AnotherDepositContainsThisResource {
+    void FillBufferTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, EmptyDeposit, AnotherDepositContainsThisResource, InvalidResource {
         //putting 3 coins in a deposit
         Resource resource1 = new Resource(ResourceType.COIN);
         resource1.setStrategy(new ConcreteStrategyResource(2,testPlayer.getBoard(),resource1.getType()));

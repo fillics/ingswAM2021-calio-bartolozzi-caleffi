@@ -15,7 +15,10 @@ public enum ExceptionMessages {
     DEPOSITHASANOTHERRSOURCE("This deposit has already another type of resource"),
     LEADERCARDNOTACTIVATED("The leader card you chose isn't active"),
     TOOMANYRESOURCESREQUESTED("The warehouse doesn't have sufficient resources"),
-    ANOTHERDEPOSITCONTAINSTHISRESOURCE("Another deposit already has this resource");
+    ANOTHERDEPOSITCONTAINSTHISRESOURCE("Another deposit already has this resource"),
+    NOTENOUGHCHOSENRESOURCES("The resources you selected aren't enough"),
+    INVALIDRESOURCE("You can't place this resource in here, this deposit is special"),
+    EMPTYPRODPOWER("You didn't select any production power, try again");
 
 
     private final String message;

@@ -35,6 +35,7 @@ public class ClientHandler implements Runnable {
     private final AtomicBoolean clientConnected;
 
 
+
     public ClientHandler(int idClient, Socket socket, Server server, int numberOfGuest) {
         this.idClient = idClient;
         this.socket = socket;
