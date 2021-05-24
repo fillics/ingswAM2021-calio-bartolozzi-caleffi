@@ -1,14 +1,23 @@
 package it.polimi.ingsw.model.board.resources;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.exceptions.AnotherDepositContainsThisResource;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
 import it.polimi.ingsw.exceptions.InvalidResource;
 
-/**
- * Common interface for all resources' strategies.
- */
-public interface ResourceActionStrategy{
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ConcreteStrategySpecialResource.class, name = "normaleresource"),
+        @JsonSubTypes.Type(value = ConcreteStrategyResource.class, name = "specialresource")})
+
+    /**
+     * Common interface for all resources' strategies.
+     */
+    public interface ResourceActionStrategy{
     /**
      * The action method is a common method for the resources' strategies that use the resource linked to the strategy.
      * The action may vary according to the type of strategy.

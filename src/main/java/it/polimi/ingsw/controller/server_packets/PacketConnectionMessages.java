@@ -25,7 +25,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
     public void execute(Client client) {
         switch (message){
 
-            case USERNAME_VALID, IMPOSSIBLEMOVE -> {
+            case USERNAME_VALID, IMPOSSIBLEMOVE, IMPOSSIBLEENDTURN -> {
                 Constants.printConnectionMessage(message);
             }
 

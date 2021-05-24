@@ -16,18 +16,20 @@ public class PacketEndTurn implements ClientPacketHandler{
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
-
-
+        System.out.println("inizio di tutto");
         if(gameInterface instanceof SinglePlayerGame){
-            if(gameInterface.getState().equals(GameStates.SETUP)) gameInterface.setState(GameStates.PHASE_ONE);
-            if ((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
-                    && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
+            if (gameInterface.getState().equals(GameStates.PHASE_TWO) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
+                System.out.println("prima if");
+                if(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer().size() > 0){
+                    //incrementiamo la black cross di lorenzo
+                    System.out.println("prima op");
+                    ((SinglePlayerGame) gameInterface).increaseBlackCross(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer().size());
 
-                //incrementiamo la black cross di lorenzo
-                ((SinglePlayerGame) gameInterface).increaseBlackCross(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer().size());
+                    //puliamo il resource buffer
+                    System.out.println("seconda op");
+                    gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer().clear();
+                }
 
-                //puliamo il resource buffer
-                gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer().clear();
 
                 if(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer().size() != 0){
                     clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer()));
@@ -38,7 +40,7 @@ public class PacketEndTurn implements ClientPacketHandler{
                     clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
                 }
                 SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
-
+                System.out.println("inizio switch case");
                 switch (token.getType()) {
                     case DISCARD -> {
                         ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
@@ -61,19 +63,22 @@ public class PacketEndTurn implements ClientPacketHandler{
 
                     }
                 }
-
+                System.out.println("fine switch case");
                 if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
                     ((SinglePlayerGame) gameInterface).winner();
                     clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
                 }
                 gameInterface.setState(GameStates.PHASE_ONE);
             }
+            else{
+                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
+            }
         }
         else{
 
             //TODO: Fare condizione invio pacchetto di risorse
-            //TODO il player peò fare end turn solo se è nella fase due
-            if ((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)) &&
+            //TODO il player può fare end turn solo se è nella fase due
+            if (gameInterface.getState().equals(GameStates.PHASE_TWO) &&
                     clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
 
                 gameInterface.nextPlayer();
@@ -100,7 +105,7 @@ public class PacketEndTurn implements ClientPacketHandler{
             // TODO: 23/05/2021 togliere riga commentata
             //if((gameInterface.getState().equals(GameStates.PHASE_ONE)) clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
             else {
-                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
+                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
             }
 
             //mando la nuova posizione a tutti solo quando finiscono tutti il turno->fa end turn l'ultima persona

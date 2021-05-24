@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.board.resources;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.exceptions.AnotherDepositContainsThisResource;
 import it.polimi.ingsw.exceptions.InvalidResource;
 import it.polimi.ingsw.model.board.BoardInterface;
@@ -23,7 +25,8 @@ public class ConcreteStrategyResource implements ResourceActionStrategy{
      * @param board is the board in which is inserted the resource
      * @param resourcetype is the type of resource inserted in the deposit
      */
-    public ConcreteStrategyResource(int position, BoardInterface board, ResourceType resourcetype) {
+    @JsonCreator
+    public ConcreteStrategyResource(@JsonProperty("position") int position,@JsonProperty("board") BoardInterface board,@JsonProperty("resourcetype") ResourceType resourcetype) {
         this.position = position;
         this.board = board;
         this.resourcetype = resourcetype;
