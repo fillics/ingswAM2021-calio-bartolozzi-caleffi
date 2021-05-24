@@ -650,7 +650,7 @@ class GameTest {
     /** Method useAndChooseProdPowerTest1 tests Game method useAndChooseProdPower without JOLLY resources in resource obtained. */
     @Test
     @DisplayName("useAndChooseProdPowerTest1 test")
-    void useAndChooseProdPowerTest1() throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource {
+    void useAndChooseProdPowerTest1() throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource, NotEnoughChosenResources, EmptyProductionPower {
         HashMap<ResourceType,Integer> resourceNeeded = new HashMap<>();
         HashMap<ResourceType,Integer> resourceObtained = new HashMap<>();
         resourceNeeded.put(ResourceType.COIN, 3);
@@ -692,7 +692,7 @@ class GameTest {
     /**  Method useAndChooseProdPowerTest2 tests Game method useAndChooseProdPower2 with JOLLY resources in resource obtained.*/
     @Test
     @DisplayName("useAndChooseProdPowerTest2 test")
-    void useAndChooseProdPowerTest2() throws TooManyResourcesRequested, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
+    void useAndChooseProdPowerTest2() throws TooManyResourcesRequested, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource, NotEnoughChosenResources, EmptyProductionPower {
         HashMap<ResourceType,Integer> resourceNeeded = new HashMap<>();
         HashMap<ResourceType,Integer> resourceObtained = new HashMap<>();
         resourceNeeded.put(ResourceType.COIN, 3);

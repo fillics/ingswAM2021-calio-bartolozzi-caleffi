@@ -431,9 +431,6 @@ public class ClientOperationHandler {
 
 
     public void useAndChooseProductionPower(){
-        /*TODO: rivedere un attimo questo metodo con tutti i possibili errori, uno trovato: il server si disconnette se il potere di produzione passato è vuoto
-          un altro trovato: il server si disconnette se si attiva solo il potere di produzione base
-        */
 
         System.out.println("Select the IDs of the development space to use for the production. \n" +
                 "Press 0 when you have finished");

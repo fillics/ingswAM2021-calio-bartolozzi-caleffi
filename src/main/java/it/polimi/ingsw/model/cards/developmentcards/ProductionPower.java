@@ -13,6 +13,7 @@ import it.polimi.ingsw.exceptions.TooManyResourcesRequested;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.jar.JarOutputStream;
 
 /**
  * This class represents the Production Power of a Development Card and of the Board.
@@ -78,7 +79,18 @@ public class ProductionPower {
         counter.put(ResourceType.STONE,Collections.frequency(resources,ResourceType.STONE));
         counter.put(ResourceType.SERVANT,Collections.frequency(resources,ResourceType.SERVANT));
         counter.put(ResourceType.SHIELD,Collections.frequency(resources,ResourceType.SHIELD));
-        if(counter.get(ResourceType.COIN) <= board.getTotalCoins() && counter.get(ResourceType.STONE) <= board.getTotalStones() && counter.get(ResourceType.SERVANT) <= board.getTotalServants() && counter.get(ResourceType.SHIELD) <= board.getTotalShields()){
+
+        System.out.println(counter.get(ResourceType.COIN));
+        System.out.println(board.getTotalCoins());
+        System.out.println(counter.get(ResourceType.STONE));
+        System.out.println(board.getTotalStones());
+        System.out.println(counter.get(ResourceType.SERVANT));
+        System.out.println(board.getTotalServants());
+        System.out.println(counter.get(ResourceType.SHIELD));
+        System.out.println(board.getTotalShields());
+        
+        if(counter.get(ResourceType.COIN) <= board.getTotalCoins() && counter.get(ResourceType.STONE) <= board.getTotalStones() &&
+                counter.get(ResourceType.SERVANT) <= board.getTotalServants() && counter.get(ResourceType.SHIELD) <= board.getTotalShields()){
             for (ResourceType key : counter.keySet()) {
                 counter.replace(key,counter.get(key)- resourceNeeded.get(key));
                 if(counter.get(key)>0){
@@ -88,7 +100,8 @@ public class ProductionPower {
             if(resourceNeeded.containsKey(ResourceType.JOLLY)){
                 jollycounter -= resourceNeeded.get(ResourceType.JOLLY);
             }
-            return counter.get(ResourceType.COIN) >= 0 && counter.get(ResourceType.STONE) >= 0 && counter.get(ResourceType.SERVANT) >= 0 && counter.get(ResourceType.SHIELD) >= 0 && jollycounter == 0;
+            return counter.get(ResourceType.COIN) >= 0 && counter.get(ResourceType.STONE) >= 0 &&
+                    counter.get(ResourceType.SERVANT) >= 0 && counter.get(ResourceType.SHIELD) >= 0 && jollycounter == 0;
         }
         else{
             throw new TooManyResourcesRequested();
@@ -107,7 +120,7 @@ public class ProductionPower {
                         board.increaseFaithMarker();
                     }
                 }
-                else {
+                else if(!key.equals(ResourceType.JOLLY)) {
                     board.getStrongbox().getStrongbox().replace(key,board.getStrongbox().getStrongbox().get(key) + resourceObtained.get(key));
                 }
             }
@@ -132,7 +145,7 @@ public class ProductionPower {
                     }
                 }
                 else {
-                    if(key != ResourceType.JOLLY){
+                    if(!key.equals(ResourceType.JOLLY)){
                         board.getStrongbox().getStrongbox().replace(key,board.getStrongbox().getStrongbox().get(key) + resourceObtained.get(key));
                     }
                     else {

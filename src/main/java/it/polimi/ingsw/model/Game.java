@@ -443,27 +443,20 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void buyDevCard(int idCard, ArrayList<ResourceType> chosenResources, ArrayList<Warehouse> chosenWarehouses, DevelopmentSpace developmentSpace) throws DevelopmentCardNotFound, DevCardNotPlaceable, NotEnoughResources, WrongChosenResources, DifferentDimension, EmptyDeposit, DepositDoesntHaveThisResource {
 
         //take the card from the grid
-        System.out.println("op1");
         DevelopmentCard developmentCard = chooseCardFromDevelopmentGrid(idCard);
 
         //creating a map of resource price buffer with the price of the chosen card
-        System.out.println("op2");
         HashMap<ResourceType, Integer> resourcePriceBuffer = new HashMap<>(developmentCard.getResourcePrice());
 
         //throws exception if i can't place the card
-        System.out.println("op3");
         activePlayers.get(currentPlayer).getBoard().checkDevSpace(developmentCard,developmentSpace);
 
-        System.out.println("op4");
         useDiscountActivation(resourcePriceBuffer,developmentCard);
 
         if(activePlayers.get(currentPlayer).getBoard().checkResources(resourcePriceBuffer, chosenResources)){
-            System.out.println("ciclo");
             activePlayers.get(currentPlayer).getBoard().removeResources(chosenResources,chosenWarehouses);
         }
-        System.out.println("op5");
         removeCardFromDevelopmentGrid(developmentCard);
-        System.out.println("op6");
 
 
         System.out.println(activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces().get(0));
@@ -471,7 +464,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         System.out.println(activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces().get(0));
 
 
-        System.out.println("op7");
         System.out.println(activePlayers.get(currentPlayer).getBoard().getNumOfDevCards());
         activePlayers.get(currentPlayer).getBoard().increaseNumOfDevCards();
         System.out.println(activePlayers.get(currentPlayer).getBoard().getNumOfDevCards());
@@ -544,15 +536,27 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @throws TooManyResourcesRequested exception thrown because there are too many resources requested
      */
     @Override
-    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource {
-        if(productionPower.checkTakenResources(resources,warehouse,activePlayers.get(currentPlayer).getBoard())) {
-            activePlayers.get(currentPlayer).getBoard().removeResources(resources,warehouse);
-            if(newResources.isEmpty()){
-                productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
+    public void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource, NotEnoughChosenResources, EmptyProductionPower {
+        boolean check = false;
+        for(ResourceType key : productionPower.getResourceNeeded().keySet()){
+            if(productionPower.getResourceNeeded().get(key) != 0) check = true;
+        }
+        if(check){
+            if (productionPower.checkTakenResources(resources, warehouse, activePlayers.get(currentPlayer).getBoard())) {
+                activePlayers.get(currentPlayer).getBoard().removeResources(resources, warehouse);
+                if (productionPower.getResourceObtained().get(ResourceType.JOLLY) == 0) {
+                    System.out.println("senza jolly");
+                    productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
+                } else {
+                    System.out.println("con jolly");
+                    productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
+                }
+            } else {
+                throw new NotEnoughChosenResources();
             }
-            else{
-                productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
-            }
+        }
+        else{
+            throw new EmptyProductionPower();
         }
     }
 
