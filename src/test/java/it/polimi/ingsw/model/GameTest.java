@@ -817,7 +817,7 @@ class GameTest {
     @Test
     void checkDisconnection(){
         assertEquals(4, testGame.getActivePlayers().size());
-        testGame.disconnectPlayer(testGame.getActivePlayers().get(0));
+        testGame.disconnectPlayer(testGame.getActivePlayers().get(0).getUsername());
         assertEquals(3, testGame.getActivePlayers().size());
         assertEquals("bea", testGame.getActivePlayers().get(0).getUsername());
     }
@@ -825,9 +825,9 @@ class GameTest {
 
     @Test
     void checkReconnection(){
-        testGame.disconnectPlayer(testGame.getActivePlayers().get(0));
+        testGame.disconnectPlayer(testGame.getActivePlayers().get(0).getUsername());
         assertEquals(3, testGame.getActivePlayers().size());
-        testGame.reconnectPlayer(testGame.getPlayers().get(0));
+        testGame.reconnectPlayer(testGame.getPlayers().get(0).getUsername());
         assertEquals(4, testGame.getActivePlayers().size());
         assertEquals("fil", testGame.getActivePlayers().get(0).getUsername());
     }
@@ -835,9 +835,37 @@ class GameTest {
     @Test
     void checkGetIndexOfPlayer(){
         assertEquals(0, testGame.getIndexOfActivePlayer("fil"));
-        testGame.disconnectPlayer(testGame.getActivePlayers().get(0));
+        testGame.disconnectPlayer(testGame.getActivePlayers().get(0).getUsername());
         assertEquals(0, testGame.getIndexOfActivePlayer("bea"));
 
+    }
+
+    @Test
+    void checkNextPlayerGivenUsername(){
+        assertEquals("bea", testGame.nextPlayerGivenUsername("fil"));
+        assertEquals("fil", testGame.nextPlayerGivenUsername("jack"));
+        testGame.disconnectPlayer("fil");
+        assertNull(testGame.nextPlayerGivenUsername("fil"));
+        testGame.reconnectPlayer("fil");
+        assertEquals("bea", testGame.nextPlayerGivenUsername("fil"));
+
+    }
+
+    @Test
+    void checkNextPlayer(){
+        assertEquals(0, testGame.getCurrentPlayer());
+        testGame.nextPlayer();
+        assertEquals(1, testGame.getCurrentPlayer());
+        testGame.nextPlayer();
+        assertEquals(2, testGame.getCurrentPlayer());
+        testGame.nextPlayer();
+        assertEquals(3, testGame.getCurrentPlayer());
+        testGame.nextPlayer();
+        assertEquals(0, testGame.getCurrentPlayer());
+        testGame.disconnectPlayer("fil");
+        testGame.nextPlayer();
+        assertEquals(1, testGame.getCurrentPlayer());
+        testGame.disconnectPlayer("bea");
 
     }
 

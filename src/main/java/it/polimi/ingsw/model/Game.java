@@ -617,16 +617,26 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         }
     }
 
+
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     /**
      * Method nextPlayer handles which player is playing during his turn
      */
+    // TODO: 24/05/2021 se il primo si disconnette e il terzo fa end turn
     public void nextPlayer(){
-        activePlayers.get(currentPlayer).endTurn();
+
         if(!endgame){
-            if(currentPlayer==activePlayers.size()-1){
-                currentPlayer=0;
+            //System.out.println("cerco l'username dentro active players: "+nextPlayerGivenUsername(activePlayers.get(currentPlayer).getUsername()));
+
+            //currentPlayer=getIndexOfActivePlayer(nextPlayerGivenUsername(activePlayers.get(currentPlayer).getUsername()));
+            if(currentPlayer>=activePlayers.size()-1){
+                setCurrentPlayer(0);
+
             }
-            else currentPlayer++;
+            else setCurrentPlayer(currentPlayer+1);
         }
         else {
             if(currentPlayer!=activePlayers.size()-1){
@@ -636,6 +646,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
                 winner();
             }
         }
+        activePlayers.get(currentPlayer).endTurn();
+
     }
 
 
@@ -671,22 +683,41 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             maxResources = Collections.max(resourcesPlayers);
             winnerUsername = activePlayers.get(resourcesPlayers.indexOf(maxResources)).getUsername();
         }
-        setWinner(winnerUsername);
+        setWinner(winnerUsername); // TODO: 23/05/2021 si può togliere il set e mettere winner=winnerUSername??
+    }
+
+    public Player getActivePlayerByUsername(String username){
+        Player returnPlayer =null;
+        for (Player player: activePlayers){
+            if(player.getUsername().equals(username)) returnPlayer=player;
+        }
+        return returnPlayer;
+    }
+
+    public Player getPlayerByUsername(String username){
+        Player returnPlayer =null;
+        for (Player player: players){
+            if(player.getUsername().equals(username)) returnPlayer=player;
+        }
+        return returnPlayer;
     }
 
     /**
      * Method disconnectPlayer called by the server to handle the disconnection of a player from the game.
-     * @param playerToDisconnect (type Player) - it is the player to disconnect
+
      */
-    public void disconnectPlayer(Player playerToDisconnect){
-        if(activePlayers.contains(playerToDisconnect)) activePlayers.remove(playerToDisconnect);
+    public void disconnectPlayer(String username){
+        Player playerToDisconnect = getActivePlayerByUsername(username);
+        if(activePlayers.contains(playerToDisconnect)) {
+            activePlayers.remove(playerToDisconnect);
+        }
     }
 
     /**
      * Method reconnectPlayer called by the server to handle the reconnection of a player to the game.
-     * @param playerToReconnect (type Player) - it is the player to reconnect
      */
-    public void reconnectPlayer(Player playerToReconnect){
+    public void reconnectPlayer(String username){
+        Player playerToReconnect = getPlayerByUsername(username);
         if(players.contains(playerToReconnect)) activePlayers.add(playerToReconnect.getPosition(), playerToReconnect);
     }
 
@@ -704,11 +735,38 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         return index;
     }
 
+    /**
+     * dato username mi restituisce la posizione del giocatore nell'array dei player
+     * @param usernameToFind
+     * @return
+     */
     public int getIndexOfPlayer(String usernameToFind){
         int index = 0;
         for (Player player: players){
             if(player.getUsername().equals(usernameToFind)) index = players.indexOf(player);
         }
         return index;
+    }
+
+
+    /**
+     * dato un username ritorna l'username del player dopo
+     * @param username
+     * @return
+     */
+    public String nextPlayerGivenUsername(String username){
+        String usernameNext = null;
+
+        System.out.println("size active player: "+activePlayers.size());
+
+
+        for (int i = 0; i < activePlayers.size(); i++) {
+            if(activePlayers.get(i).getUsername().equals(username)) {
+                if(i==activePlayers.size()-1) usernameNext=activePlayers.get(0).getUsername();
+                else usernameNext=activePlayers.get(i+1).getUsername();
+            }
+        }
+
+        return usernameNext;
     }
 }

@@ -26,6 +26,7 @@ public class ClientOperationHandler {
     private ClientModelView clientModelView;
     private ViewInterface viewInterface;
 
+    // TODO: 24/05/2021 sistemare che non si può fare end turn se non prima il completamente della fase di setup di tutti i giocatori 
     public ClientOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView) {
         this.socketClientConnection = socketClientConnection;
         this.clientModelView = clientModelView;
@@ -641,8 +642,9 @@ public class ClientOperationHandler {
 
             try {
                 whichResource = Integer.parseInt(bufferRead.readLine());
-            } catch (IOException e) {
+            } catch (IOException|NumberFormatException e) {
                 e.printStackTrace();
+                // TODO: 24/05/2021 exception se stringa vuota
             }
             switch (whichResource) {
                 case 1 -> resourcetype = ResourceType.COIN;

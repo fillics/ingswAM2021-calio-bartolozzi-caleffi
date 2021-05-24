@@ -90,6 +90,7 @@ public class Server {
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
 
+
         try {
             serverSocket = new ServerSocket(Constants.getPort());
 
@@ -320,7 +321,7 @@ public class Server {
 
                 int index = game.getIndexOfPlayer(clientHandlerToAdd.getUsername());
 
-                game.reconnectPlayer(game.getPlayers().get(index));
+                game.reconnectPlayer(username);
 
                 clientHandlerToAdd.setGame(game);
             }
@@ -347,15 +348,22 @@ public class Server {
         if(clientHandlerToRemove.getGame()!=null){
 
             unregisterUsername(clientHandlerToRemove);
-            int index = clientHandlerToRemove.getGame().getIndexOfActivePlayer(clientHandlerToRemove.getUsername());
+            //int index = clientHandlerToRemove.getGame().getIndexOfActivePlayer(clientHandlerToRemove.getUsername());
 
+            Game game = clientHandlerToRemove.getGame();
 
-            //lo rimuovo dagli active players della partita nel modello
-            clientHandlerToRemove.getGame().disconnectPlayer(clientHandlerToRemove.getGame().getActivePlayers().get(index));
+            String usernameCurPlayer = game.getActivePlayers().get(game.getCurrentPlayer()).getUsername();
+            game.disconnectPlayer(clientHandlerToRemove.getUsername());
+
 
             //lo rimuovo dalla mappa che contiene tutti i giocatori di una partita lato server
             mapIdGameClientHandler.get(clientHandlerToRemove.getGame().getIdGame()).remove(clientHandlerToRemove);
 
+            int newCur = game.getIndexOfActivePlayer(usernameCurPlayer);
+
+            game.setCurrentPlayer(newCur);
+
+            sendNewPositionInGame(clientHandlerToRemove);
 
 
         }
@@ -364,19 +372,19 @@ public class Server {
             deleteFromLobby(clientHandlerToRemove);
             unregisterUsername(clientHandlerToRemove);
             checkFirstPositionInLobby(lobby.peek());
-
         }
     }
 
     /**
-     * to send to each player of a game the new position of the game
+     * to send to each player of a game his new position in the game
      * @param disconnectedClientHandler (type ClientHandler)
      */
-    public void sendNewPositionInGame(ClientHandler disconnectedClientHandler){
+    public synchronized void sendNewPositionInGame(ClientHandler disconnectedClientHandler){
         //prendiamo il game del giocatore disconnesso
         for (ClientHandler clientHandler: mapIdGameClientHandler.get(disconnectedClientHandler.getGame().getIdGame())){
             int newPos = clientHandler.getGame().getIndexOfActivePlayer(clientHandler.getUsername());
             clientHandler.sendPacketToClient(new PacketNewPositionInGame(newPos));
+            clientHandler.setPosInGame(newPos);
         }
     }
 
@@ -385,7 +393,7 @@ public class Server {
      * all the username and we put that username in a map
      * @param clientHandlerToRemove (type ClientHandler) - it is the client handler to unregister because it disconnected
      */
-    public void unregisterUsername(ClientHandler clientHandlerToRemove){
+    public synchronized void unregisterUsername(ClientHandler clientHandlerToRemove){
         System.out.println("Unregistered the username " + clientHandlerToRemove.getUsername()+ "!");
         mapUsernameClientHandler.remove(clientHandlerToRemove.getUsername());
         peopleDisconnected.put(clientHandlerToRemove.getUsername(), clientHandlerToRemove.getGame().getIdGame());

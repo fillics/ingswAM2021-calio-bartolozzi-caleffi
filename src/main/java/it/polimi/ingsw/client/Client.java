@@ -52,9 +52,9 @@ public class Client{
     public static void main(String[] args) {
         System.out.println(Constants.MASTEROFRENAISSANCE);
         System.out.println(Constants.AUTHORS);
-        int choiceInterface;
+        int choiceInterface=1;
 
-        choiceInterface = viewInterfaceChoice();
+        //choiceInterface = viewInterfaceChoice();
 
         Client client = new Client();
 
@@ -76,10 +76,10 @@ public class Client{
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println(">Insert the server IP address");
+       /* System.out.println(">Insert the server IP address");
         System.out.print(">");
-        String ip = scanner.nextLine();
-        Constants.setAddressServer(ip);
+        String ip = scanner.nextLine();*/
+        Constants.setAddressServer("127.0.0.1");
         System.out.println(">Insert the server port");
         System.out.print(">");
         int port = 0;

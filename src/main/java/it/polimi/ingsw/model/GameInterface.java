@@ -40,8 +40,9 @@ public interface GameInterface {
     int getIdGame();
     void nextPlayer();
     String getWinner();
-    void disconnectPlayer(Player playerToDisconnect);
-    void reconnectPlayer(Player playerToReconnect);
+    void disconnectPlayer(String username);
+    void reconnectPlayer(String username);
+    void setCurrentPlayer(int currentPlayer);
     int getIndexOfActivePlayer(String usernameToFind);
 
 }

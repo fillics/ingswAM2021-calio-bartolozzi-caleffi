@@ -23,7 +23,7 @@ public class PacketNewPositionInGame  implements ServerPacketHandler {
     // TODO: 22/05/2021 togliere il system out con il messaggio
     @Override
     public void execute(Client client) {
-        System.out.println("Someone disconnected/reconnected. Your new turn position is: "+(posInGame+1));
+        System.out.println("Someone disconnected/reconnected. Your new turn position is: "+posInGame);
         client.getClientModelView().getMyPlayer().setPosInGame(posInGame);
     }
 }
