@@ -17,7 +17,6 @@ public class PacketEndTurn implements ClientPacketHandler{
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
 
-
         if(gameInterface instanceof SinglePlayerGame){
             if(gameInterface.getState().equals(GameStates.SETUP)) gameInterface.setState(GameStates.PHASE_ONE);
             if ((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
@@ -32,11 +31,7 @@ public class PacketEndTurn implements ClientPacketHandler{
                 if(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer().size() != 0){
                     clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer()));
                 }
-                if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
-                    ((SinglePlayerGame) gameInterface).winner();
-                    System.out.println(gameInterface.getWinner());
-                    clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
-                }
+
                 SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
 
                 switch (token.getType()) {
@@ -61,9 +56,9 @@ public class PacketEndTurn implements ClientPacketHandler{
 
                     }
                 }
-
                 if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
                     ((SinglePlayerGame) gameInterface).winner();
+                    System.out.println(gameInterface.getWinner());
                     clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
                 }
                 gameInterface.setState(GameStates.PHASE_ONE);
