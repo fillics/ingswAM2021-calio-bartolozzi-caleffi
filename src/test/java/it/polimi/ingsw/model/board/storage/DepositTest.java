@@ -26,9 +26,9 @@ public class DepositTest {
     /** Method setup setups tests. */
     @BeforeEach
     void setup() {
-        testDeposit1 = new Deposit(maxLimit1);
-        testDeposit2 = new Deposit(maxLimit2);
-        testDeposit3 = new Deposit(maxLimit3);
+        testDeposit1 = new Deposit(maxLimit1, false);
+        testDeposit2 = new Deposit(maxLimit2, false);
+        testDeposit3 = new Deposit(maxLimit3, false);
     }
 
     /** Method DepositGetterTest tests deposit methods getter. */

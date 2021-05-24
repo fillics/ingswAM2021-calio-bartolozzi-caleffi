@@ -258,7 +258,7 @@ class GameTest {
      * @throws LeaderCardNotFound if the player has not got the card to activate
      */
     @Test
-    void ActivationLeaderCardExtraDepTest() throws LeaderCardNotFound, NotEnoughRequirements, DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
+    void ActivationLeaderCardExtraDepTest() throws LeaderCardNotFound, NotEnoughRequirements, DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource, InvalidResource {
         assertEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
 
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardExtraDep);
@@ -568,7 +568,7 @@ class GameTest {
     /** Method moveResourceTest tests Game method moveResource. */
     @Test
     @DisplayName("moveResourceTest test")
-    void moveResourceTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, EmptyDeposit, AnotherDepositContainsThisResource {
+    void moveResourceTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, EmptyDeposit, AnotherDepositContainsThisResource, InvalidResource {
         //putting 3 coins in a deposit
         Resource resource1 = new Resource(ResourceType.COIN);
         ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(2,testGame.getActivePlayers().get(0).getBoard(),resource1.getType());
@@ -618,7 +618,7 @@ class GameTest {
     /** Method placeResourceTest tests Game method placeResource. */
     @Test
     @DisplayName("placeResourceTest test")
-    void placeResourceTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
+    void placeResourceTest() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource, InvalidResource {
         Resource resource1 = new Resource(ResourceType.COIN);
         Resource resource2 = new Resource(ResourceType.COIN);
         Resource resource3 = new Resource(ResourceType.STONE);
@@ -658,6 +658,7 @@ class GameTest {
         resourceNeeded.put(ResourceType.JOLLY, 2);
         resourceObtained.put(ResourceType.SHIELD, 5);
         resourceObtained.put(ResourceType.STONE, 7);
+        resourceObtained.put(ResourceType.JOLLY, 0);
 
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard().getStrongbox().getStrongbox().replaceAll((key, oldvalue) -> oldvalue + 10);
 

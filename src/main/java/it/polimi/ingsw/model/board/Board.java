@@ -77,9 +77,9 @@ public class Board implements BoardInterface {
 
 
         deposits = new ArrayList<>();
-        Deposit deposit1 = new Deposit(1);
-        Deposit deposit2 = new Deposit(2);
-        Deposit deposit3 = new Deposit(3);
+        Deposit deposit1 = new Deposit(1, false);
+        Deposit deposit2 = new Deposit(2, false);
+        Deposit deposit3 = new Deposit(3, false);
         deposits.add(deposit1);
         deposits.add(deposit2);
         deposits.add(deposit3);

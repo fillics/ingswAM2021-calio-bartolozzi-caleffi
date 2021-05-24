@@ -45,10 +45,6 @@ public class ProductionPower {
         }
     }
 
-    /*public ProductionPower() {
-        this.resourcesNeeded = null;
-        this.resourcesObtained= null;
-    }*/
 
     /**
      * Method getResourcesNeeded returns the resources needed to activate the production power.

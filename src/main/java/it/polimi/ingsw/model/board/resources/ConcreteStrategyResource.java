@@ -2,10 +2,10 @@ package it.polimi.ingsw.model.board.resources;
 
 
 import it.polimi.ingsw.exceptions.AnotherDepositContainsThisResource;
+import it.polimi.ingsw.exceptions.InvalidResource;
 import it.polimi.ingsw.model.board.BoardInterface;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
-import it.polimi.ingsw.model.board.storage.Deposit;
 
 
 /**
@@ -35,7 +35,8 @@ public class ConcreteStrategyResource implements ResourceActionStrategy{
      * @throws DepositHasReachedMaxLimit exception thrown when the deposit is full
      */
     @Override
-    public void action() throws DepositHasAnotherResource, DepositHasReachedMaxLimit, AnotherDepositContainsThisResource {
+    public void action() throws DepositHasAnotherResource, DepositHasReachedMaxLimit, AnotherDepositContainsThisResource, InvalidResource {
+
         for(int i = 0; i < board.getDeposits().size(); i++){
             if(i != position){
                 if(board.getDeposits().get(i).getResourcetype() == resourcetype){
@@ -48,6 +49,9 @@ public class ConcreteStrategyResource implements ResourceActionStrategy{
         }
         else if(board.getDeposits().get(position).getQuantity() == board.getDeposits().get(position).getMaxLimit()){
             throw new DepositHasReachedMaxLimit();
+        }
+        else if(board.getDeposits().get(position).isSpecial() && resourcetype != board.getDeposits().get(position).getResourcetype()){
+            throw new InvalidResource();
         }
         else {
             if(board.getDeposits().get(position).getResourcetype() == null){

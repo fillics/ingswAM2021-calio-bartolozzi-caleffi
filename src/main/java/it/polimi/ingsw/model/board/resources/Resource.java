@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.exceptions.AnotherDepositContainsThisResource;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
+import it.polimi.ingsw.exceptions.InvalidResource;
 
 /**
  * Class Resource represents the resources used during the game
@@ -53,7 +54,7 @@ public class Resource {
      * @throws DepositHasReachedMaxLimit if the deposit is full
      * @throws DepositHasAnotherResource if the deposit already contains another resources' type
      */
-    public void useResource() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
+    public void useResource() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource, InvalidResource {
         strategy.action();
     }
 }

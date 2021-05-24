@@ -17,6 +17,7 @@ public enum ExceptionMessages {
     TOOMANYRESOURCESREQUESTED("The warehouse doesn't have sufficient resources"),
     ANOTHERDEPOSITCONTAINSTHISRESOURCE("Another deposit already has this resource"),
     NOTENOUGHCHOSENRESOURCES("The resources you selected aren't enough"),
+    INVALIDRESOURCE("You can't place this resource in here, this deposit is special"),
     EMPTYPRODPOWER("You didn't select any production power, try again");
 
 

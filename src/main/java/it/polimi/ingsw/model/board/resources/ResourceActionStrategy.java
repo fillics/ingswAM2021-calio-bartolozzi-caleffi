@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.board.resources;
 import it.polimi.ingsw.exceptions.AnotherDepositContainsThisResource;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
+import it.polimi.ingsw.exceptions.InvalidResource;
 
 /**
  * Common interface for all resources' strategies.
@@ -14,5 +15,5 @@ public interface ResourceActionStrategy{
      * @throws DepositHasAnotherResource exception thrown when the deposit chosen to place the resource has already another type of resource in it.
      * @throws DepositHasReachedMaxLimit exception thrown when the deposit is full.
      */
-    void action() throws DepositHasAnotherResource, DepositHasReachedMaxLimit, AnotherDepositContainsThisResource;
+    void action() throws DepositHasAnotherResource, DepositHasReachedMaxLimit, AnotherDepositContainsThisResource, InvalidResource;
 }

@@ -322,8 +322,8 @@ public class ClientOperationHandler {
             }catch(InputMismatchException e){
                 System.err.println("Don't write strings");
             }
-            if(position < 1 || position > 3) System.err.println("Invalid position, retry");
-        }while(position < 1 || position > 3);
+            if(position < 1 || position > clientModelView.getLiteBoard().getDeposits().size()) System.err.println("Invalid position, retry");
+        }while(position < 1 || position > clientModelView.getLiteBoard().getDeposits().size());
 
         PacketMoveResource packet = new PacketMoveResource(position - 1);
         try {
@@ -354,8 +354,8 @@ public class ClientOperationHandler {
             do{
                 System.out.println("Choose the deposit in which you want to place the resource "+clientModelView.getMyPlayer().getResourceBuffer().get(resource-1).getType());
                 position = Integer.parseInt(input.nextLine());
-                if(position < 1 || position > 3) System.err.println("Invalid position, retry");
-            }while(position < 1 || position > 3);
+                if(position < 1 || position > clientModelView.getLiteBoard().getDeposits().size()) System.err.println("Invalid position, retry");
+            }while(position < 1 || position > clientModelView.getLiteBoard().getDeposits().size());
 
             PacketPlaceResource packet = new PacketPlaceResource(position - 1, resource - 1);
             try {

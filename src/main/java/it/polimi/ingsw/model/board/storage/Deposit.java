@@ -16,12 +16,14 @@ public class Deposit extends Warehouse {
    private ResourceType resourcetype;
    private int quantity;
    private final int maxLimit;
+   private final boolean special;
 
     @JsonCreator
-    public Deposit(@JsonProperty("resourcetype") ResourceType resourcetype, @JsonProperty("quantity") int quantity, @JsonProperty("maxLimit") int maxLimit) {
+    public Deposit(@JsonProperty("resourcetype") ResourceType resourcetype, @JsonProperty("quantity") int quantity, @JsonProperty("maxLimit") int maxLimit, @JsonProperty("special") boolean special){
         this.resourcetype = resourcetype;
         this.quantity = quantity;
         this.maxLimit = maxLimit;
+        this.special = special;
     }
 
 
@@ -29,17 +31,13 @@ public class Deposit extends Warehouse {
      * Constructor Deposit creates a new Deposit instance
      * @param maxLimit (type Int) - it indicates the max resources' quantity that can be stored in the deposit
      */
-    public Deposit(int maxLimit) {
+    public Deposit(int maxLimit, boolean special) {
         this.resourcetype= null;
         this.quantity = 0;
         this.maxLimit = maxLimit;
+        this.special = special;
     }
 
-    public Deposit() {
-        this.resourcetype = null;
-        this.quantity = 0;
-        this.maxLimit = 0;
-    }
 
     /**
      * Method getResourcetype returns the resource's type of the deposit
@@ -55,6 +53,14 @@ public class Deposit extends Warehouse {
      * Method getMaxLimit returns the max limit of resources of the deposit
      */
     public int getMaxLimit() { return maxLimit; }
+
+    /**
+     * Method isSpecial returns true if the deposit is special, false if not
+     * @return special
+     */
+    public boolean isSpecial() {
+        return special;
+    }
 
     /**
      * Method setResourcetype modifies the resource type that's contained in a single deposit

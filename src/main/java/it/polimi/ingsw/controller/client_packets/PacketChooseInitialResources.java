@@ -43,6 +43,8 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
                     clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITHASANOTHERRSOURCE));
                 } catch (AnotherDepositContainsThisResource anotherDepositContainsThisResource){
                     clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.ANOTHERDEPOSITCONTAINSTHISRESOURCE));
+                } catch (InvalidResource invalidResource) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.INVALIDRESOURCE));
                 }
 
             }

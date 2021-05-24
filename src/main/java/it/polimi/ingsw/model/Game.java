@@ -87,7 +87,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     /**
      * Method additionalSetup distributes resources to the players according to their position's turn
      */
-    public void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
+    public void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource, InvalidResource {
         ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(depositPosition, idClientActivePlayers.get(idClient).getBoard(), resourceType);
         Resource resource = new Resource(resourceType);
         resource.setStrategy(concreteStrategyResource);
@@ -517,7 +517,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @param resourcePosition (type Int) - it indicates which resource we want to place
      */
     @Override
-    public void placeResource(int depositPosition, int resourcePosition) throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource {
+    public void placeResource(int depositPosition, int resourcePosition) throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource, InvalidResource {
         ResourceActionStrategy strategy = new ConcreteStrategyResource(depositPosition, activePlayers.get(currentPlayer).getBoard(), activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).getType());
         activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).setStrategy(strategy);
         activePlayers.get(currentPlayer).getResourceBuffer().get(resourcePosition).useResource();
@@ -545,10 +545,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             if (productionPower.checkTakenResources(resources, warehouse, activePlayers.get(currentPlayer).getBoard())) {
                 activePlayers.get(currentPlayer).getBoard().removeResources(resources, warehouse);
                 if (productionPower.getResourceObtained().get(ResourceType.JOLLY) == 0) {
-                    System.out.println("senza jolly");
                     productionPower.addResources(activePlayers.get(currentPlayer).getBoard());
                 } else {
-                    System.out.println("con jolly");
                     productionPower.addResources(activePlayers.get(currentPlayer).getBoard(), newResources);
                 }
             } else {
