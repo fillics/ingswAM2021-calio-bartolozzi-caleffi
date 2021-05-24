@@ -39,7 +39,7 @@ public enum ConnectionMessages {
     BLACKCROSS1(Constants.ANSI_YELLOW+"Lorenzo Il Magnifico's black cross has stepped forward of one cell"+Constants.ANSI_RESET),
     BLACKCROSS2(Constants.ANSI_YELLOW+"Lorenzo Il Magnifico's black cross has stepped forward of two cell"+Constants.ANSI_RESET),
     IMPOSSIBLEMOVE("I'm sorry, you can't do this action in this moment of the game"),
-
+    IMPOSSIBLEENDTURN("I'm sorry, you have to do an action before ending the turn!"),
     CONNECTION_CLOSED("The served closed its connection."),
     MATCH_FINISHED_FAITH("A player reached the last cell of the faith track"),
     MATCH_FINISHED_DEVCARDS("A player bought the seventh development card"),

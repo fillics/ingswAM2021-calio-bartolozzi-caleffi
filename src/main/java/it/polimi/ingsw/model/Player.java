@@ -152,8 +152,8 @@ public class Player {
             for(int i = 0; i < resourceBuffer.size(); i++){
                 gamePlayer.increaseFaithMarkerOfOtherPlayers();
             }
+            resourceBuffer.clear();
         }
-        resourceBuffer.clear();
     }
 
     /**

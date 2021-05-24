@@ -26,6 +26,7 @@ public class ClientOperationHandler {
     private ClientModelView clientModelView;
     private ViewInterface viewInterface;
 
+    // TODO: 24/05/2021 sistemare che non si può fare end turn se non prima il completamente della fase di setup di tutti i giocatori 
     public ClientOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView) {
         this.socketClientConnection = socketClientConnection;
         this.clientModelView = clientModelView;
@@ -76,18 +77,22 @@ public class ClientOperationHandler {
             }
             case "10", "showgrid" -> {
                 System.out.println("You have chosen to see the development grid");
+                viewInterface.printResourcesLegend();
                 viewInterface.printDevGrid();
             }
             case "11", "showboard" -> {
                 System.out.println("You have chosen to see the board");
                 viewInterface.printFaithTrack();
-                viewInterface.printStrongbox();
+                viewInterface.printResourcesLegend();
                 viewInterface.printDeposits();
+                viewInterface.printStrongbox();
                 viewInterface.printDevSpaces();
-            }
-            case "12", "showleader" ->{
-                System.out.println("You have chosen to see your leadercards");
                 viewInterface.printLeaderCards();
+            }
+            case "12", "showotherboards" ->{
+                System.out.println("You have chosen to see the boards of the other players");
+                viewInterface.printResourcesLegend();
+                System.out.println("DA FARE");
             }
             case "13", "end" ->{
                 System.out.println("Ending turn");
@@ -126,6 +131,7 @@ public class ClientOperationHandler {
 
     // TODO: 22/05/2021 sistemare 
     public void buyDevCard(){
+        viewInterface.printResourcesLegend();
         viewInterface.printDevGrid();
 
         System.out.println("Select the card ID you want to buy");
@@ -149,8 +155,8 @@ public class ClientOperationHandler {
         String resource;
         int position;
 
-        viewInterface.printStrongbox();
         viewInterface.printDeposits();
+        viewInterface.printStrongbox();
 
         ArrayList<ResourceType> resources = new ArrayList<>();
         ArrayList<Integer> warehouse = new ArrayList<>();
@@ -619,8 +625,9 @@ public class ClientOperationHandler {
 
             try {
                 whichResource = Integer.parseInt(bufferRead.readLine());
-            } catch (IOException e) {
+            } catch (IOException|NumberFormatException e) {
                 e.printStackTrace();
+                // TODO: 24/05/2021 exception se stringa vuota
             }
             switch (whichResource) {
                 case 1 -> resourcetype = ResourceType.COIN;

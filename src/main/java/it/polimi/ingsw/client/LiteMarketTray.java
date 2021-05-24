@@ -62,9 +62,10 @@ public class LiteMarketTray {
                 if(this.table[i][j] instanceof RedMarble)
                     escape.append(Color.ANSI_RED.escape()).append(Printable.CIRCLE.print()).append(Color.RESET).append(" ");
             }
-            escape.append(Printable.ARROW_RIGHT.print()).append("\n");
+            escape.append(Printable.ARROW_RIGHT.print()).append(" ").append(i+1).append("\n");
         }
-        escape.append("    ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ");
+        escape.append("    ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append("\n");
+        escape.append("    ").append("1 2 3 4").append("\n");
         return escape.toString();
     }
     public void dump(){

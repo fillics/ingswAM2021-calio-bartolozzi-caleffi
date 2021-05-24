@@ -19,16 +19,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientHandler implements Runnable {
     private final Socket socket;
+    private String username;
     private Game game;
-    private int numberOfGuest;
+    private final int numberOfGuest;
     private final int idClient;
-    private int idGame;
     private int posInGame; //parte da 0
     private boolean quit = false;
     private final Server server;
     private DataInputStream dis;
     private PrintStream output;
-    private String username;
     private ObjectMapper mapper;
     private String jsonResult;
     private boolean gameStarted= false;
@@ -209,7 +208,7 @@ public class ClientHandler implements Runnable {
         mapper = new ObjectMapper();
         try {
             jsonResult = mapper.writeValueAsString(serverPacketHandler);
-            System.out.println(jsonResult);
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

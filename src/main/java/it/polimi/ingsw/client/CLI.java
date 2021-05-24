@@ -22,7 +22,7 @@ public class CLI implements ViewInterface{
     public void printLeaderCards(){
         StringBuilder matrix= new StringBuilder();
         int size= clientModelView.getMyPlayer().getLeaderCards().size();
-        System.out.println("Your leader cards:");
+        //System.out.println("Your leader cards:");
         String backspace= "";
 
         for(int i=0; i<size;i++){
@@ -150,7 +150,6 @@ public class CLI implements ViewInterface{
 
     @Override
     public void printDeposits(){
-        System.out.println("Your deposits:");
         for(int i=0; i<clientModelView.getLiteBoard().getDeposits().size(); i++){
             clientModelView.getLiteBoard().getDeposits().get(i).dump();
         }
@@ -158,7 +157,6 @@ public class CLI implements ViewInterface{
 
     @Override
     public void printStrongbox() {
-        System.out.println("Your strongbox:");
         clientModelView.getLiteBoard().getStrongbox().dump();
     }
 
@@ -213,7 +211,8 @@ public class CLI implements ViewInterface{
     @Override
     public void printFaithTrack() {
         StringBuilder escape = new StringBuilder();
-        for(int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++){
+        escape.append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(2)).append("0").append(Printable.MIDDLE.print().repeat(2)).append(Printable.NORD_EST.print());
+            for(int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++){
                 escape.append(printColor(i));
                 escape.append(Printable.NORD_OVEST.print());
                 if(i+1<10)
@@ -225,6 +224,7 @@ public class CLI implements ViewInterface{
                     escape.append(Color.RESET);
             }
             escape.append("\n");
+            escape.append(Printable.DOUBLE_LINE.print()).append((" ").repeat(5)).append(Printable.DOUBLE_LINE.print());
             for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
                 escape.append(printColor(i));
                 escape.append(Printable.DOUBLE_LINE.print());
@@ -245,8 +245,11 @@ public class CLI implements ViewInterface{
                 if(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()!=0)
                     escape.append(Color.RESET);
             }
-
             escape.append("\n");
+
+            if(clientModelView.getLiteBoard().getFaithMarker()==0){
+                escape.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.ANSI_RED.escape()).append(Printable.CROSS.print()).append(Color.RESET).append(" ".repeat(2)).append(Printable.DOUBLE_LINE.print());
+            }
             for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
                 escape.append(printColor(i));
                 escape.append(Printable.DOUBLE_LINE.print());
@@ -262,6 +265,7 @@ public class CLI implements ViewInterface{
             }
             escape.append("\n");
 
+            escape.append(Printable.DOUBLE_LINE.print()).append((" ").repeat(5)).append(Printable.DOUBLE_LINE.print());
             for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
                 escape.append(printColor(i));
                 escape.append(Printable.DOUBLE_LINE.print());
@@ -277,6 +281,7 @@ public class CLI implements ViewInterface{
             }
             escape.append("\n");
 
+            escape.append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print());
             for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
                 escape.append(printColor(i));
 
@@ -382,6 +387,16 @@ public class CLI implements ViewInterface{
             if(clientModelView.getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyProductionPower && clientModelView.getMyPlayer().getLeaderCards().get(i).getStrategy().isActive())
                 escape.append(clientModelView.getMyPlayer().getLeaderCards().get(i)).append("\n".repeat(2));
         }
+        System.out.println(escape);
+    }
+
+    @Override
+    public void printResourcesLegend() {
+
+        String escape = Color.ANSI_BLUE.escape() + Printable.SQUARE.print() + Color.RESET + " = SHIELD\n" +
+                Color.ANSI_GREY.escape() + Printable.SQUARE.print() + Color.RESET + " = STONE\n" +
+                Color.ANSI_PURPLE.escape() + Printable.SQUARE.print() + Color.RESET + " = SERVANT\n" +
+                Color.ANSI_YELLOW.escape() + Printable.SQUARE.print() + Color.RESET + " = COIN\n";
         System.out.println(escape);
     }
 }

@@ -132,9 +132,9 @@ public class Strongbox extends Warehouse{
             }
         }
 
-        escape.append("4: \n");
-        escape.append(Printable.NORD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(15+numCifre)).append(Printable.NORD_EST.print()).append("\n");
-        escape.append(Printable.DOUBLE_LINE.print()).append("  ");
+        //escape.append("4: \n");
+        escape.append("   ").append(Printable.NORD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(15+numCifre)).append(Printable.NORD_EST.print()).append("\n");
+        escape.append("4:").append(" ").append(Printable.DOUBLE_LINE.print()).append("  ");
         if(strongbox.containsKey(ResourceType.SHIELD)){
             escape.append(Color.ANSI_BLUE.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(":").append(strongbox.get(ResourceType.SHIELD)).append(" ");
         }
@@ -148,7 +148,7 @@ public class Strongbox extends Warehouse{
             escape.append(Color.ANSI_GREY.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(":").append(strongbox.get(ResourceType.STONE)).append(" ");
         }
         escape.append(" ").append(Printable.DOUBLE_LINE.print()).append("\n");
-        escape.append(Printable.SUD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(15+numCifre)).append(Printable.SUD_EST.print());
+        escape.append("   ").append(Printable.SUD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(15+numCifre)).append(Printable.SUD_EST.print());
         escape.append("\n");
 
         return escape.toString();

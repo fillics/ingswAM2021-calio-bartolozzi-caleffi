@@ -5,6 +5,7 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketNewPositionInGame;
 import it.polimi.ingsw.controller.server_packets.PacketReconnection;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
@@ -88,6 +89,7 @@ public class Server {
         int numOfGuest=1;
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
+
 
         try {
             serverSocket = new ServerSocket(Constants.getPort());
@@ -189,14 +191,13 @@ public class Server {
         else {
 
             if (peopleDisconnected.containsKey(username)){
-                System.out.println("Client " +username+" reconnected");
-                clientHandler.sendPacketToClient(new PacketReconnection());
-                // TODO: 21/05/2021 riaggiungerlo a mapIdGameClientHandler
-                peopleDisconnected.remove(username);
+                handleReconnection(username, clientHandler);
             }
             else{
                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.USERNAME_VALID));
                 registerUsername(username, clientHandler);
+                System.out.println(Constants.ANSI_GREEN+username+Constants.ANSI_RESET+ " (idPlayer: " +clientHandler.getIdClient()+") "+ Constants.ANSI_GREEN+"joined!"+Constants.ANSI_RESET);
+
                 addToLobby(clientHandler);
                 checkFirstPositionInLobby(clientHandler);
             }
@@ -214,7 +215,6 @@ public class Server {
     public synchronized void registerUsername(String username, ClientHandler clientHandler){
         mapUsernameClientHandler.put(username, clientHandler);
         clientHandler.setUsername(username);
-        System.out.println(Constants.ANSI_GREEN+username+Constants.ANSI_RESET+ " (idPlayer: " +clientHandler.getIdClient()+") "+ Constants.ANSI_GREEN+"joined!"+Constants.ANSI_RESET);
     }
 
     /**
@@ -303,6 +303,41 @@ public class Server {
     }
 
 
+    public synchronized void handleReconnection(String username, ClientHandler clientHandlerToAdd){
+
+        System.out.println("Client " +username+" reconnected");
+
+        //mi risalvo l'username nella mappa che contiene tutti gli username
+        registerUsername(username, clientHandlerToAdd);
+
+        //a quale game stava giocando il tizio disconnesso
+        int idGame = peopleDisconnected.get(username); //id game del giocatore disconnesso
+
+        System.out.println("id game : "+idGame);
+
+        //Cerco il game del tizio e lo riconnetto da modello (=lo inserisco di nuovo nell'array dei player attivi)
+        for(Game game: games){
+            if (game.getIdGame()==idGame){
+
+                int index = game.getIndexOfPlayer(clientHandlerToAdd.getUsername());
+
+                game.reconnectPlayer(username);
+
+                clientHandlerToAdd.setGame(game);
+            }
+        }
+
+
+        //lo aggiungiamo alla mappa che contiene tutti i player di una partita
+        mapIdGameClientHandler.get(idGame).add(clientHandlerToAdd);
+
+        //lo rimuovo dalle persone disconnesse
+        peopleDisconnected.remove(username);
+
+
+        //mando al client riconnesso il pacchetto di riconnessione che contiene tutte le info salvate
+        clientHandlerToAdd.sendPacketToClient(new PacketReconnection());
+    }
 
     /**
      * Method handleDisconnection handles the operations to do when a player disconnected himself.
@@ -312,10 +347,24 @@ public class Server {
         //caso in cui è già dentro una partita
         if(clientHandlerToRemove.getGame()!=null){
 
-            /// TODO: 21/05/2021 rimuoverlo da mapIdGameClientHandler
             unregisterUsername(clientHandlerToRemove);
-            int index = clientHandlerToRemove.getGame().getIndexOfPlayer(clientHandlerToRemove.getUsername());
-            clientHandlerToRemove.getGame().disconnectPlayer(clientHandlerToRemove.getGame().getActivePlayers().get(index));
+            //int index = clientHandlerToRemove.getGame().getIndexOfActivePlayer(clientHandlerToRemove.getUsername());
+
+            Game game = clientHandlerToRemove.getGame();
+
+            String usernameCurPlayer = game.getActivePlayers().get(game.getCurrentPlayer()).getUsername();
+            game.disconnectPlayer(clientHandlerToRemove.getUsername());
+
+
+            //lo rimuovo dalla mappa che contiene tutti i giocatori di una partita lato server
+            mapIdGameClientHandler.get(clientHandlerToRemove.getGame().getIdGame()).remove(clientHandlerToRemove);
+
+            int newCur = game.getIndexOfActivePlayer(usernameCurPlayer);
+
+            game.setCurrentPlayer(newCur);
+
+            sendNewPositionInGame(clientHandlerToRemove);
+
 
         }
         //caso in cui non è ancora entrato in partita
@@ -323,7 +372,19 @@ public class Server {
             deleteFromLobby(clientHandlerToRemove);
             unregisterUsername(clientHandlerToRemove);
             checkFirstPositionInLobby(lobby.peek());
+        }
+    }
 
+    /**
+     * to send to each player of a game his new position in the game
+     * @param disconnectedClientHandler (type ClientHandler)
+     */
+    public synchronized void sendNewPositionInGame(ClientHandler disconnectedClientHandler){
+        //prendiamo il game del giocatore disconnesso
+        for (ClientHandler clientHandler: mapIdGameClientHandler.get(disconnectedClientHandler.getGame().getIdGame())){
+            int newPos = clientHandler.getGame().getIndexOfActivePlayer(clientHandler.getUsername());
+            clientHandler.sendPacketToClient(new PacketNewPositionInGame(newPos));
+            clientHandler.setPosInGame(newPos);
         }
     }
 
@@ -332,7 +393,7 @@ public class Server {
      * all the username and we put that username in a map
      * @param clientHandlerToRemove (type ClientHandler) - it is the client handler to unregister because it disconnected
      */
-    public void unregisterUsername(ClientHandler clientHandlerToRemove){
+    public synchronized void unregisterUsername(ClientHandler clientHandlerToRemove){
         System.out.println("Unregistered the username " + clientHandlerToRemove.getUsername()+ "!");
         mapUsernameClientHandler.remove(clientHandlerToRemove.getUsername());
         peopleDisconnected.put(clientHandlerToRemove.getUsername(), clientHandlerToRemove.getGame().getIdGame());
