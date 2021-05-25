@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller.messages;
 
 
-import it.polimi.ingsw.client.Color;
+import it.polimi.ingsw.constants.Color;
 import it.polimi.ingsw.constants.Constants;
 
 /**

@@ -1,12 +1,9 @@
 package it.polimi.ingsw.model.cards.developmentcards;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.client.Color;
-import it.polimi.ingsw.client.Printable;
+import it.polimi.ingsw.constants.Color;
+import it.polimi.ingsw.constants.Printable;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**

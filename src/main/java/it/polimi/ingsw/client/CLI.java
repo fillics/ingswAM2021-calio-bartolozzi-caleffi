@@ -1,12 +1,14 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.constants.Color;
+import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.model.board.faithtrack.PopeFavorTileColor;
 import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.developmentcards.Level;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 
-public class CLI implements ViewInterface{
+public class CLI implements ViewInterface {
     private ClientModelView clientModelView;
 
     public CLI(ClientModelView clientModelView) {
@@ -198,7 +200,7 @@ public class CLI implements ViewInterface{
         if((clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection())!=0 && clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace()){
             if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()== PopeFavorTileColor.YELLOW)
                 escape.append(Color.ANSI_PURPLE.escape());
-            else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE)
+            else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()== PopeFavorTileColor.ORANGE)
                 escape.append(Color.ANSI_GREEN.escape());
             else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED)
                 escape.append(Color.ANSI_RED.escape());

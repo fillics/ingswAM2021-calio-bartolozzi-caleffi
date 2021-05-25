@@ -2,8 +2,8 @@ package it.polimi.ingsw.model.cards.developmentcards;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.client.Color;
-import it.polimi.ingsw.client.Printable;
+import it.polimi.ingsw.constants.Color;
+import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
@@ -13,7 +13,6 @@ import it.polimi.ingsw.exceptions.TooManyResourcesRequested;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.jar.JarOutputStream;
 
 /**
  * This class represents the Production Power of a Development Card and of the Board.

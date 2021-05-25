@@ -18,7 +18,7 @@ public class Client {
     private ClientStates clientStates;
     private final Scanner input;
     private final SocketClientConnection socketClientConnection;
-    private final ClientOperationHandler clientOperationHandler;
+    private final ClientCLIOperationHandler clientCLIOperationHandler;
     private ClientModelView clientModelView;
 
 
@@ -34,12 +34,12 @@ public class Client {
 
         socketClientConnection = new SocketClientConnection(this);
         clientModelView = new ClientModelView();
-        clientOperationHandler = new ClientOperationHandler(socketClientConnection,clientModelView);
+        clientCLIOperationHandler = new ClientCLIOperationHandler(socketClientConnection,clientModelView);
 
         //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
         if(socketClientConnection.getConnectionToServer().get()){
             ServerListener serverListener = new ServerListener(this, socketClientConnection);
-            ServerWriter serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientOperationHandler, output, input);
+            ServerWriter serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientCLIOperationHandler, output, input);
             new Thread(serverWriter).start();
             new Thread(serverListener).start();
         }
@@ -120,7 +120,7 @@ public class Client {
 
 
     public void setInterface(ViewInterface viewInterface){
-        clientOperationHandler.setViewInterface(viewInterface);
+        clientCLIOperationHandler.setViewInterface(viewInterface);
     }
 
     /**
@@ -223,8 +223,8 @@ public class Client {
         return clientStates;
     }
 
-    public ClientOperationHandler getClientOperationHandler() {
-        return clientOperationHandler;
+    public ClientCLIOperationHandler getClientOperationHandler() {
+        return clientCLIOperationHandler;
     }
 
     public ClientModelView getClientModelView() {

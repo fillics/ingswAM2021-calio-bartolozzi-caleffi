@@ -10,16 +10,16 @@ public class ServerWriter implements Runnable{
 
     private final ClientModelView clientModelView;
     private final SocketClientConnection socketClientConnection;
-    private final ClientOperationHandler clientOperationHandler;
+    private final ClientCLIOperationHandler clientCLIOperationHandler;
     private final PrintStream output;
     private final Scanner input;
     private final Client client;
 
 
-    public ServerWriter(Client client, ClientModelView clientModelView, SocketClientConnection socketClientConnection, ClientOperationHandler clientOperationHandler, PrintStream output, Scanner input) {
+    public ServerWriter(Client client, ClientModelView clientModelView, SocketClientConnection socketClientConnection, ClientCLIOperationHandler clientCLIOperationHandler, PrintStream output, Scanner input) {
         this.clientModelView = clientModelView;
         this.socketClientConnection = socketClientConnection;
-        this.clientOperationHandler = clientOperationHandler;
+        this.clientCLIOperationHandler = clientCLIOperationHandler;
         this.output = output;
         this.input = input;
         this.client = client;
@@ -95,7 +95,7 @@ public class ServerWriter implements Runnable{
             case GAMESTARTED -> {
                 if (!inputString.equals("0")) {
                     try {
-                        clientOperationHandler.handleCLIOperation(inputString);
+                        clientCLIOperationHandler.handleCLIOperation(inputString);
                     } catch (IOException | NumberFormatException e) {
                         System.err.println("Error during the choice of the operation to do");
                     }
