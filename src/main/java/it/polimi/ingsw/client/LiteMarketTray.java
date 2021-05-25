@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.marbles.*;
 
 public class LiteMarketTray {
@@ -7,10 +9,20 @@ public class LiteMarketTray {
     private Marble[][] table;
     private Marble remainingMarble;
 
-    public LiteMarketTray(Marble[][] table,Marble remainingMarble) {
+    @JsonCreator
+    public LiteMarketTray(@JsonProperty("table")Marble[][] table, @JsonProperty("remMarble")Marble remainingMarble) {
         this.table = table;
         this.remainingMarble = remainingMarble;
     }
+
+
+    @JsonCreator
+    public LiteMarketTray() {
+        table=null;
+        remainingMarble = null;
+    }
+
+
 
     public Marble[][] getTable() {
         return table;

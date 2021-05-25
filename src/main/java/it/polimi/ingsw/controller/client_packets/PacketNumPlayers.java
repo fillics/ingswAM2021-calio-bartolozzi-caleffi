@@ -27,6 +27,9 @@ public class PacketNumPlayers implements SetupHandler {
         else {
             server.checkStartOfTheGame();
         }
+
+
+
     }
 
     public int getNumof_players() { return numof_players; }

@@ -14,12 +14,12 @@ import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class Client{
+public class Client {
     private ClientStates clientStates;
     private final Scanner input;
     private final SocketClientConnection socketClientConnection;
     private final ClientOperationHandler clientOperationHandler;
-    private final ClientModelView clientModelView;
+    private ClientModelView clientModelView;
 
 
     /**
@@ -231,4 +231,5 @@ public class Client{
         return clientModelView;
     }
 
+    public void setClientModelView(ClientModelView clientModelView) { this.clientModelView = clientModelView;}
 }

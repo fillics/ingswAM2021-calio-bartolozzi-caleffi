@@ -33,6 +33,7 @@ public class PacketActivateLeaderCard implements ClientPacketHandler {
             } catch (NotEnoughRequirements notEnoughRequirements) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.NOTENOUGHREQUIREMENTS));
             }
+
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

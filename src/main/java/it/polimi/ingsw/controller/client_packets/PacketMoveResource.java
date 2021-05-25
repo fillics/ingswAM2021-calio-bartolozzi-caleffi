@@ -35,6 +35,7 @@ public class PacketMoveResource implements ClientPacketHandler {
             } catch (EmptyDeposit emptyDeposit) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.EMPTYDEPOSIT));
             }
+
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

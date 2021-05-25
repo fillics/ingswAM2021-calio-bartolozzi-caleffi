@@ -6,9 +6,7 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.*;
 import it.polimi.ingsw.model.board.resources.ResourceType;
-import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
-import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
 import java.io.BufferedReader;
@@ -20,13 +18,12 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class ClientOperationHandler {
-    private SocketClientConnection socketClientConnection;
-    private ObjectMapper mapper;
+    private final SocketClientConnection socketClientConnection;
     private final Scanner input;
     private ClientModelView clientModelView;
     private ViewInterface viewInterface;
 
-    // TODO: 24/05/2021 sistemare che non si può fare end turn se non prima il completamente della fase di setup di tutti i giocatori 
+    // TODO: 24/05/2021 sistemare che non si può fare end turn se non prima il completamento della fase di setup di tutti i giocatori
     public ClientOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView) {
         this.socketClientConnection = socketClientConnection;
         this.clientModelView = clientModelView;
@@ -35,6 +32,10 @@ public class ClientOperationHandler {
 
     public void setViewInterface(ViewInterface viewInterface) {
         this.viewInterface = viewInterface;
+    }
+
+    public void setClientModelView(ClientModelView clientModelView) {
+        this.clientModelView = clientModelView;
     }
 
     public void handleCLIOperation(String input) throws IOException {
@@ -103,9 +104,10 @@ public class ClientOperationHandler {
     }
 
     public void sendPacket(ClientPacketHandler packet) throws JsonProcessingException {
-        mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
         socketClientConnection.sendToServer(jsonResult);
+
 
     }
 
@@ -261,6 +263,7 @@ public class ClientOperationHandler {
                 System.err.println("Please, insert a number!");
 
             }
+
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
                 if (Integer.parseInt(Id1) == leaderCard.getId()) {
                     checkid1 = true;

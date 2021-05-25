@@ -383,7 +383,7 @@ class GameTest {
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardProdPower);
 
         assertEquals(4, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
-        testGame.chooseLeaderCardToRemove(testLeaderCardExtraDep.getId(), testLeaderCardProdPower.getId(),  testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getIdClient());
+        testGame.chooseLeaderCardToRemove(testLeaderCardExtraDep.getId(), testLeaderCardProdPower.getId(),  testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getUsername());
         assertEquals(2, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().size());
 
         assertTrue(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getLeaderCards().contains(testLeaderCardDiscount));

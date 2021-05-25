@@ -87,13 +87,13 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
      */
     public void increaseBlackCross(int amount){
         if (amount>=0) blackCross += amount;
-        if(blackCross > 24){
+        if (blackCross > 24){
             endGame();
             blackCross = 24;
         }
-        if(getActivePlayers().get(getCurrentPlayer()).getBoard().getTrack().get(blackCross - 1).getPopeSpace()){
-            if(getActivePlayers().get(getCurrentPlayer()).getBoard().getTrack().get(blackCross - 1).getVaticanReportSection() > 0){
-                if(!getActivePlayers().get(getCurrentPlayer()).getBoard().getVaticanReportSections().get(getActivePlayers().get(getCurrentPlayer()).getBoard().getTrack().get(blackCross - 1).getVaticanReportSection()-1).getActivated()){
+        if(getActivePlayers().get(0).getBoard().getTrack().get(blackCross - 1).getPopeSpace()){
+            if(getActivePlayers().get(0).getBoard().getTrack().get(blackCross - 1).getVaticanReportSection() > 0){
+                if(!getActivePlayers().get(0).getBoard().getVaticanReportSections().get(getActivePlayers().get(0).getBoard().getTrack().get(blackCross - 1).getVaticanReportSection()-1).getActivated()){
                     checkPlayersFaithMarkers(blackCross);
                 }
             }

@@ -32,6 +32,7 @@ public class PacketChooseDiscount implements ClientPacketHandler {
             } catch (DiscountCannotBeActivated discountCannotBeActivated) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DISCOUNTCANNOTBEACTIVATED));
             }
+
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

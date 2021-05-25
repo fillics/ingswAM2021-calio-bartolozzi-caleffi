@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
@@ -42,7 +41,8 @@ public class Server {
     /** Map that contains all the disconnected player's username and the Game's id associated **/
     private final Map<String, Integer> peopleDisconnected;
 
-    private final Map<String, ClientModelView> mapForReconnection;
+    /** Map that contains the information of the players */
+    private final Map<String, ClientProxy> mapForReconnection;
 
 
     /** List of clients waiting in the lobby. */
@@ -153,6 +153,9 @@ public class Server {
         return mapUsernameClientHandler;
     }
 
+    public Map<String, ClientProxy> getMapForReconnection() {
+        return mapForReconnection;
+    }
 
     /**
      * Method addToLobby adds the client handler to the lobby, waiting for the start of the game
@@ -274,12 +277,11 @@ public class Server {
      * @param playersInGame (type ArrayList<ClientHandler>)
      */
     public synchronized void setupPlayersGame(Game game, ArrayList<ClientHandler> playersInGame){
-        //to print players in the game
+
         for (ClientHandler clientHandler: playersInGame){
             System.out.print("[" + clientHandler.getUsername() + ", id: " + clientHandler.getIdClient() + "] ");
         }
         System.out.print("\n");
-        //end of print of players in game
 
         game.setup();
 
@@ -311,19 +313,16 @@ public class Server {
         registerUsername(username, clientHandlerToAdd);
 
         //a quale game stava giocando il tizio disconnesso
-        int idGame = peopleDisconnected.get(username); //id game del giocatore disconnesso
+        int idGame = peopleDisconnected.get(username);
 
-        System.out.println("id game : "+idGame);
 
         //Cerco il game del tizio e lo riconnetto da modello (=lo inserisco di nuovo nell'array dei player attivi)
         for(Game game: games){
             if (game.getIdGame()==idGame){
-
-                int index = game.getIndexOfPlayer(clientHandlerToAdd.getUsername());
-
+                String usernameCurPlayer = game.getActivePlayers().get(game.getCurrentPlayer()).getUsername();
                 game.reconnectPlayer(username);
-
                 clientHandlerToAdd.setGame(game);
+                game.setCurrentPlayer(game.getIndexOfActivePlayer(usernameCurPlayer));
             }
         }
 
@@ -334,10 +333,13 @@ public class Server {
         //lo rimuovo dalle persone disconnesse
         peopleDisconnected.remove(username);
 
-
         //mando al client riconnesso il pacchetto di riconnessione che contiene tutte le info salvate
-        clientHandlerToAdd.sendPacketToClient(new PacketReconnection());
+        clientHandlerToAdd.sendPacketToClient(new PacketReconnection(mapForReconnection.get(username)));
+
+        sendNewPositionInGame(clientHandlerToAdd);
+
     }
+
 
     /**
      * Method handleDisconnection handles the operations to do when a player disconnected himself.
@@ -348,20 +350,16 @@ public class Server {
         if(clientHandlerToRemove.getGame()!=null){
 
             unregisterUsername(clientHandlerToRemove);
-            //int index = clientHandlerToRemove.getGame().getIndexOfActivePlayer(clientHandlerToRemove.getUsername());
 
             Game game = clientHandlerToRemove.getGame();
 
             String usernameCurPlayer = game.getActivePlayers().get(game.getCurrentPlayer()).getUsername();
             game.disconnectPlayer(clientHandlerToRemove.getUsername());
 
-
             //lo rimuovo dalla mappa che contiene tutti i giocatori di una partita lato server
             mapIdGameClientHandler.get(clientHandlerToRemove.getGame().getIdGame()).remove(clientHandlerToRemove);
 
-            int newCur = game.getIndexOfActivePlayer(usernameCurPlayer);
-
-            game.setCurrentPlayer(newCur);
+            game.setCurrentPlayer(game.getIndexOfActivePlayer(usernameCurPlayer));
 
             sendNewPositionInGame(clientHandlerToRemove);
 
@@ -415,10 +413,45 @@ public class Server {
      * @param gameInterface (type GameInterface)
      */
     public synchronized void sendAll(ServerPacketHandler packet, GameInterface gameInterface) {
-
         for (ClientHandler clientHandler: mapIdGameClientHandler.get(gameInterface.getIdGame())){
             clientHandler.sendPacketToClient(packet);
         }
+    }
+
+    /**
+     * Method saveClientProxy saves all the informations of a player in the mapForReconnection. This method is used for
+     * the additional function "resilience to disconnections".
+     * @param username (type String) - it is the username of the player to save
+     * @param gameInterface (type GameInterface) - it is the player's game
+     */
+    public synchronized void saveClientProxy(String username, GameInterface gameInterface){
+        //leaderCards
+        mapForReconnection.get(username).getClientModelView().getMyPlayer().
+                setLeaderCards(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards());
+
+        //devSpaces
+        mapForReconnection.get(username).getClientModelView().getLiteBoard().
+                setDevelopmentSpaces(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces());
+
+        //strongbox
+        mapForReconnection.get(username).getClientModelView().getLiteBoard().
+                setStrongbox(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
+
+        //deposits
+        mapForReconnection.get(username).getClientModelView().getLiteBoard().
+                setDeposits(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits());
+
+        //track
+        mapForReconnection.get(username).getClientModelView().getLiteBoard().
+                setTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack());
+
+        //faithmarker
+        mapForReconnection.get(username).getClientModelView().getLiteBoard().
+                setFaithMarker(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker());
+
+        //resourceBuffer todo da togliere?
+        mapForReconnection.get(username).getClientModelView().getMyPlayer().
+                setResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer());
     }
 
 }

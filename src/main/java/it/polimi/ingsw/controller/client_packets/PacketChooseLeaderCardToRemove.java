@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
@@ -27,15 +28,27 @@ public class PacketChooseLeaderCardToRemove implements ClientPacketHandler {
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler){
 
+        // TODO: 24/05/2021 mettere che choose leader card si puo fare solo quando lo stato della partita è setup  
         if(gameInterface.getState().equals(GameStates.SETUP) || gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)){
             if(gameInterface.getState().equals(GameStates.SETUP)) gameInterface.setState(GameStates.PHASE_ONE);
             try {
-                gameInterface.chooseLeaderCardToRemove(Id1, Id2, clientHandler.getIdClient());
+                gameInterface.chooseLeaderCardToRemove(Id1, Id2, clientHandler.getUsername());
                 System.out.println("[idGame "+clientHandler.getGame().getIdGame()+"]: "+"Player "+clientHandler.getUsername() + " removed the two initial leader cards");
-                clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getLeaderCards()));
+                clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getLeaderCards()));
+
+
             } catch (LeaderCardNotFound leaderCardNotFound) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
             }
+
+
+            //SALVATAGGIO SU PROXY
+            server.getMapForReconnection().get(clientHandler.getUsername()).setClientStates(ClientStates.RESOURCESETUP);
+
+            server.getMapForReconnection().get(clientHandler.getUsername()).getClientModelView().getMyPlayer().
+                    setLeaderCards(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getLeaderCards());
+
+
         }
         else{
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

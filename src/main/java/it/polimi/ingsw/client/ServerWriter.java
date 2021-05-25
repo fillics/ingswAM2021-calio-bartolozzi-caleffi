@@ -69,10 +69,6 @@ public class ServerWriter implements Runnable{
 
             case USERNAME -> client.sendUsername(inputString);
 
-            case RECONNECTION -> {
-
-            }
-
 
             case NUMPLAYERS -> {
                 try{

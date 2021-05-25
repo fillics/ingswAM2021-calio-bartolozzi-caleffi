@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.client.ClientStates;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
@@ -17,8 +19,8 @@ import it.polimi.ingsw.server.Server;
 import java.util.ArrayList;
 
 public class PacketChooseInitialResources implements ClientPacketHandler{
-    private ArrayList<Integer> depositPosition;
-    private ArrayList<ResourceType> resource;
+    private final ArrayList<Integer> depositPosition;
+    private final ArrayList<ResourceType> resource;
 
 
     @JsonCreator
@@ -33,7 +35,7 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
 
             for (int i = 0; i < depositPosition.size(); i++) {
                 try {
-                    gameInterface.additionalResourceSetup(resource.get(i),depositPosition.get(i)-1,clientHandler.getIdClient());
+                    gameInterface.additionalResourceSetup(resource.get(i),depositPosition.get(i)-1,clientHandler.getUsername());
                     System.out.println("[idGame "+clientHandler.getGame().getIdGame()+"]: "+"Player "+clientHandler.getUsername() + " choose the initial resource");
                 } catch (DifferentDimension differentDimension) {
                     clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DIFFERENTDIMENSION));
@@ -52,8 +54,16 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
             if(clientHandler.getPosInGame() == 0){
                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
             }
-            clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getBoard().getStrongbox(),gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getBoard().getDeposits()));
+            clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getStrongbox(),gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getDeposits()));
             gameInterface.setState(GameStates.PHASE_ONE);
+
+
+
+            //SALVATAGGIO SU PROXY
+            server.getMapForReconnection().get(clientHandler.getUsername()).setClientStates(ClientStates.GAMESTARTED);
+
+
+
         }
         else{
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
