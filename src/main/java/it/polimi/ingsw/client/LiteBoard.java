@@ -1,5 +1,9 @@
 package it.polimi.ingsw.client;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.faithtrack.PopeFavorTileColor;
 import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
@@ -21,15 +25,31 @@ public class LiteBoard {
     private ArrayList<Cell> track;
     private final ArrayList<VaticanReportSection> vaticanReportSections;
 
-    public LiteBoard(int faithMarker,int blackCross, Strongbox strongbox, ArrayList<Deposit> deposits, ArrayList<DevelopmentSpace> developmentSpaces, ArrayList<ProductionPower> specialProductionPowers, ArrayList<Cell> track, ArrayList<VaticanReportSection> vaticanReportSections) {
-        this.faithMarker= faithMarker;
-        this.blackCross= blackCross;
+    @JsonCreator
+    public LiteBoard(@JsonProperty("strongbox") Strongbox strongbox,@JsonProperty("deposits") ArrayList<Deposit> deposits,
+                     @JsonProperty("devSpaces") ArrayList<DevelopmentSpace> developmentSpaces,
+                     @JsonProperty("specProdPower") ArrayList<ProductionPower> specialProductionPowers,
+                     @JsonProperty("track") ArrayList<Cell> track, @JsonProperty("vaticanReport") ArrayList<VaticanReportSection> vaticanReportSections) {
+        faithMarker=0;
+        blackCross=0;
         this.strongbox = strongbox;
         this.deposits = deposits;
         this.developmentSpaces = developmentSpaces;
         this.specialProductionPowers = specialProductionPowers;
         this.track = track;
         this.vaticanReportSections= vaticanReportSections;
+    }
+
+    @JsonCreator
+    public LiteBoard() {
+        faithMarker = 0;
+        blackCross = 0;
+        strongbox= new Strongbox();
+        deposits=new ArrayList<>();
+        developmentSpaces=new ArrayList<>();
+        specialProductionPowers=new ArrayList<>();
+        track=new ArrayList<>();
+        vaticanReportSections=new ArrayList<>();
     }
 
     public Strongbox getStrongbox() {
@@ -44,6 +64,7 @@ public class LiteBoard {
         return developmentSpaces;
     }
 
+    @JsonIgnore
     public ArrayList<ProductionPower>  getSpecialProductionPower() { return specialProductionPowers; }
 
     public void setStrongbox(Strongbox strongbox) {
@@ -58,6 +79,7 @@ public class LiteBoard {
         this.developmentSpaces = developmentSpaces;
     }
 
+    @JsonSetter
     public void setSpecialProductionPowers(ArrayList<ProductionPower> specialProductionPowers) {
         this.specialProductionPowers = specialProductionPowers;
     }

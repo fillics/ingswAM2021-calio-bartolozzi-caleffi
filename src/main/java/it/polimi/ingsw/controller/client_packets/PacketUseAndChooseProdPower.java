@@ -102,6 +102,17 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.EMPTYPRODPOWER));
             }
 
+
+            //SALVATAGGIO SU PROXY
+            server.getMapForReconnection().get(clientHandler.getUsername()).getClientModelView().getLiteBoard().
+                    setStrongbox(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
+
+            server.getMapForReconnection().get(clientHandler.getUsername()).getClientModelView().getLiteBoard().
+                    setDeposits(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits());
+            server.getMapForReconnection().get(clientHandler.getUsername()).getClientModelView().getLiteBoard().
+                    setTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack());
+            server.getMapForReconnection().get(clientHandler.getUsername()).getClientModelView().getLiteBoard().
+                    setFaithMarker(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker());
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

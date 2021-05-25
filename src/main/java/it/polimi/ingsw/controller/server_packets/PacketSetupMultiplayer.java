@@ -38,8 +38,8 @@ public class PacketSetupMultiplayer implements ServerPacketHandler{
 
 
     @JsonCreator
-    public PacketSetupMultiplayer(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame,
-                                  @JsonProperty("total victory points") int totalVictoryPoint, @JsonProperty("faithMarker") int faithMarker, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards, @JsonProperty("market tray") Marble[][] table, @JsonProperty("remaining marble") Marble remainingMarble,
+    public PacketSetupMultiplayer(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
+                                  @JsonProperty("market tray") Marble[][] table, @JsonProperty("remaining marble") Marble remainingMarble,
                                   @JsonProperty("development spaces") ArrayList<DevelopmentSpace> developmentSpaces, @JsonProperty("resource buffer") ArrayList<Resource> resourceBuffer,
                                   @JsonProperty("special production powers")  ArrayList<ProductionPower> specialProductionPowers, @JsonProperty("strongbox") Strongbox strongbox,
                                   @JsonProperty("deposits") ArrayList<Deposit> deposits, @JsonProperty("white marble leader card's id") ArrayList<Integer> whiteMarbleCardChoice,
@@ -47,8 +47,8 @@ public class PacketSetupMultiplayer implements ServerPacketHandler{
         this.username = username;
         this.idClient = idClient;
         this.posInGame = posInGame;
-        this.totalVictoryPoint = totalVictoryPoint;
-        this.faithMarker=faithMarker;
+        totalVictoryPoint=0;
+        faithMarker=0;
         this.table = table;
         this.remainingMarble = remainingMarble;
         this.developmentCards = developmentCards;
@@ -135,14 +135,16 @@ public class PacketSetupMultiplayer implements ServerPacketHandler{
     @Override
     public void execute(Client client) {
         if(client.getClientState().equals(ClientStates.CREATEMODEL)) {
-            LiteBoard liteBoard = new LiteBoard(faithMarker,0,strongbox,deposits,developmentSpaces,specialProductionPowers,track,vaticanReportSections);
+            LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers,track,vaticanReportSections);
             LitePlayer litePlayer = new LitePlayer(username, idClient, posInGame, totalVictoryPoint, leaderCards,resourceBuffer, liteBoard, whiteMarbleCardChoice);
             LiteDevelopmentGrid liteDevelopmentGrid = new LiteDevelopmentGrid(developmentCards);
             LiteMarketTray liteMarketTray = new LiteMarketTray(table,remainingMarble);
+
             client.getClientModelView().setDevelopmentGrid(liteDevelopmentGrid);
             client.getClientModelView().setMarketTray(liteMarketTray);
             client.getClientModelView().setLiteBoard(liteBoard);
             client.getClientModelView().setMyPlayer(litePlayer);
+
 
             System.out.println("Your turn position is: " + (client.getClientModelView().getMyPlayer().getPosInGame() + 1));
 

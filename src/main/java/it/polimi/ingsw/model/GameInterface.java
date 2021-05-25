@@ -26,13 +26,13 @@ public interface GameInterface {
     void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource, NotEnoughChosenResources, EmptyProductionPower;
     void activateLeaderCard(int idCardToActivate) throws LeaderCardNotFound, NotEnoughRequirements;
     void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound;
-    void chooseLeaderCardToRemove(int idCard1, int idCard2, int IdPlayer) throws LeaderCardNotFound;
+    void chooseLeaderCardToRemove(int idCard1, int idCard2, String username) throws LeaderCardNotFound;
     int getCurrentPlayer();
     ArrayList<DevelopmentCard> getDevGridLite();
-    void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DifferentDimension, DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource, InvalidResource;
+    void additionalResourceSetup(ResourceType resourceType, int depositPosition, String username) throws DifferentDimension, DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource, InvalidResource;
     GameStates getState();
     ArrayList<Player> getActivePlayers();
-    HashMap<Integer, Player> getIdClientActivePlayers();
+    HashMap<String, Player> getUsernameClientActivePlayers();
     boolean isEndgame();
     ArrayList<LinkedList<DevelopmentCard>> getDevelopmentGrid();
     Marble[][] getTable();

@@ -41,7 +41,8 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
             } catch (LeaderCardNotActivated leaderCardNotActivated) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTACTIVATED));
             }
-        }
+
+           }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
         }

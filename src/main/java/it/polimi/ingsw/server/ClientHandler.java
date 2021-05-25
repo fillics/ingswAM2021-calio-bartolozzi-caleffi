@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
@@ -10,10 +11,21 @@ import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.board.faithtrack.Cell;
+import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
+import it.polimi.ingsw.model.board.resources.Resource;
+import it.polimi.ingsw.model.board.storage.Deposit;
+import it.polimi.ingsw.model.board.storage.Strongbox;
+import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
+import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
+import it.polimi.ingsw.model.marbles.Marble;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -33,6 +45,7 @@ public class ClientHandler implements Runnable {
     private boolean gameStarted= false;
     private boolean sendSetup = false;
     private final AtomicBoolean clientConnected;
+    private ClientModelView clientModelView;
 
 
 
@@ -41,6 +54,7 @@ public class ClientHandler implements Runnable {
         this.socket = socket;
         this.server = server;
         this.numberOfGuest = numberOfGuest;
+
         clientConnected = new AtomicBoolean(true);
         try {
             dis = new DataInputStream(socket.getInputStream());  // to read data coming from the client
@@ -61,6 +75,7 @@ public class ClientHandler implements Runnable {
 
                 try{
                     String str = dis.readUTF();
+
                     deserialize(str);
                 }catch (Exception e){
 
@@ -189,14 +204,47 @@ public class ClientHandler implements Runnable {
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
-        PacketSetupMultiplayer packetSetup = new PacketSetupMultiplayer(username, idClient, posInGame,0,game.getIdClientActivePlayers().get(idClient).getBoard().getFaithMarker(), game.getDevGridLite(), game.getTable(), game.getRemainingMarble(),
-                game.getIdClientActivePlayers().get(idClient).getBoard().getDevelopmentSpaces(), game.getIdClientActivePlayers().get(idClient).getResourceBuffer(), game.getIdClientActivePlayers().get(idClient).getBoard().getSpecialProductionPowers(),
-                game.getIdClientActivePlayers().get(idClient).getBoard().getStrongbox(),
-                game.getIdClientActivePlayers().get(idClient).getBoard().getDeposits(),
-                game.getIdClientActivePlayers().get(idClient).getWhiteMarbleCardChoice(), game.getIdClientActivePlayers().get(idClient).getLeaderCards(),
-                game.getIdClientActivePlayers().get(idClient).getBoard().getTrack(), game.getIdClientActivePlayers().get(idClient).getBoard().getVaticanReportSections());
+        PacketSetupMultiplayer packetSetup = new PacketSetupMultiplayer(username, idClient, posInGame, game.getDevGridLite(), game.getTable(), game.getRemainingMarble(),
+                game.getUsernameClientActivePlayers().get(username).getBoard().getDevelopmentSpaces(), game.getUsernameClientActivePlayers().get(username).getResourceBuffer(), game.getUsernameClientActivePlayers().get(username).getBoard().getSpecialProductionPowers(),
+                game.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox(),
+                game.getUsernameClientActivePlayers().get(username).getBoard().getDeposits(),
+                game.getUsernameClientActivePlayers().get(username).getWhiteMarbleCardChoice(), game.getUsernameClientActivePlayers().get(username).getLeaderCards(),
+                game.getUsernameClientActivePlayers().get(username).getBoard().getTrack(), game.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections());
 
         sendPacketToClient(packetSetup);
+
+        Strongbox strongbox = game.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox();
+        ArrayList<Deposit> deposits = game.getUsernameClientActivePlayers().get(username).getBoard().getDeposits();
+        ArrayList<DevelopmentSpace> developmentSpaces = game.getUsernameClientActivePlayers().get(username).getBoard().getDevelopmentSpaces();
+        ArrayList<ProductionPower> specialProductionPowers = game.getUsernameClientActivePlayers().get(username).getBoard().getSpecialProductionPowers();
+        ArrayList<Cell> track = game.getUsernameClientActivePlayers().get(username).getBoard().getTrack();
+        ArrayList<VaticanReportSection> vaticanReportSections = game.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections();
+        ArrayList<LeaderCard> leaderCards = game.getUsernameClientActivePlayers().get(username).getLeaderCards();
+        ArrayList<Resource> resourceBuffer = game.getUsernameClientActivePlayers().get(username).getResourceBuffer();
+        ArrayList<Integer> whiteMarbleCardChoice = game.getUsernameClientActivePlayers().get(username).getWhiteMarbleCardChoice();
+        ArrayList<DevelopmentCard> developmentCards = game.getDevGridLite();
+        Marble[][] table = game.getTable();
+        Marble remainingMarble = game.getRemainingMarble();
+
+
+        LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers,track,vaticanReportSections);
+        LitePlayer litePlayer = new LitePlayer(username, idClient, posInGame, 0, leaderCards,resourceBuffer, liteBoard, whiteMarbleCardChoice);
+        LiteDevelopmentGrid liteDevelopmentGrid = new LiteDevelopmentGrid(developmentCards);
+        LiteMarketTray liteMarketTray = new LiteMarketTray(table,remainingMarble);
+
+
+        clientModelView = new ClientModelView(litePlayer, liteMarketTray, liteDevelopmentGrid, liteBoard);
+
+        ClientProxy clientProxy = new ClientProxy(clientModelView);
+
+       /* clientProxy.getClientModelView().setLiteBoard(liteBoard);
+        clientProxy.getClientModelView().setDevelopmentGrid(liteDevelopmentGrid);
+        clientProxy.getClientModelView().setMarketTray(liteMarketTray);
+        clientProxy.getClientModelView().setMyPlayer(litePlayer);*/
+
+        server.getMapForReconnection().put(username, clientProxy);
+        System.out.println(clientProxy.getClientModelView().getMyPlayer().getUsername());
+
         sendSetup = false;
     }
 
@@ -223,4 +271,11 @@ public class ClientHandler implements Runnable {
         output.flush();
     }
 
+    public ClientModelView getClientModelView() {
+        return clientModelView;
+    }
+
+    public void setClientModelView(ClientModelView clientModelView) {
+        this.clientModelView = clientModelView;
+    }
 }

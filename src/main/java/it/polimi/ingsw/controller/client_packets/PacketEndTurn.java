@@ -6,7 +6,6 @@ import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 import it.polimi.ingsw.model.singleplayer.SoloActionToken;
-import it.polimi.ingsw.model.singleplayer.SoloActionTokenType;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
@@ -17,6 +16,7 @@ public class PacketEndTurn implements ClientPacketHandler{
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
 
+        // TODO: 24/05/2021 guarda perchè a volte crasha
         if(gameInterface instanceof SinglePlayerGame){
             if(gameInterface.getState().equals(GameStates.SETUP)) gameInterface.setState(GameStates.PHASE_ONE);
             if ((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
@@ -28,8 +28,8 @@ public class PacketEndTurn implements ClientPacketHandler{
                 //puliamo il resource buffer
                 gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer().clear();
 
-                if(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer().size() != 0){
-                    clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer()));
+                if(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getResourceBuffer().size() != 0){
+                    clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getResourceBuffer()));
                 }
 
                 SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
@@ -65,6 +65,8 @@ public class PacketEndTurn implements ClientPacketHandler{
             }
         }
         else{
+            //SALVATAGGIO SU PROXY
+            server.saveClientProxy(clientHandler.getUsername(), gameInterface);
 
             //TODO: Fare condizione invio pacchetto di risorse
             //TODO il player peò fare end turn solo se è nella fase due
@@ -83,11 +85,7 @@ public class PacketEndTurn implements ClientPacketHandler{
 
                     server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
                             sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-                    /*if (clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
-                        server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(0).getUsername()).sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-                    } else {
-                        server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(clientHandler.getPosInGame() + 1).getUsername()).sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-                    }*/
+
                     gameInterface.setState(GameStates.PHASE_ONE);
                 }
             }

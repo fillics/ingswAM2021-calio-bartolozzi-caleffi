@@ -30,7 +30,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     private final ArrayList<Player> players;
     private final ArrayList<Player> activePlayers;
-    private final HashMap<Integer,Player> idClientActivePlayers;
+    private final HashMap<String,Player> usernameClientActivePlayers;
     private int idGame;
     private ArrayList<LeaderCard> leaderDeck;
     protected ArrayList<LinkedList<DevelopmentCard>> developmentGrid;
@@ -47,7 +47,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public Game() {
         players = new ArrayList<>();
         activePlayers = new ArrayList<>();
-        idClientActivePlayers = new HashMap<>();
+        usernameClientActivePlayers = new HashMap<>();
         leaderDeck = new ArrayList<>();
         developmentGrid = new ArrayList<>();
         market = new MarketTray();
@@ -87,8 +87,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     /**
      * Method additionalSetup distributes resources to the players according to their position's turn
      */
-    public void additionalResourceSetup(ResourceType resourceType, int depositPosition, int idClient) throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource, InvalidResource {
-        ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(depositPosition, idClientActivePlayers.get(idClient).getBoard(), resourceType);
+    public void additionalResourceSetup(ResourceType resourceType, int depositPosition, String username) throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource, InvalidResource {
+        ConcreteStrategyResource concreteStrategyResource = new ConcreteStrategyResource(depositPosition, usernameClientActivePlayers.get(username).getBoard(), resourceType);
         Resource resource = new Resource(resourceType);
         resource.setStrategy(concreteStrategyResource);
         resource.useResource();
@@ -114,7 +114,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         Player player = new Player(username, this, idClient);
         players.add(player);
         activePlayers.add(player);
-        idClientActivePlayers.put(idClient,player);
+        usernameClientActivePlayers.put(username,player);
 
     }
 
@@ -138,12 +138,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         this.idGame = idGame;
     }
 
-    public HashMap<Integer, Player> getIdClientActivePlayers() {
-        return idClientActivePlayers;
+    public HashMap<String, Player> getUsernameClientActivePlayers() {
+        return usernameClientActivePlayers;
     }
 
-
-    //TODO: testare
+//TODO: testare
     /**
      * Method getTable return the table representing the position of the marbles.
      */
@@ -162,9 +161,9 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @throws LeaderCardNotFound if the player has not got the two chosenCards
      */
     @Override
-    public void chooseLeaderCardToRemove(int idCard1, int idCard2, int IdPlayer) throws LeaderCardNotFound {
+    public void chooseLeaderCardToRemove(int idCard1, int idCard2, String username) throws LeaderCardNotFound {
         ArrayList<LeaderCard> leaderCards = new ArrayList<>();
-        for(LeaderCard leaderCard : idClientActivePlayers.get(IdPlayer).getLeaderCards()){
+        for(LeaderCard leaderCard : usernameClientActivePlayers.get(username).getLeaderCards()){
             if(leaderCard.getId() == idCard1 || leaderCard.getId() == idCard2){
                 if(!leaderCards.contains(leaderCard)){
                     leaderCards.add(leaderCard);
@@ -173,7 +172,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         }
 
         for (LeaderCard cardToRemove: leaderCards){
-            idClientActivePlayers.get(IdPlayer).removeLeaderCard(cardToRemove);
+            usernameClientActivePlayers.get(username).removeLeaderCard(cardToRemove);
         }
 
     }
@@ -755,7 +754,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     /**
      * dato username mi restituisce la posizione del giocatore nell'array dei player
-     * @param usernameToFind
+     * @param usernameToFind (type String)
      * @return
      */
     public int getIndexOfPlayer(String usernameToFind){

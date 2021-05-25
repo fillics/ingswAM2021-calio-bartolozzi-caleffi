@@ -47,7 +47,6 @@ public class PacketPlaceResource implements ClientPacketHandler {
             } catch (InvalidResource invalidResource) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.INVALIDRESOURCE));
             }
-
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
