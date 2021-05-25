@@ -12,6 +12,8 @@ it\polimi\ingsw\model\GamePlayerInterface.class
 it\polimi\ingsw\controller\server_packets\PacketWarehouse.class
 it\polimi\ingsw\controller\server_packets\PacketConnectionMessages$1.class
 it\polimi\ingsw\model\cards\leadercards\ConcreteStrategyMarble.class
+it\polimi\ingsw\exceptions\NotEnoughChosenResources.class
+it\polimi\ingsw\exceptions\InvalidResource.class
 it\polimi\ingsw\client\ClientModelView.class
 it\polimi\ingsw\model\board\faithtrack\Cell.class
 it\polimi\ingsw\controller\client_packets\PacketEndTurn.class
@@ -29,7 +31,6 @@ it\polimi\ingsw\model\cards\developmentcards\ProductionPower.class
 it\polimi\ingsw\controller\client_packets\ClientPacketHandler.class
 it\polimi\ingsw\model\board\resources\ConcreteStrategyResource.class
 it\polimi\ingsw\model\cards\developmentcards\DevelopmentCard.class
-it\polimi\ingsw\GUI\SecondaryController.class
 it\polimi\ingsw\model\board\Board.class
 it\polimi\ingsw\controller\server_packets\PacketEndGameStarted.class
 it\polimi\ingsw\model\board\resources\Resource.class
@@ -43,7 +44,6 @@ it\polimi\ingsw\model\cards\leadercards\NumAndColorRequirement.class
 it\polimi\ingsw\controller\messages\ExceptionMessages.class
 it\polimi\ingsw\controller\GameStates.class
 it\polimi\ingsw\model\singleplayer\SinglePlayerGameInterface.class
-module-info.class
 it\polimi\ingsw\model\board\Board$1.class
 it\polimi\ingsw\controller\client_packets\PacketPlaceResource.class
 it\polimi\ingsw\localgame\LocalGame.class
@@ -81,9 +81,7 @@ it\polimi\ingsw\controller\server_packets\PacketFaithTrack.class
 it\polimi\ingsw\model\cards\leadercards\ConcreteStrategyProductionPower.class
 it\polimi\ingsw\model\Player.class
 it\polimi\ingsw\model\board\resources\ResourceActionStrategy.class
-it\polimi\ingsw\GUI\ClientGUI.class
 it\polimi\ingsw\constants\Constants.class
-it\polimi\ingsw\GUI\PrimaryController.class
 it\polimi\ingsw\exceptions\DepositDoesntHaveThisResource.class
 it\polimi\ingsw\controller\server_packets\PacketNewPositionInGame.class
 it\polimi\ingsw\model\singleplayer\ConcreteStrategyPlusOne.class
@@ -106,6 +104,7 @@ it\polimi\ingsw\controller\client_packets\PacketMoveResource.class
 it\polimi\ingsw\controller\server_packets\PacketReconnection.class
 it\polimi\ingsw\model\cards\leadercards\LevelAndColorRequirement.class
 it\polimi\ingsw\model\marbles\GreyMarble.class
+it\polimi\ingsw\exceptions\EmptyProductionPower.class
 it\polimi\ingsw\model\singleplayer\SinglePlayerGame$1.class
 it\polimi\ingsw\client\LitePlayer.class
 it\polimi\ingsw\exceptions\NotEnoughResources.class

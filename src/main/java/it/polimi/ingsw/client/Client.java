@@ -2,7 +2,6 @@ package it.polimi.ingsw.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.GUI.ClientGUI;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
@@ -63,7 +62,7 @@ public class Client{
         }
 
         if (choiceInterface==2){
-            client.setInterface(new ClientGUI(client.getClientModelView()));
+            //client.setInterface(new ClientGUI(client.getClientModelView()));
         }
 
 
