@@ -40,27 +40,37 @@ public class ConcreteStrategyResource implements ResourceActionStrategy{
     @Override
     public void action() throws DepositHasAnotherResource, DepositHasReachedMaxLimit, AnotherDepositContainsThisResource, InvalidResource {
 
-        for(int i = 0; i < board.getDeposits().size(); i++){
-            if(i != position){
-                if(board.getDeposits().get(i).getResourcetype() == resourcetype){
-                    throw new AnotherDepositContainsThisResource();
+        if(!board.getDeposits().get(position).isSpecial()){
+            for(int i = 0; i < board.getDeposits().size(); i++){
+                if(i != position){
+                    if(board.getDeposits().get(i).getResourcetype() == resourcetype && !board.getDeposits().get(i).isSpecial()){
+                        throw new AnotherDepositContainsThisResource();
+                    }
                 }
             }
-        }
-        if(board.getDeposits().get(position).getResourcetype() != resourcetype && board.getDeposits().get(position).getResourcetype() != null){
-            throw new DepositHasAnotherResource();
-        }
-        else if(board.getDeposits().get(position).getQuantity() == board.getDeposits().get(position).getMaxLimit()){
-            throw new DepositHasReachedMaxLimit();
-        }
-        else if(board.getDeposits().get(position).isSpecial() && resourcetype != board.getDeposits().get(position).getResourcetype()){
-            throw new InvalidResource();
-        }
-        else {
-            if(board.getDeposits().get(position).getResourcetype() == null){
-                board.getDeposits().get(position).setResourcetype(resourcetype);
+            if(board.getDeposits().get(position).getResourcetype() != resourcetype && board.getDeposits().get(position).getResourcetype() != null){
+                throw new DepositHasAnotherResource();
             }
-            board.getDeposits().get(position).increaseNumberOfResources();
+            else if(board.getDeposits().get(position).getQuantity() == board.getDeposits().get(position).getMaxLimit()){
+                throw new DepositHasReachedMaxLimit();
+            }
+            else {
+                if(board.getDeposits().get(position).getResourcetype() == null){
+                    board.getDeposits().get(position).setResourcetype(resourcetype);
+                }
+                board.getDeposits().get(position).increaseNumberOfResources();
+            }
+        }
+        else{
+            if(board.getDeposits().get(position).getResourcetype() != resourcetype){
+                throw new InvalidResource();
+            }
+            else if(board.getDeposits().get(position).getQuantity() == board.getDeposits().get(position).getMaxLimit()){
+                throw new DepositHasReachedMaxLimit();
+            }
+            else{
+                board.getDeposits().get(position).increaseNumberOfResources();
+            }
         }
     }
 }

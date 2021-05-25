@@ -22,6 +22,7 @@ public class ResourceTest {
     Deposit testDeposit1;
     Deposit testDeposit2;
     Deposit testDeposit3;
+    Deposit testDeposit4;
     Resource coin;
     Resource stone;
     Resource servant;
@@ -31,6 +32,9 @@ public class ResourceTest {
     ConcreteStrategyResource strategy2;
     ConcreteStrategyResource strategy3;
     ConcreteStrategyResource strategy4;
+    ConcreteStrategyResource strategy6;
+    ConcreteStrategyResource strategy7;
+
     ConcreteStrategySpecialResource strategy5;
 
 
@@ -42,9 +46,14 @@ public class ResourceTest {
         testDeposit1 = new Deposit(1, false);
         testDeposit2 = new Deposit(2, false);
         testDeposit3 = new Deposit(3, false);
+        testDeposit4 = new Deposit(2, true);
+
+        testDeposit4.setResourcetype(ResourceType.COIN);
+
         testBoard.getDeposits().add(testDeposit1);
         testBoard.getDeposits().add(testDeposit2);
         testBoard.getDeposits().add(testDeposit3);
+        testBoard.getDeposits().add(testDeposit4);
         coin = new Resource(ResourceType.COIN);
         stone = new Resource(ResourceType.STONE);
         servant =new Resource(ResourceType.SERVANT);
@@ -54,6 +63,8 @@ public class ResourceTest {
         strategy2 = new ConcreteStrategyResource(1, testBoard, ResourceType.STONE);
         strategy3 = new ConcreteStrategyResource(2, testBoard, ResourceType.SERVANT);
         strategy4 = new ConcreteStrategyResource(0, testBoard, ResourceType.SHIELD);
+        strategy6 = new ConcreteStrategyResource(6, testBoard, ResourceType.COIN);
+        strategy7 = new ConcreteStrategyResource(6, testBoard, ResourceType.STONE);
         strategy5 = new ConcreteStrategySpecialResource(testBoard);
     }
     /** Method ResourceTypeTest tests resources' getter. */
@@ -159,5 +170,41 @@ public class ResourceTest {
         faithmarker.useResource();
 
         assertEquals(3, testBoard.getFaithMarker());
+    }
+
+    @Test
+    @DisplayName("Test that verify the correct execution of the special deposit")
+    void useResourceTest5() throws DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource, InvalidResource {
+        assertTrue(testDeposit4.isSpecial());
+        assertTrue(testBoard.getDeposits().get(6).isSpecial());
+
+        coin.setStrategy(strategy6);
+        coin.useResource();
+
+        assertEquals(1, testBoard.getDeposits().get(6).getQuantity());
+
+        stone.setStrategy(strategy7);
+        try {
+            stone.useResource();
+            fail();
+        } catch (InvalidResource ignored){}
+
+        assertEquals(1, testBoard.getDeposits().get(6).getQuantity());
+        assertEquals(ResourceType.COIN, testBoard.getDeposits().get(6).getResourcetype());
+
+        coin.useResource();
+        assertEquals(2, testBoard.getDeposits().get(6).getQuantity());
+
+        try {
+            coin.useResource();
+            fail();
+        } catch (DepositHasReachedMaxLimit ignored){}
+
+
+        assertEquals(2, testBoard.getDeposits().get(6).getQuantity());
+
+        coin.setStrategy(strategy1);
+        coin.useResource();
+        assertEquals(1, testBoard.getDeposits().get(0).getQuantity());
     }
 }
