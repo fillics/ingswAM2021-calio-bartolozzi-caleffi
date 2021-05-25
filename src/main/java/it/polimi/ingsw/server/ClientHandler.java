@@ -204,14 +204,13 @@ public class ClientHandler implements Runnable {
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
-        PacketSetupMultiplayer packetSetup = new PacketSetupMultiplayer(username, idClient, posInGame, game.getDevGridLite(), game.getTable(), game.getRemainingMarble(),
+        /*PacketSetupMultiplayer packetSetup = new PacketSetupMultiplayer(username, idClient, posInGame, game.getDevGridLite(), game.getTable(), game.getRemainingMarble(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getDevelopmentSpaces(), game.getUsernameClientActivePlayers().get(username).getResourceBuffer(), game.getUsernameClientActivePlayers().get(username).getBoard().getSpecialProductionPowers(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getDeposits(),
                 game.getUsernameClientActivePlayers().get(username).getWhiteMarbleCardChoice(), game.getUsernameClientActivePlayers().get(username).getLeaderCards(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getTrack(), game.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections());
-
-        sendPacketToClient(packetSetup);
+*/
 
         Strongbox strongbox = game.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox();
         ArrayList<Deposit> deposits = game.getUsernameClientActivePlayers().get(username).getBoard().getDeposits();
@@ -237,13 +236,12 @@ public class ClientHandler implements Runnable {
 
         ClientProxy clientProxy = new ClientProxy(clientModelView);
 
-       /* clientProxy.getClientModelView().setLiteBoard(liteBoard);
-        clientProxy.getClientModelView().setDevelopmentGrid(liteDevelopmentGrid);
-        clientProxy.getClientModelView().setMarketTray(liteMarketTray);
-        clientProxy.getClientModelView().setMyPlayer(litePlayer);*/
-
         server.getMapForReconnection().put(username, clientProxy);
-        System.out.println(clientProxy.getClientModelView().getMyPlayer().getUsername());
+
+        PacketSetupMultiplayer packetSetupMultiplayer = new PacketSetupMultiplayer(liteBoard, litePlayer, liteDevelopmentGrid, liteMarketTray);
+
+
+        sendPacketToClient(packetSetupMultiplayer);
 
         sendSetup = false;
     }

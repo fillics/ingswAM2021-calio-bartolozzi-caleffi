@@ -36,7 +36,12 @@ public class PacketSetupMultiplayer implements ServerPacketHandler{
     private ArrayList<Integer> whiteMarbleCardChoice;
     private int posInGame;
 
+    private LiteBoard liteBoard;
+    private LitePlayer litePlayer;
+    private LiteDevelopmentGrid liteDevelopmentGrid;
+    private LiteMarketTray liteMarketTray;
 
+/*
     @JsonCreator
     public PacketSetupMultiplayer(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
                                   @JsonProperty("market tray") Marble[][] table, @JsonProperty("remaining marble") Marble remainingMarble,
@@ -61,6 +66,31 @@ public class PacketSetupMultiplayer implements ServerPacketHandler{
         this.leaderCards = leaderCards;
         this.track = track;
         this.vaticanReportSections=vaticanReportSections;
+    }
+    */
+    @JsonCreator
+    public PacketSetupMultiplayer(@JsonProperty("liteboard") LiteBoard liteBoard, @JsonProperty("liteplayer") LitePlayer litePlayer,
+                                  @JsonProperty("liteDevGrid") LiteDevelopmentGrid liteDevelopmentGrid, @JsonProperty("liteMarkTray") LiteMarketTray liteMarketTray) {
+        this.liteBoard = liteBoard;
+        this.litePlayer = litePlayer;
+        this.liteDevelopmentGrid = liteDevelopmentGrid;
+        this.liteMarketTray = liteMarketTray;
+    }
+
+    public LiteBoard getLiteBoard() {
+        return liteBoard;
+    }
+
+    public LitePlayer getLitePlayer() {
+        return litePlayer;
+    }
+
+    public LiteDevelopmentGrid getLiteDevelopmentGrid() {
+        return liteDevelopmentGrid;
+    }
+
+    public LiteMarketTray getLiteMarketTray() {
+        return liteMarketTray;
     }
 
     public String getUsername() {
@@ -135,10 +165,6 @@ public class PacketSetupMultiplayer implements ServerPacketHandler{
     @Override
     public void execute(Client client) {
         if(client.getClientState().equals(ClientStates.CREATEMODEL)) {
-            LiteBoard liteBoard = new LiteBoard(strongbox,deposits,developmentSpaces,specialProductionPowers,track,vaticanReportSections);
-            LitePlayer litePlayer = new LitePlayer(username, idClient, posInGame, totalVictoryPoint, leaderCards,resourceBuffer, liteBoard, whiteMarbleCardChoice);
-            LiteDevelopmentGrid liteDevelopmentGrid = new LiteDevelopmentGrid(developmentCards);
-            LiteMarketTray liteMarketTray = new LiteMarketTray(table,remainingMarble);
 
             client.getClientModelView().setDevelopmentGrid(liteDevelopmentGrid);
             client.getClientModelView().setMarketTray(liteMarketTray);

@@ -2,6 +2,8 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
+import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
@@ -24,5 +26,9 @@ public class PacketUsername implements SetupHandler {
         server.checkUsernameAlreadyTaken(username, clientHandler);
 
         if(server.getNumPlayers()!=0) server.checkStartOfTheGame();
+
+        if(server.getNumPlayers() > server.getLobby().size()){
+            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.WAITING_PEOPLE));
+        }
     }
 }

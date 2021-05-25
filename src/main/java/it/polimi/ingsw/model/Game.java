@@ -115,7 +115,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         players.add(player);
         activePlayers.add(player);
         usernameClientActivePlayers.put(username,player);
-
     }
 
     /**
@@ -751,6 +750,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         }
         return index;
     }
+
+
 
     /**
      * dato username mi restituisce la posizione del giocatore nell'array dei player

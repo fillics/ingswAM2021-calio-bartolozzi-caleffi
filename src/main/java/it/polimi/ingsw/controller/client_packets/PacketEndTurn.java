@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
+import it.polimi.ingsw.model.singleplayer.SinglePlayerGameInterface;
 import it.polimi.ingsw.model.singleplayer.SoloActionToken;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
@@ -16,89 +17,83 @@ public class PacketEndTurn implements ClientPacketHandler{
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
 
-        // TODO: 24/05/2021 guarda perchè a volte crasha
-        if(gameInterface instanceof SinglePlayerGame){
-            if(gameInterface.getState().equals(GameStates.SETUP)) gameInterface.setState(GameStates.PHASE_ONE);
-            if ((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
-                    && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
+        // TODO: 25/05/2021 stampare blackcross
+        if(gameInterface instanceof SinglePlayerGame) {
 
-                //incrementiamo la black cross di lorenzo
-                ((SinglePlayerGame) gameInterface).increaseBlackCross(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer().size());
+            switch (gameInterface.getState()) {
+                case SETUP -> gameInterface.setState(GameStates.PHASE_ONE);
+                case PHASE_ONE -> clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
+                case PHASE_TWO -> {
+                    if (clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
+                        int sizeResourceBuffer = gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getResourceBuffer().size();
 
-                //puliamo il resource buffer
-                gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer().clear();
+                        if (sizeResourceBuffer != 0) {
+                            gameInterface.getActivePlayers().get(0).getResourceBuffer().clear();
+                            ((SinglePlayerGame) gameInterface).increaseBlackCross(sizeResourceBuffer);
+                        }
 
-                if(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getResourceBuffer().size() != 0){
-                    clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getResourceBuffer()));
-                }
+                        SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
 
-                SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
+                        switch (token.getType()) {
+                            case DISCARD -> {
+                                ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
+                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.DISCARDDEVCARD));
+                                clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(gameInterface.getDevGridLite()));
+                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+                            }
+                            case BLACKCROSS_1 -> {
+                                ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
+                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS1));
+                                clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker()));
+                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
 
-                switch (token.getType()) {
-                    case DISCARD -> {
-                        ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                        clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.DISCARDDEVCARD));
-                        clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(gameInterface.getDevGridLite()));
-                        clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+                            }
+                            case BLACKCROSS_2 -> {
+                                ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
+                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS2));
+                                clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker()));
+                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+
+                            }
+                        }
+                        if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
+                            ((SinglePlayerGame) gameInterface).winner();
+                            System.out.println(gameInterface.getWinner());
+                            clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
+                        }
+                        gameInterface.setState(GameStates.PHASE_ONE);
                     }
-                    case BLACKCROSS_1 -> {
-                        ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                        clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS1));
-                        clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker()));
-                        clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-
-                    }
-                    case BLACKCROSS_2 -> {
-                        ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                        clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS2));
-                        clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker()));
-                        clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-
-                    }
                 }
-                if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
-                    ((SinglePlayerGame) gameInterface).winner();
-                    System.out.println(gameInterface.getWinner());
-                    clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
-                }
-                gameInterface.setState(GameStates.PHASE_ONE);
             }
+
         }
+
         else{
-            //SALVATAGGIO SU PROXY
             server.saveClientProxy(clientHandler.getUsername(), gameInterface);
 
-            //TODO: Fare condizione invio pacchetto di risorse
-            //TODO il player peò fare end turn solo se è nella fase due
-            if ((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)) &&
-                    clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
+            switch (gameInterface.getState()) {
 
-                gameInterface.nextPlayer();
-                //System.out.println(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer());
-                //clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getIdClientActivePlayers().get(clientHandler.getIdClient()).getResourceBuffer()));
+                case PHASE_ONE -> clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
 
+                case PHASE_TWO -> {
+                    if (clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+                        gameInterface.nextPlayer();
 
-                if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
-                    clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
-                }
-                else{
+                        if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
+                            clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
+                        }
+                        else{
+                            server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
+                                    sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
 
-                    server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
-                            sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-
-                    gameInterface.setState(GameStates.PHASE_ONE);
+                            gameInterface.setState(GameStates.PHASE_ONE);
+                        }
+                    }
+                    else {
+                        clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
+                    }
                 }
             }
-
-            // TODO: 23/05/2021 togliere riga commentata
-            //if((gameInterface.getState().equals(GameStates.PHASE_ONE)) clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
-            else {
-                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
-            }
-
-            //mando la nuova posizione a tutti solo quando finiscono tutti il turno->fa end turn l'ultima persona
-            //server.sendNewPositionInGame(clientHandler);
-
 
         }
 

@@ -277,12 +277,11 @@ public class Server {
      * @param playersInGame (type ArrayList<ClientHandler>)
      */
     public synchronized void setupPlayersGame(Game game, ArrayList<ClientHandler> playersInGame){
-        //to print players in the game
+
         for (ClientHandler clientHandler: playersInGame){
             System.out.print("[" + clientHandler.getUsername() + ", id: " + clientHandler.getIdClient() + "] ");
         }
         System.out.print("\n");
-        //end of print of players in game
 
         game.setup();
 
@@ -357,7 +356,6 @@ public class Server {
             String usernameCurPlayer = game.getActivePlayers().get(game.getCurrentPlayer()).getUsername();
             game.disconnectPlayer(clientHandlerToRemove.getUsername());
 
-
             //lo rimuovo dalla mappa che contiene tutti i giocatori di una partita lato server
             mapIdGameClientHandler.get(clientHandlerToRemove.getGame().getIdGame()).remove(clientHandlerToRemove);
 
@@ -415,12 +413,17 @@ public class Server {
      * @param gameInterface (type GameInterface)
      */
     public synchronized void sendAll(ServerPacketHandler packet, GameInterface gameInterface) {
-
         for (ClientHandler clientHandler: mapIdGameClientHandler.get(gameInterface.getIdGame())){
             clientHandler.sendPacketToClient(packet);
         }
     }
 
+    /**
+     * Method saveClientProxy saves all the informations of a player in the mapForReconnection. This method is used for
+     * the additional function "resilience to disconnections".
+     * @param username (type String) - it is the username of the player to save
+     * @param gameInterface (type GameInterface) - it is the player's game
+     */
     public synchronized void saveClientProxy(String username, GameInterface gameInterface){
         //leaderCards
         mapForReconnection.get(username).getClientModelView().getMyPlayer().
