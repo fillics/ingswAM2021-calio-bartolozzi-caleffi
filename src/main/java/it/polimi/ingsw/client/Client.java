@@ -25,6 +25,7 @@ public class Client {
     private CLI cli;
     private GUI gui;
     private ViewInterface viewInterface;
+    private int choiceInterface;
 
 
     /**
@@ -38,15 +39,18 @@ public class Client {
 
         if(choiceInterface==1){
             cli = new CLI(this, clientModelView);
+            serverConnection(choiceInterface);
         }
 
         if (choiceInterface==2){
-            gui = new GUI(this);
+            gui = new GUI(this, clientModelView);
             new Thread(gui).start();
         }
 
-        socketClientConnection = new SocketClientConnection(this);
+    }
 
+    public void serverConnection(int choiceInterface){
+        socketClientConnection = new SocketClientConnection(this);
 
         if(choiceInterface==1) {
             CLIOperationHandler cliOperationHandler = new CLIOperationHandler(socketClientConnection, clientModelView);
@@ -60,23 +64,30 @@ public class Client {
             this.setClientOperationHandler(guiOperationHandler);
         }
         setup(choiceInterface);
-
     }
+
 
     public static void main(String[] args) {
         System.out.println(Constants.MASTEROFRENAISSANCE);
         System.out.println(Constants.AUTHORS);
-        int choiceInterface=0;
+        int choiceInterface;
 
         choiceInterface = viewInterfaceChoice();
-        new Client(choiceInterface);
+        Client client = new Client(choiceInterface);
+        client.setChoiceInterface(choiceInterface);
+    }
 
+    public void setChoiceInterface(int choiceInterface) {
+        this.choiceInterface = choiceInterface;
+    }
+
+    public int getChoiceInterface() {
+        return choiceInterface;
     }
 
     public void setup(int choiceInterface){
         //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
         if(socketClientConnection.getConnectionToServer().get()){
-
             if(choiceInterface==1){
                 ServerListener serverListener = new ServerListener(this, socketClientConnection);
                 ServerWriter serverWriter = new ServerWriter(this, socketClientConnection, clientOperationHandler);
@@ -87,7 +98,6 @@ public class Client {
                 ServerListener serverListener = new ServerListener(this, socketClientConnection);
                 new Thread(serverListener).start();
             }
-
         }
         clientStates = ClientStates.USERNAME;
     }
@@ -196,4 +206,7 @@ public class Client {
     }
 
     public void setClientModelView(ClientModelView clientModelView) { this.clientModelView = clientModelView;}
+
+
 }
+

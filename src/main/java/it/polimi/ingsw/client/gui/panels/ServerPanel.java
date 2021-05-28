@@ -5,24 +5,23 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Constants;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.Socket;
 
 public class ServerPanel extends JPanel implements ActionListener {
 
-    JLabel ipAddress = new JLabel("Insert the server IP address");
-    JTextField ipAddressTextField = new JTextField();
-    JLabel serverPort = new JLabel("Insert the server port");
-    JTextField serverPortTextField = new JTextField();
-    JButton connectButton = new JButton("CONNECT");
-    JButton resetButton = new JButton("RESET");
+    private GUI gui;
+    private JLabel ipAddress = new JLabel("Insert the server IP address");
+    private JTextField ipAddressTextField = new JTextField();
+    private JLabel serverPort = new JLabel("Insert the server port");
+    private JTextField serverPortTextField = new JTextField();
+    private JButton connectButton = new JButton("CONNECT");
+    private JButton resetButton = new JButton("RESET");
 
 
 
-    public ServerPanel(){
+    public ServerPanel(GUI gui){
+        this.gui = gui;
         this.setBounds(0,0,1000,1000);
         this.setLayout(null);
         createPanel();
@@ -53,7 +52,6 @@ public class ServerPanel extends JPanel implements ActionListener {
     }
 
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == connectButton) {
@@ -65,7 +63,8 @@ public class ServerPanel extends JPanel implements ActionListener {
 
             // TODO: 28/05/2021 togliere finestra di dialogo, mettere solo panel di messaggi risposta da server
             JOptionPane.showMessageDialog(this, "Connected!");
-            GUI.switchPanels(GUI.getPanels().get(0));
+            gui.switchPanels(gui.getPanels().get(1));
+            gui.getClient().serverConnection(2);
 
         }
         if (e.getSource() == resetButton) {

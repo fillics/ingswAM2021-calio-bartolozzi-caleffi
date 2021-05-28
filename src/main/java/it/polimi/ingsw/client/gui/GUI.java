@@ -3,6 +3,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.ViewInterface;
 import it.polimi.ingsw.client.gui.panels.LoginPanel;
+import it.polimi.ingsw.client.gui.panels.NumPlayersPanel;
 import it.polimi.ingsw.client.gui.panels.ServerPanel;
 
 import javax.swing.*;
@@ -16,38 +17,44 @@ public class GUI implements Runnable, ViewInterface {
     private static JPanel bigPanel;
     private LoginPanel loginPanel;
     private ServerPanel serverPanel;
+    private NumPlayersPanel numPlayersPanel;
     private Client client;
     private static ArrayList<JPanel> panels;
     private Dimension dimension;
     private int width, height;
+    private ClientModelView clientModelView;
 
-    public GUI(Client client) {
-
+    public GUI(Client client, ClientModelView clientModelView) {
+        this.clientModelView = clientModelView;
         dimension = Toolkit.getDefaultToolkit().getScreenSize();
         width = dimension.width;
         height = dimension.height-50;
         this.client = client;
 
         panels = new ArrayList<>();
-        loginPanel = new LoginPanel();
-        serverPanel = new ServerPanel();
+        loginPanel = new LoginPanel(this);
+        serverPanel = new ServerPanel(this);
+        numPlayersPanel = new NumPlayersPanel(this);
 
-        panels.add(loginPanel);
         panels.add(serverPanel);
-
+        panels.add(loginPanel);
+        panels.add(numPlayersPanel);
     }
 
-    public static ArrayList<JPanel> getPanels() {
+    public ArrayList<JPanel> getPanels() {
         return panels;
     }
 
-    public static void switchPanels(JPanel panel){
+    public void switchPanels(JPanel panel){
         bigPanel.removeAll();
         bigPanel.add(panel);
         bigPanel.repaint();
         bigPanel.revalidate();
     }
 
+    public Client getClient() {
+        return client;
+    }
 
     @Override
     public ClientModelView getClientModelView() {

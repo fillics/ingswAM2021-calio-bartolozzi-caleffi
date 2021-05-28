@@ -46,7 +46,7 @@ public class ServerWriter implements Runnable{
                 System.out.println(Constants.menu);
             }
             else{
-                handleInitialGamePhase(inputString);
+                handleGamePhase(inputString);
             }
 
         }
@@ -63,7 +63,7 @@ public class ServerWriter implements Runnable{
 
 
 
-    public void handleInitialGamePhase(String inputString){
+    public void handleGamePhase(String inputString){
 
         switch (client.getClientState()){
 

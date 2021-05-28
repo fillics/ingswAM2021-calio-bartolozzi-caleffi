@@ -14,7 +14,7 @@ public interface ClientOperationHandler {
     int scannerChooseDeposit(BufferedReader bf);
     ResourceType scannerChooseResources(BufferedReader bf);
     void activateLeaderCard() throws IOException;
-    void buyDevCard();
+    void buyDevCard() throws IOException;
     void chooseDiscount() throws IOException;
     void discardLeaderCard();
     void moveResource();

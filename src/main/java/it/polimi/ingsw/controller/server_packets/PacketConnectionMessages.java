@@ -26,14 +26,26 @@ public class PacketConnectionMessages implements ServerPacketHandler {
         switch (message){
 
             case USERNAME_VALID, IMPOSSIBLEMOVE, IMPOSSIBLEENDTURN -> {
-                Constants.printConnectionMessage(message);
+                if(client.getChoiceInterface() == 1){
+                    Constants.printConnectionMessage(message);
+                }
+                else {
+                    System.out.println("sei in gui");
+                }
             }
 
 
             case INSERT_NUMBER_OF_PLAYERS -> {
-                Constants.printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
-                Constants.printConnectionMessage(message);
+                if(client.getChoiceInterface() == 1){
+                    Constants.printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
+                    Constants.printConnectionMessage(message);
+                }
+                else {
+                    client.getGui().switchPanels(client.getGui().getPanels().get(2));
+                }
                 client.setClientState(ClientStates.NUMPLAYERS);
+
+
             }
 
             case TAKEN_NICKNAME -> {

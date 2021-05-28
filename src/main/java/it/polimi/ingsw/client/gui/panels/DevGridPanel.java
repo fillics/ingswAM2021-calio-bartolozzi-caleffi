@@ -1,6 +1,7 @@
-package it.polimi.ingsw.client.gui;
+package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.ClientModelView;
+import it.polimi.ingsw.client.gui.GUI;
 
 import javax.swing.*;
 import java.awt.*;

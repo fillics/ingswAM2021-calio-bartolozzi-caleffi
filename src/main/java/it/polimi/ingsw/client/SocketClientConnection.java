@@ -16,8 +16,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class SocketClientConnection {
 
     private final Client client;
-    private final String serverAddress;
-    private final int port;
     private Socket socket;
     private DataOutputStream output;
     private DataInputStream dataInputStream;
@@ -26,10 +24,8 @@ public class SocketClientConnection {
 
     public SocketClientConnection(Client client) {
         this.client = client;
-        this.serverAddress = Constants.getAddressServer();
-        this.port = Constants.getPort();
         try {
-            socket = new Socket(serverAddress, port);
+            socket = new Socket(Constants.getAddressServer(), Constants.getPort());
             socket.setSoTimeout(20000);
             connectionToServer.compareAndSet(false, true);
         } catch (IOException ignored) {
