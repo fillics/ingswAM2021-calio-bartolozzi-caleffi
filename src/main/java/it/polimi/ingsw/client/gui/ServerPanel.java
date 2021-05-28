@@ -27,8 +27,6 @@ public class ServerPanel extends JPanel implements ActionListener {
         this.setLayout(null);
         createPanel();
         addComponentsToContainer();
-        addActionEvent(connectButton);
-        addActionEvent(resetButton);
  }
 
 
