@@ -258,7 +258,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
         try{
             try {
-                deckToOrder = mapper.readValue(getClass().getResourceAsStream("/json/DevelopmentCard.json"), new TypeReference<>() {});
+                deckToOrder = mapper.readValue(getClass().getResourceAsStream("/json/DevelopmentCard.json").readAllBytes(), new TypeReference<>() {});
             } catch (IOException e) {
                 e.printStackTrace();
             }
