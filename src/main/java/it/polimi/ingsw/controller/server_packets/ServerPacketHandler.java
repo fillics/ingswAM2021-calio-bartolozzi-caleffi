@@ -11,6 +11,7 @@ import it.polimi.ingsw.client.Client;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PacketLiteMarketTray.class, name = "LITE_MARKET_TRAY"),
         @JsonSubTypes.Type(value = PacketFaithTrack.class, name = "FAITH_TRACK"),
+        @JsonSubTypes.Type(value = PacketBlackCross.class, name = "BLACK_CROSS"),
         @JsonSubTypes.Type(value = PacketConnectionMessages.class, name = "MESSAGE"),
         @JsonSubTypes.Type(value = PacketPingFromServer.class, name = "PING"),
         @JsonSubTypes.Type(value = PacketReconnection.class, name = "RECONNECTION"),
@@ -21,7 +22,7 @@ import it.polimi.ingsw.client.Client;
         @JsonSubTypes.Type(value = PacketDevelopmentSpaces.class, name = "DEVELOPMENT_SPACES"),
         @JsonSubTypes.Type(value = PacketLeaderCards.class, name = "LEADER_CARDS"),
         @JsonSubTypes.Type(value = PacketResourceBuffer.class, name = "RESOURCE_BUFFER"),
-        @JsonSubTypes.Type(value = PacketSetupMultiplayer.class, name = "SETUP"),
+        @JsonSubTypes.Type(value = PacketSetup.class, name = "SETUP"),
         @JsonSubTypes.Type(value = PacketSpecialProdPowers.class, name = "SPECIAL_PROD_POWERS"),
         @JsonSubTypes.Type(value = PacketWhiteMarbleChoice.class, name = "WHITE_MARBLE_CHOICE"),
         @JsonSubTypes.Type(value = PacketEndGameStarted.class, name = "ENDGAME_STARTED"),

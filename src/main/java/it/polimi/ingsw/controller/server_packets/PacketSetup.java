@@ -16,7 +16,7 @@ import it.polimi.ingsw.model.marbles.Marble;
 
 import java.util.ArrayList;
 
-public class PacketSetupMultiplayer implements ServerPacketHandler{
+public class PacketSetup implements ServerPacketHandler{
 
     private String username;
     private int idClient;
@@ -36,16 +36,13 @@ public class PacketSetupMultiplayer implements ServerPacketHandler{
     private ArrayList<Integer> whiteMarbleCardChoice;
     private int posInGame;
 
-
-
-
     @JsonCreator
-    public PacketSetupMultiplayer(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
-                                  @JsonProperty("market tray") Marble[][] table, @JsonProperty("remaining marble") Marble remainingMarble,
-                                  @JsonProperty("development spaces") ArrayList<DevelopmentSpace> developmentSpaces, @JsonProperty("resource buffer") ArrayList<Resource> resourceBuffer,
-                                  @JsonProperty("special production powers")  ArrayList<ProductionPower> specialProductionPowers, @JsonProperty("strongbox") Strongbox strongbox,
-                                  @JsonProperty("deposits") ArrayList<Deposit> deposits, @JsonProperty("white marble leader card's id") ArrayList<Integer> whiteMarbleCardChoice,
-                                  @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards, @JsonProperty("track") ArrayList<Cell> track, @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections) {
+    public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
+                       @JsonProperty("market tray") Marble[][] table, @JsonProperty("remaining marble") Marble remainingMarble,
+                       @JsonProperty("development spaces") ArrayList<DevelopmentSpace> developmentSpaces, @JsonProperty("resource buffer") ArrayList<Resource> resourceBuffer,
+                       @JsonProperty("special production powers")  ArrayList<ProductionPower> specialProductionPowers, @JsonProperty("strongbox") Strongbox strongbox,
+                       @JsonProperty("deposits") ArrayList<Deposit> deposits, @JsonProperty("white marble leader card's id") ArrayList<Integer> whiteMarbleCardChoice,
+                       @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards, @JsonProperty("track") ArrayList<Cell> track, @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections) {
         this.username = username;
         this.idClient = idClient;
         this.posInGame = posInGame;

@@ -19,6 +19,7 @@ public class PacketFaithTrack implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
+        System.out.println("new faith marker: "+ faithMarker);
         client.getClientModelView().getLiteBoard().setTrack(track);
         client.getClientModelView().getLiteBoard().setFaithMarker(faithMarker);
     }

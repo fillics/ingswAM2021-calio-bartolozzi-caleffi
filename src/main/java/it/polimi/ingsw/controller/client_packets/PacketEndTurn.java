@@ -44,6 +44,8 @@ public class PacketEndTurn implements ClientPacketHandler{
                             case BLACKCROSS_1 -> {
                                 ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
                                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS1));
+                                clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
+                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSSUPDATE));
                                 clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker()));
                                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
 
@@ -51,9 +53,10 @@ public class PacketEndTurn implements ClientPacketHandler{
                             case BLACKCROSS_2 -> {
                                 ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
                                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS2));
+                                clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
+                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSSUPDATE));
                                 clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker()));
                                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-
                             }
                         }
                         if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
@@ -67,7 +70,6 @@ public class PacketEndTurn implements ClientPacketHandler{
             }
 
         }
-
         else{
             server.saveClientProxy(clientHandler.getUsername(), gameInterface);
 

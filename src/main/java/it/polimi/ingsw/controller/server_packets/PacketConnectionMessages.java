@@ -63,7 +63,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 client.setClientState(ClientStates.CREATEMODEL);
             }
 
-            case YOUR_TURN, DISCARDDEVCARD, BLACKCROSS1, BLACKCROSS2 -> {
+            case YOUR_TURN, DISCARDDEVCARD, BLACKCROSS1, BLACKCROSS2, BLACKCROSSUPDATE -> {
                 Constants.printConnectionMessage(message);
                 client.setClientState(ClientStates.GAMESTARTED);
             }
