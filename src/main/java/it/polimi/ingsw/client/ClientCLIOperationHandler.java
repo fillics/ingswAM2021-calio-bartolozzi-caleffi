@@ -441,7 +441,8 @@ public class ClientCLIOperationHandler implements ClientOperationHandler{
             do {
                 id = input.nextLine();
                 if(id.equals("exit")) return;
-                if (Integer.parseInt(id) == clientModelView.getMyPlayer().getLeaderCards().get(0).getId() || Integer.parseInt(id) == clientModelView.getMyPlayer().getLeaderCards().get(1).getId()) {
+                if (Integer.parseInt(id) == clientModelView.getMyPlayer().getLeaderCards().get(0).getId() ||
+                        Integer.parseInt(id) == clientModelView.getMyPlayer().getLeaderCards().get(1).getId()) {
                     leaderCards.add(Integer.parseInt(id));
                 }
                 else if( Integer.parseInt(id) == 0){}

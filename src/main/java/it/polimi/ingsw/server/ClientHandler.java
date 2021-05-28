@@ -239,6 +239,7 @@ public class ClientHandler implements Runnable {
         server.getMapForReconnection().put(username, clientProxy);
 
 
+
         sendPacketToClient(packetSetup);
 
         sendSetup = false;

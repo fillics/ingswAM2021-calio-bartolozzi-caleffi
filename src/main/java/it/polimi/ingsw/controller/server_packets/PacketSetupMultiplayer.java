@@ -18,23 +18,25 @@ import java.util.ArrayList;
 
 public class PacketSetupMultiplayer implements ServerPacketHandler{
 
-    private final String username;
-    private final int idClient;
-    private final int totalVictoryPoint;
-    private final int faithMarker;
-    private final Marble[][] table;
-    private final Marble remainingMarble;
-    private final ArrayList<DevelopmentCard> developmentCards;
-    private final ArrayList<DevelopmentSpace> developmentSpaces;
-    private final ArrayList<LeaderCard> leaderCards;
-    private final ArrayList<Resource> resourceBuffer;
-    private final ArrayList<ProductionPower> specialProductionPowers;
-    private final Strongbox strongbox;
-    private final ArrayList<Deposit> deposits;
-    private final ArrayList<Cell> track;
-    private final ArrayList<VaticanReportSection> vaticanReportSections;
-    private final ArrayList<Integer> whiteMarbleCardChoice;
-    private final int posInGame;
+    private String username;
+    private int idClient;
+    private int totalVictoryPoint;
+    private int faithMarker;
+    private Marble[][] table;
+    private Marble remainingMarble;
+    private ArrayList<DevelopmentCard> developmentCards;
+    private ArrayList<DevelopmentSpace> developmentSpaces;
+    private ArrayList<LeaderCard> leaderCards;
+    private ArrayList<Resource> resourceBuffer;
+    private ArrayList<ProductionPower> specialProductionPowers;
+    private Strongbox strongbox;
+    private ArrayList<Deposit> deposits;
+    private ArrayList<Cell> track;
+    private ArrayList<VaticanReportSection> vaticanReportSections;
+    private ArrayList<Integer> whiteMarbleCardChoice;
+    private int posInGame;
+
+
 
 
     @JsonCreator
@@ -62,7 +64,6 @@ public class PacketSetupMultiplayer implements ServerPacketHandler{
         this.track = track;
         this.vaticanReportSections=vaticanReportSections;
     }
-
 
 
     public String getUsername() {

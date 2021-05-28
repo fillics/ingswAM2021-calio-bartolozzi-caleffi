@@ -1,6 +1,7 @@
 [
   {
     "id" : 1,
+    "path":
     "color": "BLUE",
     "level": "ONE",
     "resourcePrice":{
