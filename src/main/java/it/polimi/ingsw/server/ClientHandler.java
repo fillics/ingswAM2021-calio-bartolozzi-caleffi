@@ -201,6 +201,9 @@ public class ClientHandler implements Runnable {
 
     }
 
+    /**
+     * Method sendSetupPacket sends to the client the packet to play in multiplayer
+     */
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
@@ -212,6 +215,17 @@ public class ClientHandler implements Runnable {
                 game.getUsernameClientActivePlayers().get(username).getBoard().getTrack(), game.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections());
 
 
+        saveProxy();
+
+        sendPacketToClient(packetSetup);
+
+        sendSetup = false;
+    }
+
+    /**
+     * Method saveProxy creates a new istance of the class ClientProxy to save che model view of the player
+     */
+    public synchronized void saveProxy(){
         Strongbox strongbox = game.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox();
         ArrayList<Deposit> deposits = game.getUsernameClientActivePlayers().get(username).getBoard().getDeposits();
         ArrayList<DevelopmentSpace> developmentSpaces = game.getUsernameClientActivePlayers().get(username).getBoard().getDevelopmentSpaces();
@@ -237,12 +251,6 @@ public class ClientHandler implements Runnable {
         ClientProxy clientProxy = new ClientProxy(clientModelView);
 
         server.getMapForReconnection().put(username, clientProxy);
-
-
-
-        sendPacketToClient(packetSetup);
-
-        sendSetup = false;
     }
 
     /**

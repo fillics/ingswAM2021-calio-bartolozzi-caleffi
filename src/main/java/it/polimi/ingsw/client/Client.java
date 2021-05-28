@@ -2,94 +2,110 @@ package it.polimi.ingsw.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.GUIOperationHandler;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
 
-
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class Client {
+
     private ClientStates clientStates;
-    private final Scanner input;
-    private final SocketClientConnection socketClientConnection;
-    private final ClientCLIOperationHandler clientCLIOperationHandler;
+    private SocketClientConnection socketClientConnection;
     private ClientModelView clientModelView;
+    private ClientOperationHandler clientOperationHandler;
+    private CLI cli;
+    private GUI gui;
+    private ViewInterface viewInterface;
 
 
     /**
      * Constructor Client creates a new Client instance
      *
      */
-    public Client() {
-        input = new Scanner(System.in);
-        PrintStream output = new PrintStream(System.out);
+    public Client(int choiceInterface) {
 
-        serverMatch();
-
-        socketClientConnection = new SocketClientConnection(this);
         clientModelView = new ClientModelView();
-        clientCLIOperationHandler = new ClientCLIOperationHandler(socketClientConnection,clientModelView);
 
-        //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
-        if(socketClientConnection.getConnectionToServer().get()){
-            ServerListener serverListener = new ServerListener(this, socketClientConnection);
-            ServerWriter serverWriter = new ServerWriter(this, clientModelView, socketClientConnection, clientCLIOperationHandler, output, input);
-            new Thread(serverWriter).start();
-            new Thread(serverListener).start();
+
+        if(choiceInterface==1){
+            cli = new CLI(this, clientModelView);
         }
 
-        clientStates = ClientStates.USERNAME;
-    }
+        if (choiceInterface==2){
+            gui = new GUI(this);
+            new Thread(gui).start();
+        }
 
+        socketClientConnection = new SocketClientConnection(this);
+
+
+        if(choiceInterface==1) {
+            CLIOperationHandler cliOperationHandler = new CLIOperationHandler(socketClientConnection, clientModelView);
+            this.setClientOperationHandler(cliOperationHandler);
+            // TODO: 28/05/2021 sistemare setinterface
+            this.setInterface(cli);
+        }
+
+        if(choiceInterface==2){
+            GUIOperationHandler guiOperationHandler = new GUIOperationHandler(socketClientConnection, clientModelView);
+            this.setClientOperationHandler(guiOperationHandler);
+        }
+        setup(choiceInterface);
+
+    }
 
     public static void main(String[] args) {
         System.out.println(Constants.MASTEROFRENAISSANCE);
         System.out.println(Constants.AUTHORS);
-        int choiceInterface=1;
+        int choiceInterface=0;
 
-        //choiceInterface = viewInterfaceChoice();
-
-        Client client = new Client();
-
-        if(choiceInterface==1){
-            client.setInterface(new CLI(client.getClientModelView()));
-        }
-
-        if (choiceInterface==2){
-            //client.setInterface(new ClientGUI(client.getClientModelView()));
-        }
-
+        choiceInterface = viewInterfaceChoice();
+        new Client(choiceInterface);
 
     }
 
-    /**
-     * Static method serverMatch used to create the communication with the server to play online
-     */
-    public static void serverMatch(){
+    public void setup(int choiceInterface){
+        //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
+        if(socketClientConnection.getConnectionToServer().get()){
 
-        Scanner scanner = new Scanner(System.in);
+            if(choiceInterface==1){
+                ServerListener serverListener = new ServerListener(this, socketClientConnection);
+                ServerWriter serverWriter = new ServerWriter(this, socketClientConnection, clientOperationHandler);
+                new Thread(serverWriter).start();
+                new Thread(serverListener).start();
+            }
+            if(choiceInterface==2){
+                ServerListener serverListener = new ServerListener(this, socketClientConnection);
+                new Thread(serverListener).start();
+            }
 
-       /* System.out.println(">Insert the server IP address");
-        System.out.print(">");
-        String ip = scanner.nextLine();*/
-        Constants.setAddressServer("127.0.0.1");
-        System.out.println(">Insert the server port");
-        System.out.print(">");
-        int port = 0;
-        try{
-            port = scanner.nextInt();
-        }catch(InputMismatchException e){
-            System.err.println("insert only numbers");
         }
-        Constants.setPort(port);
+        clientStates = ClientStates.USERNAME;
+    }
+
+    public void setInterface(ViewInterface viewInterface){
+        clientOperationHandler.setViewInterface(viewInterface);
+    }
 
 
+
+
+
+    public CLI getCli() {
+        return cli;
+    }
+
+    public GUI getGui() {
+        return gui;
     }
 
     /**
@@ -119,58 +135,24 @@ public class Client {
     }
 
 
-    public void setInterface(ViewInterface viewInterface){
-        clientCLIOperationHandler.setViewInterface(viewInterface);
-    }
 
     /**
-     * Method sendUsername asks the username and sends it to the server
+     * Method sendUsername sends the username to the server
      */
     public void sendUsername(String username){
-
         PacketUsername packet;
         packet = new PacketUsername(username.toLowerCase(Locale.ROOT));
         serializeAndSend(packet);
     }
 
+    // TODO: 28/05/2021 mergeare sendusername e sendnumplayers in un unico metodo
     /**
-     * Method choosePlayerNumber asks how many players there will be in the game and sends the message to the server
+     * Method sendNumPlayers sends the num of players to the server
      */
-    public void choosePlayerNumber(int number_of_players){
+    public void sendNumPlayers(int numPlayers){
         PacketNumPlayers packet;
-
-        do {
-            try {
-                if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
-                    Constants.printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
-                    number_of_players = input.nextInt();
-                }
-            }catch (InputMismatchException e) {
-                System.err.println("Invalid parameter: insert a numeric value.");
-            }
-        }while(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers());
-
-        packet = new PacketNumPlayers(number_of_players);
+        packet = new PacketNumPlayers(numPlayers);
         serializeAndSend(packet);
-    }
-
-    /**
-     * Method chooseReconnection
-     * @param reconnectionChoice (type Integer)
-     */
-    public void chooseTypeConnection(int reconnectionChoice){
-
-        do {
-            try {
-                if(reconnectionChoice < 1 || reconnectionChoice > 2){
-                    Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
-                    reconnectionChoice = input.nextInt();
-                }
-            }catch (InputMismatchException e) {
-                System.err.println("Invalid parameter: insert a numeric value.");
-            }
-        }while(reconnectionChoice < 1 || reconnectionChoice > 2);
-
     }
 
 
@@ -189,31 +171,9 @@ public class Client {
         }
     }
 
-
-    /**
-     * Method choiceGameType asks to the player if he wants to play in solo (without making any connection to the server)
-     * or throught the server
-     */
-    public static int choiceGameType(){
-
-        Constants.printConnectionMessage(ConnectionMessages.LOCAL_OR_SERVERGAME);
-
-        Scanner in = new Scanner(System.in);
-        int choiceGame=0;
-        do {
-            System.out.print(">");
-            try{
-                choiceGame = in.nextInt();
-                if (choiceGame!=1 && choiceGame!=2) Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
-            }catch (InputMismatchException e) {
-                System.err.println("Invalid parameter: insert a numeric value.");
-                choiceGameType();
-            }
-        }while(choiceGame!=1 && choiceGame!=2);
-
-        return choiceGame;
+    public SocketClientConnection getSocketClientConnection() {
+        return socketClientConnection;
     }
-
 
     public void setClientState(ClientStates clientStates) {
         this.clientStates = clientStates;
@@ -223,8 +183,12 @@ public class Client {
         return clientStates;
     }
 
-    public ClientCLIOperationHandler getClientOperationHandler() {
-        return clientCLIOperationHandler;
+    public void setClientOperationHandler(ClientOperationHandler clientOperationHandler) {
+        this.clientOperationHandler = clientOperationHandler;
+    }
+
+    public ClientOperationHandler getClientOperationHandler() {
+        return clientOperationHandler;
     }
 
     public ClientModelView getClientModelView() {

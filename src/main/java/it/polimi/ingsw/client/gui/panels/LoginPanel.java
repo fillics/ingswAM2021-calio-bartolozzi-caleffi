@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.gui;
+package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.constants.Constants;
 
@@ -53,11 +53,8 @@ public class LoginPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            /*String ipAddress, port;
-            ipAddress = ipAddressTextField.getText();
-            port = serverPortTextField.getText();
-            Constants.setAddressServer(ipAddress);
-            Constants.setPort(Integer.parseInt(port));*/
+            String username;
+            username = loginTextField.getText();
 
             JOptionPane.showMessageDialog(this, "Connected");
 

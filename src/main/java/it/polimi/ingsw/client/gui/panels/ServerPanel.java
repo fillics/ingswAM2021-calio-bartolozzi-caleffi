@@ -1,6 +1,7 @@
-package it.polimi.ingsw.client.gui;
+package it.polimi.ingsw.client.gui.panels;
 
 
+import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Constants;
 
 import javax.swing.*;
@@ -22,13 +23,10 @@ public class ServerPanel extends JPanel implements ActionListener {
 
 
     public ServerPanel(){
-
         this.setBounds(0,0,1000,1000);
         this.setLayout(null);
         createPanel();
-        addComponentsToContainer();
-        addActionEvent(connectButton);
-        addActionEvent(resetButton);
+
  }
 
 
@@ -43,12 +41,8 @@ public class ServerPanel extends JPanel implements ActionListener {
         resetButton.setBounds(200, 300, 100, 30);
         resetButton.addActionListener(this);
 
-
-    }
-
-
-
-    public void addComponentsToContainer() {
+        ipAddressTextField.setText("127.0.0.1");
+        serverPortTextField.setText("1234");
         this.add(ipAddress);
         this.add(ipAddressTextField);
         this.add(serverPort);
@@ -56,25 +50,21 @@ public class ServerPanel extends JPanel implements ActionListener {
         this.add(connectButton);
         this.add(resetButton);
 
-
     }
 
-
-    public void addActionEvent(JButton button) {
-        button.addActionListener(this);
-    }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == connectButton) {
-            /*String ipAddress, port;
+            String ipAddress, port;
             ipAddress = ipAddressTextField.getText();
             port = serverPortTextField.getText();
             Constants.setAddressServer(ipAddress);
-            Constants.setPort(Integer.parseInt(port));*/
+            Constants.setPort(Integer.parseInt(port));
 
-            //JOptionPane.showMessageDialog(this, "Connected");
+            // TODO: 28/05/2021 togliere finestra di dialogo, mettere solo panel di messaggi risposta da server
+            JOptionPane.showMessageDialog(this, "Connected!");
             GUI.switchPanels(GUI.getPanels().get(0));
 
         }
