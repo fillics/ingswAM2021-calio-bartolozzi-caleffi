@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.*;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyMarble;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
 import java.io.BufferedReader;
@@ -107,7 +108,19 @@ public class ClientCLIOperationHandler implements ClientOperationHandler{
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
         socketClientConnection.sendToServer(jsonResult);
+    }
 
+    public void askBoardOfOtherPlayer() throws JsonProcessingException {
+        String username;
+        System.out.println("Choose the username of the player whose board you want to see");
+        username = input.nextLine();
+
+        if(username.equals("exit"))
+            return;
+        else{
+            PacketUsernameOfAnotherPlayer packet= new PacketUsernameOfAnotherPlayer(username);
+            sendPacket(packet);
+        }
 
     }
 
@@ -132,7 +145,6 @@ public class ClientCLIOperationHandler implements ClientOperationHandler{
         sendPacket(packet);
     }
 
-    // TODO: 22/05/2021 sistemare 
     public void buyDevCard(){
         viewInterface.printResourcesLegend();
         viewInterface.printDevGrid();
@@ -145,9 +157,11 @@ public class ClientCLIOperationHandler implements ClientOperationHandler{
             id = input.nextLine();
             if(id.equals("exit")) return;
             for(DevelopmentCard developmentCard : clientModelView.getDevelopmentGrid().getDevelopmentCards()){
-                if(Integer.parseInt(id) == developmentCard.getId()){
-                    devCardcheck = true;
-                    break;
+                if(developmentCard!=null){
+                    if(Integer.parseInt(id) == developmentCard.getId()){
+                        devCardcheck = true;
+                        break;
+                    }
                 }
             }
             if(!devCardcheck) System.err.println("Development card id not found");
@@ -185,7 +199,7 @@ public class ClientCLIOperationHandler implements ClientOperationHandler{
 
             if (Integer.parseInt(resource) != 0) {
                 do{
-                    System.out.println("Choose the place in which you want to take it (write 0 when you have finished");
+                    System.out.println("Choose the place in which you want to take it (write 0 when you have finished)");
                     position = input.nextLine();
                     switch (position) {
                         case "1", "2", "3", "4" -> warehouse.add(Integer.parseInt(position));
@@ -428,7 +442,7 @@ public class ClientCLIOperationHandler implements ClientOperationHandler{
         }
 
         for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
-            if(leaderCard.getStrategy().isActive()) check = true;
+            if(leaderCard.getStrategy().isActive() && leaderCard.getStrategy() instanceof ConcreteStrategyMarble) check = true;
         }
 
         ArrayList<Integer> leaderCards = new ArrayList<>();
@@ -633,7 +647,7 @@ public class ClientCLIOperationHandler implements ClientOperationHandler{
             if(i==1) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_SECOND_RESOURCE);
 
             resources.add(scannerChooseResources(bufferRead));
-            deposits.add(scannerChooseDeposit(bufferRead));
+            deposits.add(scannerChooseDeposit(bufferRead,i));
 
             System.out.println("you have chosen "+resources.get(i).toString()+" in the deposit "+deposits.get(i));
 
@@ -671,10 +685,11 @@ public class ClientCLIOperationHandler implements ClientOperationHandler{
         return resourcetype;
     }
 
-    public int scannerChooseDeposit(BufferedReader bufferRead){
+    public int scannerChooseDeposit(BufferedReader bufferRead, int i){
         int position=0;
         Constants.printConnectionMessage(ConnectionMessages.CHOOSE_DEPOSIT);
-        viewInterface.printDeposits();
+        if (i!=1)
+            viewInterface.printDeposits();
         do{
             try{
                 try {

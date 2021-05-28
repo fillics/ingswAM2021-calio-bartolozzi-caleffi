@@ -21,7 +21,6 @@ public class Client {
     private final ClientCLIOperationHandler clientCLIOperationHandler;
     private ClientModelView clientModelView;
 
-
     /**
      * Constructor Client creates a new Client instance
      *

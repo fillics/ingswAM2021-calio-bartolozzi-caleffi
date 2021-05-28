@@ -179,15 +179,15 @@ public class Deposit extends Warehouse {
         StringBuilder escape= new StringBuilder();
         if(this.maxLimit==1){
             escape.append("     ").append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(3)).append(Printable.NORD_EST.print()).append("\n");
-            escape.append("1:").append("   ").append(Printable.DOUBLE_LINE.print()).append(" ");
+            escape.append("     ").append(Printable.DOUBLE_LINE.print()).append(" ");
         }
         if(this.maxLimit==2){
             escape.append("    ").append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.NORD_EST.print()).append("\n");
-            escape.append("2:").append("  ").append(Printable.DOUBLE_LINE.print()).append(" ");
+            escape.append("    ").append(Printable.DOUBLE_LINE.print()).append(" ");
         }
         if(this.maxLimit==3){
             escape.append("   ").append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(7)).append(Printable.NORD_EST.print()).append("\n");
-            escape.append("3:").append(" ").append(Printable.DOUBLE_LINE.print()).append(" ");
+            escape.append("   ").append(Printable.DOUBLE_LINE.print()).append(" ");
         }
 
         for(int j=0; j<this.quantity; j++){

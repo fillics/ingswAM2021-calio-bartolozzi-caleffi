@@ -45,5 +45,4 @@ public interface GameInterface {
     void setCurrentPlayer(int currentPlayer);
     int getIndexOfActivePlayer(String usernameToFind);
 
-
 }

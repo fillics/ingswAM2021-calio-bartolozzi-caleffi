@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
-import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
-import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
-import it.polimi.ingsw.controller.server_packets.PacketLeaderCards;
+import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
@@ -27,6 +25,8 @@ public class PacketActivateLeaderCard implements ClientPacketHandler {
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
                 gameInterface.activateLeaderCard(id);
+                clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getStrongbox(),gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getDeposits()));
+                clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces()));
                 clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards()));
             } catch (LeaderCardNotFound leaderCardNotFound) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));

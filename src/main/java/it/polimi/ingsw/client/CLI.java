@@ -55,94 +55,114 @@ public class CLI implements ViewInterface {
         System.out.println(matrix);
     }
 
-    //TODO: gestire caso get(i)==null
     public void printDevGrid(){
         int i;
         StringBuilder matrix= new StringBuilder();
 
-        for(int j=0; j<3;j++){
+        for(int j=2; j>=0;j--){
 
-            for(i=j*4; i<4*(j+1);i++)
+            for(i=((j+1)*4)-1; i>=j*4;i--)
                 matrix.append(Printable.NORD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(11)).append(Printable.NORD_EST.print()).append("  ");
             matrix.append("\n");
 
-            for(i=j*4; i<4*(j+1);i++){
-                matrix.append(Printable.DOUBLE_LINE.print()).append("   ").append("id:").append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getId());
-                if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getId()<10)
-                    matrix.append("    ");
-                else
-                    matrix.append("   ");
+            for(i=((j+1)*4)-1; i>=j*4;i--){
+                if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i)==null){
+                    matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(11));
+                }
+                else{
+                    matrix.append(Printable.DOUBLE_LINE.print()).append("   ").append("id:").append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getId());
+                    if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getId()<10)
+                        matrix.append("    ");
+                    else
+                        matrix.append("   ");
+                }
                 matrix.append(Printable.DOUBLE_LINE.print()).append("  ");
             }
             matrix.append("\n");
 
-            for(i=j*4; i<4*(j+1);i++){
-                matrix.append(Printable.DOUBLE_LINE.print());
-                matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).printColor());
-                if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getLevel()==Level.THREE){
+            for(i=((j+1)*4)-1; i>=j*4;i--){
+                if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i)==null){
+                    matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(11));
+                }
+                else{
+                    matrix.append(Printable.DOUBLE_LINE.print());
+                    matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).printColor());
+                    if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getLevel()==Level.THREE){
+                        if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==1)
+                            matrix.append((" ").repeat(4));
+                        else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==2)
+                            matrix.append((" ").repeat(3));
+                        else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==3)
+                            matrix.append((" ").repeat(2));
+                    }
+                    else{
+                        if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==1)
+                            matrix.append((" ").repeat(3));
+                        else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==2)
+                            matrix.append((" ").repeat(2));
+                        else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==3)
+                            matrix.append((" ").repeat(1));
+                    }
+
+                    matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).printResourcePrice());
+
                     if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==1)
                         matrix.append((" ").repeat(4));
                     else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==2)
                         matrix.append((" ").repeat(3));
                     else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==3)
                         matrix.append((" ").repeat(2));
+
+                    matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).printColor());
+                }
+
+                matrix.append(Printable.DOUBLE_LINE.print()).append("  ");
+            }
+            matrix.append("\n");
+
+            for(i=((j+1)*4)-1; i>=j*4;i--){
+                if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i)==null){
+                    matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(11));
                 }
                 else{
-                    if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==1)
+                    matrix.append(Printable.DOUBLE_LINE.print());
+                    if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==2)
                         matrix.append((" ").repeat(3));
-                    else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==2)
+                    else if (clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==3)
                         matrix.append((" ").repeat(2));
-                    else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==3)
+                    else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==4)
+                        matrix.append((" ").repeat(1));
+
+                    matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().toString());
+
+                    if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==2)
+                        matrix.append((" ").repeat(3));
+                    else if (clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==3)
+                        matrix.append((" ").repeat(2));
+                    else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==4)
                         matrix.append((" ").repeat(1));
                 }
-
-                matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).printResourcePrice());
-
-                if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==1)
-                    matrix.append((" ").repeat(4));
-                else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==2)
-                    matrix.append((" ").repeat(3));
-                else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==3)
-                    matrix.append((" ").repeat(2));
-
-                matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).printColor());
                 matrix.append(Printable.DOUBLE_LINE.print()).append("  ");
             }
             matrix.append("\n");
 
-            for(i=j*4; i<4*(j+1);i++){
-                matrix.append(Printable.DOUBLE_LINE.print());
-                if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==2)
-                    matrix.append((" ").repeat(3));
-                else if (clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==3)
-                    matrix.append((" ").repeat(2));
-                else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==4)
-                    matrix.append((" ").repeat(1));
-
-                matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().toString());
-
-                if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==2)
-                    matrix.append((" ").repeat(3));
-                else if (clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==3)
-                    matrix.append((" ").repeat(2));
-                else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==4)
-                    matrix.append((" ").repeat(1));
-
+            for(i=((j+1)*4)-1; i>=j*4;i--){
+                if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i)==null){
+                    matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(11));
+                }
+                else{
+                    matrix.append(Printable.DOUBLE_LINE.print());
+                    if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getVictorypoint() <10)
+                        matrix.append("    ");
+                    else
+                        matrix.append("   ");
+                    matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getVictorypoint()).append(Color.ANSI_YELLOW.escape()).append("VP").append(Color.RESET).append("    ");
+                }
                 matrix.append(Printable.DOUBLE_LINE.print()).append("  ");
             }
             matrix.append("\n");
 
-            for(i=j*4; i<4*(j+1);i++){
-                matrix.append(Printable.DOUBLE_LINE.print());
-                if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getVictorypoint() <10)
-                    matrix.append("    ");
-                else
-                    matrix.append("   ");
-                matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getVictorypoint()).append(Color.ANSI_YELLOW.escape()).append("VP").append(Color.RESET).append("    ").append(Printable.DOUBLE_LINE.print()).append("  ");
-            }
-            matrix.append("\n");
-
-            for(i=j*4; i<4*(j+1);i++)
+            for(i=((j+1)*4)-1; i>=j*4;i--)
                 matrix.append(Printable.SUD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(11)).append(Printable.SUD_EST.print()).append("  ");
             matrix.append("\n");
         }
@@ -152,14 +172,120 @@ public class CLI implements ViewInterface {
 
     @Override
     public void printDeposits(){
+        StringBuilder escape= new StringBuilder();
         for(int i=0; i<clientModelView.getLiteBoard().getDeposits().size(); i++){
-            clientModelView.getLiteBoard().getDeposits().get(i).dump();
+
+            if(clientModelView.getLiteBoard().getDeposits().get(i).getMaxLimit()==1){
+                escape.append("     ").append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(3)).append(Printable.NORD_EST.print()).append("\n");
+                escape.append(i+1).append(":").append("   ").append(Printable.DOUBLE_LINE.print()).append(" ");
+            }
+            if(clientModelView.getLiteBoard().getDeposits().get(i).getMaxLimit()==2){
+                escape.append("    ").append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.NORD_EST.print()).append("\n");
+                escape.append(i+1).append(":").append("  ").append(Printable.DOUBLE_LINE.print()).append(" ");
+            }
+            if(clientModelView.getLiteBoard().getDeposits().get(i).getMaxLimit()==3){
+                escape.append("   ").append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(7)).append(Printable.NORD_EST.print()).append("\n");
+                escape.append(i+1).append(":").append(" ").append(Printable.DOUBLE_LINE.print()).append(" ");
+            }
+
+            for(int j=0; j<clientModelView.getLiteBoard().getDeposits().get(i).getQuantity(); j++){
+                if(clientModelView.getLiteBoard().getDeposits().get(i).getResourcetype().equals(ResourceType.COIN))
+                    escape.append(Color.ANSI_YELLOW.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");
+                if(clientModelView.getLiteBoard().getDeposits().get(i).getResourcetype().equals(ResourceType.SERVANT))
+                    escape.append(Color.ANSI_PURPLE.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");
+                if(clientModelView.getLiteBoard().getDeposits().get(i).getResourcetype().equals(ResourceType.SHIELD))
+                    escape.append(Color.ANSI_BLUE.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");
+                if(clientModelView.getLiteBoard().getDeposits().get(i).getResourcetype().equals(ResourceType.STONE))
+                    escape.append(Color.ANSI_GREY.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(" ");
+            }
+            for(int k=clientModelView.getLiteBoard().getDeposits().get(i).getQuantity(); k<clientModelView.getLiteBoard().getDeposits().get(i).getMaxLimit() ; k++)
+                escape.append(Printable.WHITE_SQUARE.print()).append(" ");
+
+            escape.append(Printable.DOUBLE_LINE.print()).append("\n");
+
+            if(clientModelView.getLiteBoard().getDeposits().get(i).getMaxLimit()==1){
+                escape.append("     ").append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(3)).append(Printable.SUD_EST.print());
+            }
+            if(clientModelView.getLiteBoard().getDeposits().get(i).getMaxLimit()==2){
+                escape.append("    ").append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print());
+            }
+            if(clientModelView.getLiteBoard().getDeposits().get(i).getMaxLimit()==3){
+                escape.append("   ").append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(7)).append(Printable.SUD_EST.print());
+            }
+            if(i!=clientModelView.getLiteBoard().getDeposits().size()-1)
+                escape.append("\n");
         }
+        System.out.println(escape);
     }
 
     @Override
     public void printStrongbox() {
-        clientModelView.getLiteBoard().getStrongbox().dump();
+        StringBuilder escape = new StringBuilder();
+        int numCifre = 0, num;
+        if(clientModelView.getLiteBoard().getStrongbox().getStrongbox().containsKey(ResourceType.SHIELD)){
+            num=clientModelView.getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.SHIELD);
+            if(num==0)
+                numCifre+=1;
+            else{
+                while(num!=0) {
+                    num= num/10;
+                    numCifre += 1;
+                }
+            }
+        }
+        if(clientModelView.getLiteBoard().getStrongbox().getStrongbox().containsKey(ResourceType.COIN)){
+            num=clientModelView.getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.COIN);
+            if(num==0)
+                numCifre+=1;
+            else{
+                while(num!=0) {
+                    num= num/10;
+                    numCifre += 1;
+                }
+            }
+        }
+        if(clientModelView.getLiteBoard().getStrongbox().getStrongbox().containsKey(ResourceType.SERVANT)){
+            num=clientModelView.getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.SERVANT);
+            if(num==0)
+                numCifre+=1;
+            else{
+                while(num!=0) {
+                    num= num/10;
+                    numCifre += 1;
+                }
+            }
+        }
+        if(clientModelView.getLiteBoard().getStrongbox().getStrongbox().containsKey(ResourceType.STONE)){
+            num=clientModelView.getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.STONE);
+            if(num==0)
+                numCifre+=1;
+            else{
+                while(num!=0) {
+                    num= num/10;
+                    numCifre += 1;
+                }
+            }
+        }
+
+        escape.append("   ").append(Printable.NORD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(15+numCifre)).append(Printable.NORD_EST.print()).append("\n");
+        escape.append(clientModelView.getLiteBoard().getDeposits().size()+1).append(":").append(" ").append(Printable.DOUBLE_LINE.print()).append("  ");
+        if(clientModelView.getLiteBoard().getStrongbox().getStrongbox().containsKey(ResourceType.SHIELD)){
+            escape.append(Color.ANSI_BLUE.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(":").append(clientModelView.getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.SHIELD)).append(" ");
+        }
+        if(clientModelView.getLiteBoard().getStrongbox().getStrongbox().containsKey(ResourceType.COIN)){
+            escape.append(Color.ANSI_YELLOW.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(":").append(clientModelView.getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.COIN)).append(" ");
+        }
+        if(clientModelView.getLiteBoard().getStrongbox().getStrongbox().containsKey(ResourceType.SERVANT)){
+            escape.append(Color.ANSI_PURPLE.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(":").append(clientModelView.getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.SERVANT)).append(" ");
+        }
+        if(clientModelView.getLiteBoard().getStrongbox().getStrongbox().containsKey(ResourceType.STONE)){
+            escape.append(Color.ANSI_GREY.escape()).append(Printable.SQUARE.print()).append(Color.RESET).append(":").append(clientModelView.getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.STONE)).append(" ");
+        }
+        escape.append(" ").append(Printable.DOUBLE_LINE.print()).append("\n");
+        escape.append("   ").append(Printable.SUD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(15+numCifre)).append(Printable.SUD_EST.print());
+        escape.append("\n");
+
+        System.out.println(escape);
     }
 
     @Override

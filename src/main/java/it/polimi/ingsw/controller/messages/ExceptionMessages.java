@@ -18,7 +18,8 @@ public enum ExceptionMessages {
     ANOTHERDEPOSITCONTAINSTHISRESOURCE("Another deposit already has this resource"),
     NOTENOUGHCHOSENRESOURCES("The resources you selected aren't enough"),
     INVALIDRESOURCE("You can't place this resource in here, this deposit is special"),
-    EMPTYPRODPOWER("You didn't select any production power, try again");
+    EMPTYPRODPOWER("You didn't select any production power, try again"),
+    USERNAMENOTEXISTING("The username chosen is not playing in this game or not exists, TRY AGAIN");
 
 
     private final String message;
