@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import java.io.IOException;
+
 /**
  * ViewInterface defines an interface for both CLI and GUI.
  */
@@ -8,7 +10,7 @@ public interface ViewInterface {
     void printLeaderCards();
     void printDeposits();
     void printStrongbox();
-    void printDevGrid();
+    void printDevGrid() throws IOException;
     void printResourceBuffer();
     void printMarketTray();
     void printFaithTrack();

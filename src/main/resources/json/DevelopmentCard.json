@@ -10,14 +10,16 @@
     "productionPower":{
       "resourceNeeded": {
         "SHIELD": 1,
-        "STONE": 2
+        "STONE": 1
       },
       "resourceObtained": {
         "SERVANT": 2,
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 4
+    "victorypoint": 4,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-15-1.png"
+
   },
   {
     "id" : 2,
@@ -36,7 +38,9 @@
         "COIN": 1
       }
     },
-    "victorypoint": 3
+    "victorypoint": 3,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-11-1.png"
+
   },
   {
     "id" : 3,
@@ -55,7 +59,9 @@
         "STONE": 1
       }
     },
-    "victorypoint": 2
+    "victorypoint": 2,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-7-1.png"
+
   },
   {
     "id" : 4,
@@ -72,7 +78,8 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 1
+    "victorypoint": 1,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-3-1.png"
   },
 
 
@@ -93,7 +100,9 @@
         "SERVANT": 3
       }
     },
-    "victorypoint": 6
+    "victorypoint": 6,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-23-1.png"
+
   },
   {
     "id" : 6,
@@ -112,7 +121,9 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 8
+    "victorypoint": 8,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-31-1.png"
+
   },
   {
     "id" : 7,
@@ -129,7 +140,8 @@
         "FAITHMARKER": 2
       }
     },
-    "victorypoint": 5
+    "victorypoint": 5,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-19-1.png"
   },
   {
     "id" : 8,
@@ -147,7 +159,9 @@
         "FAITHMARKER": 2
       }
     },
-    "victorypoint": 7
+    "victorypoint": 7,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-27-1.png"
+
   },
 
 
@@ -168,7 +182,9 @@
         "SHIELD": 3
       }
     },
-    "victorypoint": 12
+    "victorypoint": 12,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-47-1.png"
+
   },
   {
     "id" : 10,
@@ -186,7 +202,9 @@
         "FAITHMARKER": 2
       }
     },
-    "victorypoint": 9
+    "victorypoint": 9,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-35-1.png"
+
   },
   {
     "id" : 11,
@@ -204,7 +222,9 @@
         "FAITHMARKER": 3
       }
     },
-    "victorypoint": 11
+    "victorypoint": 11,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-43-1.png"
+
   },
   {
     "id" : 12,
@@ -225,7 +245,9 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 10
+    "victorypoint": 10,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-39-1.png"
+
   },
 
 
@@ -247,7 +269,9 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 4
+    "victorypoint": 4,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-13-1.png"
+
   },
   {
     "id" : 14,
@@ -266,7 +290,9 @@
         "STONE": 1
       }
     },
-    "victorypoint": 3
+    "victorypoint": 3,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-9-1.png"
+
   },
   {
     "id" : 15,
@@ -285,7 +311,9 @@
         "SERVANT": 1
       }
     },
-    "victorypoint": 2
+    "victorypoint": 2,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-5-1.png"
+
   },
   {
     "id" : 16,
@@ -302,7 +330,8 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 1
+    "victorypoint": 1,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-1-1.png"
   },
 
 
@@ -322,7 +351,9 @@
         "STONE": 2
       }
     },
-    "victorypoint": 7
+    "victorypoint": 7,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-25-1.png"
+
   },
   {
     "id" : 18,
@@ -341,7 +372,9 @@
         "STONE": 3
       }
     },
-    "victorypoint": 6
+    "victorypoint": 6,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-21-1.png"
+
   },
   {
     "id" : 19,
@@ -358,7 +391,9 @@
         "FAITHMARKER": 2
       }
     },
-    "victorypoint": 5
+    "victorypoint": 5,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-17-1.png"
+
   },
   {
     "id" : 20,
@@ -377,7 +412,9 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 8
+    "victorypoint": 8,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-29-1.png"
+
   },
 
 
@@ -397,7 +434,9 @@
         "FAITHMARKER": 3
       }
     },
-    "victorypoint": 11
+    "victorypoint": 11,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-41-1.png"
+
   },
   {
     "id" : 22,
@@ -418,7 +457,9 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 10
+    "victorypoint": 10,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-37-1.png"
+
   },
   {
     "id" : 23,
@@ -437,7 +478,9 @@
         "SHIELD": 1
       }
     },
-    "victorypoint": 12
+    "victorypoint": 12,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-45-1.png"
+
   },
   {
     "id" : 24,
@@ -448,14 +491,16 @@
     },
     "productionPower":{
       "resourceNeeded": {
-        "SERVANT": 2
+        "COIN": 2
       },
       "resourceObtained": {
         "STONE": 3,
         "FAITHMARKER": 2
       }
     },
-    "victorypoint": 9
+    "victorypoint": 9,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-33-1.png"
+
   },
 
 
@@ -477,7 +522,9 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 4
+    "victorypoint": 4,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-16-1.png"
+
   },
   {
     "id" : 26,
@@ -496,7 +543,9 @@
         "COIN": 1
       }
     },
-    "victorypoint": 2
+    "victorypoint": 2,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-8-1.png"
+
   },
   {
     "id" : 27,
@@ -515,7 +564,9 @@
         "STONE": 1
       }
     },
-    "victorypoint": 3
+    "victorypoint": 3,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-12-1.png"
+
   },
   {
     "id" : 28,
@@ -532,7 +583,8 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 1
+    "victorypoint": 1,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-4-1.png"
   },
 
 
@@ -553,7 +605,9 @@
         "COIN": 3
       }
     },
-    "victorypoint": 6
+    "victorypoint": 6,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-24-1.png"
+
   },
   {
     "id" : 30,
@@ -571,7 +625,9 @@
         "FAITHMARKER": 2
       }
     },
-    "victorypoint": 7
+    "victorypoint": 7,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-28-1.png"
+
   },
   {
     "id" : 31,
@@ -588,7 +644,9 @@
         "FAITHMARKER": 2
       }
     },
-    "victorypoint": 5
+    "victorypoint": 5,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-20-1.png"
+
   },
   {
     "id" : 32,
@@ -607,7 +665,9 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 8
+    "victorypoint": 8,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-32-1.png"
+
   },
 
 
@@ -630,7 +690,9 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 10
+    "victorypoint": 10,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-40-1.png"
+
   },
   {
     "id" : 34,
@@ -649,7 +711,9 @@
         "SERVANT": 3
       }
     },
-    "victorypoint": 12
+    "victorypoint": 12,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-48-1.png"
+
   },
   {
     "id" : 35,
@@ -667,7 +731,9 @@
         "FAITHMARKER": 3
       }
     },
-    "victorypoint": 11
+    "victorypoint": 11,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-44-1.png"
+
   },
   {
     "id" : 36,
@@ -685,7 +751,9 @@
         "FAITHMARKER": 2
       }
     },
-    "victorypoint": 9
+    "victorypoint": 9,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-36-1.png"
+
   },
 
 
@@ -706,7 +774,9 @@
         "SHIELD": 1
       }
     },
-    "victorypoint": 3
+    "victorypoint": 3,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-10-1.png"
+
   },
   {
     "id" : 38,
@@ -723,7 +793,8 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 1
+    "victorypoint": 1,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-2-1.png"
   },
   {
     "id" : 39,
@@ -743,7 +814,9 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 4
+    "victorypoint": 4,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-14-1.png"
+
   },
   {
     "id" : 40,
@@ -762,7 +835,9 @@
         "SHIELD": 1
       }
     },
-    "victorypoint": 2
+    "victorypoint": 2,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-6-1.png"
+
   },
 
 
@@ -782,7 +857,9 @@
         "FAITHMARKER": 2
       }
     },
-    "victorypoint": 7
+    "victorypoint": 7,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-26-1.png"
+
   },
   {
     "id" : 42,
@@ -799,7 +876,9 @@
         "FAITHMARKER": 2
       }
     },
-    "victorypoint": 5
+    "victorypoint": 5,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-18-1.png"
+
   },
   {
     "id" : 43,
@@ -818,7 +897,9 @@
         "SHIELD": 3
       }
     },
-    "victorypoint": 6
+    "victorypoint": 6,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-22-1.png"
+
   },
   {
     "id" : 44,
@@ -837,7 +918,9 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 8
+    "victorypoint": 8,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-30-1.png"
+
   },
 
 
@@ -857,7 +940,9 @@
         "FAITHMARKER": 2
       }
     },
-    "victorypoint": 9
+    "victorypoint": 9,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-34-1.png"
+
   },
   {
     "id" : 46,
@@ -875,7 +960,9 @@
         "FAITHMARKER": 3
       }
     },
-    "victorypoint": 11
+    "victorypoint": 11,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-42-1.png"
+
   },
   {
     "id" : 47,
@@ -896,7 +983,9 @@
         "FAITHMARKER": 1
       }
     },
-    "victorypoint": 10
+    "victorypoint": 10,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-38-1.png"
+
   },
   {
     "id" : 48,
@@ -915,6 +1004,8 @@
         "STONE": 3
       }
     },
-    "victorypoint": 12
+    "victorypoint": 12,
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-46-1.png"
+
   }
 ]

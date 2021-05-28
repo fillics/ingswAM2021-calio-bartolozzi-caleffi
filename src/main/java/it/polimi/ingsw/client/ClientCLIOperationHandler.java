@@ -133,7 +133,7 @@ public class ClientCLIOperationHandler implements ClientOperationHandler{
     }
 
     // TODO: 22/05/2021 sistemare 
-    public void buyDevCard(){
+    public void buyDevCard() throws IOException {
         viewInterface.printResourcesLegend();
         viewInterface.printDevGrid();
 

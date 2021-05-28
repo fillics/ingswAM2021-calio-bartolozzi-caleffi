@@ -204,13 +204,13 @@ public class ClientHandler implements Runnable {
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
-        /*PacketSetupMultiplayer packetSetup = new PacketSetupMultiplayer(username, idClient, posInGame, game.getDevGridLite(), game.getTable(), game.getRemainingMarble(),
+        PacketSetupMultiplayer packetSetup = new PacketSetupMultiplayer(username, idClient, posInGame, game.getDevGridLite(), game.getTable(), game.getRemainingMarble(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getDevelopmentSpaces(), game.getUsernameClientActivePlayers().get(username).getResourceBuffer(), game.getUsernameClientActivePlayers().get(username).getBoard().getSpecialProductionPowers(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getDeposits(),
                 game.getUsernameClientActivePlayers().get(username).getWhiteMarbleCardChoice(), game.getUsernameClientActivePlayers().get(username).getLeaderCards(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getTrack(), game.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections());
-*/
+
 
         Strongbox strongbox = game.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox();
         ArrayList<Deposit> deposits = game.getUsernameClientActivePlayers().get(username).getBoard().getDeposits();
@@ -238,10 +238,8 @@ public class ClientHandler implements Runnable {
 
         server.getMapForReconnection().put(username, clientProxy);
 
-        PacketSetupMultiplayer packetSetupMultiplayer = new PacketSetupMultiplayer(liteBoard, litePlayer, liteDevelopmentGrid, liteMarketTray);
 
-
-        sendPacketToClient(packetSetupMultiplayer);
+        sendPacketToClient(packetSetup);
 
         sendSetup = false;
     }
