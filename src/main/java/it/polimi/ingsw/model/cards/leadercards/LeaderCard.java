@@ -21,6 +21,7 @@ public class LeaderCard extends Card {
     private final ResourceType resourceType;
     private final Requirement requirements;
     private final int victorypoint;
+    private String path;
 
     /**
      * constructor LeaderCard creates a new LeaderCard instance,
@@ -32,12 +33,13 @@ public class LeaderCard extends Card {
      */
     @JsonCreator
     public LeaderCard(@JsonProperty("id") int id, @JsonProperty("type") LeaderCardType type, @JsonProperty("requirements") Requirement requirements,
-                      @JsonProperty("resourceType") ResourceType resourceType, @JsonProperty("victorypoint") int victoryPoint) {
+                      @JsonProperty("resourceType") ResourceType resourceType, @JsonProperty("victorypoint") int victoryPoint,@JsonProperty("path") String path) {
         this.id = id;
         this.type = type;
         this.requirements = requirements;
         this.resourceType = resourceType;
         this.victorypoint = victoryPoint;
+        this.path = path;
     }
 
 

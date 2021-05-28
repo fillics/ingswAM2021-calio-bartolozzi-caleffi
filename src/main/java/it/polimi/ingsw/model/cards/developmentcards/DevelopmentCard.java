@@ -13,6 +13,7 @@ import java.util.HashMap;
  * This class represents the Development Card.
  */
 public class DevelopmentCard extends Card {
+    private String path;
     private final int id;
     private final Level level;
     private final CardColor color;
@@ -26,13 +27,14 @@ public class DevelopmentCard extends Card {
     @JsonCreator
     public DevelopmentCard(@JsonProperty("id") int id, @JsonProperty("level")Level level, @JsonProperty("color")CardColor color,
                            @JsonProperty("productionPower")ProductionPower productionPower,
-                           @JsonProperty("resourcePrice") HashMap<ResourceType,Integer> resourcePrice, @JsonProperty("victorypoint")int victorypoint) {
+                           @JsonProperty("resourcePrice") HashMap<ResourceType,Integer> resourcePrice, @JsonProperty("victorypoint")int victorypoint, @JsonProperty("path") String path) {
         this.id = id;
         this.level = level;
         this.color = color;
         this.resourcePrice= resourcePrice;
         this.productionPower = productionPower;
         this.victorypoint = victorypoint;
+        this.path = path;
     }
 
     public DevelopmentCard() {
@@ -42,10 +44,15 @@ public class DevelopmentCard extends Card {
         this.resourcePrice = null;
         this.productionPower = null;
         this.victorypoint = 0;
+        this.path = null;
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getPath() {
+        return path;
     }
 
     /**

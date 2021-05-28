@@ -61,11 +61,11 @@ class PlayerTest {
         testResourcePrice= new HashMap<>();
         testResourcePrice.put(ResourceType.SERVANT,2);
         requirementsDiscount= new NumAndColorRequirement(colorDiscount);
-        testLeaderCardDiscount = new LeaderCard(1, LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
+        testLeaderCardDiscount = new LeaderCard(1, LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2, "");
         testLeaderCardDiscount.setStrategy(new ConcreteStrategyDiscount(ResourceType.SERVANT));
 
         requirementsExtraDep = new ResourcesRequirement(testResourcePrice);
-        testLeaderCardExtraDep = new LeaderCard(2, LeaderCardType.EXTRA_DEPOSIT, requirementsExtraDep, ResourceType.COIN, 5);
+        testLeaderCardExtraDep = new LeaderCard(2, LeaderCardType.EXTRA_DEPOSIT, requirementsExtraDep, ResourceType.COIN, 5, "");
         testLeaderCardExtraDep.setStrategy(new ConcreteStrategyDeposit(ResourceType.SERVANT, testPlayer.getBoard()));
 
         testResourcesNeeded = new HashMap<>();
@@ -74,7 +74,7 @@ class PlayerTest {
         testResourcesNeeded.put(ResourceType.COIN,1);
         testResourcesObtained.put(ResourceType.FAITHMARKER,1);
         testProductionPower= new ProductionPower(testResourcesNeeded,testResourcesObtained);
-        testDevelopmentCard= new DevelopmentCard(2,Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3);
+        testDevelopmentCard= new DevelopmentCard(2,Level.ONE, CardColor.PURPLE,testProductionPower,testResourcePrice, 3, "");
 
 
     }

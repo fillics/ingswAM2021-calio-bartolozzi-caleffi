@@ -8,20 +8,21 @@ import java.util.Scanner;
 
 public class ServerWriter implements Runnable{
 
-    private final ClientModelView clientModelView;
     private final SocketClientConnection socketClientConnection;
-    private final ClientCLIOperationHandler clientCLIOperationHandler;
+    private final ClientOperationHandler clientOperationHandler;
     private final PrintStream output;
     private final Scanner input;
     private final Client client;
 
 
-    public ServerWriter(Client client, ClientModelView clientModelView, SocketClientConnection socketClientConnection, ClientCLIOperationHandler clientCLIOperationHandler, PrintStream output, Scanner input) {
-        this.clientModelView = clientModelView;
+    public ServerWriter(Client client, SocketClientConnection socketClientConnection, ClientOperationHandler clientOperationHandler) {
+
+        input = new Scanner(System.in);
+        output = new PrintStream(System.out);
+
         this.socketClientConnection = socketClientConnection;
-        this.clientCLIOperationHandler = clientCLIOperationHandler;
-        this.output = output;
-        this.input = input;
+        this.clientOperationHandler = clientOperationHandler;
+
         this.client = client;
     }
 
@@ -30,8 +31,7 @@ public class ServerWriter implements Runnable{
         String inputString;
 
         //Constants.printConnectionMessage(ConnectionMessages.WELCOME);
-        //Constants.printConnectionMessage(ConnectionMessages.CONNECTION_OR_RECONNECTION);
-
+        
         Constants.printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
 
         while (!client.getClientState().equals(ClientStates.END)) {
@@ -46,7 +46,7 @@ public class ServerWriter implements Runnable{
                 System.out.println(Constants.menu);
             }
             else{
-                handleInitialGamePhase(inputString);
+                handleGamePhase(inputString);
             }
 
         }
@@ -63,16 +63,15 @@ public class ServerWriter implements Runnable{
 
 
 
-    public void handleInitialGamePhase(String inputString){
+    public void handleGamePhase(String inputString){
 
         switch (client.getClientState()){
 
             case USERNAME -> client.sendUsername(inputString);
 
-
             case NUMPLAYERS -> {
                 try{
-                    client.choosePlayerNumber(Integer.parseInt(inputString));
+                    client.getCli().choosePlayerNumber(Integer.parseInt(inputString));
                 }catch(NumberFormatException e){
                     System.out.println("do not insert strings");
                 }
@@ -95,7 +94,7 @@ public class ServerWriter implements Runnable{
             case GAMESTARTED -> {
                 if (!inputString.equals("0")) {
                     try {
-                        clientCLIOperationHandler.handleCLIOperation(inputString);
+                        clientOperationHandler.handleCLIOperation(inputString);
                     } catch (IOException | NumberFormatException e) {
                         System.err.println("Error during the choice of the operation to do");
                     }

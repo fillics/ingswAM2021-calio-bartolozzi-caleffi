@@ -75,10 +75,10 @@ public class LeaderCardTest {
         testStrategyDeposit = new ConcreteStrategyDeposit(ResourceType.SHIELD,board);
         testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
         testStrategyDiscount= new ConcreteStrategyDiscount(ResourceType.SERVANT);
-        testLeaderCardProdPower = new LeaderCard(1,LeaderCardType.PRODUCTION_POWER, requirementsProdPower,ResourceType.SHIELD, 4);
-        testLeaderCardDeposit = new LeaderCard(2,LeaderCardType.EXTRA_DEPOSIT, requirementsDeposit,ResourceType.SHIELD, 3);
-        testLeaderCardWhiteMarble= new LeaderCard(3,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5);
-        testLeaderCardDiscount= new LeaderCard(4,LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2);
+        testLeaderCardProdPower = new LeaderCard(1,LeaderCardType.PRODUCTION_POWER, requirementsProdPower,ResourceType.SHIELD, 4,  "");
+        testLeaderCardDeposit = new LeaderCard(2,LeaderCardType.EXTRA_DEPOSIT, requirementsDeposit,ResourceType.SHIELD, 3, "");
+        testLeaderCardWhiteMarble= new LeaderCard(3,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5, "");
+        testLeaderCardDiscount= new LeaderCard(4,LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2, "");
         choice1= true;
         choice2= false;
         ResourcePrice= new HashMap<>();
@@ -88,7 +88,7 @@ public class LeaderCardTest {
         ResourcesNeeded.put(ResourceType.COIN,1);
         ResourcesObtained.put(ResourceType.FAITHMARKER,1);
         ProductionPower= new ProductionPower(ResourcesNeeded,ResourcesObtained);
-        DevelopmentCard= new DevelopmentCard(1,Level.ONE, CardColor.PURPLE,ProductionPower,ResourcePrice, 3);
+        DevelopmentCard= new DevelopmentCard(1,Level.ONE, CardColor.PURPLE,ProductionPower,ResourcePrice, 3, "");
         resourcePriceBuffer=new HashMap<>();
     }
 

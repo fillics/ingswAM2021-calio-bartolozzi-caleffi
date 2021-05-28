@@ -21,13 +21,14 @@ public class PacketReconnection implements ServerPacketHandler{
     }
 
 
+    // TODO: 28/05/2021
     @Override
     public void execute(Client client) {
         Constants.printConnectionMessage(message);
         client.setClientState(clientProxy.getClientStates());
         client.setClientModelView(clientProxy.getClientModelView());
-        client.getClientOperationHandler().setClientModelView(clientProxy.getClientModelView());
-        client.setInterface(new CLI(clientProxy.getClientModelView()));
+        //client.getClientOperationHandler().setClientModelView(clientProxy.getClientModelView());
+        //client.setInterface(new CLI(clientProxy.getClientModelView()));
 
         switch (client.getClientState()){
             case CREATEMODEL -> {

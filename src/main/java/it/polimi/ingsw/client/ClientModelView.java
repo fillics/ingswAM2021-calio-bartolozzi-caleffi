@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.marbles.MarketTray;
 
+/**
+ * contiene il modello lite
+ */
 public class ClientModelView {
     private LitePlayer myPlayer;
     private LiteMarketTray marketTray;

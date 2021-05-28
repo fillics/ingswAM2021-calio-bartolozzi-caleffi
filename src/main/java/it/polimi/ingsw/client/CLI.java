@@ -1,19 +1,33 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.constants.Color;
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Printable;
+import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.model.board.faithtrack.PopeFavorTileColor;
 import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.developmentcards.Level;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 
-public class CLI implements ViewInterface {
-    private ClientModelView clientModelView;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-    public CLI(ClientModelView clientModelView) {
+public class CLI implements ViewInterface, SetupClientInterface{
+    private ClientModelView clientModelView;
+    private final CLIOperationHandler cliOperationHandler;
+    private Client client;
+    private Scanner input;
+
+    public CLI(Client client, ClientModelView clientModelView) {
+        input = new Scanner(System.in);
+        this.client = client;
+        serverMatch();
         this.clientModelView = clientModelView;
+        cliOperationHandler = new CLIOperationHandler(client.getSocketClientConnection(), clientModelView);
     }
+
 
     @Override
     public ClientModelView getClientModelView() {
@@ -526,5 +540,43 @@ public class CLI implements ViewInterface {
                 Color.ANSI_PURPLE.escape() + Printable.SQUARE.print() + Color.RESET + " = SERVANT\n" +
                 Color.ANSI_YELLOW.escape() + Printable.SQUARE.print() + Color.RESET + " = COIN\n";
         System.out.println(escape);
+    }
+
+
+    @Override
+    public void serverMatch() {
+        Scanner scanner = new Scanner(System.in);
+
+       /* System.out.println(">Insert the server IP address");
+        System.out.print(">");
+        String ip = scanner.nextLine();*/
+        Constants.setAddressServer("127.0.0.1");
+        System.out.println(">Insert the server port");
+        System.out.print(">");
+        int port = 0;
+        try{
+            port = scanner.nextInt();
+        }catch(InputMismatchException e){
+            System.err.println("insert only numbers");
+        }
+        Constants.setPort(port);
+    }
+
+    @Override
+    public void choosePlayerNumber(int number_of_players) {
+
+        System.out.println("son qui");
+        do {
+            try {
+                if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
+                    Constants.printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
+                    number_of_players = input.nextInt();
+                }
+            }catch (InputMismatchException e) {
+                System.err.println("Invalid parameter: insert a numeric value.");
+            }
+        }while(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers());
+        client.sendNumPlayers(number_of_players);
+
     }
 }
