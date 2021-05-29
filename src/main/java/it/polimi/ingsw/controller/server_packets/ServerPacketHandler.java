@@ -11,6 +11,7 @@ import it.polimi.ingsw.client.Client;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PacketLiteMarketTray.class, name = "LITE_MARKET_TRAY"),
         @JsonSubTypes.Type(value = PacketFaithTrack.class, name = "FAITH_TRACK"),
+        @JsonSubTypes.Type(value = PacketBoardOfAnotherPlayer.class, name = "BOARD_ANOTHER_PLAYER"),
         @JsonSubTypes.Type(value = PacketBlackCross.class, name = "BLACK_CROSS"),
         @JsonSubTypes.Type(value = PacketConnectionMessages.class, name = "MESSAGE"),
         @JsonSubTypes.Type(value = PacketPingFromServer.class, name = "PING"),

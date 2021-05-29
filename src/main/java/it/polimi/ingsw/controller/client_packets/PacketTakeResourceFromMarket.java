@@ -33,7 +33,7 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
             try {
                 gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
                 clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
-                clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker()));
+                clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
                 server.sendAll(new PacketLiteMarketTray(gameInterface.getTable(), gameInterface.getRemainingMarble()), gameInterface);
                 gameInterface.setState(GameStates.PHASE_TWO);
             } catch (LeaderCardNotFound leaderCardNotFound) {

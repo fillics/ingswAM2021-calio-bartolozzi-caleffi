@@ -8,6 +8,7 @@ import java.io.IOException;
 public interface ViewInterface {
     ClientModelView getClientModelView();
     void printLeaderCards();
+    void printActivatedLeaderCards();
     void printDeposits();
     void printStrongbox();
     void printDevGrid() throws IOException;

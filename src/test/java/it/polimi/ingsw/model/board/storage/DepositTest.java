@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.board.storage;
 
+import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.exceptions.DepositDoesntHaveThisResource;
@@ -131,9 +132,11 @@ public class DepositTest {
         testDeposit3.increaseNumberOfResources();
         testDeposit3.increaseNumberOfResources();
         assertEquals(testDeposit3.getQuantity(),2);
-        testDeposit1.dump();
-        testDeposit2.dump();
-        testDeposit3.dump();
+        //testDeposit1.dump();
+        //testDeposit2.dump();
+        //testDeposit3.dump();
+        System.out.println(Printable.DOUBLE_LINE.print() + "  " + Printable.DOUBLE_LINE.print());
+        System.out.println(Printable.DOUBLE_LINE.print() + " "+Printable.RED_CROSS.print()+ Printable.DOUBLE_LINE.print()+ "\n" );
     }
 
 }

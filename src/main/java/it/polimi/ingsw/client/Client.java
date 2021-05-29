@@ -26,6 +26,7 @@ public class Client {
     private GUI gui;
     private ViewInterface viewInterface;
     private int choiceInterface;
+    private Scanner input;
 
     /**
      * Constructor Client creates a new Client instance
@@ -38,6 +39,7 @@ public class Client {
 
         if(choiceInterface==1){
             cli = new CLI(this, clientModelView);
+            serverMatch();
             serverConnection(choiceInterface);
         }
 
@@ -206,6 +208,39 @@ public class Client {
 
     public void setClientModelView(ClientModelView clientModelView) { this.clientModelView = clientModelView;}
 
+    public void serverMatch() {
+        Scanner scanner = new Scanner(System.in);
+
+       /* System.out.println(">Insert the server IP address");
+        System.out.print(">");
+        String ip = scanner.nextLine();*/
+        Constants.setAddressServer("127.0.0.1");
+        System.out.println(">Insert the server port");
+        System.out.print(">");
+        int port = 0;
+        try{
+            port = scanner.nextInt();
+        }catch(InputMismatchException e){
+            System.err.println("insert only numbers");
+        }
+        Constants.setPort(port);
+    }
+
+    public void choosePlayerNumber(int number_of_players) {
+
+        do {
+            try {
+                if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
+                    Constants.printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
+                    number_of_players = input.nextInt();
+                }
+            }catch (InputMismatchException e) {
+                System.err.println("Invalid parameter: insert a numeric value.");
+            }
+        }while(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers());
+        sendNumPlayers(number_of_players);
+
+    }
 
 }
 

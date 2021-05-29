@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
@@ -28,6 +29,11 @@ public class PacketActivateLeaderCard implements ClientPacketHandler {
                 clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getStrongbox(),gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getDeposits()));
                 clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces()));
                 clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards()));
+                for(int i=0; i<gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards().size(); i++){
+                    if(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards().get(i).getId()==id && gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyProductionPower) {
+                        clientHandler.sendPacketToClient(new PacketSpecialProdPowers(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getSpecialProductionPowers()));
+                    }
+                }
             } catch (LeaderCardNotFound leaderCardNotFound) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
             } catch (NotEnoughRequirements notEnoughRequirements) {
