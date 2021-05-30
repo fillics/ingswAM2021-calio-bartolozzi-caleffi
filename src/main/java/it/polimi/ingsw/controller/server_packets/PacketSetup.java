@@ -36,9 +36,10 @@ public class PacketSetup implements ServerPacketHandler{
     private ArrayList<VaticanReportSection> vaticanReportSections;
     private ArrayList<Integer> whiteMarbleCardChoice;
     private int posInGame;
+    private int numOfPlayers;
 
     @JsonCreator
-    public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
+    public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame,@JsonProperty("numOfPlayers") int numOfPlayers, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
                        @JsonProperty("market tray") Marble[][] table, @JsonProperty("remaining marble") Marble remainingMarble,
                        @JsonProperty("development spaces") ArrayList<DevelopmentSpace> developmentSpaces, @JsonProperty("resource buffer") ArrayList<Resource> resourceBuffer,
                        @JsonProperty("special production powers")  ArrayList<ProductionPower> specialProductionPowers, @JsonProperty("strongbox") Strongbox strongbox,
@@ -47,6 +48,7 @@ public class PacketSetup implements ServerPacketHandler{
         this.username = username;
         this.idClient = idClient;
         this.posInGame = posInGame;
+        this.numOfPlayers=numOfPlayers;
         totalVictoryPoint=0;
         faithMarker=0;
         this.table = table;
@@ -74,6 +76,10 @@ public class PacketSetup implements ServerPacketHandler{
 
     public int getPosInGame() {
         return posInGame;
+    }
+
+    public int getNumOfPlayers() {
+        return numOfPlayers;
     }
 
     public int getTotalVictoryPoint() {
@@ -146,6 +152,7 @@ public class PacketSetup implements ServerPacketHandler{
             client.getClientModelView().setMarketTray(liteMarketTray);
             client.getClientModelView().setLiteBoard(liteBoard);
             client.getClientModelView().setMyPlayer(litePlayer);
+            client.getClientModelView().setNumOfPlayers(numOfPlayers);
 
 
             System.out.println("Your turn position is: " + (client.getClientModelView().getMyPlayer().getPosInGame() + 1));

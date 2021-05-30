@@ -70,7 +70,7 @@ public class ServerWriter implements Runnable{
 
             case NUMPLAYERS -> {
                 try{
-                    client.getCli().choosePlayerNumber(Integer.parseInt(inputString));
+                    client.choosePlayerNumber(Integer.parseInt(inputString));
                 }catch(NumberFormatException e){
                     System.out.println("do not insert strings");
                 }

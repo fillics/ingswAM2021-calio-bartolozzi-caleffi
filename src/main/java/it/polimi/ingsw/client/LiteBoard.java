@@ -23,7 +23,7 @@ public class LiteBoard {
     private ArrayList<DevelopmentSpace> developmentSpaces;
     private ArrayList<ProductionPower> specialProductionPowers;
     private ArrayList<Cell> track;
-    private final ArrayList<VaticanReportSection> vaticanReportSections;
+    private ArrayList<VaticanReportSection> vaticanReportSections;
 
     @JsonCreator
     public LiteBoard(@JsonProperty("strongbox") Strongbox strongbox,@JsonProperty("deposits") ArrayList<Deposit> deposits,
@@ -94,6 +94,10 @@ public class LiteBoard {
 
     public ArrayList<VaticanReportSection> getVaticanReportSections() {
         return vaticanReportSections;
+    }
+
+    public void setVaticanReportSections(ArrayList<VaticanReportSection> vaticanReportSections) {
+        this.vaticanReportSections = vaticanReportSections;
     }
 
     public int getFaithMarker() {

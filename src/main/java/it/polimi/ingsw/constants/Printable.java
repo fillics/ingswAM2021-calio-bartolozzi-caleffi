@@ -16,6 +16,8 @@ public enum Printable {
     MIDDLE("═"),
     QUESTION_MARK("\uFFFD"),
 
+    RED_CROSS("\u2717"),
+    CHECK("\u2713"),
     CROSS ("\u2020"),
     CIRCLE ("\u25CF"),
     SQUARE("\u25A0"),
@@ -30,18 +32,9 @@ public enum Printable {
     ARROW_BOTTOM("\u2B06");
 
     private String print;
-    private char printChar;
 
     Printable(String print) {
         this.print = print;
-    }
-
-    Printable(char printChar){
-        this.printChar=printChar;
-    }
-
-    public char printChar(){
-        return printChar;
     }
 
     public String print() {return print; }

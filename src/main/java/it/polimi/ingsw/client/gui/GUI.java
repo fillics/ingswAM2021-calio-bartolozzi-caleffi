@@ -112,6 +112,11 @@ public class GUI implements Runnable, ViewInterface {
     }
 
     @Override
+    public void printActivatedLeaderCards() {
+
+    }
+
+    @Override
     public void printDeposits() {
 
     }

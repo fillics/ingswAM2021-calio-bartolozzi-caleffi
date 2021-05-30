@@ -92,11 +92,8 @@ public class CLIOperationHandler implements ClientOperationHandler{
                 viewInterface.printDevSpaces();
                 viewInterface.printLeaderCards();
             }
-            case "12", "showotherboards" ->{
-                System.out.println("You have chosen to see the boards of the other players");
-                viewInterface.printResourcesLegend();
-                System.out.println("DA FARE");
-            }
+            case "12", "showotherboards" ->
+                askBoardOfOtherPlayer();
             case "13", "end" ->{
                 System.out.println("Ending turn");
                 endTurn();
@@ -113,16 +110,22 @@ public class CLIOperationHandler implements ClientOperationHandler{
 
     public void askBoardOfOtherPlayer() throws JsonProcessingException {
         String username;
-        System.out.println("Choose the username of the player whose board you want to see");
-        username = input.nextLine();
-
-        if(username.equals("exit"))
-            return;
-        else{
-            PacketUsernameOfAnotherPlayer packet= new PacketUsernameOfAnotherPlayer(username);
-            sendPacket(packet);
+        if(clientModelView.getNumOfPlayers()==1) {
+            System.out.println("You are in single player mode, there are no other players, please choose another action");
+            System.out.println(Constants.commands);
         }
+        else{
+            System.out.println("You have chosen to see the boards of the other players");
+            System.out.println("Choose the username of the player whose board you want to see");
+            username = input.nextLine();
 
+            if(username.equals("exit"))
+                return;
+            else{
+                PacketUsernameOfAnotherPlayer packet= new PacketUsernameOfAnotherPlayer(username);
+                sendPacket(packet);
+            }
+        }
     }
 
     public void activateLeaderCard() throws IOException {
@@ -710,6 +713,7 @@ public class CLIOperationHandler implements ClientOperationHandler{
         }while(position< 1|| position>3);
         return position;
     }
+
 
 
 

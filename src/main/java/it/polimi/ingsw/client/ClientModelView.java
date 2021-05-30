@@ -2,7 +2,6 @@ package it.polimi.ingsw.client;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.model.marbles.MarketTray;
 
 /**
  * contiene il modello lite
@@ -12,6 +11,7 @@ public class ClientModelView {
     private LiteMarketTray marketTray;
     private LiteDevelopmentGrid developmentGrid;
     private LiteBoard liteBoard;
+    private int numOfPlayers;
 
     @JsonCreator
     public ClientModelView(@JsonProperty("player") LitePlayer myPlayer,@JsonProperty("market") LiteMarketTray marketTray,
@@ -62,4 +62,11 @@ public class ClientModelView {
         this.liteBoard = liteBoard;
     }
 
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public void setNumOfPlayers(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
+    }
 }

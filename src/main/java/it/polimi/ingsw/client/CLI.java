@@ -11,21 +11,15 @@ import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.developmentcards.Level;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
-public class CLI implements ViewInterface, SetupClientInterface{
+public class CLI implements ViewInterface{
+
     private ClientModelView clientModelView;
-    private final CLIOperationHandler cliOperationHandler;
     private Client client;
-    private Scanner input;
 
     public CLI(Client client, ClientModelView clientModelView) {
-        input = new Scanner(System.in);
         this.client = client;
-        serverMatch();
         this.clientModelView = clientModelView;
-        cliOperationHandler = new CLIOperationHandler(client.getSocketClientConnection(), clientModelView);
     }
 
 
@@ -38,7 +32,6 @@ public class CLI implements ViewInterface, SetupClientInterface{
     public void printLeaderCards(){
         StringBuilder matrix= new StringBuilder();
         int size= clientModelView.getMyPlayer().getLeaderCards().size();
-        //System.out.println("Your leader cards:");
         String backspace= "";
 
         for(int i=0; i<size;i++){
@@ -64,6 +57,65 @@ public class CLI implements ViewInterface, SetupClientInterface{
         matrix.append("\n");
         for(int i=0; i<size;i++)
             matrix.append(Printable.BOTTOM_BOX.print()).append("  ");
+        matrix.append("\n");
+
+        System.out.println(matrix);
+    }
+
+    public void printActivatedLeaderCards(){
+        StringBuilder matrix= new StringBuilder();
+        String backspace= "";
+        matrix.append("Leader cards activated: \n");
+
+        for(int i=0; i<2;i++){
+            matrix.append(Printable.UPPER_BOX.print()).append("  ");
+        }
+        matrix.append("\n");
+
+        for(int i=0; i<2; i++){
+            if(clientModelView.getMyPlayer().getLeaderCards().get(i)!=null){
+                if(clientModelView.getMyPlayer().getLeaderCards().get(i).getId() < 10)
+                    backspace="   ";
+                if(clientModelView.getMyPlayer().getLeaderCards().get(i).getId() > 9)
+                    backspace="  ";
+                matrix.append(Printable.DOUBLE_LINE.print()).append("id: ").append(clientModelView.getMyPlayer().getLeaderCards().get(i).getId()).append(backspace).append(Printable.DOUBLE_LINE.print()).append("  ");
+
+            }
+            else{
+                matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(8)).append(Printable.DOUBLE_LINE.print()).append("  ");
+            }
+        }
+        matrix.append("\n");
+        for(int i=0; i<2;i++){
+            if(clientModelView.getMyPlayer().getLeaderCards().get(i)!=null) {
+                matrix.append(Printable.DOUBLE_LINE.print()).append(clientModelView.getMyPlayer().getLeaderCards().get(i).getRequirements().toString()).append("  ").append(Printable.DOUBLE_LINE.print()).append("  ");
+            }
+            else{
+                matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(8)).append(Printable.DOUBLE_LINE.print()).append("  ");
+            }
+        }
+        matrix.append("\n");
+        for(int i=0; i<2;i++) {
+            if(clientModelView.getMyPlayer().getLeaderCards().get(i)!=null) {
+                matrix.append(Printable.DOUBLE_LINE.print()).append(clientModelView.getMyPlayer().getLeaderCards().get(i).getVictorypoint()).append(Color.ANSI_YELLOW.escape()).append(" VP").append(Color.RESET).append("    ").append(Printable.DOUBLE_LINE.print()).append("  ");
+            }
+            else{
+                matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(8)).append(Printable.DOUBLE_LINE.print()).append("  ");
+            }
+        }
+        matrix.append("\n");
+        for(int i=0; i<2;i++) {
+            if(clientModelView.getMyPlayer().getLeaderCards().get(i)!=null) {
+                matrix.append(Printable.DOUBLE_LINE.print()).append(clientModelView.getMyPlayer().getLeaderCards().get(i).getStrategy().toString()).append(Printable.DOUBLE_LINE.print()).append("  ");
+            }
+            else{
+                matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(8)).append(Printable.DOUBLE_LINE.print()).append("  ");
+            }
+        }
+        matrix.append("\n");
+        for(int i=0; i<2;i++) {
+            matrix.append(Printable.BOTTOM_BOX.print()).append("  ");
+        }
         matrix.append("\n");
 
         System.out.println(matrix);
@@ -341,7 +393,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
             if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()== PopeFavorTileColor.YELLOW)
                 escape.append(Color.ANSI_PURPLE.escape());
             else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()== PopeFavorTileColor.ORANGE)
-                escape.append(Color.ANSI_GREEN.escape());
+                escape.append(Color.ANSI_BLUE.escape());
             else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED)
                 escape.append(Color.ANSI_RED.escape());
         }
@@ -353,6 +405,9 @@ public class CLI implements ViewInterface, SetupClientInterface{
     @Override
     public void printFaithTrack() {
         StringBuilder escape = new StringBuilder();
+
+        escape.append(Color.ANSI_GREEN.escape()).append(Printable.CHECK.print()).append(Color.RESET).append(" = ACTIVE TILE \n");
+        escape.append(Color.ANSI_RED.escape()).append(Printable.RED_CROSS.print()).append(Color.RESET).append(" = NON ACTIVE TILE \n");
 
         escape.append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(2)).append("0").append(Printable.MIDDLE.print().repeat(2)).append(Printable.NORD_EST.print());
 
@@ -411,7 +466,11 @@ public class CLI implements ViewInterface, SetupClientInterface{
         }
         escape.append("\n");
 
-        escape.append(Printable.DOUBLE_LINE.print()).append((" ").repeat(5)).append(Printable.DOUBLE_LINE.print());
+        if(clientModelView.getNumOfPlayers()==1 && clientModelView.getLiteBoard().getBlackCross()==0){
+            escape.append(Printable.DOUBLE_LINE.print()).append((" ").repeat(2)).append(Printable.CROSS.print()).append(" ".repeat(2)).append(Printable.DOUBLE_LINE.print());
+        }
+        else
+            escape.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(5)).append(Printable.DOUBLE_LINE.print());
 
         for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
             escape.append(printColor(i));
@@ -436,6 +495,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
             if(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()!=0)
                 escape.append(Color.RESET);
         }
+
         escape.append("\n");
         escape.append(" ".repeat(7));
         for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
@@ -443,13 +503,41 @@ public class CLI implements ViewInterface, SetupClientInterface{
                 if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()== PopeFavorTileColor.YELLOW)
                     escape.append(Color.ANSI_PURPLE.escape()).append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.NORD_EST.print()).append(Color.RESET);
                 else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE)
-                    escape.append(Color.ANSI_GREEN.escape()).append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.NORD_EST.print()).append(Color.RESET);
+                    escape.append(Color.ANSI_BLUE.escape()).append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.NORD_EST.print()).append(Color.RESET);
                 else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED)
                     escape.append(Color.ANSI_RED.escape()).append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.NORD_EST.print()).append(Color.RESET);
             }
             else
                 escape.append(" ".repeat(7));
         }
+
+        escape.append("\n");
+        escape.append(" ".repeat(7));
+        for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
+            if(clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace()){
+                if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.YELLOW){
+                    if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVisible())
+                        escape.append(Color.ANSI_PURPLE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_GREEN.escape()).append(Printable.CHECK.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_PURPLE.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
+                    else
+                        escape.append(Color.ANSI_PURPLE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_RED.escape()).append(Printable.RED_CROSS.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_PURPLE.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
+                }
+                else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE){
+                    if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVisible())
+                        escape.append(Color.ANSI_BLUE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_GREEN.escape()).append(Printable.CHECK.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_BLUE.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
+                    else
+                        escape.append(Color.ANSI_BLUE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_RED.escape()).append(Printable.RED_CROSS.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_BLUE.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
+                }
+                else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED){
+                    if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVisible())
+                        escape.append(Color.ANSI_RED.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_GREEN.escape()).append(Printable.CHECK.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_RED.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
+                    else
+                        escape.append(Color.ANSI_RED.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_RED.escape()).append(Printable.RED_CROSS.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_RED.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
+                }
+            }
+            else
+                escape.append(" ".repeat(7));
+        }
+
         escape.append("\n");
         escape.append(" ".repeat(7));
         for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
@@ -457,7 +545,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
                 if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.YELLOW)
                     escape.append(Color.ANSI_PURPLE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(1)).append(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVictorypoint()).append("VP").append(" ".repeat(1)).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
                 else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE)
-                    escape.append(Color.ANSI_GREEN.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(1)).append(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVictorypoint()).append("VP").append(" ".repeat(1)).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
+                    escape.append(Color.ANSI_BLUE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(1)).append(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVictorypoint()).append("VP").append(" ".repeat(1)).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
                 else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED)
                     escape.append(Color.ANSI_RED.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(1)).append(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVictorypoint()).append("VP").append(" ".repeat(1)).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
             }
@@ -471,7 +559,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
                 if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.YELLOW)
                     escape.append(Color.ANSI_PURPLE.escape()).append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print()).append(Color.RESET);
                 else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE)
-                    escape.append(Color.ANSI_GREEN.escape()).append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print()).append(Color.RESET);
+                    escape.append(Color.ANSI_BLUE.escape()).append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print()).append(Color.RESET);
                 else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED)
                     escape.append(Color.ANSI_RED.escape()).append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print()).append(Color.RESET);
             }
@@ -485,6 +573,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
     public void printDevSpaces() {
         StringBuilder escape = new StringBuilder();
         int size;
+        escape.append("Development spaces: \n");
 
         for(int k = 0; k <clientModelView.getLiteBoard().getDevelopmentSpaces().size(); k++) {
             escape.append(k+1).append(": ").append("\n");
@@ -538,49 +627,10 @@ public class CLI implements ViewInterface, SetupClientInterface{
 
     @Override
     public void printResourcesLegend() {
-
         String escape = Color.ANSI_BLUE.escape() + Printable.SQUARE.print() + Color.RESET + " = SHIELD\n" +
                 Color.ANSI_GREY.escape() + Printable.SQUARE.print() + Color.RESET + " = STONE\n" +
                 Color.ANSI_PURPLE.escape() + Printable.SQUARE.print() + Color.RESET + " = SERVANT\n" +
                 Color.ANSI_YELLOW.escape() + Printable.SQUARE.print() + Color.RESET + " = COIN\n";
         System.out.println(escape);
-    }
-
-
-    @Override
-    public void serverMatch() {
-        Scanner scanner = new Scanner(System.in);
-
-       /* System.out.println(">Insert the server IP address");
-        System.out.print(">");
-        String ip = scanner.nextLine();*/
-        Constants.setAddressServer("127.0.0.1");
-        System.out.println(">Insert the server port");
-        System.out.print(">");
-        int port = 0;
-        try{
-            port = scanner.nextInt();
-        }catch(InputMismatchException e){
-            System.err.println("insert only numbers");
-        }
-        Constants.setPort(port);
-    }
-
-    @Override
-    public void choosePlayerNumber(int number_of_players) {
-
-        System.out.println("son qui");
-        do {
-            try {
-                if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
-                    Constants.printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
-                    number_of_players = input.nextInt();
-                }
-            }catch (InputMismatchException e) {
-                System.err.println("Invalid parameter: insert a numeric value.");
-            }
-        }while(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers());
-        client.sendNumPlayers(number_of_players);
-
     }
 }
