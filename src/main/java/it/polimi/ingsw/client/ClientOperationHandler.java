@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public interface ClientOperationHandler {
-    void handleCLIOperation(String input) throws IOException;
+    void handleOperation(String input) throws IOException;
 
     void chooseInitialResources(int resources);
     void chooseLeaderCardToRemove();

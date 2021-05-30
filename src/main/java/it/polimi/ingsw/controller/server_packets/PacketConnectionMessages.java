@@ -29,9 +29,6 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 if(client.getChoiceInterface() == 1){
                     Constants.printConnectionMessage(message);
                 }
-                else {
-                    System.out.println("sei in gui");
-                }
             }
 
 

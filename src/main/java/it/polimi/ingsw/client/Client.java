@@ -34,7 +34,7 @@ public class Client {
     public Client(int choiceInterface) {
 
         clientModelView = new ClientModelView();
-
+        clientStates = ClientStates.SERVERCONNECTION;
 
         if(choiceInterface==1){
             cli = new CLI(this, clientModelView);

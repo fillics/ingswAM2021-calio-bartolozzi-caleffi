@@ -28,7 +28,6 @@ public class PacketChooseLeaderCardToRemove implements ClientPacketHandler {
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler){
 
-        // TODO: 24/05/2021 mettere che choose leader card si puo fare solo quando lo stato della partita è setup  
         if(gameInterface.getState().equals(GameStates.SETUP) || gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)){
             if(gameInterface.getState().equals(GameStates.SETUP)) gameInterface.setState(GameStates.PHASE_ONE);
             try {

@@ -40,7 +40,7 @@ public class CLIOperationHandler implements ClientOperationHandler{
         this.clientModelView = clientModelView;
     }
 
-    public void handleCLIOperation(String input) throws IOException {
+    public void handleOperation(String input) throws IOException {
         switch (input) {
             case "1", "activate" -> {
                 System.out.println("You have chosen to activate a Leader Card");

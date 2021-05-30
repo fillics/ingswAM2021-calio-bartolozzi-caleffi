@@ -62,7 +62,6 @@ public class ServerWriter implements Runnable{
     }
 
 
-
     public void handleGamePhase(String inputString){
 
         switch (client.getClientState()){
@@ -94,7 +93,7 @@ public class ServerWriter implements Runnable{
             case GAMESTARTED -> {
                 if (!inputString.equals("0")) {
                     try {
-                        clientOperationHandler.handleCLIOperation(inputString);
+                        clientOperationHandler.handleOperation(inputString);
                     } catch (IOException | NumberFormatException e) {
                         System.err.println("Error during the choice of the operation to do");
                     }

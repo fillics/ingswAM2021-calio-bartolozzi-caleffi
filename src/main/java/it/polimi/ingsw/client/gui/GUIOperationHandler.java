@@ -25,7 +25,7 @@ public class GUIOperationHandler implements ClientOperationHandler {
     }
 
     @Override
-    public void handleCLIOperation(String input) {
+    public void handleOperation(String input) {
 
     }
 

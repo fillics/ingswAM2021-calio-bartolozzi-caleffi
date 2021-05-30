@@ -1,10 +1,11 @@
 package it.polimi.ingsw.client.gui;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
+import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.client.ViewInterface;
-import it.polimi.ingsw.client.gui.panels.LoginPanel;
-import it.polimi.ingsw.client.gui.panels.NumPlayersPanel;
-import it.polimi.ingsw.client.gui.panels.ServerPanel;
+import it.polimi.ingsw.client.gui.panels.*;
+import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,12 @@ public class GUI implements Runnable, ViewInterface {
     private LoginPanel loginPanel;
     private ServerPanel serverPanel;
     private NumPlayersPanel numPlayersPanel;
+    private BoardPanel boardPanel;
+    private BuyDevCardPanel buyDevCardPanel;
+    private DevGridPanel devGridPanel;
+    private MarketPanel marketPanel;
+    private LeaderCardPanel leaderCardPanel;
+    private ResourcesPanel resourcesPanel;
     private Client client;
     private static ArrayList<JPanel> panels;
     private Dimension dimension;
@@ -35,10 +42,15 @@ public class GUI implements Runnable, ViewInterface {
         loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
+        boardPanel = new BoardPanel(this);
+        leaderCardPanel = new LeaderCardPanel(this);
 
         panels.add(serverPanel);
         panels.add(loginPanel);
         panels.add(numPlayersPanel);
+        panels.add(leaderCardPanel);
+        panels.add(boardPanel);
+
     }
 
     public ArrayList<JPanel> getPanels() {
@@ -50,6 +62,39 @@ public class GUI implements Runnable, ViewInterface {
         bigPanel.add(panel);
         bigPanel.repaint();
         bigPanel.revalidate();
+    }
+
+    @Override
+    public void run() {
+
+        JFrame frame = new JFrame();
+        bigPanel = new JPanel();
+
+        bigPanel.setVisible(true);
+        bigPanel.setLayout(null);
+
+        bigPanel.setBounds(0,0,width,height);
+
+        bigPanel.add(serverPanel);
+        frame.add(bigPanel);
+
+        frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
+
+        frame.setTitle("Master of Renaissance");
+        frame.setResizable(false);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
+        frame.setSize(width, height);
+
+        ImageIcon image = null; //create an ImageIcon
+        try {
+            image = new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/calamaio.png")).readAllBytes());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        frame.setIconImage(image != null ? image.getImage() : null); //change icon of the this
+
     }
 
     public Client getClient() {
@@ -111,36 +156,7 @@ public class GUI implements Runnable, ViewInterface {
 
     }
 
-    @Override
-    public void run() {
 
-        JFrame frame = new JFrame();
-        bigPanel = new JPanel();
 
-        bigPanel.setVisible(true);
-        bigPanel.setLayout(null);
-
-        bigPanel.setBounds(0,0,width,height);
-
-        bigPanel.add(serverPanel);
-        frame.add(bigPanel);
-
-        frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
-
-        frame.setTitle("Master of Renaissance");
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
-        frame.setSize(width, height);
-
-        ImageIcon image = null; //create an ImageIcon
-        try {
-            image = new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/calamaio.png")).readAllBytes());
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
-        frame.setIconImage(image != null ? image.getImage() : null); //change icon of the this
-    }
 }
 
