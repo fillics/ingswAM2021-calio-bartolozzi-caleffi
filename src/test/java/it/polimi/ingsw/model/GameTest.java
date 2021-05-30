@@ -142,9 +142,9 @@ class GameTest {
         testGame.removeCardFromDevelopmentGrid(testGame.getDevelopmentGrid().get(2).getLast());
         testGame.removeCardFromDevelopmentGrid(testGame.getDevelopmentGrid().get(2).getLast());
         testGame.removeCardFromDevelopmentGrid(testGame.getDevelopmentGrid().get(2).getLast());
-        for (int i = 0; i < 12; i++) {
+        /*for (int i = 0; i < 12; i++) {
             System.out.println(testGame.getDevGridLite().get(i));
-        }
+        }*/
         assertEquals(12, testGame.getDevGridLite().size());
         assertNull(testGame.getDevGridLite().get(2));
     }
@@ -175,8 +175,8 @@ class GameTest {
         assertEquals(CardColor.PURPLE, testGame.getDevelopmentGrid().get(2).get(3).getColor()); //forth element third array
         assertEquals(CardColor.BLUE, testGame.getDevelopmentGrid().get(3).get(0).getColor()); //first element third array
         assertEquals(CardColor.BLUE, testGame.getDevelopmentGrid().get(3).get(1).getColor()); //second element forth array
-        System.out.println(testGame.getDevelopmentGrid().get(0).getFirst().getProductionPower().getResourceNeeded());
-        System.out.println(testGame.getDevelopmentGrid().get(0).getFirst().getVictorypoint());
+        //System.out.println(testGame.getDevelopmentGrid().get(0).getFirst().getProductionPower().getResourceNeeded());
+        //System.out.println(testGame.getDevelopmentGrid().get(0).getFirst().getVictorypoint());
     }
 
     /** Method checkUsername tests username's getter. */
@@ -595,10 +595,9 @@ class GameTest {
     /** Method takeResourcesFromMarketTest tests Game method takeResourcesFromMarket. */
     @Test
     @DisplayName("takeResourcesFromMarketTest test")
-    void takeResourcesFromMarketTest(){
-
-            //testGame.takeResourceFromMarket("Row",2,null);
-
+    void takeResourcesFromMarketTest() throws LeaderCardNotActivated, LeaderCardNotFound {
+        testGame.takeResourceFromMarket("row",2,null);
+        assertNotEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
     }
 
     /** Method takeResourcesFromMarketTest tests Game method takeResourcesFromMarket. */
@@ -737,18 +736,16 @@ class GameTest {
     }
 
     /**Method endTurnAndIncreaseFaithMarkerTest tests Game methods increaseFaithMarkerOfOtherPlayers and endTurn.*/
-    //TODO: ricontrollare questo test dopo aver modificato il metodo takeResource della classe Deposit
     @Test
     @DisplayName("endTurnAndIncreaseFaithMarkerTest test")
     void endGameAndIncreaseFaithMarkerTest() throws LeaderCardNotFound, LeaderCardNotActivated {
 
-        /*testGame.takeResourceFromMarket("Row", 2, null);
+        testGame.takeResourceFromMarket("row", 2, null);
         assertNotEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).endTurn();
         for(int i = 1; i< 4; i++){
-            assertEquals(1,testGame.getActivePlayers().get(i).getBoard().getFaithMarker());
-
-        }*/
+            assertNotEquals(0,testGame.getActivePlayers().get(i).getBoard().getFaithMarker());
+        }
     }
 
     /**
@@ -801,19 +798,15 @@ class GameTest {
      //   assertEquals(testGame.getActivePlayers().get(1).getUsername(), testGame.winner());
     }
 
-
-    /*@Test
+    @Test
     void checkLeaderCardExceptions(){
-        ArrayList<LeaderCard> cards = new ArrayList<>();
-        cards.add(testLeaderCardWhiteMarble);
+        ArrayList<Integer> cards = new ArrayList<>();
+        cards.add(testLeaderCardWhiteMarble.getId());
         try {
-            testGame.takeResourceFromMarket("Row", 1, cards);
-        } catch (LeaderCardNotFound leaderCardNotFound) {
-            leaderCardNotFound.printStackTrace();
-        } catch (LeaderCardNotActivated leaderCardNotActivated) {
-            leaderCardNotActivated.printStackTrace();
+            testGame.takeResourceFromMarket("row", 1, cards);
+        } catch (LeaderCardNotFound | LeaderCardNotActivated ignored) {
         }
-    }*/
+    }
 
     @Test
     void checkDisconnection(){

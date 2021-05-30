@@ -37,7 +37,7 @@ public class Constants {
                         "9: Show the market tray ["+printItalic("showmarket")+"]\n"+
                         "10: Show the development grid ["+printItalic("showgrid")+"]\n"+
                         "11: Show my personal board["+printItalic("showboard")+"]\n"+
-                        "12: Show the boards of the other players ["+printItalic("showotherboards")+"]\n" +
+                        "12: Show the board of another player ["+printItalic("showanotherboard")+"]\n" +
                         "13: End Turn ["+printItalic("end")+"]\n";
 
 

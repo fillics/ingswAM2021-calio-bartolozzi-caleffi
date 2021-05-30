@@ -20,7 +20,7 @@ public class PacketResourceBuffer implements ServerPacketHandler{
     public void execute(Client client) {
         client.getClientModelView().getMyPlayer().setResourceBuffer(resourceBuffer);
         System.out.println("Remember to place the resources typing the number 7 (Place one of your resources)");
-        client.getClientOperationHandler().getViewInterface().printResourceBuffer();
+        //client.getClientOperationHandler().getViewInterface().printResourceBuffer();
     }
 
     public ArrayList<Resource> getResourceBuffer() {

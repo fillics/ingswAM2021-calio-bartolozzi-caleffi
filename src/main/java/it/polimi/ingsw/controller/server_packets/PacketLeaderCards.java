@@ -32,13 +32,17 @@ public class PacketLeaderCards implements ServerPacketHandler{
             case GAMESTARTED -> System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
             case LEADERSETUP -> {
                 if (client.getClientModelView().getMyPlayer().getPosInGame() != 0) {
-                    AdditionalResourcePanel additionalResourcePanel = new AdditionalResourcePanel(client.getGui());
-                    client.getGui().switchPanels(additionalResourcePanel);
+                    if(client.getChoiceInterface()==2){
+                        AdditionalResourcePanel additionalResourcePanel = new AdditionalResourcePanel(client.getGui());
+                        client.getGui().switchPanels(additionalResourcePanel);
+                    }
                     client.setClientState(ClientStates.RESOURCESETUP);
                     System.out.println("Choose your action:\n1. Choose your optional resources");
                 } else {
-                    BoardPanel boardPanel = new BoardPanel(client.getGui());
-                    client.getGui().switchPanels(boardPanel);
+                    if(client.getChoiceInterface()==2){
+                        BoardPanel boardPanel = new BoardPanel(client.getGui());
+                        client.getGui().switchPanels(boardPanel);
+                    }
                     client.setClientState(ClientStates.GAMESTARTED);
                     System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
                     System.out.println(Constants.ANSI_YELLOW+"You're the first player, you can't have any resources or faith points."+Constants.ANSI_RESET);

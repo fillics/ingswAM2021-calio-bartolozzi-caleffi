@@ -72,6 +72,7 @@ public class PacketEndTurn implements ClientPacketHandler{
 
         }
         else{
+            gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).endTurn();
             clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
             server.saveClientProxy(clientHandler.getUsername(), gameInterface);
 
@@ -89,6 +90,9 @@ public class PacketEndTurn implements ClientPacketHandler{
                         else{
                             server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
                                     sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+                            server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
+                                    sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),
+                                            gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
 
                             gameInterface.setState(GameStates.PHASE_ONE);
                         }

@@ -148,17 +148,4 @@ public class LeaderCardTest {
         assertEquals(resourcePriceBuffer.get(ResourceType.SERVANT),1);
         assertEquals(ResourcePrice.get(ResourceType.SERVANT),2);
     }
-
-    @Test
-    @DisplayName(" print test")
-    void printTest(){
-        testLeaderCardDiscount.setStrategy(testStrategyDiscount);
-        testLeaderCardDeposit.setStrategy(testStrategyDeposit);
-        testLeaderCardWhiteMarble.setStrategy(testStrategyWhiteMarble);
-        testLeaderCardProdPower.setStrategy(testStrategyProdPower);
-        testLeaderCardWhiteMarble.dump();
-        testLeaderCardProdPower.dump();
-        testLeaderCardDeposit.dump();
-        testLeaderCardDiscount.dump();
-    }
 }

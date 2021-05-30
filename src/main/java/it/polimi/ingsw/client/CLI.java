@@ -615,12 +615,15 @@ public class CLI implements ViewInterface{
     @Override
     public void printBaseProdPower() {
         StringBuilder escape = new StringBuilder();
+        escape.append("1: \n");
         escape.append(1).append(Printable.QUESTION_MARK.print()).append(" 1").append(Printable.QUESTION_MARK.print()).append("}");
         escape.append(1).append(Printable.QUESTION_MARK.print()).append(" (NO").append(Color.ANSI_RED.escape()).append(Printable.CROSS.print()).append(Color.RESET).append(")").append("\n");
 
         for(int i=0; i<clientModelView.getMyPlayer().getLeaderCards().size(); i++){
-            if(clientModelView.getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyProductionPower && clientModelView.getMyPlayer().getLeaderCards().get(i).getStrategy().isActive())
+            if(clientModelView.getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyProductionPower && clientModelView.getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
+                escape.append(i+2).append(" :\n");
                 escape.append(clientModelView.getMyPlayer().getLeaderCards().get(i)).append("\n".repeat(2));
+            }
         }
         System.out.println(escape);
     }

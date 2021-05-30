@@ -63,10 +63,4 @@ public class StrongboxTest {
         } catch (EmptyDeposit ignored) {}
 
     }
-
-    @Test
-    @DisplayName(" print test")
-    void printTest(){
-        testStrongbox.dump();
-    }
 }

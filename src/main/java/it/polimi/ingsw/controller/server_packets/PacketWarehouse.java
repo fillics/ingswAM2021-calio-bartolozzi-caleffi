@@ -30,8 +30,10 @@ public class PacketWarehouse implements ServerPacketHandler{
         System.out.println("[from server]"+ Constants.ANSI_GREEN+" Warehouse updated!"+Constants.ANSI_RESET);
 
         if(client.getClientState().equals(ClientStates.RESOURCESETUP)){
-            BoardPanel boardPanel = new BoardPanel(client.getGui());
-            client.getGui().switchPanels(boardPanel);
+            if(client.getChoiceInterface()==2){
+                BoardPanel boardPanel = new BoardPanel(client.getGui());
+                client.getGui().switchPanels(boardPanel);
+            }
             client.setClientState(ClientStates.GAMESTARTED);
         }
 

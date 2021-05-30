@@ -94,7 +94,6 @@ public class DevelopmentCard extends Card {
     @Override
     public String toString(){
         StringBuilder matrix= new StringBuilder();
-        int numProd=0;
 
         matrix.append(Printable.NORD_OVEST.print()).append(String.valueOf(Printable.MIDDLE.print()).repeat(11)).append(Printable.NORD_EST.print()).append("\n");
         matrix.append(Printable.DOUBLE_LINE.print()).append("   ").append("id:").append(this.id);
@@ -213,9 +212,5 @@ public class DevelopmentCard extends Card {
         if(resourcePrice.containsKey(ResourceType.STONE))
             num++;
         return num;
-    }
-
-    public void dump(){
-        System.out.println(this);
     }
 }

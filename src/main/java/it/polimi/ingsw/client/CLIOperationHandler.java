@@ -84,7 +84,7 @@ public class CLIOperationHandler implements ClientOperationHandler{
                 viewInterface.printDevGrid();
             }
             case "11", "showboard" -> {
-                System.out.println("You have chosen to see the board");
+                System.out.println("You have chosen to see your personal board");
                 viewInterface.printFaithTrack();
                 viewInterface.printResourcesLegend();
                 viewInterface.printDeposits();
@@ -92,7 +92,7 @@ public class CLIOperationHandler implements ClientOperationHandler{
                 viewInterface.printDevSpaces();
                 viewInterface.printLeaderCards();
             }
-            case "12", "showotherboards" ->
+            case "12", "showanotherboard" ->
                 askBoardOfOtherPlayer();
             case "13", "end" ->{
                 System.out.println("Ending turn");
@@ -115,7 +115,7 @@ public class CLIOperationHandler implements ClientOperationHandler{
             System.out.println(Constants.commands);
         }
         else{
-            System.out.println("You have chosen to see the boards of the other players");
+            System.out.println("You have chosen to see the board of the another player");
             System.out.println("Choose the username of the player whose board you want to see");
             username = input.nextLine();
 
@@ -182,10 +182,10 @@ public class CLIOperationHandler implements ClientOperationHandler{
 
         ArrayList<ResourceType> resources = new ArrayList<>();
         ArrayList<Integer> warehouse = new ArrayList<>();
+        Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
         do {
             do{
                 System.out.println("Choose the resources: ");
-                Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
                 resource = input.nextLine();
                 switch (resource) {
                     case "1", "coin" -> resources.add(ResourceType.COIN);
@@ -527,12 +527,12 @@ public class CLIOperationHandler implements ClientOperationHandler{
         }while (Integer.parseInt(id) != 0);
 
         if(clientModelView.getLiteBoard().getSpecialProductionPower().size() == 1) {
-            System.out.println("Press 1 to use the special production power of the board, press 0 to continue the production");
+            System.out.println("Press 1 to use the special production power of the board. \n"+ "Press 0 to continue the production");
             viewInterface.printBaseProdPower();
         }
         if(clientModelView.getLiteBoard().getSpecialProductionPower().size() > 1) {
-            System.out.println("You have other production powers thanks to the leader cards you have selected, also you can use the board production power, select one or more" +
-                    "of them, press 0 to continue the production");
+            System.out.println("You have other production powers thanks to the leader cards you have selected, also you can use the board production power.\n" +
+                    "Select one or more of them, press 0 to continue the production");
             viewInterface.printBaseProdPower();
         }
             String prodPosition;
@@ -552,8 +552,8 @@ public class CLIOperationHandler implements ClientOperationHandler{
             }while(Integer.parseInt(prodPosition) != 0);
 
 
-        System.out.println("Choose the resource and the place in which you want to take it\n" +
-                        "press 0 once you have finished");
+        System.out.println("Choose the resource and the place in which you want to take it.\n" +
+                        "Press 0 once you have finished");
         Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
 
         viewInterface.printDeposits();
