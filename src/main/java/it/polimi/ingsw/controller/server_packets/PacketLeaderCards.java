@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientStates;
+import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.panels.BoardPanel;
 import it.polimi.ingsw.client.gui.panels.AdditionalResourcePanel;
 import it.polimi.ingsw.constants.Constants;
@@ -32,14 +33,14 @@ public class PacketLeaderCards implements ServerPacketHandler{
             case GAMESTARTED -> System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
             case LEADERSETUP -> {
                 if (client.getClientModelView().getMyPlayer().getPosInGame() != 0) {
-                    if(client.getChoiceInterface()==2){
+                    if(client.getViewChoice().equals(ViewChoice.GUI)){
                         AdditionalResourcePanel additionalResourcePanel = new AdditionalResourcePanel(client.getGui());
                         client.getGui().switchPanels(additionalResourcePanel);
                     }
                     client.setClientState(ClientStates.RESOURCESETUP);
                     System.out.println("Choose your action:\n1. Choose your optional resources");
                 } else {
-                    if(client.getChoiceInterface()==2){
+                    if(client.getViewChoice().equals(ViewChoice.GUI)){
                         BoardPanel boardPanel = new BoardPanel(client.getGui());
                         client.getGui().switchPanels(boardPanel);
                     }

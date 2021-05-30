@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.panels;
 
 
+import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Constants;
 
@@ -64,7 +65,7 @@ public class ServerPanel extends JPanel implements ActionListener {
             // TODO: 28/05/2021 togliere finestra di dialogo, mettere solo panel di messaggi risposta da server
             JOptionPane.showMessageDialog(this, "Connected!");
             gui.switchPanels(gui.getPanels().get(1));
-            gui.getClient().serverConnection(2);
+            gui.getClient().serverConnection(ViewChoice.GUI);
 
         }
         if (e.getSource() == resetButton) {

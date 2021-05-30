@@ -24,68 +24,69 @@ public class Client {
     private ClientOperationHandler clientOperationHandler;
     private CLI cli;
     private GUI gui;
-    private ViewInterface viewInterface;
-    private int choiceInterface;
-    private Scanner input;
+    private ViewChoice viewChoice;
 
     /**
      * Constructor Client creates a new Client instance
      *
      */
-    public Client(int choiceInterface) {
+    public Client(ViewChoice viewChoice) {
 
         clientModelView = new ClientModelView();
         clientStates = ClientStates.SERVERCONNECTION;
 
-        if(choiceInterface==1){
+        if(viewChoice.equals(ViewChoice.CLI)){
             cli = new CLI(this, clientModelView);
             cli.serverMatch();
-            serverConnection(choiceInterface);
+            serverConnection(viewChoice);
         }
 
-        if (choiceInterface==2){
+        if (viewChoice.equals(ViewChoice.GUI)){
             gui = new GUI(this, clientModelView);
             new Thread(gui).start();
         }
 
     }
 
-    public void serverConnection(int choiceInterface){
+    public static void main(String[] args) {
+        System.out.println(Constants.MASTEROFRENAISSANCE);
+        System.out.println(Constants.AUTHORS);
+        ViewChoice viewChoice = viewInterfaceChoice();
+
+        Client client = new Client(viewChoice);
+        client.setViewChoice(viewChoice);
+
+    }
+
+    public void setViewChoice(ViewChoice viewChoice) {
+        this.viewChoice = viewChoice;
+    }
+
+    public void serverConnection(ViewChoice viewChoice){
         socketClientConnection = new SocketClientConnection(this);
 
-        if(choiceInterface==1) {
+        if(viewChoice.equals(ViewChoice.CLI)) {
             clientOperationHandler = new CLIOperationHandler(socketClientConnection, clientModelView, cli);
             this.setClientOperationHandler(clientOperationHandler);
         }
 
-        if(choiceInterface==2){
+        if(viewChoice.equals(ViewChoice.GUI)){
             clientOperationHandler = new GUIOperationHandler(socketClientConnection, clientModelView, gui);
             this.setClientOperationHandler(clientOperationHandler);
         }
-        setup(choiceInterface);
+        setup(viewChoice);
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(Constants.MASTEROFRENAISSANCE);
-        System.out.println(Constants.AUTHORS);
-        int choiceInterface;
-
-        choiceInterface = viewInterfaceChoice();
-        Client client = new Client(choiceInterface);
-        client.setChoiceInterface(choiceInterface);
-    }
-
-    public void setup(int choiceInterface){
+    public void setup(ViewChoice viewChoice){
         //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
         if(socketClientConnection.getConnectionToServer().get()){
-            if(choiceInterface==1){
+            if(viewChoice.equals(ViewChoice.CLI)){
                 ServerListener serverListener = new ServerListener(this, socketClientConnection);
                 ServerWriter serverWriter = new ServerWriter(this, socketClientConnection, clientOperationHandler);
                 new Thread(serverWriter).start();
                 new Thread(serverListener).start();
             }
-            if(choiceInterface==2){
+            if(viewChoice.equals(ViewChoice.GUI)){
                 ServerListener serverListener = new ServerListener(this, socketClientConnection);
                 new Thread(serverListener).start();
             }
@@ -96,11 +97,11 @@ public class Client {
 
     /**
      * Method viewInterfaceChoice asks to the client if he wants to play using CLI or GUI
-     * @return the choice of the chosen view
      */
-    public static int viewInterfaceChoice(){
+    public static ViewChoice viewInterfaceChoice(){
         Scanner in = new Scanner(System.in);
         int choiceInterface = 0;
+        ViewChoice viewChoice = null;
         do{
             System.out.println("Choose the view interface: \n" + "1.CLI \n" + "2.GUI");
             System.out.print(">");
@@ -114,10 +115,16 @@ public class Client {
                 System.err.println("Your choice is not available, please retry");
         } while(choiceInterface!=1 && choiceInterface!=2);
 
-        if(choiceInterface==1) System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the CLI. Enjoy the game!"+Constants.ANSI_RESET);
-        if(choiceInterface==2) System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the GUI. Enjoy the game!"+Constants.ANSI_RESET);
+        if(choiceInterface==1) {
+            viewChoice= ViewChoice.CLI;
+            System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the CLI. Enjoy the game!"+Constants.ANSI_RESET);
+        }
+        if(choiceInterface==2) {
+            viewChoice= ViewChoice.GUI;
+            System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the GUI. Enjoy the game!"+Constants.ANSI_RESET);
+        }
+        return viewChoice;
 
-        return choiceInterface;
     }
 
     /**
@@ -183,12 +190,9 @@ public class Client {
     public void setInterface(ViewInterface viewInterface){
         clientOperationHandler.setViewInterface(viewInterface);
     }
-    public void setChoiceInterface(int choiceInterface) {
-        this.choiceInterface = choiceInterface;
-    }
 
-    public int getChoiceInterface() {
-        return choiceInterface;
+    public ViewChoice getViewChoice() {
+        return viewChoice;
     }
 
     public CLI getCli() {

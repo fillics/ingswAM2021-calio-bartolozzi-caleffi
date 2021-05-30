@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientStates;
+import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
@@ -26,14 +27,14 @@ public class PacketConnectionMessages implements ServerPacketHandler {
         switch (message){
 
             case USERNAME_VALID, IMPOSSIBLEMOVE, IMPOSSIBLEENDTURN -> {
-                if(client.getChoiceInterface() == 1){
+                if(client.getViewChoice().equals(ViewChoice.CLI)){
                     Constants.printConnectionMessage(message);
                 }
             }
 
 
             case INSERT_NUMBER_OF_PLAYERS -> {
-                if(client.getChoiceInterface() == 1){
+                if(client.getViewChoice().equals(ViewChoice.CLI)){
                     Constants.printConnectionMessage(ConnectionMessages.LOBBY_MASTER);
                     Constants.printConnectionMessage(message);
                 }
