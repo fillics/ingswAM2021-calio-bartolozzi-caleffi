@@ -11,13 +11,18 @@ import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.developmentcards.Level;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-public class CLI implements ViewInterface{
 
-    private ClientModelView clientModelView;
-    private Client client;
+public class CLI implements ViewInterface, SetupClientInterface{
+
+    private final ClientModelView clientModelView;
+    private final Client client;
+    private final Scanner input;
 
     public CLI(Client client, ClientModelView clientModelView) {
+        input = new Scanner(System.in);
         this.client = client;
         this.clientModelView = clientModelView;
     }
@@ -62,6 +67,7 @@ public class CLI implements ViewInterface{
         System.out.println(matrix);
     }
 
+    @Override
     public void printActivatedLeaderCards(){
         StringBuilder matrix= new StringBuilder();
         String backspace= "";
@@ -121,6 +127,7 @@ public class CLI implements ViewInterface{
         System.out.println(matrix);
     }
 
+    @Override
     public void printDevGrid(){
         int i;
         StringBuilder matrix= new StringBuilder();
@@ -636,4 +643,37 @@ public class CLI implements ViewInterface{
                 Color.ANSI_YELLOW.escape() + Printable.SQUARE.print() + Color.RESET + " = COIN\n";
         System.out.println(escape);
     }
+
+    @Override
+    public void serverMatch() {
+       /* System.out.println(">Insert the server IP address");
+        System.out.print(">");
+        String ip = scanner.nextLine();*/
+        Constants.setAddressServer("127.0.0.1");
+        System.out.println(">Insert the server port");
+        System.out.print(">");
+        int port = 0;
+        try{
+            port = input.nextInt();
+        }catch(InputMismatchException e){
+            System.err.println("insert only numbers");
+        }
+        Constants.setPort(port);
+    }
+
+    @Override
+    public void choosePlayerNumber(int numPlayers) {
+        do {
+            try {
+                if(numPlayers < Constants.getNumMinPlayers() || numPlayers > Constants.getNumMaxPlayers()){
+                    Constants.printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
+                    numPlayers = input.nextInt();
+                }
+            }catch (InputMismatchException e) {
+                System.err.println("Invalid parameter: insert a numeric value.");
+            }
+        }while(numPlayers < Constants.getNumMinPlayers() || numPlayers > Constants.getNumMaxPlayers());
+        client.sendNumPlayers(numPlayers);
+    }
+
 }

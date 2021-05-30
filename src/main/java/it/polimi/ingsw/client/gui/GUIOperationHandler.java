@@ -18,9 +18,10 @@ public class GUIOperationHandler implements ClientOperationHandler {
     private ViewInterface viewInterface;
 
 
-    public GUIOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView) {
+    public GUIOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView, ViewInterface viewInterface) {
         this.socketClientConnection = socketClientConnection;
         this.clientModelView = clientModelView;
+        this.viewInterface = viewInterface;
 
     }
 
@@ -86,6 +87,11 @@ public class GUIOperationHandler implements ClientOperationHandler {
 
     @Override
     public void endTurn() throws JsonProcessingException {
+
+    }
+
+    @Override
+    public void setClientModelView(ClientModelView clientModelView) {
 
     }
 

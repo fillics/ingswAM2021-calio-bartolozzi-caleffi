@@ -25,7 +25,8 @@ public class GUI implements Runnable, ViewInterface {
     private Client client;
     private static ArrayList<JPanel> panels;
     private Dimension dimension;
-    private int width, height;
+    private final int width;
+    private final int height;
     private ClientModelView clientModelView;
 
     public GUI(Client client, ClientModelView clientModelView) {

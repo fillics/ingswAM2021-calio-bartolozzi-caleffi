@@ -39,7 +39,7 @@ public class Client {
 
         if(choiceInterface==1){
             cli = new CLI(this, clientModelView);
-            serverMatch();
+            cli.serverMatch();
             serverConnection(choiceInterface);
         }
 
@@ -54,15 +54,13 @@ public class Client {
         socketClientConnection = new SocketClientConnection(this);
 
         if(choiceInterface==1) {
-            CLIOperationHandler cliOperationHandler = new CLIOperationHandler(socketClientConnection, clientModelView);
-            this.setClientOperationHandler(cliOperationHandler);
-            // TODO: 28/05/2021 sistemare setinterface
-            this.setInterface(cli);
+            clientOperationHandler = new CLIOperationHandler(socketClientConnection, clientModelView, cli);
+            this.setClientOperationHandler(clientOperationHandler);
         }
 
         if(choiceInterface==2){
-            GUIOperationHandler guiOperationHandler = new GUIOperationHandler(socketClientConnection, clientModelView);
-            this.setClientOperationHandler(guiOperationHandler);
+            clientOperationHandler = new GUIOperationHandler(socketClientConnection, clientModelView, gui);
+            this.setClientOperationHandler(clientOperationHandler);
         }
         setup(choiceInterface);
     }
@@ -76,14 +74,6 @@ public class Client {
         choiceInterface = viewInterfaceChoice();
         Client client = new Client(choiceInterface);
         client.setChoiceInterface(choiceInterface);
-    }
-
-    public void setChoiceInterface(int choiceInterface) {
-        this.choiceInterface = choiceInterface;
-    }
-
-    public int getChoiceInterface() {
-        return choiceInterface;
     }
 
     public void setup(int choiceInterface){
@@ -103,21 +93,6 @@ public class Client {
         clientStates = ClientStates.USERNAME;
     }
 
-    public void setInterface(ViewInterface viewInterface){
-        clientOperationHandler.setViewInterface(viewInterface);
-    }
-
-
-
-
-
-    public CLI getCli() {
-        return cli;
-    }
-
-    public GUI getGui() {
-        return gui;
-    }
 
     /**
      * Method viewInterfaceChoice asks to the client if he wants to play using CLI or GUI
@@ -144,8 +119,6 @@ public class Client {
 
         return choiceInterface;
     }
-
-
 
     /**
      * Method sendUsername sends the username to the server
@@ -197,7 +170,6 @@ public class Client {
     public void setClientOperationHandler(ClientOperationHandler clientOperationHandler) {
         this.clientOperationHandler = clientOperationHandler;
     }
-
     public ClientOperationHandler getClientOperationHandler() {
         return clientOperationHandler;
     }
@@ -208,39 +180,23 @@ public class Client {
 
     public void setClientModelView(ClientModelView clientModelView) { this.clientModelView = clientModelView;}
 
-    public void serverMatch() {
-        Scanner scanner = new Scanner(System.in);
-
-       /* System.out.println(">Insert the server IP address");
-        System.out.print(">");
-        String ip = scanner.nextLine();*/
-        Constants.setAddressServer("127.0.0.1");
-        System.out.println(">Insert the server port");
-        System.out.print(">");
-        int port = 0;
-        try{
-            port = scanner.nextInt();
-        }catch(InputMismatchException e){
-            System.err.println("insert only numbers");
-        }
-        Constants.setPort(port);
+    public void setInterface(ViewInterface viewInterface){
+        clientOperationHandler.setViewInterface(viewInterface);
+    }
+    public void setChoiceInterface(int choiceInterface) {
+        this.choiceInterface = choiceInterface;
     }
 
-    public void choosePlayerNumber(int number_of_players) {
-
-        do {
-            try {
-                if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
-                    Constants.printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
-                    number_of_players = input.nextInt();
-                }
-            }catch (InputMismatchException e) {
-                System.err.println("Invalid parameter: insert a numeric value.");
-            }
-        }while(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers());
-        sendNumPlayers(number_of_players);
-
+    public int getChoiceInterface() {
+        return choiceInterface;
     }
 
+    public CLI getCli() {
+        return cli;
+    }
+
+    public GUI getGui() {
+        return gui;
+    }
 }
 

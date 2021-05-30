@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.CLI;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientStates;
+import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.server.ClientProxy;
@@ -27,8 +28,16 @@ public class PacketReconnection implements ServerPacketHandler{
         Constants.printConnectionMessage(message);
         client.setClientState(clientProxy.getClientStates());
         client.setClientModelView(clientProxy.getClientModelView());
-        //client.getClientOperationHandler().setClientModelView(clientProxy.getClientModelView());
-        //client.setInterface(new CLI(clientProxy.getClientModelView()));
+        client.getClientOperationHandler().setClientModelView(clientProxy.getClientModelView());
+
+
+        if(client.getChoiceInterface()==1) {
+            client.setInterface(new CLI(client, clientProxy.getClientModelView()));
+        }
+        else {
+            client.setInterface(new GUI(client, clientProxy.getClientModelView()));
+        }
+
 
         switch (client.getClientState()){
             case CREATEMODEL -> {

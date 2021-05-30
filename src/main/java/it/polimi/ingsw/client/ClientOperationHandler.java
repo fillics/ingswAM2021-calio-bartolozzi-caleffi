@@ -21,6 +21,7 @@ public interface ClientOperationHandler {
     void placeResource();
     void takeResourceFromMarket();
     void endTurn() throws JsonProcessingException;
+    void setClientModelView(ClientModelView clientModelView);
 
     ViewInterface getViewInterface();
     void setViewInterface(ViewInterface viewInterface);

@@ -27,8 +27,9 @@ public class Server {
 
     private int idClient = 0;
     private int idGame = 0;
-    private final ArrayList<Game> games = new ArrayList<>();
     private int numPlayers;
+
+    private final Map<Integer, Game> mapGames;
 
 
     /** Map that contains all the username already taken and the clientHandler associated */
@@ -54,6 +55,8 @@ public class Server {
         mapIdGameClientHandler = new HashMap<>();
         peopleDisconnected = new HashMap<>();
         mapForReconnection = new HashMap<>();
+        mapGames = new HashMap<>();
+
     }
 
 
@@ -247,8 +250,9 @@ public class Server {
             game.setState(GameStates.SETUP);
         }
 
-        games.add(game);
-        game.setIdGame(createGameID());
+        int idGame = createGameID();
+        mapGames.put(idGame, game);
+        game.setIdGame(idGame);
 
         System.out.print(Constants.ANSI_BLUE+"Client " + (lobby.peek() != null ? lobby.peek().getUsername() : null) + " created the game (idGame: " + game.getIdGame()+ ") " +
                 "with " +numPlayers+" players: "+Constants.ANSI_RESET);
@@ -316,15 +320,12 @@ public class Server {
         int idGame = peopleDisconnected.get(username);
 
 
-        //Cerco il game del tizio e lo riconnetto da modello (=lo inserisco di nuovo nell'array dei player attivi)
-        for(Game game: games){
-            if (game.getIdGame()==idGame){
-                String usernameCurPlayer = game.getActivePlayers().get(game.getCurrentPlayer()).getUsername();
-                game.reconnectPlayer(username);
-                clientHandlerToAdd.setGame(game);
-                game.setCurrentPlayer(game.getIndexOfActivePlayer(usernameCurPlayer));
-            }
-        }
+        Game gamePlayer = mapGames.get(idGame);
+
+        String usernameCurPlayer = gamePlayer.getPlayers().get(gamePlayer.getCurrentPlayer()).getUsername();
+        gamePlayer.reconnectPlayer(username);
+        clientHandlerToAdd.setGame(gamePlayer);
+        gamePlayer.setCurrentPlayer(gamePlayer.getIndexOfActivePlayer(usernameCurPlayer));
 
 
         //lo aggiungiamo alla mappa che contiene tutti i player di una partita
