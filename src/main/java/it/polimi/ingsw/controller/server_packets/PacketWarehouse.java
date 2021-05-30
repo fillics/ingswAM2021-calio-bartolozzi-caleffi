@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientStates;
+import it.polimi.ingsw.client.gui.panels.BoardPanel;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.board.storage.Deposit;
 import it.polimi.ingsw.model.board.storage.Strongbox;
@@ -28,7 +29,11 @@ public class PacketWarehouse implements ServerPacketHandler{
         client.getClientModelView().getLiteBoard().setStrongbox(strongbox);
         System.out.println("[from server]"+ Constants.ANSI_GREEN+" Warehouse updated!"+Constants.ANSI_RESET);
 
-        if(client.getClientState().equals(ClientStates.RESOURCESETUP)) client.setClientState(ClientStates.GAMESTARTED);
+        if(client.getClientState().equals(ClientStates.RESOURCESETUP)){
+            BoardPanel boardPanel = new BoardPanel(client.getGui());
+            client.getGui().switchPanels(boardPanel);
+            client.setClientState(ClientStates.GAMESTARTED);
+        }
 
     }
 

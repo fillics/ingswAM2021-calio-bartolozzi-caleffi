@@ -1,11 +1,8 @@
 package it.polimi.ingsw.client.gui;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
-import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.client.ViewInterface;
 import it.polimi.ingsw.client.gui.panels.*;
-import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +21,7 @@ public class GUI implements Runnable, ViewInterface {
     private DevGridPanel devGridPanel;
     private MarketPanel marketPanel;
     private LeaderCardPanel leaderCardPanel;
-    private ResourcesPanel resourcesPanel;
+    private AdditionalResourcePanel additionalResourcePanel;
     private Client client;
     private static ArrayList<JPanel> panels;
     private Dimension dimension;

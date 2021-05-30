@@ -8,15 +8,18 @@ import java.awt.event.ActionListener;
 
 public class NumPlayersPanel extends JPanel implements ActionListener {
     private GUI gui;
-    private JButton button = new JButton("choose number of players");
+    private JButton confirm = new JButton("CONFIRM");
+    JTextField loginTextField = new JTextField();
 
     public NumPlayersPanel(GUI gui) {
         this.gui = gui;
         this.setBounds(0,0,1000,1000);
-        button.setBounds(0, 0, 100, 30);
-        this.add(button);
+        loginTextField.setBounds(300, 150, 150, 30);
+        confirm.setBounds(50, 300, 100, 30);
+        this.add(confirm);
+        this.add(loginTextField);
 
-        button.addActionListener(this);
+        confirm.addActionListener(this);
         this.setVisible(true);
         this.setLayout(null);
     }
@@ -24,6 +27,8 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gui.getClient().sendNumPlayers(1);
+        String number_of_players;
+        number_of_players = loginTextField.getText();
+        gui.getClient().sendNumPlayers(Integer.parseInt(number_of_players));
     }
 }

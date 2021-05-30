@@ -45,6 +45,11 @@ public class LeaderCard extends Card {
 
     //TODO: javadoc per ogni metodo
 
+
+    public String getPath() {
+        return path;
+    }
+
     public int getId() {
         return id;
     }

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientStates;
+import it.polimi.ingsw.client.gui.panels.BoardPanel;
+import it.polimi.ingsw.client.gui.panels.AdditionalResourcePanel;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
@@ -29,12 +31,14 @@ public class PacketLeaderCards implements ServerPacketHandler{
         switch (client.getClientState()){
             case GAMESTARTED -> System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
             case LEADERSETUP -> {
-                client.getGui().switchPanels(client.getGui().getPanels().get(3));
                 if (client.getClientModelView().getMyPlayer().getPosInGame() != 0) {
+                    AdditionalResourcePanel additionalResourcePanel = new AdditionalResourcePanel(client.getGui());
+                    client.getGui().switchPanels(additionalResourcePanel);
                     client.setClientState(ClientStates.RESOURCESETUP);
                     System.out.println("Choose your action:\n1. Choose your optional resources");
                 } else {
-                    client.getGui().switchPanels(client.getGui().getPanels().get(3));
+                    BoardPanel boardPanel = new BoardPanel(client.getGui());
+                    client.getGui().switchPanels(boardPanel);
                     client.setClientState(ClientStates.GAMESTARTED);
                     System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
                     System.out.println(Constants.ANSI_YELLOW+"You're the first player, you can't have any resources or faith points."+Constants.ANSI_RESET);
