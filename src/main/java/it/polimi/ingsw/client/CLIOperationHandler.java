@@ -644,7 +644,6 @@ public class CLIOperationHandler implements ClientOperationHandler{
 
     public synchronized void chooseInitialResources(int howManyResources){
 
-
         ArrayList<Integer> deposits = new ArrayList<>();
         ArrayList<ResourceType> resources = new ArrayList<>();
 

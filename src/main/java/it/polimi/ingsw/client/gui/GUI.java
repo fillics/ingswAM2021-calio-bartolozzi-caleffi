@@ -51,6 +51,14 @@ public class GUI implements Runnable, ViewInterface {
 
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public ArrayList<JPanel> getPanels() {
         return panels;
     }

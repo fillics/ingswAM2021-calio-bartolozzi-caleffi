@@ -12,6 +12,8 @@ public class Constants {
 
     private static final int NUM_MAXPLAYERS = 4;
     private static final int NUM_MINPLAYERS = 1;
+    private static int width;
+    private static int height;
     public static final String ITALIC= "\u001B[3m";
     public static final String UNDERLINE = "\u001B[4m";
     public static final String ANSI_BACKGROUND_GREEN = "\u001B[42m";
@@ -110,5 +112,19 @@ public class Constants {
         System.out.println(ANSI_RED+ message.getMessage() + ANSI_RESET);
     }
 
+    public static int getWidth() {
+        return width;
+    }
 
+    public static int getHeight() {
+        return height;
+    }
+
+    public static void setWidth(int width) {
+        Constants.width = width;
+    }
+
+    public static void setHeight(int height) {
+        Constants.height = height;
+    }
 }

@@ -34,20 +34,27 @@ public class PacketLeaderCards implements ServerPacketHandler{
             case LEADERSETUP -> {
                 if (client.getClientModelView().getMyPlayer().getPosInGame() != 0) {
                     if(client.getViewChoice().equals(ViewChoice.GUI)){
-                        AdditionalResourcePanel additionalResourcePanel = new AdditionalResourcePanel(client.getGui());
+                        //AdditionalResourcePanel additionalResourcePanel = new AdditionalResourcePanel(client.getGui());
+                        AdditionalResourcePanel additionalResourcePanel = new AdditionalResourcePanel();
+
                         client.getGui().switchPanels(additionalResourcePanel);
                     }
+                    else System.out.println("Choose your action:\n1. Choose your optional resources");
                     client.setClientState(ClientStates.RESOURCESETUP);
-                    System.out.println("Choose your action:\n1. Choose your optional resources");
-                } else {
+                }
+                else {
                     if(client.getViewChoice().equals(ViewChoice.GUI)){
                         BoardPanel boardPanel = new BoardPanel(client.getGui());
                         client.getGui().switchPanels(boardPanel);
                     }
+                    else {
+                        System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
+                        System.out.println(Constants.ANSI_YELLOW+"You're the first player, you can't have any resources or faith points."+Constants.ANSI_RESET);
+                        System.out.println(Constants.menu);
+                    }
+
+
                     client.setClientState(ClientStates.GAMESTARTED);
-                    System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
-                    System.out.println(Constants.ANSI_YELLOW+"You're the first player, you can't have any resources or faith points."+Constants.ANSI_RESET);
-                    System.out.println(Constants.menu);
                 }
             }
         }
