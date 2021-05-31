@@ -204,7 +204,7 @@ public class DevGridPanel extends JPanel implements ActionListener {
 
         frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
 
-        frame.setTitle("Master of Renaissance!");
+        frame.setTitle("Master of Renaissance");
         frame.setResizable(true);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application

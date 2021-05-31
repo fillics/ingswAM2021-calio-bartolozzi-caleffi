@@ -121,22 +121,4 @@ public class DepositTest {
 
     }
 
-    @Test
-    @DisplayName(" print test")
-    void printTest(){
-        testDeposit1.setResourcetype(ResourceType.COIN);
-        testDeposit2.setResourcetype(ResourceType.SERVANT);
-        testDeposit3.setResourcetype(ResourceType.STONE);
-        testDeposit1.increaseNumberOfResources();
-        testDeposit2.increaseNumberOfResources();
-        testDeposit3.increaseNumberOfResources();
-        testDeposit3.increaseNumberOfResources();
-        assertEquals(testDeposit3.getQuantity(),2);
-        //testDeposit1.dump();
-        //testDeposit2.dump();
-        //testDeposit3.dump();
-        System.out.println(Printable.DOUBLE_LINE.print() + "  " + Printable.DOUBLE_LINE.print());
-        System.out.println(Printable.DOUBLE_LINE.print() + " "+Printable.RED_CROSS.print()+ Printable.DOUBLE_LINE.print()+ "\n" );
-    }
-
 }

@@ -24,78 +24,69 @@ public class Client {
     private ClientOperationHandler clientOperationHandler;
     private CLI cli;
     private GUI gui;
-    private ViewInterface viewInterface;
-    private int choiceInterface;
-    private Scanner input;
+    private ViewChoice viewChoice;
 
     /**
      * Constructor Client creates a new Client instance
      *
      */
-    public Client(int choiceInterface) {
+    public Client(ViewChoice viewChoice) {
 
         clientModelView = new ClientModelView();
         clientStates = ClientStates.SERVERCONNECTION;
 
-        if(choiceInterface==1){
+        if(viewChoice.equals(ViewChoice.CLI)){
             cli = new CLI(this, clientModelView);
-            serverMatch();
-            serverConnection(choiceInterface);
+            cli.serverMatch();
+            serverConnection(viewChoice);
         }
 
-        if (choiceInterface==2){
+        if (viewChoice.equals(ViewChoice.GUI)){
             gui = new GUI(this, clientModelView);
             new Thread(gui).start();
         }
 
     }
 
-    public void serverConnection(int choiceInterface){
-        socketClientConnection = new SocketClientConnection(this);
-
-        if(choiceInterface==1) {
-            CLIOperationHandler cliOperationHandler = new CLIOperationHandler(socketClientConnection, clientModelView);
-            this.setClientOperationHandler(cliOperationHandler);
-            // TODO: 28/05/2021 sistemare setinterface
-            this.setInterface(cli);
-        }
-
-        if(choiceInterface==2){
-            GUIOperationHandler guiOperationHandler = new GUIOperationHandler(socketClientConnection, clientModelView);
-            this.setClientOperationHandler(guiOperationHandler);
-        }
-        setup(choiceInterface);
-    }
-
-
     public static void main(String[] args) {
         System.out.println(Constants.MASTEROFRENAISSANCE);
         System.out.println(Constants.AUTHORS);
-        int choiceInterface;
+        ViewChoice viewChoice = viewInterfaceChoice();
 
-        choiceInterface = viewInterfaceChoice();
-        Client client = new Client(choiceInterface);
-        client.setChoiceInterface(choiceInterface);
+        Client client = new Client(viewChoice);
+        client.setViewChoice(viewChoice);
+
     }
 
-    public void setChoiceInterface(int choiceInterface) {
-        this.choiceInterface = choiceInterface;
+    public void setViewChoice(ViewChoice viewChoice) {
+        this.viewChoice = viewChoice;
     }
 
-    public int getChoiceInterface() {
-        return choiceInterface;
+    public void serverConnection(ViewChoice viewChoice){
+        socketClientConnection = new SocketClientConnection(this);
+
+        if(viewChoice.equals(ViewChoice.CLI)) {
+            clientOperationHandler = new CLIOperationHandler(socketClientConnection, clientModelView, cli);
+            this.setClientOperationHandler(clientOperationHandler);
+        }
+
+        if(viewChoice.equals(ViewChoice.GUI)){
+            clientOperationHandler = new GUIOperationHandler(socketClientConnection, clientModelView, gui);
+            this.setClientOperationHandler(clientOperationHandler);
+        }
+        setup(viewChoice);
     }
 
-    public void setup(int choiceInterface){
+    public void setup(ViewChoice viewChoice){
         //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
         if(socketClientConnection.getConnectionToServer().get()){
-            if(choiceInterface==1){
+            if(viewChoice.equals(ViewChoice.CLI)){
                 ServerListener serverListener = new ServerListener(this, socketClientConnection);
                 ServerWriter serverWriter = new ServerWriter(this, socketClientConnection, clientOperationHandler);
                 new Thread(serverWriter).start();
                 new Thread(serverListener).start();
             }
-            if(choiceInterface==2){
+            if(viewChoice.equals(ViewChoice.GUI)){
                 ServerListener serverListener = new ServerListener(this, socketClientConnection);
                 new Thread(serverListener).start();
             }
@@ -103,29 +94,14 @@ public class Client {
         clientStates = ClientStates.USERNAME;
     }
 
-    public void setInterface(ViewInterface viewInterface){
-        clientOperationHandler.setViewInterface(viewInterface);
-    }
-
-
-
-
-
-    public CLI getCli() {
-        return cli;
-    }
-
-    public GUI getGui() {
-        return gui;
-    }
 
     /**
      * Method viewInterfaceChoice asks to the client if he wants to play using CLI or GUI
-     * @return the choice of the chosen view
      */
-    public static int viewInterfaceChoice(){
+    public static ViewChoice viewInterfaceChoice(){
         Scanner in = new Scanner(System.in);
         int choiceInterface = 0;
+        ViewChoice viewChoice = null;
         do{
             System.out.println("Choose the view interface: \n" + "1.CLI \n" + "2.GUI");
             System.out.print(">");
@@ -139,13 +115,17 @@ public class Client {
                 System.err.println("Your choice is not available, please retry");
         } while(choiceInterface!=1 && choiceInterface!=2);
 
-        if(choiceInterface==1) System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the CLI. Enjoy the game!"+Constants.ANSI_RESET);
-        if(choiceInterface==2) System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the GUI. Enjoy the game!"+Constants.ANSI_RESET);
+        if(choiceInterface==1) {
+            viewChoice= ViewChoice.CLI;
+            System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the CLI. Enjoy the game!"+Constants.ANSI_RESET);
+        }
+        if(choiceInterface==2) {
+            viewChoice= ViewChoice.GUI;
+            System.out.println(Constants.ANSI_YELLOW+"You have chosen to play using the GUI. Enjoy the game!"+Constants.ANSI_RESET);
+        }
+        return viewChoice;
 
-        return choiceInterface;
     }
-
-
 
     /**
      * Method sendUsername sends the username to the server
@@ -197,7 +177,6 @@ public class Client {
     public void setClientOperationHandler(ClientOperationHandler clientOperationHandler) {
         this.clientOperationHandler = clientOperationHandler;
     }
-
     public ClientOperationHandler getClientOperationHandler() {
         return clientOperationHandler;
     }
@@ -208,39 +187,20 @@ public class Client {
 
     public void setClientModelView(ClientModelView clientModelView) { this.clientModelView = clientModelView;}
 
-    public void serverMatch() {
-        Scanner scanner = new Scanner(System.in);
-
-       /* System.out.println(">Insert the server IP address");
-        System.out.print(">");
-        String ip = scanner.nextLine();*/
-        Constants.setAddressServer("127.0.0.1");
-        System.out.println(">Insert the server port");
-        System.out.print(">");
-        int port = 0;
-        try{
-            port = scanner.nextInt();
-        }catch(InputMismatchException e){
-            System.err.println("insert only numbers");
-        }
-        Constants.setPort(port);
+    public void setInterface(ViewInterface viewInterface){
+        clientOperationHandler.setViewInterface(viewInterface);
     }
 
-    public void choosePlayerNumber(int number_of_players) {
-
-        do {
-            try {
-                if(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers()){
-                    Constants.printConnectionMessage(ConnectionMessages.INVALID_NUM_PLAYERS);
-                    number_of_players = input.nextInt();
-                }
-            }catch (InputMismatchException e) {
-                System.err.println("Invalid parameter: insert a numeric value.");
-            }
-        }while(number_of_players < Constants.getNumMinPlayers() || number_of_players > Constants.getNumMaxPlayers());
-        sendNumPlayers(number_of_players);
-
+    public ViewChoice getViewChoice() {
+        return viewChoice;
     }
 
+    public CLI getCli() {
+        return cli;
+    }
+
+    public GUI getGui() {
+        return gui;
+    }
 }
 

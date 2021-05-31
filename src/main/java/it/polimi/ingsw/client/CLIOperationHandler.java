@@ -25,9 +25,10 @@ public class CLIOperationHandler implements ClientOperationHandler{
     private ViewInterface viewInterface;
 
     // TODO: 24/05/2021 sistemare che non si può fare end turn se non prima il completamento della fase di setup di tutti i giocatori
-    public CLIOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView) {
+    public CLIOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView, ViewInterface viewInterface) {
         this.socketClientConnection = socketClientConnection;
         this.clientModelView = clientModelView;
+        this.viewInterface = viewInterface;
         input = new Scanner(System.in);
     }
 
@@ -36,6 +37,7 @@ public class CLIOperationHandler implements ClientOperationHandler{
         this.viewInterface = viewInterface;
     }
 
+    @Override
     public void setClientModelView(ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
     }
@@ -84,7 +86,7 @@ public class CLIOperationHandler implements ClientOperationHandler{
                 viewInterface.printDevGrid();
             }
             case "11", "showboard" -> {
-                System.out.println("You have chosen to see the board");
+                System.out.println("You have chosen to see your personal board");
                 viewInterface.printFaithTrack();
                 viewInterface.printResourcesLegend();
                 viewInterface.printDeposits();
@@ -92,7 +94,7 @@ public class CLIOperationHandler implements ClientOperationHandler{
                 viewInterface.printDevSpaces();
                 viewInterface.printLeaderCards();
             }
-            case "12", "showotherboards" ->
+            case "12", "showanotherboard" ->
                 askBoardOfOtherPlayer();
             case "13", "end" ->{
                 System.out.println("Ending turn");
@@ -115,7 +117,7 @@ public class CLIOperationHandler implements ClientOperationHandler{
             System.out.println(Constants.commands);
         }
         else{
-            System.out.println("You have chosen to see the boards of the other players");
+            System.out.println("You have chosen to see the board of the another player");
             System.out.println("Choose the username of the player whose board you want to see");
             username = input.nextLine();
 
@@ -182,10 +184,10 @@ public class CLIOperationHandler implements ClientOperationHandler{
 
         ArrayList<ResourceType> resources = new ArrayList<>();
         ArrayList<Integer> warehouse = new ArrayList<>();
+        Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
         do {
             do{
                 System.out.println("Choose the resources: ");
-                Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
                 resource = input.nextLine();
                 switch (resource) {
                     case "1", "coin" -> resources.add(ResourceType.COIN);
@@ -265,57 +267,57 @@ public class CLIOperationHandler implements ClientOperationHandler{
     }
 
     public void chooseLeaderCardToRemove() {
-        String Id1 = null;
-        String Id2 = null;
-        boolean checkid1 = false;
-        boolean checkid2 = false;
+        String id1 = null;
+        String id2 = null;
+        boolean checkId1 = false;
+        boolean checkId2 = false;
 
         viewInterface.printLeaderCards();
 
         do {
             try{
                 System.out.println("First card to remove: ");
-                Id1 = input.nextLine();
-                if(Id1.equals("exit")) return;
+                id1 = input.nextLine();
+                if(id1.equals("exit")) return;
             }catch(InputMismatchException|NumberFormatException e){
                 System.err.println("Please, insert a number!");
 
             }
 
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
-                if (Integer.parseInt(Id1) == leaderCard.getId()) {
-                    checkid1 = true;
+                if (Integer.parseInt(id1) == leaderCard.getId()) {
+                    checkId1 = true;
                     break;
                 }
             }
-            if(!checkid1) {
+            if(!checkId1) {
                 System.err.println("Chosen id not present. Please reinsert the id of the first card to remove:");
             }
-        } while (!checkid1);
+        } while (!checkId1);
 
 
         do {
             try{
                 System.out.println("Second card to remove: ");
-                Id2 = input.nextLine();
-                if(Id2.equals("exit")) return;
+                id2 = input.nextLine();
+                if(id2.equals("exit")) return;
             }catch(InputMismatchException|NumberFormatException e){
                 System.err.println("insert a number!");
 
             }
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
-                if (Integer.parseInt(Id2) == leaderCard.getId() && Integer.parseInt(Id2) != Integer.parseInt(Id1)) {
-                    checkid2 = true;
+                if (Integer.parseInt(id2) == leaderCard.getId() && Integer.parseInt(id2) != Integer.parseInt(id1)) {
+                    checkId2 = true;
                     break;
                 }
             }
-            if(!checkid2) {
-                if(Integer.parseInt(Id2) == Integer.parseInt(Id1)) System.err.println("card already discarded");
+            if(!checkId2) {
+                if(Integer.parseInt(id2) == Integer.parseInt(id1)) System.err.println("card already discarded");
                 else System.err.println("Chosen id not present. Please reinsert the id of the second card to remove:");
             }
-        } while (!checkid2);
+        } while (!checkId2);
 
-        PacketChooseLeaderCardToRemove packet = new PacketChooseLeaderCardToRemove(Integer.parseInt(Id1), Integer.parseInt(Id2));
+        PacketChooseLeaderCardToRemove packet = new PacketChooseLeaderCardToRemove(Integer.parseInt(id1), Integer.parseInt(id2));
 
         try {
             sendPacket(packet);
@@ -527,12 +529,12 @@ public class CLIOperationHandler implements ClientOperationHandler{
         }while (Integer.parseInt(id) != 0);
 
         if(clientModelView.getLiteBoard().getSpecialProductionPower().size() == 1) {
-            System.out.println("Press 1 to use the special production power of the board, press 0 to continue the production");
+            System.out.println("Press 1 to use the special production power of the board. \n"+ "Press 0 to continue the production");
             viewInterface.printBaseProdPower();
         }
         if(clientModelView.getLiteBoard().getSpecialProductionPower().size() > 1) {
-            System.out.println("You have other production powers thanks to the leader cards you have selected, also you can use the board production power, select one or more" +
-                    "of them, press 0 to continue the production");
+            System.out.println("You have other production powers thanks to the leader cards you have selected, also you can use the board production power.\n" +
+                    "Select one or more of them, press 0 to continue the production");
             viewInterface.printBaseProdPower();
         }
             String prodPosition;
@@ -545,15 +547,16 @@ public class CLIOperationHandler implements ClientOperationHandler{
                        newProductionPowers.add(Integer.parseInt(prodPosition) );
                    }
                }
-               else if(Integer.parseInt(prodPosition) == 0){}
+               else if(Integer.parseInt(prodPosition) == 0){
+               }
                else{
                    System.err.println("invalid special production power positions, retry");
                }
             }while(Integer.parseInt(prodPosition) != 0);
 
 
-        System.out.println("Choose the resource and the place in which you want to take it\n" +
-                        "press 0 once you have finished");
+        System.out.println("Choose the resource and the place in which you want to take it.\n" +
+                        "Press 0 once you have finished");
         Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
 
         viewInterface.printDeposits();
@@ -640,7 +643,6 @@ public class CLIOperationHandler implements ClientOperationHandler{
 
 
     public synchronized void chooseInitialResources(int howManyResources){
-
 
         ArrayList<Integer> deposits = new ArrayList<>();
         ArrayList<ResourceType> resources = new ArrayList<>();

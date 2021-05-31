@@ -70,11 +70,9 @@ public class MarketTrayTest {
     @Test
     @DisplayName("change method test")
     void changeTest(){
-        testMarketTray.dump();
         testMarketTray.change(line,numline);
-        testMarketTray.dump();
-        //testTable= testMarketTray.getTable();
-        //assertEquals(testTable[2][3],testMarketTray.getMarket().get(0));
-        //assertEquals(testMarketTray.getRemainingMarble(),testMarketTray.getMarket().get(9));
+        testTable= testMarketTray.getTable();
+        assertEquals(testTable[2][3],testMarketTray.getMarket().get(0));
+        assertEquals(testMarketTray.getRemainingMarble(),testMarketTray.getMarket().get(9));
     }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.CLI;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
+import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
@@ -78,7 +79,7 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
         clientModelView.getLiteBoard().setStrongbox(strongbox);
         clientModelView.getLiteBoard().setDevelopmentSpaces(developmentSpaces);
         clientModelView.getMyPlayer().setLeaderCards(leaderCards);
-        if(client.getChoiceInterface()==1)
+        if(client.getViewChoice().equals(ViewChoice.CLI))
             cli= new CLI(client,clientModelView);
         cli.printFaithTrack();
         cli.printResourcesLegend();

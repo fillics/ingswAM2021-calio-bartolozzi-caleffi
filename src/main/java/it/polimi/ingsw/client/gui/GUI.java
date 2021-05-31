@@ -25,7 +25,8 @@ public class GUI implements Runnable, ViewInterface {
     private Client client;
     private static ArrayList<JPanel> panels;
     private Dimension dimension;
-    private int width, height;
+    private final int width;
+    private final int height;
     private ClientModelView clientModelView;
     private JFrame jFrame;
 
@@ -50,6 +51,14 @@ public class GUI implements Runnable, ViewInterface {
         panels.add(removeLeaderCardPanel);
         panels.add(boardPanel);
 
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public ArrayList<JPanel> getPanels() {

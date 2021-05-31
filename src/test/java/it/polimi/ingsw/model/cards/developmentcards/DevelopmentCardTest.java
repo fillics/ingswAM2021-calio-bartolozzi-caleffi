@@ -76,10 +76,4 @@ public class DevelopmentCardTest {
         assertEquals(3,testDevelopmentCard.getVictorypoint());
     }
 
-    @Test
-    @DisplayName("print test")
-    void print(){
-        System.out.println(testDevelopmentCard.getProductionPower().toString().length());
-        testDevelopmentCard.dump();
-    }
 }

@@ -107,8 +107,4 @@ public class LeaderCard extends Card {
         Printable.BOTTOM_BOX.print();
     }
 
-    public void dump(){
-        System.out.println(this);
-    }
-
 }

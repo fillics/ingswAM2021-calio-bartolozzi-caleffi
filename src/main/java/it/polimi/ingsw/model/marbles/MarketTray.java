@@ -142,7 +142,4 @@ public class MarketTray {
         escape.append("    ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ").append(Printable.ARROW_BOTTOM.print()).append(" ");
         return escape.toString();
     }
-    public void dump(){
-        System.out.println(this);
-    }
 }

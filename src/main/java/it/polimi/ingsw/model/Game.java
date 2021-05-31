@@ -393,9 +393,9 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void useDiscountActivation(HashMap<ResourceType,Integer> resourcePriceBuffer, DevelopmentCard developmentCard){
 
         if(!leaderCardsChosen.isEmpty()) {
-            for (int i = 0; i < leaderCardsChosen.size(); i++) {
-                for(int j=0; j<activePlayers.get(currentPlayer).getLeaderCards().size();j++){
-                    if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId()==leaderCardsChosen.get(i)){
+            for (Integer integer : leaderCardsChosen) {
+                for (int j = 0; j < activePlayers.get(currentPlayer).getLeaderCards().size(); j++) {
+                    if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId() == integer) {
                         activePlayers.get(currentPlayer).getLeaderCards().get(j).useDiscount(developmentCard, resourcePriceBuffer);
                         break;
                     }
@@ -457,14 +457,14 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         removeCardFromDevelopmentGrid(developmentCard);
 
 
-        System.out.println(activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces().get(0));
+        //System.out.println(activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces().get(0));
         developmentSpace.addDevelopmentCard(developmentCard);
-        System.out.println(activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces().get(0));
+        //System.out.println(activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces().get(0));
 
 
-        System.out.println(activePlayers.get(currentPlayer).getBoard().getNumOfDevCards());
+        //System.out.println(activePlayers.get(currentPlayer).getBoard().getNumOfDevCards());
         activePlayers.get(currentPlayer).getBoard().increaseNumOfDevCards();
-        System.out.println(activePlayers.get(currentPlayer).getBoard().getNumOfDevCards());
+        //System.out.println(activePlayers.get(currentPlayer).getBoard().getNumOfDevCards());
     }
 
 
@@ -486,7 +486,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     @Override
     public void takeResourceFromMarket(String line, int numline, ArrayList<Integer> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated{
-        if (!whiteMarbleCardChoice.isEmpty()) {
+        if (whiteMarbleCardChoice!=null) {
             int i, j, num;
             for (i = 0; i < whiteMarbleCardChoice.size(); i++) {
                 num = 0;
@@ -756,7 +756,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     /**
      * dato username mi restituisce la posizione del giocatore nell'array dei player
      * @param usernameToFind (type String)
-     * @return
      */
     public int getIndexOfPlayer(String usernameToFind){
         int index = 0;
@@ -769,13 +768,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     /**
      * dato un username ritorna l'username del player dopo
-     * @param username
-     * @return
      */
     public String nextPlayerGivenUsername(String username){
         String usernameNext = null;
 
-        System.out.println("size active player: "+activePlayers.size());
+        //System.out.println("size active player: "+activePlayers.size());
 
 
         for (int i = 0; i < activePlayers.size(); i++) {

@@ -23,7 +23,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         this.setBounds(0,0,1000,1000);
         createPanel();
         addComponentsToContainer();
-        addActionEvent(loginButton);
+        loginButton.addActionListener(this);
         this.setVisible(true);
         this.setLayout(null);
     }
@@ -38,18 +38,11 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 
     public void addComponentsToContainer() {
-
         this.add(login);
         this.add(loginButton);
         this.add(loginTextField);
 
     }
-
-
-    public void addActionEvent(JButton button) {
-        button.addActionListener(this);
-    }
-
 
 
     @Override
