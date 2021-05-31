@@ -20,15 +20,17 @@ public class GUI implements Runnable, ViewInterface {
     private BuyDevCardPanel buyDevCardPanel;
     private DevGridPanel devGridPanel;
     private MarketPanel marketPanel;
-    private LeaderCardPanel leaderCardPanel;
+    private RemoveLeaderCardPanel removeLeaderCardPanel;
     private AdditionalResourcePanel additionalResourcePanel;
     private Client client;
     private static ArrayList<JPanel> panels;
     private Dimension dimension;
     private int width, height;
     private ClientModelView clientModelView;
+    private JFrame jFrame;
 
     public GUI(Client client, ClientModelView clientModelView) {
+        jFrame = new JFrame();
         this.clientModelView = clientModelView;
         dimension = Toolkit.getDefaultToolkit().getScreenSize();
         width = dimension.width;
@@ -40,12 +42,12 @@ public class GUI implements Runnable, ViewInterface {
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
         boardPanel = new BoardPanel(this);
-        leaderCardPanel = new LeaderCardPanel(this);
+        removeLeaderCardPanel = new RemoveLeaderCardPanel(this);
 
         panels.add(serverPanel);
         panels.add(loginPanel);
         panels.add(numPlayersPanel);
-        panels.add(leaderCardPanel);
+        panels.add(removeLeaderCardPanel);
         panels.add(boardPanel);
 
     }
@@ -64,7 +66,6 @@ public class GUI implements Runnable, ViewInterface {
     @Override
     public void run() {
 
-        JFrame frame = new JFrame();
         bigPanel = new JPanel();
 
         bigPanel.setVisible(true);
@@ -73,15 +74,15 @@ public class GUI implements Runnable, ViewInterface {
         bigPanel.setBounds(0,0,width,height);
 
         bigPanel.add(serverPanel);
-        frame.add(bigPanel);
+        jFrame.add(bigPanel);
 
-        frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
+        jFrame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
 
-        frame.setTitle("Master of Renaissance");
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
-        frame.setSize(width, height);
+        jFrame.setTitle("Master of Renaissance");
+        jFrame.setResizable(false);
+        jFrame.setVisible(true);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
+        jFrame.setSize(width, height);
 
         ImageIcon image = null; //create an ImageIcon
         try {
@@ -90,7 +91,7 @@ public class GUI implements Runnable, ViewInterface {
             System.out.println(e.getMessage());
         }
 
-        frame.setIconImage(image != null ? image.getImage() : null); //change icon of the this
+        jFrame.setIconImage(image != null ? image.getImage() : null); //change icon of the this
 
     }
 
@@ -158,7 +159,8 @@ public class GUI implements Runnable, ViewInterface {
 
     }
 
-
-
+    public JFrame getjFrame() {
+        return jFrame;
+    }
 }
 

@@ -68,6 +68,13 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if(e.getSource() == activateLeaderCard){
+            ActivateLeaderCardPanel activateLeaderCardPanel = new ActivateLeaderCardPanel(gui);
+            gui.switchPanels(activateLeaderCardPanel);
+        }
+        if(e.getSource() == discardLeaderCard){
+            DiscardLeaderCardPanel discardLeaderCardPanel = new DiscardLeaderCardPanel(gui);
+            gui.switchPanels(discardLeaderCardPanel);
+        }
     }
 }

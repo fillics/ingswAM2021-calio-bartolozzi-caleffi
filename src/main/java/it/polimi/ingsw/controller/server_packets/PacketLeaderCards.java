@@ -29,7 +29,11 @@ public class PacketLeaderCards implements ServerPacketHandler{
         client.getClientModelView().getMyPlayer().setLeaderCards(leaderCards);
 
         switch (client.getClientState()){
-            case GAMESTARTED -> System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
+            case GAMESTARTED -> {
+                BoardPanel boardPanel = new BoardPanel(client.getGui());
+                client.getGui().switchPanels(boardPanel);
+                System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
+            }
             case LEADERSETUP -> {
                 if (client.getClientModelView().getMyPlayer().getPosInGame() != 0) {
                     AdditionalResourcePanel additionalResourcePanel = new AdditionalResourcePanel(client.getGui());

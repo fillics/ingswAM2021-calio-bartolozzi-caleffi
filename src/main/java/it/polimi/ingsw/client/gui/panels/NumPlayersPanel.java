@@ -8,14 +8,17 @@ import java.awt.event.ActionListener;
 
 public class NumPlayersPanel extends JPanel implements ActionListener {
     private GUI gui;
+    JLabel numPlayers = new JLabel("Choose the number of players");
     private JButton confirm = new JButton("CONFIRM");
     JTextField loginTextField = new JTextField();
 
     public NumPlayersPanel(GUI gui) {
         this.gui = gui;
         this.setBounds(0,0,1000,1000);
+        numPlayers.setBounds(50, 150, 200, 30);
         loginTextField.setBounds(300, 150, 150, 30);
         confirm.setBounds(50, 300, 100, 30);
+        this.add(numPlayers);
         this.add(confirm);
         this.add(loginTextField);
 

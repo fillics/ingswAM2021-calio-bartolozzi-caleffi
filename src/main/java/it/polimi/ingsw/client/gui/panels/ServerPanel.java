@@ -62,7 +62,6 @@ public class ServerPanel extends JPanel implements ActionListener {
             Constants.setPort(Integer.parseInt(port));
 
             // TODO: 28/05/2021 togliere finestra di dialogo, mettere solo panel di messaggi risposta da server
-            JOptionPane.showMessageDialog(this, "Connected!");
             gui.switchPanels(gui.getPanels().get(1));
             gui.getClient().serverConnection(2);
 

@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.server_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.*;
-import it.polimi.ingsw.client.gui.panels.LeaderCardPanel;
+import it.polimi.ingsw.client.gui.panels.RemoveLeaderCardPanel;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
 import it.polimi.ingsw.model.board.resources.Resource;
@@ -161,8 +161,8 @@ public class PacketSetup implements ServerPacketHandler{
 
             client.setClientState(ClientStates.LEADERSETUP);
             if(client.getChoiceInterface() == 2){
-                LeaderCardPanel leaderCardPanel = new LeaderCardPanel(client.getGui());
-                client.getGui().switchPanels(leaderCardPanel);
+                RemoveLeaderCardPanel removeLeaderCardPanel = new RemoveLeaderCardPanel(client.getGui());
+                client.getGui().switchPanels(removeLeaderCardPanel);
             }
         }
 

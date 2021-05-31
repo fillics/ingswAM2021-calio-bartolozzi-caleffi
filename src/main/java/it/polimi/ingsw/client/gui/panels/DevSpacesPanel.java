@@ -12,55 +12,59 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class DevSpacesPanel extends JPanel implements ActionListener {
-    GridBagConstraints c;
-    JButton devSpace1;
-    JButton devspace2;
-    JButton devSpace3;
-    ClientModelView clientModelView;
+    private Image devSpaces;
+    private JButton devSpace1;
+    private JButton devspace2;
+    private JButton devSpace3;
+    private ClientModelView clientModelView;
 
-    public void paint(Graphics g){
-        myDrawImage("images/board/devSpaces.jpg", g);
-    }
-    public void myDrawImage(String image, Graphics g){
-        ClassLoader cl = this.getClass().getClassLoader();
-        InputStream url = cl.getResourceAsStream(image);
-        BufferedImage img;
-        try{
-            assert url != null;
-            img = ImageIO.read(url);
-        } catch (IOException e){
-            e.printStackTrace();
-            return;
-        }
-
-        int width = 720;
-        int height = 480;
-        g.drawImage(img, 0, -1,width,height, null);
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(devSpaces, 0,0, 720, 480, null);
     }
 
     public DevSpacesPanel(ClientModelView clientModelView) {
-        this.setLayout(new GridBagLayout());
-        c = new GridBagConstraints();
+        InputStream is = getClass().getResourceAsStream("/images/board/devSpaces.jpg");
+        try {
+            devSpaces = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.setBounds(0,0,1000,1000);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBounds(0,0,1000,1000);
         devSpace1 = new JButton("1");
         devspace2 = new JButton("2");
         devSpace3 = new JButton("3");
-        setButtons();
+        setAllBounds();
+        setButtons(buttonPanel);
         this.clientModelView = clientModelView;
+        this.add(buttonPanel);
+        this.setVisible(true);
+        buttonPanel.setVisible(true);
+        buttonPanel.setLayout(null);
+        this.setLayout(null);
+        buttonPanel.setOpaque(false);
+        repaint();
+
     }
 
-    public void setButtons(){
+    public void setAllBounds(){
+        devSpace1.setBounds(180, 430, 100, 30);
+        devspace2.setBounds(360, 430, 100, 30);
+        devSpace3.setBounds(548,430, 100, 30);
+    }
+
+    public void setButtons(JPanel buttonPanel){
         devSpace1.addActionListener(this);
-        c.gridx = 0;
-        c.gridy = 0;
-        this.add(devSpace1,c);
+        buttonPanel.add(devSpace1);
+        devSpace1.setBackground(Color.ORANGE);
         devspace2.addActionListener(this);
-        c.gridx = 1;
-        c.gridy = 0;
-        this.add(devspace2,c);
+        buttonPanel.add(devspace2);
+        devspace2.setBackground(Color.ORANGE);
         devSpace3.addActionListener(this);
-        c.gridx = 2;
-        c.gridy = 0;
-        this.add(devSpace3,c);
+        buttonPanel.add(devSpace3);
+        devSpace3.setBackground(Color.ORANGE);
     }
 
     @Override

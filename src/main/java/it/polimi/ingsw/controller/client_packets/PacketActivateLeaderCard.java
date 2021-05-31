@@ -12,6 +12,8 @@ import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
+import javax.swing.*;
+
 public class PacketActivateLeaderCard implements ClientPacketHandler {
     private final int id;
 
