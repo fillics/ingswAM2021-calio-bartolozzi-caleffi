@@ -8,22 +8,35 @@ import it.polimi.ingsw.client.Client;
 public class PacketNewPositionInGame  implements ServerPacketHandler {
 
     private final int posInGame;
+    private final String username;
+    private final String action;
 
      
     
     @JsonCreator
-    public PacketNewPositionInGame(@JsonProperty("newPosInGame") int posInGame) {
+    public PacketNewPositionInGame(@JsonProperty("newPosInGame") int posInGame,
+                                   @JsonProperty("username") String username,
+                                   @JsonProperty("action") String action) {
         this.posInGame = posInGame;
+        this.username=username;
+        this.action=action;
     }
 
     public int getPosInGame() {
         return posInGame;
     }
 
-    // TODO: 22/05/2021 togliere il system out con il messaggio
+    public String getUsername() {
+        return username;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
     @Override
     public void execute(Client client) {
-        System.out.println("Someone disconnected/reconnected. Your new turn position is: "+posInGame);
+        System.out.println(username + " "+ action + ". "+ "Your new turn position is: "+(posInGame+1));
         client.getClientModelView().getMyPlayer().setPosInGame(posInGame);
     }
 }

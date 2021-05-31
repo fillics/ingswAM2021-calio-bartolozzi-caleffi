@@ -13,9 +13,6 @@ public enum ConnectionMessages {
     LOBBY_MASTER("You are the "+Constants.ITALIC+"lobby master"+Constants.ANSI_RESET+"! You will create the match."),
     USERNAME_VALID(Constants.ANSI_GREEN+"Username chosen is valid!"+Constants.ANSI_RESET),
     INSERT_USERNAME("Insert your username: "),
-    LOCAL_OR_SERVERGAME("Choose how you want to play:\n" + "" +
-            "1. Solo game without making a connection with the server\n"+
-            "2. Game with connection to the server"),
     INVALID_CHOICE(Constants.ANSI_RED+"The choice is invalid. Enter a new one: "+Constants.ANSI_RESET),
     TAKEN_NICKNAME(Constants.ANSI_RED+"The chosen username is already taken. Enter a new one: "+Constants.ANSI_RESET),
     INSERT_NUMBER_OF_PLAYERS("Insert the desired number of players (1, 2, 3 or 4): "),

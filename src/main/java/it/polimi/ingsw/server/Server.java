@@ -337,7 +337,7 @@ public class Server {
         //mando al client riconnesso il pacchetto di riconnessione che contiene tutte le info salvate
         clientHandlerToAdd.sendPacketToClient(new PacketReconnection(mapForReconnection.get(username)));
 
-        sendNewPositionInGame(clientHandlerToAdd);
+        sendNewPositionInGame(clientHandlerToAdd, username, "reconnected");
 
     }
 
@@ -362,7 +362,7 @@ public class Server {
 
             game.setCurrentPlayer(game.getIndexOfActivePlayer(usernameCurPlayer));
 
-            sendNewPositionInGame(clientHandlerToRemove);
+            sendNewPositionInGame(clientHandlerToRemove, clientHandlerToRemove.getUsername(), "disconnected");
 
 
         }
@@ -376,14 +376,14 @@ public class Server {
 
     /**
      * to send to each player of a game his new position in the game
-     * @param disconnectedClientHandler (type ClientHandler)
+     * @param clientHandler (type ClientHandler)
      */
-    public synchronized void sendNewPositionInGame(ClientHandler disconnectedClientHandler){
+    public synchronized void sendNewPositionInGame(ClientHandler clientHandler, String username, String action){
         //prendiamo il game del giocatore disconnesso
-        for (ClientHandler clientHandler: mapIdGameClientHandler.get(disconnectedClientHandler.getGame().getIdGame())){
-            int newPos = clientHandler.getGame().getIndexOfActivePlayer(clientHandler.getUsername());
-            clientHandler.sendPacketToClient(new PacketNewPositionInGame(newPos));
-            clientHandler.setPosInGame(newPos);
+        for (ClientHandler client: mapIdGameClientHandler.get(clientHandler.getGame().getIdGame())){
+            int newPos = client.getGame().getIndexOfActivePlayer(client.getUsername());
+            client.sendPacketToClient(new PacketNewPositionInGame(newPos, username, action));
+            client.setPosInGame(newPos);
         }
     }
 
