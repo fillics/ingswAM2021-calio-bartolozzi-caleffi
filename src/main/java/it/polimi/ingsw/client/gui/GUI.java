@@ -30,8 +30,8 @@ public class GUI implements Runnable, ViewInterface {
     private JFrame jFrame;
 
     public GUI(Client client, ClientModelView clientModelView) {
-        jFrame = new JFrame();
         this.clientModelView = clientModelView;
+        jFrame = new JFrame();
         dimension = Toolkit.getDefaultToolkit().getScreenSize();
         width = dimension.width;
         height = dimension.height-50;

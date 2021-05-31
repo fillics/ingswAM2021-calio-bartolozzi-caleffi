@@ -27,6 +27,7 @@ public class DevGridPanel extends JPanel implements ActionListener {
     int id;
 
     public DevGridPanel(ClientModelView clientModelView) {
+        this.clientModelView = clientModelView;
         this.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
         devCard1 = new JButton("1");
@@ -46,7 +47,6 @@ public class DevGridPanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.clientModelView = clientModelView;
     }
 
     public void setButtons() throws IOException {

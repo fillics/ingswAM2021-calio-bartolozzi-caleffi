@@ -19,8 +19,8 @@ public class BoardPanel extends JPanel implements ActionListener {
     private JButton endTurn = new JButton("END YOUR TURN");
 
     public BoardPanel(GUI gui) {
-        this.setBounds(0,0,1500,1000);
         this.gui = gui;
+        this.setBounds(0,0,1500,1000);
 
         setAllBounds();
         addAll();
@@ -75,6 +75,10 @@ public class BoardPanel extends JPanel implements ActionListener {
         if(e.getSource() == discardLeaderCard){
             DiscardLeaderCardPanel discardLeaderCardPanel = new DiscardLeaderCardPanel(gui);
             gui.switchPanels(discardLeaderCardPanel);
+        }
+        if(e.getSource() == buyDevCard){
+            DevGridPanel devGridPanel = new DevGridPanel(gui.getClientModelView());
+            gui.switchPanels(devGridPanel);
         }
     }
 }
