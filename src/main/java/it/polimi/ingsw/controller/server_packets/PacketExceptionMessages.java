@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.server_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.panels.BoardPanel;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ExceptionMessages;
@@ -19,7 +20,7 @@ public class PacketExceptionMessages implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
-        if(client.getChoiceInterface() == 1) Constants.printExceptionMessage(message);
+        if(client.getViewChoice() == ViewChoice.CLI) Constants.printExceptionMessage(message);
         else{
             BoardPanel boardPanel = new BoardPanel(client.getGui());
             client.getGui().switchPanels(boardPanel);

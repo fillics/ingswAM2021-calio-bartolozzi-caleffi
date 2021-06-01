@@ -2,46 +2,48 @@ package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
-
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-// TODO: 31/05/2021 fare che puoi scegliere il numero di player da una griglia con quattro pulsanti con i quattro numeri 
 public class NumPlayersPanel extends JPanel implements ActionListener {
     private GUI gui;
-    JLabel numPlayers = new JLabel(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage());
-    private JButton confirmButton = new JButton("CONFIRM");
-    JTextField numPlayersTextField = new JTextField();
-
+    private JLabel numPlayers;
+    private JPanel numbersPanel;
+    private JButton btn1, btn2, btn3, btn4;
+    private  int number_of_players;
     public NumPlayersPanel(GUI gui) {
         this.gui = gui;
-        this.setBounds(0,0,1000,1000);
-        
-        createPanel();
-        
-        this.add(confirmButton);
-        this.add(numPlayersTextField);
+        this.setOpaque(true);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(Box.createRigidArea(new Dimension(300 ,400)));
+        createNumbersGrid();
+    }
+    public void createNumbersGrid(){
+        numPlayers = new JLabel(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage());
         this.add(numPlayers);
-
-        confirmButton.addActionListener(this);
-        this.setVisible(true);
-        this.setLayout(null);
+        numbersPanel = new JPanel();
+        numbersPanel.setLayout(new GridLayout(2,2));
+        btn1 = new JButton("1");
+        btn2 = new JButton("2");
+        btn3 = new JButton("3");
+        btn4 = new JButton("4");
+        numbersPanel.add(btn1);
+        numbersPanel.add(btn2);
+        numbersPanel.add(btn3);
+        numbersPanel.add(btn4);
+        btn1.addActionListener(this);
+        btn2.addActionListener(this);
+        btn3.addActionListener(this);
+        btn4.addActionListener(this);
+        this.add(numbersPanel);
     }
-
-
-    private void createPanel(){
-        numPlayers.setBounds(50, 150, 200, 30);
-        numPlayersTextField.setBounds(300, 150, 150, 30);
-        confirmButton.setBounds(50, 300, 100, 30);
-        
-    }
-
-    
     @Override
     public void actionPerformed(ActionEvent e) {
-        String number_of_players;
-        number_of_players = numPlayersTextField.getText();
-        gui.getClient().sendNumPlayers(Integer.parseInt(number_of_players));
+        if (e.getSource() == btn1) number_of_players = 1;
+        if (e.getSource() == btn2) number_of_players = 2;
+        if (e.getSource() == btn3) number_of_players = 3;
+        if (e.getSource() == btn4) number_of_players = 4;
+        gui.getClient().sendNumPlayers(number_of_players);
     }
 }

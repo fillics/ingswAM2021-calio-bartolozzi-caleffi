@@ -160,7 +160,7 @@ public class PacketSetup implements ServerPacketHandler{
             System.out.println("Choose your action: \n" + "1. Choose the 2 IDs of the leader cards to remove: ");
 
             client.setClientState(ClientStates.LEADERSETUP);
-            if(client.getChoiceInterface() == 2){
+            if(client.getViewChoice() == ViewChoice.GUI){
                 RemoveLeaderCardPanel removeLeaderCardPanel = new RemoveLeaderCardPanel(client.getGui());
                 client.getGui().switchPanels(removeLeaderCardPanel);
             }

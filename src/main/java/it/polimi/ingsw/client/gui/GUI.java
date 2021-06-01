@@ -43,7 +43,6 @@ public class GUI implements Runnable, ViewInterface {
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
         boardPanel = new BoardPanel(this);
-        removeLeaderCardPanel = new RemoveLeaderCardPanel(this);
 
         panels.add(serverPanel);
         panels.add(loginPanel);
@@ -78,7 +77,7 @@ public class GUI implements Runnable, ViewInterface {
         bigPanel = new JPanel();
 
         bigPanel.setVisible(true);
-        bigPanel.setLayout(null);
+        bigPanel.setLayout(new BorderLayout());
 
         bigPanel.setBounds(0,0,width,height);
 

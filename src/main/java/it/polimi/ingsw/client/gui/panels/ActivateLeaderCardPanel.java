@@ -5,14 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketActivateLeaderCard;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
+    private Image background;
     private GUI gui;
     private JButton leaderCard1 = new JButton();
     private JButton leaderCard2 = new JButton();
@@ -20,36 +23,62 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
     private JButton back = new JButton("BACK");
     ArrayList<JButton> jButtons;
     int id1 = 0;
+    private JPanel cards;
+    private JPanel buttons;
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(background, 0,0, 1000, 500, null);
+    }
 
     public ActivateLeaderCardPanel(GUI gui) {
+        InputStream is = getClass().getResourceAsStream("/images/board/devSpaces.jpg");
+        try {
+            background = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        cards = new JPanel();
+        buttons = new JPanel();
+        this.setPreferredSize(new Dimension(1000, 500));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        cards.setLayout(new BoxLayout(cards, BoxLayout.X_AXIS));
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
+
         jButtons = new ArrayList<>();
         this.gui = gui;
-        int x = 0;
-        this.setBounds(0,0,1000,1000);
         jButtons.add(leaderCard1);
         jButtons.add(leaderCard2);
         for(int i = 0 ; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            int y = 0;
             try {
                 jButtons.get(i).setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            jButtons.get(i).setBounds(x, y, 150, 200);
             jButtons.get(i).addActionListener(this);
-            this.add(jButtons.get(i));
-            x += 160;
-
+            cards.add(jButtons.get(i));
         }
-        back.setBounds(50, 300, 100, 30);
-        confirm.setBounds(300, 300, 100, 30);
-        back.addActionListener(this);
         confirm.addActionListener(this);
-        this.add(confirm);
-        this.add(back);
+        confirm.setPreferredSize(new Dimension(100, 30));
+        back.addActionListener(this);
+        back.setPreferredSize(new Dimension(100, 30));
+
+        buttons.setPreferredSize(new Dimension(1000, 250));
+        cards.setPreferredSize(new Dimension(1000, 250));
+
+        buttons.add(back);
+        buttons.add(Box.createRigidArea(new Dimension(100, 200)));
+        buttons.add(confirm);
+
+        cards.setOpaque(false);
+        buttons.setOpaque(false);
+
+        this.add(cards);
+        this.add(buttons);
+
         this.setVisible(true);
-        this.setLayout(null);    }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -81,4 +110,5 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
             }
         }
     }
+
 }

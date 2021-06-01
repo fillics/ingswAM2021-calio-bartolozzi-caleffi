@@ -24,10 +24,11 @@ public class DevGridPanel extends JPanel implements ActionListener {
     JButton devCard11;
     JButton devCard12;
     ClientModelView clientModelView;
+    GUI gui;
     int id;
 
-    public DevGridPanel(ClientModelView clientModelView) {
-        this.clientModelView = clientModelView;
+    public DevGridPanel(GUI gui) {
+        this.gui = gui;
         this.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
         devCard1 = new JButton("1");
@@ -47,9 +48,11 @@ public class DevGridPanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.setVisible(true);
     }
 
     public void setButtons() throws IOException {
+        clientModelView = gui.getClient().getClientModelView();
         devCard1.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(0).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard1.addActionListener(this);
         c.gridx = 0;
@@ -195,22 +198,6 @@ public class DevGridPanel extends JPanel implements ActionListener {
         devCard10.setEnabled(false);
         devCard11.setEnabled(false);
         devCard12.setEnabled(false);
-    }
-
-    public static void main(String[] args) {
-     //   DevGridPanel devGridPanel = new DevGridPanel(new ClientModelView());
-        DevSpacesPanel devSpacesPanel = new DevSpacesPanel(new ClientModelView());
-        JFrame frame = new JFrame();
-
-        frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
-
-        frame.setTitle("Master of Renaissance");
-        frame.setResizable(true);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
-        frame.setSize(800, 800);
-        frame.add(devSpacesPanel);
-
     }
 
 

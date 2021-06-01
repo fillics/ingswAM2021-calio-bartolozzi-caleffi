@@ -77,7 +77,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             gui.switchPanels(discardLeaderCardPanel);
         }
         if(e.getSource() == buyDevCard){
-            DevGridPanel devGridPanel = new DevGridPanel(gui.getClientModelView());
+            DevGridPanel devGridPanel = new DevGridPanel(gui);
             gui.switchPanels(devGridPanel);
         }
     }
