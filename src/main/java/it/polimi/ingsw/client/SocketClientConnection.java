@@ -30,7 +30,7 @@ public class SocketClientConnection {
             connectionToServer.compareAndSet(false, true);
         } catch (IOException ignored) {
             System.err.println("Error during connection to the client");
-            Client.main(null);
+            new Client(client.getViewChoice());
         }
         if (connectionToServer.get()) creationStreams();
     }
