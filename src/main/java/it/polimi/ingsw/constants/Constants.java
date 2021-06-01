@@ -28,28 +28,28 @@ public class Constants {
     public static final String ANSI_BACKGROUND_BLACK = "\033[40m";
     public static final String ANSI_BACKGROUND_PURPLE = "\033[45m";
     public static final String menu = "Choose one of the operations you can do:\n"+
-                        "1: Activate a Leader Card ["+printItalic("activate")+"]\n" +
-                        "2: Buy a Development Card ["+printItalic("buy")+"]\n" +
-                        "3: Choose Discount ["+printItalic("choose")+"]\n" +
-                        "4: Use production powers ["+printItalic("prodpowers")+"]\n" +
-                        "5: Discard a Leader Card ["+printItalic("discard")+"]\n" +
-                        "6: Move one of you resources ["+printItalic("move")+"]\n" +
-                        "7: Place one of your resources ["+printItalic("place")+"]\n" +
-                        "8: Take resources from the market ["+printItalic("take")+"]\n" +
-                        "9: Show the market tray ["+printItalic("showmarket")+"]\n"+
-                        "10: Show the development grid ["+printItalic("showgrid")+"]\n"+
-                        "11: Show my personal board["+printItalic("showboard")+"]\n"+
-                        "12: Show the board of another player ["+printItalic("showanotherboard")+"]\n" +
-                        "13: End Turn ["+printItalic("end")+"]\n";
+            "1: Activate a Leader Card ["+printItalic("activate")+"]\n" +
+            "2: Buy a Development Card ["+printItalic("buy")+"]\n" +
+            "3: Choose Discount ["+printItalic("choose")+"]\n" +
+            "4: Use production powers ["+printItalic("prodpowers")+"]\n" +
+            "5: Discard a Leader Card ["+printItalic("discard")+"]\n" +
+            "6: Move one of you resources ["+printItalic("move")+"]\n" +
+            "7: Place one of your resources ["+printItalic("place")+"]\n" +
+            "8: Take resources from the market ["+printItalic("take")+"]\n" +
+            "9: Show the market tray ["+printItalic("showmarket")+"]\n"+
+            "10: Show the development grid ["+printItalic("showgrid")+"]\n"+
+            "11: Show my personal board["+printItalic("showboard")+"]\n"+
+            "12: Show the board of another player ["+printItalic("showanotherboard")+"]\n" +
+            "13: End Turn ["+printItalic("end")+"]\n";
 
 
     public static final String MASTEROFRENAISSANCE =
-    "███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗      ██████╗ ███████╗    ██████╗ ███████╗███╗   ██╗ █████╗ ██╗███████╗███████╗ █████╗ ███╗   ██╗ ██████╗███████╗\n"
-            + "████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗    ██╔═══██╗██╔════╝    ██╔══██╗██╔════╝████╗  ██║██╔══██╗██║██╔════╝██╔════╝██╔══██╗████╗  ██║██╔════╝██╔════╝\n"
-            + "██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝    ██║   ██║█████╗      ██████╔╝█████╗  ██╔██╗ ██║███████║██║███████╗███████╗███████║██╔██╗ ██║██║     █████╗\n"
-           + "██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗    ██║   ██║██╔══╝      ██╔══██╗██╔══╝  ██║╚██╗██║██╔══██║██║╚════██║╚════██║██╔══██║██║╚██╗██║██║     ██╔══╝\n"
-           + "██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║    ╚██████╔╝██║         ██║  ██║███████╗██║ ╚████║██║  ██║██║███████║███████║██║  ██║██║ ╚████║╚██████╗███████╗\n"
-            +"╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝         ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝";
+            "███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗      ██████╗ ███████╗    ██████╗ ███████╗███╗   ██╗ █████╗ ██╗███████╗███████╗ █████╗ ███╗   ██╗ ██████╗███████╗\n"
+                    + "████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗    ██╔═══██╗██╔════╝    ██╔══██╗██╔════╝████╗  ██║██╔══██╗██║██╔════╝██╔════╝██╔══██╗████╗  ██║██╔════╝██╔════╝\n"
+                    + "██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝    ██║   ██║█████╗      ██████╔╝█████╗  ██╔██╗ ██║███████║██║███████╗███████╗███████║██╔██╗ ██║██║     █████╗\n"
+                    + "██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗    ██║   ██║██╔══╝      ██╔══██╗██╔══╝  ██║╚██╗██║██╔══██║██║╚════██║╚════██║██╔══██║██║╚██╗██║██║     ██╔══╝\n"
+                    + "██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║    ╚██████╔╝██║         ██║  ██║███████╗██║ ╚████║██║  ██║██║███████║███████║██║  ██║██║ ╚████║╚██████╗███████╗\n"
+                    +"╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝         ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝";
 
     public static final String AUTHORS =
             "\nby "
@@ -80,7 +80,7 @@ public class Constants {
     }
 
     public static String printItalic(String message){
-         return ITALIC+message+ANSI_RESET;
+        return ITALIC+message+ANSI_RESET;
     }
     public static String getInfo() {
         return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " INFO: ");

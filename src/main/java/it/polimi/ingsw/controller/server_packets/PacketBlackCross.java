@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 
 public class PacketBlackCross implements ServerPacketHandler{
-    private int blackCross;
+    private final int blackCross;
 
     @JsonCreator
     public PacketBlackCross(@JsonProperty("blackCross") int blackCross){
