@@ -39,7 +39,7 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
 
     public RemoveLeaderCardPanel(GUI gui) {
         //TODO : immagine da cambiare
-        InputStream is = getClass().getResourceAsStream("/images/board/devSpaces.jpg");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             background = ImageIO.read(is);
         } catch (IOException e) {

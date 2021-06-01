@@ -3,6 +3,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.ViewInterface;
 import it.polimi.ingsw.client.gui.panels.*;
+import it.polimi.ingsw.constants.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,42 +45,16 @@ public class GUI implements Runnable, ViewInterface {
         numPlayersPanel = new NumPlayersPanel(this);
         boardPanel = new BoardPanel(this);
 
-        panels.add(serverPanel);
-        panels.add(loginPanel);
-        panels.add(numPlayersPanel);
-        panels.add(removeLeaderCardPanel);
-        panels.add(boardPanel);
 
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public ArrayList<JPanel> getPanels() {
-        return panels;
-    }
-
-    public void switchPanels(JPanel panel){
-        bigPanel.removeAll();
-        bigPanel.add(panel);
-        bigPanel.repaint();
-        bigPanel.revalidate();
-    }
 
     @Override
     public void run() {
 
         bigPanel = new JPanel();
 
-        bigPanel.setVisible(true);
         bigPanel.setLayout(new BorderLayout());
-
-        bigPanel.setBounds(0,0,width,height);
 
         bigPanel.add(serverPanel);
         jFrame.add(bigPanel);
@@ -101,6 +76,14 @@ public class GUI implements Runnable, ViewInterface {
 
         jFrame.setIconImage(image != null ? image.getImage() : null); //change icon of the this
 
+    }
+
+    // TODO: 29/05/2021 si può anche porre i pannelli a setVisible = false e mettere quello che si vuol far vedere a true
+    public void switchPanels(JPanel panel){
+        bigPanel.removeAll();
+        bigPanel.add(panel);
+        bigPanel.repaint();
+        bigPanel.revalidate();
     }
 
     public Client getClient() {
@@ -169,6 +152,18 @@ public class GUI implements Runnable, ViewInterface {
 
     public JFrame getjFrame() {
         return jFrame;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public ArrayList<JPanel> getPanels() {
+        return panels;
     }
 }
 
