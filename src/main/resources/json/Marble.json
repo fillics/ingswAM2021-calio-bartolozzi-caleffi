@@ -1,41 +1,54 @@
 [
   {
-    "type" : "yellow"
+    "type" : "yellow",
+    "path" : "/images/marbles/yellowMarble.png"
   },
   {
-    "type" : "yellow"
+    "type" : "yellow",
+    "path" : "/images/marbles/yellowMarble.png"
   },
   {
-    "type" : "blue"
+    "type" : "blue",
+    "path" : "/images/marbles/blueMarble.png"
   },
   {
-    "type" : "blue"
+    "type" : "blue",
+    "path" : "/images/marbles/blueMarble.png"
   },
   {
-    "type" : "purple"
+    "type" : "purple",
+    "path" : "/images/marbles/purpleMarble.png"
   },
   {
-    "type" : "purple"
+    "type" : "purple",
+    "path" : "/images/marbles/purpleMarble.png"
   },
   {
-    "type" : "red"
+    "type" : "red",
+    "path" : "/images/marbles/redMarble.png"
   },
   {
-    "type" : "grey"
+    "type" : "grey",
+    "path" : "/images/marbles/greyMarble.png"
   },
   {
-    "type" : "grey"
+    "type" : "grey",
+    "path" : "/images/marbles/greyMarble.png"
   },
   {
-    "type" : "white"
+    "type" : "white",
+    "path" : "/images/marbles/whiteMarble.png"
   },
   {
-    "type" : "white"
+    "type" : "white",
+    "path" : "/images/marbles/whiteMarble.png"
   },
   {
-    "type" : "white"
+    "type" : "white",
+    "path" : "/images/marbles/whiteMarble.png"
   },
   {
-    "type" : "white"
+    "type" : "white",
+    "path" : "/images/marbles/whiteMarble.png"
   }
 ]

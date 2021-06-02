@@ -51,7 +51,6 @@ public class GUI implements Runnable, ViewInterface {
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
         boardPanel = new BoardPanel(this);
-
     }
 
 
@@ -134,7 +133,7 @@ public class GUI implements Runnable, ViewInterface {
 
     @Override
     public ClientModelView getClientModelView() {
-        return null;
+        return clientModelView;
     }
 
     @Override
