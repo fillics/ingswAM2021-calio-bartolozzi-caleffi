@@ -6,6 +6,8 @@ import it.polimi.ingsw.client.gui.panels.*;
 import it.polimi.ingsw.constants.Constants;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class GUI implements Runnable, ViewInterface {
     private final int height;
     private ClientModelView clientModelView;
     private JFrame jFrame;
+    private Border blackline, raisedetched, loweredetched, raisedbevel, loweredbevel;
+    private ArrayList<Border> borders;
 
     public GUI(Client client, ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
@@ -39,12 +43,22 @@ public class GUI implements Runnable, ViewInterface {
         height = dimension.height-50;
         this.client = client;
 
-        panels = new ArrayList<>();
+        blackline = BorderFactory.createLineBorder(Color.black);
+        raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+        loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        raisedbevel  = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        loweredbevel = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        borders = new ArrayList<>();
+        borders.add(blackline);
+        borders.add(raisedbevel);
+        borders.add(raisedetched);
+        borders.add(loweredbevel);
+        borders.add(loweredetched);
+
         loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
         boardPanel = new BoardPanel(this);
-
 
     }
 
@@ -56,7 +70,7 @@ public class GUI implements Runnable, ViewInterface {
 
         bigPanel.setLayout(new BorderLayout());
 
-        bigPanel.add(serverPanel);
+        bigPanel.add(numPlayersPanel);
         jFrame.add(bigPanel);
 
         jFrame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
@@ -84,6 +98,22 @@ public class GUI implements Runnable, ViewInterface {
         bigPanel.add(panel);
         bigPanel.repaint();
         bigPanel.revalidate();
+    }
+
+    public LoginPanel getLoginPanel() {
+        return loginPanel;
+    }
+
+    public ServerPanel getServerPanel() {
+        return serverPanel;
+    }
+
+    public NumPlayersPanel getNumPlayersPanel() {
+        return numPlayersPanel;
+    }
+
+    public BoardPanel getBoardPanel() {
+        return boardPanel;
     }
 
     public Client getClient() {
@@ -164,6 +194,10 @@ public class GUI implements Runnable, ViewInterface {
 
     public ArrayList<JPanel> getPanels() {
         return panels;
+    }
+
+    public ArrayList<Border> getBorders() {
+        return borders;
     }
 }
 

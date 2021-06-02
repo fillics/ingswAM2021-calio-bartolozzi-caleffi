@@ -18,17 +18,12 @@ import java.io.InputStream;
 public class ServerPanel extends JPanel implements ActionListener {
 
     private Image background;
-    GridBagConstraints c;
-
-    private GUI gui;
-    private JLabel ipAddress;
-    private JTextField ipAddressTextField;
-    private JLabel serverPort;
-    private JTextField serverPortTextField;
-    private JButton connectButton = new JButton("CONNECT");
-    private JButton resetButton = new JButton("RESET");
+    private final GridBagConstraints c;
+    private final GUI gui;
+    private JTextField ipAddressTextField, serverPortTextField;
+    private  JButton connectButton, resetButton;
     private JPanel biggestPanel, ipPanel, portPanel, buttonsPanel;
-    private Border blackline, raisedetched, loweredetched, raisedbevel, loweredbevel;
+
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -37,20 +32,13 @@ public class ServerPanel extends JPanel implements ActionListener {
 
 
     public ServerPanel(GUI gui){
+        this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/home.png");
         try {
             background = ImageIO.read(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        blackline = BorderFactory.createLineBorder(Color.black);
-        raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
-        loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-        raisedbevel  = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-        loweredbevel = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        } catch (IOException ignored) {}
 
 
-        this.gui = gui;
         this.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
         c.insets = new Insets(500,0,50,0);
@@ -77,7 +65,9 @@ public class ServerPanel extends JPanel implements ActionListener {
 
     }
 
-
+    /**
+     * contiene ip panel e port panel
+     */
     public void createBiggestPanel(){
         biggestPanel = new JPanel();
         biggestPanel.setLayout(new GridBagLayout());
@@ -97,7 +87,7 @@ public class ServerPanel extends JPanel implements ActionListener {
         c.weighty=100;
         biggestPanel.add(portPanel, c);
         biggestPanel.setBackground(new Color(233, 226, 193));
-        biggestPanel.setBorder(blackline);
+        biggestPanel.setBorder(gui.getBorders().get(0));
 
 
 
@@ -108,7 +98,7 @@ public class ServerPanel extends JPanel implements ActionListener {
         ipPanel = new JPanel();
         ipPanel.setLayout(new GridBagLayout());
         c.insets = new Insets(0,50,0,50);
-        ipAddress = new JLabel("Insert the server IP address");
+        JLabel ipAddress = new JLabel("Insert the server IP address");
         ipAddress.setPreferredSize(new Dimension(200,50));
         ipAddress.setHorizontalAlignment(JLabel.CENTER);
 
@@ -134,7 +124,7 @@ public class ServerPanel extends JPanel implements ActionListener {
         portPanel.setLayout(new GridBagLayout());
         c.insets = new Insets(0,50,0,50);
 
-        serverPort = new JLabel("Insert the IP port");
+        JLabel serverPort = new JLabel("Insert the IP port");
         serverPort.setPreferredSize(new Dimension(200,10));
         serverPort.setHorizontalAlignment(JLabel.CENTER);
         serverPortTextField = new JTextField();
@@ -156,6 +146,8 @@ public class ServerPanel extends JPanel implements ActionListener {
     }
     public void createButtonsPanel(){
         buttonsPanel = new JPanel();
+        connectButton = new JButton("CONNECT");
+        resetButton = new JButton("RESET");
         c.insets = new Insets(0,50,0,50);
 
         buttonsPanel.setLayout(new GridBagLayout());
@@ -167,7 +159,6 @@ public class ServerPanel extends JPanel implements ActionListener {
         c.gridy=0;
         buttonsPanel.add(resetButton, c);
         buttonsPanel.setBackground(new Color(0,0,0,0));
-        buttonsPanel.setBorder(loweredbevel);
         connectButton.addActionListener(this);
         resetButton.addActionListener(this);
 

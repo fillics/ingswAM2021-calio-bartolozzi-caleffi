@@ -8,6 +8,8 @@ import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
+import javax.swing.*;
+
 public class PacketConnectionMessages implements ServerPacketHandler {
 
     private ConnectionMessages message;
@@ -30,8 +32,10 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 if(client.getViewChoice().equals(ViewChoice.CLI)){
                     Constants.printConnectionMessage(message);
                 }
+                else{
+                    //JOptionPane.showMessageDialog(client.getGui().getjFrame(), message);
+                }
             }
-
 
             case INSERT_NUMBER_OF_PLAYERS -> {
                 if(client.getViewChoice().equals(ViewChoice.CLI)){
@@ -39,7 +43,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                     Constants.printConnectionMessage(message);
                 }
                 else {
-                    client.getGui().switchPanels(client.getGui().getPanels().get(2));
+                    client.getGui().switchPanels(client.getGui().getNumPlayersPanel());
                 }
                 client.setClientState(ClientStates.NUMPLAYERS);
 
@@ -47,22 +51,37 @@ public class PacketConnectionMessages implements ServerPacketHandler {
             }
 
             case TAKEN_NICKNAME -> {
-                Constants.printConnectionMessage(message);
+
+                if(client.getViewChoice().equals(ViewChoice.CLI)){
+                    Constants.printConnectionMessage(message);
+                }
+                else {
+                    JOptionPane.showMessageDialog(client.getGui().getjFrame(), message.getMessage());
+                }
+
                 client.setClientState(ClientStates.USERNAME);
             }
 
             case WAITING_PEOPLE -> {
-                Constants.printConnectionMessage(message);
+                if(client.getViewChoice().equals(ViewChoice.CLI)) {
+                    Constants.printConnectionMessage(message);
+                }
+
                 client.setClientState(ClientStates.WAITPLAYERS);
             }
 
             case GAME_IS_STARTING -> {
-                Constants.printConnectionMessage(message);
+                if(client.getViewChoice().equals(ViewChoice.CLI)) {
+                    Constants.printConnectionMessage(message);
+                }
+
                 client.setClientState(ClientStates.CREATEMODEL);
             }
 
             case YOUR_TURN, DISCARDDEVCARD, BLACKCROSS1, BLACKCROSS2, BLACKCROSSUPDATE -> {
-                Constants.printConnectionMessage(message);
+                if(client.getViewChoice().equals(ViewChoice.CLI)){
+                    Constants.printConnectionMessage(message);
+                }
                 client.setClientState(ClientStates.GAMESTARTED);
             }
 

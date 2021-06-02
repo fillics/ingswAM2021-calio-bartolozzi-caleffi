@@ -2,42 +2,121 @@ package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
+
 public class NumPlayersPanel extends JPanel implements ActionListener {
-    private GUI gui;
+
+    private Image background;
+    private final GridBagConstraints c;
+
+    private final GUI gui;
     private JLabel numPlayers;
-    private JPanel numbersPanel;
+    private JPanel biggestPanel, numbersPanel;
     private JButton btn1, btn2, btn3, btn4;
-    private  int number_of_players;
+    private int number_of_players;
+
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight(), null);
+    }
+
     public NumPlayersPanel(GUI gui) {
         this.gui = gui;
-        this.setOpaque(true);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(Box.createRigidArea(new Dimension(300 ,400)));
-        createNumbersGrid();
+
+        InputStream is = getClass().getResourceAsStream("/images/background/home.png");
+        try {
+            background = ImageIO.read(is);
+        } catch (IOException ignored) {}
+
+        this.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
+        c.insets = new Insets(500,0,0,0);
+
+        c.gridy=0;
+        c.gridx=0;
+        JPanel emptyPanel = new JPanel();
+
+        emptyPanel.setBackground(new Color(0,0,0,0));
+        this.add(emptyPanel, c);
+
+        createBiggestPanel();
+
+        c.gridx=0;
+        c.gridy=1;
+        this.add(biggestPanel, c);
     }
-    public void createNumbersGrid(){
+
+    /**
+     * contiene label e griglia numeri
+     */
+    public void createBiggestPanel(){
+        biggestPanel = new JPanel();
+        biggestPanel.setLayout(new GridBagLayout());
+        //c.insets = new Insets(50,0,0,0);
         numPlayers = new JLabel(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage());
-        this.add(numPlayers);
+        numPlayers.setBackground(new Color(233, 226, 193));
+        numPlayers.setOpaque(true);
+        numPlayers.setHorizontalAlignment(JLabel.CENTER);
+        c.gridx=0;
+        c.gridy=0;
+        c.ipadx=50;
+        c.ipady=20;
+        this.add(numPlayers, c);
+
+        createNumbersGrid();
+        c.gridx=0;
+        c.gridy=1;
+        biggestPanel.add(numbersPanel, c);
+        biggestPanel.setBackground(new Color(233, 226, 193));
+        biggestPanel.setBorder(gui.getBorders().get(0));
+
+    }
+
+
+    public void createNumbersGrid(){
+
         numbersPanel = new JPanel();
-        numbersPanel.setLayout(new GridLayout(2,2));
+        numbersPanel.setLayout(new GridBagLayout());
+        c.insets = new Insets(10,10,10,10);
         btn1 = new JButton("1");
+        btn1.setPreferredSize(new Dimension(50,50));
         btn2 = new JButton("2");
+        btn2.setPreferredSize(new Dimension(50,50));
+
         btn3 = new JButton("3");
+        btn3.setPreferredSize(new Dimension(50,50));
+
         btn4 = new JButton("4");
-        numbersPanel.add(btn1);
-        numbersPanel.add(btn2);
-        numbersPanel.add(btn3);
-        numbersPanel.add(btn4);
+        btn4.setPreferredSize(new Dimension(50,50));
+
+        c.gridx=0;
+        c.gridy=0;
+        numbersPanel.add(btn1, c);
+        c.gridx=0;
+        c.gridy=1;
+        numbersPanel.add(btn3, c);
+        c.gridx=1;
+        c.gridy=0;
+        numbersPanel.add(btn2, c);
+        c.gridx=1;
+        c.gridy=1;
+        numbersPanel.add(btn4, c);
+        numbersPanel.setBackground(new Color(0, 0, 0,0));
         btn1.addActionListener(this);
         btn2.addActionListener(this);
         btn3.addActionListener(this);
         btn4.addActionListener(this);
-        this.add(numbersPanel);
     }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn1) number_of_players = 1;
