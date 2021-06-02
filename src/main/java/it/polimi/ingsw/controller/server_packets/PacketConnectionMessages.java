@@ -66,6 +66,9 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 if(client.getViewChoice().equals(ViewChoice.CLI)) {
                     Constants.printConnectionMessage(message);
                 }
+                else{
+
+                }
 
                 client.setClientState(ClientStates.WAITPLAYERS);
             }

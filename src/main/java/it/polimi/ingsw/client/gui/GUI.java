@@ -3,7 +3,6 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.ViewInterface;
 import it.polimi.ingsw.client.gui.panels.*;
-import it.polimi.ingsw.constants.Constants;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -15,16 +14,9 @@ import java.util.Objects;
 
 public class GUI implements Runnable, ViewInterface {
 
-    private static JPanel bigPanel;
-    private LoginPanel loginPanel;
-    private ServerPanel serverPanel;
-    private NumPlayersPanel numPlayersPanel;
-    private BoardPanel boardPanel;
-    private BuyDevCardPanel buyDevCardPanel;
-    private DevGridPanel devGridPanel;
-    private MarketPanel marketPanel;
-    private RemoveLeaderCardPanel removeLeaderCardPanel;
-    private AdditionalResourcePanel additionalResourcePanel;
+    private JPanel bigPanel, messagesFromServerPanel;
+    private JPanel loginPanel, serverPanel, numPlayersPanel, boardPanel, buyDevCardPanel, devGridPanel, marketPanel,
+            removeLeaderCardPanel, additionalResourcePanel;
     private Client client;
     private static ArrayList<JPanel> panels;
     private Dimension dimension;
@@ -67,13 +59,12 @@ public class GUI implements Runnable, ViewInterface {
     public void run() {
 
         bigPanel = new JPanel();
+        messagesFromServerPanel = new JPanel();
 
         bigPanel.setLayout(new BorderLayout());
 
-        bigPanel.add(numPlayersPanel);
+        bigPanel.add(serverPanel);
         jFrame.add(bigPanel);
-
-        jFrame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
 
         jFrame.setTitle("Master of Renaissance");
         jFrame.setResizable(false);
@@ -100,20 +91,41 @@ public class GUI implements Runnable, ViewInterface {
         bigPanel.revalidate();
     }
 
-    public LoginPanel getLoginPanel() {
+
+    public JPanel getLoginPanel() {
         return loginPanel;
     }
 
-    public ServerPanel getServerPanel() {
+    public JPanel getServerPanel() {
         return serverPanel;
     }
 
-    public NumPlayersPanel getNumPlayersPanel() {
+    public JPanel getNumPlayersPanel() {
         return numPlayersPanel;
     }
 
-    public BoardPanel getBoardPanel() {
+    public JPanel getBoardPanel() {
         return boardPanel;
+    }
+
+    public JPanel getBuyDevCardPanel() {
+        return buyDevCardPanel;
+    }
+
+    public JPanel getDevGridPanel() {
+        return devGridPanel;
+    }
+
+    public JPanel getMarketPanel() {
+        return marketPanel;
+    }
+
+    public JPanel getRemoveLeaderCardPanel() {
+        return removeLeaderCardPanel;
+    }
+
+    public JPanel getAdditionalResourcePanel() {
+        return additionalResourcePanel;
     }
 
     public Client getClient() {

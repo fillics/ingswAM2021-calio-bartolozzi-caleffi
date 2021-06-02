@@ -54,7 +54,6 @@ public class ClientHandler implements Runnable {
         this.socket = socket;
         this.server = server;
         this.numberOfGuest = numberOfGuest;
-        System.out.println("son qui");
 
         clientConnected = new AtomicBoolean(true);
         try {
