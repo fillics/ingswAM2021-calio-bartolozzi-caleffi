@@ -71,6 +71,10 @@ public class GUI implements Runnable, ViewInterface {
         bigPanel.revalidate();
     }
 
+    public Dimension getDimension() {
+        return dimension;
+    }
+
     @Override
     public void run() {
 
