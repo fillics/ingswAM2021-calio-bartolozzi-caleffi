@@ -41,7 +41,6 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         cardsPanel.setPreferredSize(new Dimension(720, 380));
         setButtons(buttonPanel);
         setCards(cardsPanel, gui);
-    //    this.clientModelView = clientModelView;
 
         buttonPanel.setVisible(true);
         buttonPanel.setOpaque(false);
