@@ -21,9 +21,7 @@ public class LoginPanel extends JPanel implements ActionListener {
     private JTextField loginTextField;
     private JButton loginButton = new JButton("LOGIN");
     private JButton confirmButton = new JButton("CONFIRM");
-    private JPanel login;
-    private JPanel numPlayersPanel;
-    private JPanel buttonPanel;
+    private JPanel login, numPlayersPanel, buttonPanel;
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);

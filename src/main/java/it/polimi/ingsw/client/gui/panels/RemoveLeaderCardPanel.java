@@ -20,13 +20,11 @@ import java.util.ArrayList;
 public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
     private Image background;
     private GUI gui;
-    private JButton leaderCard1 = new JButton();
-    private JButton leaderCard2 = new JButton();
-    private JButton leaderCard3 = new JButton();
-    private JButton leaderCard4 = new JButton();
-    private JButton confirm = new JButton("CONFIRM");
-    private JPanel cards;
-    private JPanel buttons;
+    private final GridBagConstraints c;
+
+    private JButton leaderCard1, leaderCard2, leaderCard3, leaderCard4;
+    private JButton confirm;
+    private JPanel cards, buttons;
 
     private ArrayList<JButton> jButtons;
     private int id1 = 0;
@@ -34,54 +32,99 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight(), null);
+        g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
     }
 
     public RemoveLeaderCardPanel(GUI gui) {
+        this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             background = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        this.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
+
+        c.gridy=0;
+        c.gridx=0;
+        JPanel emptyPanel = new JPanel();
+        emptyPanel.setBackground(new Color(0,0,0,0));
+        this.add(emptyPanel, c);
+
+        createCards();
+        c.gridx=0;
+        c.gridy=1;
+        this.add(cards, c);
+
+        createButtons();
+        c.gridx=0;
+        c.gridy=2;
+        this.add(buttons, c);
+        this.setVisible(true);
+    }
+
+    public void createCards(){
         cards = new JPanel();
-        buttons = new JPanel();
-        this.setPreferredSize(new Dimension(1000, 500));
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        cards.setLayout(new BoxLayout(cards, BoxLayout.X_AXIS));
-        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
-
+        cards.setLayout(new GridBagLayout());
+        c.insets = new Insets(0,10,0,10);
         jButtons = new ArrayList<>();
-        this.gui = gui;
+
+        leaderCard1 = new JButton();
+        leaderCard2 = new JButton();
+        leaderCard3 = new JButton();
+        leaderCard4 = new JButton();
+
         jButtons.add(leaderCard1);
         jButtons.add(leaderCard2);
         jButtons.add(leaderCard3);
         jButtons.add(leaderCard4);
         for(int i = 0 ; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             try {
-                jButtons.get(i).setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+                jButtons.get(i).setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getPath()).readAllBytes()).getImage().getScaledInstance(200, 302, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
             jButtons.get(i).addActionListener(this);
-            cards.add(jButtons.get(i));
+            c.gridx=i;
+            c.gridy=0;
+
+            int finalI = i;
+            jButtons.get(i).addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    jButtons.get(finalI).setBackground(new Color(51, 180, 76));
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    jButtons.get(finalI).setBackground(UIManager.getColor("control"));
+                }
+            });
+
+            cards.add(jButtons.get(i), c);
         }
+
+        cards.setBackground(new Color(0,0,0,0));
+        cards.setOpaque(true);
+
+    }
+
+    public void createButtons(){
+        buttons = new JPanel();
+
+        confirm = new JButton("CONFIRM");
+        buttons.setLayout(new GridBagLayout());
+        c.gridy=0;
+        c.gridx=0;
+        c.ipady=50;
+
         confirm.addActionListener(this);
         confirm.setPreferredSize(new Dimension(100, 30));
+        buttons.add(confirm, c);
 
-        buttons.setPreferredSize(new Dimension(1000, 250));
-        cards.setPreferredSize(new Dimension(1000, 250));
-
-        buttons.add(confirm);
-        buttons.add(Box.createRigidArea(new Dimension(0, 200)));
-
-        cards.setOpaque(false);
         buttons.setOpaque(false);
 
-        this.add(cards);
-        this.add(buttons);
-        this.setVisible(true);
+
     }
 
     @Override

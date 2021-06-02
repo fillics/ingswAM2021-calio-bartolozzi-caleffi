@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class GUI implements Runnable, ViewInterface {
 
-    private JPanel bigPanel, mainPanel, messagesFromServerPanel;
+    private JPanel bigPanel, topPanel, mainPanel, messagesFromServerPanel;
     private JPanel loginPanel, serverPanel, numPlayersPanel, boardPanel, buyDevCardPanel, devGridPanel, marketPanel,
             removeLeaderCardPanel, additionalResourcePanel;
     private Client client;
@@ -51,6 +51,7 @@ public class GUI implements Runnable, ViewInterface {
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
         boardPanel = new BoardPanel(this);
+        removeLeaderCardPanel = new RemoveLeaderCardPanel(this);
     }
 
 
@@ -59,20 +60,25 @@ public class GUI implements Runnable, ViewInterface {
 
         bigPanel = new JPanel();
         mainPanel = new JPanel();
-        messagesFromServerPanel = new MessagesPanel(this);
+        topPanel = new JPanel();
+        createMessageFromServer("Welcome!");
 
         bigPanel.setLayout(new BorderLayout());
         mainPanel.setLayout(new BoxLayout(mainPanel,  BoxLayout.PAGE_AXIS));
-        messagesFromServerPanel.setLayout(new BoxLayout(messagesFromServerPanel,  BoxLayout.PAGE_AXIS));
+
+
+        //messagesFromServerPanel.setLayout(new BoxLayout(messagesFromServerPanel,  BoxLayout.PAGE_AXIS));
 
         mainPanel.add(serverPanel);
         mainPanel.setPreferredSize(new Dimension(width, height-50));
-        messagesFromServerPanel.setPreferredSize(new Dimension(width, 50));
-        messagesFromServerPanel.setBackground(new Color(233, 226, 193));
-        messagesFromServerPanel.setBorder(blackline);
+        topPanel.add(messagesFromServerPanel);
+        topPanel.setPreferredSize(new Dimension(width, 50));
+
+        //messagesFromServerPanel.setBorder(blackline);
 
         bigPanel.add(mainPanel);
-        bigPanel.add(messagesFromServerPanel, BorderLayout.NORTH);
+        //bigPanel.add(messagesFromServerPanel, BorderLayout.NORTH);
+        bigPanel.add(topPanel, BorderLayout.NORTH);
 
 
         jFrame.add(bigPanel);
@@ -100,6 +106,17 @@ public class GUI implements Runnable, ViewInterface {
         mainPanel.revalidate();
     }
 
+    public void createMessageFromServer(String message){
+        topPanel.removeAll();
+
+        messagesFromServerPanel = new MessagesPanel(this, message);
+        messagesFromServerPanel.setLayout(new BoxLayout(messagesFromServerPanel,  BoxLayout.PAGE_AXIS));
+        messagesFromServerPanel.setBorder(blackline);
+
+        topPanel.add(messagesFromServerPanel);
+        topPanel.repaint();
+        topPanel.revalidate();
+    }
 
     public JPanel getLoginPanel() {
         return loginPanel;

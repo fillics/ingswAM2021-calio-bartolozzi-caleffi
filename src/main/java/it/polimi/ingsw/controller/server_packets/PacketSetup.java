@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.gui.panels.RemoveLeaderCardPanel;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
 import it.polimi.ingsw.model.board.resources.Resource;
@@ -161,8 +162,8 @@ public class PacketSetup implements ServerPacketHandler{
             }
 
             else{
-                RemoveLeaderCardPanel removeLeaderCardPanel = new RemoveLeaderCardPanel(client.getGui());
-                client.getGui().switchPanels(removeLeaderCardPanel);
+                client.getGui().switchPanels(new RemoveLeaderCardPanel(client.getGui()));
+                client.getGui().createMessageFromServer(ConnectionMessages.SELECT_LEADERCARDS.getMessage());
             }
 
             client.setClientState(ClientStates.LEADERSETUP);

@@ -20,10 +20,6 @@ public class PacketConnectionMessages implements ServerPacketHandler {
     }
 
 
-    /**
-     * Method handleSetupMessage handles the messages that the server sends.
-     * According to them, it calls the right methods.
-     */
     @Override
     public void execute(Client client) {
         switch (message){
@@ -43,6 +39,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                     Constants.printConnectionMessage(message);
                 }
                 else {
+                    client.getGui().createMessageFromServer(ConnectionMessages.LOBBY_MASTER_GUI.getMessage());
                     client.getGui().switchPanels(client.getGui().getNumPlayersPanel());
                 }
                 client.setClientState(ClientStates.NUMPLAYERS);
@@ -67,7 +64,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                     Constants.printConnectionMessage(message);
                 }
                 else{
-
+                    client.getGui().createMessageFromServer(ConnectionMessages.WAITING_PEOPLE.getMessage());
                 }
 
                 client.setClientState(ClientStates.WAITPLAYERS);
@@ -77,6 +74,9 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 if(client.getViewChoice().equals(ViewChoice.CLI)) {
                     Constants.printConnectionMessage(message);
                 }
+                else{
+                    client.getGui().createMessageFromServer(ConnectionMessages.GAME_IS_STARTING_GUI.getMessage());
+                }
 
                 client.setClientState(ClientStates.CREATEMODEL);
             }
@@ -85,6 +85,10 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 if(client.getViewChoice().equals(ViewChoice.CLI)){
                     Constants.printConnectionMessage(message);
                 }
+                else{
+                    client.getGui().createMessageFromServer(ConnectionMessages.YOUR_TURN_GUI.getMessage());
+                }
+
                 client.setClientState(ClientStates.GAMESTARTED);
             }
 

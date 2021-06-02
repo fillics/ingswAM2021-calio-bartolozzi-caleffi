@@ -11,6 +11,8 @@ public enum ConnectionMessages {
 
     WAITING_PEOPLE("Waiting for people to start the game..."),
     LOBBY_MASTER("You are the "+Constants.ITALIC+"lobby master"+Constants.ANSI_RESET+"! You will create the match."),
+    LOBBY_MASTER_GUI("You are the lobby master! You will create the match."),
+
     USERNAME_VALID(Constants.ANSI_GREEN+"Username chosen is valid!"+Constants.ANSI_RESET),
     INSERT_USERNAME("Insert your username: "),
     INVALID_CHOICE(Constants.ANSI_RED+"The choice is invalid. Enter a new one: "+Constants.ANSI_RESET),
@@ -20,7 +22,10 @@ public enum ConnectionMessages {
 
     PLAYER_RECONNECTED("You were playing in a match. Reconnecting to the game..."),
     GAME_IS_STARTING(Constants.UNDERLINE+"The game is starting..."+Constants.ANSI_RESET),
+    GAME_IS_STARTING_GUI("The game is starting..."),
+
     YOUR_TURN("It's your turn bro! \n" + Constants.commands),
+    YOUR_TURN_GUI("It's your turn bro!"),
 
     NOT_YOUR_TURN("It's NOT your turn bro"),
     SELECT_LEADERCARDS("Choose the leader cards to remove"),
