@@ -25,7 +25,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight(), null);
+        g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
     }
 
     public NumPlayersPanel(GUI gui) {

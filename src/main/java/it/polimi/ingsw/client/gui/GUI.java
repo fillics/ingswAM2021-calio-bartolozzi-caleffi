@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class GUI implements Runnable, ViewInterface {
 
-    private JPanel bigPanel, messagesFromServerPanel;
+    private JPanel bigPanel, mainPanel, messagesFromServerPanel;
     private JPanel loginPanel, serverPanel, numPlayersPanel, boardPanel, buyDevCardPanel, devGridPanel, marketPanel,
             removeLeaderCardPanel, additionalResourcePanel;
     private Client client;
@@ -59,13 +59,24 @@ public class GUI implements Runnable, ViewInterface {
     public void run() {
 
         bigPanel = new JPanel();
-        messagesFromServerPanel = new JPanel();
+        mainPanel = new JPanel();
+        messagesFromServerPanel = new MessagesPanel(this);
 
         bigPanel.setLayout(new BorderLayout());
+        mainPanel.setLayout(new BoxLayout(mainPanel,  BoxLayout.PAGE_AXIS));
+        messagesFromServerPanel.setLayout(new BoxLayout(messagesFromServerPanel,  BoxLayout.PAGE_AXIS));
 
-        bigPanel.add(serverPanel);
+        mainPanel.add(serverPanel);
+        mainPanel.setPreferredSize(new Dimension(width, height-50));
+        messagesFromServerPanel.setPreferredSize(new Dimension(width, 50));
+        messagesFromServerPanel.setBackground(new Color(233, 226, 193));
+        messagesFromServerPanel.setBorder(blackline);
+
+        bigPanel.add(mainPanel);
+        bigPanel.add(messagesFromServerPanel, BorderLayout.NORTH);
+
+
         jFrame.add(bigPanel);
-
         jFrame.setTitle("Master of Renaissance");
         jFrame.setResizable(false);
         jFrame.setVisible(true);
@@ -83,12 +94,11 @@ public class GUI implements Runnable, ViewInterface {
 
     }
 
-    // TODO: 29/05/2021 si può anche porre i pannelli a setVisible = false e mettere quello che si vuol far vedere a true
     public void switchPanels(JPanel panel){
-        bigPanel.removeAll();
-        bigPanel.add(panel);
-        bigPanel.repaint();
-        bigPanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.add(panel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }
 
 
