@@ -50,13 +50,9 @@ public class GUI implements Runnable, ViewInterface {
         loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
-
+        boardPanel = new BoardPanel(this);
     }
 
-
-    public Dimension getDimension() {
-        return dimension;
-    }
 
     @Override
     public void run() {
@@ -137,7 +133,7 @@ public class GUI implements Runnable, ViewInterface {
 
     @Override
     public ClientModelView getClientModelView() {
-        return null;
+        return clientModelView;
     }
 
     @Override

@@ -48,14 +48,14 @@ public class MarbleTest {
     @BeforeEach
     void setup(){
         testGame = new Game();
-        white= new WhiteMarble();
-        white2= new WhiteMarble();
-        white3= new WhiteMarble();
-        red= new RedMarble();
-        yellow= new YellowMarble();
-        blue= new BlueMarble();
-        purple= new PurpleMarble();
-        grey=new GreyMarble();
+        white= new WhiteMarble("/images/marbles/whiteMarble.png");
+        white2= new WhiteMarble("/images/marbles/whiteMarble.png");
+        white3= new WhiteMarble("/images/marbles/whiteMarble.png");
+        red= new RedMarble("/images/marbles/redMarble.png");
+        yellow= new YellowMarble("/images/marbles/yellowMarble.png");
+        blue= new BlueMarble("/images/marbles/blueMarble.png");
+        purple= new PurpleMarble("/images/marbles/purpleMarble.png");
+        grey=new GreyMarble("/images/marbles/greyMarble.png");
         username= "Beatrice";
         game= new Game();
         board= new Board(testGame);

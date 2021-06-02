@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.marbles;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.board.resources.Resource;
 import it.polimi.ingsw.model.Player;
 
@@ -8,6 +10,12 @@ import it.polimi.ingsw.model.Player;
  */
 
 public class WhiteMarble extends Marble{
+    private String path;
+
+    @JsonCreator
+    public WhiteMarble(@JsonProperty("path") String path) {
+        this.path=path;
+    }
 
     /**
      * Override method transform is used to do nothing when the marble is white,
@@ -27,6 +35,10 @@ public class WhiteMarble extends Marble{
                 }
             }
         }
+    }
+
+    public String getPath() {
+        return path;
     }
 }
 
