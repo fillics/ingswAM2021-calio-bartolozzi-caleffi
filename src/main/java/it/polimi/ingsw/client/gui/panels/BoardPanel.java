@@ -80,5 +80,9 @@ public class BoardPanel extends JPanel implements ActionListener {
             DevGridPanel devGridPanel = new DevGridPanel(gui);
             gui.switchPanels(devGridPanel);
         }
+        if(e.getSource()== takeResourceFromMarket){
+            MarketPanel marketPanel = new MarketPanel(gui);
+            gui.switchPanels(marketPanel);
+        }
     }
 }
