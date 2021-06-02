@@ -5,13 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.GUIOperationHandler;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
 
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
