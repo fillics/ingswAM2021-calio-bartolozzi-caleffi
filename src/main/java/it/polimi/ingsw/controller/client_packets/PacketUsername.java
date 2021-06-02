@@ -21,6 +21,7 @@ public class PacketUsername implements SetupHandler {
         return username;
     }
 
+
     @Override
     public void execute(Server server, ClientHandler clientHandler) {
         server.checkUsernameAlreadyTaken(username, clientHandler);

@@ -33,4 +33,5 @@ public class ClientProxy {
     public void setClientModelView(ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
     }
+
 }

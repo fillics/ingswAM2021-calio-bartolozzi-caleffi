@@ -3,68 +3,165 @@ package it.polimi.ingsw.client.gui.panels;
 import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Constants;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class ServerPanel extends JPanel implements ActionListener {
-    private GUI gui;
-    private JLabel ipAddress;
-    private JTextField ipAddressTextField;
-    private JLabel serverPort;
-    private JTextField serverPortTextField;
-    private JButton connectButton = new JButton("CONNECT");
-    private JButton resetButton = new JButton("RESET");
-    private JPanel ipPanel;
-    private JPanel portPanel;
-    private JPanel buttonsPanel;
+
+    private Image background;
+    private final GridBagConstraints c;
+    private final GUI gui;
+    private JTextField ipAddressTextField, serverPortTextField;
+    private  JButton connectButton, resetButton;
+    private JPanel biggestPanel, ipPanel, portPanel, buttonsPanel;
+
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight(), null);
+    }
+
+
     public ServerPanel(GUI gui){
         this.gui = gui;
-        this.setOpaque(true);
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(Box.createRigidArea(new Dimension(300 ,400)));
-        ipPanel = new JPanel();
-        createIpPanel();
-        this.add(Box.createRigidArea(new Dimension(300,100)));
-        portPanel = new JPanel();
-        createPortPanel();
-        this.add(Box.createRigidArea(new Dimension(300,100)));
-        buttonsPanel = new JPanel();
+        InputStream is = getClass().getResourceAsStream("/images/background/home.png");
+        try {
+            background = ImageIO.read(is);
+        } catch (IOException ignored) {}
+
+
+        this.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
+        c.insets = new Insets(500,0,50,0);
+
+        c.gridy=0;
+        c.gridx=0;
+        JPanel emptyPanel = new JPanel();
+        emptyPanel.setBackground(new Color(0,0,0,0));
+        this.add(emptyPanel, c);
+
+        createBiggestPanel();
+        c.gridx=0;
+        c.gridy=1;
+        this.add(biggestPanel, c);
+
+
         createButtonsPanel();
+        c.gridx=0;
+        c.gridy=2;
+        c.ipadx=50;
+        c.ipady=50;
+        this.add(buttonsPanel, c);
+
+
     }
+
+    /**
+     * contiene ip panel e port panel
+     */
+    public void createBiggestPanel(){
+        biggestPanel = new JPanel();
+        biggestPanel.setLayout(new GridBagLayout());
+
+        createIpPanel();
+        c.gridx=0;
+        c.gridy=1;
+        c.ipadx=50;
+        c.ipady=50;
+        biggestPanel.add(ipPanel, c);
+
+        createPortPanel();
+        c.gridx=0;
+        c.gridy=2;
+        c.ipadx=100;
+        c.ipady=25;
+        c.weighty=100;
+        biggestPanel.add(portPanel, c);
+        biggestPanel.setBackground(new Color(233, 226, 193));
+        biggestPanel.setBorder(gui.getBorders().get(0));
+
+
+
+    }
+
+
     private void createIpPanel(){
-        ipPanel.setLayout(new BoxLayout(ipPanel, BoxLayout.X_AXIS));
-        ipAddress = new JLabel("Insert the server IP address");
+        ipPanel = new JPanel();
+        ipPanel.setLayout(new GridBagLayout());
+        c.insets = new Insets(0,50,0,50);
+        JLabel ipAddress = new JLabel("Insert the server IP address");
+        ipAddress.setPreferredSize(new Dimension(200,50));
+        ipAddress.setHorizontalAlignment(JLabel.CENTER);
+
         ipAddressTextField = new JTextField();
-        ipPanel.add(ipAddress);
-        ipPanel.add(Box.createRigidArea(new Dimension(20,10)));
-        ipPanel.add(ipAddressTextField);
+        c.gridx=0;
+        c.gridy=0;
+        ipPanel.add(ipAddress, c);
+        c.gridx=1;
+        c.gridy=0;
+        ipPanel.add(ipAddressTextField, c);
+
         ipAddressTextField.setText("127.0.0.1");
-        ipPanel.setOpaque(true);
-        this.add(ipPanel);
+        ipAddressTextField.setPreferredSize(new Dimension(200, 50));
+        ipAddressTextField.setHorizontalAlignment(JTextField.CENTER);
+
+        ipPanel.setBackground(new Color(0, 0, 0,0));
+        ipAddress.setOpaque(true);
+
+
     }
     private void createPortPanel(){
-        portPanel.setLayout(new BoxLayout(portPanel, BoxLayout.X_AXIS));
-        serverPort = new JLabel("Insert the IP port");
+        portPanel = new JPanel();
+        portPanel.setLayout(new GridBagLayout());
+        c.insets = new Insets(0,50,0,50);
+
+        JLabel serverPort = new JLabel("Insert the IP port");
+        serverPort.setPreferredSize(new Dimension(200,10));
+        serverPort.setHorizontalAlignment(JLabel.CENTER);
         serverPortTextField = new JTextField();
-        portPanel.add(serverPort);
-        portPanel.add(Box.createRigidArea(new Dimension(50,10)));
-        portPanel.add(serverPortTextField);
+        c.gridx=0;
+        c.gridy=0;
+
+        portPanel.add(serverPort, c);
+
+        c.gridx=1;
+        c.gridy=0;
+        portPanel.add(serverPortTextField, c);
         serverPortTextField.setText("1234");
-        portPanel.setOpaque(true);
-        this.add(portPanel);
+        serverPortTextField.setPreferredSize(new Dimension(200, 10));
+        serverPortTextField.setHorizontalAlignment(JTextField.CENTER);
+
+        portPanel.setBackground(new Color(0, 0, 0,0));
+        serverPort.setOpaque(true);
+
     }
     public void createButtonsPanel(){
-        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
-        buttonsPanel.add(connectButton);
-        buttonsPanel.add(Box.createRigidArea(new Dimension(50,10)));
-        buttonsPanel.add(resetButton);
-        buttonsPanel.setOpaque(true);
+        buttonsPanel = new JPanel();
+        connectButton = new JButton("CONNECT");
+        resetButton = new JButton("RESET");
+        c.insets = new Insets(0,50,0,50);
+
+        buttonsPanel.setLayout(new GridBagLayout());
+        c.gridx=0;
+        c.gridy=0;
+        buttonsPanel.add(connectButton, c);
+
+        c.gridx=1;
+        c.gridy=0;
+        buttonsPanel.add(resetButton, c);
+        buttonsPanel.setBackground(new Color(0,0,0,0));
         connectButton.addActionListener(this);
         resetButton.addActionListener(this);
-        this.add(buttonsPanel);
+
     }
     @Override
     public void actionPerformed(ActionEvent e) {

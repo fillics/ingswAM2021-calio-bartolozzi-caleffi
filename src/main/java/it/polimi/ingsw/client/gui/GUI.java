@@ -5,6 +5,8 @@ import it.polimi.ingsw.client.ViewInterface;
 import it.polimi.ingsw.client.gui.panels.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,16 +14,9 @@ import java.util.Objects;
 
 public class GUI implements Runnable, ViewInterface {
 
-    private static JPanel bigPanel;
-    private LoginPanel loginPanel;
-    private ServerPanel serverPanel;
-    private NumPlayersPanel numPlayersPanel;
-    private BoardPanel boardPanel;
-    private BuyDevCardPanel buyDevCardPanel;
-    private DevGridPanel devGridPanel;
-    private MarketPanel marketPanel;
-    private RemoveLeaderCardPanel removeLeaderCardPanel;
-    private AdditionalResourcePanel additionalResourcePanel;
+    private JPanel bigPanel, messagesFromServerPanel;
+    private JPanel loginPanel, serverPanel, numPlayersPanel, boardPanel, buyDevCardPanel, devGridPanel, marketPanel,
+            removeLeaderCardPanel, additionalResourcePanel;
     private Client client;
     private static ArrayList<JPanel> panels;
     private Dimension dimension;
@@ -29,6 +24,8 @@ public class GUI implements Runnable, ViewInterface {
     private final int height;
     private ClientModelView clientModelView;
     private JFrame jFrame;
+    private Border blackline, raisedetched, loweredetched, raisedbevel, loweredbevel;
+    private ArrayList<Border> borders;
 
     public GUI(Client client, ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
@@ -38,38 +35,25 @@ public class GUI implements Runnable, ViewInterface {
         height = dimension.height-50;
         this.client = client;
 
-        panels = new ArrayList<>();
+        blackline = BorderFactory.createLineBorder(Color.black);
+        raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+        loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        raisedbevel  = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        loweredbevel = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        borders = new ArrayList<>();
+        borders.add(blackline);
+        borders.add(raisedbevel);
+        borders.add(raisedetched);
+        borders.add(loweredbevel);
+        borders.add(loweredetched);
+
         loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
         boardPanel = new BoardPanel(this);
 
-        panels.add(serverPanel);
-        panels.add(loginPanel);
-        panels.add(numPlayersPanel);
-        panels.add(removeLeaderCardPanel);
-        panels.add(boardPanel);
-
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public ArrayList<JPanel> getPanels() {
-        return panels;
-    }
-
-    public void switchPanels(JPanel panel){
-        bigPanel.removeAll();
-        bigPanel.add(panel);
-        bigPanel.repaint();
-        bigPanel.revalidate();
-    }
 
     public Dimension getDimension() {
         return dimension;
@@ -79,16 +63,12 @@ public class GUI implements Runnable, ViewInterface {
     public void run() {
 
         bigPanel = new JPanel();
+        messagesFromServerPanel = new JPanel();
 
-        bigPanel.setVisible(true);
         bigPanel.setLayout(new BorderLayout());
-
-        bigPanel.setBounds(0,0,width,height);
 
         bigPanel.add(serverPanel);
         jFrame.add(bigPanel);
-
-        jFrame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
 
         jFrame.setTitle("Master of Renaissance");
         jFrame.setResizable(false);
@@ -105,6 +85,51 @@ public class GUI implements Runnable, ViewInterface {
 
         jFrame.setIconImage(image != null ? image.getImage() : null); //change icon of the this
 
+    }
+
+    // TODO: 29/05/2021 si può anche porre i pannelli a setVisible = false e mettere quello che si vuol far vedere a true
+    public void switchPanels(JPanel panel){
+        bigPanel.removeAll();
+        bigPanel.add(panel);
+        bigPanel.repaint();
+        bigPanel.revalidate();
+    }
+
+
+    public JPanel getLoginPanel() {
+        return loginPanel;
+    }
+
+    public JPanel getServerPanel() {
+        return serverPanel;
+    }
+
+    public JPanel getNumPlayersPanel() {
+        return numPlayersPanel;
+    }
+
+    public JPanel getBoardPanel() {
+        return boardPanel;
+    }
+
+    public JPanel getBuyDevCardPanel() {
+        return buyDevCardPanel;
+    }
+
+    public JPanel getDevGridPanel() {
+        return devGridPanel;
+    }
+
+    public JPanel getMarketPanel() {
+        return marketPanel;
+    }
+
+    public JPanel getRemoveLeaderCardPanel() {
+        return removeLeaderCardPanel;
+    }
+
+    public JPanel getAdditionalResourcePanel() {
+        return additionalResourcePanel;
     }
 
     public Client getClient() {
@@ -173,6 +198,22 @@ public class GUI implements Runnable, ViewInterface {
 
     public JFrame getjFrame() {
         return jFrame;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public ArrayList<JPanel> getPanels() {
+        return panels;
+    }
+
+    public ArrayList<Border> getBorders() {
+        return borders;
     }
 }
 

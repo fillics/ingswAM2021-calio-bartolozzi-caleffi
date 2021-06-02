@@ -28,18 +28,16 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
     private JPanel cards;
     private JPanel buttons;
 
-    ArrayList<JButton> jButtons;
-    int id1 = 0;
-    int id2 = 0;
+    private ArrayList<JButton> jButtons;
+    private int id1 = 0;
+    private int id2 = 0;
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height, null);
+        g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight(), null);
     }
 
     public RemoveLeaderCardPanel(GUI gui) {
-        //TODO : immagine da cambiare
-        this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             background = ImageIO.read(is);
@@ -55,6 +53,7 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
         buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 
         jButtons = new ArrayList<>();
+        this.gui = gui;
         jButtons.add(leaderCard1);
         jButtons.add(leaderCard2);
         jButtons.add(leaderCard3);
@@ -136,7 +135,4 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
         }
     }
 
-    public static void main(String[] args) {
-
-    }
 }
