@@ -28,11 +28,12 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(background, 0,0, 1000, 500, null);
+        g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height, null);
     }
 
     public DiscardLeaderCardPanel(GUI gui) {
-        InputStream is = getClass().getResourceAsStream("/images/board/devSpaces.jpg");
+        this.gui = gui;
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             background = ImageIO.read(is);
         } catch (IOException e) {
@@ -47,7 +48,6 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
         buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 
         jButtons = new ArrayList<>();
-        this.gui = gui;
         jButtons.add(leaderCard1);
         jButtons.add(leaderCard2);
         for(int i = 0 ; i <gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){

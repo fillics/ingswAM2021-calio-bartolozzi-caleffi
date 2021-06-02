@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.panels;
 import it.polimi.ingsw.client.gui.GUI;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,14 +21,25 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     public BoardPanel(GUI gui) {
         this.gui = gui;
-        this.setBounds(0,0,1500,1000);
+        JPanel bigpanel = new JPanel();
+        bigpanel.setPreferredSize(new Dimension(970, 700));
+        JPanel operations = new JPanel();
+        addAll(operations);
 
-        setAllBounds();
-        addAll();
+        operations.setPreferredSize(new Dimension(970, 200));
+        JPanel underboard = new JPanel();
+        underboard.setPreferredSize(new Dimension(970, 480));
+        underboard.setLayout(new BoxLayout(underboard, BoxLayout.X_AXIS));
+        WarehousePanel warehousePanel = new WarehousePanel(gui);
+        DevSpacesPanel devSpacesPanel = new DevSpacesPanel(gui);
+        underboard.add(warehousePanel);
+        underboard.add(devSpacesPanel);
         addActionEvent();
+        bigpanel.add(operations);
+        bigpanel.add(underboard);
 
+        this.add(bigpanel);
         this.setVisible(true);
-        this.setLayout(null);
     }
 
     public void addActionEvent(){
@@ -42,29 +54,19 @@ public class BoardPanel extends JPanel implements ActionListener {
         endTurn.addActionListener(this);
     }
 
-    public void addAll(){
-        this.add(discardLeaderCard);
-        this.add(activateLeaderCard);
-        this.add(buyDevCard);
-        this.add(chooseDiscount);
-        this.add(useProdPower);
-        this.add(moveResource);
-        this.add(placeResource);
-        this.add(takeResourceFromMarket);
-        this.add(endTurn);
+    public void addAll(JPanel operations){
+        operations.add(discardLeaderCard);
+        operations.add(activateLeaderCard);
+        operations.add(buyDevCard);
+        operations.add(chooseDiscount);
+        operations.add(useProdPower);
+        operations.add(moveResource);
+        operations.add(placeResource);
+        operations.add(takeResourceFromMarket);
+        operations.add(endTurn);
     }
 
-    public void setAllBounds(){
-        discardLeaderCard.setBounds(0,0, 150, 30);
-        activateLeaderCard.setBounds(160, 0, 150, 30);
-        buyDevCard.setBounds(320, 0, 150, 30);
-        chooseDiscount.setBounds(480, 0, 150, 30);
-        useProdPower.setBounds(640, 0, 150, 30);
-        moveResource.setBounds(800, 0, 150, 30);
-        placeResource.setBounds(960, 0, 150, 30);
-        takeResourceFromMarket.setBounds(1120, 0, 150, 30);
-        endTurn.setBounds(1280, 0, 150, 30);
-    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
