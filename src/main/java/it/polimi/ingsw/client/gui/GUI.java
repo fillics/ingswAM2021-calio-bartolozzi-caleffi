@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class GUI implements Runnable, ViewInterface {
 
-    private JPanel bigPanel, messagesFromServerPanel;
+    private JPanel bigPanel, topPanel, mainPanel, messagesFromServerPanel;
     private JPanel loginPanel, serverPanel, numPlayersPanel, boardPanel, buyDevCardPanel, devGridPanel, marketPanel,
             removeLeaderCardPanel, additionalResourcePanel;
     private Client client;
@@ -50,23 +50,38 @@ public class GUI implements Runnable, ViewInterface {
         loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
+        boardPanel = new BoardPanel(this);
+        removeLeaderCardPanel = new RemoveLeaderCardPanel(this);
     }
 
-    public Dimension getDimension() {
-        return dimension;
-    }
 
     @Override
     public void run() {
 
         bigPanel = new JPanel();
-        messagesFromServerPanel = new JPanel();
+        mainPanel = new JPanel();
+        topPanel = new JPanel();
+        createMessageFromServer("Welcome!");
 
         bigPanel.setLayout(new BorderLayout());
+        mainPanel.setLayout(new BoxLayout(mainPanel,  BoxLayout.PAGE_AXIS));
 
-        bigPanel.add(serverPanel);
+
+        //messagesFromServerPanel.setLayout(new BoxLayout(messagesFromServerPanel,  BoxLayout.PAGE_AXIS));
+
+        mainPanel.add(serverPanel);
+        mainPanel.setPreferredSize(new Dimension(width, height-50));
+        topPanel.add(messagesFromServerPanel);
+        topPanel.setPreferredSize(new Dimension(width, 50));
+
+        //messagesFromServerPanel.setBorder(blackline);
+
+        bigPanel.add(mainPanel);
+        //bigPanel.add(messagesFromServerPanel, BorderLayout.NORTH);
+        bigPanel.add(topPanel, BorderLayout.NORTH);
+
+
         jFrame.add(bigPanel);
-
         jFrame.setTitle("Master of Renaissance");
         jFrame.setResizable(false);
         jFrame.setVisible(true);
@@ -84,14 +99,24 @@ public class GUI implements Runnable, ViewInterface {
 
     }
 
-    // TODO: 29/05/2021 si può anche porre i pannelli a setVisible = false e mettere quello che si vuol far vedere a true
     public void switchPanels(JPanel panel){
-        bigPanel.removeAll();
-        bigPanel.add(panel);
-        bigPanel.repaint();
-        bigPanel.revalidate();
+        mainPanel.removeAll();
+        mainPanel.add(panel);
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }
 
+    public void createMessageFromServer(String message){
+        topPanel.removeAll();
+
+        messagesFromServerPanel = new MessagesPanel(this, message);
+        messagesFromServerPanel.setLayout(new BoxLayout(messagesFromServerPanel,  BoxLayout.PAGE_AXIS));
+        messagesFromServerPanel.setBorder(blackline);
+
+        topPanel.add(messagesFromServerPanel);
+        topPanel.repaint();
+        topPanel.revalidate();
+    }
 
     public JPanel getLoginPanel() {
         return loginPanel;

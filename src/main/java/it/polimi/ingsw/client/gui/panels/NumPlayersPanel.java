@@ -25,7 +25,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight(), null);
+        g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
     }
 
     public NumPlayersPanel(GUI gui) {
@@ -88,14 +88,16 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         c.insets = new Insets(10,10,10,10);
         btn1 = new JButton("1");
         btn1.setPreferredSize(new Dimension(50,50));
+        changeBackground(btn1);
         btn2 = new JButton("2");
         btn2.setPreferredSize(new Dimension(50,50));
-
+        changeBackground(btn2);
         btn3 = new JButton("3");
         btn3.setPreferredSize(new Dimension(50,50));
-
+        changeBackground(btn3);
         btn4 = new JButton("4");
         btn4.setPreferredSize(new Dimension(50,50));
+        changeBackground(btn4);
 
         c.gridx=0;
         c.gridy=0;
@@ -114,6 +116,18 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         btn2.addActionListener(this);
         btn3.addActionListener(this);
         btn4.addActionListener(this);
+    }
+
+
+    public void changeBackground(JButton button){
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(51, 180, 76));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(UIManager.getColor("control"));
+            }
+        });
     }
 
 
