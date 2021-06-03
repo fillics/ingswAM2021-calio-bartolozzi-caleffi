@@ -24,7 +24,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
     public void execute(Client client) {
         switch (message){
 
-            case USERNAME_VALID, IMPOSSIBLEMOVE, IMPOSSIBLEENDTURN -> {
+            case USERNAME_VALID, IMPOSSIBLEMOVE -> {
                 if(client.getViewChoice().equals(ViewChoice.CLI)){
                     Constants.printConnectionMessage(message);
                 }
@@ -33,6 +33,14 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 }
             }
 
+            case IMPOSSIBLEENDTURN -> {
+                if(client.getViewChoice().equals(ViewChoice.CLI)){
+                    Constants.printConnectionMessage(message);
+                }
+                else{
+                    JOptionPane.showMessageDialog(client.getGui().getjFrame(), message.getMessage());
+                }
+            }
             case INSERT_NUMBER_OF_PLAYERS -> {
                 if(client.getViewChoice().equals(ViewChoice.CLI)){
                     Constants.printConnectionMessage(ConnectionMessages.LOBBY_MASTER);

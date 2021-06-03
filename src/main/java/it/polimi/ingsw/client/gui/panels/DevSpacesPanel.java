@@ -194,4 +194,20 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         jFrame.setVisible(true);
         jFrame.pack();
     }
+
+    public JButton getDevSpace1() {
+        return devSpace1;
+    }
+
+    public JButton getDevspace2() {
+        return devspace2;
+    }
+
+    public JButton getDevSpace3() {
+        return devSpace3;
+    }
+
+    public JButton getProdPower() {
+        return prodPower;
+    }
 }

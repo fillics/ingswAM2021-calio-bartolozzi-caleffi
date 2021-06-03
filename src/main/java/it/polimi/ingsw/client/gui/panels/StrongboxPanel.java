@@ -14,6 +14,7 @@ import java.io.InputStream;
 public class StrongboxPanel extends JPanel implements ActionListener {
     private Image background;
     GUI gui;
+    JButton strongboxButton;
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -23,6 +24,8 @@ public class StrongboxPanel extends JPanel implements ActionListener {
     public StrongboxPanel(GUI gui) {
         this.gui = gui;
         this.setPreferredSize(new Dimension(250, 180));
+        strongboxButton = new JButton();
+        strongboxButton.setBackground(new Color(151, 74, 74));
         JLabel coin = new JLabel();
         JLabel stone = new JLabel();
         JLabel servant = new JLabel();
@@ -37,9 +40,10 @@ public class StrongboxPanel extends JPanel implements ActionListener {
         JPanel panel1 = new JPanel();
         panel1.setPreferredSize(new Dimension(250, 180));
         JPanel panel2 = new JPanel();
-        panel2.setPreferredSize(new Dimension(250, 90));
+        panel2.setPreferredSize(new Dimension(250, 80));
         JPanel panel3 = new JPanel();
-        panel3.setPreferredSize(new Dimension(250, 90));
+        panel3.setPreferredSize(new Dimension(250, 80));
+        strongboxButton.setPreferredSize(new Dimension(250, 20));
 
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
@@ -73,12 +77,18 @@ public class StrongboxPanel extends JPanel implements ActionListener {
         panel2.add(coin);
         panel2.add(Box.createRigidArea(new Dimension(50, 80)));
         panel2.add(stone);
-        panel3.add(servant);
-        panel3.add(Box.createRigidArea(new Dimension(50, 0)));
+        panel2.add(Box.createRigidArea(new Dimension(50, 80)));
 
+        panel3.add(servant);
+        panel3.add(Box.createRigidArea(new Dimension(40, 0)));
         panel3.add(shield);
+        panel3.add(Box.createRigidArea(new Dimension(40, 0)));
+
+
+        panel1.add(strongboxButton);
         panel1.add(panel2);
         panel1.add(panel3);
+
 
         this.add(panel1);
 
@@ -93,18 +103,20 @@ public class StrongboxPanel extends JPanel implements ActionListener {
 
     public static void main(String[] args) {
 
-     //   StrongboxPanel depositsPanel = new StrongboxPanel();
+      //  StrongboxPanel depositsPanel = new StrongboxPanel();
         JFrame frame = new JFrame();
 
         frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
-       // frame.add(depositsPanel);
+     //   frame.add(depositsPanel);
 
         frame.setTitle("Master of Renaissance");
         frame.setResizable(false);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
-        frame.setSize(1920, 1080);
+        frame.pack();
+    }
 
-
+    public JButton getStrongboxButton() {
+        return strongboxButton;
     }
 }

@@ -196,4 +196,15 @@ public class DepositsPanel extends JPanel implements ActionListener {
 
     }
 
+    public JButton getDeposit1Button() {
+        return deposit1Button;
+    }
+
+    public JButton getDeposit2Button() {
+        return deposit2Button;
+    }
+
+    public JButton getDeposit3Button() {
+        return deposit3Button;
+    }
 }

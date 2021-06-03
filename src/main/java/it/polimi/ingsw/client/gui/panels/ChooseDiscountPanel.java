@@ -3,7 +3,8 @@ package it.polimi.ingsw.client.gui.panels;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.controller.client_packets.PacketDiscardLeaderCard;
+import it.polimi.ingsw.controller.client_packets.PacketActivateLeaderCard;
+import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
+public class ChooseDiscountPanel extends JPanel implements ActionListener {
     private Image background;
     private GUI gui;
     private final GridBagConstraints c;
@@ -23,16 +24,11 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
     private JButton leaderCard1, leaderCard2;
     private JButton confirm, back;
     ArrayList<JButton> jButtons;
-    int id1 = 0;
+    ArrayList<Integer> leaderCards;
     private JPanel cards, buttons;
 
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height, null);
-
-    }
-
-    public DiscardLeaderCardPanel(GUI gui) {
+    public ChooseDiscountPanel(GUI gui) {
+        leaderCards = new ArrayList<>();
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
@@ -128,6 +124,11 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
 
     }
 
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height, null);
+
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -135,28 +136,26 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
             BoardPanel boardPanel = new BoardPanel(gui);
             gui.switchPanels(boardPanel);
         }
-        if(id1 == 0){
-            if (e.getSource() == leaderCard1) {
-                id1 = gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(0).getId();
-                leaderCard1.setEnabled(false);
-            }
-            if (e.getSource() == leaderCard2) {
-                id1 = gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(1).getId();
-                leaderCard2.setEnabled(false);
-            }
+        if (e.getSource() == leaderCard1) {
+            int id = 0;
+            id = gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(0).getId();
+            leaderCards.add(id);
         }
-        else{
-            if (e.getSource() == confirm) {
-                PacketDiscardLeaderCard packetDiscardLeaderCard = new PacketDiscardLeaderCard(id1);
-                ObjectMapper mapper = new ObjectMapper();
-                String jsonResult = null;
-                try {
-                    jsonResult = mapper.writeValueAsString(packetDiscardLeaderCard);
-                } catch (JsonProcessingException jsonProcessingException) {
-                    jsonProcessingException.printStackTrace();
-                }
-                gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
+        if (e.getSource() == leaderCard2) {
+            int id;
+            id = gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(1).getId();
+            leaderCards.add(id);
+        }
+        if (e.getSource() == confirm) {
+            PacketChooseDiscount packetActivateLeaderCard = new PacketChooseDiscount(leaderCards);
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonResult = null;
+            try {
+                jsonResult = mapper.writeValueAsString(packetActivateLeaderCard);
+            } catch (JsonProcessingException jsonProcessingException) {
+                jsonProcessingException.printStackTrace();
             }
+            gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
         }
     }
 

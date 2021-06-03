@@ -1,6 +1,10 @@
 package it.polimi.ingsw.client.gui.panels;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
+import it.polimi.ingsw.controller.client_packets.PacketEndTurn;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,22 +25,35 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     public BoardPanel(GUI gui) {
         this.gui = gui;
+        ResourceBufferPanel resourceBufferPanel = new ResourceBufferPanel(gui);
+
         JPanel bigpanel = new JPanel();
-        bigpanel.setPreferredSize(new Dimension(970, 700));
+        bigpanel.setPreferredSize(new Dimension(1129, 775));
         JPanel operations = new JPanel();
         addAll(operations);
 
-        operations.setPreferredSize(new Dimension(970, 200));
+        operations.setPreferredSize(new Dimension(1129, 200));
+
         JPanel underboard = new JPanel();
-        underboard.setPreferredSize(new Dimension(970, 480));
+        underboard.setPreferredSize(new Dimension(1129, 480));
         underboard.setLayout(new BoxLayout(underboard, BoxLayout.X_AXIS));
+        JPanel leadercards = new JPanel();
+        leadercards.setLayout(new BoxLayout(leadercards, BoxLayout.Y_AXIS));
+        leadercards.setPreferredSize(new Dimension(159, 480));
+        LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(0).getId());
+        LeaderCardPanel leaderCardPanel2 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(1).getId());
+        leadercards.add(leaderCardPanel1);
+        leadercards.add(leaderCardPanel2);
         WarehousePanel warehousePanel = new WarehousePanel(gui);
         DevSpacesPanel devSpacesPanel = new DevSpacesPanel(gui);
         underboard.add(warehousePanel);
         underboard.add(devSpacesPanel);
+        underboard.add(leadercards);
+
         addActionEvent();
         bigpanel.add(operations);
         bigpanel.add(underboard);
+        bigpanel.add(resourceBufferPanel);
 
         this.add(bigpanel);
         this.setVisible(true);
@@ -85,6 +102,21 @@ public class BoardPanel extends JPanel implements ActionListener {
         if(e.getSource()== takeResourceFromMarket){
             MarketPanel marketPanel = new MarketPanel(gui);
             gui.switchPanels(marketPanel);
+        }
+        if(e.getSource() == chooseDiscount){
+            ChooseDiscountPanel chooseDiscountPanel = new ChooseDiscountPanel(gui);
+            gui.switchPanels(chooseDiscountPanel);
+        }
+        if(e.getSource() == endTurn){
+            PacketEndTurn packetEndTurn = new PacketEndTurn();
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonResult = null;
+            try {
+                jsonResult = mapper.writeValueAsString(packetEndTurn);
+            } catch (JsonProcessingException jsonProcessingException) {
+                jsonProcessingException.printStackTrace();
+            }
+            gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
         }
     }
 }

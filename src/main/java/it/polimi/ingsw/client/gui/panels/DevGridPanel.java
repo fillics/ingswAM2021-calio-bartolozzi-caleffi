@@ -11,108 +11,110 @@ import java.io.IOException;
 
 public class DevGridPanel extends JPanel implements ActionListener {
     GridBagConstraints c;
-    JButton devCard1;
-    JButton devCard2;
-    JButton devCard3;
-    JButton devCard4;
-    JButton devCard5;
-    JButton devCard6;
-    JButton devCard7;
-    JButton devCard8;
-    JButton devCard9;
-    JButton devCard10;
-    JButton devCard11;
-    JButton devCard12;
+    JButton devCard1, devCard2, devCard3, devCard4, devCard5, devCard6, devCard7, devCard8, devCard9, devCard10, devCard11, devCard12;
+    JButton back;
+
     ClientModelView clientModelView;
+
     GUI gui;
     int id;
 
     public DevGridPanel(GUI gui) {
         this.gui = gui;
-        this.setLayout(new GridBagLayout());
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
-        devCard1 = new JButton("1");
-        devCard2 = new JButton("2");
-        devCard3 = new JButton("3");
-        devCard4 = new JButton("4");
-        devCard5 = new JButton("5");
-        devCard6 = new JButton("6");
-        devCard7 = new JButton("7");
-        devCard8 = new JButton("8");
-        devCard9 = new JButton("9");
-        devCard10 = new JButton("10");
-        devCard11 = new JButton("11");
-        devCard12 = new JButton("12");
+        devCard1 = new JButton();
+        devCard2 = new JButton();
+        devCard3 = new JButton();
+        devCard4 = new JButton();
+        devCard5 = new JButton();
+        devCard6 = new JButton();
+        devCard7 = new JButton();
+        devCard8 = new JButton();
+        devCard9 = new JButton();
+        devCard10 = new JButton();
+        devCard11 = new JButton();
+        devCard12 = new JButton();
+        back = new JButton("BACK");
         try {
-            setButtons();
+            setButtons(panel);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.setVisible(true);
+        this.add(panel);
+
     }
 
-    public void setButtons() throws IOException {
+    public void setButtons(JPanel panel) throws IOException {
         clientModelView = gui.getClient().getClientModelView();
-        devCard1.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(0).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+        devCard1.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(8).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard1.addActionListener(this);
         c.gridx = 0;
         c.gridy = 0;
-        this.add(devCard1,c);
-        devCard2.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(1).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+        panel.add(devCard1,c);
+        devCard2.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(9).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard2.addActionListener(this);
         c.gridx = 1;
         c.gridy = 0;
-        this.add(devCard2,c);
-        devCard3.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(2).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+        panel.add(devCard2,c);
+        devCard3.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(10).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard3.addActionListener(this);
         c.gridx = 2;
         c.gridy = 0;
-        this.add(devCard3,c);
-        devCard4.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(3).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+        panel.add(devCard3,c);
+        devCard4.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(11).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard4.addActionListener(this);
         c.gridx = 3;
         c.gridy = 0;
-        this.add(devCard4,c);
+        panel.add(devCard4,c);
         devCard5.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(4).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard5.addActionListener(this);
         c.gridx = 0;
         c.gridy = 1;
-        this.add(devCard5,c);
+        panel.add(devCard5,c);
         devCard6.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(5).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard6.addActionListener(this);
         c.gridx = 1;
         c.gridy = 1;
-        this.add(devCard6,c);
+        panel.add(devCard6,c);
         devCard7.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(6).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard7.addActionListener(this);
         c.gridx = 2;
         c.gridy = 1;
-        this.add(devCard7,c);
+        panel.add(devCard7,c);
         devCard8.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(7).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard8.addActionListener(this);
         c.gridx = 3;
         c.gridy = 1;
-        this.add(devCard8,c);
-        devCard9.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(8).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+        panel.add(devCard8,c);
+        devCard9.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(0).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard9.addActionListener(this);
         c.gridx = 0;
         c.gridy = 2;
-        this.add(devCard9,c);
-        devCard10.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(9).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+        panel.add(devCard9,c);
+        devCard10.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(1).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard10.addActionListener(this);
         c.gridx = 1;
         c.gridy = 2;
-        this.add(devCard10,c);
-        devCard11.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(10).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+        panel.add(devCard10,c);
+        devCard11.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(2).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard11.addActionListener(this);
         c.gridx = 2;
         c.gridy = 2;
-        this.add(devCard11,c);
-        devCard12.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(11).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+        panel.add(devCard11,c);
+        devCard12.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(3).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
         devCard12.addActionListener(this);
         c.gridx = 3;
         c.gridy = 2;
-        this.add(devCard12,c);
+        panel.add(devCard12,c);
+        c.insets = new Insets(50,0,0,0);
+        back.setPreferredSize(new Dimension(100, 50));
+        back.addActionListener(this);
+        c.gridx = 1;
+        c.gridy = 3;
+        panel.add(back, c);
+
     }
 
     public int getId() {
@@ -181,6 +183,10 @@ public class DevGridPanel extends JPanel implements ActionListener {
             id = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(11).getId();
             disableAllButtons();
 
+        }
+        if(e.getSource() == back){
+            BoardPanel boardPanel = new BoardPanel(gui);
+            gui.switchPanels(boardPanel);
         }
 
     }
