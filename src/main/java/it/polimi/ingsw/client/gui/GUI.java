@@ -50,10 +50,12 @@ public class GUI implements Runnable, ViewInterface {
         loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
-        boardPanel = new BoardPanel(this);
-        removeLeaderCardPanel = new RemoveLeaderCardPanel(this);
+      //  removeLeaderCardPanel = new RemoveLeaderCardPanel(this);
     }
 
+    public Dimension getDimension() {
+        return dimension;
+    }
 
     @Override
     public void run() {
