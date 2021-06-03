@@ -54,8 +54,10 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
             }
             clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getStrongbox(),gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getDeposits()));
-            gameInterface.setState(GameStates.PHASE_ONE);
 
+
+
+            gameInterface.setState(GameStates.PHASE_ONE);
 
 
             //SALVATAGGIO SU PROXY
