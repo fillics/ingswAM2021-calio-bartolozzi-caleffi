@@ -38,7 +38,8 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
 
         this.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
-        c.insets = new Insets(500,0,0,0);
+        int top = gui.getHeight()/3;
+        c.insets = new Insets(top,0,50,0);
 
         c.gridy=0;
         c.gridx=0;

@@ -50,7 +50,7 @@ public class GUI implements Runnable, ViewInterface {
         loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
-      //  removeLeaderCardPanel = new RemoveLeaderCardPanel(this);
+        //  removeLeaderCardPanel = new RemoveLeaderCardPanel(this);
     }
 
     public Dimension getDimension() {
@@ -68,19 +68,16 @@ public class GUI implements Runnable, ViewInterface {
         bigPanel.setLayout(new BorderLayout());
         mainPanel.setLayout(new BoxLayout(mainPanel,  BoxLayout.PAGE_AXIS));
 
-
-        //messagesFromServerPanel.setLayout(new BoxLayout(messagesFromServerPanel,  BoxLayout.PAGE_AXIS));
-
         mainPanel.add(serverPanel);
         mainPanel.setPreferredSize(new Dimension(width, height-50));
         topPanel.add(messagesFromServerPanel);
         topPanel.setPreferredSize(new Dimension(width, 50));
 
-        //messagesFromServerPanel.setBorder(blackline);
 
         bigPanel.add(mainPanel);
-        //bigPanel.add(messagesFromServerPanel, BorderLayout.NORTH);
+
         bigPanel.add(topPanel, BorderLayout.NORTH);
+        bigPanel.setPreferredSize(new Dimension(width, height));
 
 
         jFrame.add(bigPanel);
@@ -88,7 +85,7 @@ public class GUI implements Runnable, ViewInterface {
         jFrame.setResizable(false);
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
-        jFrame.setSize(width, height);
+        jFrame.pack();
 
         ImageIcon image = null; //create an ImageIcon
         try {
@@ -240,4 +237,3 @@ public class GUI implements Runnable, ViewInterface {
         return borders;
     }
 }
-
