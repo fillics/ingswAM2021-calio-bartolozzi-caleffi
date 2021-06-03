@@ -31,8 +31,10 @@ public class PacketLeaderCards implements ServerPacketHandler{
 
         switch (client.getClientState()){
             case GAMESTARTED -> {
-                BoardPanel boardPanel = new BoardPanel(client.getGui());
-                client.getGui().switchPanels(boardPanel);
+                if(client.getViewChoice().equals(ViewChoice.GUI)){
+                    BoardPanel boardPanel = new BoardPanel(client.getGui());
+                    client.getGui().switchPanels(boardPanel);
+                }
                 System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
             }
             case LEADERSETUP -> {

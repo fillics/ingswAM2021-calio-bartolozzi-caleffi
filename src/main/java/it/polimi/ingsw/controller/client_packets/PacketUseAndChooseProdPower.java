@@ -39,6 +39,7 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
+        //TODO: GUARDARE METTENDO UNA CARTA LEADER ATTIVATA NEL MODELLO COME MAI NON FUNZIONA IL PROD POWER
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             ArrayList<ProductionPower> realProductionPowers = new ArrayList<>();
             for(int i: productionPowers){
