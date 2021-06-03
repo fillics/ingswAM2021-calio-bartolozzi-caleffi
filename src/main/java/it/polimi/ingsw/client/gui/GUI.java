@@ -1,8 +1,11 @@
 package it.polimi.ingsw.client.gui;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.ViewInterface;
 import it.polimi.ingsw.client.gui.panels.*;
+import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -50,7 +53,8 @@ public class GUI implements Runnable, ViewInterface {
         loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
-        //  removeLeaderCardPanel = new RemoveLeaderCardPanel(this);
+
+
     }
 
     public Dimension getDimension() {
@@ -116,6 +120,19 @@ public class GUI implements Runnable, ViewInterface {
         topPanel.repaint();
         topPanel.revalidate();
     }
+
+    public void sendPacketToServer(ClientPacketHandler packet){
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonResult = null;
+        try {
+            jsonResult = mapper.writeValueAsString(packet);
+        } catch (JsonProcessingException jsonProcessingException) {
+            jsonProcessingException.printStackTrace();
+        }
+        client.getSocketClientConnection().sendToServer(jsonResult);
+    }
+
+
 
     public JPanel getLoginPanel() {
         return loginPanel;

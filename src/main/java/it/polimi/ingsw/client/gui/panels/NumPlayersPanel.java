@@ -138,6 +138,15 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         if (e.getSource() == btn2) number_of_players = 2;
         if (e.getSource() == btn3) number_of_players = 3;
         if (e.getSource() == btn4) number_of_players = 4;
+        setDisabled();
         gui.getClient().sendNumPlayers(number_of_players);
+    }
+
+
+    public void setDisabled(){
+        btn1.setEnabled(false);
+        btn2.setEnabled(false);
+        btn3.setEnabled(false);
+        btn4.setEnabled(false);
     }
 }

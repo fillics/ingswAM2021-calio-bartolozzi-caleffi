@@ -76,6 +76,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         loginTextField = new JTextField();
         loginTextField.setPreferredSize(new Dimension(200, 25));
         loginTextField.setHorizontalAlignment(JTextField.CENTER);
+        loginTextField.addActionListener(this);
         c.gridx=0;
         c.gridy=0;
         login.add(loginLabel, c);
@@ -98,7 +99,7 @@ public class LoginPanel extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == loginButton) {
+        if (e.getSource() == loginButton || e.getSource()==loginTextField) {
             String username;
             username = loginTextField.getText();
 
@@ -108,5 +109,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 
             //JOptionPane.showMessageDialog(this, "Connected");
         }
+
     }
 }

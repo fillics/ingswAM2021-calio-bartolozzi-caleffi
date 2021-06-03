@@ -99,15 +99,7 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
         }
         else{
             if (e.getSource() == confirm) {
-                PacketActivateLeaderCard packetActivateLeaderCard = new PacketActivateLeaderCard(id1);
-                ObjectMapper mapper = new ObjectMapper();
-                String jsonResult = null;
-                try {
-                    jsonResult = mapper.writeValueAsString(packetActivateLeaderCard);
-                } catch (JsonProcessingException jsonProcessingException) {
-                    jsonProcessingException.printStackTrace();
-                }
-                gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
+                gui.sendPacketToServer(new PacketActivateLeaderCard(id1));
             }
         }
     }

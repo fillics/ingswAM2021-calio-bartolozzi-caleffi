@@ -25,6 +25,7 @@ public class DepositsPanel extends JPanel implements ActionListener {
     private JLabel resource4;
     private JLabel resource5;
     private JLabel resource6;
+    private ArrayList<Integer> idDepot;
 
 
     public void paintComponent(Graphics g){
@@ -41,6 +42,7 @@ public class DepositsPanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        idDepot = new ArrayList<>();
         JPanel panel1 = new JPanel();
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         panel1.setPreferredSize(new Dimension(250, 300));
@@ -177,23 +179,47 @@ public class DepositsPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if(e.getSource()==deposit1Button){
+            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
+                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
+                setDisabled();
+            }
+            if(idDepot.size()<3) idDepot.add(1);
+
+        }
+        if(e.getSource()==deposit2Button){
+            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
+                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
+                setDisabled();
+            }
+
+            if(idDepot.size()<3) idDepot.add(2);
+        }
+        if(e.getSource()==deposit3Button){
+            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
+                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
+                setDisabled();
+            }
+
+            if(idDepot.size()<3) idDepot.add(3);
+        }
     }
 
 
-    public static void main(String[] args) {
+    public ArrayList<Integer> getIdDepot() {
+        return idDepot;
+    }
 
-       // DepositsPanel depositsPanel = new DepositsPanel();
-        JFrame frame = new JFrame();
+    public void setDisabled(){
+        deposit1Button.setEnabled(false);
+        deposit2Button.setEnabled(false);
+        deposit3Button.setEnabled(false);
+    }
 
-        frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
-     //   frame.add(depositsPanel);
-
-        frame.setTitle("Master of Renaissance");
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
-        frame.pack();
-
+    public void setEnabled(){
+        deposit1Button.setEnabled(true);
+        deposit2Button.setEnabled(true);
+        deposit3Button.setEnabled(true);
     }
 
 }

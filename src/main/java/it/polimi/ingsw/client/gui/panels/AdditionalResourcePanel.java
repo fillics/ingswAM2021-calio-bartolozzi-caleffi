@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketChooseInitialResources;
+import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 
 import javax.imageio.ImageIO;
@@ -12,49 +13,72 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
+    private GUI gui;
+    private Image background;
     private ArrayList<Integer> deposits;
     private ArrayList<ResourceType> resources;
-    private JPanel resourcesPanel;
-    private JPanel depositsPanel;
-
+    private JPanel resourcesPanel, buttonsPanel;
+    private DepositsPanel depositsPanel;
     private final JButton coin = new JButton();
     private final JButton stone = new JButton();
     private final JButton servant = new JButton();
     private final JButton shield = new JButton();
-    private JButton deposit1Button;
-    private JButton deposit2Button;
-    private JButton deposit3Button;
+    private JButton deposit1Button, deposit2Button, deposit3Button;
+    private JButton confirmButton;
     private GridBagConstraints c;
 
-    private GridLayout gridLayout;
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
+    }
 
-    public AdditionalResourcePanel() {
-        gridLayout = new GridLayout(2,1);
-        this.setLayout(gridLayout);
-        createResourcesPanel();
-        createDepositsPanel();
+    public AdditionalResourcePanel(GUI gui) {
+        this.gui = gui;
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
+        try {
+            background = ImageIO.read(is);
+        } catch (IOException ignored) {}
+        if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
+                gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2)
+            gui.createMessageFromServer(ConnectionMessages.CHOOSE_ONE_RESOURCE_GUI.getMessage());
 
-        this.add(resourcesPanel);
-        this.add(depositsPanel);
+        else gui.createMessageFromServer(ConnectionMessages.CHOOSE_TWO_RESOURCES_GUI.getMessage());
 
-        this.setBounds(0,0,1920,200);
-        this.setVisible(true);
 
+        this.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
         deposits = new ArrayList<>();
         resources = new ArrayList<>();
+        createResourcesPanel();
+        c.gridx=0;
+        c.gridy=0;
+        this.add(resourcesPanel, c);
 
-        depositsPanel.setBounds(0, 200, 1920, 200);
+
+        createDepositsPanel();
+        c.gridx=0;
+        c.gridy=1;
+        this.add(depositsPanel, c);
+
+
+        createButton();
+        c.gridx=0;
+        c.gridy=2;
+        this.add(buttonsPanel, c);
+
+
 
     }
 
 
     public void createResourcesPanel(){
         resourcesPanel = new JPanel();
-        c = new GridBagConstraints();
+        resourcesPanel.setLayout(new GridBagLayout());
         c.insets = new Insets(0, 2, 0, 2);
 
         try {
@@ -71,7 +95,6 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             servant.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/servant.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
             c.gridx=2;
             c.gridy=0;
-            c.insets = new Insets(50,50,50,50);
             resourcesPanel.add(servant, c);
 
             shield.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/shield.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
@@ -87,95 +110,120 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         shield.addActionListener(this);
         servant.addActionListener(this);
         stone.addActionListener(this);
-        resourcesPanel.setLayout(new GridBagLayout());
+        resourcesPanel.setBackground(new Color(0, 0, 0, 0));
+        resourcesPanel.setOpaque(true);
 
-        resourcesPanel.setVisible(true);
-        resourcesPanel.setSize(new Dimension(500,500));
     }
 
     public void createDepositsPanel(){
-        depositsPanel = new JPanel();
-        depositsPanel.setLayout(new GridLayout(1,1));
-
-        deposit1Button=new JButton();
-        deposit2Button=new JButton();
-        deposit3Button=new JButton();
-
-        BufferedImage myPicture = null;
-        try {
-            // TODO: 31/05/2021 cambiare con resource as stream
-            //myPicture = ImageIO.read(new File(getClass().getResourceAsStream("/images/board/deposits.jpg").readAllBytes()));
-            myPicture = ImageIO.read(new File("src/main/resources/images/board/deposits.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-        depositsPanel.add(picLabel);
-
-        deposit1Button.addActionListener(this);
-        deposit2Button.addActionListener(this);
-        deposit3Button.addActionListener(this);
+        depositsPanel = new DepositsPanel(gui);
 
         depositsPanel.setVisible(false);
+    }
+
+    public void createButton(){
+        buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new GridBagLayout());
+
+        confirmButton = new JButton("CONFIRM");
+        c.gridx=0;
+        c.gridy=0;
+        c.ipadx=50;
+        c.ipady=25;
+        buttonsPanel.add(confirmButton, c);
+        confirmButton.addActionListener(this);
+        buttonsPanel.setBackground(new Color(0,0,0,0));
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        ResourceType resourceType;
-
         if (e.getSource() == coin) {
-            resourceType = ResourceType.COIN;
-            setDisabled();
+            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
+                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
+                setDisabled();
+            }
+            if(resources.size()<3) {
+                resources.add(ResourceType.COIN);
+
+            }
+
             depositsPanel.setVisible(true);
         }
         if (e.getSource() == stone) {
-            resourceType = ResourceType.STONE;
-            setDisabled();
+            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
+                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
+                setDisabled();
+            }
+            if(resources.size()<3) {
+                resources.add(ResourceType.STONE);
+
+            }
             depositsPanel.setVisible(true);
 
         }
         if (e.getSource() == servant) {
-            resourceType = ResourceType.SERVANT;
-            setDisabled();
+            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
+                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
+                setDisabled();
+            }
+            if(resources.size()<3) {
+                resources.add(ResourceType.SERVANT);
+
+            }
             depositsPanel.setVisible(true);
 
         }
         if (e.getSource() == shield) {
-            resourceType = ResourceType.SHIELD;
-            setDisabled();
+
+            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
+                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
+                setDisabled();
+            }
+
+            if(resources.size()<3) {
+                resources.add(ResourceType.SHIELD);
+
+            }
             depositsPanel.setVisible(true);
 
         }
 
 
-        PacketChooseInitialResources packet = new PacketChooseInitialResources(deposits, resources);
+        if(e.getSource() == confirmButton){
 
+            deposits = depositsPanel.getIdDepot();
 
-    }
+            if(deposits.size() == resources.size()){
+                gui.sendPacketToServer(new PacketChooseInitialResources(deposits, resources));
+            }
+            else{
+                gui.createMessageFromServer("Arrays of different dimension. Please choose again the resources and the deposits");
+                resources.clear();
+                deposits.clear();
+                setEnabled();
+                depositsPanel.setEnabled();
 
-
-    public static void main(String[] args) {
-
-        AdditionalResourcePanel additionalResourcePanel = new AdditionalResourcePanel();
-        JFrame frame = new JFrame();
-
-        frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
-        frame.add(additionalResourcePanel);
-
-        frame.setTitle("Master of Renaissance");
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
-        frame.setSize(1920, 1080);
+            }
+        }
 
     }
+
+
 
     public void setDisabled(){
         coin.setEnabled(false);
         stone.setEnabled(false);
         shield.setEnabled(false);
         servant.setEnabled(false);
+    }
+
+    public void setEnabled(){
+        coin.setEnabled(true);
+        stone.setEnabled(true);
+        shield.setEnabled(true);
+        servant.setEnabled(true);
     }
 
 }

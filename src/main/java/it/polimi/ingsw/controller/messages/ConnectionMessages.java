@@ -20,6 +20,7 @@ public enum ConnectionMessages {
     INSERT_NUMBER_OF_PLAYERS("Insert the desired number of players (1, 2, 3 or 4): "),
     INVALID_NUM_PLAYERS(Constants.ANSI_RED+"The chosen number of players is invalid. Enter a new one: "+Constants.ANSI_RESET),
 
+
     PLAYER_RECONNECTED("You were playing in a match. Reconnecting to the game..."),
     GAME_IS_STARTING(Constants.UNDERLINE+"The game is starting..."+Constants.ANSI_RESET),
     GAME_IS_STARTING_GUI("The game is starting..."),
@@ -29,8 +30,12 @@ public enum ConnectionMessages {
 
     NOT_YOUR_TURN("It's NOT your turn bro"),
     SELECT_LEADERCARDS("Choose the leader cards to remove"),
-    CHOOSE_FIRST_RESOURCE("Choose the first initial resource:"),
-    CHOOSE_SECOND_RESOURCE("Choose the second initial resource:"),
+    CHOOSE_FIRST_RESOURCE(Constants.ANSI_YELLOW+"Choose the first initial resource:"+Constants.ANSI_RESET),
+    CHOOSE_SECOND_RESOURCE(Constants.ANSI_YELLOW+"Choose the second initial resource:"+Constants.ANSI_RESET),
+
+    CHOOSE_ONE_RESOURCE_GUI("You can choose one resource"),
+    CHOOSE_TWO_RESOURCES_GUI("You can choose two resources"),
+
     RESOURCE_CHOICES("Write: \n"+
             "1 to select "+Color.ANSI_YELLOW.escape() +"COIN" +Color.RESET+ "\n"+
             "2 to select "+ Color.ANSI_GREY.escape()+ "STONE" + Color.RESET + "\n"+
