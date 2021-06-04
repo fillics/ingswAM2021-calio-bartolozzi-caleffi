@@ -3,7 +3,6 @@ package it.polimi.ingsw.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.client.gui.GUIOperationHandler;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
@@ -39,7 +38,7 @@ public class Client {
         }
 
         if (viewChoice.equals(ViewChoice.GUI)){
-            gui = new GUI(this, clientModelView);
+            gui = new GUI(this);
             new Thread(gui).start();
         }
 
@@ -67,10 +66,6 @@ public class Client {
             this.setClientOperationHandler(clientOperationHandler);
         }
 
-        if(viewChoice.equals(ViewChoice.GUI)){
-            clientOperationHandler = new GUIOperationHandler(socketClientConnection, clientModelView, gui);
-            this.setClientOperationHandler(clientOperationHandler);
-        }
         setup(viewChoice);
     }
 

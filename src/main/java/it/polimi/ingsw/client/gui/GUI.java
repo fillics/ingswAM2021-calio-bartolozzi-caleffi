@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GUI implements Runnable, ViewInterface {
+public class GUI implements Runnable {
 
     private JPanel bigPanel, topPanel, mainPanel, messagesFromServerPanel;
     private JPanel loginPanel, serverPanel, numPlayersPanel, boardPanel, buyDevCardPanel, devGridPanel, marketPanel,
@@ -25,13 +25,11 @@ public class GUI implements Runnable, ViewInterface {
     private Dimension dimension;
     private final int width;
     private final int height;
-    private ClientModelView clientModelView;
     private JFrame jFrame;
     private Border blackline, raisedetched, loweredetched, raisedbevel, loweredbevel;
     private ArrayList<Border> borders;
 
-    public GUI(Client client, ClientModelView clientModelView) {
-        this.clientModelView = clientModelView;
+    public GUI(Client client) {
         jFrame = new JFrame();
         dimension = Toolkit.getDefaultToolkit().getScreenSize();
         width = dimension.width;
@@ -172,66 +170,6 @@ public class GUI implements Runnable, ViewInterface {
 
     public Client getClient() {
         return client;
-    }
-
-    @Override
-    public ClientModelView getClientModelView() {
-        return clientModelView;
-    }
-
-    @Override
-    public void printLeaderCards() {
-
-    }
-
-    @Override
-    public void printActivatedLeaderCards() {
-
-    }
-
-    @Override
-    public void printDeposits() {
-
-    }
-
-    @Override
-    public void printStrongbox() {
-
-    }
-
-    @Override
-    public void printDevGrid() {
-
-    }
-
-    @Override
-    public void printResourceBuffer() {
-
-    }
-
-    @Override
-    public void printMarketTray() {
-
-    }
-
-    @Override
-    public void printFaithTrack() {
-
-    }
-
-    @Override
-    public void printDevSpaces() {
-
-    }
-
-    @Override
-    public void printBaseProdPower() {
-
-    }
-
-    @Override
-    public void printResourcesLegend() {
-
     }
 
     public JFrame getjFrame() {

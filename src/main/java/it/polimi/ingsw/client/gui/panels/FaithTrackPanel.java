@@ -124,10 +124,10 @@ public class FaithTrackPanel extends JPanel{
         panel2.add(Box.createRigidArea(new Dimension(51,48)));*/
 
 
-        if(gui.getClientModelView().getLiteBoard().getFaithMarker()==0){
+        if(gui.getClient().getClientModelView().getLiteBoard().getFaithMarker()==0){
             panel3.add(Box.createRigidArea(new Dimension(32,48)));
             try {
-                if(gui.getClientModelView().getLiteBoard().getBlackCross()==0 && gui.getClientModelView().getNumOfPlayers()==1)
+                if(gui.getClient().getClientModelView().getLiteBoard().getBlackCross()==0 && gui.getClient().getClientModelView().getNumOfPlayers()==1)
                     label3.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
                 else
                     label3.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithMarker.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));

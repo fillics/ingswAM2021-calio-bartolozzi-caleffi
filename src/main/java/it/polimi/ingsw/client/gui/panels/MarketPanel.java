@@ -43,8 +43,8 @@ public class MarketPanel extends JPanel implements ActionListener {
     }
 
     public MarketPanel(GUI gui) {
-        table= gui.getClientModelView().getMarketTray().getTable();
-        marble = gui.getClientModelView().getMarketTray().getRemainingMarble();
+        table= gui.getClient().getClientModelView().getMarketTray().getTable();
+        marble = gui.getClient().getClientModelView().getMarketTray().getRemainingMarble();
         InputStream input= getClass().getResourceAsStream("/images/board/marketTray.png");
         try {
             assert input != null;

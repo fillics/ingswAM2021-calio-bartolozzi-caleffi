@@ -14,9 +14,9 @@ public class ResourceBufferPanel extends JPanel {
     public ResourceBufferPanel(GUI gui) {
         resources = new ArrayList<>();
         this.gui = gui;
-        this.setBackground(Color.ORANGE);
         this.setPreferredSize(new Dimension(970, 75));
         JPanel panel = new JPanel();
+        panel.setBackground(Color.ORANGE);
         panel.setPreferredSize(new Dimension(970, 75));
 
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getResourceBuffer().size(); i++){
@@ -32,7 +32,6 @@ public class ResourceBufferPanel extends JPanel {
                     e.printStackTrace();
                 }
         }
-        panel.setOpaque(false);
         this.add(panel);
 
     }

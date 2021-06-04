@@ -3,23 +3,40 @@ package it.polimi.ingsw.client.gui.panels;
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.GUI;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class DevGridPanel extends JPanel implements ActionListener {
-    GridBagConstraints c;
-    JButton devCard1, devCard2, devCard3, devCard4, devCard5, devCard6, devCard7, devCard8, devCard9, devCard10, devCard11, devCard12;
-    JButton back;
+    private Image background;
+    private GridBagConstraints c;
+    private JButton devCard1, devCard2, devCard3, devCard4, devCard5, devCard6, devCard7, devCard8, devCard9, devCard10, devCard11, devCard12;
+    private JButton back;
 
     ClientModelView clientModelView;
 
     GUI gui;
     int id;
 
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height, null);
+
+    }
+
     public DevGridPanel(GUI gui) {
+
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
+        try {
+            background = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         this.gui = gui;
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -43,6 +60,7 @@ public class DevGridPanel extends JPanel implements ActionListener {
             e.printStackTrace();
         }
         this.add(panel);
+        this.setOpaque(false);
 
     }
 

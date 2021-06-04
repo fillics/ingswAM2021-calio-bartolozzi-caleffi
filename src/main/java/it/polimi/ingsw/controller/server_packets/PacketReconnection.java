@@ -23,8 +23,7 @@ public class PacketReconnection implements ServerPacketHandler{
     }
 
 
-    // TODO: 28/05/2021
-    @Override
+   @Override
     public void execute(Client client) {
         Constants.printConnectionMessage(message);
         client.setClientState(clientProxy.getClientStates());
@@ -34,9 +33,6 @@ public class PacketReconnection implements ServerPacketHandler{
 
         if(client.getViewChoice().equals(ViewChoice.CLI)) {
             client.setInterface(new CLI(client, clientProxy.getClientModelView()));
-        }
-        else {
-            client.setInterface(new GUI(client, clientProxy.getClientModelView()));
         }
 
 
