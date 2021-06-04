@@ -11,8 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class BoardPanel extends JPanel implements ActionListener {
     private GUI gui;
@@ -47,7 +45,6 @@ public class BoardPanel extends JPanel implements ActionListener {
         ResourceBufferPanel resourceBufferPanel = new ResourceBufferPanel(gui);
 
         JPanel bigpanel = new JPanel();
-
         bigpanel.setPreferredSize(new Dimension(1129, 775));
         JPanel operations = new JPanel();
         addAll(operations);
@@ -67,10 +64,12 @@ public class BoardPanel extends JPanel implements ActionListener {
         JPanel leadercards = new JPanel();
         leadercards.setLayout(new BoxLayout(leadercards, BoxLayout.Y_AXIS));
         leadercards.setPreferredSize(new Dimension(159, 480));
-        LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(0).getId());
-        LeaderCardPanel leaderCardPanel2 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(1).getId());
-        leadercards.add(leaderCardPanel1);
-        leadercards.add(leaderCardPanel2);
+        ArrayList<LeaderCardPanel> leaderCardPanels = new ArrayList<>();
+        for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
+            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId());
+            leaderCardPanels.add(leaderCardPanel1);
+            leadercards.add(leaderCardPanels.get(i));
+        }
         WarehousePanel warehousePanel = new WarehousePanel(gui);
         DevSpacesPanel devSpacesPanel = new DevSpacesPanel(gui);
         underboard.add(warehousePanel);
