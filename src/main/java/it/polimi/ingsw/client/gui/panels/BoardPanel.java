@@ -32,6 +32,8 @@ public class BoardPanel extends JPanel implements ActionListener {
     private JPanel operations, leaderCards, underBoard, faithTrackPanel, mainPanel;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private ResourceBufferPanel resourceBufferPanel;
+    private WarehousePanel warehousePanel;
+    private DevSpacesPanel devSpacesPanel;
 
 
     public void paintComponent(Graphics g){
@@ -70,6 +72,8 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         this.setOpaque(false);
 
+
+        disableButtons(resourceBufferPanel, devSpacesPanel, warehousePanel);
 
     }
 
@@ -177,8 +181,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
 
 
-        WarehousePanel warehousePanel = new WarehousePanel(gui);
-        DevSpacesPanel devSpacesPanel = new DevSpacesPanel(gui);
+        warehousePanel = new WarehousePanel(gui);
+        devSpacesPanel = new DevSpacesPanel(gui);
         underBoard.add(warehousePanel);
         underBoard.add(devSpacesPanel);
     }
@@ -191,7 +195,6 @@ public class BoardPanel extends JPanel implements ActionListener {
         FaithTrackPanel faithTrack = new FaithTrackPanel(gui);
         faithTrack.setPreferredSize(new Dimension(970,200));
         faithTrackPanel.add(faithTrack);
-        //faithTrackPanel.add(Box.createRigidArea(new Dimension(159,200)));
         faithTrackPanel.setOpaque(false);
     }
 
@@ -224,6 +227,21 @@ public class BoardPanel extends JPanel implements ActionListener {
         });
     }
 
+    public void disableButtons(ResourceBufferPanel resourceBufferPanel, DevSpacesPanel devSpacesPanel, WarehousePanel warehousePanel){
+        for(int i = 0; i < resourceBufferPanel.getResources().size(); i++){
+            resourceBufferPanel.getResources().get(i).setEnabled(false);
+        }
+        devSpacesPanel.getDevSpace1().setVisible(false);
+        devSpacesPanel.getDevspace2().setVisible(false);
+        devSpacesPanel.getDevSpace3().setVisible(false);
+        devSpacesPanel.getProdPower().setVisible(false);
+        warehousePanel.getDepositsPanel().getDeposit1Button().setVisible(false);
+        warehousePanel.getDepositsPanel().getDeposit2Button().setVisible(false);
+        warehousePanel.getDepositsPanel().getDeposit3Button().setVisible(false);
+        warehousePanel.getStrongboxPanel().getStrongboxButton().setVisible(false);
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == activateLeaderCard){
@@ -240,6 +258,17 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == chooseDiscount){
             gui.switchPanels(new ChooseDiscountPanel(gui));
+        }
+        if(e.getSource() == placeResource){
+            if(resourceBufferPanel.getResources().size() != 0){
+                gui.switchPanels(new PlaceResourcePanel(gui));
+            }
+            else{
+                JOptionPane.showMessageDialog(gui.getjFrame(), "You don't have any resources to place");
+            }
+        }
+        if(e.getSource() == moveResource){
+            gui.switchPanels(new MoveResourcePanel(gui));
         }
         if(e.getSource() == endTurn){
             gui.sendPacketToServer(new PacketEndTurn());
