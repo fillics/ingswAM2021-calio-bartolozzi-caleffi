@@ -18,13 +18,12 @@ import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class CLIOperationHandler implements ClientOperationHandler{
+public class CLIOperationHandler{
     private final SocketClientConnection socketClientConnection;
     private final Scanner input;
     private ClientModelView clientModelView;
     private ViewInterface viewInterface;
 
-    // TODO: 24/05/2021 sistemare che non si può fare end turn se non prima il completamento della fase di setup di tutti i giocatori
     public CLIOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView, ViewInterface viewInterface) {
         this.socketClientConnection = socketClientConnection;
         this.clientModelView = clientModelView;
@@ -32,12 +31,12 @@ public class CLIOperationHandler implements ClientOperationHandler{
         input = new Scanner(System.in);
     }
 
-    @Override
+
     public void setViewInterface(ViewInterface viewInterface) {
         this.viewInterface = viewInterface;
     }
 
-    @Override
+
     public void setClientModelView(ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
     }
@@ -326,7 +325,6 @@ public class CLIOperationHandler implements ClientOperationHandler{
         }
     }
 
-    @Override
     public int scannerChooseDeposit(BufferedReader bf) {
         return 0;
     }

@@ -8,7 +8,7 @@ import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.LeaderCardNotActivated;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
-import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 

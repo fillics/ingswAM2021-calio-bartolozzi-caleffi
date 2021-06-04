@@ -7,10 +7,9 @@ import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
-import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.gameinterfaces;
 
 /**
  * Interface GameBoardInterface represents the interface that contains the callable Game's methods by Board

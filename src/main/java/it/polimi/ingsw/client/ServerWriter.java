@@ -9,19 +9,19 @@ import java.util.Scanner;
 public class ServerWriter implements Runnable{
 
     private final SocketClientConnection socketClientConnection;
-    private final ClientOperationHandler clientOperationHandler;
+    private final CLIOperationHandler cliOperationHandler;
     private final PrintStream output;
     private final Scanner input;
     private final Client client;
 
 
-    public ServerWriter(Client client, SocketClientConnection socketClientConnection, ClientOperationHandler clientOperationHandler) {
+    public ServerWriter(Client client, SocketClientConnection socketClientConnection, CLIOperationHandler cliOperationHandler) {
 
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
 
         this.socketClientConnection = socketClientConnection;
-        this.clientOperationHandler = clientOperationHandler;
+        this.cliOperationHandler = cliOperationHandler;
 
         this.client = client;
     }
@@ -75,7 +75,7 @@ public class ServerWriter implements Runnable{
             }
 
             case LEADERSETUP ->
-                client.getClientOperationHandler().chooseLeaderCardToRemove();
+                client.getCliOperationHandler().chooseLeaderCardToRemove();
 
 
             case RESOURCESETUP -> {
@@ -85,13 +85,13 @@ public class ServerWriter implements Runnable{
                         client.getClientModelView().getMyPlayer().getPosInGame()==2) howManyResources = 1;
                 if(client.getClientModelView().getMyPlayer().getPosInGame()==3) howManyResources = 2;
 
-                client.getClientOperationHandler().chooseInitialResources(howManyResources);
+                client.getCliOperationHandler().chooseInitialResources(howManyResources);
             }
 
             case GAMESTARTED -> {
                 if (!inputString.equals("0")) {
                     try {
-                        clientOperationHandler.handleOperation(inputString);
+                        cliOperationHandler.handleOperation(inputString);
                     } catch (IOException | NumberFormatException e) {
                         System.err.println("Error during the choice of the operation to do");
                     }

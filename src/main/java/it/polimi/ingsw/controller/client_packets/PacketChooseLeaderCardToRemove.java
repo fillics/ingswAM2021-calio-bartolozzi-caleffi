@@ -10,7 +10,7 @@ import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketLeaderCards;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
-import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 

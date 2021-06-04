@@ -31,24 +31,5 @@ public class WarehousePanel extends JPanel implements ActionListener {
 
     }
 
-    public static void main(String[] args) {
 
-        //WarehousePanel depositsPanel = new WarehousePanel();
-        JFrame frame = new JFrame();
-
-        frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
-
-        frame.setTitle("Master of Renaissance");
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        //frame.setSize(dimension.width, dimension.height);
-     //
-        //   frame.add(depositsPanel);
-        frame.pack();
-
-
-
-    }
 }

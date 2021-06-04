@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.exceptions.EmptyDeposit;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
+import it.polimi.ingsw.model.gameinterfaces.GamePlayerInterface;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 
 public class Player {
     private final String username;
-    private int idClient;
+    private final int idClient;
     private int position;
     private int totalVictoryPoint;
     private final ArrayList<LeaderCard> leaderCards;

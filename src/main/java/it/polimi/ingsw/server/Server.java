@@ -8,7 +8,7 @@ import it.polimi.ingsw.controller.server_packets.PacketNewPositionInGame;
 import it.polimi.ingsw.controller.server_packets.PacketReconnection;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 

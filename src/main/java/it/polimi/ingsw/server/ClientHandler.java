@@ -8,6 +8,7 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
+import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
@@ -165,6 +166,7 @@ public class ClientHandler implements Runnable {
     }
 
 
+    // TODO: 05/06/2021 probabilmente si può fare meglio questo metodo, senza tutti gli if e provando a unire le tre classi di packethandler
     public synchronized void deserialize(String jsonResult) throws DevelopmentCardNotFound,
             EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
             DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated,
@@ -173,24 +175,30 @@ public class ClientHandler implements Runnable {
 
         ObjectMapper mapper = new ObjectMapper();
 
+
         if (jsonResult.contains("USERNAME") || jsonResult.contains("NUMOFPLAYERS") || jsonResult.contains("PONG") ){
             SetupHandler packet = null;
             try {
                 packet = mapper.readValue(jsonResult, SetupHandler.class);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
+            } catch (JsonProcessingException ignored) {}
             if (packet != null) {
                 packet.execute(server,this);
+            }
+        }
+        else if(jsonResult.contains("RESOURCE_CHEAT") || jsonResult.contains("FAITHMARKER_CHEAT")){
+            CheatClientPacketHandler packet = null;
+            try {
+                packet = mapper.readValue(jsonResult, CheatClientPacketHandler.class);
+            } catch (JsonProcessingException ignored) {}
+            if (packet != null) {
+                packet.execute(server, game,this);
             }
         }
         else{
             ClientPacketHandler packet = null;
             try {
                 packet = mapper.readValue(jsonResult, ClientPacketHandler.class);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
+            } catch (JsonProcessingException e) {}
 
             if (packet != null) {
                 packet.execute(server,game,this);

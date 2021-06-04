@@ -17,7 +17,7 @@ import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.GameBoardInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameBoardInterface;
 
 import java.io.*;
 import java.util.*;

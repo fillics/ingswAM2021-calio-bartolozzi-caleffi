@@ -14,18 +14,10 @@ import java.util.ArrayList;
 
 public class DepositsPanel extends JPanel implements ActionListener {
 
-    private GUI gui;
     private Image background;
-    private JButton deposit1Button;
-    private JButton deposit2Button;
-    private JButton deposit3Button;
-    private JLabel resource1;
-    private JLabel resource2;
-    private JLabel resource3;
-    private JLabel resource4;
-    private JLabel resource5;
-    private JLabel resource6;
-    private ArrayList<Integer> idDepot;
+    private JButton deposit1Button, deposit2Button, deposit3Button;
+    private JLabel resource1, resource2, resource3, resource4, resource5, resource6;
+    private final ArrayList<Integer> idDepot;
 
 
     public void paintComponent(Graphics g){
@@ -34,7 +26,6 @@ public class DepositsPanel extends JPanel implements ActionListener {
     }
 
     public DepositsPanel(GUI gui) {
-        this.gui = gui;
         this.setPreferredSize(new Dimension(250, 300));
         InputStream is = getClass().getResourceAsStream("/images/board/deposits.jpg");
         try {
@@ -72,6 +63,7 @@ public class DepositsPanel extends JPanel implements ActionListener {
         resources.add(resource5);
         resources.add(resource6);
 
+        //FIRST DEPOSIT
         if(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype() != null){
             try {
                 resources.get(0).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
@@ -86,7 +78,7 @@ public class DepositsPanel extends JPanel implements ActionListener {
             } catch (IOException ignored) {}
         }
 
-        //SECONDO DEPOSITO
+        //SECOND DEPOSIT
         if(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype() != null){
             for (int i=1; i<gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getQuantity()+1; i++) {
                 try {
@@ -103,7 +95,7 @@ public class DepositsPanel extends JPanel implements ActionListener {
         }
 
 
-        //TERZO DEPOSITO
+        //THIRD DEPOSIT
         if(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype() != null){
             for (int i=3; i<gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getQuantity()+3; i++) {
                 try {
@@ -160,9 +152,8 @@ public class DepositsPanel extends JPanel implements ActionListener {
         deposit2Button.addActionListener(this);
         deposit3Button.addActionListener(this);
 
-        deposit1Button.setBackground(new Color(151, 74, 74));
-        deposit2Button.setBackground(new Color(151, 74, 74));
-        deposit3Button.setBackground(new Color(151, 74, 74));
+        changeBackgroundColor(new Color(151, 74, 74));
+
     }
 
 
@@ -171,16 +162,29 @@ public class DepositsPanel extends JPanel implements ActionListener {
 
         if(e.getSource()==deposit1Button){
             idDepot.add(1);
+            deposit1Button.setBackground(Color.GREEN);
+            deposit1Button.setEnabled(false);
 
         }
         if(e.getSource()==deposit2Button){
             idDepot.add(2);
+            deposit2Button.setBackground(Color.GREEN);
+            deposit2Button.setEnabled(false);
         }
         if(e.getSource()==deposit3Button){
             idDepot.add(3);
+            deposit3Button.setBackground(Color.GREEN);
+            deposit3Button.setEnabled(false);
         }
     }
 
+
+
+    public void changeBackgroundColor(Color color){
+        deposit1Button.setBackground(color);
+        deposit2Button.setBackground(color);
+        deposit3Button.setBackground(color);
+    }
 
     public ArrayList<Integer> getIdDepot() {
         return idDepot;

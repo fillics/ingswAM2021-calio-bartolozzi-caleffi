@@ -170,7 +170,6 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         c.gridx=0;
         c.gridy=0;
         loadingPanel.add(label, c);
-        //label.setBounds(668, 43, 46, 14); // for example, you can use your own values
 
         loadingPanel.setBackground(new Color(233, 226, 193));
 

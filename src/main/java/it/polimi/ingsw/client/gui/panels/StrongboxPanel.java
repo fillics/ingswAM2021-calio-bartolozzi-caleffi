@@ -13,8 +13,7 @@ import java.io.InputStream;
 
 public class StrongboxPanel extends JPanel implements ActionListener {
     private Image background;
-    GUI gui;
-    JButton strongboxButton;
+    private final JButton strongboxButton;
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -22,7 +21,13 @@ public class StrongboxPanel extends JPanel implements ActionListener {
     }
 
     public StrongboxPanel(GUI gui) {
-        this.gui = gui;
+        InputStream is = getClass().getResourceAsStream("/images/board/strongbox.jpg");
+        try {
+            background = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         this.setPreferredSize(new Dimension(250, 180));
         strongboxButton = new JButton();
         strongboxButton.setBackground(new Color(151, 74, 74));
@@ -31,12 +36,7 @@ public class StrongboxPanel extends JPanel implements ActionListener {
         JLabel servant = new JLabel();
         JLabel shield = new JLabel();
 
-        InputStream is = getClass().getResourceAsStream("/images/board/strongbox.jpg");
-        try {
-            background = ImageIO.read(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         JPanel panel1 = new JPanel();
         panel1.setPreferredSize(new Dimension(250, 180));
         JPanel panel2 = new JPanel();
@@ -57,6 +57,7 @@ public class StrongboxPanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         coin.setText(String.valueOf(gui.getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.COIN)));
         coin.setForeground(Color.WHITE);
         coin.setFont(new Font(coin.getFont().getName(), Font.PLAIN, 20));
@@ -101,20 +102,6 @@ public class StrongboxPanel extends JPanel implements ActionListener {
 
     }
 
-    public static void main(String[] args) {
-
-      //  StrongboxPanel depositsPanel = new StrongboxPanel();
-        JFrame frame = new JFrame();
-
-        frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
-     //   frame.add(depositsPanel);
-
-        frame.setTitle("Master of Renaissance");
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
-        frame.pack();
-    }
 
     public JButton getStrongboxButton() {
         return strongboxButton;

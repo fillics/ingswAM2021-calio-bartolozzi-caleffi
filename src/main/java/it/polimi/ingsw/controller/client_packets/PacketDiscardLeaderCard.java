@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
@@ -11,7 +10,7 @@ import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketFaithTrack;
 import it.polimi.ingsw.controller.server_packets.PacketLeaderCards;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
-import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 

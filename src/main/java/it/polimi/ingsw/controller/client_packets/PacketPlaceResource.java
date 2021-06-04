@@ -13,7 +13,7 @@ import it.polimi.ingsw.exceptions.AnotherDepositContainsThisResource;
 import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
 import it.polimi.ingsw.exceptions.InvalidResource;
-import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 

@@ -10,7 +10,7 @@ import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketResourceBuffer;
 import it.polimi.ingsw.controller.server_packets.PacketWarehouse;
 import it.polimi.ingsw.exceptions.EmptyDeposit;
-import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 

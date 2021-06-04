@@ -7,7 +7,7 @@ import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketBoardOfAnotherPlayer;
 import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;

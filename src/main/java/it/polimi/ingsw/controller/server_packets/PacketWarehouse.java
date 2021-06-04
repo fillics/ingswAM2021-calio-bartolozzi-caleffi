@@ -28,15 +28,16 @@ public class PacketWarehouse implements ServerPacketHandler{
 
         client.getClientModelView().getLiteBoard().setDeposits(deposits);
         client.getClientModelView().getLiteBoard().setStrongbox(strongbox);
-        System.out.println("[from server]"+ Constants.ANSI_GREEN+" Warehouse updated!"+Constants.ANSI_RESET);
 
-        if(client.getClientState().equals(ClientStates.RESOURCESETUP)){
-            if(client.getViewChoice().equals(ViewChoice.GUI)){
-                BoardPanel boardPanel = new BoardPanel(client.getGui());
-                client.getGui().switchPanels(boardPanel);
-            }
-            client.setClientState(ClientStates.GAMESTARTED);
+
+        if(client.getViewChoice().equals(ViewChoice.GUI)){
+            client.getGui().switchPanels(new BoardPanel(client.getGui()));
         }
+        else System.out.println("[from server]"+ Constants.ANSI_GREEN+" Warehouse updated!"+Constants.ANSI_RESET);
+
+
+        client.setClientState(ClientStates.GAMESTARTED);
+
 
     }
 

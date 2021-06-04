@@ -7,12 +7,10 @@ import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
-import it.polimi.ingsw.model.GameInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
-
-import javax.swing.*;
 
 public class PacketActivateLeaderCard implements ClientPacketHandler {
     private final int id;

@@ -17,7 +17,7 @@ public class Client {
     private ClientStates clientStates;
     private SocketClientConnection socketClientConnection;
     private ClientModelView clientModelView;
-    private ClientOperationHandler clientOperationHandler;
+    private CLIOperationHandler cliOperationHandler;
     private CLI cli;
     private GUI gui;
     private ViewChoice viewChoice;
@@ -62,8 +62,7 @@ public class Client {
         socketClientConnection = new SocketClientConnection(this);
 
         if(viewChoice.equals(ViewChoice.CLI)) {
-            clientOperationHandler = new CLIOperationHandler(socketClientConnection, clientModelView, cli);
-            this.setClientOperationHandler(clientOperationHandler);
+            cliOperationHandler = new CLIOperationHandler(socketClientConnection, clientModelView, cli);
         }
 
         setup(viewChoice);
@@ -74,7 +73,7 @@ public class Client {
         if(socketClientConnection.getConnectionToServer().get()){
             if(viewChoice.equals(ViewChoice.CLI)){
                 ServerListener serverListener = new ServerListener(this, socketClientConnection);
-                ServerWriter serverWriter = new ServerWriter(this, socketClientConnection, clientOperationHandler);
+                ServerWriter serverWriter = new ServerWriter(this, socketClientConnection, cliOperationHandler);
                 new Thread(serverWriter).start();
                 new Thread(serverListener).start();
             }
@@ -166,11 +165,8 @@ public class Client {
         return clientStates;
     }
 
-    public void setClientOperationHandler(ClientOperationHandler clientOperationHandler) {
-        this.clientOperationHandler = clientOperationHandler;
-    }
-    public ClientOperationHandler getClientOperationHandler() {
-        return clientOperationHandler;
+    public CLIOperationHandler getCliOperationHandler() {
+        return cliOperationHandler;
     }
 
     public ClientModelView getClientModelView() {
@@ -178,10 +174,6 @@ public class Client {
     }
 
     public void setClientModelView(ClientModelView clientModelView) { this.clientModelView = clientModelView;}
-
-    public void setInterface(ViewInterface viewInterface){
-        clientOperationHandler.setViewInterface(viewInterface);
-    }
 
     public ViewChoice getViewChoice() {
         return viewChoice;

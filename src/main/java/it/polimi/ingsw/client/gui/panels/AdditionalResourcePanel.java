@@ -171,6 +171,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     }
 
     public void createDepositsPanel(){
+
         depositsPanel = new DepositsPanel(gui);
 
         depositsPanel.setVisible(false);
@@ -257,6 +258,25 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
                 depositsPanel.getIdDepot().clear();
                 setEnabled();
                 depositsPanel.setEnabled();
+
+                coins=0;
+                coinsText = "x " + coins;
+                quantityCoins.setText(coinsText);
+
+                stones=0;
+                stonesText = "x " + stones;
+                quantityStones.setText(stonesText);
+
+                shields=0;
+                shieldsText = "x " + shields;
+                quantityShields.setText(shieldsText);
+
+                servants=0;
+                servantsText = "x " + servants;
+                quantityServants.setText(servantsText);
+
+                depositsPanel.changeBackgroundColor(new Color(151, 74, 74));
+
 
             }
         }

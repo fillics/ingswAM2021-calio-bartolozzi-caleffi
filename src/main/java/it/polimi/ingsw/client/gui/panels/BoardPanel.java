@@ -1,10 +1,9 @@
 package it.polimi.ingsw.client.gui.panels;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
 import it.polimi.ingsw.controller.client_packets.PacketEndTurn;
+import it.polimi.ingsw.controller.client_packets.cheatpackets.FaithMarkerCheatPacket;
+import it.polimi.ingsw.controller.client_packets.cheatpackets.ResourcesInStrongboxCheatPacket;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,8 +15,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class BoardPanel extends JPanel implements ActionListener {
-    private GUI gui;
+    private final GUI gui;
     private Image background;
+    private GridBagConstraints c;
     private final JButton discardLeaderCard = new JButton("DISCARD LEADER CARD");
     private final JButton activateLeaderCard = new JButton("ACTIVATE LEADER CARD");
     private final JButton buyDevCard = new JButton("BUY DEV CARD");
@@ -27,7 +27,11 @@ public class BoardPanel extends JPanel implements ActionListener {
     private final JButton placeResource = new JButton("PLACE RESORCE");
     private final JButton takeResourceFromMarket = new JButton("TAKE RESOURCE FROM MARKET");
     private final JButton endTurn = new JButton("END YOUR TURN");
-    private JPanel operations;
+    private final JButton resourceCheatButton = new JButton("+50 resources");
+    private final JButton faithMarkerCheatButton = new JButton("+1 faith marker");
+    private JPanel operations, leaderCards, underBoard, faithTrackPanel, mainPanel;
+    private ArrayList<LeaderCardPanel> leaderCardPanels;
+    private ResourceBufferPanel resourceBufferPanel;
 
 
     public void paintComponent(Graphics g){
@@ -41,124 +45,211 @@ public class BoardPanel extends JPanel implements ActionListener {
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             background = ImageIO.read(is);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
+        c = new GridBagConstraints();
 
-        ResourceBufferPanel resourceBufferPanel = new ResourceBufferPanel(gui);
+        this.setLayout(new GridBagLayout());
 
-        JPanel bigpanel = new JPanel();
-        bigpanel.setPreferredSize(new Dimension(1129, 975));
-        JPanel operations = new JPanel();
-        addAll(operations);
-        operations.setOpaque(false);
+        createLeaderCardsPanel();
+        c.gridx=0;
+        c.gridy=0;
+        this.add(leaderCards, c);
+
+        createMainPanel();
+        c.gridy=0;
+        c.gridx=1;
+        this.add(mainPanel, c);
 
 
-        operations.setPreferredSize(new Dimension(1129, 70));
+        createOperations();
+        c.gridx=2;
+        c.gridy=0;
+        this.add(operations, c);
 
-        JPanel faithTrackPanel = new JPanel();
-        faithTrackPanel.setLayout(new BoxLayout(faithTrackPanel, BoxLayout.X_AXIS));
-        FaithTrackPanel faithTrack = new FaithTrackPanel(gui);
-        faithTrack.setPreferredSize(new Dimension(970,200));
-        faithTrackPanel.add(faithTrack);
-        faithTrackPanel.add(Box.createRigidArea(new Dimension(159,200)));
-        faithTrackPanel.setOpaque(false);
 
-        JPanel underboard = new JPanel();
-        underboard.setPreferredSize(new Dimension(1129, 480));
-        underboard.setLayout(new BoxLayout(underboard, BoxLayout.X_AXIS));
-        JPanel leadercards = new JPanel();
-        leadercards.setLayout(new BoxLayout(leadercards, BoxLayout.Y_AXIS));
-        leadercards.setPreferredSize(new Dimension(159, 480));
-        ArrayList<LeaderCardPanel> leaderCardPanels = new ArrayList<>();
-        for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId());
-            leaderCardPanels.add(leaderCardPanel1);
-            leadercards.add(leaderCardPanels.get(i));
-        }
-        WarehousePanel warehousePanel = new WarehousePanel(gui);
-        DevSpacesPanel devSpacesPanel = new DevSpacesPanel(gui);
-        underboard.add(warehousePanel);
-        underboard.add(devSpacesPanel);
-        underboard.add(leadercards);
+        this.setOpaque(false);
 
-        addActionEvent();
-        bigpanel.add(operations);
-        bigpanel.add(faithTrackPanel);
-        bigpanel.add(underboard);
-        bigpanel.add(resourceBufferPanel);
-        bigpanel.setOpaque(false);
-        this.add(bigpanel);
 
+    }
+
+    public void createMainPanel(){
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        createFaithTrackPanel();
+        mainPanel.add(faithTrackPanel);
+
+        createUnderBoard();
+        mainPanel.add(underBoard);
+
+        createResourceBuffer();
+        mainPanel.add(resourceBufferPanel);
+
+    }
+
+    public void createResourceBuffer(){
+         resourceBufferPanel = new ResourceBufferPanel(gui);
     }
 
     public void createOperations(){
         operations = new JPanel();
-        addAll(operations);
+        operations.setLayout(new GridBagLayout());
 
-        operations.setPreferredSize(new Dimension(1129, 200));
+        c.insets = new Insets(10, 10, 10, 10);
+
+        c.gridx=0;
+        c.gridy=0;
+        setupButtons(discardLeaderCard);
+        setupButtons(discardLeaderCard);
+        operations.add(discardLeaderCard, c);
+
+        c.gridx=0;
+        c.gridy=1;
+        setupButtons(activateLeaderCard);
+        setupButtons(activateLeaderCard);
+        operations.add(activateLeaderCard, c);
+
+        c.gridx=0;
+        c.gridy=2;
+        setupButtons(buyDevCard);
+        setupButtons(buyDevCard);
+        operations.add(buyDevCard, c);
+
+        c.gridx=0;
+        c.gridy=3;
+        setupButtons(chooseDiscount);
+        setupButtons(chooseDiscount);
+        operations.add(chooseDiscount, c);
+
+        c.gridx=0;
+        c.gridy=4;
+        setupButtons(useProdPower);
+        setupButtons(useProdPower);
+        operations.add(useProdPower, c);
+
+        c.gridx=0;
+        c.gridy=5;
+        setupButtons(moveResource);
+        setupButtons(moveResource);
+        operations.add(moveResource, c);
+
+        c.gridx=0;
+        c.gridy=6;
+        setupButtons(placeResource);
+        setupButtons(placeResource);
+        operations.add(placeResource, c);
+
+        c.gridx=0;
+        c.gridy=7;
+        setupButtons(takeResourceFromMarket);
+        setupButtons(takeResourceFromMarket);
+        operations.add(takeResourceFromMarket, c);
+
+        c.gridx=0;
+        c.gridy=8;
+        setupButtons(endTurn);
+        operations.add(endTurn, c);
+
+        c.gridx=0;
+        c.gridy=9;
+        setupButtons(resourceCheatButton);
+        operations.add(resourceCheatButton, c);
+
+        c.gridx=0;
+        c.gridy=10;
+        setupButtons(faithMarkerCheatButton);
+        operations.add(faithMarkerCheatButton, c);
+
         operations.setBackground(new Color(0,0,0,0));
         operations.setOpaque(false);
     }
 
-    public void addActionEvent(){
-        discardLeaderCard.addActionListener(this);
-        activateLeaderCard.addActionListener(this);
-        buyDevCard.addActionListener(this);
-        chooseDiscount.addActionListener(this);
-        useProdPower.addActionListener(this);
-        moveResource.addActionListener(this);
-        placeResource.addActionListener(this);
-        takeResourceFromMarket.addActionListener(this);
-        endTurn.addActionListener(this);
-    }
+    public void setupButtons(JButton button){
+        button.setPreferredSize(new Dimension(250,50));
+        changeBackground(button);
+        button.addActionListener(this);
 
-    public void addAll(JPanel operations){
-        operations.add(discardLeaderCard);
-        operations.add(activateLeaderCard);
-        operations.add(buyDevCard);
-        operations.add(chooseDiscount);
-        operations.add(useProdPower);
-        operations.add(moveResource);
-        operations.add(placeResource);
-        operations.add(takeResourceFromMarket);
-        operations.add(endTurn);
+    }
+    public void createUnderBoard(){
+
+        underBoard = new JPanel();
+        underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
+
+
+        WarehousePanel warehousePanel = new WarehousePanel(gui);
+        DevSpacesPanel devSpacesPanel = new DevSpacesPanel(gui);
+        underBoard.add(warehousePanel);
+        underBoard.add(devSpacesPanel);
     }
 
 
+    public void createFaithTrackPanel(){
+
+        faithTrackPanel = new JPanel();
+        faithTrackPanel.setLayout(new BoxLayout(faithTrackPanel, BoxLayout.X_AXIS));
+        FaithTrackPanel faithTrack = new FaithTrackPanel(gui);
+        faithTrack.setPreferredSize(new Dimension(970,200));
+        faithTrackPanel.add(faithTrack);
+        //faithTrackPanel.add(Box.createRigidArea(new Dimension(159,200)));
+        faithTrackPanel.setOpaque(false);
+    }
+
+    public void createLeaderCardsPanel(){
+        leaderCards = new JPanel();
+        leaderCards.setLayout(new GridBagLayout());
+        c.insets = new Insets(10, 10, 10, 10);
+
+        leaderCardPanels = new ArrayList<>();
+        for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
+            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId());
+            leaderCardPanels.add(leaderCardPanel1);
+            leaderCardPanel1.setOpaque(false);
+            c.gridx=0;
+            c.gridy=i;
+            leaderCards.add(leaderCardPanels.get(i), c);
+        }
+        leaderCards.setOpaque(false);
+
+    }
+
+    public void changeBackground(JButton button){
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(233, 226, 193));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(UIManager.getColor("control"));
+            }
+        });
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == activateLeaderCard){
-            ActivateLeaderCardPanel activateLeaderCardPanel = new ActivateLeaderCardPanel(gui);
-            gui.switchPanels(activateLeaderCardPanel);
+            gui.switchPanels(new ActivateLeaderCardPanel(gui));
         }
         if(e.getSource() == discardLeaderCard){
-            DiscardLeaderCardPanel discardLeaderCardPanel = new DiscardLeaderCardPanel(gui);
-            gui.switchPanels(discardLeaderCardPanel);
+            gui.switchPanels(new DiscardLeaderCardPanel(gui));
         }
         if(e.getSource() == buyDevCard){
-            DevGridPanel devGridPanel = new DevGridPanel(gui);
-            gui.switchPanels(devGridPanel);
+            gui.switchPanels(new DevGridPanel(gui));
         }
         if(e.getSource()== takeResourceFromMarket){
-            MarketPanel marketPanel = new MarketPanel(gui);
-            gui.switchPanels(marketPanel);
+            gui.switchPanels(new MarketPanel(gui));
         }
         if(e.getSource() == chooseDiscount){
-            ChooseDiscountPanel chooseDiscountPanel = new ChooseDiscountPanel(gui);
-            gui.switchPanels(chooseDiscountPanel);
+            gui.switchPanels(new ChooseDiscountPanel(gui));
         }
         if(e.getSource() == endTurn){
-            PacketEndTurn packetEndTurn = new PacketEndTurn();
-            ObjectMapper mapper = new ObjectMapper();
-            String jsonResult = null;
-            try {
-                jsonResult = mapper.writeValueAsString(packetEndTurn);
-            } catch (JsonProcessingException jsonProcessingException) {
-                jsonProcessingException.printStackTrace();
-            }
-            gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
+            gui.sendPacketToServer(new PacketEndTurn());
         }
+        if(e.getSource() == resourceCheatButton){
+            gui.sendPacketToServer(new ResourcesInStrongboxCheatPacket());
+        }
+        if(e.getSource() == faithMarkerCheatButton){
+            gui.sendPacketToServer(new FaithMarkerCheatPacket());
+        }
+
     }
 }

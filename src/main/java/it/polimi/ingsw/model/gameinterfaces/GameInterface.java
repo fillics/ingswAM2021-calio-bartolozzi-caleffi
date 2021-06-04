@@ -1,6 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.gameinterfaces;
 
 import it.polimi.ingsw.controller.GameStates;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.model.cards.developmentcards.*;
@@ -44,5 +45,6 @@ public interface GameInterface {
     void reconnectPlayer(String username);
     void setCurrentPlayer(int currentPlayer);
     int getIndexOfActivePlayer(String usernameToFind);
+
 
 }

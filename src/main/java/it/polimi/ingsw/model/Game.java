@@ -13,6 +13,10 @@ import it.polimi.ingsw.model.board.storage.Warehouse;
 import it.polimi.ingsw.model.cards.developmentcards.*;
 import it.polimi.ingsw.model.cards.leadercards.*;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.gameinterfaces.CheatGameInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameBoardInterface;
+import it.polimi.ingsw.model.gameinterfaces.GameInterface;
+import it.polimi.ingsw.model.gameinterfaces.GamePlayerInterface;
 import it.polimi.ingsw.model.marbles.Marble;
 import it.polimi.ingsw.model.marbles.MarketTray;
 
@@ -26,7 +30,7 @@ import java.util.stream.IntStream;
  */
 
 // TODO: 11/05/2021 mettere synchronized alcune classi di game per gestire le partite multiple
-public class Game implements GameInterface, GameBoardInterface, GamePlayerInterface {
+public class Game implements GameInterface, GameBoardInterface, GamePlayerInterface, CheatGameInterface {
 
     private final ArrayList<Player> players;
     private final ArrayList<Player> activePlayers;
@@ -751,6 +755,26 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         return index;
     }
 
+    /**
+     * aggiunge 20 risorse nello strongbox del player
+     * @param username (type String)
+     */
+    @Override
+    public void cheatResourcesStrongbox(String username) {
+        usernameClientActivePlayers.get(username).getBoard().getStrongbox().getStrongbox().put(ResourceType.SHIELD, 20);
+        usernameClientActivePlayers.get(username).getBoard().getStrongbox().getStrongbox().put(ResourceType.COIN, 20);
+        usernameClientActivePlayers.get(username).getBoard().getStrongbox().getStrongbox().put(ResourceType.SERVANT, 20);
+        usernameClientActivePlayers.get(username).getBoard().getStrongbox().getStrongbox().put(ResourceType.STONE, 20);
+    }
+
+    /**
+     * aggiunge 1 faith marker a utente
+     * @param username
+     */
+    @Override
+    public void cheatFaithMarker(String username) {
+        usernameClientActivePlayers.get(username).getBoard().increaseFaithMarker();
+    }
 
 
     /**
@@ -771,9 +795,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     public String nextPlayerGivenUsername(String username){
         String usernameNext = null;
-
-        //System.out.println("size active player: "+activePlayers.size());
-
 
         for (int i = 0; i < activePlayers.size(); i++) {
             if(activePlayers.get(i).getUsername().equals(username)) {

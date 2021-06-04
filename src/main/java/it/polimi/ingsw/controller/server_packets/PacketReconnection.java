@@ -6,7 +6,10 @@ import it.polimi.ingsw.client.CLI;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.client.ViewChoice;
-import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.panels.AdditionalResourcePanel;
+import it.polimi.ingsw.client.gui.panels.BoardPanel;
+import it.polimi.ingsw.client.gui.panels.LeaderCardPanel;
+import it.polimi.ingsw.client.gui.panels.RemoveLeaderCardPanel;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.server.ClientProxy;
@@ -25,31 +28,45 @@ public class PacketReconnection implements ServerPacketHandler{
 
    @Override
     public void execute(Client client) {
-        Constants.printConnectionMessage(message);
+
         client.setClientState(clientProxy.getClientStates());
         client.setClientModelView(clientProxy.getClientModelView());
-        client.getClientOperationHandler().setClientModelView(clientProxy.getClientModelView());
-
 
         if(client.getViewChoice().equals(ViewChoice.CLI)) {
-            client.setInterface(new CLI(client, clientProxy.getClientModelView()));
+            client.getCliOperationHandler().setClientModelView(clientProxy.getClientModelView());
+            client.getCliOperationHandler().setViewInterface(new CLI(client, clientProxy.getClientModelView()));
+            Constants.printConnectionMessage(message);
         }
 
 
         switch (client.getClientState()){
             case CREATEMODEL -> {
-                System.out.println("Choose your action: \n" + "1. Choose the 2 IDs of the leader cards to remove: ");
+                if(client.getViewChoice().equals(ViewChoice.CLI)) {
+                    System.out.println("Choose your action: \n" + "1. Choose the 2 IDs of the leader cards to remove: ");
+                }
+                else client.getGui().switchPanels(new RemoveLeaderCardPanel(client.getGui()));
                 client.setClientState(ClientStates.LEADERSETUP);
             }
 
             case RESOURCESETUP -> {
                 if (client.getClientModelView().getMyPlayer().getPosInGame() != 0) {
+                    if(client.getViewChoice().equals(ViewChoice.CLI)) {
+                        System.out.println("Choose your action:\n1. Choose your optional resources");
+                    }
+                    else client.getGui().switchPanels(new AdditionalResourcePanel(client.getGui()));
+
                     client.setClientState(ClientStates.RESOURCESETUP);
-                    System.out.println("Choose your action:\n1. Choose your optional resources");
+
                 } else {
+                    if(client.getViewChoice().equals(ViewChoice.CLI)) {
+                        System.out.println(Constants.menu);
+                    }
+                    else client.getGui().switchPanels(new BoardPanel(client.getGui()));
                     client.setClientState(ClientStates.GAMESTARTED);
-                    System.out.println(Constants.menu);
                 }
+            }
+            case GAMESTARTED -> {
+                client.getGui().switchPanels(new BoardPanel(client.getGui()));
             }
 
         }
