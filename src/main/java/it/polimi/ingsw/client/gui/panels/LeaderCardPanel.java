@@ -138,6 +138,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
             }
         this.add(leadercard);
         leadercard.setOpaque(false);
+        this.setOpaque(false);
     }
 
     @Override

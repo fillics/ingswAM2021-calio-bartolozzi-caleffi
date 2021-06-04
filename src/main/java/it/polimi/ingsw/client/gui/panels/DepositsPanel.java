@@ -202,6 +202,7 @@ public class DepositsPanel extends JPanel implements ActionListener {
         deposit3Button.setEnabled(true);
     }
 
+
     public JButton getDeposit1Button() {
         return deposit1Button;
     }

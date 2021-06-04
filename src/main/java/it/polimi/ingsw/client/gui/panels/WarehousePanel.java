@@ -25,6 +25,13 @@ public class WarehousePanel extends JPanel implements ActionListener {
 
     }
 
+    public DepositsPanel getDepositsPanel() {
+        return depositsPanel;
+    }
+
+    public StrongboxPanel getStrongboxPanel() {
+        return strongboxPanel;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
