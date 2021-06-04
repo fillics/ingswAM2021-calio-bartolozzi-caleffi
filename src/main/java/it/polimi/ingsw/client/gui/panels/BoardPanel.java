@@ -32,7 +32,14 @@ public class BoardPanel extends JPanel implements ActionListener {
         JPanel operations = new JPanel();
         addAll(operations);
 
-        operations.setPreferredSize(new Dimension(1129, 200));
+        operations.setPreferredSize(new Dimension(1129, 70));
+
+        JPanel faithTrackPanel = new JPanel();
+        faithTrackPanel.setLayout(new BoxLayout(faithTrackPanel, BoxLayout.X_AXIS));
+        FaithTrackPanel faithTrack = new FaithTrackPanel(gui);
+        faithTrack.setPreferredSize(new Dimension(970,200));
+        faithTrackPanel.add(faithTrack);
+        faithTrackPanel.add(Box.createRigidArea(new Dimension(159,200)));
 
         JPanel underboard = new JPanel();
         underboard.setPreferredSize(new Dimension(1129, 480));
@@ -54,6 +61,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         addActionEvent();
         bigpanel.add(operations);
+        bigpanel.add(faithTrackPanel);
         bigpanel.add(underboard);
         bigpanel.add(resourceBufferPanel);
 
