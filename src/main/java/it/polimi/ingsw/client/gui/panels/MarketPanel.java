@@ -39,7 +39,7 @@ public class MarketPanel extends JPanel implements ActionListener {
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(imagereal, 490 ,40, 550,700,null);
+        g.drawImage(imagereal, 495 ,30, 550,700,null);
     }
 
     public MarketPanel(GUI gui) {
