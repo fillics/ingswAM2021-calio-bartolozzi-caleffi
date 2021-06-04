@@ -28,7 +28,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         ResourceBufferPanel resourceBufferPanel = new ResourceBufferPanel(gui);
 
         JPanel bigpanel = new JPanel();
-        bigpanel.setPreferredSize(new Dimension(1129, 775));
+        bigpanel.setPreferredSize(new Dimension(1129, 975));
         JPanel operations = new JPanel();
         addAll(operations);
 
