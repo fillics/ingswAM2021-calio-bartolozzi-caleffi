@@ -105,6 +105,7 @@ public class GUI implements Runnable {
         mainPanel.add(panel);
         mainPanel.repaint();
         mainPanel.revalidate();
+
     }
 
     public void createMessageFromServer(String message){
@@ -127,6 +128,7 @@ public class GUI implements Runnable {
         } catch (JsonProcessingException jsonProcessingException) {
             jsonProcessingException.printStackTrace();
         }
+        System.out.println(jsonResult);
         client.getSocketClientConnection().sendToServer(jsonResult);
     }
 

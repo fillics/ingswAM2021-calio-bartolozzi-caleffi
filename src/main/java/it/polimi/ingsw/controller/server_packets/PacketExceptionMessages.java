@@ -22,7 +22,6 @@ public class PacketExceptionMessages implements ServerPacketHandler{
     public void execute(Client client) {
         if(client.getViewChoice() == ViewChoice.CLI) Constants.printExceptionMessage(message);
         else{
-            client.getGui().switchPanels(new BoardPanel(client.getGui()));
             JOptionPane.showMessageDialog(client.getGui().getjFrame(), message.getMessage());
         }
     }

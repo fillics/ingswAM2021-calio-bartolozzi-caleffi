@@ -4,15 +4,19 @@ import it.polimi.ingsw.client.gui.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ResourceBufferPanel extends JPanel {
+public class ResourceBufferPanel extends JPanel implements ActionListener {
     private GUI gui;
     private ArrayList<JButton> resources;
+    private ArrayList<Integer> positions;
 
     public ResourceBufferPanel(GUI gui) {
         resources = new ArrayList<>();
+        positions = new ArrayList<>();
         this.gui = gui;
         this.setPreferredSize(new Dimension(970, 75));
         JPanel panel = new JPanel();
@@ -23,6 +27,8 @@ public class ResourceBufferPanel extends JPanel {
             JButton button = new JButton();
                 try {
                     button.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getResourceBuffer().get(i).getType().path).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
+                    button.setDisabledIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getResourceBuffer().get(i).getType().path).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
+                    button.addActionListener(this);
                     button.setBackground(Color.ORANGE);
                     button.setOpaque(false);
                     button.setBorderPainted(false);
@@ -36,24 +42,20 @@ public class ResourceBufferPanel extends JPanel {
 
     }
 
-    public static void main(String[] args) throws IOException {
-      //  ResourceBufferPanel depositsPanel = new ResourceBufferPanel();
-        JFrame frame = new JFrame();
-
-        frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
-
-        frame.setTitle("Master of Renaissance");
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        //frame.setSize(dimension.width, dimension.height);
-
-     //   frame.add(depositsPanel);
-        frame.pack();
+    public ArrayList<Integer> getPositions() {
+        return positions;
     }
 
     public ArrayList<JButton> getResources() {
         return resources;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getResourceBuffer().size(); i ++){
+            if(e.getSource() == resources.get(i)){
+                positions.add(i);
+            }
+        }
     }
 }

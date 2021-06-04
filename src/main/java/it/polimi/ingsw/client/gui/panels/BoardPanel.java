@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
 import it.polimi.ingsw.controller.client_packets.PacketEndTurn;
+import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
+import it.polimi.ingsw.controller.client_packets.PacketUseAndChooseProdPower;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,11 +26,13 @@ public class BoardPanel extends JPanel implements ActionListener {
     private final JButton chooseDiscount = new JButton("CHOOSE DISCOUNT");
     private final JButton useProdPower = new JButton("USE PRODUCTION POWER");
     private final JButton moveResource = new JButton("MOVE RESOURCE");
-    private final JButton placeResource = new JButton("PLACE RESORCE");
+    private final JButton placeResource = new JButton("PLACE RESOURCE");
     private final JButton takeResourceFromMarket = new JButton("TAKE RESOURCE FROM MARKET");
     private final JButton endTurn = new JButton("END YOUR TURN");
     private JPanel operations;
-
+    private ResourceBufferPanel resourceBufferPanel;
+    private WarehousePanel warehousePanel;
+    private DevSpacesPanel devSpacesPanel;
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -45,8 +49,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             e.printStackTrace();
         }
 
-        ResourceBufferPanel resourceBufferPanel = new ResourceBufferPanel(gui);
-
+        resourceBufferPanel = new ResourceBufferPanel(gui);
         JPanel bigpanel = new JPanel();
         bigpanel.setPreferredSize(new Dimension(1129, 975));
         JPanel operations = new JPanel();
@@ -70,17 +73,19 @@ public class BoardPanel extends JPanel implements ActionListener {
         JPanel leadercards = new JPanel();
         leadercards.setLayout(new BoxLayout(leadercards, BoxLayout.Y_AXIS));
         leadercards.setPreferredSize(new Dimension(159, 480));
+        leadercards.setOpaque(false);
         ArrayList<LeaderCardPanel> leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId());
             leaderCardPanels.add(leaderCardPanel1);
             leadercards.add(leaderCardPanels.get(i));
         }
-        WarehousePanel warehousePanel = new WarehousePanel(gui);
-        DevSpacesPanel devSpacesPanel = new DevSpacesPanel(gui);
+        warehousePanel = new WarehousePanel(gui);
+        devSpacesPanel = new DevSpacesPanel(gui);
         underboard.add(warehousePanel);
         underboard.add(devSpacesPanel);
         underboard.add(leadercards);
+        underboard.setOpaque(false);
 
         addActionEvent();
         bigpanel.add(operations);
@@ -89,6 +94,24 @@ public class BoardPanel extends JPanel implements ActionListener {
         bigpanel.add(resourceBufferPanel);
         bigpanel.setOpaque(false);
         this.add(bigpanel);
+
+        disableButtons(resourceBufferPanel, devSpacesPanel, warehousePanel);
+
+
+    }
+
+    public void disableButtons(ResourceBufferPanel resourceBufferPanel, DevSpacesPanel devSpacesPanel, WarehousePanel warehousePanel){
+        for(int i = 0; i < resourceBufferPanel.getResources().size(); i++){
+            resourceBufferPanel.getResources().get(i).setEnabled(false);
+        }
+        devSpacesPanel.getDevSpace1().setVisible(false);
+        devSpacesPanel.getDevspace2().setVisible(false);
+        devSpacesPanel.getDevSpace3().setVisible(false);
+        devSpacesPanel.getProdPower().setVisible(false);
+        warehousePanel.getDepositsPanel().getDeposit1Button().setVisible(false);
+        warehousePanel.getDepositsPanel().getDeposit2Button().setVisible(false);
+        warehousePanel.getDepositsPanel().getDeposit3Button().setVisible(false);
+        warehousePanel.getStrongboxPanel().getStrongboxButton().setVisible(false);
 
     }
 
@@ -144,21 +167,33 @@ public class BoardPanel extends JPanel implements ActionListener {
         if(e.getSource()== takeResourceFromMarket){
             MarketPanel marketPanel = new MarketPanel(gui);
             gui.switchPanels(marketPanel);
+         /*   ArrayList<Integer> leaderCards = new ArrayList<>();
+            PacketTakeResourceFromMarket takeResourceFromMarket = new PacketTakeResourceFromMarket("row", 1, leaderCards);
+            gui.sendPacketToServer(takeResourceFromMarket);
+            gui.switchPanels(new BoardPanel(gui));*/
         }
         if(e.getSource() == chooseDiscount){
             ChooseDiscountPanel chooseDiscountPanel = new ChooseDiscountPanel(gui);
             gui.switchPanels(chooseDiscountPanel);
         }
+        if(e.getSource() == placeResource){
+            if(resourceBufferPanel.getResources().size() != 0){
+                PlaceResourcePanel placeResourcePanel = new PlaceResourcePanel(gui);
+                gui.switchPanels(placeResourcePanel);
+            }
+            else{
+                JOptionPane.showMessageDialog(gui.getjFrame(), "You don't have any resources to place");
+            }
+        }
+        if(e.getSource() == moveResource){
+            MoveResourcePanel moveResourcePanel = new MoveResourcePanel(gui);
+            gui.switchPanels(moveResourcePanel);
+        }
         if(e.getSource() == endTurn){
             PacketEndTurn packetEndTurn = new PacketEndTurn();
-            ObjectMapper mapper = new ObjectMapper();
-            String jsonResult = null;
-            try {
-                jsonResult = mapper.writeValueAsString(packetEndTurn);
-            } catch (JsonProcessingException jsonProcessingException) {
-                jsonProcessingException.printStackTrace();
-            }
-            gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
+            gui.sendPacketToServer(packetEndTurn);
+
+            gui.switchPanels(new BoardPanel(gui));
         }
     }
 }
