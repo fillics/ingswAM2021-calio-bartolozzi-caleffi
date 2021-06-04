@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class LeaderCardPanel extends JPanel implements ActionListener {
     private GUI gui;
@@ -39,9 +40,13 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         JPanel leadercard = new JPanel();
         leadercard.setPreferredSize(new Dimension(159, 240));
         leadercard.setLayout(new BoxLayout(leadercard, BoxLayout.Y_AXIS));
+
+
+
         JLabel isactive = new JLabel();
         if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getStrategy().isActive()){
             try {
@@ -57,21 +62,80 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
                 e.printStackTrace();
             }
         }
+        JPanel panel1 = new JPanel();
+        panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
+        panel1.setPreferredSize(new Dimension(159, 40));
+        panel1.add(Box.createRigidArea(new Dimension(129, 40)));
+        panel1.add(isactive);
+        panel1.setOpaque(false);
+        leadercard.add(panel1);
 
-        if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.DISCOUNT) ||
-                gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.PRODUCTION_POWER) ||
-                        gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.WHITE_MARBLE)){
-            JPanel panel1 = new JPanel();
-            panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
-            panel1.setPreferredSize(new Dimension(159, 30));
-            panel1.add(Box.createRigidArea(new Dimension(129, 30)));
-            panel1.add(isactive);
-            leadercard.add(panel1);
-            panel1.setOpaque(false);
-        }
-        if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.EXTRA_DEPOSIT)){
 
+
+        if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.WHITE_MARBLE) ||
+        gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.PRODUCTION_POWER)){
+            JPanel specialPower = new JPanel();
+            specialPower.setPreferredSize(new Dimension(159, 70));
+            JButton button = new JButton();
+            button.setPreferredSize(new Dimension(159, 70));
+            try {
+                button.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(159, 70, Image.SCALE_AREA_AVERAGING)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            button.setOpaque(false);
+            button.setContentAreaFilled(false);
+            specialPower.add(button);
+            specialPower.setOpaque(false);
+
+            leadercard.add(Box.createRigidArea(new Dimension(159, 125)));
+            leadercard.add(specialPower);
         }
+
+        if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.EXTRA_DEPOSIT)
+        && gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() > 3){
+
+            JButton button = new JButton();
+            button.setBackground(new Color(151, 74, 74));
+            button.addActionListener(this);
+
+            JPanel depositspace = new JPanel();
+            depositspace.setLayout(new BoxLayout(depositspace, BoxLayout.X_AXIS));
+            depositspace.setPreferredSize(new Dimension(159, 35));
+            JLabel resource1 = new JLabel();
+            JLabel resource2 = new JLabel();
+            ArrayList<JLabel> resources = new ArrayList<>();
+            resources.add(resource1);
+            resources.add(resource2);
+
+            for(int i = 0; i < 2; i++){
+                if(i < gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(3).getQuantity() - 1){
+                    try {
+                        resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(3).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(35,35, Image.SCALE_AREA_AVERAGING)));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    try {
+                        resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(35, 35, Image.SCALE_AREA_AVERAGING)));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            depositspace.add(resources.get(0));
+            depositspace.add(Box.createRigidArea(new Dimension(20, 35)));
+            depositspace.add(resources.get(1));
+            depositspace.setOpaque(false);
+
+            leadercard.add(Box.createRigidArea(new Dimension(159, 125)));
+            leadercard.add(button);
+            leadercard.add(Box.createRigidArea(new Dimension(159, 10)));
+
+            leadercard.add(depositspace);
+            }
         this.add(leadercard);
         leadercard.setOpaque(false);
     }

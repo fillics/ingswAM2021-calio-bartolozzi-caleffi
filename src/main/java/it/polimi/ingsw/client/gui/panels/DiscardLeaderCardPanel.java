@@ -156,6 +156,8 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
                     jsonProcessingException.printStackTrace();
                 }
                 gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
+                BoardPanel boardPanel = new BoardPanel(gui);
+                gui.switchPanels(boardPanel);
             }
         }
     }
