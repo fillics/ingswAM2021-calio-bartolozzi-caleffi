@@ -90,6 +90,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
             }
 
             case YOUR_TURN, DISCARDDEVCARD, BLACKCROSS1, BLACKCROSS2, BLACKCROSSUPDATE -> {
+
                 if(client.getViewChoice().equals(ViewChoice.CLI)){
                     Constants.printConnectionMessage(message);
                 }

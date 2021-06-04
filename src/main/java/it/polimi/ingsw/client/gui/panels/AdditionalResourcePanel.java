@@ -31,6 +31,9 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     private JButton deposit1Button, deposit2Button, deposit3Button;
     private JButton confirmButton;
     private GridBagConstraints c;
+    private JLabel quantityCoins, quantityStones, quantityServants, quantityShields;
+    private int coins, stones, servants, shields;
+    private String coinsText, stonesText, servantsText, shieldsText;
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -39,10 +42,21 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
     public AdditionalResourcePanel(GUI gui) {
         this.gui = gui;
+        coins=0;
+        shields=0;
+        stones=0;
+        servants=0;
+        coinsText = "x " + coins;
+        stonesText = "x " + stones;
+        servantsText = "x " + servants;
+        shieldsText = "x " + shields;
+
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             background = ImageIO.read(is);
         } catch (IOException ignored) {}
+
+
         if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
                 gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2)
             gui.createMessageFromServer(ConnectionMessages.CHOOSE_ONE_RESOURCE_GUI.getMessage());
@@ -55,6 +69,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         deposits = new ArrayList<>();
         resources = new ArrayList<>();
         createResourcesPanel();
+
         c.gridx=0;
         c.gridy=0;
         this.add(resourcesPanel, c);
@@ -81,26 +96,52 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         resourcesPanel.setLayout(new GridBagLayout());
         c.insets = new Insets(0, 2, 0, 2);
 
+        JPanel coinPanel = new JPanel();
+        coinPanel.setLayout(new GridBagLayout());
+        JPanel stonePanel = new JPanel();
+        stonePanel.setLayout(new GridBagLayout());
+        JPanel servantPanel = new JPanel();
+        servantPanel.setLayout(new GridBagLayout());
+        JPanel shieldPanel = new JPanel();
+        shieldPanel.setLayout(new GridBagLayout());
+
+
         try {
-            coin.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/coin.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            quantityCoins = new JLabel(coinsText);
             c.gridx=0;
             c.gridy=0;
-            resourcesPanel.add(coin, c);
+            coinPanel.add(quantityCoins, c);
+            coin.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/coin.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            c.gridx=0;
+            c.gridy=1;
+            coinPanel.add(coin, c);
 
-            stone.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/stone.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            quantityStones= new JLabel(stonesText);
             c.gridx=1;
             c.gridy=0;
-            resourcesPanel.add(stone, c);
+            stonePanel.add(quantityStones, c);
+            stone.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/stone.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            c.gridx=1;
+            c.gridy=1;
+            stonePanel.add(stone, c);
 
-            servant.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/servant.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            quantityServants = new JLabel(servantsText);
             c.gridx=2;
             c.gridy=0;
-            resourcesPanel.add(servant, c);
+            servantPanel.add(quantityServants, c);
+            servant.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/servant.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            c.gridx=2;
+            c.gridy=1;
+            servantPanel.add(servant, c);
 
-            shield.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/shield.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            quantityShields = new JLabel(shieldsText);
             c.gridx=3;
             c.gridy=0;
-            resourcesPanel.add(shield, c);
+            shieldPanel.add(quantityShields, c);
+            shield.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/shield.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            c.gridx=3;
+            c.gridy=1;
+            shieldPanel.add(shield, c);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,6 +151,20 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         shield.addActionListener(this);
         servant.addActionListener(this);
         stone.addActionListener(this);
+
+        c.gridx=0;
+        c.gridy=0;
+        resourcesPanel.add(coinPanel, c);
+        c.gridx=1;
+        c.gridy=0;
+        resourcesPanel.add(stonePanel, c);
+        c.gridx=2;
+        c.gridy=0;
+        resourcesPanel.add(servantPanel, c);
+        c.gridx=3;
+        c.gridy=0;
+        resourcesPanel.add(shieldPanel, c);
+
         resourcesPanel.setBackground(new Color(0, 0, 0, 0));
         resourcesPanel.setOpaque(true);
 
@@ -140,52 +195,48 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == coin) {
-            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
-                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
-                setDisabled();
-            }
-            if(resources.size()<3) {
-                resources.add(ResourceType.COIN);
+            onlyOneResource();
+            resources.add(ResourceType.COIN);
+            if(resources.size()==2) setDisabled();
 
-            }
-
+            coins++;
+            coinsText = "x " + coins;
+            quantityCoins.setText(coinsText);
             depositsPanel.setVisible(true);
         }
-        if (e.getSource() == stone) {
-            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
-                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
-                setDisabled();
-            }
-            if(resources.size()<3) {
-                resources.add(ResourceType.STONE);
 
-            }
+        if (e.getSource() == stone) {
+            onlyOneResource();
+
+            resources.add(ResourceType.STONE);
+            if(resources.size()==2) setDisabled();
+
+            stones++;
+            stonesText = "x " + stones;
+            quantityStones.setText(stonesText);
             depositsPanel.setVisible(true);
 
         }
         if (e.getSource() == servant) {
-            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
-                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
-                setDisabled();
-            }
-            if(resources.size()<3) {
-                resources.add(ResourceType.SERVANT);
+            onlyOneResource();
+            resources.add(ResourceType.SERVANT);
+            if(resources.size()==2) setDisabled();
 
-            }
+            servants++;
+            servantsText = "x " + servants;
+            quantityServants.setText(servantsText);
             depositsPanel.setVisible(true);
 
         }
         if (e.getSource() == shield) {
+            onlyOneResource();
 
-            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
-                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
-                setDisabled();
-            }
+            resources.add(ResourceType.SHIELD);
+            if(resources.size()==2) setDisabled();
 
-            if(resources.size()<3) {
-                resources.add(ResourceType.SHIELD);
-
-            }
+            shields++;
+            shieldsText = "x " + shields;
+            quantityShields.setText(shieldsText);
             depositsPanel.setVisible(true);
 
         }
@@ -197,11 +248,13 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
             if(deposits.size() == resources.size()){
                 gui.sendPacketToServer(new PacketChooseInitialResources(deposits, resources));
+                gui.createMessageFromServer("Good game!");
             }
             else{
                 gui.createMessageFromServer("Arrays of different dimension. Please choose again the resources and the deposits");
                 resources.clear();
                 deposits.clear();
+                depositsPanel.getIdDepot().clear();
                 setEnabled();
                 depositsPanel.setEnabled();
 
@@ -211,6 +264,12 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     }
 
 
+    public void onlyOneResource(){
+        if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
+                gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
+            setDisabled();
+        }
+    }
 
     public void setDisabled(){
         coin.setEnabled(false);

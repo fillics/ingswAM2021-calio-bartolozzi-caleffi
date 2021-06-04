@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.server_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ViewChoice;
 
 
 public class PacketNewPositionInGame  implements ServerPacketHandler {
@@ -36,7 +37,10 @@ public class PacketNewPositionInGame  implements ServerPacketHandler {
 
     @Override
     public void execute(Client client) {
-        System.out.println(username + " "+ action + ". "+ "Your new turn position is: "+(posInGame+1));
+        if(client.getViewChoice().equals(ViewChoice.CLI)){
+            System.out.println(username + " "+ action + ". "+ "Your new turn position is: "+(posInGame+1));
+        }
+        else client.getGui().createMessageFromServer(username + " "+ action + ". "+ "Your new turn position is: "+(posInGame+1));
         client.getClientModelView().getMyPlayer().setPosInGame(posInGame);
     }
 }

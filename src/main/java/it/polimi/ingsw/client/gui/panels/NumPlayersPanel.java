@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -139,6 +141,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         if (e.getSource() == btn3) number_of_players = 3;
         if (e.getSource() == btn4) number_of_players = 4;
         setDisabled();
+        loading();
         gui.getClient().sendNumPlayers(number_of_players);
     }
 
@@ -148,5 +151,31 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         btn2.setEnabled(false);
         btn3.setEnabled(false);
         btn4.setEnabled(false);
+    }
+
+    public void setInvisible(){
+        btn1.setVisible(false);
+        btn2.setVisible(false);
+        btn3.setVisible(false);
+        btn4.setVisible(false);
+    }
+
+    public void loading(){
+        JPanel loadingPanel = new JPanel();
+
+        Icon imgIcon = new ImageIcon(this.getClass().getResource("/gif/ajax-loader.gif"));
+        JLabel label = new JLabel(imgIcon);
+        loadingPanel.setLayout(new GridBagLayout());
+
+        c.gridx=0;
+        c.gridy=0;
+        loadingPanel.add(label, c);
+        //label.setBounds(668, 43, 46, 14); // for example, you can use your own values
+
+        loadingPanel.setBackground(new Color(233, 226, 193));
+
+        setInvisible();
+        numbersPanel.add(loadingPanel);
+
     }
 }

@@ -55,17 +55,7 @@ public class DepositsPanel extends JPanel implements ActionListener {
         depot3.setLayout(new BoxLayout(depot3, BoxLayout.X_AXIS));
 
 
-        deposit1Button=new JButton();
-        deposit2Button=new JButton();
-        deposit3Button=new JButton();
-
-        deposit1Button.addActionListener(this);
-        deposit2Button.addActionListener(this);
-        deposit3Button.addActionListener(this);
-
-        deposit1Button.setBackground(new Color(151, 74, 74));
-        deposit2Button.setBackground(new Color(151, 74, 74));
-        deposit3Button.setBackground(new Color(151, 74, 74));
+        createButtons();
 
         resource1 = new JLabel();
         resource2 = new JLabel();
@@ -88,60 +78,45 @@ public class DepositsPanel extends JPanel implements ActionListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
         else {
             try {
                 resources.get(0).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException ignored) {}
         }
 
+        //SECONDO DEPOSITO
         if(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype() != null){
-            try {
-                resources.get(1).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-                resources.get(2).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-            } catch (IOException e) {
-                e.printStackTrace();
+            for (int i=1; i<gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getQuantity()+1; i++) {
+                try {
+                    resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+                } catch (IOException ignored) {
+                }
             }
+
         }
-        else {
+        for (int i = 2; i > gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getQuantity(); i--) {
             try {
-                resources.get(1).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-                resources.get(2).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
+            } catch (IOException ignored) {}
         }
+
+
+        //TERZO DEPOSITO
         if(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype() != null){
-            try {
-                resources.get(3).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-                resources.get(4).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-                resources.get(5).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            try {
-                resources.get(3).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-                resources.get(4).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-                resources.get(5).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-            } catch (IOException e) {
-                e.printStackTrace();
+            for (int i=3; i<gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getQuantity()+3; i++) {
+                try {
+                    resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+                    } catch (IOException ignored) {}
             }
         }
 
-
-     /*   try {
-            resource2.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/shield.png").readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
-            resource3.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/shield.png").readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
-            resource4.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/servant.png").readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
-            resource5.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/coin.png").readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
-            resource6.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/stone.png").readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        for (int i=5; i > 2+gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getQuantity(); i--) {
+            try {
+                resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
+            } catch (IOException ignored) {}
+        }
 
         depot1.add(deposit1Button);
         depot1.add(Box.createRigidArea(new Dimension(35,0)));
@@ -176,32 +151,33 @@ public class DepositsPanel extends JPanel implements ActionListener {
         this.add(panel1);
     }
 
+    public void createButtons(){
+        deposit1Button=new JButton();
+        deposit2Button=new JButton();
+        deposit3Button=new JButton();
+
+        deposit1Button.addActionListener(this);
+        deposit2Button.addActionListener(this);
+        deposit3Button.addActionListener(this);
+
+        deposit1Button.setBackground(new Color(151, 74, 74));
+        deposit2Button.setBackground(new Color(151, 74, 74));
+        deposit3Button.setBackground(new Color(151, 74, 74));
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource()==deposit1Button){
-            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
-                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
-                setDisabled();
-            }
-            if(idDepot.size()<3) idDepot.add(1);
+            idDepot.add(1);
 
         }
         if(e.getSource()==deposit2Button){
-            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
-                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
-                setDisabled();
-            }
-
-            if(idDepot.size()<3) idDepot.add(2);
+            idDepot.add(2);
         }
         if(e.getSource()==deposit3Button){
-            if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
-                    gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
-                setDisabled();
-            }
-
-            if(idDepot.size()<3) idDepot.add(3);
+            idDepot.add(3);
         }
     }
 

@@ -30,8 +30,6 @@ public class ServerWriter implements Runnable{
     public void run() {
         String inputString;
 
-        //Constants.printConnectionMessage(ConnectionMessages.WELCOME);
-        
         Constants.printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
 
         while (!client.getClientState().equals(ClientStates.END)) {

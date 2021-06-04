@@ -50,11 +50,13 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
 
             }
 
+            // TODO: 04/06/2021 si puo togliere questo??
             if(clientHandler.getPosInGame() == 0){
                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
             }
-            clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getStrongbox(),gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getDeposits()));
-
+            clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getUsernameClientActivePlayers().
+                    get(clientHandler.getUsername()).getBoard().getStrongbox(),gameInterface.getUsernameClientActivePlayers().
+                    get(clientHandler.getUsername()).getBoard().getDeposits()));
 
 
             gameInterface.setState(GameStates.PHASE_ONE);
@@ -62,7 +64,6 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
 
             //SALVATAGGIO SU PROXY
             server.getMapForReconnection().get(clientHandler.getUsername()).setClientStates(ClientStates.GAMESTARTED);
-
 
 
         }

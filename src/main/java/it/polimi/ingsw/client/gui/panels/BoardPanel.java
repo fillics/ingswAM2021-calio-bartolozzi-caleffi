@@ -6,33 +6,51 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
 import it.polimi.ingsw.controller.client_packets.PacketEndTurn;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class BoardPanel extends JPanel implements ActionListener {
     private GUI gui;
-    private JButton discardLeaderCard = new JButton("DISCARD LEADER CARD");
-    private JButton activateLeaderCard = new JButton("ACTIVATE LEADER CARD");
-    private JButton buyDevCard = new JButton("BUY DEV CARD");
-    private JButton chooseDiscount = new JButton("CHOOSE DISCOUNT");
-    private JButton useProdPower = new JButton("USE PRODUCTION POWER");
-    private JButton moveResource = new JButton("MOVE RESOURCE");
-    private JButton placeResource = new JButton("PLACE RESORCE");
-    private JButton takeResourceFromMarket = new JButton("TAKE RESOURCE FROM MARKET");
-    private JButton endTurn = new JButton("END YOUR TURN");
+    private Image background;
+    private final JButton discardLeaderCard = new JButton("DISCARD LEADER CARD");
+    private final JButton activateLeaderCard = new JButton("ACTIVATE LEADER CARD");
+    private final JButton buyDevCard = new JButton("BUY DEV CARD");
+    private final JButton chooseDiscount = new JButton("CHOOSE DISCOUNT");
+    private final JButton useProdPower = new JButton("USE PRODUCTION POWER");
+    private final JButton moveResource = new JButton("MOVE RESOURCE");
+    private final JButton placeResource = new JButton("PLACE RESORCE");
+    private final JButton takeResourceFromMarket = new JButton("TAKE RESOURCE FROM MARKET");
+    private final JButton endTurn = new JButton("END YOUR TURN");
+    private JPanel operations;
+
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height-50, null);
+
+    }
 
     public BoardPanel(GUI gui) {
         this.gui = gui;
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
+        try {
+            background = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         ResourceBufferPanel resourceBufferPanel = new ResourceBufferPanel(gui);
 
         JPanel bigpanel = new JPanel();
-        bigpanel.setPreferredSize(new Dimension(1129, 775));
-        JPanel operations = new JPanel();
-        addAll(operations);
 
-        operations.setPreferredSize(new Dimension(1129, 200));
+        bigpanel.setPreferredSize(new Dimension(1129, 775));
+
+        createOperations();
 
         JPanel underboard = new JPanel();
         underboard.setPreferredSize(new Dimension(1129, 480));
@@ -56,7 +74,16 @@ public class BoardPanel extends JPanel implements ActionListener {
         bigpanel.add(resourceBufferPanel);
 
         this.add(bigpanel);
-        this.setVisible(true);
+
+    }
+
+    public void createOperations(){
+        operations = new JPanel();
+        addAll(operations);
+
+        operations.setPreferredSize(new Dimension(1129, 200));
+        operations.setBackground(new Color(0,0,0,0));
+        operations.setOpaque(false);
     }
 
     public void addActionEvent(){

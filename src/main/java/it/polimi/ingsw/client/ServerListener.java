@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
+
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,20 +17,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ServerListener implements Runnable {
 
-    private Client client;
-    private SocketClientConnection socketClientConnection;
-    private BufferedReader br;
+    private final Client client;
     private Scanner scanner;
     /** if it true, client and server are connected; if it is false, they are not  */
     private final AtomicBoolean connectionToServer;
 
 
     public ServerListener(Client client, SocketClientConnection socketClientConnection) {
-        this.socketClientConnection = socketClientConnection;
         this.client = client;
         connectionToServer = new AtomicBoolean(true);
         try {
-            br = new BufferedReader(new InputStreamReader(socketClientConnection.getSocket().getInputStream()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(socketClientConnection.getSocket().getInputStream()));
             scanner = new Scanner(socketClientConnection.getSocket().getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,15 +51,18 @@ public class ServerListener implements Runnable {
                 try {
                     packet = mapper.readValue(str, ServerPacketHandler.class);
                     packet.execute(client);
-                } catch (JsonProcessingException|IllegalArgumentException ignored) {
-                    ignored.printStackTrace();
-                }
+                } catch (JsonProcessingException|IllegalArgumentException ignored) {}
             }
         }
 
-        //se connessione terminata, chiudo il client
+        //if the connection terminates, the application will close
         if (!connectionToServer.get()) {
-            Constants.printConnectionMessage(ConnectionMessages.CONNECTION_CLOSED);
+            if(client.getViewChoice().equals(ViewChoice.CLI)){
+                Constants.printConnectionMessage(ConnectionMessages.CONNECTION_CLOSED);
+            }
+            else{
+                JOptionPane.showMessageDialog(client.getGui().getjFrame(), ConnectionMessages.CONNECTION_CLOSED.getMessage());
+            }
             System.exit(0);
         }
 

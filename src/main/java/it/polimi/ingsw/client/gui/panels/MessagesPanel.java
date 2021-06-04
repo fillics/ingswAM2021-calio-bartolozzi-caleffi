@@ -5,16 +5,16 @@ import it.polimi.ingsw.client.gui.GUI;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class that contains the messages to print on the top of the gui frame
+ */
 public class MessagesPanel extends JPanel {
-    private GUI gui;
-    private String messageToPrint;
-    private JLabel message;
+    private final String messageToPrint;
     private JPanel messageP;
     private final GridBagConstraints c;
 
 
     public MessagesPanel(GUI gui, String messageToPrint) {
-        this.gui = gui;
         this.messageToPrint = messageToPrint;
         c = new GridBagConstraints();
         this.setPreferredSize(new Dimension(gui.getWidth(), 50));
@@ -34,7 +34,7 @@ public class MessagesPanel extends JPanel {
         c.gridy=0;
         c.gridx=0;
 
-        message = new JLabel(messageToPrint);
+        JLabel message = new JLabel(messageToPrint);
         message.setHorizontalAlignment(JLabel.CENTER);
 
         messageP.add(message, c);
