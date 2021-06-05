@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketEndTurn;
+import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.FaithMarkerCheatPacket;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.ResourcesInStrongboxCheatPacket;
 
@@ -24,10 +25,10 @@ public class BoardPanel extends JPanel implements ActionListener {
     private final JButton chooseDiscount = new JButton("CHOOSE DISCOUNT");
     private final JButton useProdPower = new JButton("USE PRODUCTION POWER");
     private final JButton moveResource = new JButton("MOVE RESOURCE");
-    private final JButton placeResource = new JButton("PLACE RESORCE");
+    private final JButton placeResource = new JButton("PLACE RESOURCE");
     private final JButton takeResourceFromMarket = new JButton("TAKE RESOURCE FROM MARKET");
     private final JButton endTurn = new JButton("END YOUR TURN");
-    private final JButton resourceCheatButton = new JButton("+50 resources");
+    private final JButton resourceCheatButton = new JButton("+20 resources");
     private final JButton faithMarkerCheatButton = new JButton("+1 faith marker");
     private JPanel operations, leaderCards, underBoard, faithTrackPanel, mainPanel;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
@@ -254,7 +255,10 @@ public class BoardPanel extends JPanel implements ActionListener {
             gui.switchPanels(new DevGridPanel(gui));
         }
         if(e.getSource()== takeResourceFromMarket){
-            gui.switchPanels(new MarketPanel(gui));
+            ArrayList<Integer> leaderCards = new ArrayList<>();
+            PacketTakeResourceFromMarket takeResourceFromMarket = new PacketTakeResourceFromMarket("row", 1, leaderCards);
+            gui.sendPacketToServer(takeResourceFromMarket);
+            gui.switchPanels(new BoardPanel(gui));
         }
         if(e.getSource() == chooseDiscount){
             gui.switchPanels(new ChooseDiscountPanel(gui));

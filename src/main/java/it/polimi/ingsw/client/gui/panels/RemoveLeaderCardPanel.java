@@ -124,7 +124,6 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
 
         buttons.setOpaque(false);
 
-
     }
 
     @Override
