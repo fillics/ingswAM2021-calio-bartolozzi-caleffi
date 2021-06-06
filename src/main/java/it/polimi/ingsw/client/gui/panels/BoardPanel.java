@@ -233,7 +233,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             resourceBufferPanel.getResources().get(i).setEnabled(false);
         }
         devSpacesPanel.getDevSpace1().setVisible(false);
-        devSpacesPanel.getDevspace2().setVisible(false);
+        devSpacesPanel.getDevSpace2().setVisible(false);
         devSpacesPanel.getDevSpace3().setVisible(false);
         devSpacesPanel.getProdPower().setVisible(false);
         warehousePanel.getDepositsPanel().getDeposit1Button().setVisible(false);
@@ -279,9 +279,13 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == resourceCheatButton){
             gui.sendPacketToServer(new ResourcesInStrongboxCheatPacket());
+            gui.switchPanels(new BoardPanel(gui));
         }
         if(e.getSource() == faithMarkerCheatButton){
             gui.sendPacketToServer(new FaithMarkerCheatPacket());
+        }
+        if(e.getSource() == useProdPower){
+            gui.switchPanels(new UseProductionPowerPanel(gui));
         }
 
     }

@@ -58,6 +58,7 @@ public class GUI implements Runnable {
         return dimension;
     }
 
+
     @Override
     public void run() {
 
@@ -100,6 +101,7 @@ public class GUI implements Runnable {
     }
 
     public void switchPanels(JPanel panel){
+        System.out.println(panel);
         mainPanel.removeAll();
         mainPanel.add(panel);
         mainPanel.repaint();

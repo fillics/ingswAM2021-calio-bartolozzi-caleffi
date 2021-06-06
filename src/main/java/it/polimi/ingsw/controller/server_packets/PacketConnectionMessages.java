@@ -24,7 +24,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
     public void execute(Client client) {
         switch (message){
 
-            case USERNAME_VALID, IMPOSSIBLEMOVE -> {
+            case USERNAME_VALID -> {
                 if(client.getViewChoice().equals(ViewChoice.CLI)){
                     Constants.printConnectionMessage(message);
                 }
@@ -33,7 +33,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 }
             }
 
-            case IMPOSSIBLEENDTURN -> {
+            case IMPOSSIBLEENDTURN, IMPOSSIBLEMOVE -> {
                 if(client.getViewChoice().equals(ViewChoice.CLI)){
                     Constants.printConnectionMessage(message);
                 }

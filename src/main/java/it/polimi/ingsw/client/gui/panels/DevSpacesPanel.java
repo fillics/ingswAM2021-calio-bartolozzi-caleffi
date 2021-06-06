@@ -16,9 +16,11 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
     private GUI gui;
     private Image devSpaces;
     private JButton devSpace1;
-    private JButton devspace2;
+    private JButton devSpace2;
     private JButton devSpace3;
     private JButton prodPower;
+    private ArrayList<Integer> productionPowers = new ArrayList<>();
+    private ArrayList<Integer> newProductionPowers = new ArrayList<>();
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -56,10 +58,10 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
     public void setButtons(JPanel buttonPanel){
         buttonPanel.setPreferredSize(new Dimension( 720,100));
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        prodPower = new JButton("1");
-        devSpace1 = new JButton("2");
-        devspace2 = new JButton("3");
-        devSpace3 = new JButton("4");
+        prodPower = new JButton("EXTRA DEPOSIT");
+        devSpace1 = new JButton("1");
+        devSpace2 = new JButton("2");
+        devSpace3 = new JButton("3");
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JPanel panel3 = new JPanel();
@@ -75,9 +77,9 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         devSpace1.addActionListener(this);
         devSpace1.setBackground(Color.ORANGE);
         panel2.add(devSpace1);
-        devspace2.addActionListener(this);
-        devspace2.setBackground(Color.ORANGE);
-        panel3.add(devspace2);
+        devSpace2.addActionListener(this);
+        devSpace2.setBackground(Color.ORANGE);
+        panel3.add(devSpace2);
         devSpace3.addActionListener(this);
         devSpace3.setBackground(Color.ORANGE);
         panel4.add(devSpace3);
@@ -184,23 +186,27 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == devSpace1){
+            if(!productionPowers.contains(1)) productionPowers.add(1);
+        }
+        if(e.getSource() == devSpace2){
+            if(!productionPowers.contains(2)) productionPowers.add(2);
+        }
+        if(e.getSource() == devSpace3){
+            if(!productionPowers.contains(3)) productionPowers.add(3);
+        }
+        if(e.getSource() == prodPower){
+            if(!newProductionPowers.contains(1)) newProductionPowers.add(1);
+        }
 
-    }
-
-    public static void main(String[] args) {
-        JFrame jFrame = new JFrame();
-      //  DevSpacesPanel devSpacesPanel = new DevSpacesPanel();
-     //   jFrame.add(devSpacesPanel);
-        jFrame.setVisible(true);
-        jFrame.pack();
     }
 
     public JButton getDevSpace1() {
         return devSpace1;
     }
 
-    public JButton getDevspace2() {
-        return devspace2;
+    public JButton getDevSpace2() {
+        return devSpace2;
     }
 
     public JButton getDevSpace3() {
@@ -209,5 +215,13 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
 
     public JButton getProdPower() {
         return prodPower;
+    }
+
+    public ArrayList<Integer> getProductionPowers() {
+        return productionPowers;
+    }
+
+    public ArrayList<Integer> getNewProductionPowers() {
+        return newProductionPowers;
     }
 }
