@@ -12,15 +12,20 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class StrongboxPanel extends JPanel implements ActionListener {
+    private GUI gui;
     private Image background;
     private final JButton strongboxButton;
+    private DepositsPanel depositsPanel;
+
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, 250, 180, null);
     }
 
-    public StrongboxPanel(GUI gui) {
+    public StrongboxPanel(GUI gui, DepositsPanel depositsPanel) {
+        this.depositsPanel = depositsPanel;
+        this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/board/strongbox.jpg");
         try {
             background = ImageIO.read(is);
@@ -30,6 +35,7 @@ public class StrongboxPanel extends JPanel implements ActionListener {
 
         this.setPreferredSize(new Dimension(250, 180));
         strongboxButton = new JButton();
+        strongboxButton.addActionListener(this);
         strongboxButton.setBackground(new Color(151, 74, 74));
         JLabel coin = new JLabel();
         JLabel stone = new JLabel();
@@ -93,13 +99,13 @@ public class StrongboxPanel extends JPanel implements ActionListener {
 
         this.add(panel1);
 
-
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if(e.getSource() == strongboxButton){
+            depositsPanel.getIdDepot().add(4);
+        }
     }
 
 

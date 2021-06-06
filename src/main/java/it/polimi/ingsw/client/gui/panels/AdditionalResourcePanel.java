@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketChooseInitialResources;
+import it.polimi.ingsw.controller.client_packets.PacketUseAndChooseProdPower;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 
@@ -10,8 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,6 +18,15 @@ import java.util.ArrayList;
 public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
     private GUI gui;
+    private ArrayList<Integer> productionPowers;
+    private ArrayList<Integer> newProductionPowers;
+    private ArrayList<ResourceType> resourcesForProduction;
+    private ArrayList<Integer> warehouse;
+    private JButton confirmForPorduction = new JButton("CONFIRM");
+    private JButton backForPorduction = new JButton("BACK");
+    private JPanel buttonsForProduction;
+    private JButton coinForProduction, stoneForProduction, servantForProduction, shieldForProduction;
+
     private Image background;
     private ArrayList<Integer> deposits;
     private ArrayList<ResourceType> resources;
@@ -28,16 +36,153 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     private final JButton stone = new JButton();
     private final JButton servant = new JButton();
     private final JButton shield = new JButton();
-    private JButton deposit1Button, deposit2Button, deposit3Button;
     private JButton confirmButton;
     private GridBagConstraints c;
     private JLabel quantityCoins, quantityStones, quantityServants, quantityShields;
     private int coins, stones, servants, shields;
     private String coinsText, stonesText, servantsText, shieldsText;
 
+
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
+    }
+
+    public AdditionalResourcePanel(GUI gui, ArrayList<Integer> productionPowers, ArrayList<Integer> newProductionPowers, ArrayList<ResourceType> resourcesForProduction, ArrayList<Integer> warehouse){
+        this.gui = gui;
+        this.productionPowers = productionPowers;
+        this.newProductionPowers = newProductionPowers;
+        this.resourcesForProduction = resourcesForProduction;
+        this.warehouse = warehouse;
+
+        coinForProduction = new JButton();
+        stoneForProduction = new JButton();
+        servantForProduction = new JButton();
+        shieldForProduction = new JButton();
+
+        coins=0;
+        shields=0;
+        stones=0;
+        servants=0;
+        coinsText = "x " + coins;
+        stonesText = "x " + stones;
+        servantsText = "x " + servants;
+        shieldsText = "x " + shields;
+
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
+        try {
+            background = ImageIO.read(is);
+        } catch (IOException ignored) {}
+
+
+        gui.createMessageFromServer("Choose the resources instead of the jolly resources");
+
+
+
+        this.setLayout(new GridBagLayout());
+        c = new GridBagConstraints();
+        deposits = new ArrayList<>();
+        resources = new ArrayList<>();
+        createResourcesPanelForProduction();
+        c.gridx=0;
+        c.gridy=0;
+        this.add(resourcesPanel, c);
+
+        createButtons();
+        c.gridx = 0;
+        c.gridy = 1;
+        this.add(buttonsForProduction, c);
+
+
+    }
+
+    public void createResourcesPanelForProduction(){
+        resourcesPanel = new JPanel();
+        resourcesPanel.setLayout(new GridBagLayout());
+        c.insets = new Insets(0, 2, 0, 2);
+
+        JPanel coinPanel = new JPanel();
+        coinPanel.setLayout(new GridBagLayout());
+        JPanel stonePanel = new JPanel();
+        stonePanel.setLayout(new GridBagLayout());
+        JPanel servantPanel = new JPanel();
+        servantPanel.setLayout(new GridBagLayout());
+        JPanel shieldPanel = new JPanel();
+        shieldPanel.setLayout(new GridBagLayout());
+
+
+        try {
+            quantityCoins = new JLabel(coinsText);
+            c.gridx=0;
+            c.gridy=0;
+            coinPanel.add(quantityCoins, c);
+            coinForProduction.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/coin.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            c.gridx=0;
+            c.gridy=1;
+            coinPanel.add(coinForProduction, c);
+
+            quantityStones= new JLabel(stonesText);
+            c.gridx=1;
+            c.gridy=0;
+            stonePanel.add(quantityStones, c);
+            stoneForProduction.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/stone.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            c.gridx=1;
+            c.gridy=1;
+            stonePanel.add(stoneForProduction, c);
+
+            quantityServants = new JLabel(servantsText);
+            c.gridx=2;
+            c.gridy=0;
+            servantPanel.add(quantityServants, c);
+            servantForProduction.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/servant.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            c.gridx=2;
+            c.gridy=1;
+            servantPanel.add(servantForProduction, c);
+
+            quantityShields = new JLabel(shieldsText);
+            c.gridx=3;
+            c.gridy=0;
+            shieldPanel.add(quantityShields, c);
+            shieldForProduction.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/shield.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            c.gridx=3;
+            c.gridy=1;
+            shieldPanel.add(shieldForProduction, c);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        coinForProduction.addActionListener(this);
+        shieldForProduction.addActionListener(this);
+        servantForProduction.addActionListener(this);
+        stoneForProduction.addActionListener(this);
+
+        c.gridx=0;
+        c.gridy=0;
+        resourcesPanel.add(coinPanel, c);
+        c.gridx=1;
+        c.gridy=0;
+        resourcesPanel.add(stonePanel, c);
+        c.gridx=2;
+        c.gridy=0;
+        resourcesPanel.add(servantPanel, c);
+        c.gridx=3;
+        c.gridy=0;
+        resourcesPanel.add(shieldPanel, c);
+
+        resourcesPanel.setBackground(new Color(0, 0, 0, 0));
+        resourcesPanel.setOpaque(true);
+    }
+
+    public void createButtons(){
+        buttonsForProduction = new JPanel();
+
+        confirmForPorduction.addActionListener(this);
+        backForPorduction.addActionListener(this);
+
+        buttonsForProduction.add(backForPorduction);
+        buttonsForProduction.add(Box.createRigidArea(new Dimension(180, 20)));
+        buttonsForProduction.add(confirmForPorduction);
     }
 
     public AdditionalResourcePanel(GUI gui) {
@@ -55,7 +200,6 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         try {
             background = ImageIO.read(is);
         } catch (IOException ignored) {}
-
 
         if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
                 gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2)
@@ -171,7 +315,6 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     public void createDepositsPanel(){
 
         depositsPanel = new DepositsPanel(gui);
-
         depositsPanel.setVisible(false);
     }
 
@@ -215,7 +358,6 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             stones++;
             stonesText = "x " + stones;
             quantityStones.setText(stonesText);
-            depositsPanel.setVisible(true);
 
         }
         if (e.getSource() == servant) {
@@ -226,7 +368,6 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             servants++;
             servantsText = "x " + servants;
             quantityServants.setText(servantsText);
-            depositsPanel.setVisible(true);
 
         }
         if (e.getSource() == shield) {
@@ -279,6 +420,46 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
 
             }
+        }
+
+        if (e.getSource() == coinForProduction) {
+            resources.add(ResourceType.COIN);
+
+            coins++;
+            coinsText = "x " + coins;
+            quantityCoins.setText(coinsText);
+        }
+
+        if (e.getSource() == stoneForProduction) {
+            resources.add(ResourceType.STONE);
+
+            stones++;
+            stonesText = "x " + stones;
+            quantityStones.setText(stonesText);
+
+        }
+        if (e.getSource() == servantForProduction) {
+            resources.add(ResourceType.SERVANT);
+
+            servants++;
+            servantsText = "x " + servants;
+            quantityServants.setText(servantsText);
+
+        }
+        if (e.getSource() == shieldForProduction) {
+            resources.add(ResourceType.SHIELD);
+
+            shields++;
+            shieldsText = "x " + shields;
+            quantityShields.setText(shieldsText);
+        }
+        if( e.getSource() == confirmForPorduction){
+            PacketUseAndChooseProdPower packetUseAndChooseProdPower = new PacketUseAndChooseProdPower(productionPowers, newProductionPowers, resourcesForProduction, warehouse, resources);
+            gui.sendPacketToServer(packetUseAndChooseProdPower);
+            gui.switchPanels(new BoardPanel(gui));
+        }
+        if(e.getSource() == backForPorduction){
+            gui.switchPanels(new BoardPanel(gui));
         }
 
     }

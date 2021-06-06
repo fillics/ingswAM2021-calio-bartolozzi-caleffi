@@ -146,6 +146,7 @@ public class ChooseDiscountPanel extends JPanel implements ActionListener {
                 jsonProcessingException.printStackTrace();
             }
             gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
+            gui.switchPanels(new BoardPanel(gui));
         }
     }
 
