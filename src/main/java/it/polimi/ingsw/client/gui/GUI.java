@@ -20,6 +20,7 @@ public class GUI implements Runnable {
     private JPanel loginPanel, serverPanel, numPlayersPanel, boardPanel, buyDevCardPanel, devGridPanel, marketPanel,
             removeLeaderCardPanel, additionalResourcePanel;
     private Client client;
+    private ShowDevGridPanel showGridPanel;
     private static ArrayList<JPanel> panels;
     private Dimension dimension;
     private final int width;
@@ -50,6 +51,7 @@ public class GUI implements Runnable {
         loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
+
 
 
     }
@@ -119,6 +121,10 @@ public class GUI implements Runnable {
         topPanel.revalidate();
     }
 
+    /**
+     * per mandare pacchetto normale
+     * @param packet
+     */
     public void sendPacketToServer(ClientPacketHandler packet){
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = null;
@@ -131,6 +137,9 @@ public class GUI implements Runnable {
         client.getSocketClientConnection().sendToServer(jsonResult);
     }
 
+    /**
+     * per mandare pacchetto dei cheat
+     */
     public void sendPacketToServer(CheatClientPacketHandler packet){
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = null;
@@ -182,6 +191,10 @@ public class GUI implements Runnable {
         return additionalResourcePanel;
     }
 
+    public ShowDevGridPanel getShowGridPanel() {
+        return showGridPanel;
+    }
+
     public Client getClient() {
         return client;
     }
@@ -205,4 +218,5 @@ public class GUI implements Runnable {
     public ArrayList<Border> getBorders() {
         return borders;
     }
+
 }
