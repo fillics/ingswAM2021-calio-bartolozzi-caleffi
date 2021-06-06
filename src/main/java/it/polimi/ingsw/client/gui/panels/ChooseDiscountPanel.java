@@ -23,27 +23,17 @@ public class ChooseDiscountPanel extends JPanel implements ActionListener {
 
     private JButton leaderCard1, leaderCard2;
     private JButton confirm, back;
-    ArrayList<JButton> jButtons;
-    ArrayList<Integer> leaderCards;
+    private ArrayList<JButton> jButtons;
+    private ArrayList<Integer> leaderCards;
     private JPanel cards, buttons;
 
     public ChooseDiscountPanel(GUI gui) {
         leaderCards = new ArrayList<>();
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
-        try {
-            background = ImageIO.read(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         this.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
 
-        c.gridy=0;
-        c.gridx=0;
-        JPanel emptyPanel = new JPanel();
-        emptyPanel.setBackground(new Color(0,0,0,0));
-        this.add(emptyPanel, c);
 
         createCards();
         c.gridx=0;

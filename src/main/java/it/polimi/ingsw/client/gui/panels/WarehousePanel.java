@@ -9,13 +9,11 @@ import java.awt.event.ActionListener;
 
 
 public class WarehousePanel extends JPanel implements ActionListener {
-    private GUI gui;
-    private DepositsPanel depositsPanel;
-    private StrongboxPanel strongboxPanel;
+    private final DepositsPanel depositsPanel;
+    private final StrongboxPanel strongboxPanel;
 
 
     public WarehousePanel(GUI gui) {
-        this.gui = gui;
         this.setPreferredSize(new Dimension(250, 480));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         depositsPanel = new DepositsPanel(gui);

@@ -84,12 +84,19 @@ public class FaithTrackPanel extends JPanel{
     }
 
     public void setFirstPanel(JPanel first){
+        int numOfPlayers = gui.getClient().getClientModelView().getNumOfPlayers();
+        int faithMarker = gui.getClient().getClientModelView().getLiteBoard().getFaithMarker();
+        int blackCross = gui.getClient().getClientModelView().getLiteBoard().getBlackCross();
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JPanel panel3 = new JPanel();
         JLabel label1 = new JLabel();
+        JLabel label11 = new JLabel();
+        JLabel label12 = new JLabel();
         JLabel label2 = new JLabel();
         JLabel label3 = new JLabel();
+        JLabel label4 = new JLabel();
+        JLabel label5 = new JLabel();
         panel1.setOpaque(false);
         panel2.setOpaque(false);
         panel3.setOpaque(false);
@@ -102,41 +109,177 @@ public class FaithTrackPanel extends JPanel{
         panel2.setPreferredSize(new Dimension(226,48));
         panel3.setPreferredSize(new Dimension(226,48));
 
-        panel1.add(Box.createRigidArea(new Dimension(226,48)));
-        panel2.add(Box.createRigidArea(new Dimension(226,48)));
-        /*panel1.add(Box.createRigidArea(new Dimension(129,48)));
         try {
             label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithMarker.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label11.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label12.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        panel1.add(Box.createRigidArea(new Dimension(49,48)));
-        panel1.add(label1);
-
-
-        panel2.add(Box.createRigidArea(new Dimension(129,48)));
-        try {
-            label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        panel1.add(Box.createRigidArea(new Dimension(129,48)));
+        if(faithMarker==4){
+            if(blackCross==4){
+                panel1.add(label12);
+                panel1.add(Box.createRigidArea(new Dimension(52,48)));
+            }
+            if(blackCross==5){
+                panel1.add(label1);
+                panel1.add(Box.createRigidArea(new Dimension(3,48)));
+                panel1.add(label11);
+                panel1.add(Box.createRigidArea(new Dimension(4,48)));
+            }
+            else{
+                panel1.add(label1);
+                panel1.add(Box.createRigidArea(new Dimension(52,48)));
+            }
+        } else if(faithMarker==5){
+            if(blackCross==4){
+                panel1.add(label11);
+                panel1.add(Box.createRigidArea(new Dimension(3,48)));
+                panel1.add(label1);
+                panel1.add(Box.createRigidArea(new Dimension(4,48)));
+            }
+            if(blackCross==5){
+                panel1.add(Box.createRigidArea(new Dimension(48,48)));
+                panel1.add(label12);
+                panel1.add(Box.createRigidArea(new Dimension(4,48)));
+            }
+            else{
+                panel1.add(Box.createRigidArea(new Dimension(48,48)));
+                panel1.add(label1);
+                panel1.add(Box.createRigidArea(new Dimension(4,48)));
+            }
+        } else if(blackCross==4){
+            panel1.add(label11);
+            panel1.add(Box.createRigidArea(new Dimension(52,48)));
         }
-        panel2.add(label2);
-        panel2.add(Box.createRigidArea(new Dimension(51,48)));*/
+        else if(blackCross==5){
+            panel1.add(Box.createRigidArea(new Dimension(48,48)));
+            panel1.add(label11);
+            panel1.add(Box.createRigidArea(new Dimension(4,48)));
+        } else
+            panel1.add(Box.createRigidArea(new Dimension(97,48)));
 
-
-        if(gui.getClient().getClientModelView().getLiteBoard().getFaithMarker()==0){
-            panel3.add(Box.createRigidArea(new Dimension(32,48)));
+        panel2.add(Box.createRigidArea(new Dimension(128,48)));
+        if(gui.getClient().getClientModelView().getLiteBoard().getFaithMarker()==3){
             try {
-                if(gui.getClient().getClientModelView().getLiteBoard().getBlackCross()==0 && gui.getClient().getClientModelView().getNumOfPlayers()==1)
-                    label3.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+                if(gui.getClient().getClientModelView().getLiteBoard().getBlackCross()==3){
+                    label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+                }
                 else
-                    label3.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithMarker.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+                    label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithMarker.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            panel3.add(label3);
-            panel3.add(Box.createRigidArea(new Dimension(149,48)));
+            panel2.add(label2);
+            panel2.add(Box.createRigidArea(new Dimension(53,48)));
         }
+        else if(gui.getClient().getClientModelView().getLiteBoard().getFaithMarker()!=3 && gui.getClient().getClientModelView().getLiteBoard().getBlackCross()==3) {
+            try {
+                label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            panel2.add(label2);
+            panel2.add(Box.createRigidArea(new Dimension(51,48)));
+        }
+        else
+            panel2.add(Box.createRigidArea(new Dimension(98,48)));
+
+        try {
+            label3.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithMarker.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label4.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label5.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        panel3.add(Box.createRigidArea(new Dimension(32,48)));
+        if(faithMarker == 0){
+            if(blackCross==0 && numOfPlayers==1){
+                panel3.add(label5);
+                panel3.add(Box.createRigidArea(new Dimension(149,48)));
+            }
+            else if(blackCross==1){
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(3,48)));
+                panel3.add(label4);
+                panel3.add(Box.createRigidArea(new Dimension(101,48)));
+            }
+            else if(blackCross==2){
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(48,48)));
+                panel3.add(label4);
+                panel3.add(Box.createRigidArea(new Dimension(56,48)));
+            }
+            else {
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(149,48)));
+            }
+        }
+        else if(faithMarker ==1){
+            if(blackCross==0 && numOfPlayers==1){
+                panel3.add(label4);
+                panel3.add(Box.createRigidArea(new Dimension(3,48)));
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(101,48)));
+            }
+            else if(blackCross==1){
+                panel3.add(Box.createRigidArea(new Dimension(48,48)));
+                panel3.add(label5);
+                panel3.add(Box.createRigidArea(new Dimension(101,48)));
+            }
+            else if(blackCross==2){
+                panel3.add(Box.createRigidArea(new Dimension(48,48)));
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(3,48)));
+                panel3.add(label4);
+                panel3.add(Box.createRigidArea(new Dimension(53,48)));
+            }
+            else{
+                panel3.add(Box.createRigidArea(new Dimension(48,48)));
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(101,48)));
+            }
+        }
+        else if(faithMarker == 2){
+            if(blackCross==0 && numOfPlayers==1){
+                panel3.add(label4);
+                panel3.add(Box.createRigidArea(new Dimension(48,48)));
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(56,48)));
+            }
+            else if(blackCross==1){
+                panel3.add(Box.createRigidArea(new Dimension(48,48)));
+                panel3.add(label4);
+                panel3.add(Box.createRigidArea(new Dimension(3,48)));
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(53,48)));
+            }
+            else if(blackCross==2){
+                panel3.add(Box.createRigidArea(new Dimension(96,48)));
+                panel3.add(label5);
+                panel3.add(Box.createRigidArea(new Dimension(53,48)));
+            }
+            else{
+                panel3.add(Box.createRigidArea(new Dimension(96,48)));
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(53,48)));
+            }
+        } else if(blackCross == 0 && numOfPlayers == 1){
+            panel3.add(label4);
+            panel3.add(Box.createRigidArea(new Dimension(149,48)));
+        } else if( blackCross ==1){
+            panel3.add(Box.createRigidArea(new Dimension(48,48)));
+            panel3.add(label4);
+            panel3.add(Box.createRigidArea(new Dimension(101,48)));
+        } else if( blackCross ==2 ){
+            panel3.add(Box.createRigidArea(new Dimension(96,48)));
+            panel3.add(label4);
+            panel3.add(Box.createRigidArea(new Dimension(53,48)));
+        } else
+            panel3.add(Box.createRigidArea(new Dimension(194,48)));
+
 
         first.add(Box.createRigidArea(new Dimension(226,33)));
         first.add(panel1);

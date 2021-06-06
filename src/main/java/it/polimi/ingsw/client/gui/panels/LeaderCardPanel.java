@@ -17,15 +17,18 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     private Image background;
     private int id;
     private int position;
+    private JButton button;
 
-
+    public JButton getButton() {
+        return button;
+    }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0,159, 240, null);
     }
 
-    public LeaderCardPanel(GUI gui, int id) {
+    public LeaderCardPanel(GUI gui, int id, int width, int height) {
         this.setPreferredSize(new Dimension(159, 240));
         this.id = id;
         this.gui = gui;
@@ -76,7 +79,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.PRODUCTION_POWER)){
             JPanel specialPower = new JPanel();
             specialPower.setPreferredSize(new Dimension(159, 70));
-            JButton button = new JButton();
+            button = new JButton();
             button.setPreferredSize(new Dimension(159, 70));
             try {
                 button.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(159, 70, Image.SCALE_AREA_AVERAGING)));
@@ -95,7 +98,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.EXTRA_DEPOSIT)
         && gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() > 3){
 
-            JButton button = new JButton();
+            button = new JButton();
             button.setBackground(new Color(151, 74, 74));
             button.addActionListener(this);
 
