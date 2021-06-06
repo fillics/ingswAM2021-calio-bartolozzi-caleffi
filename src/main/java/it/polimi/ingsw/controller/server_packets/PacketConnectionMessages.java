@@ -52,7 +52,6 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 }
                 client.setClientState(ClientStates.NUMPLAYERS);
 
-
             }
 
             case TAKEN_NICKNAME -> {
