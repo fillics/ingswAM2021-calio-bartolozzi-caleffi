@@ -1,7 +1,10 @@
 package it.polimi.ingsw.client.gui.panels;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.marbles.*;
 
@@ -15,7 +18,7 @@ import java.io.InputStream;
 import java.util.Objects;
 
 public class MarketPanel extends JPanel implements ActionListener {
-    //private GUI gui;
+    private GUI gui;
     private Image imagereal;
     private JButton row1;
     private JButton row2;
@@ -24,25 +27,19 @@ public class MarketPanel extends JPanel implements ActionListener {
     private JButton column2;
     private JButton column3;
     private JButton column4;
-    private String line;
-    private int numline;
+
+    private String line="";
+    private int numline=0;
     private Marble[][] table;
     private Marble marble;
 
-    public String getLine() {
-        return line;
-    }
-
-    public int getNumline() {
-        return numline;
-    }
-
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(imagereal, 480 ,90, 550,700,null);
+        g.drawImage(imagereal, 0,0, 550, 700, null);
     }
 
     public MarketPanel(GUI gui) {
+        this.gui=gui;
         table= gui.getClient().getClientModelView().getMarketTray().getTable();
         marble = gui.getClient().getClientModelView().getMarketTray().getRemainingMarble();
         InputStream input= getClass().getResourceAsStream("/images/board/marketTray.png");
@@ -52,8 +49,9 @@ public class MarketPanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.setPreferredSize(new Dimension(550, 700));
+        this.setPreferredSize(new Dimension(550,700));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
         JPanel topNullPanel = new JPanel();
         JPanel remainingMPanel = new JPanel();
         JPanel marketTrayPanel = new JPanel();
@@ -87,7 +85,6 @@ public class MarketPanel extends JPanel implements ActionListener {
         this.add(marketTrayPanel);
         this.add(columnChoicePanel);
         this.add(downNullPanel);
-
     }
 
     public void setRemainingMarble(JPanel remainingMPanel) {
@@ -117,6 +114,7 @@ public class MarketPanel extends JPanel implements ActionListener {
         remainingMarble.add(label);
         remainingMPanel.add(Box.createRigidArea(new Dimension(350,75)));
         remainingMPanel.add(remainingMarble);
+
     }
 
     public void setMarketTray(JPanel marketTrayPanel){
@@ -267,8 +265,8 @@ public class MarketPanel extends JPanel implements ActionListener {
             disableAllButtons();
         }
         if(e.getSource() == row3){
-            line="row";
-            numline=3;
+            line = "row";
+            numline = 3;
             disableAllButtons();
         }
         if(e.getSource() == column1){
@@ -277,8 +275,8 @@ public class MarketPanel extends JPanel implements ActionListener {
             disableAllButtons();
         }
         if(e.getSource() == column2){
-            line="column";
-            numline=2;
+            line= "column";
+            numline= 2;
             disableAllButtons();
         }
         if(e.getSource() == column3){
@@ -291,6 +289,14 @@ public class MarketPanel extends JPanel implements ActionListener {
             numline=4;
             disableAllButtons();
         }
+    }
+
+    public String getLine() {
+        return line;
+    }
+
+    public int getNumline() {
+        return numline;
     }
 
     public void disableAllButtons(){

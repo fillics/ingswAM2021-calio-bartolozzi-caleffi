@@ -104,7 +104,6 @@ public class GUI implements Runnable {
         mainPanel.add(panel);
         mainPanel.repaint();
         mainPanel.revalidate();
-
     }
 
     public void createMessageFromServer(String message){

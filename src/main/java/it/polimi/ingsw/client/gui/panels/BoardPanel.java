@@ -174,7 +174,6 @@ public class BoardPanel extends JPanel implements ActionListener {
         button.setPreferredSize(new Dimension(250,50));
         changeBackground(button);
         button.addActionListener(this);
-
     }
     public void createUnderBoard(){
 
@@ -255,10 +254,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             gui.switchPanels(new DevGridPanel(gui));
         }
         if(e.getSource()== takeResourceFromMarket){
-            ArrayList<Integer> leaderCards = new ArrayList<>();
-            PacketTakeResourceFromMarket takeResourceFromMarket = new PacketTakeResourceFromMarket("row", 1, leaderCards);
-            gui.sendPacketToServer(takeResourceFromMarket);
-            gui.switchPanels(new BoardPanel(gui));
+            gui.switchPanels(new TakeResourceFromMarketPanel(gui));
         }
         if(e.getSource() == chooseDiscount){
             gui.switchPanels(new ChooseDiscountPanel(gui));
