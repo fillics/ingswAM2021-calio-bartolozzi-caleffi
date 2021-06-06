@@ -77,7 +77,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
 
     public void disableButtons(DevSpacesPanel devSpacesPanel, WarehousePanel warehousePanel, ResourceBufferPanel resourceBufferPanel){
         devSpacesPanel.getDevSpace1().setVisible(false);
-        devSpacesPanel.getDevspace2().setVisible(false);
+        devSpacesPanel.getDevSpace2().setVisible(false);
         devSpacesPanel.getDevSpace3().setVisible(false);
         devSpacesPanel.getProdPower().setVisible(false);
         warehousePanel.getStrongboxPanel().getStrongboxButton().setVisible(false);
@@ -101,8 +101,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
             gui.switchPanels(new MoveResourcePanel(gui));
         }
         else if(e.getSource() == back){
-            BoardPanel boardPanel = new BoardPanel(gui);
-            gui.switchPanels(boardPanel);
+            gui.switchPanels(new BoardPanel(gui));
         }
     }
 }

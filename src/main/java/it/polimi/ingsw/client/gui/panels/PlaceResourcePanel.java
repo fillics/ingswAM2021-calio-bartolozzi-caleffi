@@ -77,7 +77,7 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
 
     public void disableButtons(DevSpacesPanel devSpacesPanel, WarehousePanel warehousePanel){
         devSpacesPanel.getDevSpace1().setVisible(false);
-        devSpacesPanel.getDevspace2().setVisible(false);
+        devSpacesPanel.getDevSpace2().setVisible(false);
         devSpacesPanel.getDevSpace3().setVisible(false);
         devSpacesPanel.getProdPower().setVisible(false);
         warehousePanel.getStrongboxPanel().getStrongboxButton().setVisible(false);

@@ -162,19 +162,12 @@ public class DepositsPanel extends JPanel implements ActionListener {
 
         if(e.getSource()==deposit1Button){
             idDepot.add(1);
-            deposit1Button.setBackground(Color.GREEN);
-            deposit1Button.setEnabled(false);
-
         }
         if(e.getSource()==deposit2Button){
             idDepot.add(2);
-            deposit2Button.setBackground(Color.GREEN);
-            deposit2Button.setEnabled(false);
         }
         if(e.getSource()==deposit3Button){
             idDepot.add(3);
-            deposit3Button.setBackground(Color.GREEN);
-            deposit3Button.setEnabled(false);
         }
     }
 
