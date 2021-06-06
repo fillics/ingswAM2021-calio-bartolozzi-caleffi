@@ -65,14 +65,16 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         c.insets = new Insets(10, 10, 10, 10);
 
         leaderCardPanels = new ArrayList<>();
+        int j=-1;
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyMarble){
-                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId());
+                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),159,240);
                 leaderCardPanels.add(leaderCardPanel1);
+                j++;
                 leaderCardPanel1.setOpaque(false);
                 c.gridx=0;
                 c.gridy=i;
-                leaderCards.add(leaderCardPanels.get(i), c);
+                leaderCards.add(leaderCardPanels.get(j), c);
             }
         }
         leaderCards.setOpaque(false);
