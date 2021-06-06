@@ -23,7 +23,9 @@ public class PacketBuyDevCard implements ClientPacketHandler {
     private final int developmentSpace;
 
     @JsonCreator
-    public PacketBuyDevCard(@JsonProperty("Id")int id,@JsonProperty("ChosenResources") ArrayList<ResourceType> chosenResources,@JsonProperty("ChosenWarehouses ") ArrayList<Integer> chosenWarehouses,@JsonProperty("DevelopmentSpace") int developmentSpace) {
+    public PacketBuyDevCard(@JsonProperty("Id")int id,@JsonProperty("ChosenResources") ArrayList<ResourceType> chosenResources,
+                            @JsonProperty("ChosenWarehouses ") ArrayList<Integer> chosenWarehouses,
+                            @JsonProperty("DevelopmentSpace") int developmentSpace) {
         this.id = id;
         this.chosenResources = chosenResources;
         this.chosenWarehouses = chosenWarehouses;

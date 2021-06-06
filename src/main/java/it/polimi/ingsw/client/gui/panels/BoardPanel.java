@@ -19,10 +19,12 @@ public class BoardPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
     private GridBagConstraints c;
+    private final JButton showDevGrid= new JButton("SHOW DEVELOPMENT GRID");
+    private final JButton showMarketTray= new JButton("SHOW THE MARKET TRAY");
+    private final JButton showBoardOtherPlayer= new JButton("SHOW BOARD OF OTHER PLAYERS"); // TODO: 06/06/2021 guarda jmenu bar
     private final JButton discardLeaderCard = new JButton("DISCARD LEADER CARD");
     private final JButton activateLeaderCard = new JButton("ACTIVATE LEADER CARD");
     private final JButton buyDevCard = new JButton("BUY DEV CARD");
-    private final JButton chooseDiscount = new JButton("CHOOSE DISCOUNT");
     private final JButton useProdPower = new JButton("USE PRODUCTION POWER");
     private final JButton moveResource = new JButton("MOVE RESOURCE");
     private final JButton placeResource = new JButton("PLACE RESOURCE");
@@ -30,7 +32,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     private final JButton endTurn = new JButton("END YOUR TURN");
     private final JButton resourceCheatButton = new JButton("+20 resources");
     private final JButton faithMarkerCheatButton = new JButton("+1 faith marker");
-    private JPanel operations, leaderCards, underBoard, faithTrackPanel, mainPanel;
+    private JPanel operations, leaderCards, underBoard, faithTrackPanel, mainPanel, showButtons;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private ResourceBufferPanel resourceBufferPanel;
     private WarehousePanel warehousePanel;
@@ -45,7 +47,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     public BoardPanel(GUI gui) {
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
             background = ImageIO.read(is);
         } catch (IOException ignored) {
@@ -54,14 +56,15 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         this.setLayout(new GridBagLayout());
 
+
         createLeaderCardsPanel();
         c.gridx=0;
         c.gridy=0;
         this.add(leaderCards, c);
 
         createMainPanel();
-        c.gridy=0;
         c.gridx=1;
+        c.gridy=0;
         this.add(mainPanel, c);
 
 
@@ -76,11 +79,42 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         disableButtons(resourceBufferPanel, devSpacesPanel, warehousePanel);
 
+
     }
+
+
+    public void createShowButtons(){
+
+        showButtons = new JPanel();
+        showButtons.setLayout(new GridBagLayout());
+
+
+        c.gridx=0;
+        c.gridy=0;
+        setupButtons(showDevGrid);
+        showButtons.add(showDevGrid, c);
+
+        c.gridx=1;
+        c.gridy=0;
+        setupButtons(showMarketTray);
+        showButtons.add(showMarketTray, c);
+
+        c.gridx=2;
+        c.gridy=0;
+        setupButtons(showBoardOtherPlayer);
+        showButtons.add(showBoardOtherPlayer, c);
+
+        showButtons.setOpaque(false);
+
+    }
+
 
     public void createMainPanel(){
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        createShowButtons();
+        mainPanel.add(showButtons);
 
         createFaithTrackPanel();
         mainPanel.add(faithTrackPanel);
@@ -90,6 +124,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         createResourceBuffer();
         mainPanel.add(resourceBufferPanel);
+
 
     }
 
@@ -106,63 +141,51 @@ public class BoardPanel extends JPanel implements ActionListener {
         c.gridx=0;
         c.gridy=0;
         setupButtons(discardLeaderCard);
-        setupButtons(discardLeaderCard);
         operations.add(discardLeaderCard, c);
 
         c.gridx=0;
         c.gridy=1;
-        setupButtons(activateLeaderCard);
         setupButtons(activateLeaderCard);
         operations.add(activateLeaderCard, c);
 
         c.gridx=0;
         c.gridy=2;
         setupButtons(buyDevCard);
-        setupButtons(buyDevCard);
         operations.add(buyDevCard, c);
+
 
         c.gridx=0;
         c.gridy=3;
-        setupButtons(chooseDiscount);
-        setupButtons(chooseDiscount);
-        operations.add(chooseDiscount, c);
-
-        c.gridx=0;
-        c.gridy=4;
-        setupButtons(useProdPower);
         setupButtons(useProdPower);
         operations.add(useProdPower, c);
 
         c.gridx=0;
-        c.gridy=5;
-        setupButtons(moveResource);
+        c.gridy=4;
         setupButtons(moveResource);
         operations.add(moveResource, c);
 
         c.gridx=0;
-        c.gridy=6;
-        setupButtons(placeResource);
+        c.gridy=5;
         setupButtons(placeResource);
         operations.add(placeResource, c);
 
         c.gridx=0;
-        c.gridy=7;
-        setupButtons(takeResourceFromMarket);
+        c.gridy=6;
         setupButtons(takeResourceFromMarket);
         operations.add(takeResourceFromMarket, c);
 
         c.gridx=0;
-        c.gridy=8;
+        c.gridy=7;
         setupButtons(endTurn);
         operations.add(endTurn, c);
 
         c.gridx=0;
-        c.gridy=9;
+        c.gridy=8;
         setupButtons(resourceCheatButton);
         operations.add(resourceCheatButton, c);
 
         c.gridx=0;
-        c.gridy=10;
+        c.gridy=9;
         setupButtons(faithMarkerCheatButton);
         operations.add(faithMarkerCheatButton, c);
 
@@ -205,7 +228,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId());
+            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(), 159, 240);
             leaderCardPanels.add(leaderCardPanel1);
             leaderCardPanel1.setOpaque(false);
             c.gridx=0;
@@ -244,6 +267,14 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        // TODO: 06/06/2021 cambiamo il messaggio visualizzato sopra quando premiamo un bottone, tipo "hai scelto di guardare il dev grid" 
+        if(e.getSource() == showDevGrid){
+            gui.switchPanels(new ShowDevGridPanel(gui));
+        }
+        if(e.getSource() == showMarketTray){
+            gui.switchPanels(new MarketPanel(gui));
+        }
         if(e.getSource() == activateLeaderCard){
             gui.switchPanels(new ActivateLeaderCardPanel(gui));
         }
@@ -251,14 +282,12 @@ public class BoardPanel extends JPanel implements ActionListener {
             gui.switchPanels(new DiscardLeaderCardPanel(gui));
         }
         if(e.getSource() == buyDevCard){
-            gui.switchPanels(new DevGridPanel(gui));
+            gui.switchPanels(new BuyDevCardPanel(gui));
         }
         if(e.getSource()== takeResourceFromMarket){
             gui.switchPanels(new TakeResourceFromMarketPanel(gui));
         }
-        if(e.getSource() == chooseDiscount){
-            gui.switchPanels(new ChooseDiscountPanel(gui));
-        }
+
         if(e.getSource() == placeResource){
             if(resourceBufferPanel.getResources().size() != 0){
                 gui.switchPanels(new PlaceResourcePanel(gui));

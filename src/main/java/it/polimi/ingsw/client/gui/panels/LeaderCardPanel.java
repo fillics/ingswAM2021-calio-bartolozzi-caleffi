@@ -28,7 +28,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         g.drawImage(background, 0,0,159, 240, null);
     }
 
-    public LeaderCardPanel(GUI gui, int id) {
+    public LeaderCardPanel(GUI gui, int id, int width, int height) {
         this.setPreferredSize(new Dimension(159, 240));
         this.id = id;
         this.gui = gui;
