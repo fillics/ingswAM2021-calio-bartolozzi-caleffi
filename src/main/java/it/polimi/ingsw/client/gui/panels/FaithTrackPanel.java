@@ -11,10 +11,14 @@ import java.util.Objects;
 
 public class FaithTrackPanel extends JPanel{
     private Image imagereal;
+    int numOfPlayers, faithMarker,blackCross;
     private GUI gui;
 
     public FaithTrackPanel(GUI gui){
         this.gui=gui;
+        numOfPlayers = gui.getClient().getClientModelView().getNumOfPlayers();
+        faithMarker = gui.getClient().getClientModelView().getLiteBoard().getFaithMarker();
+        blackCross = gui.getClient().getClientModelView().getLiteBoard().getBlackCross();
         this.setPreferredSize(new Dimension(970,200));
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         InputStream input= getClass().getResourceAsStream("/images/board/faithTrack.jpg");
@@ -84,9 +88,6 @@ public class FaithTrackPanel extends JPanel{
     }
 
     public void setFirstPanel(JPanel first){
-        int numOfPlayers = gui.getClient().getClientModelView().getNumOfPlayers();
-        int faithMarker = gui.getClient().getClientModelView().getLiteBoard().getFaithMarker();
-        int blackCross = gui.getClient().getClientModelView().getLiteBoard().getBlackCross();
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JPanel panel3 = new JPanel();
@@ -292,6 +293,8 @@ public class FaithTrackPanel extends JPanel{
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JLabel label1 = new JLabel();
+        JLabel label11 = new JLabel();
+        JLabel label12 = new JLabel();
         JLabel label2 = new JLabel();
         panel1.setOpaque(false);
         panel2.setOpaque(false);
@@ -302,20 +305,55 @@ public class FaithTrackPanel extends JPanel{
         panel1.setPreferredSize(new Dimension(97,48));
         panel2.setPreferredSize(new Dimension(97,119));
 
-        /*try {
-            label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+        try {
+            label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithMarker.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label11.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label12.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        panel1.add(Box.createRigidArea(new Dimension(49,48)));
-        panel1.add(label1);
-        panel1.add(Box.createRigidArea(new Dimension(3,48)));
-        */
-        panel1.add(Box.createRigidArea(new Dimension(97,48)));
+        if(faithMarker==6){
+            if(blackCross==6){
+                panel1.add(label12);
+                panel1.add(Box.createRigidArea(new Dimension(52,48)));
+            } else if(blackCross==7){
+                panel1.add(label1);
+                panel1.add(Box.createRigidArea(new Dimension(3,48)));
+                panel1.add(label11);
+                panel1.add(Box.createRigidArea(new Dimension(4,48)));
+            } else{
+                panel1.add(label1);
+                panel1.add(Box.createRigidArea(new Dimension(52,48)));
+            }
+        } else if(faithMarker==7){
+            if(blackCross==6){
+                panel1.add(label11);
+                panel1.add(Box.createRigidArea(new Dimension(3,48)));
+                panel1.add(label1);
+                panel1.add(Box.createRigidArea(new Dimension(4,48)));
+            } else if(blackCross==7){
+                panel1.add(Box.createRigidArea(new Dimension(52,48)));
+                panel1.add(label12);
+            } else{
+                panel1.add(Box.createRigidArea(new Dimension(52,48)));
+                panel1.add(label1);
+            }
+        } else if(blackCross ==6 ){
+            panel1.add(label11);
+            panel1.add(Box.createRigidArea(new Dimension(52,48)));
+        } else if(blackCross==7){
+            panel1.add(Box.createRigidArea(new Dimension(52,48)));
+            panel1.add(label11);
+        } else
+            panel1.add(Box.createRigidArea(new Dimension(97,48)));
+
 
         panel2.add(Box.createRigidArea(new Dimension(97,15)));
         try {
-            label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoGiallo.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
+            if(gui.getClient().getClientModelView().getLiteBoard().getVaticanReportSections().get((gui.getClient().getClientModelView().getLiteBoard().getTrack().get(7).getVaticanReportSection())-1).getPopefavortile().getVisible())
+                label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoGiallofront.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
+            else
+                label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoGiallo.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -333,8 +371,12 @@ public class FaithTrackPanel extends JPanel{
         JPanel panel2 = new JPanel();
         JPanel panel3 = new JPanel();
         JLabel label1 = new JLabel();
-        JLabel label2 = new JLabel();
+        JLabel label11 = new JLabel();
+        JLabel label12 = new JLabel();
+        JLabel label2= new JLabel();
         JLabel label3 = new JLabel();
+        JLabel label31 = new JLabel();
+        JLabel label32 = new JLabel();
         panel1.setOpaque(false);
         panel2.setOpaque(false);
         panel3.setOpaque(false);
@@ -347,36 +389,119 @@ public class FaithTrackPanel extends JPanel{
         panel2.setPreferredSize(new Dimension(146,48));
         panel3.setPreferredSize(new Dimension(146,48));
 
-        panel1.add(Box.createRigidArea(new Dimension(146,48)));
-        panel2.add(Box.createRigidArea(new Dimension(146,48)));
-        panel3.add(Box.createRigidArea(new Dimension(146,48)));
-        /*try {
-            label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+        try {
+            label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithMarker.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label11.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label12.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        panel1.add(label1);
-        panel1.add(Box.createRigidArea(new Dimension(101,48)));
-
+        if(faithMarker==8){
+            if(blackCross==8){
+                panel1.add(label12);
+                panel1.add(Box.createRigidArea(new Dimension(101,48)));
+            }else if(blackCross==9){
+                panel1.add(label1);
+                panel1.add(Box.createRigidArea(new Dimension(3,48)));
+                panel1.add(label11);
+                panel1.add(Box.createRigidArea(new Dimension(53,48)));
+            } else{
+                panel1.add(label1);
+                panel1.add(Box.createRigidArea(new Dimension(101,48)));
+            }
+        } else if(faithMarker==9){
+            if(blackCross==8){
+                panel1.add(label11);
+                panel1.add(Box.createRigidArea(new Dimension(3,48)));
+                panel1.add(label1);
+                panel1.add(Box.createRigidArea(new Dimension(53,48)));
+            } else if(blackCross==9){
+                panel1.add(Box.createRigidArea(new Dimension(48,48)));
+                panel1.add(label12);
+                panel1.add(Box.createRigidArea(new Dimension(53,48)));
+            } else{
+                panel1.add(Box.createRigidArea(new Dimension(48,48)));
+                panel1.add(label1);
+                panel1.add(Box.createRigidArea(new Dimension(53,48)));
+            }
+        } else if(blackCross==8){
+            panel1.add(label11);
+            panel1.add(Box.createRigidArea(new Dimension(101,48)));
+        } else if(blackCross==9){
+            panel1.add(Box.createRigidArea(new Dimension(48,48)));
+            panel1.add(label11);
+            panel1.add(Box.createRigidArea(new Dimension(53,48)));
+        } else
+            panel1.add(Box.createRigidArea(new Dimension(146,48)));
 
         panel2.add(Box.createRigidArea(new Dimension(49,48)));
+        if(faithMarker==10){
+            try {
+                if(blackCross==10)
+                    label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+                else
+                    label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithMarker.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            panel2.add(label2);
+            panel2.add(Box.createRigidArea(new Dimension(49,48)));
+        } else if(blackCross==10){
+            try {
+                label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            panel2.add(label2);
+            panel2.add(Box.createRigidArea(new Dimension(49,48)));
+        } else
+            panel2.add(Box.createRigidArea(new Dimension(146,48)));
+
         try {
-            label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label3.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithMarker.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label31.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label32.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        panel2.add(label2);
-        panel2.add(Box.createRigidArea(new Dimension(49,48)));
-
-
-        panel3.add(Box.createRigidArea(new Dimension(94,48)));
-        try {
-            label3.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        panel3.add(label3);
-        panel3.add(Box.createRigidArea(new Dimension(4,48)));*/
+        panel3.add(Box.createRigidArea(new Dimension(48,48)));
+        if(faithMarker==11){
+            if(blackCross==11){
+                panel3.add(label32);
+                panel3.add(Box.createRigidArea(new Dimension(53,48)));
+            } else if(blackCross==12){
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(3,48)));
+                panel3.add(label31);
+                panel3.add(Box.createRigidArea(new Dimension(5,48)));
+            } else{
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(53,48)));
+            }
+        } else if(faithMarker==12){
+            if(blackCross==11){
+                panel3.add(label31);
+                panel3.add(Box.createRigidArea(new Dimension(3,48)));
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(5,48)));
+            } else if(blackCross==12){
+                panel3.add(Box.createRigidArea(new Dimension(48,48)));
+                panel3.add(label32);
+                panel3.add(Box.createRigidArea(new Dimension(5,48)));
+            } else{
+                panel3.add(Box.createRigidArea(new Dimension(48,48)));
+                panel3.add(label3);
+                panel3.add(Box.createRigidArea(new Dimension(5,48)));
+            }
+        } else if(blackCross==11){
+            panel3.add(label31);
+            panel3.add(Box.createRigidArea(new Dimension(53,48)));
+        } else if(blackCross==12){
+            panel3.add(Box.createRigidArea(new Dimension(48,48)));
+            panel3.add(label31);
+            panel3.add(Box.createRigidArea(new Dimension(5,48)));
+        } else
+            panel3.add(Box.createRigidArea(new Dimension(98,48)));
 
         third.add(Box.createRigidArea(new Dimension(146,33)));
         third.add(panel1);
@@ -390,6 +515,8 @@ public class FaithTrackPanel extends JPanel{
         JPanel panel2 = new JPanel();
         JLabel label1 = new JLabel();
         JLabel label2 = new JLabel();
+        JLabel label21 = new JLabel();
+        JLabel label22 = new JLabel();
         panel1.setOpaque(false);
         panel2.setOpaque(false);
 
@@ -400,7 +527,10 @@ public class FaithTrackPanel extends JPanel{
         panel2.setPreferredSize(new Dimension(97,48));
 
         try {
-            label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoArancione.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
+            if(gui.getClient().getClientModelView().getLiteBoard().getVaticanReportSections().get((gui.getClient().getClientModelView().getLiteBoard().getTrack().get(15).getVaticanReportSection())-1).getPopefavortile().getVisible())
+                label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoArancionefront.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
+            else
+                label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoArancione.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -408,16 +538,51 @@ public class FaithTrackPanel extends JPanel{
         panel1.add(Box.createRigidArea(new Dimension(97,30)));
         panel1.add(label1);
         panel1.add(Box.createRigidArea(new Dimension(97,21)));
-        /*
+
         try {
-            label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithMarker.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label21.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+            label22.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        panel2.add(Box.createRigidArea(new Dimension(46,48)));
-        panel2.add(label2);
-        panel2.add(Box.createRigidArea(new Dimension(6,48)));*/
-        panel2.add(Box.createRigidArea(new Dimension(97,48)));
+        if(faithMarker==13){
+            if(blackCross==13){
+                panel2.add(label22);
+                panel2.add(Box.createRigidArea(new Dimension(52,48)));
+            } else if(blackCross==14){
+                panel2.add(label2);
+                panel2.add(Box.createRigidArea(new Dimension(3,48)));
+                panel2.add(label21);
+                panel2.add(Box.createRigidArea(new Dimension(4,48)));
+            } else{
+                panel2.add(label2);
+                panel2.add(Box.createRigidArea(new Dimension(52,48)));
+            }
+        } else if(faithMarker==14){
+            if(blackCross==14){
+                panel2.add(Box.createRigidArea(new Dimension(46,48)));
+                panel2.add(label22);
+                panel2.add(Box.createRigidArea(new Dimension(6,48)));
+            } else if(blackCross==13){
+                panel2.add(label21);
+                panel2.add(Box.createRigidArea(new Dimension(3,48)));
+                panel2.add(label2);
+                panel2.add(Box.createRigidArea(new Dimension(4,48)));
+            } else {
+                panel2.add(Box.createRigidArea(new Dimension(46,48)));
+                panel2.add(label2);
+                panel2.add(Box.createRigidArea(new Dimension(6,48)));
+            }
+        } else if(blackCross==13){
+            panel2.add(label21);
+            panel2.add(Box.createRigidArea(new Dimension(52,48)));
+        } else if(blackCross==14){
+            panel2.add(Box.createRigidArea(new Dimension(46,48)));
+            panel2.add(label21);
+            panel2.add(Box.createRigidArea(new Dimension(6,48)));
+        } else
+            panel2.add(Box.createRigidArea(new Dimension(97,48)));
 
         fourth.add(Box.createRigidArea(new Dimension(97,16)));
         fourth.add(panel1);
