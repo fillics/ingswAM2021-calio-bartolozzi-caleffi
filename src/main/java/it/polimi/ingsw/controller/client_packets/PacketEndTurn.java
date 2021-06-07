@@ -29,6 +29,7 @@ public class PacketEndTurn implements ClientPacketHandler{
                             gameInterface.getActivePlayers().get(0).getResourceBuffer().clear();
                             ((SinglePlayerGame) gameInterface).increaseBlackCross(sizeResourceBuffer);
                         }
+                        clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
 
                         SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
 
@@ -82,6 +83,9 @@ public class PacketEndTurn implements ClientPacketHandler{
                 case PHASE_TWO -> {
                     if (clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
                         gameInterface.nextPlayer();
+
+                        clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
+
 
                         if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
                             clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
