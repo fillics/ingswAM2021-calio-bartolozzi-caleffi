@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class LeaderCardPanel extends JPanel implements ActionListener {
     private TakeResourceFromMarketPanel takeResourceFromMarketPanel;
@@ -19,6 +20,8 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     private int id;
     private int position;
     private JButton button;
+    private JButton depositButton;
+    private DepositsPanel depositsPanel;
 
     public JButton getButton() {
         return button;
@@ -45,7 +48,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         }
         InputStream is = getClass().getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getPath());
         try {
-            background = ImageIO.read(is);
+            background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,7 +64,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
             button.addActionListener(takeResourceFromMarketPanel);
             button.setPreferredSize(new Dimension(159, 70));
             try {
-                button.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(159, 70, Image.SCALE_AREA_AVERAGING)));
+                button.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/empty.png")).readAllBytes()).getImage().getScaledInstance(159, 70, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -79,7 +82,8 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         this.setOpaque(false);
     }
 
-    public LeaderCardPanel(GUI gui, int id, int width, int height) {
+    public LeaderCardPanel(GUI gui, int id, int width, int height, DepositsPanel depositsPanel) {
+        this.depositsPanel = depositsPanel;
         this.setPreferredSize(new Dimension(159, 240));
         this.id = id;
         this.gui = gui;
@@ -90,7 +94,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         }
         InputStream is = getClass().getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getPath());
         try {
-            background = ImageIO.read(is);
+            background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,14 +108,14 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         JLabel isactive = new JLabel();
         if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getStrategy().isActive()){
             try {
-                isactive.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/active.png").readAllBytes()).getImage().getScaledInstance(30,30, Image.SCALE_AREA_AVERAGING)));
+                isactive.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/active.png")).readAllBytes()).getImage().getScaledInstance(30,30, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         else {
             try {
-                isactive.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/notactive.png").readAllBytes()).getImage().getScaledInstance(30,30, Image.SCALE_AREA_AVERAGING)));
+                isactive.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/notactive.png")).readAllBytes()).getImage().getScaledInstance(30,30, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -131,10 +135,10 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
             JPanel specialPower = new JPanel();
             specialPower.setPreferredSize(new Dimension(159, 70));
             button = new JButton();
-            //button.addActionListener();
+            button.addActionListener(this);
             button.setPreferredSize(new Dimension(159, 70));
             try {
-                button.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(159, 70, Image.SCALE_AREA_AVERAGING)));
+                button.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/empty.png")).readAllBytes()).getImage().getScaledInstance(159, 70, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -150,9 +154,9 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.EXTRA_DEPOSIT)
         && gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() > 3){
 
-            button = new JButton();
-            button.setBackground(new Color(151, 74, 74));
-            button.addActionListener(this);
+            depositButton = new JButton();
+            depositButton.setBackground(new Color(151, 74, 74));
+            depositButton.addActionListener(this);
 
             JPanel depositspace = new JPanel();
             depositspace.setLayout(new BoxLayout(depositspace, BoxLayout.X_AXIS));
@@ -164,16 +168,16 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
             resources.add(resource2);
 
             for(int i = 0; i < 2; i++){
-                if(i < gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(3).getQuantity() - 1){
+                if(i < gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getDepositPosition()).getQuantity()){
                     try {
-                        resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(3).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(35,35, Image.SCALE_AREA_AVERAGING)));
+                        resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getDepositPosition()).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(35,35, Image.SCALE_AREA_AVERAGING)));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
                 else {
                     try {
-                        resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(35, 35, Image.SCALE_AREA_AVERAGING)));
+                        resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/empty.png")).readAllBytes()).getImage().getScaledInstance(35, 35, Image.SCALE_AREA_AVERAGING)));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -186,7 +190,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
             depositspace.setOpaque(false);
 
             leadercard.add(Box.createRigidArea(new Dimension(159, 125)));
-            leadercard.add(button);
+            leadercard.add(depositButton);
             leadercard.add(Box.createRigidArea(new Dimension(159, 10)));
 
             leadercard.add(depositspace);
@@ -198,6 +202,8 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if(e.getSource() == depositButton){
+            depositsPanel.getIdDepot().add(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getDepositPosition() + 1);
+        }
     }
 }

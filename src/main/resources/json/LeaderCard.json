@@ -11,7 +11,8 @@
     },
     "resourceType": "SERVANT",
     "victorypoint": 3,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-54-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-54-1.png",
+    "depositPosition" : 0
   },
   {
     "id" : 2,
@@ -25,7 +26,9 @@
     },
     "resourceType": "STONE",
     "victorypoint": 3,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-53-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-53-1.png",
+    "depositPosition" : 0
+
 
   },
   {
@@ -40,7 +43,9 @@
     },
     "resourceType": "SHIELD",
     "victorypoint": 3,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-55-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-55-1.png",
+    "depositPosition" : 0
+
 
   },
   {
@@ -55,7 +60,9 @@
     },
     "resourceType": "COIN",
     "victorypoint": 3,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-56-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-56-1.png",
+    "depositPosition" : 0
+
 
   },
 
@@ -73,7 +80,9 @@
     },
     "resourceType": "STONE",
     "victorypoint": 5,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-59-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-59-1.png",
+    "depositPosition" : 0
+
 
   },
   {
@@ -88,7 +97,9 @@
     },
     "resourceType": "SHIELD",
     "victorypoint": 5,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-58-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-58-1.png",
+    "depositPosition" : 0
+
 
   },
   {
@@ -103,7 +114,9 @@
     },
     "resourceType": "SERVANT",
     "victorypoint": 5,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-57-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-57-1.png",
+    "depositPosition" : 0
+
 
   },
   {
@@ -118,7 +131,9 @@
     },
     "resourceType": "COIN",
     "victorypoint": 5,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-60-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-60-1.png",
+    "depositPosition" : 0
+
 
   },
 
@@ -136,7 +151,9 @@
     },
     "resourceType": "SHIELD",
     "victorypoint": 2,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-50-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-50-1.png",
+    "depositPosition" : 0
+
 
   },
   {
@@ -151,7 +168,9 @@
     },
     "resourceType": "COIN",
     "victorypoint": 2,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-52-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-52-1.png",
+    "depositPosition" : 0
+
 
   },
   {
@@ -166,7 +185,9 @@
     },
     "resourceType": "STONE",
     "victorypoint": 2,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-51-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-51-1.png",
+    "depositPosition" : 0
+
 
   },
   {
@@ -181,7 +202,9 @@
     },
     "resourceType": "SERVANT",
     "victorypoint": 2,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-49-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-49-1.png",
+    "depositPosition" : 0
+
 
   },
 
@@ -199,7 +222,9 @@
     },
     "resourceType": "SHIELD",
     "victorypoint": 4,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-61-1.png",
+    "depositPosition" : 0
+
 
   },
   {
@@ -214,7 +239,9 @@
     },
     "resourceType": "STONE",
     "victorypoint": 4,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-63-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-63-1.png",
+    "depositPosition" : 0
+
 
   },
   {
@@ -229,7 +256,9 @@
     },
     "resourceType": "SERVANT",
     "victorypoint": 4,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-62-1.png"
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-62-1.png",
+    "depositPosition" : 0
+
 
   },
   {
@@ -244,7 +273,7 @@
     },
     "resourceType": "COIN",
     "victorypoint": 4,
-    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-64-1.png"
-
+    "path" : "/images/front/Masters of Renaissance_Cards_FRONT_3mmBleed_1-64-1.png",
+    "depositPosition" : 0
   }
 ]

@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class UseProductionPowerPanel extends JPanel implements ActionListener {
     private Image background;
@@ -45,22 +46,22 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
-            background = ImageIO.read(is);
+            background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {}
 
         c = new GridBagConstraints();
 
         this.setLayout(new GridBagLayout());
 
-        createLeaderCardsPanel();
-        c.gridx=0;
-        c.gridy=0;
-        this.add(leaderCards, c);
-
         createMainPanel();
         c.gridx=1;
         c.gridy=0;
         this.add(mainPanel, c);
+
+        createLeaderCardsPanel();
+        c.gridx=0;
+        c.gridy=0;
+        this.add(leaderCards, c);
 
         this.setOpaque(false);
     }
@@ -140,7 +141,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
 
         leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),159,240);
+            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),159,240, warehousePanel.getDepositsPanel());
             leaderCardPanels.add(leaderCardPanel1);
             leaderCardPanel1.setOpaque(false);
             c.gridx=0;
@@ -181,7 +182,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
             c.gridx=0;
             c.gridy=0;
             coinPanel.add(quantityCoins, c);
-            coin.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/coin.png").readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
+            coin.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/coin.png")).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
             c.gridx=0;
             c.gridy=1;
             coinPanel.add(coin, c);
@@ -191,7 +192,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
             c.gridx=1;
             c.gridy=0;
             stonePanel.add(quantityStones, c);
-            stone.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/stone.png").readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
+            stone.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/stone.png")).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
             c.gridx=1;
             c.gridy=1;
             stonePanel.add(stone, c);
@@ -201,7 +202,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
             c.gridx=2;
             c.gridy=0;
             servantPanel.add(quantityServants, c);
-            servant.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/servant.png").readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
+            servant.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/servant.png")).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
             c.gridx=2;
             c.gridy=1;
             servantPanel.add(servant, c);
@@ -211,7 +212,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
             c.gridx=3;
             c.gridy=0;
             shieldPanel.add(quantityShields, c);
-            shield.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/shield.png").readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
+            shield.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/shield.png")).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
             c.gridx=3;
             c.gridy=1;
             shieldPanel.add(shield, c);

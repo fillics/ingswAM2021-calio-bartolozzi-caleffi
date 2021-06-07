@@ -93,7 +93,7 @@ public class Deposit extends Warehouse {
             resource= new Resource(resourcetype);
             quantity -= 1;
             if(quantity == 0){
-                this.resourcetype = null;
+                if(!isSpecial()) this.resourcetype = null;
             }
             return resource;
         }

@@ -65,7 +65,7 @@ public class MarbleTest {
         colorWhiteMarble.put(CardColor.PURPLE,1);
         requirementsWhiteMarble= new NumAndColorRequirement(colorWhiteMarble);
         testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
-        testLeaderCardWhiteMarble= new LeaderCard(1, LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5, "");
+        testLeaderCardWhiteMarble= new LeaderCard(1, LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5, "",0);
         testPlayer.addLeaderCard(testLeaderCardWhiteMarble);
         testLeaderCardWhiteMarble.setStrategy(testStrategyWhiteMarble);
         colorWhiteMarble2= new HashMap<>();
@@ -73,7 +73,7 @@ public class MarbleTest {
         colorWhiteMarble2.put(CardColor.BLUE,1);
         requirementsWhiteMarble2= new NumAndColorRequirement(colorWhiteMarble2);
         testStrategyWhiteMarble2= new ConcreteStrategyMarble(ResourceType.SERVANT);
-        testLeaderCardWhiteMarble2= new LeaderCard(2,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble2,ResourceType.SERVANT,5, "");
+        testLeaderCardWhiteMarble2= new LeaderCard(2,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble2,ResourceType.SERVANT,5, "",0);
         testPlayer.addLeaderCard(testLeaderCardWhiteMarble2);
         testLeaderCardWhiteMarble2.setStrategy(testStrategyWhiteMarble2);
         whiteMarbleCardChoice= new ArrayList<>();

@@ -2,7 +2,8 @@ package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketMoveResource;
-import it.polimi.ingsw.controller.client_packets.PacketPlaceResource;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class MoveResourcePanel extends JPanel implements ActionListener {
     private GUI gui;
@@ -32,7 +34,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
-            background = ImageIO.read(is);
+            background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,6 +53,20 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         underboard.setLayout(new BoxLayout(underboard, BoxLayout.X_AXIS));
         warehousePanel = new WarehousePanel(gui);
         devSpacesPanel = new DevSpacesPanel(gui);
+        JPanel leadercards = new JPanel();
+        leadercards.setLayout(new BoxLayout(leadercards, BoxLayout.Y_AXIS));
+        leadercards.setPreferredSize(new Dimension(159, 250));
+        for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
+            if(leaderCard.getType().equals(LeaderCardType.EXTRA_DEPOSIT) && leaderCard.getStrategy().isActive()){
+                leadercards.add(new LeaderCardPanel(gui, leaderCard.getId(),159, 240, warehousePanel.getDepositsPanel()));
+            }
+        }
+        leadercards.setOpaque(false);
+        underboard.add(leadercards);
+        underboard.add(warehousePanel);
+        underboard.add(devSpacesPanel);
+        underboard.setOpaque(false);
+
         underboard.add(warehousePanel);
         underboard.add(devSpacesPanel);
 

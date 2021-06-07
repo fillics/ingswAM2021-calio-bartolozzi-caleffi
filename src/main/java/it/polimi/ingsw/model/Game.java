@@ -262,7 +262,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
         try{
             try {
-                deckToOrder = mapper.readValue(getClass().getResourceAsStream("/json/DevelopmentCard.json").readAllBytes(), new TypeReference<>() {});
+                deckToOrder = mapper.readValue(Objects.requireNonNull(getClass().getResourceAsStream("/json/DevelopmentCard.json")).readAllBytes(), new TypeReference<>() {});
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -572,8 +572,10 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         for (LeaderCard leaderCard: activePlayers.get(currentPlayer).getLeaderCards()){
             if (!found && leaderCard.getId() == idCardToActivate){
                 found = true;
-                if(leaderCard.getRequirements().checkRequirement(activePlayers.get(currentPlayer).getBoard()))
+                if(leaderCard.getRequirements().checkRequirement(activePlayers.get(currentPlayer).getBoard())){
                     leaderCard.useAbility();
+                    if(leaderCard.getType().equals(LeaderCardType.EXTRA_DEPOSIT)) leaderCard.setDepositPosition(activePlayers.get(currentPlayer).getBoard().getDeposits().size() - 1);
+                }
                 else throw new NotEnoughRequirements();
             }
         }
@@ -593,7 +595,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound {
 
         LeaderCard[] leaderCards = activePlayers.get(currentPlayer).getLeaderCards().stream().filter(card ->
-                (card.getId()==idCardToDiscard)).
+                (card.getId()==idCardToDiscard) && !card.getStrategy().isActive()).
                 toArray(LeaderCard[]::new);
 
         for (LeaderCard cardToDiscard: leaderCards){
@@ -728,9 +730,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      */
     public void disconnectPlayer(String username){
         Player playerToDisconnect = getActivePlayerByUsername(username);
-        if(activePlayers.contains(playerToDisconnect)) {
-            activePlayers.remove(playerToDisconnect);
-        }
+        activePlayers.remove(playerToDisconnect);
     }
 
     /**
@@ -769,7 +769,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     /**
      * aggiunge 1 faith marker a utente
-     * @param username
+     * @param username is the username
      */
     @Override
     public void cheatFaithMarker(String username) {

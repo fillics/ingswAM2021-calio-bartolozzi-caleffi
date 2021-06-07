@@ -58,7 +58,6 @@ public class PacketLeaderCards implements ServerPacketHandler{
                         System.out.println(Constants.menu);
                     }
 
-
                     client.setClientState(ClientStates.GAMESTARTED);
                 }
             }

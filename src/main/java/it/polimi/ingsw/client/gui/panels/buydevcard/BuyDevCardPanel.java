@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BuyDevCardPanel extends JPanel implements ActionListener {
     private GUI gui;
@@ -33,7 +34,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     private JButton leaderCard1, leaderCard2;
 
     private JPanel cards, buttons;
-
+    private JPanel mainPanel;
 
 
 
@@ -54,24 +55,27 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
-            background = ImageIO.read(is);
+            background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {
         }
         c = new GridBagConstraints();
 
 
-        this.setLayout(new GridBagLayout());
-        this.setOpaque(false);
+        mainPanel = new JPanel();
+
+        mainPanel.setLayout(new GridBagLayout());
+        mainPanel.setOpaque(false);
 
         createLeftPanel();
         c.gridx=0;
         c.gridy=0;
-        this.add(leftPanel, c);
+        mainPanel.add(leftPanel, c);
 
         createRightPanel();
         c.gridx=1;
         c.gridy=0;
-        this.add(rightPanel, c);
+        mainPanel.add(rightPanel, c);
+        this.add(mainPanel);
 
     }
 
@@ -163,7 +167,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
             if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDiscount &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
                 try {
-                    jButtons.get(i).setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getPath()).readAllBytes()).getImage().getScaledInstance(125, 189, Image.SCALE_AREA_AVERAGING)));
+                    jButtons.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(125, 189, Image.SCALE_AREA_AVERAGING)));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

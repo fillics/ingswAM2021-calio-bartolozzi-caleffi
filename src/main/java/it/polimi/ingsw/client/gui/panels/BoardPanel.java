@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BoardPanel extends JPanel implements ActionListener {
     private final GUI gui;
@@ -49,23 +50,22 @@ public class BoardPanel extends JPanel implements ActionListener {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
-            background = ImageIO.read(is);
+            background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {
         }
         c = new GridBagConstraints();
 
         this.setLayout(new GridBagLayout());
 
+        createMainPanel();
+        c.gridx=1;
+        c.gridy=0;
+        this.add(mainPanel, c);
 
         createLeaderCardsPanel();
         c.gridx=0;
         c.gridy=0;
         this.add(leaderCards, c);
-
-        createMainPanel();
-        c.gridx=1;
-        c.gridy=0;
-        this.add(mainPanel, c);
 
 
         createOperations();
@@ -228,7 +228,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(), 159, 240);
+            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(), 159, 240, warehousePanel.getDepositsPanel());
             leaderCardPanels.add(leaderCardPanel1);
             leaderCardPanel1.setOpaque(false);
             c.gridx=0;

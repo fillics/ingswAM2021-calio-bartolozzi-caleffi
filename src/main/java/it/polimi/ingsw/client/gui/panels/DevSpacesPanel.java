@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DevSpacesPanel extends JPanel implements ActionListener {
     private GUI gui;
@@ -31,7 +32,7 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/board/devSpaces.jpg");
         try {
-            devSpaces = ImageIO.read(is);
+            devSpaces = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -143,8 +144,9 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         float shift = 0.5f;
         for(int i = gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
             try {
-                jLabels1.get(i).setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().get(i).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+                jLabels1.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
                 jLabels1.get(i).setAlignmentY(shift);
+                devspace1.add(jLabels1.get(i));
                 shift = shift - 0.2f;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -154,8 +156,9 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         shift = 0.5f;
         for(int i = gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(1).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
             try {
-                jLabels2.get(i).setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(1).getDevelopmentCardsOfDevSpace().get(i).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+                jLabels2.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(1).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
                 jLabels2.get(i).setAlignmentY(shift);
+                devspace2.add(jLabels2.get(i));
                 shift = shift - 0.2f;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -165,13 +168,16 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         shift = 0.5f;
         for(int i = gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(2).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
             try {
-                jLabels3.get(i).setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(2).getDevelopmentCardsOfDevSpace().get(i).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+                jLabels3.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(2).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
                 jLabels3.get(i).setAlignmentY(shift);
+                devspace3.add(jLabels3.get(i));
                 shift = shift - 0.2f;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+
         cardsPanel.add(prodPower);
         cardsPanel.add(devspace1);
         cardsPanel.add(devspace2);
