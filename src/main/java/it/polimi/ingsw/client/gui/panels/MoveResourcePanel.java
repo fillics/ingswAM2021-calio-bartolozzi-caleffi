@@ -17,8 +17,7 @@ import java.util.Objects;
 public class MoveResourcePanel extends JPanel implements ActionListener {
     private GUI gui;
     private Image background;
-    private JButton confirm;
-    private JButton back;
+    private JButton confirmBtn, backBtn;
     private ResourceBufferPanel resourceBufferPanel;
     private WarehousePanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
@@ -48,41 +47,41 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         faithTrackPanel.add(faithTrack);
         faithTrackPanel.setOpaque(false);
 
-        JPanel underboard = new JPanel();
-        underboard.setPreferredSize(new Dimension(970, 480));
-        underboard.setLayout(new BoxLayout(underboard, BoxLayout.X_AXIS));
+        JPanel underBoard = new JPanel();
+        underBoard.setPreferredSize(new Dimension(970, 480));
+        underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
         warehousePanel = new WarehousePanel(gui);
         devSpacesPanel = new DevSpacesPanel(gui);
-        JPanel leadercards = new JPanel();
-        leadercards.setLayout(new BoxLayout(leadercards, BoxLayout.Y_AXIS));
-        leadercards.setPreferredSize(new Dimension(159, 250));
+        JPanel leaderCards = new JPanel();
+        leaderCards.setLayout(new BoxLayout(leaderCards, BoxLayout.Y_AXIS));
+        leaderCards.setPreferredSize(new Dimension(159, 250));
         for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
             if(leaderCard.getType().equals(LeaderCardType.EXTRA_DEPOSIT) && leaderCard.getStrategy().isActive()){
-                leadercards.add(new LeaderCardPanel(gui, leaderCard.getId(),159, 240, warehousePanel.getDepositsPanel()));
+                leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(),159, 240, warehousePanel.getDepositsPanel()));
             }
         }
-        leadercards.setOpaque(false);
-        underboard.add(leadercards);
-        underboard.add(warehousePanel);
-        underboard.add(devSpacesPanel);
-        underboard.setOpaque(false);
+        leaderCards.setOpaque(false);
+        underBoard.add(leaderCards);
+        underBoard.add(warehousePanel);
+        underBoard.add(devSpacesPanel);
+        underBoard.setOpaque(false);
 
-        underboard.add(warehousePanel);
-        underboard.add(devSpacesPanel);
+        underBoard.add(warehousePanel);
+        underBoard.add(devSpacesPanel);
 
         JPanel buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(970,50));
-        confirm = new JButton("CONFIRM");
-        confirm.addActionListener(this);
-        back = new JButton("BACK");
-        back.addActionListener(this);
-        buttons.add(back);
+        confirmBtn = new JButton("CONFIRM");
+        confirmBtn.addActionListener(this);
+        backBtn = new JButton("BACK");
+        backBtn.addActionListener(this);
+        buttons.add(backBtn);
         buttons.add(Box.createRigidArea(new Dimension(250, 50)));
-        buttons.add(confirm);
+        buttons.add(confirmBtn);
         buttons.setOpaque(false);
 
         bigpanel.add(faithTrackPanel);
-        bigpanel.add(underboard);
+        bigpanel.add(underBoard);
         bigpanel.add(resourceBufferPanel);
         bigpanel.add(buttons);
         bigpanel.setOpaque(false);
@@ -104,7 +103,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == confirm){
+        if(e.getSource() == confirmBtn){
             if(warehousePanel.getDepositsPanel().getIdDepot().size() != 0){
                 position = warehousePanel.getDepositsPanel().getIdDepot().get(warehousePanel.getDepositsPanel().getIdDepot().size() - 1);
                 PacketMoveResource packetMoveResource = new PacketMoveResource(position - 1);
@@ -116,7 +115,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
 
             gui.switchPanels(new MoveResourcePanel(gui));
         }
-        else if(e.getSource() == back){
+        else if(e.getSource() == backBtn){
             gui.switchPanels(new BoardPanel(gui));
         }
     }

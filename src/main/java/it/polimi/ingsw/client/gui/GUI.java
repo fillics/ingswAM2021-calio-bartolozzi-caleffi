@@ -3,6 +3,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.gui.panels.*;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.LoginPanel;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.NumPlayersPanel;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.ServerPanel;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 
@@ -17,17 +20,14 @@ import java.util.Objects;
 public class GUI implements Runnable {
 
     private JPanel bigPanel, topPanel, mainPanel, messagesFromServerPanel;
-    private JPanel loginPanel, serverPanel, numPlayersPanel, boardPanel, buyDevCardPanel, devGridPanel, marketPanel,
-            removeLeaderCardPanel, additionalResourcePanel;
-    private Client client;
-    private ShowDevGridPanel showGridPanel;
-    private static ArrayList<JPanel> panels;
-    private Dimension dimension;
+    private JPanel loginPanel, serverPanel, numPlayersPanel;
+    private final Client client;
+    private final Dimension dimension;
     private final int width;
     private final int height;
-    private JFrame jFrame;
+    private final JFrame jFrame;
     private Border blackline, raisedetched, loweredetched, raisedbevel, loweredbevel;
-    private ArrayList<Border> borders;
+    private final ArrayList<Border> borders;
 
     public GUI(Client client) {
         jFrame = new JFrame();
@@ -51,8 +51,6 @@ public class GUI implements Runnable {
         loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
-
-
 
     }
 
@@ -91,7 +89,7 @@ public class GUI implements Runnable {
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
         jFrame.pack();
 
-        ImageIcon image = null; //create an ImageIcon
+        ImageIcon image = null;
         try {
             image = new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/calamaio.png")).readAllBytes());
         } catch (IOException e) {
@@ -123,7 +121,6 @@ public class GUI implements Runnable {
 
     /**
      * per mandare pacchetto normale
-     * @param packet
      */
     public void sendPacketToServer(ClientPacketHandler packet){
         ObjectMapper mapper = new ObjectMapper();
@@ -151,47 +148,8 @@ public class GUI implements Runnable {
     }
 
 
-
-
-
-    public JPanel getLoginPanel() {
-        return loginPanel;
-    }
-
-    public JPanel getServerPanel() {
-        return serverPanel;
-    }
-
     public JPanel getNumPlayersPanel() {
         return numPlayersPanel;
-    }
-
-    public JPanel getBoardPanel() {
-        return boardPanel;
-    }
-
-    public JPanel getBuyDevCardPanel() {
-        return buyDevCardPanel;
-    }
-
-    public JPanel getDevGridPanel() {
-        return devGridPanel;
-    }
-
-    public JPanel getMarketPanel() {
-        return marketPanel;
-    }
-
-    public JPanel getRemoveLeaderCardPanel() {
-        return removeLeaderCardPanel;
-    }
-
-    public JPanel getAdditionalResourcePanel() {
-        return additionalResourcePanel;
-    }
-
-    public ShowDevGridPanel getShowGridPanel() {
-        return showGridPanel;
     }
 
     public Client getClient() {
@@ -210,9 +168,6 @@ public class GUI implements Runnable {
         return height;
     }
 
-    public ArrayList<JPanel> getPanels() {
-        return panels;
-    }
 
     public ArrayList<Border> getBorders() {
         return borders;

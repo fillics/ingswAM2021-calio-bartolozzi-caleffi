@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.gui.panels;
+package it.polimi.ingsw.client.gui.panels.pregamepanels;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class NumPlayersPanel extends JPanel implements ActionListener {
 
@@ -35,6 +36,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
 
         InputStream is = getClass().getResourceAsStream("/images/background/home.png");
         try {
+            assert is != null;
             background = ImageIO.read(is);
         } catch (IOException ignored) {}
 
@@ -163,7 +165,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
     public void loading(){
         JPanel loadingPanel = new JPanel();
 
-        Icon imgIcon = new ImageIcon(this.getClass().getResource("/gif/ajax-loader.gif"));
+        Icon imgIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/gif/ajax-loader.gif")));
         JLabel label = new JLabel(imgIcon);
         loadingPanel.setLayout(new GridBagLayout());
 

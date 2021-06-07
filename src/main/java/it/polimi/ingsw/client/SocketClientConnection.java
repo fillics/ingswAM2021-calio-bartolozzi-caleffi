@@ -19,7 +19,6 @@ public class SocketClientConnection {
     private Socket socket;
     private DataOutputStream output;
     private DataInputStream dataInputStream;
-    private BufferedReader br;
     private final AtomicBoolean connectionToServer = new AtomicBoolean(false);
 
     public SocketClientConnection(Client client) {
@@ -39,7 +38,6 @@ public class SocketClientConnection {
         try {
             output = new DataOutputStream(socket.getOutputStream());
             dataInputStream = new DataInputStream(socket.getInputStream()); // to read data coming from the server
-            br = new BufferedReader(new InputStreamReader(socket.getInputStream())); // to read data coming from the server
         } catch (IOException e) {
             System.err.println("Error during initialization of the client!");
         }
