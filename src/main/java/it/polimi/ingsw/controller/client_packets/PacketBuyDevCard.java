@@ -38,6 +38,7 @@ public class PacketBuyDevCard implements ClientPacketHandler {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
                 ArrayList<Warehouse> realChosenWarehouses = new ArrayList<>();
+                // TODO: 07/06/2021 mettere il caso delle leader card con deposito extra
                 for(int i : chosenWarehouses){
                     switch (i) {
                         case 1 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(0));
@@ -47,8 +48,10 @@ public class PacketBuyDevCard implements ClientPacketHandler {
                     }
                 }
 
+                System.out.println("sono dentro packet buy dev card");
                 gameInterface.buyDevCard(id, chosenResources, realChosenWarehouses, gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(developmentSpace - 1));
 
+                System.out.println(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces());
                 clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces()));
                 clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
                         gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));

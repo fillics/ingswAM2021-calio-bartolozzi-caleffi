@@ -21,6 +21,7 @@ public class WarehousePanel extends JPanel implements ActionListener {
         this.add(depositsPanel);
         this.add(strongboxPanel);
 
+
     }
 
     public DepositsPanel getDepositsPanel() {

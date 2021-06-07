@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.panels.buydevcard.BuyDevCardPanel;
 import it.polimi.ingsw.controller.client_packets.PacketEndTurn;
-import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.FaithMarkerCheatPacket;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.ResourcesInStrongboxCheatPacket;
 

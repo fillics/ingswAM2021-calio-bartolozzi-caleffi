@@ -15,9 +15,11 @@ import java.util.ArrayList;
 public class DepositsPanel extends JPanel implements ActionListener {
 
     private Image background;
+    private GUI gui;
     private JButton deposit1Button, deposit2Button, deposit3Button;
     private JLabel resource1, resource2, resource3, resource4, resource5, resource6;
     private final ArrayList<Integer> idDepot;
+    private ArrayList<JLabel> resources;
 
 
     public void paintComponent(Graphics g){
@@ -26,6 +28,7 @@ public class DepositsPanel extends JPanel implements ActionListener {
     }
 
     public DepositsPanel(GUI gui) {
+        this.gui = gui;
         this.setPreferredSize(new Dimension(250, 300));
         InputStream is = getClass().getResourceAsStream("/images/board/deposits.jpg");
         try {
@@ -55,7 +58,7 @@ public class DepositsPanel extends JPanel implements ActionListener {
         resource5 = new JLabel();
         resource6 = new JLabel();
 
-        ArrayList<JLabel> resources = new ArrayList<>();
+        resources = new ArrayList<>();
         resources.add(resource1);
         resources.add(resource2);
         resources.add(resource3);
@@ -63,6 +66,42 @@ public class DepositsPanel extends JPanel implements ActionListener {
         resources.add(resource5);
         resources.add(resource6);
 
+        createImages();
+
+        depot1.add(deposit1Button);
+        depot1.add(Box.createRigidArea(new Dimension(35,0)));
+        depot1.add(resource1);
+        depot1.add(Box.createRigidArea(new Dimension(20,0)));
+        depot2.add(deposit2Button);
+        depot2.add(Box.createRigidArea(new Dimension(40, 0)));
+        depot2.add(resource2);
+        depot2.add(resource3);
+        depot2.add(Box.createRigidArea(new Dimension(25, 0)));
+        depot3.add(deposit3Button);
+        depot3.add(Box.createRigidArea(new Dimension(35, 0)));
+        depot3.add(resource4);
+        depot3.add(resource5);
+        depot3.add(resource6);
+        depot3.add(Box.createRigidArea(new Dimension(25, 0)));
+
+
+        depot1.setOpaque(false);
+        depot2.setOpaque(false);
+        depot3.setOpaque(false);
+
+
+        panel1.add(Box.createRigidArea(new Dimension(0, 80)));
+        panel1.add(depot1);
+        panel1.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel1.add(depot2);
+        panel1.add(Box.createRigidArea(new Dimension(0, 30)));
+        panel1.add(depot3);
+
+        panel1.setOpaque(false);
+        this.add(panel1);
+    }
+
+    public void createImages(){
         //FIRST DEPOSIT
         if(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype() != null){
             try {
@@ -100,7 +139,7 @@ public class DepositsPanel extends JPanel implements ActionListener {
             for (int i=3; i<gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getQuantity()+3; i++) {
                 try {
                     resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
-                    } catch (IOException ignored) {}
+                } catch (IOException ignored) {}
             }
         }
 
@@ -109,38 +148,6 @@ public class DepositsPanel extends JPanel implements ActionListener {
                 resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException ignored) {}
         }
-
-        depot1.add(deposit1Button);
-        depot1.add(Box.createRigidArea(new Dimension(35,0)));
-        depot1.add(resource1);
-        depot1.add(Box.createRigidArea(new Dimension(20,0)));
-        depot2.add(deposit2Button);
-        depot2.add(Box.createRigidArea(new Dimension(40, 0)));
-        depot2.add(resource2);
-        depot2.add(resource3);
-        depot2.add(Box.createRigidArea(new Dimension(25, 0)));
-        depot3.add(deposit3Button);
-        depot3.add(Box.createRigidArea(new Dimension(35, 0)));
-        depot3.add(resource4);
-        depot3.add(resource5);
-        depot3.add(resource6);
-        depot3.add(Box.createRigidArea(new Dimension(25, 0)));
-
-
-        depot1.setOpaque(false);
-        depot2.setOpaque(false);
-        depot3.setOpaque(false);
-
-
-        panel1.add(Box.createRigidArea(new Dimension(0, 80)));
-        panel1.add(depot1);
-        panel1.add(Box.createRigidArea(new Dimension(0, 20)));
-        panel1.add(depot2);
-        panel1.add(Box.createRigidArea(new Dimension(0, 30)));
-        panel1.add(depot3);
-
-        panel1.setOpaque(false);
-        this.add(panel1);
     }
 
     public void createButtons(){
