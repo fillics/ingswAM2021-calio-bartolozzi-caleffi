@@ -34,9 +34,7 @@ public class ResourceBufferPanel extends JPanel implements ActionListener {
                     button.setBorderPainted(false);
                     resources.add(button);
                     panel.add(button);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                } catch (IOException ignored) {}
         }
         this.add(panel);
 

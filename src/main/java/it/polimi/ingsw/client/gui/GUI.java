@@ -103,7 +103,6 @@ public class GUI implements Runnable {
     }
 
     public void switchPanels(JPanel panel){
-        System.out.println(panel);
         mainPanel.removeAll();
         mainPanel.add(panel);
         mainPanel.repaint();
@@ -134,7 +133,6 @@ public class GUI implements Runnable {
         } catch (JsonProcessingException jsonProcessingException) {
             jsonProcessingException.printStackTrace();
         }
-        System.out.println(jsonResult);
         client.getSocketClientConnection().sendToServer(jsonResult);
     }
 
