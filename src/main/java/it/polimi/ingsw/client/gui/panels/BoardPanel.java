@@ -257,7 +257,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         devSpacesPanel.getDevSpace1().setVisible(false);
         devSpacesPanel.getDevSpace2().setVisible(false);
         devSpacesPanel.getDevSpace3().setVisible(false);
-        devSpacesPanel.getProdPower().setVisible(false);
+        devSpacesPanel.getBaseProdPower().setVisible(false);
         warehousePanel.getDepositsPanel().getDeposit1Button().setVisible(false);
         warehousePanel.getDepositsPanel().getDeposit2Button().setVisible(false);
         warehousePanel.getDepositsPanel().getDeposit3Button().setVisible(false);

@@ -35,9 +35,6 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
     private JPanel cards, buttons;
     private JPanel mainPanel;
-
-
-
     private DevGridBuyCardPanel devGridPanel;
     private WarehouseForBuyDevCardPanel warehousePanel;
     private DevSpaceBuyDevCardPanel devSpacesPanel;
@@ -60,6 +57,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         }
         c = new GridBagConstraints();
 
+        mainPanel = new JPanel();
 
         mainPanel = new JPanel();
 

@@ -16,10 +16,8 @@ import java.util.Objects;
 public class DevSpacesPanel extends JPanel implements ActionListener {
     private GUI gui;
     private Image devSpaces;
-    private JButton devSpace1;
-    private JButton devSpace2;
-    private JButton devSpace3;
-    private JButton prodPower;
+    private JButton devSpace1, devSpace2, devSpace3;
+    private JButton baseProdPower;
     private ArrayList<Integer> productionPowers = new ArrayList<>();
     private ArrayList<Integer> newProductionPowers = new ArrayList<>();
 
@@ -59,7 +57,7 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
     public void setButtons(JPanel buttonPanel){
         buttonPanel.setPreferredSize(new Dimension( 720,100));
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        prodPower = new JButton("EXTRA DEPOSIT");
+        baseProdPower = new JButton("BASE PROD.POWER");
         devSpace1 = new JButton("1");
         devSpace2 = new JButton("2");
         devSpace3 = new JButton("3");
@@ -72,9 +70,9 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         panel3.setPreferredSize(new Dimension(160, 380));
         panel4.setPreferredSize(new Dimension(160, 380));
 
-        prodPower.addActionListener(this);
-        prodPower.setBackground(Color.ORANGE);
-        panel1.add(prodPower);
+        baseProdPower.addActionListener(this);
+        baseProdPower.setBackground(Color.ORANGE);
+        panel1.add(baseProdPower);
         devSpace1.addActionListener(this);
         devSpace1.setBackground(Color.ORANGE);
         panel2.add(devSpace1);
@@ -201,7 +199,7 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         if(e.getSource() == devSpace3){
             if(!productionPowers.contains(3)) productionPowers.add(3);
         }
-        if(e.getSource() == prodPower){
+        if(e.getSource() == baseProdPower){
             if(!newProductionPowers.contains(1)) newProductionPowers.add(1);
         }
 
@@ -219,8 +217,8 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         return devSpace3;
     }
 
-    public JButton getProdPower() {
-        return prodPower;
+    public JButton getBaseProdPower() {
+        return baseProdPower;
     }
 
     public ArrayList<Integer> getProductionPowers() {

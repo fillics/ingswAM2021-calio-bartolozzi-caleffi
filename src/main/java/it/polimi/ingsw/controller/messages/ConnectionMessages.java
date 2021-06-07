@@ -48,7 +48,7 @@ public enum ConnectionMessages {
     BLACKCROSSUPDATE("Black cross updated!"),
     IMPOSSIBLEMOVE("I'm sorry, you can't do this action in this moment of the game"),
     IMPOSSIBLEENDTURN("I'm sorry, you have to do an action before ending the turn!"),
-    CONNECTION_CLOSED("The served closed its connection."),
+    CONNECTION_CLOSED("The server closed its connection."),
     MATCH_FINISHED_FAITH("A player reached the last cell of the faith track"),
     MATCH_FINISHED_DEVCARDS("A player bought the seventh development card"),
     PING("Ping"),

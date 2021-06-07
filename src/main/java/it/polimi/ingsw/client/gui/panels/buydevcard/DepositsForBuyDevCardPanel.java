@@ -73,26 +73,31 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
 
         createResources();
 
-
+        c.insets = new Insets(55, 30, 0, 0);
         c.gridx=0;
         c.gridy=0;
         depot1.add(resource1, c);
 
         c.gridx=0;
         c.gridy=0;
+        c.insets = new Insets(10, 50, 0, 0);
         depot2.add(resource2, c);
         c.gridx=1;
         c.gridy=0;
+        c.insets = new Insets(10, 0, 0, 0);
         depot2.add(resource3, c);
 
         c.gridx=0;
         c.gridy=0;
+        c.insets = new Insets(10, 50, 0, 0);
         depot3.add(resource4, c);
         c.gridx=1;
         c.gridy=0;
+        c.insets = new Insets(10, 0, 0, 0);
         depot3.add(resource5, c);
         c.gridx=2;
         c.gridy=0;
+        c.insets = new Insets(10, 0, 0, 0);
         depot3.add(resource6, c);
 
 

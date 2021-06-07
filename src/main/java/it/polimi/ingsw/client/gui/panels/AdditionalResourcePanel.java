@@ -22,8 +22,8 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     private ArrayList<Integer> newProductionPowers;
     private ArrayList<ResourceType> resourcesForProduction;
     private ArrayList<Integer> warehouse;
-    private JButton confirmForPorduction = new JButton("CONFIRM");
-    private JButton backForPorduction = new JButton("BACK");
+    private JButton confirmForProduction = new JButton("CONFIRM");
+    private JButton backForProduction = new JButton("BACK");
     private JPanel buttonsForProduction;
     private JButton coinForProduction, stoneForProduction, servantForProduction, shieldForProduction;
 
@@ -177,12 +177,12 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     public void createButtons(){
         buttonsForProduction = new JPanel();
 
-        confirmForPorduction.addActionListener(this);
-        backForPorduction.addActionListener(this);
+        confirmForProduction.addActionListener(this);
+        backForProduction.addActionListener(this);
 
-        buttonsForProduction.add(backForPorduction);
+        buttonsForProduction.add(backForProduction);
         buttonsForProduction.add(Box.createRigidArea(new Dimension(180, 20)));
-        buttonsForProduction.add(confirmForPorduction);
+        buttonsForProduction.add(confirmForProduction);
     }
 
     public AdditionalResourcePanel(GUI gui) {
@@ -453,12 +453,12 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             shieldsText = "x " + shields;
             quantityShields.setText(shieldsText);
         }
-        if( e.getSource() == confirmForPorduction){
+        if( e.getSource() == confirmForProduction){
             PacketUseAndChooseProdPower packetUseAndChooseProdPower = new PacketUseAndChooseProdPower(productionPowers, newProductionPowers, resourcesForProduction, warehouse, resources);
             gui.sendPacketToServer(packetUseAndChooseProdPower);
             gui.switchPanels(new BoardPanel(gui));
         }
-        if(e.getSource() == backForPorduction){
+        if(e.getSource() == backForProduction){
             gui.switchPanels(new BoardPanel(gui));
         }
 

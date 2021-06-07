@@ -193,4 +193,6 @@ public class DevSpaceBuyDevCardPanel extends JPanel implements ActionListener {
     public int getIdDevSpace() {
         return idDevSpace;
     }
+
+
 }

@@ -34,6 +34,14 @@ public class WarehouseForBuyDevCardPanel extends JPanel{
 
     }
 
+    public DepositsForBuyDevCardPanel getDepositsPanel() {
+        return depositsPanel;
+    }
+
+    public StrongBoxForBuyDevCardPanel getStrongboxPanel() {
+        return strongboxPanel;
+    }
+
     public GUI getGui() {
         return gui;
     }

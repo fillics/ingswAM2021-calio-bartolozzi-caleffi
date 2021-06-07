@@ -11,7 +11,7 @@ public enum ExceptionMessages {
     EMPTYDEPOSIT("The deposit is empty"),
     DEPOSITDOESNTHAVETHISRESOURCE("A deposit you chose doesn't have the resource you requested"),
     DISCOUNTCANNOTBEACTIVATED("The discount can't be activated"),
-    DEPOSITHASREACHEDMAXLIMIT("This deposit has reached is max limit"),
+    DEPOSITHASREACHEDMAXLIMIT("This deposit has reached its max limit"),
     DEPOSITHASANOTHERRSOURCE("This deposit has already another type of resource"),
     LEADERCARDNOTACTIVATED("The leader card you chose isn't active"),
     TOOMANYRESOURCESREQUESTED("The warehouse doesn't have sufficient resources"),

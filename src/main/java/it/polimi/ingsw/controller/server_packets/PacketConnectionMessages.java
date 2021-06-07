@@ -94,7 +94,8 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                     Constants.printConnectionMessage(message);
                 }
                 else{
-                    client.getGui().createMessageFromServer(ConnectionMessages.YOUR_TURN_GUI.getMessage());
+                    if(message.equals(ConnectionMessages.YOUR_TURN) || message.equals(ConnectionMessages.BLACKCROSSUPDATE)) client.getGui().createMessageFromServer(ConnectionMessages.YOUR_TURN_GUI.getMessage());
+                    else JOptionPane.showMessageDialog(client.getGui().getjFrame(), message.getMessage());
                 }
 
                 client.setClientState(ClientStates.GAMESTARTED);

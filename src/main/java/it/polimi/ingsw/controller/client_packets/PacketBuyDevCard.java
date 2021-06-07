@@ -48,7 +48,6 @@ public class PacketBuyDevCard implements ClientPacketHandler {
                     }
                 }
 
-                System.out.println("sono dentro packet buy dev card");
                 gameInterface.buyDevCard(id, chosenResources, realChosenWarehouses, gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(developmentSpace - 1));
 
                 System.out.println(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces());

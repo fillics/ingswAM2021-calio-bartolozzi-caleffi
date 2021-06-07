@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+// TODO: 07/06/2021 classe inutile mi sa
 public class ChooseResourcesPanel extends JPanel implements ActionListener {
 
     private GUI gui;
@@ -95,21 +96,4 @@ public class ChooseResourcesPanel extends JPanel implements ActionListener {
         }
     }
 
-
-    public static void main(String[] args) {
-
-        ChooseResourcesPanel chooseResourcesPanel = new ChooseResourcesPanel();
-        JFrame frame = new JFrame();
-
-        frame.getContentPane().setBackground(new Color(233, 226, 193)); //change color of background - si può anche mettere il colore in esadecimale
-        frame.add(chooseResourcesPanel);
-
-        frame.setTitle("Master of Renaissance");
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
-        frame.setSize(1920, 1080);
-
-
-    }
 }
