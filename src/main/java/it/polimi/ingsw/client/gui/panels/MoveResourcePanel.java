@@ -95,7 +95,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         devSpacesPanel.getDevSpace1().setVisible(false);
         devSpacesPanel.getDevSpace2().setVisible(false);
         devSpacesPanel.getDevSpace3().setVisible(false);
-        devSpacesPanel.getProdPower().setVisible(false);
+        devSpacesPanel.getBaseProdPower().setVisible(false);
         warehousePanel.getStrongboxPanel().getStrongboxButton().setVisible(false);
         for(int i = 0; i < resourceBufferPanel.getResources().size(); i++){
             resourceBufferPanel.getResources().get(i).setEnabled(false);
