@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyMarble;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.model.marbles.MarketTray;
 
 import javax.imageio.ImageIO;
@@ -67,8 +68,8 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         leaderCardPanels = new ArrayList<>();
         int j=-1;
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyMarble){
-                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),159,240);
+            if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyMarble && gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
+                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),this);
                 leaderCardPanels.add(leaderCardPanel1);
                 j++;
                 leaderCardPanel1.setOpaque(false);
@@ -112,9 +113,17 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        ArrayList <Integer> leaderCards = new ArrayList<>();
+        if(leaderCardPanels!=null){
+            for (LeaderCardPanel leaderCardPanel : leaderCardPanels) {
+                if (e.getSource() == leaderCardPanel.getButton()) {
+                    leaderCards.add(leaderCardPanel.getId());
+                }
+            }
+        }
         if(e.getSource() == confirm){
             if(!marketTrayPanel.getLine().equals("") && marketTrayPanel.getNumline()!=0){
-                PacketTakeResourceFromMarket takeResourceFromMarket = new PacketTakeResourceFromMarket(marketTrayPanel.getLine(), marketTrayPanel.getNumline(), null);
+                PacketTakeResourceFromMarket takeResourceFromMarket = new PacketTakeResourceFromMarket(marketTrayPanel.getLine(), marketTrayPanel.getNumline(), leaderCards);
                 ObjectMapper mapper = new ObjectMapper();
 
                 String jsonResult = null;
