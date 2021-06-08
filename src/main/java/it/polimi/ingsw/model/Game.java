@@ -44,6 +44,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     private boolean endgame = false;
     private GameStates gameStates = GameStates.FILL_LOBBY;
     protected String winner;
+    private int positionPersonDisconnected;
 
     /**
      * Constructor Game creates a new Game instance.
@@ -78,6 +79,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         int random = (int)(Math.random()*(activePlayers.size()));
 
         Collections.rotate(activePlayers, random);
+        Collections.rotate(players, random);
 
         for (Player player: activePlayers){
             player.setPosition(position);
@@ -180,6 +182,9 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     }
 
+    public void setPositionPersonDisconnected(int positionPersonDisconnected) {
+        this.positionPersonDisconnected = positionPersonDisconnected;
+    }
 
     /**
      * Getter method used to return the player's list
@@ -748,11 +753,18 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @return the index
      */
     public int getIndexOfActivePlayer(String usernameToFind){
+
         int index = 0;
+        boolean found = false;
+
         for (Player player: activePlayers){
-            if(player.getUsername().equals(usernameToFind)) index = activePlayers.indexOf(player);
+            if(player.getUsername().equals(usernameToFind)){
+                index = activePlayers.indexOf(player);
+                found = true;
+            }
         }
-        return index;
+        if(!found) return positionPersonDisconnected;
+        else return index;
     }
 
     /**

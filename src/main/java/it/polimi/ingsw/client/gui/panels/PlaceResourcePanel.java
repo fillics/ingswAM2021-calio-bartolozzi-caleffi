@@ -35,15 +35,14 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
 
     public PlaceResourcePanel(GUI gui) {
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
             background = ImageIO.read(Objects.requireNonNull(is));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException ignored) {}
+
         resourceBufferPanel = new ResourceBufferPanel(gui);
-        JPanel bigpanel = new JPanel();
-        bigpanel.setPreferredSize(new Dimension(1129, 1025));
+        JPanel bigPanel = new JPanel();
+        bigPanel.setPreferredSize(new Dimension(1129, 1025));
 
 
         JPanel faithTrackPanel = new JPanel();
@@ -53,24 +52,24 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
         faithTrackPanel.add(faithTrack);
         faithTrackPanel.setOpaque(false);
 
-        JPanel underboard = new JPanel();
-        underboard.setPreferredSize(new Dimension(1129, 480));
-        underboard.setLayout(new BoxLayout(underboard, BoxLayout.X_AXIS));
+        JPanel underBoard = new JPanel();
+        underBoard.setPreferredSize(new Dimension(1129, 480));
+        underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
         warehousePanel = new WarehousePanel(gui);
         devSpacesPanel = new DevSpacesPanel(gui);
-        JPanel leadercards = new JPanel();
-        leadercards.setLayout(new BoxLayout(leadercards, BoxLayout.Y_AXIS));
-        leadercards.setPreferredSize(new Dimension(159, 250));
+        JPanel leaderCards = new JPanel();
+        leaderCards.setLayout(new BoxLayout(leaderCards, BoxLayout.Y_AXIS));
+        leaderCards.setPreferredSize(new Dimension(159, 250));
         for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
             if(leaderCard.getType().equals(LeaderCardType.EXTRA_DEPOSIT) && leaderCard.getStrategy().isActive()){
-                leadercards.add(new LeaderCardPanel(gui, leaderCard.getId(),159, 240, warehousePanel.getDepositsPanel()));
+                leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(),159, 240, warehousePanel.getDepositsPanel()));
             }
         }
-        leadercards.setOpaque(false);
-        underboard.add(leadercards);
-        underboard.add(warehousePanel);
-        underboard.add(devSpacesPanel);
-        underboard.setOpaque(false);
+        leaderCards.setOpaque(false);
+        underBoard.add(leaderCards);
+        underBoard.add(warehousePanel);
+        underBoard.add(devSpacesPanel);
+        underBoard.setOpaque(false);
 
         JPanel buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(970,50));
@@ -84,12 +83,12 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
         buttons.add(confirm);
         buttons.setOpaque(false);
 
-        bigpanel.add(faithTrackPanel);
-        bigpanel.add(underboard);
-        bigpanel.add(resourceBufferPanel);
-        bigpanel.add(buttons);
-        bigpanel.setOpaque(false);
-        this.add(bigpanel);
+        bigPanel.add(faithTrackPanel);
+        bigPanel.add(underBoard);
+        bigPanel.add(resourceBufferPanel);
+        bigPanel.add(buttons);
+        bigPanel.setOpaque(false);
+        this.add(bigPanel);
 
         disableButtons(devSpacesPanel, warehousePanel);
     }
@@ -109,18 +108,15 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
             if(warehousePanel.getDepositsPanel().getIdDepot().size() != 0 && resourceBufferPanel.getPositions().size() != 0){
                 position = warehousePanel.getDepositsPanel().getIdDepot().get(warehousePanel.getDepositsPanel().getIdDepot().size() - 1);
                 resource = resourceBufferPanel.getPositions().get(resourceBufferPanel.getPositions().size() - 1);
-                PacketPlaceResource packetPlaceResource = new PacketPlaceResource(position - 1, resource);
-                gui.sendPacketToServer(packetPlaceResource);
+                gui.sendPacketToServer(new PacketPlaceResource(position - 1, resource));
             }
             else {
                 JOptionPane.showMessageDialog(gui.getjFrame(), "Choose one resource and the deposit in which you want to place it");
             }
-            PlaceResourcePanel placeResourcePanel = new PlaceResourcePanel(gui);
-            gui.switchPanels(placeResourcePanel);
+            gui.switchPanels(new PlaceResourcePanel(gui));
         }
         if(e.getSource() == back){
-            BoardPanel boardPanel = new BoardPanel(gui);
-            gui.switchPanels(boardPanel);
+            gui.switchPanels(new BoardPanel(gui));
         }
     }
 }

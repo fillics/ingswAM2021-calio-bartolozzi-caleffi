@@ -72,6 +72,7 @@ public class DevSpaceBuyDevCardPanel extends JPanel implements ActionListener {
         panel4.setPreferredSize(new Dimension(160, 380));
 
 
+
         devSpace1.addActionListener(this);
         devSpace1.setBackground(Color.ORANGE);
         panel2.add(devSpace1);

@@ -36,8 +36,6 @@ public class PacketDiscardLeaderCard implements ClientPacketHandler {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
             }
 
-            //SALVATAGGIO SU PROXY
-
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

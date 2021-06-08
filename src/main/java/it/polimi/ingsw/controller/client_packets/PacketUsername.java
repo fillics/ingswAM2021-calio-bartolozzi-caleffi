@@ -28,8 +28,5 @@ public class PacketUsername implements SetupHandler {
 
         if(server.getNumPlayers()!=0) server.checkStartOfTheGame();
 
-        if(server.getNumPlayers() > server.getLobby().size()){
-            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.WAITING_PEOPLE));
-        }
     }
 }
