@@ -26,7 +26,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     private final JButton showBoardOtherPlayer= new JButton("SHOW BOARD OF OTHER PLAYERS"); // TODO: 06/06/2021 guarda jmenu bar
     private final JButton discardLeaderCard = new JButton("DISCARD LEADER CARD");
     private final JButton activateLeaderCard = new JButton("ACTIVATE LEADER CARD");
-    private final JButton buyDevCard = new JButton("BUY DEV CARD");
+    private final JButton buyDevCard = new JButton("BUY DEVELOPMENT CARD");
     private final JButton useProdPower = new JButton("USE PRODUCTION POWER");
     private final JButton moveResource = new JButton("MOVE RESOURCE");
     private final JButton placeResource = new JButton("PLACE RESOURCE");
