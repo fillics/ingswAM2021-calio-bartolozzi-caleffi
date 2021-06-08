@@ -125,7 +125,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         createResourceBuffer();
         mainPanel.add(resourceBufferPanel);
 
-
+        mainPanel.setOpaque(false);
     }
 
     public void createResourceBuffer(){
@@ -273,7 +273,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             gui.switchPanels(new ShowDevGridPanel(gui));
         }
         if(e.getSource() == showMarketTray){
-            gui.switchPanels(new MarketPanel(gui));
+            gui.switchPanels(new ShowMarketTrayPanel(gui));
         }
         if(e.getSource() == activateLeaderCard){
             gui.switchPanels(new ActivateLeaderCardPanel(gui));

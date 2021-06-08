@@ -35,6 +35,7 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
+            assert is != null;
             background = ImageIO.read(is);
         } catch (IOException ignored) {
         }
@@ -87,7 +88,7 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         marketPanel.setLayout(new BoxLayout(marketPanel, BoxLayout.X_AXIS));
         marketPanel.setPreferredSize(new Dimension(550,700));
 
-        marketTrayPanel= new MarketPanel(gui);
+        marketTrayPanel= new MarketPanel(gui,false);
         marketTrayPanel.setPreferredSize(new Dimension(550,700));
 
         marketPanel.add(marketTrayPanel);
