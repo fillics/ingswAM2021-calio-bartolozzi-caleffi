@@ -34,7 +34,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
     public NumPlayersPanel(GUI gui) {
         this.gui = gui;
 
-        InputStream is = getClass().getResourceAsStream("/images/background/home.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/home2.png");
         try {
             assert is != null;
             background = ImageIO.read(is);

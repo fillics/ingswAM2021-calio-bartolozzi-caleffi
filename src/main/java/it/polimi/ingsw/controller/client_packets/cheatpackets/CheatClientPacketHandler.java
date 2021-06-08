@@ -15,7 +15,6 @@ import it.polimi.ingsw.server.Server;
         property = "command")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ResourcesInStrongboxCheatPacket.class, name = "RESOURCE_CHEAT"),
-        @JsonSubTypes.Type(value = DepositsCheatPacket.class, name = "DEPOSIT_CHEAT"),
         @JsonSubTypes.Type(value = FaithMarkerCheatPacket.class, name = "FAITHMARKER_CHEAT")})
 
 public interface CheatClientPacketHandler {

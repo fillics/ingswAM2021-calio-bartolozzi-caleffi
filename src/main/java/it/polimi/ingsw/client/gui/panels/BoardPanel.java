@@ -54,6 +54,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {
         }
+        this.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
 
         mainPanel = new JPanel();
@@ -81,7 +82,9 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         disableButtons(resourceBufferPanel, devSpacesPanel, warehousePanel);
 
-        this.add(mainPanel);
+        c.gridx=0;
+        c.gridy=0;
+        this.add(mainPanel, c);
 
 
     }

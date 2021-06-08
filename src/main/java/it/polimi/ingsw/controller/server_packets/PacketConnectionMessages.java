@@ -48,6 +48,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 }
                 else {
                     client.getGui().createMessageFromServer(ConnectionMessages.LOBBY_MASTER_GUI.getMessage());
+
                     client.getGui().switchPanels(client.getGui().getNumPlayersPanel());
                 }
                 client.setClientState(ClientStates.NUMPLAYERS);

@@ -32,7 +32,7 @@ public class ServerPanel extends JPanel implements ActionListener {
 
     public ServerPanel(GUI gui){
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/home.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/home2.png");
         try {
             assert is != null;
             background = ImageIO.read(is);
