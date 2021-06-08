@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.buydevcard.BuyDevCardPanel;
+import it.polimi.ingsw.client.gui.panels.showpanels.ShowDevGridPanel;
 import it.polimi.ingsw.controller.client_packets.PacketEndTurn;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.FaithMarkerCheatPacket;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.ResourcesInStrongboxCheatPacket;
@@ -33,7 +34,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     private final JButton endTurn = new JButton("END YOUR TURN");
     private final JButton resourceCheatButton = new JButton("+20 resources");
     private final JButton faithMarkerCheatButton = new JButton("+1 faith marker");
-    private JPanel operations, leaderCards, underBoard, faithTrackPanel, mainPanel, showButtons;
+    private JPanel operations, leaderCards, underBoard, faithTrackPanel, boardPanel, showButtons, mainPanel;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private ResourceBufferPanel resourceBufferPanel;
     private WarehousePanel warehousePanel;
@@ -53,31 +54,37 @@ public class BoardPanel extends JPanel implements ActionListener {
             background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {
         }
+        this.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
 
-        this.setLayout(new GridBagLayout());
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
 
-        createMainPanel();
+        createBoardPanel();
         c.gridx=1;
         c.gridy=0;
-        this.add(mainPanel, c);
+        mainPanel.add(boardPanel, c);
 
         createLeaderCardsPanel();
         c.gridx=0;
         c.gridy=0;
-        this.add(leaderCards, c);
-
+        c.insets = new Insets(25, 0,0,0);
+        mainPanel.add(leaderCards, c);
 
         createOperations();
         c.gridx=2;
         c.gridy=0;
-        this.add(operations, c);
+        c.insets = new Insets(0, 0,0,0);
+        mainPanel.add(operations, c);
 
-
-        this.setOpaque(false);
+        mainPanel.setOpaque(false);
 
 
         disableButtons(resourceBufferPanel, devSpacesPanel, warehousePanel);
+
+        c.gridx=0;
+        c.gridy=0;
+        this.add(mainPanel, c);
 
 
     }
@@ -88,6 +95,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         showButtons = new JPanel();
         showButtons.setLayout(new GridBagLayout());
 
+        c.insets = new Insets(0,10,10,10);
 
         c.gridx=0;
         c.gridy=0;
@@ -109,21 +117,24 @@ public class BoardPanel extends JPanel implements ActionListener {
     }
 
 
-    public void createMainPanel(){
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    public void createBoardPanel(){
+        boardPanel = new JPanel();
+        boardPanel.setLayout(new BoxLayout(boardPanel, BoxLayout.Y_AXIS));
 
         createShowButtons();
-        mainPanel.add(showButtons);
+        boardPanel.add(showButtons);
 
         createFaithTrackPanel();
-        mainPanel.add(faithTrackPanel);
+        boardPanel.add(faithTrackPanel);
 
         createUnderBoard();
-        mainPanel.add(underBoard);
+        boardPanel.add(underBoard);
 
         createResourceBuffer();
-        mainPanel.add(resourceBufferPanel);
+        boardPanel.add(resourceBufferPanel);
+
+        boardPanel.setOpaque(false);
+        boardPanel.setBackground(new Color(0,0,0,0));
 
         mainPanel.setOpaque(false);
     }
@@ -198,11 +209,11 @@ public class BoardPanel extends JPanel implements ActionListener {
         changeBackground(button);
         button.addActionListener(this);
     }
+
     public void createUnderBoard(){
 
         underBoard = new JPanel();
         underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
-
 
         warehousePanel = new WarehousePanel(gui);
         devSpacesPanel = new DevSpacesPanel(gui);
@@ -262,6 +273,12 @@ public class BoardPanel extends JPanel implements ActionListener {
         warehousePanel.getDepositsPanel().getDeposit2Button().setVisible(false);
         warehousePanel.getDepositsPanel().getDeposit3Button().setVisible(false);
         warehousePanel.getStrongboxPanel().getStrongboxButton().setVisible(false);
+
+        for (LeaderCardPanel leaderCardPanel : leaderCardPanels) {
+            leaderCardPanel.getDepositButton().setVisible(false);
+            leaderCardPanel.getDepostForBuyDevCardAndProdPower().setVisible(false);
+            leaderCardPanel.getButton().setVisible(false);
+        }
 
     }
 

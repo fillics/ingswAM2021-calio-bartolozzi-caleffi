@@ -33,7 +33,7 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
 
     public TakeResourceFromMarketPanel(GUI gui) {
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
             assert is != null;
             background = ImageIO.read(is);

@@ -151,7 +151,6 @@ public class ClientHandler implements Runnable {
      * Method startPingPong sends a Ping Packet to the client to check if it is connected
      */
     public synchronized void startPingPong(){
-
         new Thread(() -> {
             while (!quit) {
                 sendPacketToClient(new PacketPingFromServer());
@@ -160,7 +159,6 @@ public class ClientHandler implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
             }
         }).start();
     }
@@ -198,15 +196,12 @@ public class ClientHandler implements Runnable {
             ClientPacketHandler packet = null;
             try {
                 packet = mapper.readValue(jsonResult, ClientPacketHandler.class);
-            } catch (JsonProcessingException e) {}
+            } catch (JsonProcessingException ignored) {}
 
             if (packet != null) {
                 packet.execute(server,game,this);
-
             }
         }
-
-
     }
 
     /**

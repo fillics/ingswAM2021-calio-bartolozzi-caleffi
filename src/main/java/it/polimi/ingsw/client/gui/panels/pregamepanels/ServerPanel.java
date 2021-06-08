@@ -1,13 +1,12 @@
-package it.polimi.ingsw.client.gui.panels;
+package it.polimi.ingsw.client.gui.panels.pregamepanels;
 
 import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.LoginPanel;
 import it.polimi.ingsw.constants.Constants;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,8 +32,9 @@ public class ServerPanel extends JPanel implements ActionListener {
 
     public ServerPanel(GUI gui){
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/home.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/home2.png");
         try {
+            assert is != null;
             background = ImageIO.read(is);
         } catch (IOException ignored) {}
 
@@ -171,7 +171,6 @@ public class ServerPanel extends JPanel implements ActionListener {
             Constants.setPort(Integer.parseInt(serverPortTextField.getText()));
             gui.getClient().serverConnection(ViewChoice.GUI);
             handleMessageFromServer();
-            //JOptionPane.showMessageDialog(this, "Connected!");
         }
         if (e.getSource() == resetButton) {
             ipAddressTextField.setText("");

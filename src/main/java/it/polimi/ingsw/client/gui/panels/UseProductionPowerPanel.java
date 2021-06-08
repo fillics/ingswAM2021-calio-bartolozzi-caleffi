@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.buydevcard.WarehouseForBuyDevCardPanel;
 import it.polimi.ingsw.controller.client_packets.PacketUseAndChooseProdPower;
 import it.polimi.ingsw.model.board.resources.ResourceType;
+import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDeposit;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 
 import javax.imageio.ImageIO;
@@ -100,7 +101,6 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
         underBoard = new JPanel();
         underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
 
-
         warehousePanel = new WarehouseForBuyDevCardPanel(gui);
         devSpacesPanel = new DevSpacesPanel(gui);
 
@@ -124,7 +124,8 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
 
         leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            if (gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyProductionPower &&
+            if ((gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyProductionPower ||
+                    gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDeposit) &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
                 LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),159,240, warehousePanel);
                 leaderCardPanels.add(leaderCardPanel1);
@@ -149,7 +150,6 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
 
         if(e.getSource() == confirm){
 
-
             boolean checkProd = false;
             for(int i : devSpacesPanel.getProductionPowers()){
                 if(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(i).getTopCard() != null){
@@ -170,7 +170,6 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
                 gui.switchPanels(new AdditionalResourcePanel(gui, devSpacesPanel.getProductionPowers(), devSpacesPanel.getNewProductionPowers(), warehousePanel.getChosenResources(), warehousePanel.getChosenWarehouses()));
             }
             else {
-
                 gui.sendPacketToServer(new PacketUseAndChooseProdPower(devSpacesPanel.getProductionPowers(), devSpacesPanel.getNewProductionPowers(), warehousePanel.getChosenResources(), warehousePanel.getChosenWarehouses(), newResources));
                 gui.switchPanels(new BoardPanel(gui));
             }
