@@ -233,6 +233,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
         chooseDiscountPanel = new JPanel();
         chooseDiscountPanel.setLayout(new GridBagLayout());
+        chooseDiscountPanel.setOpaque(false);
         chooseDiscountBtn.addActionListener(this);
         confirmDiscountBtn.addActionListener(this);
         c.gridx=0;

@@ -20,7 +20,7 @@ public class ResourceBufferPanel extends JPanel implements ActionListener {
         this.gui = gui;
         this.setPreferredSize(new Dimension(970, 75));
         JPanel panel = new JPanel();
-        panel.setBackground(Color.ORANGE);
+        panel.setBackground(new Color(233, 226, 193));
         panel.setPreferredSize(new Dimension(970, 75));
 
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getResourceBuffer().size(); i++){
@@ -37,7 +37,7 @@ public class ResourceBufferPanel extends JPanel implements ActionListener {
                 } catch (IOException ignored) {}
         }
         this.add(panel);
-
+        this.setOpaque(false);
     }
 
     public ArrayList<Integer> getPositions() {
