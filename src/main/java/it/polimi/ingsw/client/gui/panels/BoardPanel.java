@@ -209,11 +209,11 @@ public class BoardPanel extends JPanel implements ActionListener {
         changeBackground(button);
         button.addActionListener(this);
     }
+
     public void createUnderBoard(){
 
         underBoard = new JPanel();
         underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
-
 
         warehousePanel = new WarehousePanel(gui);
         devSpacesPanel = new DevSpacesPanel(gui);

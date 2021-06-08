@@ -86,6 +86,8 @@ public class GUI implements Runnable {
         jFrame.setResizable(false);
         jFrame.setVisible(true);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //exit out of application
+
+
         jFrame.pack();
 
         ImageIcon image = null;

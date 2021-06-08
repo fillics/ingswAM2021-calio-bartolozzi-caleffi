@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.gui.panels;
+package it.polimi.ingsw.client.gui.panels.buydevcard;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.buydevcard.BuyDevCardPanel;
@@ -33,6 +33,7 @@ public class DevCardPanel extends JPanel implements ActionListener {
 
     public DevCardPanel(DevGridBuyCardPanel devGridPanel, String path, int width, int height, int id) {
         this.devGridPanel = devGridPanel;
+        this.id = id;
         InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
             assert is != null;

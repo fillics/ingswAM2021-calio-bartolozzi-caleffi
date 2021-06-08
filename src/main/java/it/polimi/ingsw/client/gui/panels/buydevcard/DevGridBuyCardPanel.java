@@ -2,8 +2,6 @@ package it.polimi.ingsw.client.gui.panels.buydevcard;
 
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.client.gui.panels.DevCardPanel;
-import it.polimi.ingsw.client.gui.panels.LeaderCardPanel;
 
 import javax.swing.*;
 import java.awt.*;
