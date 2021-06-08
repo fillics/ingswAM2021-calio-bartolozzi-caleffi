@@ -38,7 +38,7 @@ public class MarketPanel extends JPanel implements ActionListener {
         g.drawImage(imagereal, 0,0, 550, 700, null);
     }
 
-    public MarketPanel(GUI gui) {
+    public MarketPanel(GUI gui, boolean isShow) {
         this.gui=gui;
         table= gui.getClient().getClientModelView().getMarketTray().getTable();
         marble = gui.getClient().getClientModelView().getMarketTray().getRemainingMarble();
@@ -66,13 +66,19 @@ public class MarketPanel extends JPanel implements ActionListener {
 
         marketTrayPanel.setLayout(new BoxLayout(marketTrayPanel, BoxLayout.Y_AXIS));
         marketTrayPanel.setPreferredSize(new Dimension(550,204));
-        setMarketTray(marketTrayPanel);
 
         columnChoicePanel.setLayout(new BoxLayout(columnChoicePanel, BoxLayout.X_AXIS));
         columnChoicePanel.setPreferredSize(new Dimension(550,71));
-        setcolumnChiocePanel(columnChoicePanel);
 
         downNullPanel.setPreferredSize(new Dimension(550, 280));
+
+        if(isShow){
+            setMarketTray(marketTrayPanel,true);
+            columnChoicePanel.add(Box.createRigidArea(new Dimension(550,71)));
+        } else{
+            setMarketTray(marketTrayPanel, false);
+            setcolumnChiocePanel(columnChoicePanel);
+        }
 
         topNullPanel.setOpaque(false);
         remainingMPanel.setOpaque(false);
@@ -117,13 +123,15 @@ public class MarketPanel extends JPanel implements ActionListener {
 
     }
 
-    public void setMarketTray(JPanel marketTrayPanel){
+    public void setMarketTray(JPanel marketTrayPanel, boolean isShow){
         JPanel row1Panel = new JPanel();
         JPanel row2Panel = new JPanel();
         JPanel row3Panel = new JPanel();
         row1Panel.setOpaque(false);
         row2Panel.setOpaque(false);
         row3Panel.setOpaque(false);
+
+        if(!isShow){
         row1 = new JButton("R1");
         row1.addActionListener(this);
         row1.setBackground(Color.LIGHT_GRAY);
@@ -133,6 +141,7 @@ public class MarketPanel extends JPanel implements ActionListener {
         row3 = new JButton("R3");
         row3.addActionListener(this);
         row3.setBackground(Color.LIGHT_GRAY);
+        }
 
         row1Panel.setLayout(new BoxLayout(row1Panel, BoxLayout.X_AXIS));
         row2Panel.setLayout(new BoxLayout(row2Panel, BoxLayout.X_AXIS));
@@ -198,7 +207,10 @@ public class MarketPanel extends JPanel implements ActionListener {
         row1Panel.add(Box.createRigidArea(new Dimension(18,68)));
         row1Panel.add(labels[0][3]);
         row1Panel.add(Box.createRigidArea(new Dimension(15,68)));
-        row1Panel.add(row1);
+        if(!isShow)
+            row1Panel.add(row1);
+        else
+            row1Panel.add(Box.createRigidArea(new Dimension(50,68)));
 
         row2Panel.add(Box.createRigidArea(new Dimension(98,68)));
         row2Panel.add(labels[1][0]);
@@ -209,7 +221,10 @@ public class MarketPanel extends JPanel implements ActionListener {
         row2Panel.add(Box.createRigidArea(new Dimension(18,68)));
         row2Panel.add(labels[1][3]);
         row2Panel.add(Box.createRigidArea(new Dimension(15,68)));
-        row2Panel.add(row2);
+        if(!isShow)
+            row2Panel.add(row2);
+        else
+            row2Panel.add(Box.createRigidArea(new Dimension(50,68)));
 
         row3Panel.add(Box.createRigidArea(new Dimension(98,68)));
         row3Panel.add(labels[2][0]);
@@ -220,7 +235,10 @@ public class MarketPanel extends JPanel implements ActionListener {
         row3Panel.add(Box.createRigidArea(new Dimension(18,68)));
         row3Panel.add(labels[2][3]);
         row3Panel.add(Box.createRigidArea(new Dimension(15,68)));
-        row3Panel.add(row3);
+        if(!isShow)
+            row3Panel.add(row3);
+        else
+            row3Panel.add(Box.createRigidArea(new Dimension(50,68)));
 
         marketTrayPanel.add(row1Panel);
         marketTrayPanel.add(row2Panel);

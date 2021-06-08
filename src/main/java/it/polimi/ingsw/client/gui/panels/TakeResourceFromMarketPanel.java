@@ -86,7 +86,7 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         marketPanel.setLayout(new BoxLayout(marketPanel, BoxLayout.X_AXIS));
         marketPanel.setPreferredSize(new Dimension(550,700));
 
-        marketTrayPanel= new MarketPanel(gui);
+        marketTrayPanel= new MarketPanel(gui,false);
         marketTrayPanel.setPreferredSize(new Dimension(550,700));
 
         marketPanel.add(marketTrayPanel);
