@@ -74,15 +74,6 @@ public class ProductionPower {
         counter.put(ResourceType.STONE,Collections.frequency(resources,ResourceType.STONE));
         counter.put(ResourceType.SERVANT,Collections.frequency(resources,ResourceType.SERVANT));
         counter.put(ResourceType.SHIELD,Collections.frequency(resources,ResourceType.SHIELD));
-
-        //System.out.println(counter.get(ResourceType.COIN));
-        //System.out.println(board.getTotalCoins());
-        ////System.out.println(counter.get(ResourceType.STONE));
-        //System.out.println(board.getTotalStones());
-        //System.out.println(counter.get(ResourceType.SERVANT));
-        //System.out.println(board.getTotalServants());
-        //System.out.println(counter.get(ResourceType.SHIELD));
-        //System.out.println(board.getTotalShields());
         
         if(counter.get(ResourceType.COIN) <= board.getTotalCoins() && counter.get(ResourceType.STONE) <= board.getTotalStones() &&
                 counter.get(ResourceType.SERVANT) <= board.getTotalServants() && counter.get(ResourceType.SHIELD) <= board.getTotalShields()){

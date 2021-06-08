@@ -52,6 +52,20 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
         if(!active){
             HashMap<ResourceType, Integer> resourceNeeded = new HashMap<>();
             resourceNeeded.put(resourceType, 1);
+            if(!resourceNeeded.containsKey(ResourceType.COIN)){
+                resourceNeeded.put(ResourceType.COIN,0);
+            }
+            if(!resourceNeeded.containsKey(ResourceType.STONE)){
+                resourceNeeded.put(ResourceType.STONE,0);
+
+            }
+            if(!resourceNeeded.containsKey(ResourceType.SERVANT)){
+                resourceNeeded.put(ResourceType.SERVANT,0);
+
+            }
+            if(!resourceNeeded.containsKey(ResourceType.SHIELD)){
+                resourceNeeded.put(ResourceType.SHIELD,0);
+            }
             extraProductionPower= new ProductionPower(resourceNeeded,resourcesObtained);
             board.getSpecialProductionPowers().add(extraProductionPower);
             active = true;

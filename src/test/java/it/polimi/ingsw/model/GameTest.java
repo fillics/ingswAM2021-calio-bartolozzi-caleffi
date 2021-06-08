@@ -80,21 +80,21 @@ class GameTest {
 
         //creating 4 leader cards useful for some tests
         requirementsDiscount= new NumAndColorRequirement(colorDiscount);
-        testLeaderCardDiscount = new LeaderCard(1,LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2, "",0);
+        testLeaderCardDiscount = new LeaderCard(1,LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2, "",0,0);
         testLeaderCardDiscount.setStrategy(new ConcreteStrategyDiscount(ResourceType.SERVANT));
 
         requirementsExtraDep = new ResourcesRequirement(testResourcePrice);
-        testLeaderCardExtraDep = new LeaderCard(2, LeaderCardType.EXTRA_DEPOSIT, requirementsExtraDep, ResourceType.COIN, 5, "",0);
+        testLeaderCardExtraDep = new LeaderCard(2, LeaderCardType.EXTRA_DEPOSIT, requirementsExtraDep, ResourceType.COIN, 5, "",0,0);
         testLeaderCardExtraDep.setStrategy(new ConcreteStrategyDeposit(ResourceType.SERVANT, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard()));
 
-        testLeaderCardWhiteMarble = new LeaderCard(3, LeaderCardType.WHITE_MARBLE, requirementsDiscount, ResourceType.SHIELD,3, "",0);
+        testLeaderCardWhiteMarble = new LeaderCard(3, LeaderCardType.WHITE_MARBLE, requirementsDiscount, ResourceType.SHIELD,3, "",0,0);
         testLeaderCardWhiteMarble.setStrategy(new ConcreteStrategyMarble(ResourceType.SHIELD));
 
         requirementsLevCol = new LevelAndColorRequirement(colorProdPower, Level.TWO);
-        testLeaderCardProdPower = new LeaderCard(4, LeaderCardType.PRODUCTION_POWER, requirementsLevCol, ResourceType.STONE, 4, "",0);
+        testLeaderCardProdPower = new LeaderCard(4, LeaderCardType.PRODUCTION_POWER, requirementsLevCol, ResourceType.STONE, 4, "",0,0);
         testLeaderCardProdPower.setStrategy(new ConcreteStrategyProductionPower(testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getBoard(),ResourceType.SHIELD));
 
-        testLeaderCardThatDoesNotExists = new LeaderCard(454, LeaderCardType.PRODUCTION_POWER, requirementsLevCol, ResourceType.STONE, 4,"",0);
+        testLeaderCardThatDoesNotExists = new LeaderCard(454, LeaderCardType.PRODUCTION_POWER, requirementsLevCol, ResourceType.STONE, 4,"",0,0);
 
         leaderCardsChosen = new ArrayList<>();
         leaderCardsChosen.add(testLeaderCardDiscount.getId());
@@ -356,11 +356,11 @@ class GameTest {
      * @throws LeaderCardNotFound if the player has not got the card to discard
      */
     @Test
-    void DiscardLeaderCardTest() throws LeaderCardNotFound {
+    void DiscardLeaderCardTest() throws LeaderCardNotFound, LeaderCardIsActive {
         HashMap<ResourceType,Integer> resourcePrice = new HashMap<>();
         resourcePrice.put(ResourceType.COIN,2);
         ResourcesRequirement requirement = new ResourcesRequirement(resourcePrice);
-        LeaderCard card1 = new LeaderCard(1,LeaderCardType.WHITE_MARBLE, requirement, ResourceType.SERVANT, 4, "",0);
+        LeaderCard card1 = new LeaderCard(1,LeaderCardType.WHITE_MARBLE, requirement, ResourceType.SERVANT, 4, "",0,0);
         card1.setStrategy(new ConcreteStrategyDiscount(ResourceType.COIN));
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(card1);
 
@@ -512,7 +512,7 @@ class GameTest {
         colorWhiteMarble.put(CardColor.PURPLE,1);
         NumAndColorRequirement requirementsWhiteMarble= new NumAndColorRequirement(colorWhiteMarble);
         LeaderCardStrategy testStrategyWhiteMarble= new ConcreteStrategyMarble(ResourceType.SHIELD);
-        LeaderCard testLeaderCardWhiteMarble= new LeaderCard(1,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5, "",0);
+        LeaderCard testLeaderCardWhiteMarble= new LeaderCard(1,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble,ResourceType.SHIELD,5, "",0,0);
         testLeaderCardWhiteMarble.setStrategy(testStrategyWhiteMarble);
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardWhiteMarble);
 
@@ -521,7 +521,7 @@ class GameTest {
         colorWhiteMarble2.put(CardColor.BLUE,1);
         NumAndColorRequirement requirementsWhiteMarble2= new NumAndColorRequirement(colorWhiteMarble2);
         LeaderCardStrategy testStrategyWhiteMarble2= new ConcreteStrategyMarble(ResourceType.SERVANT);
-        LeaderCard testLeaderCardWhiteMarble2= new LeaderCard(2,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble2,ResourceType.SERVANT,5, "",0);
+        LeaderCard testLeaderCardWhiteMarble2= new LeaderCard(2,LeaderCardType.WHITE_MARBLE,requirementsWhiteMarble2,ResourceType.SERVANT,5, "",0,0);
         testLeaderCardWhiteMarble2.setStrategy(testStrategyWhiteMarble2);
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).addLeaderCard(testLeaderCardWhiteMarble2);
 

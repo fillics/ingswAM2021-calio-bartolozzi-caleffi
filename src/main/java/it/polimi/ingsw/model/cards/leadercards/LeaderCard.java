@@ -23,6 +23,7 @@ public class LeaderCard extends Card {
     private final int victorypoint;
     private String path;
     private int depositPosition;
+    private int productionPowerPosition;
 
     /**
      * constructor LeaderCard creates a new LeaderCard instance,
@@ -35,7 +36,7 @@ public class LeaderCard extends Card {
     @JsonCreator
     public LeaderCard(@JsonProperty("id") int id, @JsonProperty("type") LeaderCardType type, @JsonProperty("requirements") Requirement requirements,
                       @JsonProperty("resourceType") ResourceType resourceType, @JsonProperty("victorypoint") int victoryPoint,@JsonProperty("path") String path,
-                      @JsonProperty("depositPosition") int depositPosition) {
+                      @JsonProperty("depositPosition") int depositPosition, @JsonProperty("productionPowerPosition") int productionPowerPosition) {
         this.id = id;
         this.type = type;
         this.requirements = requirements;
@@ -43,11 +44,20 @@ public class LeaderCard extends Card {
         this.victorypoint = victoryPoint;
         this.path = path;
         this.depositPosition = depositPosition;
+        this.productionPowerPosition = productionPowerPosition;
     }
 
 
     //TODO: javadoc per ogni metodo
 
+
+    public int getProductionPowerPosition() {
+        return productionPowerPosition;
+    }
+
+    public void setProductionPowerPosition(int productionPowerPosition) {
+        this.productionPowerPosition = productionPowerPosition;
+    }
 
     public int getDepositPosition() {
         return depositPosition;

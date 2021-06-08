@@ -19,6 +19,7 @@ public enum ExceptionMessages {
     NOTENOUGHCHOSENRESOURCES("The resources you selected aren't enough"),
     INVALIDRESOURCE("You can't place this resource in here, this deposit is special"),
     EMPTYPRODPOWER("You didn't select any production power, try again"),
+    LEADERCARDISACTIVE("You can't discard this leader card, it is already active"),
     USERNAMENOTEXISTING("The username chosen is not playing in this game or not exists, TRY AGAIN");
 
 

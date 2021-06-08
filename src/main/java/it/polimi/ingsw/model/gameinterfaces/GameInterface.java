@@ -26,7 +26,7 @@ public interface GameInterface {
     void takeResourceFromMarket(String line, int numline ,ArrayList<Integer> whiteMarbleCardChoice) throws LeaderCardNotFound, LeaderCardNotActivated;
     void useAndChooseProdPower(ProductionPower productionPower, ArrayList<ResourceType> resources, ArrayList<Warehouse> warehouse, ArrayList<ResourceType> newResources) throws DifferentDimension, TooManyResourcesRequested, EmptyDeposit, DepositDoesntHaveThisResource, NotEnoughChosenResources, EmptyProductionPower;
     void activateLeaderCard(int idCardToActivate) throws LeaderCardNotFound, NotEnoughRequirements;
-    void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound;
+    void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound, LeaderCardIsActive;
     void chooseLeaderCardToRemove(int idCard1, int idCard2, String username) throws LeaderCardNotFound;
     int getCurrentPlayer();
     ArrayList<DevelopmentCard> getDevGridLite();

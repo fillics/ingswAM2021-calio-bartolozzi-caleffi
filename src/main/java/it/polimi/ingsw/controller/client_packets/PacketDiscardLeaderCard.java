@@ -9,6 +9,7 @@ import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketFaithTrack;
 import it.polimi.ingsw.controller.server_packets.PacketLeaderCards;
+import it.polimi.ingsw.exceptions.LeaderCardIsActive;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
 import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
@@ -34,10 +35,9 @@ public class PacketDiscardLeaderCard implements ClientPacketHandler {
                         gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
             } catch (LeaderCardNotFound leaderCardNotFound) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
+            }  catch (LeaderCardIsActive leaderCardIsActive){
+                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDISACTIVE));
             }
-
-            //SALVATAGGIO SU PROXY
-
         }
         else {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

@@ -40,7 +40,6 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
-        //TODO: GUARDARE METTENDO UNA CARTA LEADER ATTIVATA NEL MODELLO COME MAI NON FUNZIONA IL PROD POWER
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             ArrayList<ProductionPower> realProductionPowers = new ArrayList<>();
             for(int i: productionPowers){
@@ -49,7 +48,6 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
             for(int j: newProductionPowers){
                 realProductionPowers.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getSpecialProductionPowers().get(j -1));
             }
-
             ArrayList<Warehouse> realChosenWarehouses = new ArrayList<>();
             for(int k : warehouse){
                 switch (k) {
@@ -73,6 +71,7 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
             resourceObtained.put(ResourceType.SERVANT, 0);
             resourceObtained.put(ResourceType.SHIELD, 0);
             resourceObtained.put(ResourceType.JOLLY, 0);
+            resourceObtained.put(ResourceType.FAITHMARKER, 0);
 
 
             for (ProductionPower productionPower : realProductionPowers) {
@@ -80,6 +79,7 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
                     resourceNeeded.replace(key, resourceNeeded.get(key) + productionPower.getResourceNeeded().get(key));
                 }
                 for (ResourceType key : productionPower.getResourceObtained().keySet()) {
+                    System.out.println(key);
                     resourceObtained.replace(key, resourceObtained.get(key) + productionPower.getResourceObtained().get(key));
                 }
             }

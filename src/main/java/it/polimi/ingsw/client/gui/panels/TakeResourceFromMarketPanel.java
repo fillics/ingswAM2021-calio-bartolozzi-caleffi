@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyMarble;
-import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
-import it.polimi.ingsw.model.marbles.MarketTray;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -118,7 +116,7 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         ArrayList <Integer> leaderCards = new ArrayList<>();
         if(leaderCardPanels!=null){
             for (LeaderCardPanel leaderCardPanel : leaderCardPanels) {
-                if (e.getSource() == leaderCardPanel.getButton()) {
+                if (e.getSource() == leaderCardPanel.getChooseWhiteMarbleButton()) {
                     leaderCards.add(leaderCardPanel.getId());
                 }
             }
