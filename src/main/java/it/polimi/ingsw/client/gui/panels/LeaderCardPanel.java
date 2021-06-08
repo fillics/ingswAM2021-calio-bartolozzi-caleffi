@@ -21,11 +21,11 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     private Image background;
     private int id;
     private int position;
-    private JButton button;
-    private JButton depositButton;
+    private JButton button = new JButton();
+    private JButton depositButton = new JButton();
     private DepositsPanel depositsPanel;
     private WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel;
-    private JButton depostForBuyDevCardAndProdPower;
+    private JButton depostForBuyDevCardAndProdPower = new JButton();
 
     public JButton getButton() {
         return button;
@@ -64,7 +64,6 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.WHITE_MARBLE)){
             JPanel specialPower = new JPanel();
             specialPower.setPreferredSize(new Dimension(159, 70));
-            button = new JButton();
             button.addActionListener(takeResourceFromMarketPanel);
             button.setPreferredSize(new Dimension(159, 70));
             try {
@@ -158,7 +157,6 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.EXTRA_DEPOSIT)
         && gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() > 3){
 
-            depositButton = new JButton();
             depositButton.setBackground(new Color(151, 74, 74));
             depositButton.addActionListener(this);
 
@@ -276,7 +274,6 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.EXTRA_DEPOSIT)
                 && gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() > 3){
 
-            depostForBuyDevCardAndProdPower = new JButton();
             depostForBuyDevCardAndProdPower.setBackground(new Color(151, 74, 74));
             depostForBuyDevCardAndProdPower.addActionListener(this);
 
@@ -332,4 +329,14 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
             warehouseForBuyDevCardPanel.getChosenResources().add(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getResourceType());
         }
     }
+
+    public JButton getDepositButton() {
+        return depositButton;
+    }
+
+    public JButton getDepostForBuyDevCardAndProdPower() {
+        return depostForBuyDevCardAndProdPower;
+    }
+
+
 }
