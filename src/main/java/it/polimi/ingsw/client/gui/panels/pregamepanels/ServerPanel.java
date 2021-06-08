@@ -171,7 +171,6 @@ public class ServerPanel extends JPanel implements ActionListener {
             Constants.setPort(Integer.parseInt(serverPortTextField.getText()));
             gui.getClient().serverConnection(ViewChoice.GUI);
             handleMessageFromServer();
-            //JOptionPane.showMessageDialog(this, "Connected!");
         }
         if (e.getSource() == resetButton) {
             ipAddressTextField.setText("");
