@@ -31,6 +31,7 @@ public class WarehouseForBuyDevCardPanel extends JPanel{
         this.add(strongboxPanel);
 
         this.setOpaque(false);
+        this.setBackground(new Color(0,0,0,0));
 
     }
 

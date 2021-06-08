@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DevSpaceBuyDevCardPanel extends JPanel implements ActionListener {
 
@@ -17,6 +18,7 @@ public class DevSpaceBuyDevCardPanel extends JPanel implements ActionListener {
     private Image devSpaces;
     private JButton devSpace1, devSpace2, devSpace3;
     private int idDevSpace;
+    private JPanel mainPanel;
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -27,12 +29,14 @@ public class DevSpaceBuyDevCardPanel extends JPanel implements ActionListener {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/board/devSpaces.jpg");
         try {
+            assert is != null;
             devSpaces = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
         }
         this.setPreferredSize(new Dimension(720, 480));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
         JPanel buttonPanel = new JPanel();
         JPanel cardsPanel = new JPanel();
         cardsPanel.setLayout(new BoxLayout(cardsPanel, BoxLayout.X_AXIS));
@@ -47,7 +51,8 @@ public class DevSpaceBuyDevCardPanel extends JPanel implements ActionListener {
 
         this.add(cardsPanel);
         this.add(buttonPanel);
-        this.setVisible(true);
+        this.setBackground(new Color(0,0,0,0));
+
 
     }
 
@@ -134,7 +139,7 @@ public class DevSpaceBuyDevCardPanel extends JPanel implements ActionListener {
         float shift = 0.5f;
         for(int i = gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
             try {
-                jLabels1.get(i).setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().get(i).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+                jLabels1.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
                 jLabels1.get(i).setAlignmentY(shift);
                 shift = shift - 0.2f;
             } catch (IOException e) {
@@ -145,7 +150,7 @@ public class DevSpaceBuyDevCardPanel extends JPanel implements ActionListener {
         shift = 0.5f;
         for(int i = gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(1).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
             try {
-                jLabels2.get(i).setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(1).getDevelopmentCardsOfDevSpace().get(i).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+                jLabels2.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(1).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
                 jLabels2.get(i).setAlignmentY(shift);
                 shift = shift - 0.2f;
             } catch (IOException e) {
@@ -156,7 +161,7 @@ public class DevSpaceBuyDevCardPanel extends JPanel implements ActionListener {
         shift = 0.5f;
         for(int i = gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(2).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
             try {
-                jLabels3.get(i).setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(2).getDevelopmentCardsOfDevSpace().get(i).getPath()).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+                jLabels3.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(2).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
                 jLabels3.get(i).setAlignmentY(shift);
                 shift = shift - 0.2f;
             } catch (IOException e) {

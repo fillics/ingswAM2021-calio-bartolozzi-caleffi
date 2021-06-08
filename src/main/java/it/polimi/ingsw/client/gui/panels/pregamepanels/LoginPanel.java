@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.gui.panels;
+package it.polimi.ingsw.client.gui.panels.pregamepanels;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
@@ -31,8 +31,9 @@ public class LoginPanel extends JPanel implements ActionListener {
 
     public LoginPanel(GUI gui){
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/home.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/home2.png");
         try {
+            assert is != null;
             background = ImageIO.read(is);
         } catch (IOException ignored) {}
 

@@ -21,20 +21,21 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class BuyDevCardPanel extends JPanel implements ActionListener {
-    private GUI gui;
+    private final GUI gui;
     private Image background;
     private GridBagConstraints c;
     private final JButton chooseDiscountBtn = new JButton("CHOOSE DISCOUNT");
     private final JButton confirmDiscountBtn = new JButton("CONFIRM DISCOUNT");
     private final JButton backBtn = new JButton("BACK");
     private final JButton confirmBuyBtn = new JButton("CONFIRM");
+    private JLabel guide;
 
     private ArrayList<Integer> leaderCardsIDs;
     private ArrayList<JButton> jButtons;
     private JButton leaderCard1, leaderCard2;
 
     private JPanel cards, buttons;
-    private JPanel mainPanel;
+    private JPanel mainPanel, centralPanel;
     private DevGridBuyCardPanel devGridPanel;
     private WarehouseForBuyDevCardPanel warehousePanel;
     private DevSpaceBuyDevCardPanel devSpacesPanel;
@@ -53,61 +54,85 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
             background = ImageIO.read(Objects.requireNonNull(is));
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
         c = new GridBagConstraints();
-
-        mainPanel = new JPanel();
 
         mainPanel = new JPanel();
 
         mainPanel.setLayout(new GridBagLayout());
         mainPanel.setOpaque(false);
 
-        createLeftPanel();
+        createCentralPanel();
         c.gridx=0;
         c.gridy=0;
-        mainPanel.add(leftPanel, c);
-
-        createRightPanel();
-        c.gridx=1;
-        c.gridy=0;
-        mainPanel.add(rightPanel, c);
-        this.add(mainPanel);
-
-    }
-
-    public void createRightPanel(){
-        rightPanel = new JPanel();
-        rightPanel.setLayout(new GridBagLayout());
-
-        createSmallBoard();
-        c.gridx=0;
-        c.gridy=0;
-        rightPanel.add(smallBoard, c);
+        mainPanel.add(centralPanel, c);
 
         createButtonsPanel();
         c.gridx=0;
         c.gridy=1;
         c.insets = new Insets(10, 0,0,0);
-        rightPanel.add(buttonsPanel, c);
+        mainPanel.add(buttonsPanel, c);
+
+        this.add(mainPanel);
+
+    }
+
+    public void createCentralPanel(){
+        centralPanel = new JPanel();
+        centralPanel.setLayout(new GridBagLayout());
+
+        createLeftPanel();
+        c.gridx=0;
+        c.gridy=0;
+        centralPanel.add(leftPanel, c);
+
+        createRightPanel();
+        c.gridx=1;
+        c.gridy=0;
+        centralPanel.add(rightPanel, c);
+
+        centralPanel.setOpaque(false);
+
+    }
+    public void createRightPanel(){
+        rightPanel = new JPanel();
+        rightPanel.setLayout(new GridBagLayout());
+
+        JLabel guideRight = new JLabel("Click the resources you want to use and in which development space you want to put the card");
+
+        JPanel textPanel = new JPanel();
+        textPanel.setBackground(new Color(233, 226, 193));
+        textPanel.add(guideRight);
+        c.gridx=0;
+        c.gridy=0;
+        rightPanel.add(textPanel, c);
+
+        createSmallBoard();
+        c.gridx=0;
+        c.gridy=1;
+        rightPanel.add(smallBoard, c);
 
         rightPanel.setOpaque(false);
+        rightPanel.setBackground(new Color(0,0,0,0));
     }
 
 
     public void createButtonsPanel(){
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridBagLayout());
+        c.insets = new Insets(0,15,0,15);
 
         c.gridx=0;
         c.gridy=0;
+        c.ipadx=50;
+        c.ipady=25;
         buttonsPanel.add(backBtn, c);
         backBtn.addActionListener(this);
         c.gridx=1;
         c.gridy=0;
         buttonsPanel.add(confirmBuyBtn, c);
         confirmBuyBtn.addActionListener(this);
+        buttonsPanel.setOpaque(false);
     }
 
     public void createSmallBoard(){
@@ -131,14 +156,24 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridBagLayout());
 
-        createDevGrid();
+
+        guide = new JLabel("Click on a card to see it bigger");
+
+        JPanel textPanel = new JPanel();
+        textPanel.setBackground(new Color(233, 226, 193));
+        textPanel.add(guide);
         c.gridx=0;
         c.gridy=0;
+        leftPanel.add(textPanel, c);
+        createDevGrid();
+        c.gridx=0;
+        c.gridy=1;
         leftPanel.add(devGridPanel, c);
 
         createUnderGridPanel();
+        c.insets = new Insets(20,0,0,0);
         c.gridx=0;
-        c.gridy=1;
+        c.gridy=2;
         leftPanel.add(underGridPanel, c);
 
         leftPanel.setOpaque(false);
@@ -212,10 +247,11 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         c.gridx=1;
         c.gridy=0;
         underGridPanel.add(chooseDiscountPanel, c);
+        underGridPanel.setOpaque(false);
     }
 
     public void createDevGrid(){
-        devGridPanel = new DevGridBuyCardPanel(gui);
+        devGridPanel = new DevGridBuyCardPanel(this);
 
     }
 
@@ -267,5 +303,9 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
             gui.switchPanels(new BoardPanel(gui));
         }
 
+    }
+
+    public GUI getGui() {
+        return gui;
     }
 }

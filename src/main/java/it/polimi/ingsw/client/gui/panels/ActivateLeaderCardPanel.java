@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
     private Image background;
@@ -34,8 +35,9 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
 
     public ActivateLeaderCardPanel(GUI gui) {
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
+            assert is != null;
             background = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,33 +75,30 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
         jButtons.add(leaderCard1);
         jButtons.add(leaderCard2);
         for(int i = 0 ; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            if(!gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
-                try {
-                    jButtons.get(i).setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getPath()).readAllBytes()).getImage().getScaledInstance(200, 302, Image.SCALE_AREA_AVERAGING)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                jButtons.get(i).addActionListener(this);
-                c.gridx = i;
-                c.gridy = 0;
-
-                int finalI = i;
-                jButtons.get(i).addMouseListener(new java.awt.event.MouseAdapter() {
-                    public void mouseEntered(java.awt.event.MouseEvent evt) {
-                        jButtons.get(finalI).setBackground(new Color(51, 180, 76));
-                    }
-
-                    public void mouseExited(java.awt.event.MouseEvent evt) {
-                        jButtons.get(finalI).setBackground(UIManager.getColor("control"));
-                    }
-                });
-
-                cards.add(jButtons.get(i), c);
+            try {
+                jButtons.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(200, 302, Image.SCALE_AREA_AVERAGING)));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            jButtons.get(i).addActionListener(this);
+            c.gridx=i;
+            c.gridy=0;
 
-            cards.setBackground(new Color(0, 0, 0, 0));
-            cards.setOpaque(true);
+            int finalI = i;
+            jButtons.get(i).addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    jButtons.get(finalI).setBackground(new Color(51, 180, 76));
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    jButtons.get(finalI).setBackground(UIManager.getColor("control"));
+                }
+            });
+
+            cards.add(jButtons.get(i), c);
         }
+
+        cards.setBackground(new Color(0,0,0,0));
+        cards.setOpaque(true);
 
     }
 

@@ -10,7 +10,8 @@ import java.awt.*;
  */
 public class MessagesPanel extends JPanel {
     private final String messageToPrint;
-    private JPanel messageP;
+
+    private JPanel mainPanel, messageP;
     private final GridBagConstraints c;
 
 
@@ -20,11 +21,18 @@ public class MessagesPanel extends JPanel {
         this.setPreferredSize(new Dimension(gui.getWidth(), 50));
         this.setBackground(new Color(233, 226, 193));
 
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         createMessage();
-        this.add(messageP);
+        c.gridy=0;
+        c.gridx=0;
+        mainPanel.add(messageP, c);
 
+
+        mainPanel.setOpaque(false);
+        this.add(mainPanel);
 
     }
 
@@ -39,8 +47,9 @@ public class MessagesPanel extends JPanel {
 
         messageP.add(message, c);
         messageP.setBackground(new Color(0, 0, 0, 0));
-        this.setOpaque(true);
+        messageP.setOpaque(true);
 
     }
+
 
 }
