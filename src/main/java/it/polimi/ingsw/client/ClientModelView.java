@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.model.singleplayer.SoloActionToken;
 
 /**
  * contiene il modello lite
@@ -11,7 +12,8 @@ public class ClientModelView {
     private LiteMarketTray marketTray;
     private LiteDevelopmentGrid developmentGrid;
     private LiteBoard liteBoard;
-    private int numOfPlayers;
+    private boolean isSingleGame;
+    private SoloActionToken soloActionToken;
 
     @JsonCreator
     public ClientModelView(@JsonProperty("player") LitePlayer myPlayer,@JsonProperty("market") LiteMarketTray marketTray,
@@ -62,11 +64,19 @@ public class ClientModelView {
         this.liteBoard = liteBoard;
     }
 
-    public int getNumOfPlayers() {
-        return numOfPlayers;
+    public boolean isSingleGame() {
+        return isSingleGame;
     }
 
-    public void setNumOfPlayers(int numOfPlayers) {
-        this.numOfPlayers = numOfPlayers;
+    public void setSingleGame(boolean singleGame) {
+        isSingleGame = singleGame;
+    }
+
+    public SoloActionToken getSoloActionToken() {
+        return soloActionToken;
+    }
+
+    public void setSoloActionToken(SoloActionToken soloActionToken) {
+        this.soloActionToken = soloActionToken;
     }
 }

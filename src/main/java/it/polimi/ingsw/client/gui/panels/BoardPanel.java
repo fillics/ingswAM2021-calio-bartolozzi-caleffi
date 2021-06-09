@@ -34,11 +34,13 @@ public class BoardPanel extends JPanel implements ActionListener {
     private final JButton endTurn = new JButton("END YOUR TURN");
     private final JButton resourceCheatButton = new JButton("+20 resources");
     private final JButton faithMarkerCheatButton = new JButton("+1 faith marker");
-    private JPanel operations, leaderCards, underBoard, faithTrackPanel, boardPanel, showButtons, mainPanel;
+    private JPanel operations, leaderCards, underBoard, faithTrackPanel, boardPanel, showButtons, mainPanel, tokenPanel;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private ResourceBufferPanel resourceBufferPanel;
     private WarehousePanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
+    private TokenPanel token;
+    private boolean isSingleGame;
 
 
     public void paintComponent(Graphics g){
@@ -49,6 +51,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     public BoardPanel(GUI gui) {
         this.gui = gui;
+        isSingleGame= gui.getClient().getClientModelView().isSingleGame();
         InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
             background = ImageIO.read(Objects.requireNonNull(is));
@@ -237,13 +240,28 @@ public class BoardPanel extends JPanel implements ActionListener {
         leaderCards.setLayout(new GridBagLayout());
         c.insets = new Insets(10, 10, 10, 10);
 
+        if(isSingleGame) {
+            tokenPanel = new JPanel();
+            tokenPanel.setLayout(new GridBagLayout());
+            tokenPanel.setOpaque(false);
+            token = new TokenPanel(gui);
+
+            tokenPanel.add(token);
+            c.gridx=0;
+            c.gridy=0;
+            leaderCards.add(tokenPanel, c);
+        }
+
         leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(), 159, 240, warehousePanel.getDepositsPanel());
             leaderCardPanels.add(leaderCardPanel1);
             leaderCardPanel1.setOpaque(false);
             c.gridx=0;
-            c.gridy=i;
+            if(isSingleGame)
+                c.gridy=i+1;
+            else
+                c.gridy=i;
             leaderCards.add(leaderCardPanels.get(i), c);
         }
         leaderCards.setOpaque(false);

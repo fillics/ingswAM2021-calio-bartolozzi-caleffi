@@ -11,12 +11,13 @@ import java.util.Objects;
 
 public class FaithTrackPanel extends JPanel{
     private Image imagereal;
-    int numOfPlayers, faithMarker,blackCross;
+    int faithMarker,blackCross;
+    boolean isSingleGame;
     private GUI gui;
 
     public FaithTrackPanel(GUI gui){
         this.gui=gui;
-        numOfPlayers = gui.getClient().getClientModelView().getNumOfPlayers();
+        isSingleGame = gui.getClient().getClientModelView().isSingleGame();
         faithMarker = gui.getClient().getClientModelView().getLiteBoard().getFaithMarker();
         blackCross = gui.getClient().getClientModelView().getLiteBoard().getBlackCross();
         this.setPreferredSize(new Dimension(970,200));
@@ -194,7 +195,7 @@ public class FaithTrackPanel extends JPanel{
 
         panel3.add(Box.createRigidArea(new Dimension(32,48)));
         if(faithMarker == 0){
-            if(blackCross==0 && numOfPlayers==1){
+            if(blackCross==0 && isSingleGame){
                 panel3.add(label5);
                 panel3.add(Box.createRigidArea(new Dimension(149,48)));
             } else if(blackCross==1){
@@ -214,7 +215,7 @@ public class FaithTrackPanel extends JPanel{
             }
         }
         else if(faithMarker ==1){
-            if(blackCross==0 && numOfPlayers==1){
+            if(blackCross==0 && isSingleGame){
                 panel3.add(label4);
                 panel3.add(Box.createRigidArea(new Dimension(3,48)));
                 panel3.add(label3);
@@ -237,7 +238,7 @@ public class FaithTrackPanel extends JPanel{
             }
         }
         else if(faithMarker == 2){
-            if(blackCross==0 && numOfPlayers==1){
+            if(blackCross==0 && isSingleGame){
                 panel3.add(label4);
                 panel3.add(Box.createRigidArea(new Dimension(48,48)));
                 panel3.add(label3);
@@ -257,7 +258,7 @@ public class FaithTrackPanel extends JPanel{
                 panel3.add(label3);
                 panel3.add(Box.createRigidArea(new Dimension(53,48)));
             }
-        } else if(blackCross == 0 && numOfPlayers == 1){
+        } else if(blackCross == 0 && isSingleGame){
             panel3.add(label4);
             panel3.add(Box.createRigidArea(new Dimension(149,48)));
         } else if( blackCross ==1){

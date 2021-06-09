@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.singleplayer;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.cards.developmentcards.CardColor;
 
 /**
@@ -13,16 +15,19 @@ public class SoloActionToken {
     private CardColor color;
     private TokenActionStrategy strategy;
     private int id;
+    private String path;
 
     /**
      * Constructor SoloActionToken creates a new SoloActionToken instance.
      * @param type of type SoloActionTokenType
      * @param color of type CardColor
      */
-    public SoloActionToken(SoloActionTokenType type, CardColor color, int id) {
+    @JsonCreator
+    public SoloActionToken(@JsonProperty("type") SoloActionTokenType type,@JsonProperty("color") CardColor color,@JsonProperty("id") int id, @JsonProperty("path") String path) {
         this.type = type;
         this.color = color;
         this.id = id;
+        this.path = path;
     }
     /**
      * Constructor SoloActionToken creates a new SoloActionToken instance.
@@ -58,6 +63,13 @@ public class SoloActionToken {
      */
     public int getId() {
         return id;
+    }
+
+    /**
+     * Method getPath returns the path of the token
+     */
+    public String getPath() {
+        return path;
     }
 
     /**

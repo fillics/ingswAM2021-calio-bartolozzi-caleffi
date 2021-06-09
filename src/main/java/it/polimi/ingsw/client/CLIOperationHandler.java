@@ -111,7 +111,7 @@ public class CLIOperationHandler{
 
     public void askBoardOfOtherPlayer() throws JsonProcessingException {
         String username;
-        if(clientModelView.getNumOfPlayers()==1) {
+        if(clientModelView.isSingleGame()) {
             System.out.println("You are in single player mode, there are no other players, please choose another action");
             System.out.println(Constants.commands);
         }

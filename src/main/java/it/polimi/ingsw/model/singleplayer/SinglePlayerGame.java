@@ -1,5 +1,11 @@
 package it.polimi.ingsw.model.singleplayer;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.cards.developmentcards.CardColor;
@@ -105,12 +111,12 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
      * the Single Player Game and according to their types, it assigns to them the correct strategy
      */
     public void setDeckSoloActionToken() {
-
-        Gson gson = new Gson();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader("src/main/resources/json/Token.json"));
-            deckSoloActionToken = gson.fromJson(br, new TypeToken<LinkedList<SoloActionToken>>(){}.getType());
+            deckSoloActionToken = mapper.readValue(new File("src/main/resources/json/Token.json"), new TypeReference<>() {
+            });
 
             deckSoloActionToken.forEach(soloActionToken -> {
                 if (soloActionToken.getType().equals(SoloActionTokenType.DISCARD)) {
@@ -126,6 +132,8 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
             Collections.shuffle(deckSoloActionToken);
         }catch (FileNotFoundException ex){
             System.out.println("Token.json file was not found");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }

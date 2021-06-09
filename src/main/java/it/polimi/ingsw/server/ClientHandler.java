@@ -45,6 +45,7 @@ public class ClientHandler implements Runnable {
     private String jsonResult;
     private boolean gameStarted= false;
     private boolean sendSetup = false;
+    private boolean isSingleGame;
     private final AtomicBoolean clientConnected;
     private ClientModelView clientModelView;
 
@@ -146,6 +147,13 @@ public class ClientHandler implements Runnable {
         return idClient;
     }
 
+    public boolean isSingleGame() {
+        return isSingleGame;
+    }
+
+    public void setSingleGame(boolean singleGame) {
+        isSingleGame = singleGame;
+    }
 
     /**
      * Method startPingPong sends a Ping Packet to the client to check if it is connected
@@ -210,7 +218,7 @@ public class ClientHandler implements Runnable {
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
 
-        PacketSetup packetSetup = new PacketSetup(username, idClient, posInGame, game.getActivePlayers().size(),game.getDevGridLite(), game.getTable(), game.getRemainingMarble(),
+        PacketSetup packetSetup = new PacketSetup(username, idClient, posInGame, isSingleGame , game.getDevGridLite(), game.getTable(), game.getRemainingMarble(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getDevelopmentSpaces(), game.getUsernameClientActivePlayers().get(username).getResourceBuffer(), game.getUsernameClientActivePlayers().get(username).getBoard().getSpecialProductionPowers(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getDeposits(),

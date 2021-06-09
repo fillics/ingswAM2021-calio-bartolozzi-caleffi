@@ -28,6 +28,7 @@ public class Server {
     private int idClient = 0;
     private int idGame = 0;
     private int numPlayers;
+    private boolean isSingleGame;
 
     private final Map<Integer, Game> mapGames;
 
@@ -246,10 +247,12 @@ public class Server {
 
         if(numPlayers==1){
             game = new SinglePlayerGame();
+            isSingleGame=true;
             game.setState(GameStates.PHASE_ONE);
         }
         else{
             game = new Game();
+            isSingleGame=false;
             game.setState(GameStates.SETUP);
         }
 
@@ -294,6 +297,7 @@ public class Server {
 
         for (ClientHandler clientHandler: playersInGame){
             clientHandler.setGame(game);
+            clientHandler.setSingleGame(isSingleGame);
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.GAME_IS_STARTING));
             clientHandler.setPosInGame(game.getPositionPlayer(clientHandler.getUsername()));
             clientHandler.sendSetupPacket();

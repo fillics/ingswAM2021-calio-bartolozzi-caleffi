@@ -473,7 +473,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
         }
         escape.append("\n");
 
-        if(clientModelView.getNumOfPlayers()==1 && clientModelView.getLiteBoard().getBlackCross()==0){
+        if(clientModelView.isSingleGame() && clientModelView.getLiteBoard().getBlackCross()==0){
             escape.append(Printable.DOUBLE_LINE.print()).append((" ").repeat(2)).append(Printable.CROSS.print()).append(" ".repeat(2)).append(Printable.DOUBLE_LINE.print());
         }
         else

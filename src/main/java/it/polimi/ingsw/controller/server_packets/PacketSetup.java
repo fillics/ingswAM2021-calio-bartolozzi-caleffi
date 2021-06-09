@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.model.marbles.Marble;
+import it.polimi.ingsw.model.singleplayer.SoloActionToken;
 
 import java.util.ArrayList;
 
@@ -37,10 +38,10 @@ public class PacketSetup implements ServerPacketHandler{
     private final ArrayList<VaticanReportSection> vaticanReportSections;
     private final ArrayList<Integer> whiteMarbleCardChoice;
     private final int posInGame;
-    private final int numOfPlayers;
+    private final boolean isSingleGame;
 
     @JsonCreator
-    public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame,@JsonProperty("numOfPlayers") int numOfPlayers, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
+    public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame,@JsonProperty("isSingleGame") boolean isSingleGame, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
                        @JsonProperty("market tray") Marble[][] table, @JsonProperty("remaining marble") Marble remainingMarble,
                        @JsonProperty("development spaces") ArrayList<DevelopmentSpace> developmentSpaces, @JsonProperty("resource buffer") ArrayList<Resource> resourceBuffer,
                        @JsonProperty("special production powers")  ArrayList<ProductionPower> specialProductionPowers, @JsonProperty("strongbox") Strongbox strongbox,
@@ -49,7 +50,7 @@ public class PacketSetup implements ServerPacketHandler{
         this.username = username;
         this.idClient = idClient;
         this.posInGame = posInGame;
-        this.numOfPlayers=numOfPlayers;
+        this.isSingleGame=isSingleGame;
         totalVictoryPoint=0;
         faithMarker=0;
         this.table = table;
@@ -79,8 +80,8 @@ public class PacketSetup implements ServerPacketHandler{
         return posInGame;
     }
 
-    public int getNumOfPlayers() {
-        return numOfPlayers;
+    public boolean getIsSingleGame() {
+        return isSingleGame;
     }
 
     public int getTotalVictoryPoint() {
@@ -139,7 +140,6 @@ public class PacketSetup implements ServerPacketHandler{
         return vaticanReportSections;
     }
 
-    //TODO: aggiornare faith marker e black cross negli altri pacchetti ogni volta che vengono modificati
     @Override
     public void execute(Client client) {
         if(client.getClientState().equals(ClientStates.CREATEMODEL)) {
@@ -153,7 +153,8 @@ public class PacketSetup implements ServerPacketHandler{
             client.getClientModelView().setMarketTray(liteMarketTray);
             client.getClientModelView().setLiteBoard(liteBoard);
             client.getClientModelView().setMyPlayer(litePlayer);
-            client.getClientModelView().setNumOfPlayers(numOfPlayers);
+            client.getClientModelView().setSingleGame(isSingleGame);
+            client.getClientModelView().setSoloActionToken(null);
 
 
             if(client.getViewChoice() == ViewChoice.CLI){

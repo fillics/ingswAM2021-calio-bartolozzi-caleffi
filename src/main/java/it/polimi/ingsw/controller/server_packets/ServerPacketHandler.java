@@ -13,6 +13,7 @@ import it.polimi.ingsw.client.Client;
         @JsonSubTypes.Type(value = PacketFaithTrack.class, name = "FAITH_TRACK"),
         @JsonSubTypes.Type(value = PacketBoardOfAnotherPlayer.class, name = "BOARD_ANOTHER_PLAYER"),
         @JsonSubTypes.Type(value = PacketBlackCross.class, name = "BLACK_CROSS"),
+        @JsonSubTypes.Type(value = PacketToken.class, name = "TOKEN"),
         @JsonSubTypes.Type(value = PacketConnectionMessages.class, name = "MESSAGE"),
         @JsonSubTypes.Type(value = PacketPingFromServer.class, name = "PING"),
         @JsonSubTypes.Type(value = PacketReconnection.class, name = "RECONNECTION"),
