@@ -14,12 +14,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class DevSpacesPanel extends JPanel implements ActionListener {
-    private GUI gui;
     private Image devSpaces;
     private JButton devSpace1, devSpace2, devSpace3;
     private JButton baseProdPower;
-    private ArrayList<Integer> productionPowers = new ArrayList<>();
-    private ArrayList<Integer> newProductionPowers = new ArrayList<>();
+    private final ArrayList<Integer> productionPowers = new ArrayList<>();
+    private final ArrayList<Integer> newProductionPowers = new ArrayList<>();
+    private int idDevSpace;
+
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -27,7 +28,6 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
     }
 
     public DevSpacesPanel(GUI gui) {
-        this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/board/devSpaces.jpg");
         try {
             devSpaces = ImageIO.read(Objects.requireNonNull(is));
@@ -146,9 +146,7 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
                 jLabels1.get(i).setAlignmentY(shift);
                 devspace1.add(jLabels1.get(i));
                 shift = shift - 0.2f;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException ignored) {}
         }
 
         shift = 0.5f;
@@ -158,9 +156,7 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
                 jLabels2.get(i).setAlignmentY(shift);
                 devspace2.add(jLabels2.get(i));
                 shift = shift - 0.2f;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException ignored) {}
         }
 
         shift = 0.5f;
@@ -170,9 +166,7 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
                 jLabels3.get(i).setAlignmentY(shift);
                 devspace3.add(jLabels3.get(i));
                 shift = shift - 0.2f;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException ignored) {}
         }
 
 
@@ -191,18 +185,25 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == devSpace1){
-            if(!productionPowers.contains(1)) productionPowers.add(1);
+            idDevSpace=1;
+            if(!productionPowers.contains(1)) productionPowers.add(idDevSpace);
         }
         if(e.getSource() == devSpace2){
-            if(!productionPowers.contains(2)) productionPowers.add(2);
+            idDevSpace=2;
+            if(!productionPowers.contains(2)) productionPowers.add(idDevSpace);
         }
         if(e.getSource() == devSpace3){
-            if(!productionPowers.contains(3)) productionPowers.add(3);
+            idDevSpace=3;
+            if(!productionPowers.contains(3)) productionPowers.add(idDevSpace);
         }
         if(e.getSource() == baseProdPower){
             if(!newProductionPowers.contains(1)) newProductionPowers.add(1);
         }
 
+    }
+
+    public int getIdDevSpace() {
+        return idDevSpace;
     }
 
     public JButton getDevSpace1() {
@@ -227,5 +228,9 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
 
     public ArrayList<Integer> getNewProductionPowers() {
         return newProductionPowers;
+    }
+
+    public void setProductionPowerInvisible(){
+        baseProdPower.setVisible(false);
     }
 }

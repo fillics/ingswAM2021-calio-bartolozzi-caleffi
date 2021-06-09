@@ -38,7 +38,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     private JPanel mainPanel, centralPanel;
     private DevGridBuyCardPanel devGridPanel;
     private WarehouseForBuyDevCardPanel warehousePanel;
-    private DevSpaceBuyDevCardPanel devSpacesPanel;
+    private DevSpacesPanel devSpacesPanel;
     private JPanel underGridPanel, leftPanel, rightPanel, leaderCards, chooseDiscountPanel, smallBoard,
             buttonsPanel;
 
@@ -264,7 +264,8 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     }
 
     public void createDevSpace(){
-        devSpacesPanel = new DevSpaceBuyDevCardPanel(gui);
+        devSpacesPanel = new DevSpacesPanel(gui);
+        devSpacesPanel.setProductionPowerInvisible();
 
     }
 
@@ -293,6 +294,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
             if(warehousePanel.getChosenWarehouses().size()!=0 && warehousePanel.getChosenResources().size()!=0 && devSpacesPanel.getIdDevSpace()!=0){
                 gui.sendPacketToServer(new PacketBuyDevCard(devGridPanel.getIdCard(), warehousePanel.getChosenResources(),
                         warehousePanel.getChosenWarehouses(), devSpacesPanel.getIdDevSpace()));
+                gui.switchPanels(new BoardPanel(gui));
             }
             else{
                 JOptionPane.showMessageDialog(gui.getjFrame(), "Fill every field to buy the development card!");

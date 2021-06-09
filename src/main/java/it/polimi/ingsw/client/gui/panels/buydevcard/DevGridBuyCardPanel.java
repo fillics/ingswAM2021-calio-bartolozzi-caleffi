@@ -54,7 +54,12 @@ public class DevGridBuyCardPanel extends JPanel implements ActionListener {
         clientModelView = buyDevCardPanel.getGui().getClient().getClientModelView();
         c.insets = new Insets(top,left,bottom,right);
 
-        path1 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(8).getPath();
+        try{
+            path1 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(8).getPath();
+        }catch (NullPointerException e){
+            path1 = "/images/back/DevCardBackY3.png";
+            devCard1.setEnabled(false);
+        }
         devCard1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path1)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
         devCard1.addActionListener(this);
         changeBackground(devCard1);
@@ -62,7 +67,11 @@ public class DevGridBuyCardPanel extends JPanel implements ActionListener {
         c.gridy = 0;
         panel.add(devCard1,c);
 
-        path2 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(9).getPath();
+        try{
+            path2 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(9).getPath();
+        }catch (NullPointerException e){
+            path2 = "/images/back/DevCardBackG3.png";
+        }
         devCard2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path2)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
         devCard2.addActionListener(this);
         c.gridx = 1;
@@ -70,7 +79,11 @@ public class DevGridBuyCardPanel extends JPanel implements ActionListener {
         changeBackground(devCard2);
         panel.add(devCard2,c);
 
-        path3 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(10).getPath();
+        try{
+            path3 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(10).getPath();
+        }catch (NullPointerException e){
+            path3 = "/images/back/DevCardBackP3.png";
+        }
         devCard3.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path3)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
         devCard3.addActionListener(this);
         c.gridx = 2;
@@ -78,7 +91,11 @@ public class DevGridBuyCardPanel extends JPanel implements ActionListener {
         changeBackground(devCard3);
         panel.add(devCard3,c);
 
-        path4 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(11).getPath();
+        try{
+            path4 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(11).getPath();
+        }catch (NullPointerException e){
+            path4 = "/images/back/DevCardBackB3.png";
+        }
         devCard4.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path4)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
         devCard4.addActionListener(this);
         c.gridx = 3;
@@ -126,7 +143,13 @@ public class DevGridBuyCardPanel extends JPanel implements ActionListener {
         changeBackground(devCard9);
         panel.add(devCard9,c);
 
-        path10 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(1).getPath();
+        try{
+            path10 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(1).getPath();
+        }catch(NullPointerException e){
+            path10 = "/images/back/DevCardBackG1.png";
+            devCard10.setEnabled(false);
+            devCard10.setDisabledIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path10)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
+        }
         devCard10.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path10)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
         devCard10.addActionListener(this);
         c.gridx = 1;

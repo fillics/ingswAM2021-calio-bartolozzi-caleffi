@@ -66,7 +66,7 @@ public class PacketReconnection implements ServerPacketHandler{
                 }
             }
             case GAMESTARTED -> {
-                client.getGui().switchPanels(new BoardPanel(client.getGui()));
+                if (client.getViewChoice().equals(ViewChoice.GUI)) client.getGui().switchPanels(new BoardPanel(client.getGui()));
             }
 
         }

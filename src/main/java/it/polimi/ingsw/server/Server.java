@@ -201,6 +201,9 @@ public class Server {
             }
             else{
                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.USERNAME_VALID));
+                if(numPlayers > lobby.size()){
+                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.WAITING_PEOPLE));
+                }
                 registerUsername(username, clientHandler);
                 System.out.println(Constants.ANSI_GREEN+username+Constants.ANSI_RESET+ " (idPlayer: " +clientHandler.getIdClient()+") "+ Constants.ANSI_GREEN+"joined!"+Constants.ANSI_RESET);
 
@@ -355,12 +358,16 @@ public class Server {
             Game game = clientHandlerToRemove.getGame();
 
             String usernameCurPlayer = game.getActivePlayers().get(game.getCurrentPlayer()).getUsername();
+
+            game.setPositionPersonDisconnected(game.getIndexOfActivePlayer(clientHandlerToRemove.getUsername()));
             game.disconnectPlayer(clientHandlerToRemove.getUsername());
 
             //lo rimuovo dalla mappa che contiene tutti i giocatori di una partita lato server
             mapIdGameClientHandler.get(clientHandlerToRemove.getGame().getIdGame()).remove(clientHandlerToRemove);
 
             game.setCurrentPlayer(game.getIndexOfActivePlayer(usernameCurPlayer));
+
+            System.out.println("indice nuovo current player: "+game.getIndexOfActivePlayer(usernameCurPlayer));
 
             sendNewPositionInGame(clientHandlerToRemove, clientHandlerToRemove.getUsername(), "disconnected");
 
@@ -393,7 +400,6 @@ public class Server {
      * @param clientHandlerToRemove (type ClientHandler) - it is the client handler to unregister because it disconnected
      */
     public synchronized void unregisterUsername(ClientHandler clientHandlerToRemove){
-        System.out.println("Unregistered the username " + clientHandlerToRemove.getUsername()+ "!");
         mapUsernameClientHandler.remove(clientHandlerToRemove.getUsername());
         peopleDisconnected.put(clientHandlerToRemove.getUsername(), clientHandlerToRemove.getGame().getIdGame());
     }

@@ -82,6 +82,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         gridPanel.setBackground(new Color(0,0,0,0));
     }
 
+    // TODO: 08/06/2021 cercare di unire showdev grid alla griglia presente in buy dev card
     public void setButtons(JPanel panel, int width, int height, int top, int left, int bottom, int right) throws IOException {
         ClientModelView clientModelView = gui.getClient().getClientModelView();
         c.insets = new Insets(top,left,bottom,right);
