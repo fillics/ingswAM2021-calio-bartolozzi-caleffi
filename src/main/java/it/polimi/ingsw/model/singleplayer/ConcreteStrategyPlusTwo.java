@@ -1,12 +1,15 @@
 package it.polimi.ingsw.model.singleplayer;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Represents the token with the effect of moving forward the Black Cross by 2 spaces.
  */
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ConcreteStrategyPlusTwo implements TokenActionStrategy{
 
-    private final int steps = 2;
-    private final SinglePlayerGameInterface single;
+    private int steps = 2;
+    private SinglePlayerGameInterface single;
 
     /**
      * Constructor ConcreteStrategyPlusTwo creates a new ConcreteStrategyPlusTwo instance.
@@ -23,4 +26,6 @@ public class ConcreteStrategyPlusTwo implements TokenActionStrategy{
     public void effect(){
         single.increaseBlackCross(steps);
     }
+
+
 }

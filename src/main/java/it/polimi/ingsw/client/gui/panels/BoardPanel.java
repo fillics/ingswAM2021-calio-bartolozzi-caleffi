@@ -235,11 +235,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         faithTrackPanel.setOpaque(false);
     }
 
-    public void createLeaderCardsPanel(){
-        leaderCards = new JPanel();
-        leaderCards.setLayout(new GridBagLayout());
-        c.insets = new Insets(10, 10, 10, 10);
-
+    public void createToken(){
         if(isSingleGame) {
             tokenPanel = new JPanel();
             tokenPanel.setLayout(new GridBagLayout());
@@ -251,6 +247,14 @@ public class BoardPanel extends JPanel implements ActionListener {
             c.gridy=0;
             leaderCards.add(tokenPanel, c);
         }
+    }
+
+    public void createLeaderCardsPanel(){
+        leaderCards = new JPanel();
+        leaderCards.setLayout(new GridBagLayout());
+        c.insets = new Insets(10, 10, 10, 10);
+
+        createToken();
 
         leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
@@ -258,10 +262,8 @@ public class BoardPanel extends JPanel implements ActionListener {
             leaderCardPanels.add(leaderCardPanel1);
             leaderCardPanel1.setOpaque(false);
             c.gridx=0;
-            if(isSingleGame)
-                c.gridy=i+1;
-            else
-                c.gridy=i;
+            if(isSingleGame) c.gridy=i+1;
+            else c.gridy=i;
             leaderCards.add(leaderCardPanels.get(i), c);
         }
         leaderCards.setOpaque(false);

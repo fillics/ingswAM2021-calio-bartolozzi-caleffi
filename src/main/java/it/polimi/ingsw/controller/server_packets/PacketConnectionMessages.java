@@ -25,18 +25,12 @@ public class PacketConnectionMessages implements ServerPacketHandler {
         switch (message){
 
             case USERNAME_VALID -> {
-                if(client.getViewChoice().equals(ViewChoice.CLI)){
-                    Constants.printConnectionMessage(message);
-                }
-                else{
-                    //JOptionPane.showMessageDialog(client.getGui().getjFrame(), message);
-                }
+                if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
             }
 
             case IMPOSSIBLEENDTURN, IMPOSSIBLEMOVE -> {
-                if(client.getViewChoice().equals(ViewChoice.CLI)){
-                    Constants.printConnectionMessage(message);
-                }
+                if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
+
                 else{
                     JOptionPane.showMessageDialog(client.getGui().getjFrame(), message.getMessage());
                 }
@@ -48,7 +42,6 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 }
                 else {
                     client.getGui().createMessageFromServer(ConnectionMessages.LOBBY_MASTER_GUI.getMessage());
-
                     client.getGui().switchPanels(client.getGui().getNumPlayersPanel());
                 }
                 client.setClientState(ClientStates.NUMPLAYERS);
@@ -57,9 +50,8 @@ public class PacketConnectionMessages implements ServerPacketHandler {
 
             case TAKEN_NICKNAME -> {
 
-                if(client.getViewChoice().equals(ViewChoice.CLI)){
-                    Constants.printConnectionMessage(message);
-                }
+                if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
+
                 else {
                     JOptionPane.showMessageDialog(client.getGui().getjFrame(), message.getMessage());
                 }
@@ -68,9 +60,8 @@ public class PacketConnectionMessages implements ServerPacketHandler {
             }
 
             case WAITING_PEOPLE -> {
-                if(client.getViewChoice().equals(ViewChoice.CLI)) {
-                    Constants.printConnectionMessage(message);
-                }
+                if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
+
                 else{
                     client.getGui().createMessageFromServer(ConnectionMessages.WAITING_PEOPLE.getMessage());
                 }
@@ -79,9 +70,8 @@ public class PacketConnectionMessages implements ServerPacketHandler {
             }
 
             case GAME_IS_STARTING -> {
-                if(client.getViewChoice().equals(ViewChoice.CLI)) {
-                    Constants.printConnectionMessage(message);
-                }
+                if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
+
                 else{
                     client.getGui().createMessageFromServer(ConnectionMessages.GAME_IS_STARTING_GUI.getMessage());
                 }
@@ -91,12 +81,19 @@ public class PacketConnectionMessages implements ServerPacketHandler {
 
             case YOUR_TURN, DISCARDDEVCARD, BLACKCROSS1, BLACKCROSS2, BLACKCROSSUPDATE -> {
 
-                if(client.getViewChoice().equals(ViewChoice.CLI)){
-                    Constants.printConnectionMessage(message);
-                }
+                if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
+
                 else{
-                    if(message.equals(ConnectionMessages.YOUR_TURN) || message.equals(ConnectionMessages.BLACKCROSSUPDATE)) client.getGui().createMessageFromServer(ConnectionMessages.YOUR_TURN_GUI.getMessage());
-                    else JOptionPane.showMessageDialog(client.getGui().getjFrame(), message.getMessage());
+                    if(message.equals(ConnectionMessages.YOUR_TURN) || message.equals(ConnectionMessages.BLACKCROSSUPDATE))
+                        client.getGui().createMessageFromServer(ConnectionMessages.YOUR_TURN_GUI.getMessage());
+                    else {
+                        switch (message){
+                            case DISCARDDEVCARD -> message=ConnectionMessages.DISCARDDEVCARD_GUI;
+                            case BLACKCROSS1 -> message=ConnectionMessages.BLACKCROSS1_GUI;
+                            case BLACKCROSS2 -> message=ConnectionMessages.BLACKCROSS2_GUI;
+                        }
+                        JOptionPane.showMessageDialog(client.getGui().getjFrame(), message.getMessage());
+                    }
                 }
 
                 client.setClientState(ClientStates.GAMESTARTED);

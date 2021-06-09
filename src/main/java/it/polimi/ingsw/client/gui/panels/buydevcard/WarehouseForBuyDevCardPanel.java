@@ -13,7 +13,6 @@ public class WarehouseForBuyDevCardPanel extends JPanel{
     private final DepositsForBuyDevCardPanel depositsPanel;
     private final StrongBoxForBuyDevCardPanel strongboxPanel;
     private GUI gui;
-
     private ArrayList<ResourceType> chosenResources;
     private ArrayList<Integer> chosenWarehouses;
 
@@ -34,6 +33,8 @@ public class WarehouseForBuyDevCardPanel extends JPanel{
         this.setBackground(new Color(0,0,0,0));
 
     }
+
+
 
     public DepositsForBuyDevCardPanel getDepositsPanel() {
         return depositsPanel;

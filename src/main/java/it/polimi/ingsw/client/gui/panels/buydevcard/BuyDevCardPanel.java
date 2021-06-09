@@ -1,13 +1,10 @@
 package it.polimi.ingsw.client.gui.panels.buydevcard;
 
-import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.BoardPanel;
 import it.polimi.ingsw.client.gui.panels.DevSpacesPanel;
-import it.polimi.ingsw.client.gui.panels.WarehousePanel;
 import it.polimi.ingsw.controller.client_packets.PacketBuyDevCard;
 import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
-import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDiscount;
 
 import javax.imageio.ImageIO;
@@ -34,9 +31,9 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     private ArrayList<JButton> jButtons;
     private JButton leaderCard1, leaderCard2;
 
-    private JPanel cards, buttons;
+    private JPanel cards, buttons, resources;
     private JPanel mainPanel, centralPanel;
-    private DevGridBuyCardPanel devGridPanel;
+    private DevGridPanel devGridPanel;
     private WarehouseForBuyDevCardPanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
     private JPanel underGridPanel, leftPanel, rightPanel, leaderCards, chooseDiscountPanel, smallBoard,
@@ -112,10 +109,26 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         c.gridy=1;
         rightPanel.add(smallBoard, c);
 
+        /*resources = new JPanel();
+        resources.setLayout(new BoxLayout(resources, BoxLayout.Y_AXIS));
+        resources.setBackground(new Color(233, 226, 193));
+        c.gridx=0;
+        c.gridy=2;
+        rightPanel.add(resources, c);*/
+
         rightPanel.setOpaque(false);
         rightPanel.setBackground(new Color(0,0,0,0));
     }
 
+    public void addResourceToCounting(){
+        int widthRes=0;
+        int heightRes=0;
+        //resources.add();
+        resources.setPreferredSize(new Dimension(widthRes, heightRes));
+        widthRes+=50;
+        heightRes+=50;
+
+    }
 
     public void createButtonsPanel(){
         buttonsPanel = new JPanel();
@@ -252,8 +265,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     }
 
     public void createDevGrid(){
-        devGridPanel = new DevGridBuyCardPanel(this);
-
+        devGridPanel = new DevGridPanel(this);
     }
 
 

@@ -10,26 +10,42 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Objects;
 
-public class DevGridBuyCardPanel extends JPanel implements ActionListener {
+public class DevGridPanel extends JPanel implements ActionListener {
 
     private BuyDevCardPanel buyDevCardPanel;
     private GridBagConstraints c;
-    private JButton devCard1, devCard2, devCard3, devCard4, devCard5, devCard6, devCard7, devCard8, devCard9, devCard10, devCard11, devCard12;
+    private final JButton devCard1;
+    private final JButton devCard2;
+    private final JButton devCard3;
+    private final JButton devCard4;
+    private final JButton devCard5;
+    private final JButton devCard6;
+    private final JButton devCard7;
+    private final JButton devCard8;
+    private final JButton devCard9;
+    private final JButton devCard10;
+    private final JButton devCard11;
+    private final JButton devCard12;
     private String path1,path2,path3,path4,path5,path6,path7,path8,path9,path10,path11,path12;
-    private int width, height;
+    private final int width;
+    private final int height;
 
     private ClientModelView clientModelView;
 
     private int idCard;
 
+    public void setBuyDevCardPanel(BuyDevCardPanel buyDevCardPanel) {
+        this.buyDevCardPanel = buyDevCardPanel;
+    }
 
-    public DevGridBuyCardPanel(BuyDevCardPanel buyDevCardPanel) {
+    public DevGridPanel(BuyDevCardPanel buyDevCardPanel) {
         this.buyDevCardPanel = buyDevCardPanel;
         c = new GridBagConstraints();
         width = 129*3;
         height= 180*3;
 
-        this.setLayout(new GridBagLayout());
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
         devCard1 = new JButton();
         devCard2 = new JButton();
@@ -44,10 +60,12 @@ public class DevGridBuyCardPanel extends JPanel implements ActionListener {
         devCard11 = new JButton();
         devCard12 = new JButton();
         try {
-            setButtons(this, 125, 189, 0,0,0,0);
+            setButtons(mainPanel, 125, 189, 0,0,0,0);
         } catch (IOException ignored) {}
 
+        mainPanel.setOpaque(false);
         this.setOpaque(false);
+        this.add(mainPanel);
     }
 
     public void setButtons(JPanel panel, int width, int height, int top, int left, int bottom, int right) throws IOException {
@@ -58,122 +76,166 @@ public class DevGridBuyCardPanel extends JPanel implements ActionListener {
             path1 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(8).getPath();
         }catch (NullPointerException e){
             path1 = "/images/back/DevCardBackY3.png";
-            devCard1.setEnabled(false);
+            disableButton(devCard1, path1, width, height);
         }
-        devCard1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path1)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard1.addActionListener(this);
-        changeBackground(devCard1);
         c.gridx = 0;
         c.gridy = 0;
-        panel.add(devCard1,c);
+        setButton(devCard1, c, panel, width, height, path1);
+
 
         try{
             path2 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(9).getPath();
         }catch (NullPointerException e){
             path2 = "/images/back/DevCardBackG3.png";
+            disableButton(devCard2, path2, width, height);
         }
-        devCard2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path2)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard2.addActionListener(this);
         c.gridx = 1;
         c.gridy = 0;
-        changeBackground(devCard2);
-        panel.add(devCard2,c);
+        setButton(devCard2, c, panel, width, height, path2);
+
 
         try{
             path3 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(10).getPath();
         }catch (NullPointerException e){
             path3 = "/images/back/DevCardBackP3.png";
+            disableButton(devCard3, path3, width, height);
         }
-        devCard3.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path3)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard3.addActionListener(this);
         c.gridx = 2;
         c.gridy = 0;
-        changeBackground(devCard3);
-        panel.add(devCard3,c);
+        setButton(devCard3, c, panel, width, height, path3);
+
 
         try{
             path4 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(11).getPath();
         }catch (NullPointerException e){
             path4 = "/images/back/DevCardBackB3.png";
+            disableButton(devCard4, path4, width, height);
         }
-        devCard4.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path4)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard4.addActionListener(this);
         c.gridx = 3;
         c.gridy = 0;
-        changeBackground(devCard4);
-        panel.add(devCard4,c);
+        setButton(devCard4, c, panel, width, height, path4);
 
-        path5 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(4).getPath();
-        devCard5.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path5)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard5.addActionListener(this);
+
+        try{
+            path5 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(4).getPath();
+        }catch (NullPointerException e){
+            path5 = "/images/back/DevCardBackY2.png";
+            disableButton(devCard5, path5, width, height);
+        }
         c.gridx = 0;
         c.gridy = 1;
-        changeBackground(devCard5);
-        panel.add(devCard5,c);
+        setButton(devCard5, c, panel, width, height, path5);
 
-        path6 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(5).getPath();
-        devCard6.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path6)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard6.addActionListener(this);
+
+
+        try{
+            path6 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(5).getPath();
+        }catch (NullPointerException e){
+            path6 = "/images/back/DevCardBackG2.png";
+            disableButton(devCard6, path6, width, height);
+        }
         c.gridx = 1;
         c.gridy = 1;
-        changeBackground(devCard6);
-        panel.add(devCard6,c);
+        setButton(devCard6, c, panel, width, height, path6);
 
-        path7 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(6).getPath();
-        devCard7.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path7)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard7.addActionListener(this);
+
+        try{
+            path7 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(6).getPath();
+        }catch (NullPointerException e){
+            path7 = "/images/back/DevCardBackP2.png";
+            disableButton(devCard7, path7, width, height);
+        }
         c.gridx = 2;
         c.gridy = 1;
-        changeBackground(devCard7);
-        panel.add(devCard7,c);
+        setButton(devCard7, c, panel, width, height, path7);
 
-        path8 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(7).getPath();
-        devCard8.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path8)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard8.addActionListener(this);
+        try{
+            path8 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(7).getPath();
+        }catch(NullPointerException e){
+            path8 = "/images/back/DevCardBackB2.png";
+            disableButton(devCard8, path8, width, height);
+        }
         c.gridx = 3;
         c.gridy = 1;
-        changeBackground(devCard8);
-        panel.add(devCard8,c);
+        setButton(devCard8, c, panel, width, height, path8);
 
-        path9 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(0).getPath();
-        devCard9.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path9)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard9.addActionListener(this);
+
+        try{
+            path9 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(0).getPath();
+        }catch (NullPointerException e){
+            path9 = "/images/back/DevCardBackY1.png";
+            disableButton(devCard9, path9, width, height);
+        }
         c.gridx = 0;
         c.gridy = 2;
-        changeBackground(devCard9);
-        panel.add(devCard9,c);
+        setButton(devCard9, c, panel, width, height, path9);
+
 
         try{
             path10 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(1).getPath();
         }catch(NullPointerException e){
             path10 = "/images/back/DevCardBackG1.png";
-            devCard10.setEnabled(false);
-            devCard10.setDisabledIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path10)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
+            disableButton(devCard10, path10, width, height);
         }
-        devCard10.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path10)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard10.addActionListener(this);
         c.gridx = 1;
         c.gridy = 2;
-        changeBackground(devCard10);
-        panel.add(devCard10,c);
+        setButton(devCard10, c, panel, width, height, path10);
 
-        path11 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(2).getPath();
-        devCard11.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path11)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard11.addActionListener(this);
+
+        try{
+            path11 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(2).getPath();
+        }catch (NullPointerException e){
+            path11 = "/images/back/DevCardBackP1.png";
+            disableButton(devCard11, path11, width, height);
+        }
         c.gridx = 2;
         c.gridy = 2;
-        changeBackground(devCard11);
-        panel.add(devCard11,c);
+        setButton(devCard11, c, panel, width, height, path11);
 
-        path12 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(3).getPath();
-        devCard12.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path12)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
-        devCard12.addActionListener(this);
+        try{
+            path12 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(3).getPath();
+        }catch (NullPointerException e){
+            path12 = "/images/back/DevCardBackB1.png";
+            disableButton(devCard12, path12, width, height);
+        }
         c.gridx = 3;
         c.gridy = 2;
-        changeBackground(devCard12);
-        panel.add(devCard12,c);
+        setButton(devCard12, c, panel, width, height, path12);
 
     }
+
+    public void setButton(JButton button, GridBagConstraints c, JPanel panel, int width, int height, String path){
+        try {
+            button.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
+        } catch (IOException ignored) { }
+        button.addActionListener(this);
+        panel.add(button,c);
+        button.setOpaque(false);
+        button.setBackground(new Color(0,0,0,0));
+    }
+
+    public void disableButton(JButton button, String path, int width, int height){
+        button.setEnabled(false);
+        try {
+            button.setDisabledIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
+        } catch (IOException ignored) {}
+
+
+    }
+
+
+    public int getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(int idCard) {
+        this.idCard = idCard;
+    }
+
+    public BuyDevCardPanel getBuyDevCardPanel() {
+        return buyDevCardPanel;
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -215,23 +277,5 @@ public class DevGridBuyCardPanel extends JPanel implements ActionListener {
             buyDevCardPanel.getGui().switchPanels(new DevCardPanel(this, path12, width, height, clientModelView.getDevelopmentGrid().getDevelopmentCards().get(3).getId()));
 
         }
-    }
-
-
-    public void changeBackground(JButton button){
-        button.setOpaque(false);
-        button.setBackground(new Color(0,0,0,0));
-    }
-
-    public int getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(int idCard) {
-        this.idCard = idCard;
-    }
-
-    public BuyDevCardPanel getBuyDevCardPanel() {
-        return buyDevCardPanel;
     }
 }

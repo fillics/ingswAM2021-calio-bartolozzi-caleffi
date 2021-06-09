@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListener {
 
@@ -32,6 +33,7 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
         this.setPreferredSize(new Dimension(250, 300));
         InputStream is = getClass().getResourceAsStream("/images/board/deposits.jpg");
         try {
+            assert is != null;
             background = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
@@ -144,8 +146,9 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
         //FIRST DEPOSIT
         if(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype() != null){
             try {
-                resources.get(0).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
+                resources.get(0).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
                 emptyResources[0]=false;
+                resources.get(0).setEnabled(true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -153,7 +156,8 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
         }
         else {
             try {
-                resources.get(0).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
+                resources.get(0).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/empty.png")).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
+                resources.get(0).setEnabled(false);
             } catch (IOException ignored) {}
         }
 
@@ -163,13 +167,15 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
                 try {
                     resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
                     emptyResources[i]=false;
+                    resources.get(i).setEnabled(true);
                 } catch (IOException ignored) {}
             }
 
         }
         for (int i = 2; i > warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getQuantity(); i--) {
             try {
-                resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
+                resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/empty.png")).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
+                resources.get(0).setEnabled(false);
             } catch (IOException ignored) {}
         }
 
@@ -180,13 +186,16 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
                 try {
                     resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
                     emptyResources[i]=false;
+                    resources.get(i).setEnabled(true);
                 } catch (IOException ignored) {}
             }
         }
 
         for (int i=5; i > 2+warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getQuantity(); i--) {
             try {
-                resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream("/images/punchboard/empty.png").readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
+                resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/empty.png")).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
+                resources.get(i).setEnabled(false);
+
             } catch (IOException ignored) {}
         }
     }
@@ -197,6 +206,7 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
 
         //entro nell'if solo se il bottone contiene l'immagine della risorsa
         if(e.getSource() == resource1 && !emptyResources[0]){
+
             warehouseForBuyDevCardPanel.getChosenWarehouses().add(1);
             warehouseForBuyDevCardPanel.getChosenResources().add(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype());
             resource1.setEnabled(false);
