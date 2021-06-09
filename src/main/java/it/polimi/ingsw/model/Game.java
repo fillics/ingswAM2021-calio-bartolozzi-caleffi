@@ -333,9 +333,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try {
-            leaderDeck = mapper.readValue(new File("src/main/resources/json/LeaderCard.json"), new TypeReference<>() {
-            });
-
+            leaderDeck = mapper.readValue(Objects.requireNonNull(getClass().getResourceAsStream("/json/LeaderCard.json")).readAllBytes(), new TypeReference<>() {});
             leaderDeck.forEach(leaderCard -> {
                 if (leaderCard.getType().equals(LeaderCardType.DISCOUNT)) leaderCard.setStrategy(new ConcreteStrategyDiscount(leaderCard.getResourceType()));
                 if (leaderCard.getType().equals(LeaderCardType.WHITE_MARBLE)) leaderCard.setStrategy(new ConcreteStrategyMarble(leaderCard.getResourceType()));
