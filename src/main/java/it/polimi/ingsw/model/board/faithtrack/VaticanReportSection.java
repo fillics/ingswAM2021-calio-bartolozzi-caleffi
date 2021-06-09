@@ -47,7 +47,7 @@ public class VaticanReportSection {
     /**
      * Method isActivated returns the boolean attribute to know if the vatican report section is activated
      */
-    public boolean getActivated() {
+    public boolean isActivated() {
         return activated;
     }
 }

@@ -50,11 +50,11 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
             }
             ArrayList<Warehouse> realChosenWarehouses = new ArrayList<>();
             for(int k : warehouse){
-                switch (k) {
-                    case 1 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(0));
-                    case 2 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(1));
-                    case 3 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(2));
-                    case 4 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
+                if(k <= gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().size()){
+                    realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(k - 1));
+                }
+                if(k == gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().size() + 1){
+                    realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
                 }
             }
 

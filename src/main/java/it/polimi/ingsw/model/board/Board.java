@@ -179,9 +179,9 @@ public class Board implements BoardInterface {
         if(faithMarker == 24){
             game.endGame();
         }
-        if(track.get(faithMarker - 1).getPopeSpace()){
+        if(track.get(faithMarker - 1).isPopeSpace()){
             if(track.get(faithMarker - 1).getVaticanReportSection() > 0){
-                if(!vaticanReportSections.get(track.get(faithMarker - 1).getVaticanReportSection()-1).getActivated()){
+                if(!vaticanReportSections.get(track.get(faithMarker - 1).getVaticanReportSection()-1).isActivated()){
                     game.checkPlayersFaithMarkers(faithMarker);
                 }
             }
@@ -195,7 +195,7 @@ public class Board implements BoardInterface {
     public int getBoardVictoryPoint() {
         boardVictoryPoint = 0;
         for (VaticanReportSection vaticanReportSection : vaticanReportSections) {
-            if (vaticanReportSection.getPopefavortile().getVisible()) {
+            if (vaticanReportSection.getPopefavortile().isVisible()) {
                 boardVictoryPoint += vaticanReportSection.getPopefavortile().getVictorypoint();
             }
         }

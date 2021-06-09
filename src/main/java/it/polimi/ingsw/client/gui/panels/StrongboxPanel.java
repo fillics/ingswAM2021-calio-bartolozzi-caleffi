@@ -104,7 +104,7 @@ public class StrongboxPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == strongboxButton){
-            depositsPanel.getIdDepot().add(4);
+            depositsPanel.getIdDepot().add(depositsPanel.getIdDepot().size() + 1);
         }
     }
 

@@ -37,19 +37,19 @@ public class FaithTrackTest {
         assertEquals(1, testCell3.getVictoryPoint());
         assertEquals(5, testCell4.getVictoryPoint());
 
-        assertFalse(testCell1.getPopeSpace());
-        assertFalse(testCell2.getPopeSpace());
-        assertFalse(testCell3.getPopeSpace());
-        assertTrue(testCell4.getPopeSpace());
+        assertFalse(testCell1.isPopeSpace());
+        assertFalse(testCell2.isPopeSpace());
+        assertFalse(testCell3.isPopeSpace());
+        assertTrue(testCell4.isPopeSpace());
 
     }
     /** Method PopeFavorTileTest tests board getter. */
     @Test
     @DisplayName("PopeFavorTile getters test")
     void PopeFavorTileTest() {
-        assertFalse(testPopeFavorTile.getVisible());
+        assertFalse(testPopeFavorTile.isVisible());
         testPopeFavorTile.setVisible();
-        assertTrue(testPopeFavorTile.getVisible());
+        assertTrue(testPopeFavorTile.isVisible());
         assertEquals(3,testPopeFavorTile.getVictorypoint());
         assertEquals(PopeFavorTileColor.YELLOW, testPopeFavorTile.getColor());
     }

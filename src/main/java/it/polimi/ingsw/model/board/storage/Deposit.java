@@ -169,7 +169,7 @@ public class Deposit extends Warehouse {
         else {
             quantity -= 1;
             if(quantity == 0){
-                this.resourcetype = null;
+                if(!isSpecial()) this.resourcetype = null;
             }
         }
     }

@@ -34,7 +34,7 @@ public class Cell {
     /**
      * Method isPopeSpace returns the boolean attribute to know if the cell is a pope space
      */
-    public boolean getPopeSpace() {
+    public boolean isPopeSpace() {
         return popeSpace;
     }
 
