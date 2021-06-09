@@ -61,11 +61,11 @@ class PlayerTest {
         testResourcePrice= new HashMap<>();
         testResourcePrice.put(ResourceType.SERVANT,2);
         requirementsDiscount= new NumAndColorRequirement(colorDiscount);
-        testLeaderCardDiscount = new LeaderCard(1, LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2, "",0 );
+        testLeaderCardDiscount = new LeaderCard(1, LeaderCardType.DISCOUNT,requirementsDiscount,ResourceType.SERVANT,2, "",0 ,0);
         testLeaderCardDiscount.setStrategy(new ConcreteStrategyDiscount(ResourceType.SERVANT));
 
         requirementsExtraDep = new ResourcesRequirement(testResourcePrice);
-        testLeaderCardExtraDep = new LeaderCard(2, LeaderCardType.EXTRA_DEPOSIT, requirementsExtraDep, ResourceType.COIN, 5, "",0);
+        testLeaderCardExtraDep = new LeaderCard(2, LeaderCardType.EXTRA_DEPOSIT, requirementsExtraDep, ResourceType.COIN, 5, "",0,0);
         testLeaderCardExtraDep.setStrategy(new ConcreteStrategyDeposit(ResourceType.SERVANT, testPlayer.getBoard()));
 
         testResourcesNeeded = new HashMap<>();

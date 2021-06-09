@@ -16,6 +16,7 @@ import java.util.Objects;
 
 public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListener {
 
+    private GUI gui;
     private WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel;
     private Image background;
     private DepositsPanel depositsPanel;
@@ -32,7 +33,8 @@ public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListene
         g.drawImage(background, 0, 0, 250, 180, null);
     }
 
-    public StrongBoxForBuyDevCardPanel(WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel) {
+    public StrongBoxForBuyDevCardPanel(GUI gui, WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel) {
+        this.gui = gui;
         this.setPreferredSize(new Dimension(250, 180));
         this.warehouseForBuyDevCardPanel = warehouseForBuyDevCardPanel;
         InputStream is = getClass().getResourceAsStream("/images/board/strongbox.jpg");
@@ -153,26 +155,25 @@ public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListene
 
         if(e.getSource() == coinButton && howManyCoins!=0){
             warehouseForBuyDevCardPanel.getChosenResources().add(ResourceType.COIN);
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(4);
+            warehouseForBuyDevCardPanel.getChosenWarehouses().add(gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() + 1);
 
 
         }
         if(e.getSource() == servantButton && howManyServants!=0){
             warehouseForBuyDevCardPanel.getChosenResources().add(ResourceType.SERVANT);
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(4);
+            warehouseForBuyDevCardPanel.getChosenWarehouses().add(gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() + 1);
 
 
         }
         if(e.getSource() == shieldButton && howManyShields!=0){
             warehouseForBuyDevCardPanel.getChosenResources().add(ResourceType.SHIELD);
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(4);
+            warehouseForBuyDevCardPanel.getChosenWarehouses().add(gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() + 1);
 
 
         }
         if(e.getSource() == stoneButton && howManyStones!=0){
             warehouseForBuyDevCardPanel.getChosenResources().add(ResourceType.STONE);
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(4);
-
+            warehouseForBuyDevCardPanel.getChosenWarehouses().add(gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() + 1);
         }
     }
 }

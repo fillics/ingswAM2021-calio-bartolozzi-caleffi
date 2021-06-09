@@ -343,7 +343,7 @@ public class FaithTrackPanel extends JPanel{
         panel2.add(Box.createRigidArea(new Dimension(97,15)));
         try {
             for(int i=4; i<8;i++){
-                if(gui.getClient().getClientModelView().getLiteBoard().getVaticanReportSections().get((gui.getClient().getClientModelView().getLiteBoard().getTrack().get(i).getVaticanReportSection())-1).getPopefavortile().getVisible())
+                if(gui.getClient().getClientModelView().getLiteBoard().getVaticanReportSections().get((gui.getClient().getClientModelView().getLiteBoard().getTrack().get(i).getVaticanReportSection())-1).getPopefavortile().isVisible())
                     label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoGiallofront.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
                 else
                     label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoGiallo.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
@@ -522,7 +522,7 @@ public class FaithTrackPanel extends JPanel{
 
         try {
             for(int i=11; i<16; i++) {
-                if (gui.getClient().getClientModelView().getLiteBoard().getVaticanReportSections().get((gui.getClient().getClientModelView().getLiteBoard().getTrack().get(i).getVaticanReportSection()) - 1).getPopefavortile().getVisible())
+                if (gui.getClient().getClientModelView().getLiteBoard().getVaticanReportSections().get((gui.getClient().getClientModelView().getLiteBoard().getTrack().get(i).getVaticanReportSection()) - 1).getPopefavortile().isVisible())
                     label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoArancionefront.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
                 else
                     label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoArancione.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
@@ -839,7 +839,7 @@ public class FaithTrackPanel extends JPanel{
         panel2.add(Box.createRigidArea(new Dimension(96,15)));
         try {
             for(int i=18; i<24;i++) {
-                if (gui.getClient().getClientModelView().getLiteBoard().getVaticanReportSections().get((gui.getClient().getClientModelView().getLiteBoard().getTrack().get(i).getVaticanReportSection()) - 1).getPopefavortile().getVisible())
+                if (gui.getClient().getClientModelView().getLiteBoard().getVaticanReportSections().get((gui.getClient().getClientModelView().getLiteBoard().getTrack().get(i).getVaticanReportSection()) - 1).getPopefavortile().isVisible())
                     label4.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoRossofront.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
                 else
                     label4.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoRosso.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));

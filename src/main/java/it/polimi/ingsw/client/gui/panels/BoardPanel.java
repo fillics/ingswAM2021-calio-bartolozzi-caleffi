@@ -294,8 +294,8 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         for (LeaderCardPanel leaderCardPanel : leaderCardPanels) {
             leaderCardPanel.getDepositButton().setVisible(false);
-            leaderCardPanel.getDepostForBuyDevCardAndProdPower().setVisible(false);
-            leaderCardPanel.getButton().setVisible(false);
+            leaderCardPanel.getDepositForBuyDevCardAndProdPower().setVisible(false);
+            leaderCardPanel.getChooseWhiteMarbleButton().setVisible(false);
         }
 
     }

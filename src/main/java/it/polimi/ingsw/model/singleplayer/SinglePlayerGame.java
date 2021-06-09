@@ -92,15 +92,20 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
      * @param amount of type Int - indicates the number of steps.
      */
     public void increaseBlackCross(int amount){
-        if (amount>=0) blackCross += amount;
-        if (blackCross > 24){
-            endGame();
-            blackCross = 24;
-        }
-        if(getActivePlayers().get(0).getBoard().getTrack().get(blackCross - 1).getPopeSpace()){
-            if(getActivePlayers().get(0).getBoard().getTrack().get(blackCross - 1).getVaticanReportSection() > 0){
-                if(!getActivePlayers().get(0).getBoard().getVaticanReportSections().get(getActivePlayers().get(0).getBoard().getTrack().get(blackCross - 1).getVaticanReportSection()-1).getActivated()){
-                    checkPlayersFaithMarkers(blackCross);
+        if (amount > 0) {
+            for(int i = 0; i < amount; i++){
+                blackCross++;
+                if(getActivePlayers().get(0).getBoard().getTrack().get(blackCross - 1).isPopeSpace()){
+                    if(getActivePlayers().get(0).getBoard().getTrack().get(blackCross - 1).getVaticanReportSection() > 0){
+                        if(!getActivePlayers().get(0).getBoard().getVaticanReportSections().get(getActivePlayers().get(0).getBoard().getTrack().get(blackCross - 1).getVaticanReportSection()-1).isActivated()){
+                            checkPlayersFaithMarkers(blackCross);
+                        }
+                    }
+                }
+                if (blackCross >= 24){
+                    endGame();
+                    blackCross = 24;
+                    break;
                 }
             }
         }

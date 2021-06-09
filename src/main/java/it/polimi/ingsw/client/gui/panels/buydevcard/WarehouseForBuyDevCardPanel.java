@@ -26,7 +26,7 @@ public class WarehouseForBuyDevCardPanel extends JPanel{
         this.setPreferredSize(new Dimension(250, 480));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         depositsPanel = new DepositsForBuyDevCardPanel(this);
-        strongboxPanel = new StrongBoxForBuyDevCardPanel(this);
+        strongboxPanel = new StrongBoxForBuyDevCardPanel(gui, this);
         this.add(depositsPanel);
         this.add(strongboxPanel);
 

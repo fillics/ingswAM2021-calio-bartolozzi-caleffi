@@ -40,7 +40,7 @@ public class PopeFavorTile {
     /**
      * Method isVisible returns the boolean attribute to know if the pope favor tile is visible
      */
-    public boolean getVisible() {
+    public boolean isVisible() {
         return visible;
     }
 

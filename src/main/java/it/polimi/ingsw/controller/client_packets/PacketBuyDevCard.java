@@ -38,13 +38,12 @@ public class PacketBuyDevCard implements ClientPacketHandler {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
                 ArrayList<Warehouse> realChosenWarehouses = new ArrayList<>();
-                // TODO: 07/06/2021 mettere il caso delle leader card con deposito extra
                 for(int i : chosenWarehouses){
-                    switch (i) {
-                        case 1 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(0));
-                        case 2 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(1));
-                        case 3 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(2));
-                        case 4 -> realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
+                    if(i <= gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().size()){
+                        realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(i - 1));
+                    }
+                    if(i == gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().size() + 1){
+                        realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
                     }
                 }
 

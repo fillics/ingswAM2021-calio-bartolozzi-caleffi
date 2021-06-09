@@ -580,6 +580,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
                 if(leaderCard.getRequirements().checkRequirement(activePlayers.get(currentPlayer).getBoard())){
                     leaderCard.useAbility();
                     if(leaderCard.getType().equals(LeaderCardType.EXTRA_DEPOSIT)) leaderCard.setDepositPosition(activePlayers.get(currentPlayer).getBoard().getDeposits().size() - 1);
+                    if(leaderCard.getType().equals(LeaderCardType.PRODUCTION_POWER)) leaderCard.setProductionPowerPosition(activePlayers.get(currentPlayer).getBoard().getSpecialProductionPowers().size() - 1);
                 }
                 else throw new NotEnoughRequirements();
             }
@@ -597,7 +598,10 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
      * @throws LeaderCardNotFound if the player has not got the cardToDiscard
      */
     @Override
-    public void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound {
+    public void discardLeaderCard(int idCardToDiscard) throws LeaderCardNotFound, LeaderCardIsActive {
+        for(LeaderCard leaderCard : activePlayers.get(currentPlayer).getLeaderCards()){
+            if(leaderCard.getId() == idCardToDiscard && leaderCard.getStrategy().isActive()) throw new LeaderCardIsActive();
+        }
 
         LeaderCard[] leaderCards = activePlayers.get(currentPlayer).getLeaderCards().stream().filter(card ->
                 (card.getId()==idCardToDiscard) && !card.getStrategy().isActive()).

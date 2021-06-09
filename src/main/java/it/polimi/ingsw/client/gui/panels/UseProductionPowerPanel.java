@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.client_packets.PacketUseAndChooseProdPower;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDeposit;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -124,15 +125,15 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
 
         leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            if ((gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyProductionPower ||
-                    gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDeposit) &&
+            if ((gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getType().equals(LeaderCardType.PRODUCTION_POWER)||
+                    gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getType().equals(LeaderCardType.EXTRA_DEPOSIT)) &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
-                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),159,240, warehousePanel);
+                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),159,240, warehousePanel, devSpacesPanel);
                 leaderCardPanels.add(leaderCardPanel1);
                 leaderCardPanel1.setOpaque(false);
                 c.gridx=0;
                 c.gridy=i;
-                leaderCards.add(leaderCardPanels.get(i), c);
+                leaderCards.add(leaderCardPanel1, c);
             }
         }
         leaderCards.setOpaque(false);

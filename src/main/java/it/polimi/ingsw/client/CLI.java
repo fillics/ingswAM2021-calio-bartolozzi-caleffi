@@ -3,7 +3,6 @@ package it.polimi.ingsw.client;
 import it.polimi.ingsw.constants.Color;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Printable;
-import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.model.board.faithtrack.PopeFavorTileColor;
 import it.polimi.ingsw.model.board.resources.Resource;
@@ -396,7 +395,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
 
     public String printColor(int i){
         StringBuilder escape = new StringBuilder();
-        if((clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection())!=0 && clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace()){
+        if((clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection())!=0 && clientModelView.getLiteBoard().getTrack().get(i).isPopeSpace()){
             if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()== PopeFavorTileColor.YELLOW)
                 escape.append(Color.ANSI_PURPLE.escape());
             else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()== PopeFavorTileColor.ORANGE)
@@ -404,7 +403,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
             else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED)
                 escape.append(Color.ANSI_RED.escape());
         }
-        else if((clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection())!=0 && !clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace())
+        else if((clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection())!=0 && !clientModelView.getLiteBoard().getTrack().get(i).isPopeSpace())
             escape.append(Color.ANSI_YELLOW.escape());
         return escape.toString();
     }
@@ -506,7 +505,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
         escape.append("\n");
         escape.append(" ".repeat(7));
         for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
-            if(clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace()){
+            if(clientModelView.getLiteBoard().getTrack().get(i).isPopeSpace()){
                 if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()== PopeFavorTileColor.YELLOW)
                     escape.append(Color.ANSI_PURPLE.escape()).append(Printable.NORD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.NORD_EST.print()).append(Color.RESET);
                 else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE)
@@ -521,21 +520,21 @@ public class CLI implements ViewInterface, SetupClientInterface{
         escape.append("\n");
         escape.append(" ".repeat(7));
         for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
-            if(clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace()){
+            if(clientModelView.getLiteBoard().getTrack().get(i).isPopeSpace()){
                 if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.YELLOW){
-                    if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVisible())
+                    if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().isVisible())
                         escape.append(Color.ANSI_PURPLE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_GREEN.escape()).append(Printable.CHECK.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_PURPLE.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
                     else
                         escape.append(Color.ANSI_PURPLE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_RED.escape()).append(Printable.RED_CROSS.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_PURPLE.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
                 }
                 else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE){
-                    if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVisible())
+                    if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().isVisible())
                         escape.append(Color.ANSI_BLUE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_GREEN.escape()).append(Printable.CHECK.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_BLUE.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
                     else
                         escape.append(Color.ANSI_BLUE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_RED.escape()).append(Printable.RED_CROSS.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_BLUE.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
                 }
                 else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.RED){
-                    if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVisible())
+                    if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().isVisible())
                         escape.append(Color.ANSI_RED.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_GREEN.escape()).append(Printable.CHECK.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_RED.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
                     else
                         escape.append(Color.ANSI_RED.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(2)).append(Color.RESET).append(Color.ANSI_RED.escape()).append(Printable.RED_CROSS.print()).append(Color.RESET).append(" ".repeat(2)).append(Color.ANSI_RED.escape()).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
@@ -548,7 +547,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
         escape.append("\n");
         escape.append(" ".repeat(7));
         for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
-            if(clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace()){
+            if(clientModelView.getLiteBoard().getTrack().get(i).isPopeSpace()){
                 if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.YELLOW)
                     escape.append(Color.ANSI_PURPLE.escape()).append(Printable.DOUBLE_LINE.print()).append(" ".repeat(1)).append(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getVictorypoint()).append("VP").append(" ".repeat(1)).append(Printable.DOUBLE_LINE.print()).append(Color.RESET);
                 else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE)
@@ -562,7 +561,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
         escape.append("\n");
         escape.append(" ".repeat(7));
         for (int i=0; i<clientModelView.getLiteBoard().getTrack().size();i++) {
-            if(clientModelView.getLiteBoard().getTrack().get(i).getPopeSpace()){
+            if(clientModelView.getLiteBoard().getTrack().get(i).isPopeSpace()){
                 if( clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.YELLOW)
                     escape.append(Color.ANSI_PURPLE.escape()).append(Printable.SUD_OVEST.print()).append(Printable.MIDDLE.print().repeat(5)).append(Printable.SUD_EST.print()).append(Color.RESET);
                 else if(clientModelView.getLiteBoard().getVaticanReportSections().get(clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()-1).getPopefavortile().getColor()==PopeFavorTileColor.ORANGE)

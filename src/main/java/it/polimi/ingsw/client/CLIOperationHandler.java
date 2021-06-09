@@ -584,9 +584,11 @@ public class CLIOperationHandler{
                 do{
                     position = input.nextLine();
                     if(position.equals("exit")) return;
-                    switch (position) {
-                        case "1", "2", "3", "4" -> warehouse.add(Integer.parseInt(position) );
-                        default -> System.err.println("invalid position\n");
+                    if(Integer.parseInt(position) <= clientModelView.getLiteBoard().getDeposits().size() + 1){
+                        warehouse.add(Integer.parseInt(position));
+                    }
+                    else {
+                        System.err.println("invalid position\n");
                     }
                 }while(Integer.parseInt(position)  < 1 || Integer.parseInt(position)  > 4);
             }
