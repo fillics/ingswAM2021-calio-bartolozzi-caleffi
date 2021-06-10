@@ -20,5 +20,6 @@ public class PacketToken implements ServerPacketHandler{
     @Override
     public void execute(Client client) {
         client.getClientModelView().setSoloActionToken(soloActionToken);
+
     }
 }

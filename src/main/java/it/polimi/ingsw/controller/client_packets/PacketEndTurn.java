@@ -32,10 +32,11 @@ public class PacketEndTurn implements ClientPacketHandler{
                         clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
 
                         SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
-
+                        System.out.println("lato server: "+token.getStrategy());
                         switch (token.getType()) {
                             case DISCARD -> {
                                 ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
+
                                 clientHandler.sendPacketToClient(new PacketToken(token));
                                 clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
                                 clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
