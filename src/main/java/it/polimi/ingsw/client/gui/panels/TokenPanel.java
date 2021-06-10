@@ -15,7 +15,7 @@ public class TokenPanel extends JPanel {
     public TokenPanel(GUI gui) {
         this.gui = gui;
         if(gui.getClient().getClientModelView().getSoloActionToken()!=null){
-            path= gui.getClient().getClientModelView().getSoloActionToken().getPath();
+            path = gui.getClient().getClientModelView().getSoloActionToken().getPath();
         }
         else{
             path= "/images/punchboard/retroCerchi.png";
