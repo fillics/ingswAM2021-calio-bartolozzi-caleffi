@@ -99,11 +99,11 @@ public class ClientHandler implements Runnable {
                     }
                 }
                 if(gameStarted && game.isEndgame()) {
-                    quit=true;
+                   // quit=true;
 
                     if(!(game instanceof SinglePlayerGame)){
                         server.sendAll(new PacketEndGameStarted(username), game);
-                        game.setState(GameStates.FINAL_TURN);
+                    //    game.setState(GameStates.FINAL_TURN);
                     }
 
                 }

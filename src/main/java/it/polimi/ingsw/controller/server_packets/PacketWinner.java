@@ -18,7 +18,7 @@ public class PacketWinner implements ServerPacketHandler {
     @Override
     public void execute(Client client) {
         if(client.getViewChoice().equals(ViewChoice.CLI)) System.out.println("The winner of this game is "+ username);
-        else JOptionPane.showMessageDialog(client.getGui().getjFrame(), "The winner of this game is" + username);
+        else JOptionPane.showMessageDialog(client.getGui().getjFrame(), "The winner of this game is " + username);
     }
 
     public String getUsername() {

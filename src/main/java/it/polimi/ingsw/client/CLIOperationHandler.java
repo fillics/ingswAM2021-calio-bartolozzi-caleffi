@@ -206,14 +206,14 @@ public class CLIOperationHandler{
                 do{
                     System.out.println("Choose the place in which you want to take it (write 0 when you have finished)");
                     position = input.nextLine();
-                    switch (position) {
-                        case "1", "2", "3", "4" -> warehouse.add(Integer.parseInt(position));
-                        case "exit" -> {
-                            return;
-                        }
-                        default -> System.err.println("invalid position\n");
+                    if(position.equals("exit")) return;
+                    if(Integer.parseInt(position) <= clientModelView.getLiteBoard().getDeposits().size() + 1){
+                        warehouse.add(Integer.parseInt(position));
                     }
-                }while(Integer.parseInt(position) < 1 || Integer.parseInt(position) > 4);
+                    else {
+                        System.err.println("invalid position\n");
+                    }
+                }while(Integer.parseInt(position) < 1 || Integer.parseInt(position) > clientModelView.getLiteBoard().getDeposits().size() + 1);
 
             }
         }while (Integer.parseInt(resource) != 0);
@@ -590,7 +590,7 @@ public class CLIOperationHandler{
                     else {
                         System.err.println("invalid position\n");
                     }
-                }while(Integer.parseInt(position)  < 1 || Integer.parseInt(position)  > 4);
+                }while(Integer.parseInt(position)  < 1 || Integer.parseInt(position)  > clientModelView.getLiteBoard().getDeposits().size() + 1);
             }
         }while (Integer.parseInt(resource)  != 0);
 

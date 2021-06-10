@@ -31,46 +31,49 @@ public class PacketEndTurn implements ClientPacketHandler{
                         }
                         clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
 
-                        SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
-
-                        switch (token.getType()) {
-                            case DISCARD -> {
-                                ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                                clientHandler.sendPacketToClient(new PacketToken(token));
-                                clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
-                                clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
-                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.DISCARDDEVCARD));
-                                clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(gameInterface.getDevGridLite()));
-                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-                            }
-                            case BLACKCROSS_1 -> {
-                                ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                                clientHandler.sendPacketToClient(new PacketToken(token));
-                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS1));
-                                clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
-                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSSUPDATE));
-                                clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
-                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-
-                            }
-                            case BLACKCROSS_2 -> {
-                                ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
-                                clientHandler.sendPacketToClient(new PacketToken(token));
-                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS2));
-                                clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
-                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSSUPDATE));
-                                clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
-                                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-                            }
-                        }
                         if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
                             ((SinglePlayerGame) gameInterface).winner();
                             System.out.println(gameInterface.getWinner());
                             clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
+                            gameInterface.setState(GameStates.END);
                         }
-                        gameInterface.setState(GameStates.PHASE_ONE);
+                        else{
+                            SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
+                            switch (token.getType()) {
+                                case DISCARD -> {
+                                    ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
+                                    clientHandler.sendPacketToClient(new PacketToken(token));
+                                    clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
+                                    clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
+                                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.DISCARDDEVCARD));
+                                    clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(gameInterface.getDevGridLite()));
+                                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+                                }
+                                case BLACKCROSS_1 -> {
+                                    ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
+                                    clientHandler.sendPacketToClient(new PacketToken(token));
+                                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS1));
+                                    clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
+                                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSSUPDATE));
+                                    clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
+                                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+
+                                }
+                                case BLACKCROSS_2 -> {
+                                    ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
+                                    clientHandler.sendPacketToClient(new PacketToken(token));
+                                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSS2));
+                                    clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
+                                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.BLACKCROSSUPDATE));
+                                    clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
+                                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+                                }
+                            }
+                            gameInterface.setState(GameStates.PHASE_ONE);
+                        }
                     }
                 }
+                default -> clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
             }
 
         }
@@ -91,7 +94,8 @@ public class PacketEndTurn implements ClientPacketHandler{
 
 
                         if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
-                            clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
+                          //  clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
+                            server.sendAll(new PacketWinner(gameInterface.getWinner()), gameInterface);
                         }
                         else{
                             server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
@@ -107,6 +111,7 @@ public class PacketEndTurn implements ClientPacketHandler{
                         clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
                     }
                 }
+                default -> clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
             }
 
         }
