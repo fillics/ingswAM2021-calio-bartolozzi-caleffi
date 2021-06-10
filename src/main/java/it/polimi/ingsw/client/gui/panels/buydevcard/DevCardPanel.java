@@ -1,9 +1,6 @@
 package it.polimi.ingsw.client.gui.panels.buydevcard;
 
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.client.gui.panels.buydevcard.BuyDevCardPanel;
-import it.polimi.ingsw.client.gui.panels.buydevcard.DevGridBuyCardPanel;
-import it.polimi.ingsw.controller.client_packets.PacketActivateLeaderCard;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,13 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class DevCardPanel extends JPanel implements ActionListener {
     private int id;
 
-    private DevGridBuyCardPanel devGridPanel;
+    private DevGridPanel devGridPanel;
     private Image background;
     private JPanel mainPanel, buttonsPanel, cardPanel;
     private GridBagConstraints c;
@@ -31,7 +27,7 @@ public class DevCardPanel extends JPanel implements ActionListener {
 
     }
 
-    public DevCardPanel(DevGridBuyCardPanel devGridPanel, String path, int width, int height, int id) {
+    public DevCardPanel(DevGridPanel devGridPanel, String path, int width, int height, int id) {
         this.devGridPanel = devGridPanel;
         this.id = id;
         InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");

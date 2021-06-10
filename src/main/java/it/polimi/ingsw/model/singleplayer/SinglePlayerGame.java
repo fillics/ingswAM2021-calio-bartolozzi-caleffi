@@ -17,6 +17,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Objects;
 
 
 /**
@@ -121,9 +122,7 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try {
-            deckSoloActionToken = mapper.readValue(new File("src/main/resources/json/Token.json"), new TypeReference<>() {
-            });
-
+            deckSoloActionToken = mapper.readValue(Objects.requireNonNull(getClass().getResourceAsStream("/json/Token.json")).readAllBytes(), new TypeReference<>() {});
             deckSoloActionToken.forEach(soloActionToken -> {
                 if (soloActionToken.getType().equals(SoloActionTokenType.DISCARD)) {
                     if (soloActionToken.getColor().equals(CardColor.BLUE)) soloActionToken.setStrategy(new ConcreteStrategyDiscard(this, CardColor.BLUE));
@@ -134,7 +133,6 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
                 else if (soloActionToken.getType().equals(SoloActionTokenType.BLACKCROSS_1)) soloActionToken.setStrategy(new ConcreteStrategyPlusOne(this));
                 else if (soloActionToken.getType().equals(SoloActionTokenType.BLACKCROSS_2)) soloActionToken.setStrategy(new ConcreteStrategyPlusTwo(this));
             });
-
             Collections.shuffle(deckSoloActionToken);
         }catch (FileNotFoundException ex){
             System.out.println("Token.json file was not found");

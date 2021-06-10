@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.panels;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.buydevcard.BuyDevCardPanel;
 import it.polimi.ingsw.client.gui.panels.showpanels.ShowDevGridPanel;
+import it.polimi.ingsw.client.gui.panels.showpanels.ShowMarketTrayPanel;
 import it.polimi.ingsw.controller.client_packets.PacketEndTurn;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.FaithMarkerCheatPacket;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.ResourcesInStrongboxCheatPacket;
@@ -235,11 +236,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         faithTrackPanel.setOpaque(false);
     }
 
-    public void createLeaderCardsPanel(){
-        leaderCards = new JPanel();
-        leaderCards.setLayout(new GridBagLayout());
-        c.insets = new Insets(10, 10, 10, 10);
-
+    public void createToken(){
         if(isSingleGame) {
             tokenPanel = new JPanel();
             tokenPanel.setLayout(new GridBagLayout());
@@ -251,6 +248,14 @@ public class BoardPanel extends JPanel implements ActionListener {
             c.gridy=0;
             leaderCards.add(tokenPanel, c);
         }
+    }
+
+    public void createLeaderCardsPanel(){
+        leaderCards = new JPanel();
+        leaderCards.setLayout(new GridBagLayout());
+        c.insets = new Insets(10, 10, 10, 10);
+
+        createToken();
 
         leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
@@ -258,10 +263,8 @@ public class BoardPanel extends JPanel implements ActionListener {
             leaderCardPanels.add(leaderCardPanel1);
             leaderCardPanel1.setOpaque(false);
             c.gridx=0;
-            if(isSingleGame)
-                c.gridy=i+1;
-            else
-                c.gridy=i;
+            if(isSingleGame) c.gridy=i+1;
+            else c.gridy=i;
             leaderCards.add(leaderCardPanels.get(i), c);
         }
         leaderCards.setOpaque(false);

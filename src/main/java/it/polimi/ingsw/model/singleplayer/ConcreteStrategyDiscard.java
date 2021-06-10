@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.singleplayer;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.polimi.ingsw.model.cards.developmentcards.CardColor;
 
 import java.util.stream.IntStream;
@@ -10,10 +8,9 @@ import java.util.stream.IntStream;
 /**
  * Represents the token that discards the Development Cards of the indicated type.
  */
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ConcreteStrategyDiscard implements TokenActionStrategy{
 
-    private final int amount = 2;
     private SinglePlayerGameInterface singleGame;
     private CardColor color;
 
@@ -23,18 +20,9 @@ public class ConcreteStrategyDiscard implements TokenActionStrategy{
      * @param singleGame of type SinglePlayerGame
      * @param color of type CardColor
      */
-    @JsonCreator
-    public ConcreteStrategyDiscard(SinglePlayerGameInterface singleGame,CardColor color) {
+    public ConcreteStrategyDiscard(SinglePlayerGameInterface singleGame, CardColor color) {
         this.singleGame = singleGame;
         this.color = color;
-    }
-
-    public SinglePlayerGameInterface getSingleGame() {
-        return singleGame;
-    }
-
-    public CardColor getColor() {
-        return color;
     }
 
     /**
@@ -43,7 +31,10 @@ public class ConcreteStrategyDiscard implements TokenActionStrategy{
      */
     @Override
     public void effect(){
+        int amount = 2;
         IntStream.range(0, amount).forEach(i -> singleGame.removeDevCard(color));
     }
+
+
 
 }

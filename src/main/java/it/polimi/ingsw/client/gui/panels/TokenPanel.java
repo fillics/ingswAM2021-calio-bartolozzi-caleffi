@@ -15,7 +15,7 @@ public class TokenPanel extends JPanel {
     public TokenPanel(GUI gui) {
         this.gui = gui;
         if(gui.getClient().getClientModelView().getSoloActionToken()!=null){
-            path= gui.getClient().getClientModelView().getSoloActionToken().getPath();
+            path = gui.getClient().getClientModelView().getSoloActionToken().getPath();
         }
         else{
             path= "/images/punchboard/retroCerchi.png";
@@ -25,9 +25,7 @@ public class TokenPanel extends JPanel {
 
         try {
             label.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(100, 100, Image.SCALE_AREA_AVERAGING)));
-            } catch (IOException e) {
-            e.printStackTrace();
-        }
+            } catch (IOException ignored){}
 
         this.add(label);
         this.setOpaque(false);

@@ -62,8 +62,7 @@ public class Board implements BoardInterface {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         try {
-            track= mapper.readValue(new File("src/main/resources/json/FaithTrack.json"), new TypeReference<>() {
-            });
+            track = mapper.readValue(Objects.requireNonNull(getClass().getResourceAsStream("/json/FaithTrack.json")).readAllBytes(), new TypeReference<>() {});
         } catch (IOException e) {
             System.out.println("FaithTrack.json file was not found");
         }

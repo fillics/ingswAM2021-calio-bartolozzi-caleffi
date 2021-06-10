@@ -52,7 +52,7 @@ public class Constants {
                     +"╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝         ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝";
 
     public static final String AUTHORS =
-            "\nby "
+            "by "
                     + ANSI_RED
                     + "Filippo Caliò"
                     + ANSI_RESET

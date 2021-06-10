@@ -1,13 +1,11 @@
 package it.polimi.ingsw.client.gui.panels.buydevcard;
 
-import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.BoardPanel;
 import it.polimi.ingsw.client.gui.panels.DevSpacesPanel;
-import it.polimi.ingsw.client.gui.panels.WarehousePanel;
+import it.polimi.ingsw.client.gui.panels.WarehouseAndDevSpacesPanel;
 import it.polimi.ingsw.controller.client_packets.PacketBuyDevCard;
 import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
-import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDiscount;
 
 import javax.imageio.ImageIO;
@@ -34,13 +32,15 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     private ArrayList<JButton> jButtons;
     private JButton leaderCard1, leaderCard2;
 
-    private JPanel cards, buttons;
+    private JPanel cards, buttons, resources;
     private JPanel mainPanel, centralPanel;
-    private DevGridBuyCardPanel devGridPanel;
+    private DevGridPanel devGridPanel;
     private WarehouseForBuyDevCardPanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
-    private JPanel underGridPanel, leftPanel, rightPanel, leaderCards, chooseDiscountPanel, smallBoard,
+    private JPanel underGridPanel, leftPanel, rightPanel, leaderCards, chooseDiscountPanel,
             buttonsPanel;
+    private WarehouseAndDevSpacesPanel smallBoard;
+    private int widthRes, heightRes;
 
 
     public void paintComponent(Graphics g){
@@ -57,6 +57,8 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         } catch (IOException ignored) {}
         c = new GridBagConstraints();
 
+        widthRes=0;
+        heightRes=0;
         mainPanel = new JPanel();
 
         mainPanel.setLayout(new GridBagLayout());
@@ -112,10 +114,10 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         c.gridy=1;
         rightPanel.add(smallBoard, c);
 
+
         rightPanel.setOpaque(false);
         rightPanel.setBackground(new Color(0,0,0,0));
     }
-
 
     public void createButtonsPanel(){
         buttonsPanel = new JPanel();
@@ -136,18 +138,8 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     }
 
     public void createSmallBoard(){
-        smallBoard = new JPanel();
-        smallBoard.setLayout(new GridBagLayout());
+        smallBoard = new WarehouseAndDevSpacesPanel(this);
 
-        createDeposits();
-        c.gridx=0;
-        c.gridy=0;
-        smallBoard.add(warehousePanel, c);
-
-        createDevSpace();
-        c.gridx=1;
-        c.gridy=0;
-        smallBoard.add(devSpacesPanel, c);
     }
 
 
@@ -155,7 +147,6 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     public void createLeftPanel(){
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridBagLayout());
-
 
         guide = new JLabel("Click on a card to see it bigger");
 
@@ -252,22 +243,10 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     }
 
     public void createDevGrid(){
-        devGridPanel = new DevGridBuyCardPanel(this);
-
+        devGridPanel = new DevGridPanel(this);
     }
 
 
-
-    public void createDeposits(){
-        warehousePanel = new WarehouseForBuyDevCardPanel(gui);
-
-    }
-
-    public void createDevSpace(){
-        devSpacesPanel = new DevSpacesPanel(gui);
-        devSpacesPanel.setProductionPowerInvisible();
-
-    }
 
 
     @Override
@@ -291,9 +270,10 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
         if(e.getSource() == confirmBuyBtn){
 
-            if(warehousePanel.getChosenWarehouses().size()!=0 && warehousePanel.getChosenResources().size()!=0 && devSpacesPanel.getIdDevSpace()!=0){
-                gui.sendPacketToServer(new PacketBuyDevCard(devGridPanel.getIdCard(), warehousePanel.getChosenResources(),
-                        warehousePanel.getChosenWarehouses(), devSpacesPanel.getIdDevSpace()));
+            if(smallBoard.getWarehousePanel().getChosenWarehouses().size()!=0 && smallBoard.getWarehousePanel().getChosenResources().size()!=0
+                    && smallBoard.getDevSpacesPanel().getIdDevSpace()!=0){
+                gui.sendPacketToServer(new PacketBuyDevCard(devGridPanel.getIdCard(), smallBoard.getWarehousePanel().getChosenResources(),
+                        smallBoard.getWarehousePanel().getChosenWarehouses(), smallBoard.getDevSpacesPanel().getIdDevSpace()));
                 gui.switchPanels(new BoardPanel(gui));
             }
             else{

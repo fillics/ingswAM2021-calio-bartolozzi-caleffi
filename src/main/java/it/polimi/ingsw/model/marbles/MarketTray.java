@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.Player;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 
 /**
@@ -32,8 +33,7 @@ public class MarketTray {
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
         try {
-            market = mapper.readValue(new File("src/main/resources/json/Marble.json"), new TypeReference<>() {
-            });
+            market = mapper.readValue(Objects.requireNonNull(getClass().getResourceAsStream("/json/Marble.json")).readAllBytes(), new TypeReference<>() {});
             Collections.shuffle(market);
             for(i=0;i<3;i++){
                 for(j=0; j<4;j++,k++){
@@ -42,8 +42,7 @@ public class MarketTray {
             }
             remainingMarble= market.get(0);
         } catch (IOException e) {
-            e.printStackTrace(); //aggiungere frase di errore
-            System.out.println("I'm sorry the file is not found");
+            System.err.println("Marble.json not found");
         }
     }
 
