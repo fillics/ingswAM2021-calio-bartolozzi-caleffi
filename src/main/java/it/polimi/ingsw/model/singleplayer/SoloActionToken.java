@@ -23,7 +23,8 @@ public class SoloActionToken {
      * @param color of type CardColor
      */
     @JsonCreator
-    public SoloActionToken(@JsonProperty("type") SoloActionTokenType type,@JsonProperty("color") CardColor color,@JsonProperty("id") int id, @JsonProperty("path") String path) {
+    public SoloActionToken(@JsonProperty("type") SoloActionTokenType type,@JsonProperty("color") CardColor color,@JsonProperty("id") int id, @JsonProperty("path") String path, @JsonProperty("strategy") TokenActionStrategy strategy) {
+        this.strategy=strategy;
         this.type = type;
         this.color = color;
         this.id = id;

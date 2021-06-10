@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.singleplayer;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.cards.developmentcards.CardColor;
 
 import java.util.stream.IntStream;
@@ -11,8 +14,8 @@ import java.util.stream.IntStream;
 public class ConcreteStrategyDiscard implements TokenActionStrategy{
 
     private final int amount = 2;
-    private final SinglePlayerGameInterface singleGame;
-    private final CardColor color;
+    private SinglePlayerGameInterface singleGame;
+    private CardColor color;
 
 
     /**
@@ -20,9 +23,18 @@ public class ConcreteStrategyDiscard implements TokenActionStrategy{
      * @param singleGame of type SinglePlayerGame
      * @param color of type CardColor
      */
-    public ConcreteStrategyDiscard(SinglePlayerGameInterface singleGame, CardColor color) {
+    @JsonCreator
+    public ConcreteStrategyDiscard(SinglePlayerGameInterface singleGame,CardColor color) {
         this.singleGame = singleGame;
         this.color = color;
+    }
+
+    public SinglePlayerGameInterface getSingleGame() {
+        return singleGame;
+    }
+
+    public CardColor getColor() {
+        return color;
     }
 
     /**
