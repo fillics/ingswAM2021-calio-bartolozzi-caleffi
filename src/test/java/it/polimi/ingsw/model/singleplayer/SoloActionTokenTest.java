@@ -21,7 +21,7 @@ class SoloActionTokenTest {
      */
     @BeforeEach
     void initialization(){
-        testToken = new SoloActionToken(SoloActionTokenType.DISCARD, CardColor.GREEN,2, "/images/punchboard/cerchio2.png");
+        //testToken = new SoloActionToken(SoloActionTokenType.DISCARD, CardColor.GREEN,2, "/images/punchboard/cerchio2.png", new ConcreteStrategyDiscard());
     }
 
     /**

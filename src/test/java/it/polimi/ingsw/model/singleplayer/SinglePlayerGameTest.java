@@ -115,7 +115,7 @@ class SinglePlayerGameTest {
      */
     @Test
     void checkTokenDiscard(){
-        SoloActionToken blueToken = new SoloActionToken(SoloActionTokenType.DISCARD, CardColor.BLUE, 1, "/images/punchboard/cerchio1.png");
+        SoloActionToken blueToken = new SoloActionToken(SoloActionTokenType.DISCARD, CardColor.BLUE, 1, "/images/punchboard/cerchio1.png", new ConcreteStrategyDiscard(testSingle, CardColor.BLUE));
         blueToken.setStrategy(new ConcreteStrategyDiscard(testSingle, CardColor.BLUE));
         assertEquals(4, testSingle.getDevelopmentGrid().get(3).size());
         blueToken.applyEffect();
