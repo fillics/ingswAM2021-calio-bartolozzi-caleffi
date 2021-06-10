@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -115,6 +116,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         c.gridy=0;
         setupButtons(showBoardOtherPlayer);
         showButtons.add(showBoardOtherPlayer, c);
+
 
         showButtons.setOpaque(false);
 
@@ -312,6 +314,15 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == showMarketTray){
             gui.switchPanels(new ShowMarketTrayPanel(gui));
+        }
+        if(e.getSource() == showBoardOtherPlayer){
+            String[] players = new String[]{"Item1", "Item2"};
+            JComboBox<String> comboBox = new JComboBox<>(players);
+            JOptionPane.showMessageDialog(gui.getjFrame(), comboBox, "Select a player", JOptionPane.QUESTION_MESSAGE);
+
+            String playerSelected = (String) comboBox.getSelectedItem();
+            gui.switchPanels(new OtherPlayersBoardPanel());
+
         }
         if(e.getSource() == activateLeaderCard){
             gui.switchPanels(new ActivateLeaderCardPanel(gui));

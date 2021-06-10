@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.singleplayer.SoloActionToken;
 
+import java.util.ArrayList;
+
 /**
  * contiene il modello lite
  */

@@ -3,6 +3,9 @@ package it.polimi.ingsw.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
+import it.polimi.ingsw.controller.client_packets.cheatpackets.FaithMarkerCheatPacket;
+import it.polimi.ingsw.controller.client_packets.cheatpackets.ResourcesInStrongboxCheatPacket;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.*;
 import it.polimi.ingsw.model.board.resources.ResourceType;
@@ -95,7 +98,19 @@ public class CLIOperationHandler{
             }
             case "12", "showanotherboard" ->
                 askBoardOfOtherPlayer();
-            case "13", "end" ->{
+
+            case "13", "resourceCheat" ->{
+                System.out.println("+20 resources in your strongbox. Don't tell anyone ;)");
+                resourcesCheat();
+            }
+
+
+            case "14", "faithCheat" ->{
+                System.out.println("+1 faith marker for you. Don't tell anyone ;)");
+                faithCheat();
+            }
+
+            case "15", "end" ->{
                 System.out.println("Ending turn");
                 endTurn();
             }
@@ -103,7 +118,30 @@ public class CLIOperationHandler{
         }
     }
 
+    public void resourcesCheat(){
+        ResourcesInStrongboxCheatPacket packet = new ResourcesInStrongboxCheatPacket();
+        try {
+            sendPacket(packet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+    public void faithCheat(){
+        FaithMarkerCheatPacket packet = new FaithMarkerCheatPacket();
+        try {
+            sendPacket(packet);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void sendPacket(ClientPacketHandler packet) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonResult = mapper.writeValueAsString(packet);
+        socketClientConnection.sendToServer(jsonResult);
+    }
+    public void sendPacket(CheatClientPacketHandler packet) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
         socketClientConnection.sendToServer(jsonResult);
@@ -284,6 +322,7 @@ public class CLIOperationHandler{
             }
 
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
+                assert id1 != null;
                 if (Integer.parseInt(id1) == leaderCard.getId()) {
                     checkId1 = true;
                     break;
@@ -305,12 +344,14 @@ public class CLIOperationHandler{
 
             }
             for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
+                assert id2 != null;
                 if (Integer.parseInt(id2) == leaderCard.getId() && Integer.parseInt(id2) != Integer.parseInt(id1)) {
                     checkId2 = true;
                     break;
                 }
             }
             if(!checkId2) {
+                assert id2 != null;
                 if(Integer.parseInt(id2) == Integer.parseInt(id1)) System.err.println("card already discarded");
                 else System.err.println("Chosen id not present. Please reinsert the id of the second card to remove:");
             }
@@ -369,6 +410,7 @@ public class CLIOperationHandler{
             }catch(InputMismatchException e){
                 System.err.println("Don't write strings");
             }
+            assert position != null;
             if(Integer.parseInt(position) < 1 || Integer.parseInt(position) > clientModelView.getLiteBoard().getDeposits().size()) System.err.println("Invalid position, retry");
         }while(Integer.parseInt(position) < 1 || Integer.parseInt(position) > clientModelView.getLiteBoard().getDeposits().size());
 
@@ -545,7 +587,7 @@ public class CLIOperationHandler{
                        newProductionPowers.add(Integer.parseInt(prodPosition) );
                    }
                }
-               else if(Integer.parseInt(prodPosition) == 0){
+               else if(Integer.parseInt(prodPosition) == 0){ 
                }
                else{
                    System.err.println("invalid special production power positions, retry");
