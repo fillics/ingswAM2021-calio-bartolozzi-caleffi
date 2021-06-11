@@ -146,15 +146,15 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
 
             boolean checkProd = false;
             for(int i : smallBoard.getDevSpacesPanel().getProductionPowers()){
-                if(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(i).getTopCard() != null){
-                    if (gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(i - 1).getTopCardProductionPower().getResourceObtained().get(ResourceType.JOLLY) > 0) {
+                if(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(i - 1).getTopCard() != null){
+                    if (gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(i - 1).getTopCardProductionPower().getResourceObtained().containsKey(ResourceType.JOLLY)) {
                         checkProd = true;
                         break;
                     }
                 }
             }
             for(int i : smallBoard.getDevSpacesPanel().getNewProductionPowers()){
-                if (gui.getClient().getClientModelView().getLiteBoard().getSpecialProductionPower().get(i - 1).getResourceObtained().get(ResourceType.JOLLY) > 0) {
+                if (gui.getClient().getClientModelView().getLiteBoard().getSpecialProductionPower().get(i - 1).getResourceObtained().containsKey(ResourceType.JOLLY)) {
                     checkProd = true;
                     break;
                 }
