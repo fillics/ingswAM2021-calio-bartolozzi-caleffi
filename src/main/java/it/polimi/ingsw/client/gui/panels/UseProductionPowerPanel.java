@@ -1,11 +1,9 @@
 package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.client.gui.panels.buydevcard.WarehouseForBuyDevCardPanel;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.AdditionalResourcePanel;
 import it.polimi.ingsw.controller.client_packets.PacketUseAndChooseProdPower;
 import it.polimi.ingsw.model.board.resources.ResourceType;
-import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDeposit;
-import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
 
 import javax.imageio.ImageIO;
@@ -21,12 +19,11 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
     private Image background;
     private GUI gui;
     private GridBagConstraints c;
+    private WarehouseAndDevSpacesPanel smallBoard;
 
-    private DevSpacesPanel devSpacesPanel;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
-    private JPanel leaderCards, underBoard, mainPanel, buttons;
+    private JPanel leaderCards, mainPanel, buttons;
 
-    private WarehouseForBuyDevCardPanel warehousePanel;
 
     private final JButton confirm = new JButton("CONFIRM");
     private final JButton back = new JButton("BACK");
@@ -44,6 +41,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
+            assert is != null;
             background = ImageIO.read(is);
         } catch (IOException ignored) {}
 
@@ -86,7 +84,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         createUnderBoard();
-        mainPanel.add(underBoard);
+        mainPanel.add(smallBoard);
 
         createButtons();
         mainPanel.add(buttons);
@@ -99,23 +97,18 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
 
     public void createUnderBoard(){
 
-        underBoard = new JPanel();
-        underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
-
-        warehousePanel = new WarehouseForBuyDevCardPanel(gui);
-        devSpacesPanel = new DevSpacesPanel(gui);
+        smallBoard = new WarehouseAndDevSpacesPanel(this);
 
         if (gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(0).getTopCard() == null) {
-            devSpacesPanel.getDevSpace1().setVisible(false);
+            smallBoard.getDevSpacesPanel().getDevSpace1().setVisible(false);
         }
         if (gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(1).getTopCard() == null) {
-            devSpacesPanel.getDevSpace2().setVisible(false);
+            smallBoard.getDevSpacesPanel().getDevSpace2().setVisible(false);
         }
         if (gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(2).getTopCard() == null) {
-            devSpacesPanel.getDevSpace3().setVisible(false);
+            smallBoard.getDevSpacesPanel().getDevSpace3().setVisible(false);
         }
-        underBoard.add(warehousePanel);
-        underBoard.add(devSpacesPanel);
+
     }
 
     public void createLeaderCardsPanel(){
@@ -128,7 +121,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
             if ((gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getType().equals(LeaderCardType.PRODUCTION_POWER)||
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getType().equals(LeaderCardType.EXTRA_DEPOSIT)) &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
-                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),159,240, warehousePanel, devSpacesPanel);
+                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),159,240, smallBoard.getWarehousePanel(), smallBoard.getDevSpacesPanel());
                 leaderCardPanels.add(leaderCardPanel1);
                 leaderCardPanel1.setOpaque(false);
                 c.gridx=0;
@@ -152,28 +145,32 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
         if(e.getSource() == confirm){
 
             boolean checkProd = false;
-            for(int i : devSpacesPanel.getProductionPowers()){
-                if(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(i - 1).getTopCard() != null){
-                    if (gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(i - 1).getTopCardProductionPower().getResourceObtained().containsKey(ResourceType.JOLLY)) {
+            for(int i : smallBoard.getDevSpacesPanel().getProductionPowers()){
+                if(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(i).getTopCard() != null){
+                    if (gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(i - 1).getTopCardProductionPower().getResourceObtained().get(ResourceType.JOLLY) > 0) {
                         checkProd = true;
                         break;
                     }
                 }
             }
-            for(int i : devSpacesPanel.getNewProductionPowers()){
-                if (gui.getClient().getClientModelView().getLiteBoard().getSpecialProductionPower().get(i - 1).getResourceObtained().containsKey(ResourceType.JOLLY)) {
+            for(int i : smallBoard.getDevSpacesPanel().getNewProductionPowers()){
+                if (gui.getClient().getClientModelView().getLiteBoard().getSpecialProductionPower().get(i - 1).getResourceObtained().get(ResourceType.JOLLY) > 0) {
                     checkProd = true;
                     break;
                 }
             }
             ArrayList<ResourceType> newResources = new ArrayList<>();
             if(checkProd){
-                gui.switchPanels(new AdditionalResourcePanel(gui, devSpacesPanel.getProductionPowers(), devSpacesPanel.getNewProductionPowers(), warehousePanel.getChosenResources(), warehousePanel.getChosenWarehouses()));
+                gui.switchPanels(new AdditionalResourcePanel(gui, smallBoard.getDevSpacesPanel().getProductionPowers(), smallBoard.getDevSpacesPanel().getNewProductionPowers(), smallBoard.getWarehousePanel().getChosenResources(), smallBoard.getWarehousePanel().getChosenWarehouses()));
             }
             else {
-                gui.sendPacketToServer(new PacketUseAndChooseProdPower(devSpacesPanel.getProductionPowers(), devSpacesPanel.getNewProductionPowers(), warehousePanel.getChosenResources(), warehousePanel.getChosenWarehouses(), newResources));
+                gui.sendPacketToServer(new PacketUseAndChooseProdPower(smallBoard.getDevSpacesPanel().getProductionPowers(), smallBoard.getDevSpacesPanel().getNewProductionPowers(), smallBoard.getWarehousePanel().getChosenResources(), smallBoard.getWarehousePanel().getChosenWarehouses(), newResources));
                 gui.switchPanels(new BoardPanel(gui));
             }
         }
+    }
+
+    public GUI getGui() {
+        return gui;
     }
 }

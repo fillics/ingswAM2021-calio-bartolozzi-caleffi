@@ -16,20 +16,21 @@ import java.util.Objects;
 public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListener {
 
     private Image background;
-    private WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel;
+    private WarehouseForBuyDevCardPanel warehousePanel;
     private GridBagConstraints c;
     private JButton resource1, resource2, resource3, resource4, resource5, resource6;
     private ArrayList<JButton> resources;
     private JPanel depot1, depot2, depot3;
     private final boolean[] emptyResources = new boolean[6];
+    private ResourceType resourceType;
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, 250, 300, null);
     }
 
-    public DepositsForBuyDevCardPanel (WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel) {
-        this.warehouseForBuyDevCardPanel = warehouseForBuyDevCardPanel;
+    public DepositsForBuyDevCardPanel (WarehouseForBuyDevCardPanel warehousePanel) {
+        this.warehousePanel = warehousePanel;
         this.setPreferredSize(new Dimension(250, 300));
         InputStream is = getClass().getResourceAsStream("/images/board/deposits.jpg");
         try {
@@ -39,9 +40,7 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
             e.printStackTrace();
         }
 
-
         Arrays.fill(emptyResources, true);
-
 
         JPanel panel = new JPanel();
 
@@ -144,14 +143,12 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
 
     public void createImages(){
         //FIRST DEPOSIT
-        if(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype() != null){
+        if(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype() != null){
             try {
-                resources.get(0).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
+                resources.get(0).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
                 emptyResources[0]=false;
                 resources.get(0).setEnabled(true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException ignored) {}
 
         }
         else {
@@ -162,82 +159,81 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
         }
 
         //SECOND DEPOSIT
-        if(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype() != null){
-            for (int i=1; i<warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getQuantity()+1; i++) {
+        if(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype() != null){
+            for (int i = 1; i< warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getQuantity()+1; i++) {
                 try {
-                    resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+                    resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
                     emptyResources[i]=false;
                     resources.get(i).setEnabled(true);
                 } catch (IOException ignored) {}
             }
 
         }
-        for (int i = 2; i > warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getQuantity(); i--) {
+        for (int i = 2; i > warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getQuantity(); i--) {
             try {
                 resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/empty.png")).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-                resources.get(0).setEnabled(false);
+                resources.get(i).setEnabled(false);
             } catch (IOException ignored) {}
         }
 
 
         //THIRD DEPOSIT
-        if(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype() != null){
-            for (int i=3; i<warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getQuantity()+3; i++) {
+        if(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype() != null){
+            for (int i = 3; i< warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getQuantity()+3; i++) {
                 try {
-                    resources.get(i).setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype().path).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
+                    resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
                     emptyResources[i]=false;
                     resources.get(i).setEnabled(true);
                 } catch (IOException ignored) {}
             }
         }
 
-        for (int i=5; i > 2+warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getQuantity(); i--) {
+        for (int i = 5; i > 2+ warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getQuantity(); i--) {
             try {
                 resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/empty.png")).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
                 resources.get(i).setEnabled(false);
-
             } catch (IOException ignored) {}
         }
     }
 
+    public void addInformation(int i, int warehouse){
+        warehousePanel.getChosenWarehouses().add(warehouse);
+        resourceType = warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(i).getResourcetype();
+        warehousePanel.getChosenResources().add(resourceType);
+        warehousePanel.getWarehouse().addResource(resourceType);
+
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
         //entro nell'if solo se il bottone contiene l'immagine della risorsa
         if(e.getSource() == resource1 && !emptyResources[0]){
-
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(1);
-            warehouseForBuyDevCardPanel.getChosenResources().add(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype());
+            addInformation(0, 1);
             resource1.setEnabled(false);
         }
         if(e.getSource() == resource2 && !emptyResources[1]){
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(2);
-            warehouseForBuyDevCardPanel.getChosenResources().add(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype());
+            addInformation(1,2);
             resource2.setEnabled(false);
 
         }
         if(e.getSource() == resource3 && !emptyResources[2]){
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(2);
-            warehouseForBuyDevCardPanel.getChosenResources().add(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype());
+            addInformation(1,2);
             resource3.setEnabled(false);
 
         }
         if(e.getSource() == resource4 && !emptyResources[3]){
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(3);
-            warehouseForBuyDevCardPanel.getChosenResources().add(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype());
+            addInformation(2,3);
             resource4.setEnabled(false);
 
         }
         if(e.getSource() == resource5 && !emptyResources[4]){
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(3);
-            warehouseForBuyDevCardPanel.getChosenResources().add(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype());
+            addInformation(2,3);
             resource5.setEnabled(false);
 
         }
         if(e.getSource() == resource6 && !emptyResources[5]){
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(3);
-            warehouseForBuyDevCardPanel.getChosenResources().add(warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype());
+            addInformation(2,3);
             resource6.setEnabled(false);
 
         }

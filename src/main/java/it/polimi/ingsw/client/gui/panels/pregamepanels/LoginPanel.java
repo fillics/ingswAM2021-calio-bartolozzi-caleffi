@@ -17,10 +17,10 @@ public class LoginPanel extends JPanel implements ActionListener {
 
     private Image background;
 
-    private JLabel loginLabel, error;
+    private JLabel error;
     private JTextField loginTextField;
-    private JButton loginButton = new JButton("LOGIN");
-    private JButton confirmButton = new JButton("CONFIRM");
+    private final JButton loginButton = new JButton("LOGIN");
+    private final JButton confirmButton = new JButton("CONFIRM");
     private JPanel login, numPlayersPanel, buttonPanel;
 
     public void paintComponent(Graphics g){
@@ -70,7 +70,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         login.setLayout(new GridBagLayout());
         c.insets = new Insets(0,50,0,50);
 
-        loginLabel = new JLabel(ConnectionMessages.INSERT_USERNAME.getMessage());
+        JLabel loginLabel = new JLabel(ConnectionMessages.INSERT_USERNAME.getMessage());
         loginLabel.setPreferredSize(new Dimension(200,50));
         loginLabel.setHorizontalAlignment(JLabel.CENTER);
 
@@ -104,11 +104,13 @@ public class LoginPanel extends JPanel implements ActionListener {
             String username;
             username = loginTextField.getText();
 
-            if(username.length()!=0) gui.getClient().sendUsername(username);
+            if(username.length()!=0){
+                gui.getClient().sendUsername(username);
+                loginButton.setEnabled(false);
+            }
 
             else error.setVisible(true);
 
-            //JOptionPane.showMessageDialog(this, "Connected");
         }
 
     }

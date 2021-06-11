@@ -1,6 +1,8 @@
-package it.polimi.ingsw.client.gui.panels;
+package it.polimi.ingsw.client.gui.panels.showpanels;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.panels.BoardPanel;
+import it.polimi.ingsw.client.gui.panels.MarketPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -26,7 +28,7 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
     public ShowMarketTrayPanel(GUI gui) {
         this.gui=gui;
 
-        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
             assert is != null;
             background = ImageIO.read(is);

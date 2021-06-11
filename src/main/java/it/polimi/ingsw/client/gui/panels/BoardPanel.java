@@ -3,7 +3,9 @@ package it.polimi.ingsw.client.gui.panels;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.buydevcard.BuyDevCardPanel;
 import it.polimi.ingsw.client.gui.panels.showpanels.ShowDevGridPanel;
+import it.polimi.ingsw.client.gui.panels.showpanels.ShowMarketTrayPanel;
 import it.polimi.ingsw.controller.client_packets.PacketEndTurn;
+import it.polimi.ingsw.controller.client_packets.PacketUsernameOfAnotherPlayer;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.FaithMarkerCheatPacket;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.ResourcesInStrongboxCheatPacket;
 
@@ -12,15 +14,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 public class BoardPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
     private GridBagConstraints c;
+    private JPanel usernamePanel;
+    private JLabel username;
     private final JButton showDevGrid= new JButton("SHOW DEVELOPMENT GRID");
     private final JButton showMarketTray= new JButton("SHOW THE MARKET TRAY");
     private final JButton showBoardOtherPlayer= new JButton("SHOW BOARD OF OTHER PLAYERS"); // TODO: 06/06/2021 guarda jmenu bar
@@ -114,6 +120,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         c.gridy=0;
         setupButtons(showBoardOtherPlayer);
         showButtons.add(showBoardOtherPlayer, c);
+
 
         showButtons.setOpaque(false);
 
@@ -266,14 +273,40 @@ public class BoardPanel extends JPanel implements ActionListener {
             else c.gridy=i;
             leaderCards.add(leaderCardPanels.get(i), c);
         }
+
+        createUsername();
+        c.gridx=0;
+        c.gridy+=1;
+        leaderCards.add(usernamePanel, c);
+
         leaderCards.setOpaque(false);
+
+    }
+
+    public void createUsername(){
+        usernamePanel = new JPanel();
+        usernamePanel.setLayout(new GridBagLayout());
+        username = new JLabel();
+
+        usernamePanel.setBackground(gui.getGreenColor()); // TODO: 11/06/2021 mettere colore casuale
+        usernamePanel.setPreferredSize(new Dimension(159,110));
+        usernamePanel.setBorder(gui.getBorders().get(0));
+
+        username.setText(gui.getClient().getClientModelView().getMyPlayer().getUsername().toUpperCase(Locale.ROOT));
+        username.setFont(new Font("Serif", Font.BOLD, 16));
+        username.setHorizontalTextPosition(JLabel.CENTER);
+        username.setVerticalTextPosition(JLabel.CENTER);
+
+
+        usernamePanel.add(username);
+
 
     }
 
     public void changeBackground(JButton button){
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(233, 226, 193));
+                button.setBackground(gui.getGiallinoBackgroundColor());
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 button.setBackground(UIManager.getColor("control"));
@@ -311,6 +344,21 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == showMarketTray){
             gui.switchPanels(new ShowMarketTrayPanel(gui));
+        }
+        if(e.getSource() == showBoardOtherPlayer){
+            if(!isSingleGame){
+
+                JComboBox comboBox = new JComboBox(gui.getClient().getClientModelView().getPlayers().toArray());
+
+                JOptionPane.showMessageDialog(gui.getjFrame(), comboBox, "Select a player", JOptionPane.QUESTION_MESSAGE);
+
+                String playerSelected = (String) comboBox.getSelectedItem();
+
+                gui.sendPacketToServer(new PacketUsernameOfAnotherPlayer(playerSelected));
+            }
+            else JOptionPane.showMessageDialog(gui.getjFrame(), "You are in single player mode, there are no other players, please choose another action");
+
+
         }
         if(e.getSource() == activateLeaderCard){
             gui.switchPanels(new ActivateLeaderCardPanel(gui));

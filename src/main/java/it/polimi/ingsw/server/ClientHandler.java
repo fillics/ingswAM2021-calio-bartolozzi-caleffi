@@ -12,6 +12,7 @@ import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketH
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
 import it.polimi.ingsw.model.board.resources.Resource;
@@ -217,16 +218,20 @@ public class ClientHandler implements Runnable {
      */
     public synchronized void sendSetupPacket(){
         mapper = new ObjectMapper();
-
+        ArrayList<String> players = new ArrayList<>();
+        for (Player player: game.getPlayers()){
+            players.add(player.getUsername());
+        }
         PacketSetup packetSetup = new PacketSetup(username, idClient, posInGame, isSingleGame , game.getDevGridLite(), game.getTable(), game.getRemainingMarble(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getDevelopmentSpaces(), game.getUsernameClientActivePlayers().get(username).getResourceBuffer(), game.getUsernameClientActivePlayers().get(username).getBoard().getSpecialProductionPowers(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox(),
                 game.getUsernameClientActivePlayers().get(username).getBoard().getDeposits(),
                 game.getUsernameClientActivePlayers().get(username).getWhiteMarbleCardChoice(), game.getUsernameClientActivePlayers().get(username).getLeaderCards(),
-                game.getUsernameClientActivePlayers().get(username).getBoard().getTrack(), game.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections());
+                game.getUsernameClientActivePlayers().get(username).getBoard().getTrack(), game.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections(), players);
 
 
         saveProxy();
+
 
         sendPacketToClient(packetSetup);
 

@@ -27,6 +27,7 @@ public class Constants {
     public static final String ANSI_WHITE = "\033[37m";
     public static final String ANSI_BACKGROUND_BLACK = "\033[40m";
     public static final String ANSI_BACKGROUND_PURPLE = "\033[45m";
+
     public static final String menu = "Choose one of the operations you can do:\n"+
             "1: Activate a Leader Card ["+printItalic("activate")+"]\n" +
             "2: Buy a Development Card ["+printItalic("buy")+"]\n" +
@@ -38,9 +39,11 @@ public class Constants {
             "8: Take resources from the market ["+printItalic("take")+"]\n" +
             "9: Show the market tray ["+printItalic("showmarket")+"]\n"+
             "10: Show the development grid ["+printItalic("showgrid")+"]\n"+
-            "11: Show my personal board["+printItalic("showboard")+"]\n"+
+            "11: Show my personal board ["+printItalic("showboard")+"]\n"+
             "12: Show the board of another player ["+printItalic("showanotherboard")+"]\n" +
-            "13: End Turn ["+printItalic("end")+"]\n";
+            "13: +20 resources ["+printItalic("resourceCheat")+"]\n" +
+            "14: +1 faith marker ["+printItalic("faithCheat")+"]\n" +
+            "15: End Turn ["+printItalic("end")+"]\n";
 
 
     public static final String MASTEROFRENAISSANCE =
@@ -52,7 +55,7 @@ public class Constants {
                     +"╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝     ╚═════╝ ╚═╝         ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝╚══════╝";
 
     public static final String AUTHORS =
-            "\nby "
+            "by "
                     + ANSI_RED
                     + "Filippo Caliò"
                     + ANSI_RESET

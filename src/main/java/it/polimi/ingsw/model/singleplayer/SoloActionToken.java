@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.singleplayer;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import it.polimi.ingsw.model.cards.developmentcards.CardColor;
 
 /**
@@ -23,7 +25,9 @@ public class SoloActionToken {
      * @param color of type CardColor
      */
     @JsonCreator
-    public SoloActionToken(@JsonProperty("type") SoloActionTokenType type,@JsonProperty("color") CardColor color,@JsonProperty("id") int id, @JsonProperty("path") String path) {
+    public SoloActionToken(@JsonProperty("type") SoloActionTokenType type,
+                           @JsonProperty("color") CardColor color,@JsonProperty("id") int id,
+                           @JsonProperty("path") String path) {
         this.type = type;
         this.color = color;
         this.id = id;
@@ -54,6 +58,7 @@ public class SoloActionToken {
     /**
      * get-method created to obtain the token strategy
      */
+    @JsonIgnore
     public TokenActionStrategy getStrategy() {
         return strategy;
     }

@@ -32,8 +32,8 @@ public class PacketUsernameOfAnotherPlayer implements ClientPacketHandler{
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested, IOException, ClassNotFoundException {
-        if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
-                && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+
+        if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))){
             if(!gameInterface.getUsernameClientActivePlayers().containsKey(username))
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.USERNAMENOTEXISTING));
             else{

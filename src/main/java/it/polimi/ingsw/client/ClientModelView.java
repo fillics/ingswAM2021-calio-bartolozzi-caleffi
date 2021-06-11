@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.singleplayer.SoloActionToken;
 
+import java.util.ArrayList;
+
 /**
  * contiene il modello lite
  */
@@ -14,6 +16,7 @@ public class ClientModelView {
     private LiteBoard liteBoard;
     private boolean isSingleGame;
     private SoloActionToken soloActionToken;
+    private ArrayList<String> players;
 
     @JsonCreator
     public ClientModelView(@JsonProperty("player") LitePlayer myPlayer,@JsonProperty("market") LiteMarketTray marketTray,
@@ -30,6 +33,15 @@ public class ClientModelView {
         marketTray = new LiteMarketTray();
         developmentGrid = new LiteDevelopmentGrid();
         liteBoard = new LiteBoard();
+        players = new ArrayList<>();
+    }
+
+    public ArrayList<String> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(ArrayList<String> players) {
+        this.players = players;
     }
 
     public LitePlayer getMyPlayer() {

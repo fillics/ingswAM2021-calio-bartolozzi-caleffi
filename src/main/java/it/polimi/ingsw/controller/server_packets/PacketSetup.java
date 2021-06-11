@@ -39,6 +39,7 @@ public class PacketSetup implements ServerPacketHandler{
     private final ArrayList<Integer> whiteMarbleCardChoice;
     private final int posInGame;
     private final boolean isSingleGame;
+    private ArrayList<String> players;
 
     @JsonCreator
     public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame,@JsonProperty("isSingleGame") boolean isSingleGame, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
@@ -46,7 +47,8 @@ public class PacketSetup implements ServerPacketHandler{
                        @JsonProperty("development spaces") ArrayList<DevelopmentSpace> developmentSpaces, @JsonProperty("resource buffer") ArrayList<Resource> resourceBuffer,
                        @JsonProperty("special production powers")  ArrayList<ProductionPower> specialProductionPowers, @JsonProperty("strongbox") Strongbox strongbox,
                        @JsonProperty("deposits") ArrayList<Deposit> deposits, @JsonProperty("white marble leader card's id") ArrayList<Integer> whiteMarbleCardChoice,
-                       @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards, @JsonProperty("track") ArrayList<Cell> track, @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections) {
+                       @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards, @JsonProperty("track") ArrayList<Cell> track, @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections,
+                       @JsonProperty("players") ArrayList<String> players) {
         this.username = username;
         this.idClient = idClient;
         this.posInGame = posInGame;
@@ -65,6 +67,7 @@ public class PacketSetup implements ServerPacketHandler{
         this.leaderCards = leaderCards;
         this.track = track;
         this.vaticanReportSections=vaticanReportSections;
+        this.players = players;
     }
 
 
@@ -140,6 +143,10 @@ public class PacketSetup implements ServerPacketHandler{
         return vaticanReportSections;
     }
 
+    public ArrayList<String> getPlayers() {
+        return players;
+    }
+
     @Override
     public void execute(Client client) {
         if(client.getClientState().equals(ClientStates.CREATEMODEL)) {
@@ -155,6 +162,8 @@ public class PacketSetup implements ServerPacketHandler{
             client.getClientModelView().setMyPlayer(litePlayer);
             client.getClientModelView().setSingleGame(isSingleGame);
             client.getClientModelView().setSoloActionToken(null);
+            client.getClientModelView().setPlayers(players);
+            System.out.println("setto i player: "+players);
 
 
             if(client.getViewChoice() == ViewChoice.CLI){

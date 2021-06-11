@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.gui.panels.buydevcard;
 
-import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.DepositsPanel;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 
@@ -16,8 +15,7 @@ import java.util.Objects;
 
 public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListener {
 
-    private GUI gui;
-    private WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel;
+    private WarehouseForBuyDevCardPanel warehousePanel;
     private Image background;
     private DepositsPanel depositsPanel;
 
@@ -33,12 +31,12 @@ public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListene
         g.drawImage(background, 0, 0, 250, 180, null);
     }
 
-    public StrongBoxForBuyDevCardPanel(GUI gui, WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel) {
-        this.gui = gui;
+    public StrongBoxForBuyDevCardPanel(WarehouseForBuyDevCardPanel warehousePanel) {
         this.setPreferredSize(new Dimension(250, 180));
-        this.warehouseForBuyDevCardPanel = warehouseForBuyDevCardPanel;
+        this.warehousePanel = warehousePanel;
         InputStream is = getClass().getResourceAsStream("/images/board/strongbox.jpg");
         try {
+            assert is != null;
             background = ImageIO.read(is);
         } catch (IOException ignored) {
         }
@@ -100,22 +98,22 @@ public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListene
             shieldButton.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/shield.png")).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException ignored) {}
 
-        howManyCoins = warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.COIN);
+        howManyCoins = warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.COIN);
         coin.setText(String.valueOf(howManyCoins));
         coin.setForeground(Color.WHITE);
         coin.setFont(new Font(coin.getFont().getName(), Font.PLAIN, 20));
 
-        howManyStones = warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.STONE);
+        howManyStones = warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.STONE);
         stone.setText(String.valueOf(howManyStones));
         stone.setForeground(Color.WHITE);
         stone.setFont(new Font(stone.getFont().getName(), Font.PLAIN, 20));
 
-        howManyServants = warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.SERVANT);
+        howManyServants = warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.SERVANT);
         servant.setText(String.valueOf(howManyServants));
         servant.setForeground(Color.WHITE);
         servant.setFont(new Font(servant.getFont().getName(), Font.PLAIN, 20));
 
-        howManyShields = warehouseForBuyDevCardPanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.SHIELD);
+        howManyShields = warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.SHIELD);
         shield.setText(String.valueOf(howManyShields));
         shield.setForeground(Color.WHITE);
         shield.setFont(new Font(shield.getFont().getName(), Font.PLAIN, 20));
@@ -150,30 +148,28 @@ public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListene
 
     }
 
+    public void setButton(ResourceType resourceType){
+        warehousePanel.getChosenResources().add(resourceType);
+        warehousePanel.getChosenWarehouses().add(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().size() + 1);
+        warehousePanel.getWarehouse().addResource(resourceType);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource() == coinButton && howManyCoins!=0){
-            warehouseForBuyDevCardPanel.getChosenResources().add(ResourceType.COIN);
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() + 1);
-
-
+            setButton(ResourceType.COIN);
         }
         if(e.getSource() == servantButton && howManyServants!=0){
-            warehouseForBuyDevCardPanel.getChosenResources().add(ResourceType.SERVANT);
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() + 1);
-
-
+            setButton(ResourceType.SERVANT);
         }
         if(e.getSource() == shieldButton && howManyShields!=0){
-            warehouseForBuyDevCardPanel.getChosenResources().add(ResourceType.SHIELD);
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() + 1);
-
+            setButton(ResourceType.SHIELD);
 
         }
         if(e.getSource() == stoneButton && howManyStones!=0){
-            warehouseForBuyDevCardPanel.getChosenResources().add(ResourceType.STONE);
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() + 1);
+            setButton(ResourceType.STONE);
+
         }
     }
 }
