@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.client.ViewChoice;
-import it.polimi.ingsw.client.gui.panels.AdditionalResourcePanel;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.AdditionalResourcePanel;
 import it.polimi.ingsw.client.gui.panels.BoardPanel;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
 import java.util.ArrayList;

@@ -41,9 +41,9 @@ public class Constants {
             "10: Show the development grid ["+printItalic("showgrid")+"]\n"+
             "11: Show my personal board ["+printItalic("showboard")+"]\n"+
             "12: Show the board of another player ["+printItalic("showanotherboard")+"]\n" +
-            "13) +20 resources ["+printItalic("resourceCheat")+"]\n " +
-            "14) +1 faith marker ["+printItalic("faithCheat")+"]\n" +
-            "15) End Turn ["+printItalic("end")+"]\n";
+            "13: +20 resources ["+printItalic("resourceCheat")+"]\n" +
+            "14: +1 faith marker ["+printItalic("faithCheat")+"]\n" +
+            "15: End Turn ["+printItalic("end")+"]\n";
 
 
     public static final String MASTEROFRENAISSANCE =

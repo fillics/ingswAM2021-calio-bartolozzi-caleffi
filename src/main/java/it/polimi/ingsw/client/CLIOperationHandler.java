@@ -587,7 +587,7 @@ public class CLIOperationHandler{
                        newProductionPowers.add(Integer.parseInt(prodPosition) );
                    }
                }
-               else if(Integer.parseInt(prodPosition) == 0){ 
+               else if(Integer.parseInt(prodPosition) == 0){
                }
                else{
                    System.err.println("invalid special production power positions, retry");

@@ -147,10 +147,8 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
             try {
                 resources.get(0).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
                 emptyResources[0]=false;
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                resources.get(0).setEnabled(true);
+            } catch (IOException ignored) {}
 
         }
         else {
@@ -166,7 +164,7 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
                 try {
                     resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
                     emptyResources[i]=false;
-                    //resources.get(i).setEnabled(true);
+                    resources.get(i).setEnabled(true);
                 } catch (IOException ignored) {}
             }
 
@@ -174,7 +172,7 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
         for (int i = 2; i > warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(1).getQuantity(); i--) {
             try {
                 resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/empty.png")).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
-                resources.get(0).setEnabled(false);
+                resources.get(i).setEnabled(false);
             } catch (IOException ignored) {}
         }
 
@@ -185,7 +183,7 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
                 try {
                     resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
                     emptyResources[i]=false;
-                    //resources.get(i).setEnabled(true);
+                    resources.get(i).setEnabled(true);
                 } catch (IOException ignored) {}
             }
         }
@@ -194,7 +192,6 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
             try {
                 resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/empty.png")).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
                 resources.get(i).setEnabled(false);
-
             } catch (IOException ignored) {}
         }
     }

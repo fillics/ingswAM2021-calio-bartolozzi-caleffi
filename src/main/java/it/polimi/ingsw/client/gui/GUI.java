@@ -28,6 +28,7 @@ public class GUI implements Runnable {
     private final JFrame jFrame;
     private Border blackline, raisedetched, loweredetched, raisedbevel, loweredbevel;
     private final ArrayList<Border> borders;
+    private Color greenColor, giallinoBackgroundColor, purpleColor, lightblueColor, yellowColor;
 
     public GUI(Client client) {
         jFrame = new JFrame();
@@ -51,6 +52,13 @@ public class GUI implements Runnable {
         loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
+
+        greenColor = new Color(54, 178, 76);
+        giallinoBackgroundColor = new Color(233, 226, 193);
+        purpleColor = new Color(139,117,180);
+        lightblueColor = new Color(104,205,236);
+        yellowColor = new Color(228,191,40);
+
 
     }
 
@@ -209,6 +217,36 @@ public class GUI implements Runnable {
         return height;
     }
 
+    public Color getGreenColor() {
+        return greenColor;
+    }
+
+    public Color getGiallinoBackgroundColor() {
+        return giallinoBackgroundColor;
+    }
+
+    public Color getPurpleColor() {
+        return purpleColor;
+    }
+
+    public Color getLightblueColor() {
+        return lightblueColor;
+    }
+
+    public Color getYellowColor() {
+        return yellowColor;
+    }
+
+    public Color getRandomColor(){
+        ArrayList<Color> colors = new ArrayList<>();
+        colors.add(yellowColor);
+        colors.add(lightblueColor);
+        colors.add(greenColor);
+        colors.add(purpleColor);
+
+        int index = (int) (Math.random() * colors.size());
+        return colors.get(index);
+    }
 
     public ArrayList<Border> getBorders() {
         return borders;

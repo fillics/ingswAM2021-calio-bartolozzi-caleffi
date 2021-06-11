@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.AdditionalResourcePanel;
 import it.polimi.ingsw.controller.client_packets.PacketUseAndChooseProdPower;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;

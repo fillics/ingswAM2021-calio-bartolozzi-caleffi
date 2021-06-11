@@ -28,13 +28,8 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
 
     public WarehouseAndDevSpacesPanel(BuyDevCardPanel buyDevCardPanel) {
         this.buyDevCardPanel = buyDevCardPanel;
-        this.setLayout(new GridBagLayout());
-        resources = new ArrayList<>();
-        widthRes=0;
-        heightRes=50;
-        c = new GridBagConstraints();
+        constructor();
 
-        createMainPanel();
         devSpacesPanel.setProductionPowerInvisible();
         c.gridx=0;
         c.gridy=0;
@@ -44,6 +39,15 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
     }
     public WarehouseAndDevSpacesPanel(UseProductionPowerPanel useProductionPowerPanel) {
         this.useProductionPowerPanel = useProductionPowerPanel;
+        constructor();
+        c.gridx=0;
+        c.gridy=0;
+        this.add(mainPanel, c);
+        this.setOpaque(false);
+
+    }
+
+    public void constructor(){
         this.setLayout(new GridBagLayout());
         resources = new ArrayList<>();
         widthRes=0;
@@ -51,11 +55,6 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
         c = new GridBagConstraints();
 
         createMainPanel();
-        c.gridx=0;
-        c.gridy=0;
-        this.add(mainPanel, c);
-        this.setOpaque(false);
-
     }
 
     public void createMainPanel(){

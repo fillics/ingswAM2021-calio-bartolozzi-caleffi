@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.panels.OtherPlayersBoardPanel;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
 import it.polimi.ingsw.model.board.storage.Deposit;
@@ -79,13 +80,19 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
         clientModelView.getLiteBoard().setStrongbox(strongbox);
         clientModelView.getLiteBoard().setDevelopmentSpaces(developmentSpaces);
         clientModelView.getMyPlayer().setLeaderCards(leaderCards);
-        if(client.getViewChoice().equals(ViewChoice.CLI))
-            cli= new CLI(client,clientModelView);
-        cli.printFaithTrack();
-        cli.printResourcesLegend();
-        cli.printDeposits();
-        cli.printStrongbox();
-        cli.printDevSpaces();
-        cli.printActivatedLeaderCards();
+
+        if(client.getViewChoice().equals(ViewChoice.CLI)){
+            cli = new CLI(client,clientModelView);
+            cli.printFaithTrack();
+            cli.printResourcesLegend();
+            cli.printDeposits();
+            cli.printStrongbox();
+            cli.printDevSpaces();
+            cli.printActivatedLeaderCards();
+        }
+        else{
+            client.getGui().switchPanels(new OtherPlayersBoardPanel(client.getGui()));
+        }
+
     }
 }

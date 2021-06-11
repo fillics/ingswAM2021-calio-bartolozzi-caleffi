@@ -1,6 +1,8 @@
-package it.polimi.ingsw.client.gui.panels;
+package it.polimi.ingsw.client.gui.panels.pregamepanels;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.panels.BoardPanel;
+import it.polimi.ingsw.client.gui.panels.DepositsPanel;
 import it.polimi.ingsw.controller.client_packets.PacketChooseInitialResources;
 import it.polimi.ingsw.controller.client_packets.PacketUseAndChooseProdPower;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
@@ -14,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
@@ -69,8 +72,9 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         servantsText = "x " + servants;
         shieldsText = "x " + shields;
 
-        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
+            assert is != null;
             background = ImageIO.read(is);
         } catch (IOException ignored) {}
 
@@ -116,7 +120,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             c.gridx=0;
             c.gridy=0;
             coinPanel.add(quantityCoins, c);
-            coinForProduction.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/coin.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            coinForProduction.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/coin.png")).readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
             c.gridx=0;
             c.gridy=1;
             coinPanel.add(coinForProduction, c);
@@ -125,7 +129,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             c.gridx=1;
             c.gridy=0;
             stonePanel.add(quantityStones, c);
-            stoneForProduction.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/stone.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            stoneForProduction.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/stone.png")).readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
             c.gridx=1;
             c.gridy=1;
             stonePanel.add(stoneForProduction, c);
@@ -134,7 +138,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             c.gridx=2;
             c.gridy=0;
             servantPanel.add(quantityServants, c);
-            servantForProduction.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/servant.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            servantForProduction.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/servant.png")).readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
             c.gridx=2;
             c.gridy=1;
             servantPanel.add(servantForProduction, c);
@@ -143,7 +147,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             c.gridx=3;
             c.gridy=0;
             shieldPanel.add(quantityShields, c);
-            shieldForProduction.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/shield.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            shieldForProduction.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/shield.png")).readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
             c.gridx=3;
             c.gridy=1;
             shieldPanel.add(shieldForProduction, c);
@@ -198,6 +202,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
+            assert is != null;
             background = ImageIO.read(is);
         } catch (IOException ignored) {}
 
@@ -253,7 +258,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             c.gridx=0;
             c.gridy=0;
             coinPanel.add(quantityCoins, c);
-            coin.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/coin.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            coin.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/coin.png")).readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
             c.gridx=0;
             c.gridy=1;
             coinPanel.add(coin, c);
@@ -262,7 +267,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             c.gridx=1;
             c.gridy=0;
             stonePanel.add(quantityStones, c);
-            stone.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/stone.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            stone.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/stone.png")).readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
             c.gridx=1;
             c.gridy=1;
             stonePanel.add(stone, c);
@@ -271,7 +276,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             c.gridx=2;
             c.gridy=0;
             servantPanel.add(quantityServants, c);
-            servant.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/servant.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            servant.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/servant.png")).readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
             c.gridx=2;
             c.gridy=1;
             servantPanel.add(servant, c);
@@ -280,7 +285,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             c.gridx=3;
             c.gridy=0;
             shieldPanel.add(quantityShields, c);
-            shield.setIcon(new ImageIcon(new ImageIcon(GUI.class.getResourceAsStream("/images/punchboard/shield.png").readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
+            shield.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/shield.png")).readAllBytes()).getImage().getScaledInstance(150, 150, Image.SCALE_AREA_AVERAGING)));
             c.gridx=3;
             c.gridy=1;
             shieldPanel.add(shield, c);
@@ -313,7 +318,6 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     }
 
     public void createDepositsPanel(){
-
         depositsPanel = new DepositsPanel(gui);
         depositsPanel.setVisible(false);
     }
@@ -358,6 +362,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             stones++;
             stonesText = "x " + stones;
             quantityStones.setText(stonesText);
+            depositsPanel.setVisible(true);
 
         }
         if (e.getSource() == servant) {
@@ -368,6 +373,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             servants++;
             servantsText = "x " + servants;
             quantityServants.setText(servantsText);
+            depositsPanel.setVisible(true);
 
         }
         if (e.getSource() == shield) {
