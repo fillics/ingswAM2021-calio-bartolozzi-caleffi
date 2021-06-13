@@ -29,7 +29,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     private JLabel username;
     private final JButton showDevGrid= new JButton("SHOW DEVELOPMENT GRID");
     private final JButton showMarketTray= new JButton("SHOW THE MARKET TRAY");
-    private final JButton showBoardOtherPlayer= new JButton("SHOW BOARD OF OTHER PLAYERS"); // TODO: 06/06/2021 guarda jmenu bar
+    private final JButton showBoardOtherPlayer= new JButton("SHOW BOARD OF OTHER PLAYERS");
     private final JButton discardLeaderCard = new JButton("DISCARD LEADER CARD");
     private final JButton activateLeaderCard = new JButton("ACTIVATE LEADER CARD");
     private final JButton buyDevCard = new JButton("BUY DEVELOPMENT CARD");
@@ -63,7 +63,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {
         }
-        this.setLayout(new GridBagLayout());
+        //this.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
 
         mainPanel = new JPanel();
@@ -94,7 +94,6 @@ public class BoardPanel extends JPanel implements ActionListener {
         c.gridx=0;
         c.gridy=0;
         this.add(mainPanel, c);
-
 
     }
 

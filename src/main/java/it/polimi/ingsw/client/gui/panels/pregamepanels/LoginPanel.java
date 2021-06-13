@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.panels.pregamepanels;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
 import javax.imageio.ImageIO;
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 public class LoginPanel extends JPanel implements ActionListener {
     private final GUI gui;
@@ -105,7 +107,7 @@ public class LoginPanel extends JPanel implements ActionListener {
             username = loginTextField.getText();
 
             if(username.length()!=0){
-                gui.getClient().sendUsername(username);
+                gui.getClient().serializeAndSend(new PacketUsername(username.toLowerCase(Locale.ROOT)));
                 loginButton.setEnabled(false);
             }
 

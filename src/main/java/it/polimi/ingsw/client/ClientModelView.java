@@ -2,6 +2,10 @@ package it.polimi.ingsw.client;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.client.liteclasses.LiteBoard;
+import it.polimi.ingsw.client.liteclasses.LiteDevelopmentGrid;
+import it.polimi.ingsw.client.liteclasses.LiteMarketTray;
+import it.polimi.ingsw.client.liteclasses.LitePlayer;
 import it.polimi.ingsw.model.singleplayer.SoloActionToken;
 
 import java.util.ArrayList;

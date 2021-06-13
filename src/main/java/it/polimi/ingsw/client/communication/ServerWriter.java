@@ -1,9 +1,14 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.communication;
+import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ClientStates;
+import it.polimi.ingsw.client.cli.CLIOperationHandler;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class ServerWriter implements Runnable{
@@ -64,7 +69,7 @@ public class ServerWriter implements Runnable{
 
         switch (client.getClientState()){
 
-            case USERNAME -> client.sendUsername(inputString);
+            case USERNAME -> client.serializeAndSend(new PacketUsername(inputString.toLowerCase(Locale.ROOT)));
 
             case NUMPLAYERS -> {
                 try{

@@ -2,8 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import it.polimi.ingsw.controller.client_packets.cheatpackets.FaithMarkerCheatPacket;
-import it.polimi.ingsw.controller.client_packets.cheatpackets.ResourcesInStrongboxCheatPacket;
+import it.polimi.ingsw.controller.Packet;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
@@ -28,7 +27,7 @@ import java.io.IOException;
         @JsonSubTypes.Type(value = PacketUsernameOfAnotherPlayer.class, name = "ANOTHER_PLAYER"),
         @JsonSubTypes.Type(value = PacketMoveResource.class, name = "MOVERESOURCE") })
 
-public interface ClientPacketHandler {
+public interface ClientPacketHandler extends Packet {
 
     void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit,
             DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound,

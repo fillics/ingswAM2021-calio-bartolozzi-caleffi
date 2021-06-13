@@ -1,9 +1,8 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.liteclasses;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.board.resources.Resource;
-import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.cards.leadercards.*;
 
 import java.util.ArrayList;

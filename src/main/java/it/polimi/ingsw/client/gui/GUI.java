@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.gui.panels.*;
 import it.polimi.ingsw.client.gui.panels.pregamepanels.LoginPanel;
 import it.polimi.ingsw.client.gui.panels.pregamepanels.NumPlayersPanel;
 import it.polimi.ingsw.client.gui.panels.pregamepanels.ServerPanel;
+import it.polimi.ingsw.controller.Packet;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 
@@ -19,8 +20,12 @@ import java.util.Objects;
 
 public class GUI implements Runnable {
 
-    private JPanel bigPanel, topPanel, mainPanel, messagesFromServerPanel, positionPanel, curMessagePanel, curPositionPanel;
-    private JPanel loginPanel, serverPanel, numPlayersPanel;
+    private JPanel topPanel;
+    private JPanel mainPanel;
+    private JPanel messagesFromServerPanel;
+    private JPanel curMessagePanel;
+    private final JPanel serverPanel;
+    private final JPanel numPlayersPanel;
     private final Client client;
     private final Dimension dimension;
     private final int width;
@@ -28,7 +33,11 @@ public class GUI implements Runnable {
     private final JFrame jFrame;
     private Border blackline, raisedetched, loweredetched, raisedbevel, loweredbevel;
     private final ArrayList<Border> borders;
-    private Color greenColor, giallinoBackgroundColor, purpleColor, lightblueColor, yellowColor;
+    private final Color greenColor;
+    private final Color giallinoBackgroundColor;
+    private final Color purpleColor;
+    private final Color lightblueColor;
+    private final Color yellowColor;
 
     public GUI(Client client) {
         jFrame = new JFrame();
@@ -49,7 +58,6 @@ public class GUI implements Runnable {
         borders.add(loweredbevel);
         borders.add(loweredetched);
 
-        loginPanel = new LoginPanel(this);
         serverPanel = new ServerPanel(this);
         numPlayersPanel = new NumPlayersPanel(this);
 
@@ -70,7 +78,7 @@ public class GUI implements Runnable {
     @Override
     public void run() {
 
-        bigPanel = new JPanel();
+        JPanel bigPanel = new JPanel();
 
         mainPanel = new JPanel();
         topPanel = new JPanel();
@@ -139,39 +147,8 @@ public class GUI implements Runnable {
         topPanel.setOpaque(false);
     }
 
-    // TODO: 08/06/2021 metodo di fil, devo finirlo
-    public void setPositionPanel(String position){
-        positionPanel = new PositionInGamePanel(this, position);
-        positionPanel.setBorder(blackline);
-        if(curPositionPanel!=null) removePositionPanel();
-        else{
-            GridBagConstraints c = new GridBagConstraints();
-            c.gridx=1;
-            c.gridy=0;
-            topPanel.add(positionPanel, c);
-            topPanel.setOpaque(false);
 
-        }
-        curPositionPanel = positionPanel;
-
-    }
-
-    public void removePositionPanel(){
-        GridBagConstraints c = new GridBagConstraints();
-        topPanel.remove(curPositionPanel);
-        c.gridx=1;
-        c.gridy=0;
-        topPanel.add(positionPanel, c);
-        topPanel.repaint();
-        topPanel.revalidate();
-        topPanel.setOpaque(false);
-    }
-
-
-    /**
-     * per mandare pacchetto normale
-     */
-    public void sendPacketToServer(ClientPacketHandler packet){
+    public void sendPacketToServer(Packet packet){
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = null;
         try {
@@ -182,19 +159,6 @@ public class GUI implements Runnable {
         client.getSocketClientConnection().sendToServer(jsonResult);
     }
 
-    /**
-     * per mandare pacchetto dei cheat
-     */
-    public void sendPacketToServer(CheatClientPacketHandler packet){
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonResult = null;
-        try {
-            jsonResult = mapper.writeValueAsString(packet);
-        } catch (JsonProcessingException jsonProcessingException) {
-            jsonProcessingException.printStackTrace();
-        }
-        client.getSocketClientConnection().sendToServer(jsonResult);
-    }
 
 
     public JPanel getNumPlayersPanel() {
