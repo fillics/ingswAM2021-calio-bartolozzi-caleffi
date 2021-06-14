@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.liteclasses;
 
 import
         com.fasterxml.jackson.annotation.JsonCreator;

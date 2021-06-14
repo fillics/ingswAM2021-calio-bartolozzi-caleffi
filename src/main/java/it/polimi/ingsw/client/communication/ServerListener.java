@@ -1,7 +1,9 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.communication;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;

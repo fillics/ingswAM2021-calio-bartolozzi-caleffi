@@ -2,6 +2,11 @@ package it.polimi.ingsw.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.client.cli.CLI;
+import it.polimi.ingsw.client.cli.CLIOperationHandler;
+import it.polimi.ingsw.client.communication.ServerListener;
+import it.polimi.ingsw.client.communication.ServerWriter;
+import it.polimi.ingsw.client.communication.SocketClientConnection;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
@@ -62,9 +67,6 @@ public class Client {
 
     }
 
-    public void setViewChoice(ViewChoice viewChoice) {
-        this.viewChoice = viewChoice;
-    }
 
     public void serverConnection(ViewChoice viewChoice){
         socketClientConnection = new SocketClientConnection(this);
@@ -127,26 +129,6 @@ public class Client {
     }
 
     /**
-     * Method sendUsername sends the username to the server
-     */
-    public void sendUsername(String username){
-        PacketUsername packet;
-        packet = new PacketUsername(username.toLowerCase(Locale.ROOT));
-        serializeAndSend(packet);
-    }
-
-    // TODO: 28/05/2021 mergeare sendusername e sendnumplayers in un unico metodo
-    /**
-     * Method sendNumPlayers sends the num of players to the server
-     */
-    public void sendNumPlayers(int numPlayers){
-        PacketNumPlayers packet;
-        packet = new PacketNumPlayers(numPlayers);
-        serializeAndSend(packet);
-    }
-
-
-    /**
      * Method serializeAndSend serializes and sends to the server the packet passed as a parameter
      * @param packet (type SetupHandler) - it is the packet to send
      */
@@ -194,4 +176,10 @@ public class Client {
     public GUI getGui() {
         return gui;
     }
+
+    public void setViewChoice(ViewChoice viewChoice) {
+        this.viewChoice = viewChoice;
+    }
+
+
 }

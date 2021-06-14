@@ -4,8 +4,11 @@ package it.polimi.ingsw.server;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.*;
+import it.polimi.ingsw.client.liteclasses.LiteBoard;
+import it.polimi.ingsw.client.liteclasses.LiteDevelopmentGrid;
+import it.polimi.ingsw.client.liteclasses.LiteMarketTray;
+import it.polimi.ingsw.client.liteclasses.LitePlayer;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
@@ -212,6 +215,8 @@ public class ClientHandler implements Runnable {
             }
         }
     }
+
+
 
     /**
      * Method sendSetupPacket sends to the client the packet to play in multiplayer

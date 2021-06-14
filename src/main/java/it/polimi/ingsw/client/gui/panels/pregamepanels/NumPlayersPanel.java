@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.panels.pregamepanels;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
 import javax.imageio.ImageIO;
@@ -144,7 +145,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         if (e.getSource() == btn4) number_of_players = 4;
         setDisabled();
         loading();
-        gui.getClient().sendNumPlayers(number_of_players);
+        gui.getClient().serializeAndSend(new PacketNumPlayers(number_of_players));
     }
 
 

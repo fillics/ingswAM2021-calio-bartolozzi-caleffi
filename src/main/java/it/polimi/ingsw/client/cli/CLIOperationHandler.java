@@ -1,8 +1,12 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.cli;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.client.ClientModelView;
+import it.polimi.ingsw.client.communication.SocketClientConnection;
+import it.polimi.ingsw.client.ViewInterface;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.controller.Packet;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.FaithMarkerCheatPacket;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.ResourcesInStrongboxCheatPacket;
@@ -112,7 +116,7 @@ public class CLIOperationHandler{
 
             case "15", "end" ->{
                 System.out.println("Ending turn");
-                endTurn();
+                sendPacket(new PacketEndTurn());
             }
             default -> System.err.println("Invalid choice, retry. "+Constants.commands);
         }
@@ -135,13 +139,7 @@ public class CLIOperationHandler{
         }
     }
 
-
-    public void sendPacket(ClientPacketHandler packet) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonResult = mapper.writeValueAsString(packet);
-        socketClientConnection.sendToServer(jsonResult);
-    }
-    public void sendPacket(CheatClientPacketHandler packet) throws JsonProcessingException {
+    public void sendPacket(Packet packet) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
         socketClientConnection.sendToServer(jsonResult);
@@ -713,18 +711,15 @@ public class CLIOperationHandler{
     }
 
     public ResourceType scannerChooseResources(BufferedReader bufferRead){
-
         Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
         int whichResource=0;
 
         ResourceType resourcetype = null;
         do{
-
             try {
                 whichResource = Integer.parseInt(bufferRead.readLine());
-            } catch (IOException|NumberFormatException e) {
-                e.printStackTrace();
-                // TODO: 24/05/2021 exception se stringa vuota
+            } catch (IOException|NumberFormatException ignored) {
+                System.err.println("do not insert empty strings");
             }
             switch (whichResource) {
                 case 1 -> resourcetype = ResourceType.COIN;
@@ -743,31 +738,17 @@ public class CLIOperationHandler{
         if (i!=1)
             viewInterface.printDeposits();
         do{
-            try{
-                try {
-                    position = Integer.parseInt(bufferRead.readLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }catch (NumberFormatException e){
-                System.err.println("insert integer");
+            try {
+                position = Integer.parseInt(bufferRead.readLine());
+            } catch (IOException | NumberFormatException ignored) {
+                System.err.println("insert an integer");
             }
-            if(position < 1|| position > 3) Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
+            if(position < 1 || position > 3) Constants.printConnectionMessage(ConnectionMessages.INVALID_CHOICE);
 
         }while(position< 1|| position>3);
         return position;
     }
 
 
-
-
-    public void endTurn() throws JsonProcessingException {
-        PacketEndTurn packet = new PacketEndTurn();
-        sendPacket(packet);
-    }
-
-    public ViewInterface getViewInterface() {
-        return viewInterface;
-    }
 }
 
