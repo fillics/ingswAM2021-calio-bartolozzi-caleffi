@@ -8,9 +8,7 @@ import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
 
-import java.util.InputMismatchException;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public class Client {
 
@@ -44,11 +42,21 @@ public class Client {
 
     }
 
+    /**
+     * possiamo passare al jar la stringa -cli o -gui oppure lasciare vuoto per far decidere
+     * @param args
+     */
     public static void main(String[] args) {
+
         System.out.println("Master of Renaissance Client | Welcome!");
         System.out.println(Constants.AUTHORS);
-        ViewChoice viewChoice = viewInterfaceChoice();
+        ViewChoice viewChoice = null;
 
+        if (args.length==0) viewChoice = viewInterfaceChoice();
+        else if (args[0].equals("-cli")) viewChoice=ViewChoice.CLI;
+        else if (args[0].equals("-gui")) viewChoice=ViewChoice.GUI;
+
+        assert viewChoice != null;
         Client client = new Client(viewChoice);
         client.setViewChoice(viewChoice);
 

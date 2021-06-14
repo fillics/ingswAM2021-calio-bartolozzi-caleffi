@@ -57,7 +57,7 @@ public class Constants {
     public static final String AUTHORS =
             "by "
                     + ANSI_RED
-                    + "Filippo Caliò"
+                    + "Filippo Calio'"
                     + ANSI_RESET
                     + ", "
                     + ANSI_CYAN
