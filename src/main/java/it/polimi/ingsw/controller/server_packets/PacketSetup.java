@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.*;
 import it.polimi.ingsw.client.gui.panels.RemoveLeaderCardPanel;
+import it.polimi.ingsw.client.liteclasses.LiteBoard;
+import it.polimi.ingsw.client.liteclasses.LiteDevelopmentGrid;
+import it.polimi.ingsw.client.liteclasses.LiteMarketTray;
+import it.polimi.ingsw.client.liteclasses.LitePlayer;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
@@ -15,7 +19,6 @@ import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
 import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.model.marbles.Marble;
-import it.polimi.ingsw.model.singleplayer.SoloActionToken;
 
 import java.util.ArrayList;
 
@@ -163,7 +166,6 @@ public class PacketSetup implements ServerPacketHandler{
             client.getClientModelView().setSingleGame(isSingleGame);
             client.getClientModelView().setSoloActionToken(null);
             client.getClientModelView().setPlayers(players);
-            System.out.println("setto i player: "+players);
 
 
             if(client.getViewChoice() == ViewChoice.CLI){

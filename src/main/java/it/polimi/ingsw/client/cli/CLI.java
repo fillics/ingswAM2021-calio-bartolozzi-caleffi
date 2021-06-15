@@ -1,8 +1,12 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.cli;
 
+import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ClientModelView;
+import it.polimi.ingsw.client.ViewInterface;
 import it.polimi.ingsw.constants.Color;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.constants.Printable;
+import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.model.board.faithtrack.PopeFavorTileColor;
 import it.polimi.ingsw.model.board.resources.Resource;
@@ -14,7 +18,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
-public class CLI implements ViewInterface, SetupClientInterface{
+public class CLI implements ViewInterface {
 
     private final ClientModelView clientModelView;
     private final Client client;
@@ -643,8 +647,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
         System.out.println(escape);
     }
 
-    // TODO: 08/06/2021 togliere i commenti 
-    @Override
+    // TODO: 08/06/2021 togliere i commenti
     public void serverMatch() {
        /* System.out.println(">Insert the server IP address");
         System.out.print(">");
@@ -661,7 +664,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
         Constants.setPort(port);
     }
 
-    @Override
+
     public void choosePlayerNumber(int numPlayers) {
         do {
             try {
@@ -673,7 +676,7 @@ public class CLI implements ViewInterface, SetupClientInterface{
                 System.err.println("Invalid parameter: insert a numeric value.");
             }
         }while(numPlayers < Constants.getNumMinPlayers() || numPlayers > Constants.getNumMaxPlayers());
-        client.sendNumPlayers(numPlayers);
+        client.serializeAndSend(new PacketNumPlayers(numPlayers));
     }
 
 }

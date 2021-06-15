@@ -3,7 +3,7 @@ package it.polimi.ingsw.client;
 import java.io.IOException;
 
 /**
- * ViewInterface defines an interface for both CLI and GUI.
+ * ViewInterface defines an interface for CLI
  */
 public interface ViewInterface {
     ClientModelView getClientModelView();

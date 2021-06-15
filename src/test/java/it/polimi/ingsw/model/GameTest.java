@@ -740,6 +740,7 @@ class GameTest {
     @DisplayName("endTurnAndIncreaseFaithMarkerTest test")
     void endGameAndIncreaseFaithMarkerTest() throws LeaderCardNotFound, LeaderCardNotActivated {
 
+        // TODO: 13/06/2021 questo test mi ha dato un problema una volta 
         testGame.takeResourceFromMarket("row", 2, null);
         assertNotEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).endTurn();
