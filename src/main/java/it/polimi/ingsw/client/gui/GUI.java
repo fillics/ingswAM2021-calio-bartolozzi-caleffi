@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.panels.*;
 import it.polimi.ingsw.client.gui.panels.pregamepanels.LoginPanel;
 import it.polimi.ingsw.client.gui.panels.pregamepanels.NumPlayersPanel;
@@ -24,9 +25,10 @@ public class GUI implements Runnable {
     private JPanel mainPanel;
     private JPanel messagesFromServerPanel;
     private JPanel curMessagePanel;
-    private final JPanel serverPanel;
-    private final JPanel numPlayersPanel;
-    private final Client client;
+    private JPanel serverPanel;
+    private JPanel numPlayersPanel;
+    private Client client;
+    private ClientModelView clientModelView;
     private final Dimension dimension;
     private final int width;
     private final int height;
@@ -216,4 +218,7 @@ public class GUI implements Runnable {
         return borders;
     }
 
+    public ClientModelView getClientModelView() {
+        return clientModelView;
+    }
 }

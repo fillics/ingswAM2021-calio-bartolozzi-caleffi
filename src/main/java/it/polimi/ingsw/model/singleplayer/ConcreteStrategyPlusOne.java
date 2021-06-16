@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.singleplayer;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Represents the token with the effect of moving forward the Black Cross by 1 space and shuffling the tokens.
@@ -15,7 +17,8 @@ public class ConcreteStrategyPlusOne implements TokenActionStrategy{
      * Constructor ConcreteStrategyPlusOne creates a new ConcreteStrategyPlusOne instance.
      * @param single of type SinglePlayerGame
      */
-    public ConcreteStrategyPlusOne(SinglePlayerGameInterface single) {
+    @JsonCreator
+    public ConcreteStrategyPlusOne(@JsonProperty("single") SinglePlayerGameInterface single) {
         this.single = single;
     }
 
