@@ -29,6 +29,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     private DevSpacesPanel devSpacesPanel;
     private JPanel leadercard;
     private JPanel standardPanel;
+    private int numOfWhiteChoices=0;
 
 
 
@@ -61,7 +62,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.WHITE_MARBLE)){
             JPanel specialPower = new JPanel();
             specialPower.setPreferredSize(new Dimension(159, 70));
-            chooseWhiteMarbleButton.addActionListener(takeResourceFromMarketPanel);
+            chooseWhiteMarbleButton.addActionListener(this);
             chooseWhiteMarbleButton.setPreferredSize(new Dimension(159, 70));
             try {
                 chooseWhiteMarbleButton.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/empty.png")).readAllBytes()).getImage().getScaledInstance(159, 70, Image.SCALE_AREA_AVERAGING)));
@@ -254,6 +255,13 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         if(e.getSource() == chooseProdPowerButton){
             devSpacesPanel.getNewProductionPowers().add(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getProductionPowerPosition() + 1);
         }
+        if(e.getSource() == chooseWhiteMarbleButton){
+            numOfWhiteChoices++;
+        }
+    }
+
+    public int getNumOfWhiteChoices() {
+        return numOfWhiteChoices;
     }
 
     public JButton getChooseWhiteMarbleButton() {

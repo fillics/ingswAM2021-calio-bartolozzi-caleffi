@@ -116,8 +116,9 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         ArrayList <Integer> leaderCards = new ArrayList<>();
         if(leaderCardPanels!=null){
             for (LeaderCardPanel leaderCardPanel : leaderCardPanels) {
-                if (e.getSource() == leaderCardPanel.getChooseWhiteMarbleButton()) {
-                    leaderCards.add(leaderCardPanel.getId());
+                if (leaderCardPanel.getNumOfWhiteChoices()!=0) {
+                    for(int i=0; i<leaderCardPanel.getNumOfWhiteChoices(); i++)
+                        leaderCards.add(leaderCardPanel.getId());
                 }
             }
         }
