@@ -61,9 +61,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
             background = ImageIO.read(Objects.requireNonNull(is));
-        } catch (IOException ignored) {
-        }
-        //this.setLayout(new GridBagLayout());
+        } catch (IOException ignored) {}
+        this.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
 
         mainPanel = new JPanel();
@@ -348,14 +347,13 @@ public class BoardPanel extends JPanel implements ActionListener {
             if(!isSingleGame){
 
                 JComboBox comboBox = new JComboBox(gui.getClient().getClientModelView().getPlayers().toArray());
-
                 JOptionPane.showMessageDialog(gui.getjFrame(), comboBox, "Select a player", JOptionPane.QUESTION_MESSAGE);
-
                 String playerSelected = (String) comboBox.getSelectedItem();
-
                 gui.sendPacketToServer(new PacketUsernameOfAnotherPlayer(playerSelected));
             }
-            else JOptionPane.showMessageDialog(gui.getjFrame(), "You are in single player mode, there are no other players, please choose another action");
+            else {
+                JOptionPane.showMessageDialog(gui.getjFrame(), "You are in single player mode, there are no other players, please choose another action");
+            }
 
 
         }

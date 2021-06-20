@@ -29,6 +29,7 @@ public class Server {
     private int idGame = 0;
     private int numPlayers;
     private boolean isSingleGame;
+    private static final String PORT_ARGUMENT = "-port";
 
     private final Map<Integer, Game> mapGames;
 
@@ -61,25 +62,33 @@ public class Server {
     }
 
 
-
+    // TODO: 20/06/2021 fare il controllo della porta in ingresso 
     public static void main(String[] args) {
-
-        Scanner scanner = new Scanner(System.in);
-
         System.out.println("Master of Renaissance Server | Welcome!");
-        System.out.println(">Insert the port which server will listen on.");
-        System.out.print(">");
         int port = 0;
-        try {
-            port = scanner.nextInt();
-        } catch (Exception e) {
-            System.err.println("Numeric format requested, application will now close...");
-            System.exit(-1);
+        if(PORT_ARGUMENT.equals(args[0])){
+            port = Integer.parseInt(args[1]);
+            System.out.println("porta: "+port);
         }
-        if (port < 0 || (port > 0 && port < 1024)) {
-            System.err.println("Error: ports accepted started from 1024! Please insert a new value.");
-            main(null);
+
+        else{
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println(">Insert the port which server will listen on.");
+            System.out.print(">");
+
+            try {
+                port = scanner.nextInt();
+            } catch (Exception e) {
+                System.err.println("Numeric format requested, application will now close...");
+                System.exit(-1);
+            }
+            if (port < 0 || (port > 0 && port < 1024)) {
+                System.err.println("Error: ports accepted started from 1024! Please insert a new value.");
+                main(null);
+            }
         }
+
 
         Constants.setPort(port);
 
@@ -297,7 +306,7 @@ public class Server {
 
         for (ClientHandler clientHandler: playersInGame){
             clientHandler.setGame(game);
-            clientHandler.setSingleGame(isSingleGame);
+            if(isSingleGame) clientHandler.setSingleGame();
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.GAME_IS_STARTING));
             clientHandler.setPosInGame(game.getPositionPlayer(clientHandler.getUsername()));
             clientHandler.sendSetupPacket();

@@ -155,8 +155,8 @@ public class ClientHandler implements Runnable {
         return isSingleGame;
     }
 
-    public void setSingleGame(boolean singleGame) {
-        isSingleGame = singleGame;
+    public void setSingleGame() {
+        isSingleGame = true;
     }
 
     /**
@@ -236,7 +236,6 @@ public class ClientHandler implements Runnable {
 
 
         saveProxy();
-
 
         sendPacketToClient(packetSetup);
 
