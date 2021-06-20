@@ -208,7 +208,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
 
     public void setLabel(JLabel card, GridBagConstraints c, JPanel panel, int width, int height, String path){
         try {
-            card.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
+            card.setIcon(new ImageIcon(new ImageIcon((GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException ignored) { }
         panel.add(card,c);
         card.setOpaque(false);

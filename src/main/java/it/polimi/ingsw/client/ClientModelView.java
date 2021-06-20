@@ -84,8 +84,8 @@ public class ClientModelView {
         return isSingleGame;
     }
 
-    public void setSingleGame(boolean singleGame) {
-        isSingleGame = singleGame;
+    public void setSingleGame() {
+        isSingleGame = true;
     }
 
     public SoloActionToken getSoloActionToken() {

@@ -163,7 +163,7 @@ public class PacketSetup implements ServerPacketHandler{
             client.getClientModelView().setMarketTray(liteMarketTray);
             client.getClientModelView().setLiteBoard(liteBoard);
             client.getClientModelView().setMyPlayer(litePlayer);
-            client.getClientModelView().setSingleGame(isSingleGame);
+            if(isSingleGame) client.getClientModelView().setSingleGame();
             client.getClientModelView().setSoloActionToken(null);
             client.getClientModelView().setPlayers(players);
 
