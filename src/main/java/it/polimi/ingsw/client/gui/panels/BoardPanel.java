@@ -63,7 +63,6 @@ public class BoardPanel extends JPanel implements ActionListener {
             background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {
         }
-        //this.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
 
         mainPanel = new JPanel();

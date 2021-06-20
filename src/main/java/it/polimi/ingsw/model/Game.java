@@ -654,16 +654,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     /**
      * Method nextPlayer handles which player is playing during his turn
      */
-    // TODO: 24/05/2021 se il primo si disconnette e il terzo fa end turn
     public void nextPlayer(){
 
         if(!endgame){
-            //System.out.println("cerco l'username dentro active players: "+nextPlayerGivenUsername(activePlayers.get(currentPlayer).getUsername()));
-
-            //currentPlayer=getIndexOfActivePlayer(nextPlayerGivenUsername(activePlayers.get(currentPlayer).getUsername()));
-            if(currentPlayer>=activePlayers.size()-1){
+             if(currentPlayer>=activePlayers.size()-1){
                 setCurrentPlayer(0);
-
             }
             else setCurrentPlayer(currentPlayer+1);
         }

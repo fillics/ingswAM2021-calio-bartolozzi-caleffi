@@ -57,9 +57,11 @@ public class Client {
         System.out.println(Constants.AUTHORS);
         ViewChoice viewChoice = null;
 
-        if (args.length==0) viewChoice = viewInterfaceChoice();
-        else if (args[0].equals("-cli")) viewChoice=ViewChoice.CLI;
+        if (args[0].equals("-cli")) viewChoice=ViewChoice.CLI;
         else if (args[0].equals("-gui")) viewChoice=ViewChoice.GUI;
+
+        else viewChoice = viewInterfaceChoice();
+
 
         assert viewChoice != null;
         Client client = new Client(viewChoice);

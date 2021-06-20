@@ -20,7 +20,6 @@ public class PacketEndTurn implements ClientPacketHandler{
 
             switch (gameInterface.getState()) {
                 case SETUP -> gameInterface.setState(GameStates.PHASE_ONE);
-                case PHASE_ONE -> clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
                 case PHASE_TWO -> {
                     if (clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
                         int sizeResourceBuffer = gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getResourceBuffer().size();
@@ -34,7 +33,7 @@ public class PacketEndTurn implements ClientPacketHandler{
                         if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
                             ((SinglePlayerGame) gameInterface).winner();
                             System.out.println(gameInterface.getWinner());
-                            clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
+                            clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner(), gameInterface.getPlayers()));
                             gameInterface.setState(GameStates.END);
                         }
                         else{
@@ -84,18 +83,15 @@ public class PacketEndTurn implements ClientPacketHandler{
 
             switch (gameInterface.getState()) {
 
-                case PHASE_ONE -> clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
-
                 case PHASE_TWO -> {
                     if (clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
                         gameInterface.nextPlayer();
 
                         clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
 
-
                         if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
                           //  clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
-                            server.sendAll(new PacketWinner(gameInterface.getWinner()), gameInterface);
+                            server.sendAll(new PacketWinner(gameInterface.getWinner(), gameInterface.getPlayers()), gameInterface);
                         }
                         else{
                             server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
