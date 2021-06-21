@@ -40,7 +40,6 @@ public class Client {
 
         clientModelView = new ClientModelView();
         clientStates = ClientStates.SERVERCONNECTION;
-        System.out.println(defaultConnection);
 
         if(defaultConnection){
             Reader reader;

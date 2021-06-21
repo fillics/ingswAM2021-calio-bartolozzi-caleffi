@@ -253,7 +253,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             c.gridy=0;
             leaderCards.add(tokenPanel, c);
         }
-        else{
+        else if (gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==0){
             JPanel inkwellPanel = new JPanel();
             inkwellPanel.setLayout(new GridBagLayout());
             inkwellPanel.setOpaque(false);
@@ -282,7 +282,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             leaderCardPanels.add(leaderCardPanel1);
             leaderCardPanel1.setOpaque(false);
             c.gridx=0;
-            if(isSingleGame) c.gridy=i+1;
+            if(isSingleGame || gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==0) c.gridy=i+1;
             else c.gridy=i;
             leaderCards.add(leaderCardPanels.get(i), c);
         }
