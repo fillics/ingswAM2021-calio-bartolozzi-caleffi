@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.liteclasses.LiteBoard;
 import it.polimi.ingsw.client.liteclasses.LiteDevelopmentGrid;
@@ -80,6 +81,7 @@ public class ClientModelView {
         this.liteBoard = liteBoard;
     }
 
+    @JsonIgnore
     public boolean isSingleGame() {
         return isSingleGame;
     }
@@ -88,6 +90,7 @@ public class ClientModelView {
         isSingleGame = true;
     }
 
+    @JsonIgnore
     public SoloActionToken getSoloActionToken() {
         return soloActionToken;
     }

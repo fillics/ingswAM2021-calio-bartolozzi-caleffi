@@ -64,6 +64,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         } catch (IOException ignored) {
         }
         c = new GridBagConstraints();
+        this.setLayout(new GridBagLayout());
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
@@ -242,7 +243,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     public void createToken(){
         if(isSingleGame) {
-            tokenPanel = new JPanel();
+            JPanel tokenPanel = new JPanel();
             tokenPanel.setLayout(new GridBagLayout());
             tokenPanel.setOpaque(false);
             token = new TokenPanel(gui);
@@ -251,6 +252,20 @@ public class BoardPanel extends JPanel implements ActionListener {
             c.gridx=0;
             c.gridy=0;
             leaderCards.add(tokenPanel, c);
+        }
+        else{
+            JPanel inkwellPanel = new JPanel();
+            inkwellPanel.setLayout(new GridBagLayout());
+            inkwellPanel.setOpaque(false);
+            JLabel inkwell = new JLabel();
+            try {
+                inkwell.setIcon(new ImageIcon(new ImageIcon((GUI.class.getResourceAsStream("/images/punchboard/calamaio.png")).readAllBytes()).getImage().getScaledInstance(100, 100, Image.SCALE_AREA_AVERAGING)));
+            } catch (IOException ignored) { }
+
+            c.gridx=0;
+            c.gridy=0;
+            inkwellPanel.add(inkwell, c);
+            leaderCards.add(inkwellPanel, c);
         }
     }
 

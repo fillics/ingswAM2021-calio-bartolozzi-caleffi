@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.panels.BoardPanel;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.NumPlayersPanel;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
@@ -43,7 +44,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 }
                 else {
                     client.getGui().createMessageFromServer(ConnectionMessages.LOBBY_MASTER_GUI.getMessage());
-                    client.getGui().switchPanels(client.getGui().getNumPlayersPanel());
+                    client.getGui().switchPanels(new NumPlayersPanel(client.getGui()));
                 }
                 client.setClientState(ClientStates.NUMPLAYERS);
 
@@ -100,6 +101,15 @@ public class PacketConnectionMessages implements ServerPacketHandler {
 
                 client.setClientState(ClientStates.GAMESTARTED);
             }
+
+            case WAIT_FOR_TURN -> {
+                if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
+
+                else{
+                    client.getGui().createMessageFromServer(ConnectionMessages.WAIT_FOR_TURN.getMessage());
+                }
+            }
+
 
             default ->  throw new IllegalStateException("Unexpected value: " + message);
 

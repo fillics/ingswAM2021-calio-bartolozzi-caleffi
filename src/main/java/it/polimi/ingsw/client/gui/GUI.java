@@ -25,8 +25,6 @@ public class GUI implements Runnable {
     private JPanel mainPanel;
     private JPanel messagesFromServerPanel;
     private JPanel curMessagePanel;
-    private JPanel serverPanel;
-    private JPanel numPlayersPanel;
     private Client client;
     private ClientModelView clientModelView;
     private final Dimension dimension;
@@ -40,6 +38,7 @@ public class GUI implements Runnable {
     private final Color purpleColor;
     private final Color lightblueColor;
     private final Color yellowColor;
+    private boolean defaultConnection=false;
 
     public GUI(Client client) {
         jFrame = new JFrame();
@@ -60,15 +59,11 @@ public class GUI implements Runnable {
         borders.add(loweredbevel);
         borders.add(loweredetched);
 
-        serverPanel = new ServerPanel(this);
-        numPlayersPanel = new NumPlayersPanel(this);
-
         greenColor = new Color(54, 178, 76);
         giallinoBackgroundColor = new Color(233, 226, 193);
         purpleColor = new Color(139,117,180);
         lightblueColor = new Color(104,205,236);
         yellowColor = new Color(228,191,40);
-
 
     }
 
@@ -76,6 +71,9 @@ public class GUI implements Runnable {
         return dimension;
     }
 
+    public void setDefaultConnection() {
+       defaultConnection = true;
+    }
 
     @Override
     public void run() {
@@ -90,7 +88,7 @@ public class GUI implements Runnable {
         bigPanel.setLayout(new BorderLayout());
         mainPanel.setLayout(new BoxLayout(mainPanel,  BoxLayout.PAGE_AXIS));
 
-        mainPanel.add(serverPanel);
+        mainPanel.add(new ServerPanel(this, defaultConnection));
         mainPanel.setPreferredSize(new Dimension(width, height-50));
         topPanel.setPreferredSize(new Dimension(width, 50));
 
@@ -163,9 +161,7 @@ public class GUI implements Runnable {
 
 
 
-    public JPanel getNumPlayersPanel() {
-        return numPlayersPanel;
-    }
+
 
     public Client getClient() {
         return client;

@@ -741,6 +741,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void reconnectPlayer(String username){
         Player playerToReconnect = getPlayerByUsername(username);
         if(players.contains(playerToReconnect)) activePlayers.add(playerToReconnect.getPosition(), playerToReconnect);
+
+        for (Player player: activePlayers){
+            System.out.println("lista giocatori: "+player.getUsername());
+        }
+
     }
 
     /**

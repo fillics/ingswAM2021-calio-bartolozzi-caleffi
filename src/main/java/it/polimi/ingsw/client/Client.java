@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.client.cli.CLIOperationHandler;
 import it.polimi.ingsw.client.communication.ServerListener;
@@ -12,7 +13,11 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
+import it.polimi.ingsw.server.ArgsConnection;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class Client {
@@ -24,24 +29,43 @@ public class Client {
     private CLI cli;
     private GUI gui;
     private ViewChoice viewChoice;
+    private static String DEFAULT_ARGS = "-default";
+    private static boolean defaultConnection = false;
 
     /**
      * Constructor Client creates a new Client instance
      *
      */
-    public Client(ViewChoice viewChoice) {
+    public Client(ViewChoice viewChoice, boolean defaultConnection) {
 
         clientModelView = new ClientModelView();
         clientStates = ClientStates.SERVERCONNECTION;
+        System.out.println(defaultConnection);
+
+        if(defaultConnection){
+            Reader reader;
+            reader = new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/json/ClientConnection.json")));
+            ArgsConnection argsConnection = new Gson().fromJson(reader, ArgsConnection.class);
+
+            try {
+                reader.close();
+            } catch (IOException ignored) { }
+
+            Constants.setAddressServer(argsConnection.getIpAddress());
+            Constants.setPort(Integer.parseInt(argsConnection.getServerPort()));
+
+        }
+
 
         if(viewChoice.equals(ViewChoice.CLI)){
             cli = new CLI(this, clientModelView);
-            cli.serverMatch();
+            if (!defaultConnection) cli.serverMatch();
             serverConnection(viewChoice);
         }
 
         if (viewChoice.equals(ViewChoice.GUI)){
             gui = new GUI(this);
+            if(defaultConnection) gui.setDefaultConnection();
             new Thread(gui).start();
         }
 
@@ -49,6 +73,7 @@ public class Client {
 
     /**
      * possiamo passare al jar la stringa -cli o -gui oppure lasciare vuoto per far decidere
+     * può scrivere anche -default per caricare i valori della connessione presenti nel file json clientconnection.json
      * @param args
      */
     public static void main(String[] args) {
@@ -57,14 +82,17 @@ public class Client {
         System.out.println(Constants.AUTHORS);
         ViewChoice viewChoice = null;
 
-        if (args[0].equals("-cli")) viewChoice=ViewChoice.CLI;
-        else if (args[0].equals("-gui")) viewChoice=ViewChoice.GUI;
 
+        if(args!=null && args.length!=0){
+            if (args[0].equals("-cli")) viewChoice=ViewChoice.CLI;
+            else if (args[0].equals("-gui")) viewChoice=ViewChoice.GUI;
+            if (args[1].equals(DEFAULT_ARGS)) defaultConnection=true;
+        }
         else viewChoice = viewInterfaceChoice();
 
 
         assert viewChoice != null;
-        Client client = new Client(viewChoice);
+        Client client = new Client(viewChoice, defaultConnection);
         client.setViewChoice(viewChoice);
 
     }
@@ -84,14 +112,11 @@ public class Client {
         //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
         if(socketClientConnection.getConnectionToServer().get()){
             if(viewChoice.equals(ViewChoice.CLI)){
-                ServerListener serverListener = new ServerListener(this, socketClientConnection);
-                ServerWriter serverWriter = new ServerWriter(this, socketClientConnection, cliOperationHandler);
-                new Thread(serverWriter).start();
-                new Thread(serverListener).start();
+                new Thread(new ServerWriter(this, socketClientConnection, cliOperationHandler)).start();
+                new Thread(new ServerListener(this, socketClientConnection)).start();
             }
             if(viewChoice.equals(ViewChoice.GUI)){
-                ServerListener serverListener = new ServerListener(this, socketClientConnection);
-                new Thread(serverListener).start();
+                new Thread(new ServerListener(this, socketClientConnection)).start();
             }
         }
         clientStates = ClientStates.USERNAME;

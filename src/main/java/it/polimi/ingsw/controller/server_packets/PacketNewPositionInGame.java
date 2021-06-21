@@ -12,7 +12,6 @@ public class PacketNewPositionInGame  implements ServerPacketHandler {
     private final String username;
     private final String action;
 
-     
     
     @JsonCreator
     public PacketNewPositionInGame(@JsonProperty("newPosInGame") int posInGame,
@@ -21,6 +20,17 @@ public class PacketNewPositionInGame  implements ServerPacketHandler {
         this.posInGame = posInGame;
         this.username=username;
         this.action=action;
+    }
+
+
+    @Override
+    public void execute(Client client) {
+        switch (client.getViewChoice()){
+            case CLI -> System.out.println(username + " "+ action + ". "+ "Your new turn position is: "+(posInGame+1));
+            case GUI -> client.getGui().createMessageFromServer(username + " "+ action + ". "+ "Your new turn position is: "+(posInGame+1));
+        }
+
+        client.getClientModelView().getMyPlayer().setPosInGame(posInGame);
     }
 
     public int getPosInGame() {
@@ -33,14 +43,5 @@ public class PacketNewPositionInGame  implements ServerPacketHandler {
 
     public String getAction() {
         return action;
-    }
-
-    @Override
-    public void execute(Client client) {
-        if(client.getViewChoice().equals(ViewChoice.CLI)){
-            System.out.println(username + " "+ action + ". "+ "Your new turn position is: "+(posInGame+1));
-        }
-        else client.getGui().createMessageFromServer(username + " "+ action + ". "+ "Your new turn position is: "+(posInGame+1));
-        client.getClientModelView().getMyPlayer().setPosInGame(posInGame);
     }
 }
