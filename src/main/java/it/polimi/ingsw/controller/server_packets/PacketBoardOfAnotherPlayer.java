@@ -31,9 +31,11 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
 
 
     @JsonCreator
-    public PacketBoardOfAnotherPlayer(@JsonProperty("faithMarker") int faithMarker,@JsonProperty("faith track :") ArrayList<Cell> track,
+    public PacketBoardOfAnotherPlayer(@JsonProperty("faithMarker") int faithMarker,
+                                      @JsonProperty("track") ArrayList<Cell> track,
                                       @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections,
-                                      @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards, @JsonProperty("strongbox") Strongbox strongbox,
+                                      @JsonProperty("leadercards") ArrayList<LeaderCard> leaderCards,
+                                      @JsonProperty("strongbox") Strongbox strongbox,
                                       @JsonProperty("deposits") ArrayList<Deposit> deposits,
                                       @JsonProperty("devspaces") ArrayList<DevelopmentSpace> developmentSpaces) {
         this.faithMarker = faithMarker;
@@ -76,14 +78,15 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
+        clientModelView.getLiteBoard().setFaithMarker(faithMarker);
+        clientModelView.getLiteBoard().setTrack(track);
+        clientModelView.getLiteBoard().setVaticanReportSections(vaticanReportSections);
+        clientModelView.getLiteBoard().setDeposits(deposits);
+        clientModelView.getLiteBoard().setStrongbox(strongbox);
+        clientModelView.getLiteBoard().setDevelopmentSpaces(developmentSpaces);
+        clientModelView.getMyPlayer().setLeaderCards(leaderCards);
+
         if(client.getViewChoice().equals(ViewChoice.CLI)){
-            clientModelView.getLiteBoard().setFaithMarker(faithMarker);
-            clientModelView.getLiteBoard().setTrack(track);
-            clientModelView.getLiteBoard().setVaticanReportSections(vaticanReportSections);
-            clientModelView.getLiteBoard().setDeposits(deposits);
-            clientModelView.getLiteBoard().setStrongbox(strongbox);
-            clientModelView.getLiteBoard().setDevelopmentSpaces(developmentSpaces);
-            clientModelView.getMyPlayer().setLeaderCards(leaderCards);
             cli = new CLI(client,clientModelView);
             cli.printFaithTrack();
             cli.printResourcesLegend();

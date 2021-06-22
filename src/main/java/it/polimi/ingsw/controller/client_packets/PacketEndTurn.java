@@ -90,6 +90,7 @@ public class PacketEndTurn implements ClientPacketHandler{
                     gameInterface.nextPlayer();
 
                     clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
+                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.UPDATE_AFTER_ENDTURN));
 
                     if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
                         //  clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));

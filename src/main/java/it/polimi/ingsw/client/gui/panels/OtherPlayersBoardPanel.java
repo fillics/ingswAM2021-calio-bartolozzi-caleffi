@@ -137,6 +137,8 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
 
         faithTrackPanel = new JPanel();
         faithTrackPanel.setLayout(new BoxLayout(faithTrackPanel, BoxLayout.X_AXIS));
+        System.out.println(clientModelView.getLiteBoard().getVaticanReportSections().size());
+        System.out.println(clientModelView.getLiteBoard().getTrack().size());
         FaithTrackPanel faithTrack = new FaithTrackPanel(clientModelView);
         faithTrack.setPreferredSize(new Dimension(970,200));
         faithTrackPanel.add(faithTrack);
@@ -150,7 +152,6 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
 
 
         leaderCardPanels = new ArrayList<>();
-        System.out.println(clientModelView.getMyPlayer().getLeaderCards().size());
         for(int i = 0; i < clientModelView.getMyPlayer().getLeaderCards().size(); i++){
             LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(clientModelView, clientModelView.getMyPlayer().getLeaderCards().get(i).getId(), 159, 240, warehousePanel.getDepositsPanel());
             leaderCardPanels.add(leaderCardPanel1);

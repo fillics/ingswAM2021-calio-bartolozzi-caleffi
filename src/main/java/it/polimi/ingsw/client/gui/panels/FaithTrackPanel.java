@@ -412,7 +412,7 @@ public class FaithTrackPanel extends JPanel{
 
         panel2.add(Box.createRigidArea(new Dimension(97,15)));
         try {
-            for(int i=4; i<8;i++){
+            for(int i=4; i<8;i++){ 
                 if(clientModelView.getLiteBoard().getVaticanReportSections().get((clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection())-1).getPopefavortile().isVisible())
                     label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoGiallofront.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
                 else

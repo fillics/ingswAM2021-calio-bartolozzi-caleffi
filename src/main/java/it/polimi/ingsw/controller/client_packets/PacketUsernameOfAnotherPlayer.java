@@ -46,6 +46,8 @@ public class PacketUsernameOfAnotherPlayer implements ClientPacketHandler{
                     if(gameInterface.getUsernameClientActivePlayers().get(username).getLeaderCards().get(i).getStrategy().isActive())
                         leaderCards.add(gameInterface.getUsernameClientActivePlayers().get(username).getLeaderCards().get(i));
                 }
+                System.out.println("nel server: " + gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getTrack().size());
+                System.out.println(gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections().size());
                 clientHandler.sendPacketToClient(new PacketBoardOfAnotherPlayer(gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getFaithMarker(),
                         gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getTrack(),
                         gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections(),
