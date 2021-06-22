@@ -60,7 +60,6 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
         c.gridx=0;
         c.gridy=2;
         this.add(buttons, c);
-        this.setVisible(true);
     }
 
     public void createCards(){
@@ -88,7 +87,7 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
                 int finalI = i;
                 jButtons.get(i).addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseEntered(java.awt.event.MouseEvent evt) {
-                        jButtons.get(finalI).setBackground(new Color(51, 180, 76));
+                        jButtons.get(finalI).setBackground(gui.getGreenColor());
                     }
 
                     public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -107,29 +106,39 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
     public void createButtons(){
         buttons = new JPanel();
 
-        back = new JButton("BACK");
+        c.insets = new Insets(25,0,0,0);
+        back = new JButton("BACK TO THE BOARD");
         confirm = new JButton("CONFIRM");
         buttons.setLayout(new GridBagLayout());
         c.gridy=0;
         c.gridx=0;
-        c.ipady=50;
 
-        back.addActionListener(this);
-        back.setPreferredSize(new Dimension(100, 30));
+        setButton(back, gui.getGreenColor());
         buttons.add(back, c);
-
 
         c.gridy=0;
         c.gridx=1;
-        c.ipady=50;
 
-        confirm.addActionListener(this);
-        confirm.setPreferredSize(new Dimension(100, 30));
+        setButton(confirm, gui.getGreenColor());
         buttons.add(confirm, c);
 
         buttons.setOpaque(false);
 
 
+    }
+
+    public void setButton(JButton button, Color color){
+        button.setPreferredSize(new Dimension(250,50));
+        button.addActionListener(this);
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(color);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(UIManager.getColor("control"));
+            }
+        });
     }
 
 

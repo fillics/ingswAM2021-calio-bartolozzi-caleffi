@@ -61,7 +61,7 @@ public class Server {
 
     }
 
-
+    // TODO: 22/06/2021 fare funzione che racchiude controllo porta
     // posso runnare con -port 1234
     public static void main(String[] args) {
         System.out.println("Master of Renaissance Server | Welcome!");

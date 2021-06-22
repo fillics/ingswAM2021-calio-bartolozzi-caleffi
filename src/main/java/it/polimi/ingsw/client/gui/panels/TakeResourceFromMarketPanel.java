@@ -19,10 +19,10 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
     private final GUI gui;
     private Image background;
     private GridBagConstraints c;
-    private JPanel leaderCards, buttonPanel, marketPanel;
+    private JPanel leaderCards, buttonPanel, mainPanel;
     private MarketPanel marketTrayPanel;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
-    private JButton confirm,  back;
+    private JButton confirm, back, resetBtn;
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -39,24 +39,26 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         }
         c = new GridBagConstraints();
 
-        this.setLayout(new GridBagLayout());
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
 
         createLeaderCardsPanel();
         c.gridx=0;
         c.gridy=0;
-        this.add(leaderCards, c);
+        mainPanel.add(leaderCards, c);
 
         createMarketTrayPanel();
         c.gridx=1;
         c.gridy=0;
-        this.add(marketTrayPanel, c);
+        mainPanel.add(marketTrayPanel, c);
 
         createButtonPanel();
         c.gridx=2;
         c.gridy=0;
-        this.add(buttonPanel, c);
+        mainPanel.add(buttonPanel, c);
 
-        this.setOpaque(false);
+        mainPanel.setOpaque(false);
+        this.add(mainPanel);
     }
 
     private void createLeaderCardsPanel(){
@@ -82,11 +84,11 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
     }
 
     public void createMarketTrayPanel(){
-        marketPanel = new JPanel();
+        JPanel marketPanel = new JPanel();
         marketPanel.setLayout(new BoxLayout(marketPanel, BoxLayout.X_AXIS));
         marketPanel.setPreferredSize(new Dimension(550,700));
 
-        marketTrayPanel= new MarketPanel(gui,false);
+        marketTrayPanel = new MarketPanel(gui,false);
         marketTrayPanel.setPreferredSize(new Dimension(550,700));
 
         marketPanel.add(marketTrayPanel);
@@ -98,17 +100,34 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         buttonPanel.setOpaque(false);
 
         confirm = new JButton("CONFIRM");
-        back = new JButton("BACK");
-        confirm.setPreferredSize(new Dimension(100,50));
-        confirm.addActionListener(this);
-        back.setPreferredSize(new Dimension(100,50));
-        back.addActionListener(this);
+        back = new JButton("BACK TO THE BOARD");
+        resetBtn = new JButton("RESET");
+        setButton(confirm, gui.getGreenColor());
+        setButton(back, gui.getGreenColor());
+        setButton(resetBtn, Color.RED);
         c.gridx=0;
         c.gridy=0;
         buttonPanel.add(confirm,c);
         c.gridx=0;
         c.gridy=1;
         buttonPanel.add(back,c);
+        c.gridx=0;
+        c.gridy=2;
+        buttonPanel.add(resetBtn,c);
+    }
+
+    public void setButton(JButton button, Color color){
+        button.setPreferredSize(new Dimension(250,50));
+        button.addActionListener(this);
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+               button.setBackground(color);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+               button.setBackground(UIManager.getColor("control"));
+            }
+        });
     }
 
     @Override
@@ -124,21 +143,16 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         }
         if(e.getSource() == confirm){
             if(!marketTrayPanel.getLine().equals("") && marketTrayPanel.getNumline()!=0){
-                PacketTakeResourceFromMarket takeResourceFromMarket = new PacketTakeResourceFromMarket(marketTrayPanel.getLine(), marketTrayPanel.getNumline(), leaderCards);
-                ObjectMapper mapper = new ObjectMapper();
-
-                String jsonResult = null;
-                try {
-                    jsonResult = mapper.writeValueAsString(takeResourceFromMarket);
-                } catch (JsonProcessingException jsonProcessingException) {
-                    jsonProcessingException.printStackTrace();
-                }
-                gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
+                gui.sendPacketToServer(new PacketTakeResourceFromMarket(marketTrayPanel.getLine(), marketTrayPanel.getNumline(), leaderCards));
                 gui.switchPanels(new BoardPanel(gui));
             }
         }
         if(e.getSource() == back){
             gui.switchPanels(new BoardPanel(gui));
+        }
+
+        if(e.getSource() == resetBtn){
+            marketTrayPanel.activateAllButtons();
         }
     }
 }

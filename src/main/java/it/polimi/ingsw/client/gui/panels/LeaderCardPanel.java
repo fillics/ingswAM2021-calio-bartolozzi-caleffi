@@ -271,7 +271,6 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         if(e.getSource() == depositForBuyDevCardAndProdPower){
             warehouseForBuyDevCardPanel.getChosenWarehouses().add(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getDepositPosition() + 1);
             warehouseForBuyDevCardPanel.getChosenResources().add(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getResourceType());
-
         }
         if(e.getSource() == chooseProdPowerButton){
             devSpacesPanel.getNewProductionPowers().add(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getProductionPowerPosition() + 1);

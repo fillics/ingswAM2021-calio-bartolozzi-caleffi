@@ -21,8 +21,7 @@ import java.util.Objects;
 public class BuyDevCardPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
-    private GridBagConstraints c;
-    private final JButton chooseDiscountBtn = new JButton("CHOOSE DISCOUNT");
+    private final GridBagConstraints c;
     private final JButton confirmDiscountBtn = new JButton("CONFIRM DISCOUNT");
     private final JButton backBtn = new JButton("BACK");
     private final JButton confirmBuyBtn = new JButton("CONFIRM");
@@ -32,15 +31,11 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     private ArrayList<JButton> jButtons;
     private JButton leaderCard1, leaderCard2;
 
-    private JPanel cards, buttons, resources;
-    private JPanel mainPanel, centralPanel;
+    private JPanel centralPanel;
     private DevGridPanel devGridPanel;
-    private WarehouseForBuyDevCardPanel warehousePanel;
-    private DevSpacesPanel devSpacesPanel;
-    private JPanel underGridPanel, leftPanel, rightPanel, leaderCards, chooseDiscountPanel,
-            buttonsPanel;
+    private JPanel underGridPanel;
+    private JPanel leftPanel, rightPanel, buttonsPanel;
     private WarehouseAndDevSpacesPanel smallBoard;
-    private int widthRes, heightRes;
 
 
     public void paintComponent(Graphics g){
@@ -57,9 +52,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         } catch (IOException ignored) {}
         c = new GridBagConstraints();
 
-        widthRes=0;
-        heightRes=0;
-        mainPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
 
         mainPanel.setLayout(new GridBagLayout());
         mainPanel.setOpaque(false);
@@ -176,7 +169,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         underGridPanel = new JPanel();
         underGridPanel.setLayout(new GridBagLayout());
 
-        cards = new JPanel();
+        JPanel cards = new JPanel();
         leaderCardsIDs = new ArrayList<>();
         cards.setLayout(new GridBagLayout());
         c.insets = new Insets(0,10,0,10);
@@ -187,22 +180,33 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
         jButtons.add(leaderCard1);
         jButtons.add(leaderCard2);
+        String path;
+        // TODO: 22/06/2021 al posto dell'istance of mettiamo equals?
         for(int i = 0 ; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDiscount &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
+                confirmDiscountBtn.setVisible(true);
                 try {
-                    jButtons.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(125, 189, Image.SCALE_AREA_AVERAGING)));
+                    switch(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getResourceType()){
+                        case SERVANT -> path = "/images/discount/discountServant.png";
+                        case STONE -> path = "/images/discount/discountStone.png";
+                        case SHIELD -> path = "/images/discount/discountShield.png";
+                        case COIN -> path = "/images/discount/discountCoin.png";
+                        default -> throw new IllegalStateException("Unexpected value: " + gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getResourceType());
+                    }
+                    jButtons.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(200, 80, Image.SCALE_AREA_AVERAGING)));
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 jButtons.get(i).addActionListener(this);
-                c.gridx=i;
-                c.gridy=0;
+                c.gridx=0;
+                c.gridy=i;
 
                 int finalI = i;
                 jButtons.get(i).addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseEntered(java.awt.event.MouseEvent evt) {
-                        jButtons.get(finalI).setBackground(new Color(51, 180, 76));
+                        jButtons.get(finalI).setBackground(gui.getGreenColor());
                     }
                     public void mouseExited(java.awt.event.MouseEvent evt) {
                         jButtons.get(finalI).setBackground(UIManager.getColor("control"));
@@ -222,16 +226,12 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         underGridPanel.add(cards, c);
 
 
-        chooseDiscountPanel = new JPanel();
+        JPanel chooseDiscountPanel = new JPanel();
         chooseDiscountPanel.setLayout(new GridBagLayout());
         chooseDiscountPanel.setOpaque(false);
-        chooseDiscountBtn.addActionListener(this);
         confirmDiscountBtn.addActionListener(this);
         c.gridx=0;
         c.gridy=0;
-        chooseDiscountPanel.add(chooseDiscountBtn, c);
-        c.gridx=0;
-        c.gridy=1;
         confirmDiscountBtn.setVisible(false);
         chooseDiscountPanel.add(confirmDiscountBtn, c);
 
@@ -251,21 +251,26 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == chooseDiscountBtn){
-            confirmDiscountBtn.setVisible(true);
 
-        }
-        if(e.getSource() == confirmDiscountBtn && leaderCardsIDs.size()!=0){
-            gui.sendPacketToServer(new PacketChooseDiscount(leaderCardsIDs));
+        if(e.getSource() == confirmDiscountBtn){
+            if(leaderCardsIDs.size()!=0){
+                gui.sendPacketToServer(new PacketChooseDiscount(leaderCardsIDs));
+                confirmDiscountBtn.setBackground(gui.getGreenColor());
+            }
+            else{
+                JOptionPane.showMessageDialog(gui.getjFrame(), "Select the leader cards");
+            }
         }
 
         if (e.getSource() == leaderCard1) {
             int id = gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(0).getId();
             leaderCardsIDs.add(id);
+            leaderCard1.setEnabled(false);
         }
         if (e.getSource() == leaderCard2) {
             int id = gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(1).getId();
             leaderCardsIDs.add(id);
+            leaderCard2.setEnabled(false);
         }
 
         if(e.getSource() == confirmBuyBtn){

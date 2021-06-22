@@ -35,22 +35,6 @@ public class WarehouseForBuyDevCardPanel extends JPanel{
         this.setBackground(new Color(0,0,0,0));
 
     }
-    public WarehouseForBuyDevCardPanel(GUI gui) {
-        this.gui = gui;
-        chosenResources = new ArrayList<>();
-        chosenWarehouses = new ArrayList<>();
-        this.setPreferredSize(new Dimension(250, 480));
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        depositsPanel = new DepositsForBuyDevCardPanel(this);
-        strongboxPanel = new StrongBoxForBuyDevCardPanel(this);
-        this.add(depositsPanel);
-        this.add(strongboxPanel);
-
-        this.setOpaque(false);
-        this.setBackground(new Color(0,0,0,0));
-
-    }
 
     public WarehouseAndDevSpacesPanel getWarehouse() {
         return warehouse;
