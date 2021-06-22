@@ -28,11 +28,14 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
     private final ArrayList<DevelopmentSpace> developmentSpaces;
     private ClientModelView clientModelView;
     private CLI cli;
-    private GUI gui;
 
 
     @JsonCreator
-    public PacketBoardOfAnotherPlayer(@JsonProperty("faithMarker") int faithMarker,@JsonProperty("faith track :") ArrayList<Cell> track, @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections, @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards, @JsonProperty("strongbox") Strongbox strongbox, @JsonProperty("deposits") ArrayList<Deposit> deposits,@JsonProperty("devspaces") ArrayList<DevelopmentSpace> developmentSpaces) {
+    public PacketBoardOfAnotherPlayer(@JsonProperty("faithMarker") int faithMarker,@JsonProperty("faith track :") ArrayList<Cell> track,
+                                      @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections,
+                                      @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards, @JsonProperty("strongbox") Strongbox strongbox,
+                                      @JsonProperty("deposits") ArrayList<Deposit> deposits,
+                                      @JsonProperty("devspaces") ArrayList<DevelopmentSpace> developmentSpaces) {
         this.faithMarker = faithMarker;
         this.track=track;
         this.vaticanReportSections= vaticanReportSections;
@@ -91,7 +94,7 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
             cli.printActivatedLeaderCards();
         }
         else{
-            client.getGui().switchPanels(new OtherPlayersBoardPanel(client.getGui()));
+            client.getGui().switchPanels(new OtherPlayersBoardPanel(client.getGui(), clientModelView));
         }
 
     }

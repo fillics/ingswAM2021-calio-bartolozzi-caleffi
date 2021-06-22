@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.panels;
 
+import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.GUI;
 
 import javax.imageio.ImageIO;
@@ -15,12 +16,18 @@ import java.util.Objects;
 public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
-    private GridBagConstraints c;
+    private final GridBagConstraints c;
     private final JButton backButton = new JButton("BACK TO YOUR PERSONAL BOARD");
-    private JPanel operations, leaderCards, underBoard, faithTrackPanel, boardPanel, mainPanel;
+    private JPanel operations;
+    private JPanel leaderCards;
+    private JPanel underBoard;
+    private JPanel faithTrackPanel;
+    private JPanel boardPanel;
+    private final JPanel mainPanel;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private WarehousePanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
+    private ClientModelView clientModelView;
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -28,7 +35,8 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
 
     }
 
-    public OtherPlayersBoardPanel(GUI gui) {
+    public OtherPlayersBoardPanel(GUI gui, ClientModelView clientModelView) {
+        this.clientModelView = clientModelView;
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
         try {
@@ -118,8 +126,8 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
         underBoard = new JPanel();
         underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
 
-        warehousePanel = new WarehousePanel(gui);
-        devSpacesPanel = new DevSpacesPanel(gui);
+        warehousePanel = new WarehousePanel(clientModelView);
+        devSpacesPanel = new DevSpacesPanel(clientModelView);
         underBoard.add(warehousePanel);
         underBoard.add(devSpacesPanel);
     }
@@ -129,7 +137,7 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
 
         faithTrackPanel = new JPanel();
         faithTrackPanel.setLayout(new BoxLayout(faithTrackPanel, BoxLayout.X_AXIS));
-        FaithTrackPanel faithTrack = new FaithTrackPanel(gui);
+        FaithTrackPanel faithTrack = new FaithTrackPanel(clientModelView);
         faithTrack.setPreferredSize(new Dimension(970,200));
         faithTrackPanel.add(faithTrack);
         faithTrackPanel.setOpaque(false);
@@ -142,8 +150,9 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
 
 
         leaderCardPanels = new ArrayList<>();
-        for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(), 159, 240, warehousePanel.getDepositsPanel());
+        System.out.println(clientModelView.getMyPlayer().getLeaderCards().size());
+        for(int i = 0; i < clientModelView.getMyPlayer().getLeaderCards().size(); i++){
+            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(clientModelView, clientModelView.getMyPlayer().getLeaderCards().get(i).getId(), 159, 240, warehousePanel.getDepositsPanel());
             leaderCardPanels.add(leaderCardPanel1);
             leaderCardPanel1.setOpaque(false);
             c.gridx=0;

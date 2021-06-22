@@ -31,7 +31,11 @@ public class PacketUsernameOfAnotherPlayer implements ClientPacketHandler{
     }
 
     @Override
-    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested, IOException, ClassNotFoundException {
+    public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit,
+            DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound,
+            DiscountCannotBeActivated, DevelopmentCardNotFound, DepositDoesntHaveThisResource, DevCardNotPlaceable,
+            DifferentDimension, NotEnoughResources, WrongChosenResources, NotEnoughRequirements, TooManyResourcesRequested,
+            IOException, ClassNotFoundException {
 
         if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))){
             if(!gameInterface.getUsernameClientActivePlayers().containsKey(username))
@@ -41,11 +45,12 @@ public class PacketUsernameOfAnotherPlayer implements ClientPacketHandler{
                 for(int i=0; i< gameInterface.getUsernameClientActivePlayers().get(username).getLeaderCards().size();i++){
                     if(gameInterface.getUsernameClientActivePlayers().get(username).getLeaderCards().get(i).getStrategy().isActive())
                         leaderCards.add(gameInterface.getUsernameClientActivePlayers().get(username).getLeaderCards().get(i));
-                    else
-                        leaderCards.add(null);
                 }
-                clientHandler.sendPacketToClient(new PacketBoardOfAnotherPlayer(gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getFaithMarker(), gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getTrack(), gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections(),
-                        leaderCards, gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox() , gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getDeposits(),
+                clientHandler.sendPacketToClient(new PacketBoardOfAnotherPlayer(gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getFaithMarker(),
+                        gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getTrack(),
+                        gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections(),
+                        leaderCards, gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox(),
+                        gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getDeposits(),
                         gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getDevelopmentSpaces()));
             }
         }

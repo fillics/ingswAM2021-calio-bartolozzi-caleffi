@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.panels;
 
 
+import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.GUI;
 
 import javax.imageio.ImageIO;
@@ -20,6 +21,7 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
     private final ArrayList<Integer> productionPowers = new ArrayList<>();
     private final ArrayList<Integer> newProductionPowers = new ArrayList<>();
     private int idDevSpace;
+    private ClientModelView clientModelView;
 
 
     public void paintComponent(Graphics g){
@@ -41,7 +43,35 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         cardsPanel.setLayout(new BoxLayout(cardsPanel, BoxLayout.X_AXIS));
         cardsPanel.setPreferredSize(new Dimension(720, 380));
         setButtons(buttonPanel);
-        setCards(cardsPanel, gui);
+        setCards(cardsPanel, gui.getClient().getClientModelView());
+
+        buttonPanel.setVisible(true);
+        buttonPanel.setOpaque(false);
+        cardsPanel.setOpaque(false);
+
+
+        this.add(cardsPanel);
+        this.add(buttonPanel);
+        this.setVisible(true);
+
+    }
+
+    public DevSpacesPanel(ClientModelView clientModelView) {
+        this.clientModelView = clientModelView;
+        InputStream is = getClass().getResourceAsStream("/images/board/devSpaces.jpg");
+        try {
+            devSpaces = ImageIO.read(Objects.requireNonNull(is));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.setPreferredSize(new Dimension(720, 480));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JPanel buttonPanel = new JPanel();
+        JPanel cardsPanel = new JPanel();
+        cardsPanel.setLayout(new BoxLayout(cardsPanel, BoxLayout.X_AXIS));
+        cardsPanel.setPreferredSize(new Dimension(720, 380));
+        setButtons(buttonPanel);
+        setCards(cardsPanel, clientModelView);
 
         buttonPanel.setVisible(true);
         buttonPanel.setOpaque(false);
@@ -97,7 +127,7 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
 
     }
 
-    public void setCards(JPanel cardsPanel, GUI gui){
+    public void setCards(JPanel cardsPanel, ClientModelView clientModelView){
         JPanel prodPower = new JPanel();
         JPanel devspace1 = new JPanel();
         JPanel devspace2 = new JPanel();
@@ -140,9 +170,9 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         jLabels3.add(label9);
 
         float shift = 0.5f;
-        for(int i = gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
+        for(int i = clientModelView.getLiteBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
             try {
-                jLabels1.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+                jLabels1.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(clientModelView.getLiteBoard().getDevelopmentSpaces().get(0).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
                 jLabels1.get(i).setAlignmentY(shift);
                 devspace1.add(jLabels1.get(i));
                 shift = shift - 0.2f;
@@ -150,9 +180,9 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         }
 
         shift = 0.5f;
-        for(int i = gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(1).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
+        for(int i = clientModelView.getLiteBoard().getDevelopmentSpaces().get(1).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
             try {
-                jLabels2.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(1).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+                jLabels2.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(clientModelView.getLiteBoard().getDevelopmentSpaces().get(1).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
                 jLabels2.get(i).setAlignmentY(shift);
                 devspace2.add(jLabels2.get(i));
                 shift = shift - 0.2f;
@@ -160,9 +190,9 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         }
 
         shift = 0.5f;
-        for(int i = gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(2).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
+        for(int i = clientModelView.getLiteBoard().getDevelopmentSpaces().get(2).getDevelopmentCardsOfDevSpace().size()-1; i >= 0 ; i--){
             try {
-                jLabels3.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(gui.getClient().getClientModelView().getLiteBoard().getDevelopmentSpaces().get(2).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
+                jLabels3.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(clientModelView.getLiteBoard().getDevelopmentSpaces().get(2).getDevelopmentCardsOfDevSpace().get(i).getPath())).readAllBytes()).getImage().getScaledInstance(150, 200, Image.SCALE_AREA_AVERAGING)));
                 jLabels3.get(i).setAlignmentY(shift);
                 devspace3.add(jLabels3.get(i));
                 shift = shift - 0.2f;
