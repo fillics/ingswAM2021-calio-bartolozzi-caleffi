@@ -29,7 +29,6 @@ public class ServerListener implements Runnable {
         this.client = client;
         connectionToServer = new AtomicBoolean(true);
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(socketClientConnection.getSocket().getInputStream()));
             scanner = new Scanner(socketClientConnection.getSocket().getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
@@ -42,7 +41,7 @@ public class ServerListener implements Runnable {
         while (connectionToServer.get()) {
             ObjectMapper mapper = new ObjectMapper();
             String str = null;
-            ServerPacketHandler packet;
+            ServerPacketHandler packet = null;
             try{
                 str = scanner.nextLine();
             }catch(NoSuchElementException ignored){
@@ -50,13 +49,19 @@ public class ServerListener implements Runnable {
             }
 
             if(connectionToServer.get()){
+
                 try {
                     packet = mapper.readValue(str, ServerPacketHandler.class);
-                    packet.execute(client);
-                } catch (JsonProcessingException|IllegalArgumentException ignored) {}
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+                assert packet != null;
+                packet.execute(client);
+
             }
         }
 
+        // TODO: 21/06/2021 posso togliere if??
         //if the connection terminates, the application will close
         if (!connectionToServer.get()) {
             if(client.getViewChoice().equals(ViewChoice.CLI)){

@@ -33,6 +33,7 @@ public interface GameInterface {
     void additionalResourceSetup(ResourceType resourceType, int depositPosition, String username) throws DifferentDimension, DepositHasReachedMaxLimit, DepositHasAnotherResource, AnotherDepositContainsThisResource, InvalidResource;
     GameStates getState();
     ArrayList<Player> getActivePlayers();
+    ArrayList<Player> getPlayers();
     HashMap<String, Player> getUsernameClientActivePlayers();
     boolean isEndgame();
     ArrayList<LinkedList<DevelopmentCard>> getDevelopmentGrid();

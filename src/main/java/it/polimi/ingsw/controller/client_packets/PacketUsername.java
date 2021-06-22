@@ -24,6 +24,7 @@ public class PacketUsername implements SetupHandler {
 
     @Override
     public void execute(Server server, ClientHandler clientHandler) {
+
         server.checkUsernameAlreadyTaken(username, clientHandler);
 
         if(server.getNumPlayers()!=0) server.checkStartOfTheGame();

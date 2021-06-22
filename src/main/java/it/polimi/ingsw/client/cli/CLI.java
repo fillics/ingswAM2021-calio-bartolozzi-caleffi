@@ -647,12 +647,11 @@ public class CLI implements ViewInterface {
         System.out.println(escape);
     }
 
-    // TODO: 08/06/2021 togliere i commenti
     public void serverMatch() {
-       /* System.out.println(">Insert the server IP address");
+        System.out.println(">Insert the server IP address");
         System.out.print(">");
-        String ip = scanner.nextLine();*/
-        Constants.setAddressServer("127.0.0.1");
+        String ip = input.nextLine();
+        Constants.setAddressServer(ip);
         System.out.println(">Insert the server port");
         System.out.print(">");
         int port = 0;

@@ -155,8 +155,8 @@ public class ClientHandler implements Runnable {
         return isSingleGame;
     }
 
-    public void setSingleGame(boolean singleGame) {
-        isSingleGame = singleGame;
+    public void setSingleGame() {
+        isSingleGame = true;
     }
 
     /**
@@ -237,7 +237,6 @@ public class ClientHandler implements Runnable {
 
         saveProxy();
 
-
         sendPacketToClient(packetSetup);
 
         sendSetup = false;
@@ -282,10 +281,7 @@ public class ClientHandler implements Runnable {
         mapper = new ObjectMapper();
         try {
             jsonResult = mapper.writeValueAsString(serverPacketHandler);
-
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        } catch (JsonProcessingException ignored) {}
 
         sendToClient(jsonResult);
 

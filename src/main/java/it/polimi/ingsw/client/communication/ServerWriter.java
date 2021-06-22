@@ -54,11 +54,12 @@ public class ServerWriter implements Runnable{
 
         }
 
+        /*
         try {
             socketClientConnection.deserialize();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
         input.close();
         output.close();

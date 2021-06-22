@@ -22,6 +22,7 @@ public class ServerPanel extends JPanel implements ActionListener {
     private JTextField ipAddressTextField, serverPortTextField;
     private  JButton connectButton, resetButton;
     private JPanel biggestPanel, ipPanel, portPanel, buttonsPanel;
+    private boolean defaultConnection;
 
 
     public void paintComponent(Graphics g){
@@ -30,8 +31,9 @@ public class ServerPanel extends JPanel implements ActionListener {
     }
 
 
-    public ServerPanel(GUI gui){
+    public ServerPanel(GUI gui, boolean defaultConnection){
         this.gui = gui;
+        this.defaultConnection = defaultConnection;
         InputStream is = getClass().getResourceAsStream("/images/background/home2.png");
         try {
             assert is != null;
@@ -112,6 +114,8 @@ public class ServerPanel extends JPanel implements ActionListener {
         ipPanel.add(ipAddressTextField, c);
 
         ipAddressTextField.setText("127.0.0.1");
+        // TODO: 21/06/2021 toglier eriga commentata
+        //if(defaultConnection) ipAddressTextField.setText(Constants.getAddressServer());
         ipAddressTextField.setPreferredSize(new Dimension(200, 50));
         ipAddressTextField.setHorizontalAlignment(JTextField.CENTER);
 
@@ -137,7 +141,9 @@ public class ServerPanel extends JPanel implements ActionListener {
         c.gridx=1;
         c.gridy=0;
         portPanel.add(serverPortTextField, c);
-        serverPortTextField.setText("1234");
+
+        serverPortTextField.setText(String.valueOf(1234));
+        //if(defaultConnection) serverPortTextField.setText(String.valueOf(Constants.getPort()));
         serverPortTextField.setPreferredSize(new Dimension(200, 10));
         serverPortTextField.setHorizontalAlignment(JTextField.CENTER);
 
@@ -166,7 +172,7 @@ public class ServerPanel extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == connectButton) {
+        if (e.getSource() == connectButton || e.getSource()==serverPortTextField) {
             Constants.setAddressServer(ipAddressTextField.getText());
             Constants.setPort(Integer.parseInt(serverPortTextField.getText()));
             gui.getClient().serverConnection(ViewChoice.GUI);

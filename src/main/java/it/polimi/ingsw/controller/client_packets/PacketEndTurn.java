@@ -20,7 +20,6 @@ public class PacketEndTurn implements ClientPacketHandler{
 
             switch (gameInterface.getState()) {
                 case SETUP -> gameInterface.setState(GameStates.PHASE_ONE);
-                case PHASE_ONE -> clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
                 case PHASE_TWO -> {
                     if (clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
                         int sizeResourceBuffer = gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getResourceBuffer().size();
@@ -34,7 +33,7 @@ public class PacketEndTurn implements ClientPacketHandler{
                         if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
                             ((SinglePlayerGame) gameInterface).winner();
                             System.out.println(gameInterface.getWinner());
-                            clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
+                            clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner(), gameInterface.getPlayers()));
                             gameInterface.setState(GameStates.END);
                         }
                         else{
@@ -79,39 +78,36 @@ public class PacketEndTurn implements ClientPacketHandler{
         }
         else{
             gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).endTurn();
-            clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
+            clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(),
+                    gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),
+                    gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
             server.saveClientProxy(clientHandler.getUsername(), gameInterface);
 
-            switch (gameInterface.getState()) {
+            if (gameInterface.getState() == GameStates.PHASE_TWO) {
+                if (clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
+                    server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
+                            sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.WAIT_FOR_TURN));
+                    gameInterface.nextPlayer();
 
-                case PHASE_ONE -> clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
+                    clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
 
-                case PHASE_TWO -> {
-                    if (clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+                    if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
+                        //  clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
+                        server.sendAll(new PacketWinner(gameInterface.getWinner(), gameInterface.getPlayers()), gameInterface);
+                    } else {
+                        server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
+                                sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+                        server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
+                                sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),
+                                        gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
 
-                        gameInterface.nextPlayer();
-
-                        clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
-                        clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.UPDATE_AFTER_ENDTURN));
-
-                        if(gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
-                            server.sendAll(new PacketWinner(gameInterface.getWinner()), gameInterface);
-                        }
-                        else{
-                            server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
-                                    sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-                            server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
-                                    sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),
-                                            gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
-
-                            gameInterface.setState(GameStates.PHASE_ONE);
-                        }
+                        gameInterface.setState(GameStates.PHASE_ONE);
                     }
-                    else {
-                        clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
-                    }
+                } else {
+                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
                 }
-                default -> clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
+            } else {
+                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
             }
 
         }

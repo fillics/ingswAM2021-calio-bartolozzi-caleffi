@@ -12,6 +12,7 @@ public enum ConnectionMessages {
     WAITING_PEOPLE("Waiting for people to start the game..."),
     LOBBY_MASTER("You are the "+Constants.ITALIC+"lobby master"+Constants.ANSI_RESET+"! You will create the match."),
     LOBBY_MASTER_GUI("You are the lobby master! You will create the match."),
+    WAIT_FOR_TURN("Waiting for your turn..."),
 
     USERNAME_VALID(Constants.ANSI_GREEN+"Username chosen is valid!"+Constants.ANSI_RESET),
     INSERT_USERNAME("Insert your username: "),
@@ -19,7 +20,6 @@ public enum ConnectionMessages {
     TAKEN_NICKNAME(Constants.ANSI_RED+"The chosen username is already taken. Enter a new one: "+Constants.ANSI_RESET),
     INSERT_NUMBER_OF_PLAYERS("Insert the desired number of players (1, 2, 3 or 4): "),
     INVALID_NUM_PLAYERS(Constants.ANSI_RED+"The chosen number of players is invalid. Enter a new one: "+Constants.ANSI_RESET),
-
 
     PLAYER_RECONNECTED("You were playing in a match. Reconnecting to the game..."),
     GAME_IS_STARTING(Constants.UNDERLINE+"The game is starting..."+Constants.ANSI_RESET),

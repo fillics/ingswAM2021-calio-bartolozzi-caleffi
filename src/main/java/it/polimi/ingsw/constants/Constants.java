@@ -57,7 +57,7 @@ public class Constants {
     public static final String AUTHORS =
             "by "
                     + ANSI_RED
-                    + "Filippo Caliò"
+                    + "Filippo Calio'"
                     + ANSI_RESET
                     + ", "
                     + ANSI_CYAN
@@ -85,6 +85,7 @@ public class Constants {
     public static String printItalic(String message){
         return ITALIC+message+ANSI_RESET;
     }
+
     public static String getInfo() {
         return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " INFO: ");
     }
@@ -130,4 +131,6 @@ public class Constants {
     public static void setHeight(int height) {
         Constants.height = height;
     }
+
+
 }

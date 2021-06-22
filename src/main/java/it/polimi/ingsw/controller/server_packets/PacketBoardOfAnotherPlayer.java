@@ -76,15 +76,14 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
-        clientModelView.getLiteBoard().setFaithMarker(faithMarker);
-        clientModelView.getLiteBoard().setTrack(track);
-        clientModelView.getLiteBoard().setVaticanReportSections(vaticanReportSections);
-        clientModelView.getLiteBoard().setDeposits(deposits);
-        clientModelView.getLiteBoard().setStrongbox(strongbox);
-        clientModelView.getLiteBoard().setDevelopmentSpaces(developmentSpaces);
-        clientModelView.getMyPlayer().setLeaderCards(leaderCards);
-
         if(client.getViewChoice().equals(ViewChoice.CLI)){
+            clientModelView.getLiteBoard().setFaithMarker(faithMarker);
+            clientModelView.getLiteBoard().setTrack(track);
+            clientModelView.getLiteBoard().setVaticanReportSections(vaticanReportSections);
+            clientModelView.getLiteBoard().setDeposits(deposits);
+            clientModelView.getLiteBoard().setStrongbox(strongbox);
+            clientModelView.getLiteBoard().setDevelopmentSpaces(developmentSpaces);
+            clientModelView.getMyPlayer().setLeaderCards(leaderCards);
             cli = new CLI(client,clientModelView);
             cli.printFaithTrack();
             cli.printResourcesLegend();

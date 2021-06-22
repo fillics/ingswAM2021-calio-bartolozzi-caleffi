@@ -654,16 +654,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     /**
      * Method nextPlayer handles which player is playing during his turn
      */
-    // TODO: 24/05/2021 se il primo si disconnette e il terzo fa end turn
     public void nextPlayer(){
 
         if(!endgame){
-            //System.out.println("cerco l'username dentro active players: "+nextPlayerGivenUsername(activePlayers.get(currentPlayer).getUsername()));
-
-            //currentPlayer=getIndexOfActivePlayer(nextPlayerGivenUsername(activePlayers.get(currentPlayer).getUsername()));
-            if(currentPlayer>=activePlayers.size()-1){
+             if(currentPlayer>=activePlayers.size()-1){
                 setCurrentPlayer(0);
-
             }
             else setCurrentPlayer(currentPlayer+1);
         }
@@ -744,6 +739,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void reconnectPlayer(String username){
         Player playerToReconnect = getPlayerByUsername(username);
         if(players.contains(playerToReconnect)) activePlayers.add(playerToReconnect.getPosition(), playerToReconnect);
+
+        for (Player player: activePlayers){
+            System.out.println("lista giocatori: "+player.getUsername());
+        }
+
     }
 
     /**

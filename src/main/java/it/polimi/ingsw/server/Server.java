@@ -29,6 +29,7 @@ public class Server {
     private int idGame = 0;
     private int numPlayers;
     private boolean isSingleGame;
+    private static final String PORT_ARGUMENT = "-port";
 
     private final Map<Integer, Game> mapGames;
 
@@ -61,20 +62,23 @@ public class Server {
     }
 
 
-
+    // TODO: 20/06/2021 fare il controllo della porta in ingresso 
     public static void main(String[] args) {
-
-        Scanner scanner = new Scanner(System.in);
-
         System.out.println("Master of Renaissance Server | Welcome!");
-        System.out.println(">Insert the port which server will listen on.");
-        System.out.print(">");
         int port = 0;
-        try {
-            port = scanner.nextInt();
-        } catch (Exception e) {
-            System.err.println("Numeric format requested, application will now close...");
-            System.exit(-1);
+        if(args!=null && args.length!=0 && PORT_ARGUMENT.equals(args[0])) port = Integer.parseInt(args[1]);
+        else{
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.println(">Insert the port which server will listen on.");
+            System.out.print(">");
+
+            try {
+                port = scanner.nextInt();
+            } catch (Exception e) {
+                System.err.println("Numeric format requested, application will now close...");
+                System.exit(-1);
+            }
         }
         if (port < 0 || (port > 0 && port < 1024)) {
             System.err.println("Error: ports accepted started from 1024! Please insert a new value.");
@@ -297,7 +301,7 @@ public class Server {
 
         for (ClientHandler clientHandler: playersInGame){
             clientHandler.setGame(game);
-            clientHandler.setSingleGame(isSingleGame);
+            if(isSingleGame) clientHandler.setSingleGame();
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.GAME_IS_STARTING));
             clientHandler.setPosInGame(game.getPositionPlayer(clientHandler.getUsername()));
             clientHandler.sendSetupPacket();
@@ -326,14 +330,15 @@ public class Server {
         //a quale game stava giocando il tizio disconnesso
         int idGame = peopleDisconnected.get(username);
 
-
         Game gamePlayer = mapGames.get(idGame);
 
-        String usernameCurPlayer = gamePlayer.getPlayers().get(gamePlayer.getCurrentPlayer()).getUsername();
+        String usernameCurPlayer = gamePlayer.getActivePlayers().get(gamePlayer.getCurrentPlayer()).getUsername();
         gamePlayer.reconnectPlayer(username);
         clientHandlerToAdd.setGame(gamePlayer);
         gamePlayer.setCurrentPlayer(gamePlayer.getIndexOfActivePlayer(usernameCurPlayer));
 
+        System.out.println("persona che sta giocando: "+usernameCurPlayer);
+        System.out.println("indice nuovo current player: "+gamePlayer.getIndexOfActivePlayer(usernameCurPlayer));
 
         //lo aggiungiamo alla mappa che contiene tutti i player di una partita
         mapIdGameClientHandler.get(idGame).add(clientHandlerToAdd);
@@ -370,8 +375,6 @@ public class Server {
             mapIdGameClientHandler.get(clientHandlerToRemove.getGame().getIdGame()).remove(clientHandlerToRemove);
 
             game.setCurrentPlayer(game.getIndexOfActivePlayer(usernameCurPlayer));
-
-            System.out.println("indice nuovo current player: "+game.getIndexOfActivePlayer(usernameCurPlayer));
 
             sendNewPositionInGame(clientHandlerToRemove, clientHandlerToRemove.getUsername(), "disconnected");
 

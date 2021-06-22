@@ -30,7 +30,8 @@ public class SocketClientConnection {
             connectionToServer.compareAndSet(false, true);
         } catch (IOException ignored) {
             System.err.println("Error during connection to the client");
-            new Client(client.getViewChoice());
+            Client.main(null);
+
         }
         if (connectionToServer.get()) creationStreams();
     }
@@ -63,11 +64,10 @@ public class SocketClientConnection {
     }
 
 
-
+/*
     public synchronized void deserialize() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         String str = dataInputStream.readUTF();
-        System.out.println(str);
         ServerPacketHandler packet = null;
 
         try {
@@ -79,7 +79,7 @@ public class SocketClientConnection {
         if (packet != null) {
             packet.execute(client);
         }
-    }
+    }*/
 
     public void closeConnection(){
         try {
