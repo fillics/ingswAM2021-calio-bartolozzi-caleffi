@@ -62,11 +62,17 @@ public class Server {
     }
 
 
-    // TODO: 20/06/2021 fare il controllo della porta in ingresso 
+    // posso runnare con -port 1234
     public static void main(String[] args) {
         System.out.println("Master of Renaissance Server | Welcome!");
         int port = 0;
-        if(args!=null && args.length!=0 && PORT_ARGUMENT.equals(args[0])) port = Integer.parseInt(args[1]);
+        if(args!=null && args.length!=0 && PORT_ARGUMENT.equals(args[0])) {
+            port = Integer.parseInt(args[1]);
+            if (port < 0 || (port > 0 && port < 1024)) {
+                System.err.println("Error: ports accepted started from 1024! Please insert a new value.");
+                System.exit(0);
+            }
+        }
         else{
             Scanner scanner = new Scanner(System.in);
 
@@ -331,11 +337,18 @@ public class Server {
         int idGame = peopleDisconnected.get(username);
 
         Game gamePlayer = mapGames.get(idGame);
+        String usernameCurPlayer = null;
 
-        String usernameCurPlayer = gamePlayer.getActivePlayers().get(gamePlayer.getCurrentPlayer()).getUsername();
+        if(!(gamePlayer instanceof SinglePlayerGame)){
+            usernameCurPlayer = gamePlayer.getActivePlayers().get(gamePlayer.getCurrentPlayer()).getUsername();
+        }
         gamePlayer.reconnectPlayer(username);
         clientHandlerToAdd.setGame(gamePlayer);
-        gamePlayer.setCurrentPlayer(gamePlayer.getIndexOfActivePlayer(usernameCurPlayer));
+
+        if(!(gamePlayer instanceof SinglePlayerGame)){
+            gamePlayer.setCurrentPlayer(gamePlayer.getIndexOfActivePlayer(usernameCurPlayer));
+        }
+        else gamePlayer.setCurrentPlayer(0);
 
         System.out.println("persona che sta giocando: "+usernameCurPlayer);
         System.out.println("indice nuovo current player: "+gamePlayer.getIndexOfActivePlayer(usernameCurPlayer));

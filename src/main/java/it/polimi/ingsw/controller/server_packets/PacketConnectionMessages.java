@@ -30,7 +30,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
             }
 
-            case IMPOSSIBLEENDTURN, IMPOSSIBLEMOVE -> {
+            case IMPOSSIBLEENDTURN, IMPOSSIBLEMOVE, IMPOSSIBLE_CHEAT -> {
                 if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
 
                 else{
@@ -55,7 +55,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
 
                 else {
-                    JOptionPane.showMessageDialog(client.getGui().getjFrame(), message.getMessage());
+                    JOptionPane.showMessageDialog(client.getGui().getjFrame(), ConnectionMessages.TAKEN_NICKNAME_GUI.getMessage());
                 }
 
                 client.setClientState(ClientStates.USERNAME);
@@ -106,10 +106,9 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                 if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
 
                 else{
-                    client.getGui().createMessageFromServer(ConnectionMessages.WAIT_FOR_TURN.getMessage());
+                    client.getGui().createMessageFromServer(message.getMessage());
                 }
             }
-
 
             default ->  throw new IllegalStateException("Unexpected value: " + message);
 

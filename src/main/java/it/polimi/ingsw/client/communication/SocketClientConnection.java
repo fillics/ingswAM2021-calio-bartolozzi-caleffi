@@ -64,23 +64,6 @@ public class SocketClientConnection {
     }
 
 
-/*
-    public synchronized void deserialize() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        String str = dataInputStream.readUTF();
-        ServerPacketHandler packet = null;
-
-        try {
-            packet = mapper.readValue(str, ServerPacketHandler.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        if (packet != null) {
-            packet.execute(client);
-        }
-    }*/
-
     public void closeConnection(){
         try {
             output.close();

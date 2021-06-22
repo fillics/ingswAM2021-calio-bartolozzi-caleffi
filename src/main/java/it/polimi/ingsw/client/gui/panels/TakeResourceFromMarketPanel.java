@@ -134,13 +134,11 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
                     jsonProcessingException.printStackTrace();
                 }
                 gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
-                BoardPanel boardPanel = new BoardPanel(gui);
-                gui.switchPanels(boardPanel);
+                gui.switchPanels(new BoardPanel(gui));
             }
         }
         if(e.getSource() == back){
-            BoardPanel boardPanel = new BoardPanel(gui);
-            gui.switchPanels(boardPanel);
+            gui.switchPanels(new BoardPanel(gui));
         }
     }
 }
