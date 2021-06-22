@@ -31,6 +31,13 @@ public class CLIOperationHandler{
     private ClientModelView clientModelView;
     private ViewInterface viewInterface;
 
+
+    /**
+     * Class' constructor
+     * @param socketClientConnection is the socket linked to the client
+     * @param clientModelView is a lighter model used only by the client
+     * @param viewInterface is the interface used to show the client his information
+     */
     public CLIOperationHandler(SocketClientConnection socketClientConnection, ClientModelView clientModelView, ViewInterface viewInterface) {
         this.socketClientConnection = socketClientConnection;
         this.clientModelView = clientModelView;
@@ -38,16 +45,28 @@ public class CLIOperationHandler{
         input = new Scanner(System.in);
     }
 
-
+    /**
+     * Class' setter used to set the interface
+     * @param viewInterface is the interface used to show the client his information
+     */
     public void setViewInterface(ViewInterface viewInterface) {
         this.viewInterface = viewInterface;
     }
 
-
+    /**
+     * Class' setter used to set the client model view
+     * @param clientModelView is a lighter model used only by the client
+     */
     public void setClientModelView(ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
     }
 
+    /**
+     * Method used to handle the input given by the client. According to the input given it'll be called a method
+     * to do an action
+     * @param input is the input given by the client
+     * @throws IOException when there's an error executing methods
+     */
     public void handleOperation(String input) throws IOException {
         switch (input) {
             case "1", "activate" -> {
@@ -139,12 +158,22 @@ public class CLIOperationHandler{
         }
     }
 
+    /**
+     * Method that sends a packet to the server
+     * @param packet is the packet to send
+     * @throws JsonProcessingException when the packet's serialization is invalid
+     */
     public void sendPacket(Packet packet) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = mapper.writeValueAsString(packet);
         socketClientConnection.sendToServer(jsonResult);
     }
 
+    //TODO: gestire la scelta dello username, se appartiene ad una altra partita cosa succede?
+    /**
+     * Method that creates and sends a packet PacketUsernameOfAnotherPlayer to the server
+     * @throws JsonProcessingException when the packet's serialization is invalid
+     */
     public void askBoardOfOtherPlayer() throws JsonProcessingException {
         String username;
         if(clientModelView.isSingleGame()) {
@@ -156,15 +185,19 @@ public class CLIOperationHandler{
             System.out.println("Choose the username of the player whose board you want to see");
             username = input.nextLine();
 
-            if(username.equals("exit"))
-                return;
+            if(!username.equals("exit")) {
+            }
             else{
                 sendPacket(new PacketUsernameOfAnotherPlayer(username));
             }
         }
     }
 
-    public void activateLeaderCard() throws IOException {
+    /**
+     * Method that creates and sends a packet PacketActivateLeaderCard to the server
+     * @throws JsonProcessingException when the packet's serialization is invalid
+     */
+    public void activateLeaderCard() throws JsonProcessingException {
         viewInterface.printLeaderCards();
         System.out.println("Choose the ID of the leader card to activate: ");
 
@@ -184,6 +217,10 @@ public class CLIOperationHandler{
         sendPacket(new PacketActivateLeaderCard(Integer.parseInt(id)));
     }
 
+    /**
+     * Method that creates and sends a packet PacketBuyDevCard to the server
+     * @throws IOException when the method printDevGrid tries to print something that doesn't exists
+     */
     public void buyDevCard() throws IOException {
         viewInterface.printResourcesLegend();
         viewInterface.printDevGrid();
@@ -278,7 +315,11 @@ public class CLIOperationHandler{
         } while (!devSpacecheck);
     }
 
-    public void chooseDiscount() throws IOException {
+    /**
+     * Method that creates and sends a packet PacketChooseDiscount to the server
+     * @throws JsonProcessingException when the packet's serialization is invalid
+     */
+    public void chooseDiscount() throws JsonProcessingException {
         System.out.println("Choose the IDs of the leader cards to activate, press 0 to finish");
         viewInterface.printLeaderCards();
         boolean check = false;
@@ -299,6 +340,9 @@ public class CLIOperationHandler{
         sendPacket(packet);
     }
 
+    /**
+     * Method that creates and sends a packet PacketChooseLeaderCardToRemove to the server
+     */
     public void chooseLeaderCardToRemove() {
         String id1 = null;
         String id2 = null;
@@ -351,6 +395,8 @@ public class CLIOperationHandler{
 
         } while (!checkId2);
 
+        PacketChooseLeaderCardToRemove packet = new PacketChooseLeaderCardToRemove(Integer.parseInt(id1), Integer.parseInt(id2));
+
         try {
             sendPacket(new PacketChooseLeaderCardToRemove(Integer.parseInt(id1), Integer.parseInt(id2)));
         } catch (JsonProcessingException e) {
@@ -358,7 +404,9 @@ public class CLIOperationHandler{
         }
     }
 
-
+    /**
+     * Method that creates and sends a packet PacketDiscardLeaderCard to the server
+     */
     public void discardLeaderCard(){
         viewInterface.printLeaderCards();
         System.out.println("Write the ID of the leader card to discard");
@@ -386,6 +434,9 @@ public class CLIOperationHandler{
 
     }
 
+    /**
+     * Method that creates and sends a packet PacketMoveResource to the server
+     */
     public void moveResource(){
         System.out.println("Choose the deposit in which you want to take the resource");
         viewInterface.printDeposits();
@@ -411,6 +462,9 @@ public class CLIOperationHandler{
 
     }
 
+    /**
+     * Method that creates and sends a packet PacketPlaceResource to the server
+     */
     public void placeResource() {
         if(clientModelView.getMyPlayer().getResourceBuffer().size() == 0){
             System.err.println("I'm sorry, you don't have any resource to place.");
@@ -447,6 +501,9 @@ public class CLIOperationHandler{
 
     }
 
+    /**
+     * Method that creates and sends a packet PacketTakeResourceFromMarket to the server
+     */
     public void takeResourceFromMarket(){
         viewInterface.printMarketTray();
 
@@ -497,8 +554,7 @@ public class CLIOperationHandler{
                         Integer.parseInt(id) == clientModelView.getMyPlayer().getLeaderCards().get(1).getId()) {
                     leaderCards.add(Integer.parseInt(id));
                 }
-                else if( Integer.parseInt(id) == 0){}
-                else{
+                else if( Integer.parseInt(id) != 0) {
                     System.err.println("invalid id");
                 }
             } while (Integer.parseInt(id) != 0);
@@ -513,7 +569,9 @@ public class CLIOperationHandler{
         }
     }
 
-
+    /**
+     * Method that creates and sends a packet PacketUseAndChooseProdPower to the server
+     */
     public void useAndChooseProductionPower(){
 
         System.out.println("Select the IDs of the development space to use for the production. \n" +
@@ -575,9 +633,7 @@ public class CLIOperationHandler{
                        newProductionPowers.add(Integer.parseInt(prodPosition) );
                    }
                }
-               else if(Integer.parseInt(prodPosition) == 0){
-               }
-               else{
+               else if(Integer.parseInt(prodPosition) != 0){
                    System.err.println("invalid special production power positions, retry");
                }
             }while(Integer.parseInt(prodPosition) != 0);
@@ -671,7 +727,10 @@ public class CLIOperationHandler{
     }
 
 
-
+    /**
+     * Method that creates and sends a packet PacketChooseInitialResources to the server
+     * @param howManyResources is the number of resources that the user can choose
+     */
     public synchronized void chooseInitialResources(int howManyResources){
 
         ArrayList<Integer> deposits = new ArrayList<>();
@@ -700,6 +759,11 @@ public class CLIOperationHandler{
         }
     }
 
+    /**
+     * Method that based on the user's input returns a ResourceType
+     * @param bufferRead (type BufferedReader) - it is used to read the input from the keyboard
+     * @return the resource chosen by the user at the beginning of the game
+     */
     public ResourceType scannerChooseResources(BufferedReader bufferRead){
         Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
         int whichResource=0;
@@ -722,6 +786,13 @@ public class CLIOperationHandler{
         return resourcetype;
     }
 
+    //TODO: cambiare la i
+    /**
+     * Method that based on the user's input returns an input
+     * @param bufferRead (type BufferedReader) - it is used to read the input from the keyboard
+     * @param i is a parameter used to print the deposit correctly
+     * @return the position of the deposit to place the resource chosen in scannerChooseResource
+     */
     public int scannerChooseDeposit(BufferedReader bufferRead, int i){
         int position=0;
         Constants.printConnectionMessage(ConnectionMessages.CHOOSE_DEPOSIT);

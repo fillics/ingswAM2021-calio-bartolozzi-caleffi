@@ -24,6 +24,7 @@ public class PacketResourceBuffer implements ServerPacketHandler{
             System.out.println("Remember to place the resources typing the number 7 (Place one of your resources)");
         }
 
+
     }
 
     public ArrayList<Resource> getResourceBuffer() {

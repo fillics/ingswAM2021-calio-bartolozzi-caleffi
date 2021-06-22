@@ -663,9 +663,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             else setCurrentPlayer(currentPlayer+1);
         }
         else {
-            if(currentPlayer!=activePlayers.size()-1){
-                currentPlayer++;
-            }
+            if(currentPlayer!=activePlayers.size()-1) currentPlayer++;
             else {
                 winner();
             }

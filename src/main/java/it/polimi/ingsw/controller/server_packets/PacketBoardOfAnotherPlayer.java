@@ -28,11 +28,16 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
     private final ArrayList<DevelopmentSpace> developmentSpaces;
     private ClientModelView clientModelView;
     private CLI cli;
-    private GUI gui;
 
 
     @JsonCreator
-    public PacketBoardOfAnotherPlayer(@JsonProperty("faithMarker") int faithMarker,@JsonProperty("faith track :") ArrayList<Cell> track, @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections, @JsonProperty("leader cards") ArrayList<LeaderCard> leaderCards, @JsonProperty("strongbox") Strongbox strongbox, @JsonProperty("deposits") ArrayList<Deposit> deposits,@JsonProperty("devspaces") ArrayList<DevelopmentSpace> developmentSpaces) {
+    public PacketBoardOfAnotherPlayer(@JsonProperty("faithMarker") int faithMarker,
+                                      @JsonProperty("track") ArrayList<Cell> track,
+                                      @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections,
+                                      @JsonProperty("leadercards") ArrayList<LeaderCard> leaderCards,
+                                      @JsonProperty("strongbox") Strongbox strongbox,
+                                      @JsonProperty("deposits") ArrayList<Deposit> deposits,
+                                      @JsonProperty("devspaces") ArrayList<DevelopmentSpace> developmentSpaces) {
         this.faithMarker = faithMarker;
         this.track=track;
         this.vaticanReportSections= vaticanReportSections;
@@ -73,14 +78,15 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
+        clientModelView.getLiteBoard().setFaithMarker(faithMarker);
+        clientModelView.getLiteBoard().setTrack(track);
+        clientModelView.getLiteBoard().setVaticanReportSections(vaticanReportSections);
+        clientModelView.getLiteBoard().setDeposits(deposits);
+        clientModelView.getLiteBoard().setStrongbox(strongbox);
+        clientModelView.getLiteBoard().setDevelopmentSpaces(developmentSpaces);
+        clientModelView.getMyPlayer().setLeaderCards(leaderCards);
+
         if(client.getViewChoice().equals(ViewChoice.CLI)){
-            clientModelView.getLiteBoard().setFaithMarker(faithMarker);
-            clientModelView.getLiteBoard().setTrack(track);
-            clientModelView.getLiteBoard().setVaticanReportSections(vaticanReportSections);
-            clientModelView.getLiteBoard().setDeposits(deposits);
-            clientModelView.getLiteBoard().setStrongbox(strongbox);
-            clientModelView.getLiteBoard().setDevelopmentSpaces(developmentSpaces);
-            clientModelView.getMyPlayer().setLeaderCards(leaderCards);
             cli = new CLI(client,clientModelView);
             cli.printFaithTrack();
             cli.printResourcesLegend();
@@ -90,7 +96,7 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
             cli.printActivatedLeaderCards();
         }
         else{
-            client.getGui().switchPanels(new OtherPlayersBoardPanel(client.getGui()));
+            client.getGui().switchPanels(new OtherPlayersBoardPanel(client.getGui(), clientModelView));
         }
 
     }

@@ -46,7 +46,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     private WarehousePanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
     private TokenPanel token;
-    private boolean isSingleGame;
+    private final boolean isSingleGame;
 
 
     public void paintComponent(Graphics g){

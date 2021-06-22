@@ -101,6 +101,11 @@ public class PacketConnectionMessages implements ServerPacketHandler {
 
                 client.setClientState(ClientStates.GAMESTARTED);
             }
+            case UPDATE_AFTER_ENDTURN ->{
+                if(client.getViewChoice().equals(ViewChoice.GUI)){
+                    client.getGui().switchPanels(new BoardPanel(client.getGui()));
+                }
+            }
 
             case WAIT_FOR_TURN -> {
                 if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
@@ -109,7 +114,6 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                     client.getGui().createMessageFromServer(message.getMessage());
                 }
             }
-
             default ->  throw new IllegalStateException("Unexpected value: " + message);
 
         }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.panels;
 
+import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.GUI;
 
 import javax.imageio.ImageIO;
@@ -14,7 +15,76 @@ public class FaithTrackPanel extends JPanel{
     int faithMarker,blackCross;
     boolean isSingleGame;
     private GUI gui;
+    private ClientModelView clientModelView;
 
+    public FaithTrackPanel(ClientModelView clientModelView){
+        this.clientModelView = clientModelView;
+        isSingleGame = false;
+        faithMarker = clientModelView.getLiteBoard().getFaithMarker();
+        blackCross = clientModelView.getLiteBoard().getBlackCross();
+
+        this.setPreferredSize(new Dimension(970,200));
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        InputStream input= getClass().getResourceAsStream("/images/board/faithTrack.jpg");
+        try {
+            assert input != null;
+            imagereal= ImageIO.read(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JPanel first= new JPanel();
+        JPanel second= new JPanel();
+        JPanel third= new JPanel();
+        JPanel fourth= new JPanel();
+        JPanel fifth= new JPanel();
+        JPanel sixth= new JPanel();
+        JPanel seventh= new JPanel();
+
+        first.setLayout(new BoxLayout(first,BoxLayout.Y_AXIS));
+        first.setPreferredSize(new Dimension(226,200));
+        setFirstPanel(first, clientModelView);
+
+        second.setLayout(new BoxLayout(second,BoxLayout.Y_AXIS));
+        second.setPreferredSize(new Dimension(97,200));
+        setSecondPanel(second, clientModelView);
+
+        third.setLayout(new BoxLayout(third,BoxLayout.Y_AXIS));
+        third.setPreferredSize(new Dimension(146,200));
+        setThirdPanel(third);
+
+        fourth.setLayout(new BoxLayout(fourth,BoxLayout.Y_AXIS));
+        fourth.setPreferredSize(new Dimension(97,200));
+        setFourthPanel(fourth, clientModelView);
+
+        fifth.setLayout(new BoxLayout(fifth,BoxLayout.Y_AXIS));
+        fifth.setPreferredSize(new Dimension(190,200));
+        setFifthPanel(fifth);
+
+        sixth.setLayout(new BoxLayout(sixth,BoxLayout.Y_AXIS));
+        sixth.setPreferredSize(new Dimension(96,200));
+        setSixthPanel(sixth, clientModelView);
+
+        seventh.setLayout(new BoxLayout(seventh,BoxLayout.Y_AXIS));
+        seventh.setPreferredSize(new Dimension(118,200));
+        setSeventhPanel(seventh);
+
+        first.setOpaque(false);
+        second.setOpaque(false);
+        third.setOpaque(false);
+        fourth.setOpaque(false);
+        fifth.setOpaque(false);
+        sixth.setOpaque(false);
+        seventh.setOpaque(false);
+
+        this.add(first);
+        this.add(second);
+        this.add(third);
+        this.add(fourth);
+        this.add(fifth);
+        this.add(sixth);
+        this.add(seventh);
+    }
     public FaithTrackPanel(GUI gui){
         this.gui=gui;
         isSingleGame = gui.getClient().getClientModelView().isSingleGame();
@@ -40,11 +110,11 @@ public class FaithTrackPanel extends JPanel{
 
         first.setLayout(new BoxLayout(first,BoxLayout.Y_AXIS));
         first.setPreferredSize(new Dimension(226,200));
-        setFirstPanel(first);
+        setFirstPanel(first, gui.getClient().getClientModelView());
 
         second.setLayout(new BoxLayout(second,BoxLayout.Y_AXIS));
         second.setPreferredSize(new Dimension(97,200));
-        setSecondPanel(second);
+        setSecondPanel(second, gui.getClient().getClientModelView());
 
         third.setLayout(new BoxLayout(third,BoxLayout.Y_AXIS));
         third.setPreferredSize(new Dimension(146,200));
@@ -52,7 +122,7 @@ public class FaithTrackPanel extends JPanel{
 
         fourth.setLayout(new BoxLayout(fourth,BoxLayout.Y_AXIS));
         fourth.setPreferredSize(new Dimension(97,200));
-        setFourthPanel(fourth);
+        setFourthPanel(fourth, gui.getClient().getClientModelView());
 
         fifth.setLayout(new BoxLayout(fifth,BoxLayout.Y_AXIS));
         fifth.setPreferredSize(new Dimension(190,200));
@@ -60,7 +130,7 @@ public class FaithTrackPanel extends JPanel{
 
         sixth.setLayout(new BoxLayout(sixth,BoxLayout.Y_AXIS));
         sixth.setPreferredSize(new Dimension(96,200));
-        setSixthPanel(sixth);
+        setSixthPanel(sixth, gui.getClient().getClientModelView());
 
         seventh.setLayout(new BoxLayout(seventh,BoxLayout.Y_AXIS));
         seventh.setPreferredSize(new Dimension(118,200));
@@ -88,7 +158,7 @@ public class FaithTrackPanel extends JPanel{
         g.drawImage(imagereal, 0 ,0, 970,200,null);
     }
 
-    public void setFirstPanel(JPanel first){
+    public void setFirstPanel(JPanel first, ClientModelView clientModelView){
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JPanel panel3 = new JPanel();
@@ -160,9 +230,9 @@ public class FaithTrackPanel extends JPanel{
             panel1.add(Box.createRigidArea(new Dimension(97,48)));
 
         panel2.add(Box.createRigidArea(new Dimension(128,48)));
-        if(gui.getClient().getClientModelView().getLiteBoard().getFaithMarker()==3){
+        if(clientModelView.getLiteBoard().getFaithMarker()==3){
             try {
-                if(gui.getClient().getClientModelView().getLiteBoard().getBlackCross()==3){
+                if(clientModelView.getLiteBoard().getBlackCross()==3){
                     label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/faithAndBlackCross.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
                 }
                 else
@@ -173,7 +243,7 @@ public class FaithTrackPanel extends JPanel{
             panel2.add(label2);
             panel2.add(Box.createRigidArea(new Dimension(53,48)));
         }
-        else if(gui.getClient().getClientModelView().getLiteBoard().getFaithMarker()!=3 && gui.getClient().getClientModelView().getLiteBoard().getBlackCross()==3) {
+        else if(clientModelView.getLiteBoard().getFaithMarker()!=3 && clientModelView.getLiteBoard().getBlackCross()==3) {
             try {
                 label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/croce.png")).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException e) {
@@ -281,7 +351,7 @@ public class FaithTrackPanel extends JPanel{
     }
 
     //TODO: sistemare problema tile girato
-    public void setSecondPanel(JPanel second){
+    public void setSecondPanel(JPanel second, ClientModelView clientModelView){
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JLabel label1 = new JLabel();
@@ -342,8 +412,8 @@ public class FaithTrackPanel extends JPanel{
 
         panel2.add(Box.createRigidArea(new Dimension(97,15)));
         try {
-            for(int i=4; i<8;i++){
-                if(gui.getClient().getClientModelView().getLiteBoard().getVaticanReportSections().get((gui.getClient().getClientModelView().getLiteBoard().getTrack().get(i).getVaticanReportSection())-1).getPopefavortile().isVisible())
+            for(int i=4; i<8;i++){ 
+                if(clientModelView.getLiteBoard().getVaticanReportSections().get((clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection())-1).getPopefavortile().isVisible())
                     label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoGiallofront.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
                 else
                     label2.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoGiallo.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
@@ -504,7 +574,7 @@ public class FaithTrackPanel extends JPanel{
         third.add(Box.createRigidArea(new Dimension(146,23)));
     }
 
-    public void setFourthPanel(JPanel fourth){
+    public void setFourthPanel(JPanel fourth, ClientModelView clientModelView){
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JLabel label1 = new JLabel();
@@ -522,7 +592,7 @@ public class FaithTrackPanel extends JPanel{
 
         try {
             for(int i=11; i<16; i++) {
-                if (gui.getClient().getClientModelView().getLiteBoard().getVaticanReportSections().get((gui.getClient().getClientModelView().getLiteBoard().getTrack().get(i).getVaticanReportSection()) - 1).getPopefavortile().isVisible())
+                if (clientModelView.getLiteBoard().getVaticanReportSections().get((clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()) - 1).getPopefavortile().isVisible())
                     label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoArancionefront.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
                 else
                     label1.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoArancione.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
@@ -774,7 +844,7 @@ public class FaithTrackPanel extends JPanel{
         fifth.add(Box.createRigidArea(new Dimension(190,23)));
     }
 
-    public void setSixthPanel(JPanel sixth){
+    public void setSixthPanel(JPanel sixth, ClientModelView clientModelView){
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JLabel label1 = new JLabel();
@@ -839,7 +909,7 @@ public class FaithTrackPanel extends JPanel{
         panel2.add(Box.createRigidArea(new Dimension(96,15)));
         try {
             for(int i=18; i<24;i++) {
-                if (gui.getClient().getClientModelView().getLiteBoard().getVaticanReportSections().get((gui.getClient().getClientModelView().getLiteBoard().getTrack().get(i).getVaticanReportSection()) - 1).getPopefavortile().isVisible())
+                if (clientModelView.getLiteBoard().getVaticanReportSections().get((clientModelView.getLiteBoard().getTrack().get(i).getVaticanReportSection()) - 1).getPopefavortile().isVisible())
                     label4.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoRossofront.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
                 else
                     label4.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/quadratoRosso.png")).readAllBytes()).getImage().getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING)));
