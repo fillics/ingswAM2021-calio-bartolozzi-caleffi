@@ -20,6 +20,12 @@ public class ServerWriter implements Runnable{
     private final Client client;
 
 
+    /**
+     * Class' constructor
+     * @param client is the client
+     * @param socketClientConnection is the socket linked to the client
+     * @param cliOperationHandler is the class that handles all the operation in game
+     */
     public ServerWriter(Client client, SocketClientConnection socketClientConnection, CLIOperationHandler cliOperationHandler) {
 
         input = new Scanner(System.in);
@@ -31,6 +37,9 @@ public class ServerWriter implements Runnable{
         this.client = client;
     }
 
+    /**
+     * Method that handle all the strings written by the user based on the client state, it runs until the client state is END.
+     */
     @Override
     public void run() {
         String inputString;
@@ -54,18 +63,14 @@ public class ServerWriter implements Runnable{
 
         }
 
-        /*
-        try {
-            socketClientConnection.deserialize();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
         input.close();
         output.close();
     }
 
-
+    /**
+     * Method that based on the client state, the input string written by the user calls a method that handle the command
+     * @param inputString the the input string written by the user
+     */
     public void handleGamePhase(String inputString){
 
         switch (client.getClientState()){

@@ -24,18 +24,29 @@ public class CLI implements ViewInterface {
     private final Client client;
     private final Scanner input;
 
+    /**
+     * Class's constructor
+     * @param client is the client that's represented
+     * @param clientModelView is the model of the client used to get the information needed
+     */
     public CLI(Client client, ClientModelView clientModelView) {
         input = new Scanner(System.in);
         this.client = client;
         this.clientModelView = clientModelView;
     }
 
-
+    /**
+     * View Interface override getter
+     * @return
+     */
     @Override
     public ClientModelView getClientModelView() {
         return clientModelView;
     }
 
+    /**
+     * View Interface override method, used to print the user leader cards
+     */
     @Override
     public void printLeaderCards(){
         StringBuilder matrix= new StringBuilder();
@@ -70,6 +81,9 @@ public class CLI implements ViewInterface {
         System.out.println(matrix);
     }
 
+    /**
+     * View Interface override method, used to print the activated user leader cards
+     */
     @Override
     public void printActivatedLeaderCards(){
         StringBuilder matrix= new StringBuilder();
@@ -130,6 +144,9 @@ public class CLI implements ViewInterface {
         System.out.println(matrix);
     }
 
+    /**
+     * View Interface override method, used to print the development grid
+     */
     @Override
     public void printDevGrid(){
         int i;
@@ -246,6 +263,9 @@ public class CLI implements ViewInterface {
         System.out.println(matrix);
     }
 
+    /**
+     * View Interface override method, used to print the user deposits
+     */
     @Override
     public void printDeposits(){
         StringBuilder escape= new StringBuilder();
@@ -294,6 +314,9 @@ public class CLI implements ViewInterface {
         System.out.println(escape);
     }
 
+    /**
+     * View Interface override method, used to print the user strongbox
+     */
     @Override
     public void printStrongbox() {
         StringBuilder escape = new StringBuilder();
@@ -364,6 +387,9 @@ public class CLI implements ViewInterface {
         System.out.println(escape);
     }
 
+    /**
+     * View Interface override method, used to print the user resource buffer
+     */
     @Override
     public void printResourceBuffer(){
         System.out.println("These are the resources you can put in deposits:");
@@ -392,6 +418,9 @@ public class CLI implements ViewInterface {
         System.out.println(escape);
     }
 
+    /**
+     * View Interface override method, used to print the market tray
+     */
     @Override
     public void printMarketTray() {
         clientModelView.getMarketTray().dump();
@@ -412,6 +441,9 @@ public class CLI implements ViewInterface {
         return escape.toString();
     }
 
+    /**
+     * View Interface override method, used to print the user faith track
+     */
     @Override
     public void printFaithTrack() {
         StringBuilder escape = new StringBuilder();
@@ -579,6 +611,9 @@ public class CLI implements ViewInterface {
         System.out.println(escape);
     }
 
+    /**
+     * View Interface override method, used to print the user development spaces
+     */
     @Override
     public void printDevSpaces() {
         StringBuilder escape = new StringBuilder();
@@ -622,6 +657,9 @@ public class CLI implements ViewInterface {
         System.out.println(escape);
     }
 
+    /**
+     * View Interface override method, used to print the user board production power
+     */
     @Override
     public void printBaseProdPower() {
         StringBuilder escape = new StringBuilder();
@@ -638,6 +676,9 @@ public class CLI implements ViewInterface {
         System.out.println(escape);
     }
 
+    /**
+     * View Interface override method, used to print the resources legend
+     */
     @Override
     public void printResourcesLegend() {
         String escape = Color.ANSI_BLUE.escape() + Printable.SQUARE.print() + Color.RESET + " = SHIELD\n" +
@@ -647,6 +688,9 @@ public class CLI implements ViewInterface {
         System.out.println(escape);
     }
 
+    /**
+     * Method that asks the player to insert the ip address and the server port to connect to the server
+     */
     public void serverMatch() {
         System.out.println(">Insert the server IP address");
         System.out.print(">");
@@ -663,7 +707,10 @@ public class CLI implements ViewInterface {
         Constants.setPort(port);
     }
 
-
+    /**
+     * Method that asks the first user in lobby the number of players he wants to have in his match
+     * @param numPlayers is the number of players chosen
+     */
     public void choosePlayerNumber(int numPlayers) {
         do {
             try {

@@ -9,9 +9,7 @@ import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 
 import javax.swing.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -25,6 +23,11 @@ public class ServerListener implements Runnable {
     private final AtomicBoolean connectionToServer;
 
 
+    /**
+     * Class' constructor
+     * @param client is the client the server has sent the packets
+     * @param socketClientConnection is the socket od the client
+     */
     public ServerListener(Client client, SocketClientConnection socketClientConnection) {
         this.client = client;
         connectionToServer = new AtomicBoolean(true);
@@ -35,9 +38,12 @@ public class ServerListener implements Runnable {
         }
     }
 
+    /**
+     * Method that runs until the connection with the server is closed, until the method runs, all the packets send
+     * by the server are deserialized and executed usually changing the client's ClientModelView
+     */
     @Override
     public void run() {
-
         while (connectionToServer.get()) {
             ObjectMapper mapper = new ObjectMapper();
             String str = null;

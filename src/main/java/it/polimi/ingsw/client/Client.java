@@ -34,7 +34,6 @@ public class Client {
 
     /**
      * Constructor Client creates a new Client instance
-     *
      */
     public Client(ViewChoice viewChoice, boolean defaultConnection) {
 
@@ -96,7 +95,10 @@ public class Client {
 
     }
 
-
+    /**
+     * Method that creates the socket client connection and if the viewChoice equals CLI creates a new CLIOperationHandler object
+     * @param viewChoice
+     */
     public void serverConnection(ViewChoice viewChoice){
         socketClientConnection = new SocketClientConnection(this);
 
@@ -107,8 +109,11 @@ public class Client {
         setup(viewChoice);
     }
 
+    /**
+     * Method that setups the threads based on the view choice of the client
+     * @param viewChoice is the view chosen by the user (cli/gui)
+     */
     public void setup(ViewChoice viewChoice){
-        //creo i due thread solo se la variabile booleana che indica se la connessione tra client e server non ha avuto problemi
         if(socketClientConnection.getConnectionToServer().get()){
             if(viewChoice.equals(ViewChoice.CLI)){
                 new Thread(new ServerWriter(this, socketClientConnection, cliOperationHandler)).start();
@@ -169,43 +174,83 @@ public class Client {
         }
     }
 
+    /**
+     * Class' getter
+     * @return the socket client connection of the client
+     */
     public SocketClientConnection getSocketClientConnection() {
         return socketClientConnection;
     }
 
-    public void setClientState(ClientStates clientStates) {
-        this.clientStates = clientStates;
-    }
 
+    /**
+     * Class' getter
+     * @return the client state of the client
+     */
     public ClientStates getClientState() {
         return clientStates;
     }
 
+    /**
+     * Class' getter
+     * @return the cli operation handler of the client
+     */
     public CLIOperationHandler getCliOperationHandler() {
         return cliOperationHandler;
     }
 
+    /**
+     * Class' getter
+     * @return the client model view of the client
+     */
     public ClientModelView getClientModelView() {
         return clientModelView;
     }
 
-    public void setClientModelView(ClientModelView clientModelView) { this.clientModelView = clientModelView;}
-
+    /**
+     * Class' getter
+     * @return the current view choice of the client
+     */
     public ViewChoice getViewChoice() {
         return viewChoice;
     }
 
+    /**
+     * Class' getter
+     * @return the cli of the client
+     */
     public CLI getCli() {
         return cli;
     }
 
+    /**
+     * Class' getter
+     * @return the gui of the client
+     */
     public GUI getGui() {
         return gui;
     }
 
+    /**
+     * Class' setter
+     * @param viewChoice is the choice of the view (cli/gui) chosen
+     */
     public void setViewChoice(ViewChoice viewChoice) {
         this.viewChoice = viewChoice;
     }
 
+    /**
+     * Class' setter
+     * @param clientModelView is the model of the client
+     */
+    public void setClientModelView(ClientModelView clientModelView) { this.clientModelView = clientModelView;}
+
+    /**
+     * Class' setter
+     * @param clientStates is the client state chosen
+     */
+    public void setClientState(ClientStates clientStates) {
+        this.clientStates = clientStates;
+    }
 
 }
