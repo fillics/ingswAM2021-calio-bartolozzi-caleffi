@@ -25,10 +25,10 @@ public class PacketChooseDiscount implements ClientPacketHandler {
 
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
-        if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+        if(gameInterface.getState().equals(GameStates.PHASE_ONE) &&
+                clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
                 gameInterface.chooseDiscountActivation(leaderCards);
-                clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards()));
             } catch (DiscountCannotBeActivated discountCannotBeActivated) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DISCOUNTCANNOTBEACTIVATED));
             }

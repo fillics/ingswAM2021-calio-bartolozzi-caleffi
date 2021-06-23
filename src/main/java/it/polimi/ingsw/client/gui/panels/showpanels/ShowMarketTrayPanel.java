@@ -14,7 +14,7 @@ import java.io.InputStream;
 
 public class ShowMarketTrayPanel extends JPanel implements ActionListener {
     private MarketPanel marketPanel;
-    private JPanel button, market;
+    private JPanel button, market, mainPanel;
     private GUI gui;
     private Image background;
     private GridBagConstraints c;
@@ -36,7 +36,8 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
         }
         c = new GridBagConstraints();
 
-        this.setLayout(new GridBagLayout());
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
 
         JPanel space = new JPanel();
         space.setPreferredSize(new Dimension(50,50));
@@ -44,19 +45,21 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
 
         createMarketTrayPanel();
         c.gridx=0;
-        c.gridy=0;
-        this.add(marketPanel, c);
+        c.gridy=1;
+        mainPanel.add(marketPanel, c);
 
-        c.gridx=1;
+        c.gridx=0;
         c.gridy=0;
-        this.add(space, c);
+        mainPanel.add(space, c);
 
         createButtonPanel();
-        c.gridx=2;
-        c.gridy=0;
-        this.add(button, c);
+        c.gridx=0;
+        c.gridy=2;
+        c.insets = new Insets(25, 0,0,0);
+        mainPanel.add(button, c);
 
-        this.setOpaque(false);
+        mainPanel.setOpaque(false);
+        this.add(mainPanel);
     }
 
     public void createMarketTrayPanel(){
@@ -75,8 +78,8 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
         button.setLayout(new GridBagLayout());
         button.setOpaque(false);
 
-        back = new JButton("BACK");
-        back.setPreferredSize(new Dimension(100,50));
+        back = new JButton("BACK TO THE BOARD");
+        back.setPreferredSize(new Dimension(200,50));
         back.addActionListener(this);
         c.gridx=1;
         c.gridy=0;
@@ -86,8 +89,7 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == back){
-            BoardPanel boardPanel = new BoardPanel(gui);
-            gui.switchPanels(boardPanel);
+            gui.switchPanels(new BoardPanel(gui));
         }
     }
 }

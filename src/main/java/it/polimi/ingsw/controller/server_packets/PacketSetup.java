@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.server_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.*;
-import it.polimi.ingsw.client.gui.panels.RemoveLeaderCardPanel;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.RemoveLeaderCardPanel;
 import it.polimi.ingsw.client.liteclasses.LiteBoard;
 import it.polimi.ingsw.client.liteclasses.LiteDevelopmentGrid;
 import it.polimi.ingsw.client.liteclasses.LiteMarketTray;

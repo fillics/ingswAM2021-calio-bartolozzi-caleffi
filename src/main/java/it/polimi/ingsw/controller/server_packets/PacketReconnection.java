@@ -8,7 +8,7 @@ import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.panels.pregamepanels.AdditionalResourcePanel;
 import it.polimi.ingsw.client.gui.panels.BoardPanel;
-import it.polimi.ingsw.client.gui.panels.RemoveLeaderCardPanel;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.RemoveLeaderCardPanel;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.server.ClientProxy;

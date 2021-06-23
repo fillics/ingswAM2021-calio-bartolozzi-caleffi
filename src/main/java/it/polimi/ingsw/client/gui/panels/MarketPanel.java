@@ -326,5 +326,15 @@ public class MarketPanel extends JPanel implements ActionListener {
         column3.setEnabled(false);
         column4.setEnabled(false);
     }
+
+    public void activateAllButtons(){
+        row1.setEnabled(true);
+        row2.setEnabled(true);
+        row3.setEnabled(true);
+        column1.setEnabled(true);
+        column2.setEnabled(true);
+        column3.setEnabled(true);
+        column4.setEnabled(true);
+    }
 }
 

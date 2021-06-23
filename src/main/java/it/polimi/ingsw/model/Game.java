@@ -421,9 +421,12 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void chooseDiscountActivation(ArrayList<Integer> leaderCards) throws DiscountCannotBeActivated {
         int i,j,num;
         num=0;
+        // TODO: 22/06/2021 al posto di istance of mettiamo equals??
         for (i=0;i<leaderCards.size();i++) {
             for(j=0; j<activePlayers.get(currentPlayer).getLeaderCards().size();j++){
-                if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId()== leaderCards.get(i) && activePlayers.get(currentPlayer).getLeaderCards().get(j).getStrategy() instanceof ConcreteStrategyDiscount && activePlayers.get(currentPlayer).getLeaderCards().get(j).getStrategy().isActive()){
+                if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId()== leaderCards.get(i)
+                        && activePlayers.get(currentPlayer).getLeaderCards().get(j).getStrategy() instanceof ConcreteStrategyDiscount
+                        && activePlayers.get(currentPlayer).getLeaderCards().get(j).getStrategy().isActive()){
                     num++;
                     break;
                 }
@@ -463,15 +466,9 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         }
         removeCardFromDevelopmentGrid(developmentCard);
 
-
-        //System.out.println(activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces().get(0));
         developmentSpace.addDevelopmentCard(developmentCard);
-        //System.out.println(activePlayers.get(currentPlayer).getBoard().getDevelopmentSpaces().get(0));
 
-
-        //System.out.println(activePlayers.get(currentPlayer).getBoard().getNumOfDevCards());
         activePlayers.get(currentPlayer).getBoard().increaseNumOfDevCards();
-        //System.out.println(activePlayers.get(currentPlayer).getBoard().getNumOfDevCards());
     }
 
 

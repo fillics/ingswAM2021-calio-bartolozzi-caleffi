@@ -161,8 +161,6 @@ public class GUI implements Runnable {
 
 
 
-
-
     public Client getClient() {
         return client;
     }

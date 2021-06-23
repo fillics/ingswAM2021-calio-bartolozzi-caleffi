@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.communication.SocketClientConnection;
 import it.polimi.ingsw.client.ViewInterface;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.Packet;
+import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.FaithMarkerCheatPacket;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.ResourcesInStrongboxCheatPacket;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
@@ -125,6 +126,8 @@ public class CLIOperationHandler{
                 System.out.println("+20 resources in your strongbox. Don't tell anyone ;)");
                 resourcesCheat();
             }
+
+
             case "14", "faithCheat" ->{
                 System.out.println("+1 faith marker for you. Don't tell anyone ;)");
                 faithCheat();
@@ -185,8 +188,7 @@ public class CLIOperationHandler{
             if(!username.equals("exit")) {
             }
             else{
-                PacketUsernameOfAnotherPlayer packet= new PacketUsernameOfAnotherPlayer(username);
-                sendPacket(packet);
+                sendPacket(new PacketUsernameOfAnotherPlayer(username));
             }
         }
     }
@@ -212,8 +214,7 @@ public class CLIOperationHandler{
             }
             if(!LeaderCardcheck) System.err.println("You don't have this card, retry");
         } while (!LeaderCardcheck );
-        PacketActivateLeaderCard packet = new PacketActivateLeaderCard(Integer.parseInt(id));
-        sendPacket(packet);
+        sendPacket(new PacketActivateLeaderCard(Integer.parseInt(id)));
     }
 
     /**
@@ -355,18 +356,17 @@ public class CLIOperationHandler{
                 System.out.println("First card to remove: ");
                 id1 = input.nextLine();
                 if(id1.equals("exit")) return;
+
+                for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
+                    if (Integer.parseInt(id1) == leaderCard.getId()) {
+                        checkId1 = true;
+                        break;
+                    }
+                }
             }catch(InputMismatchException|NumberFormatException e){
                 System.err.println("Please, insert a number!");
-
             }
 
-            for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
-                assert id1 != null;
-                if (Integer.parseInt(id1) == leaderCard.getId()) {
-                    checkId1 = true;
-                    break;
-                }
-            }
             if(!checkId1) {
                 System.err.println("Chosen id not present. Please reinsert the id of the first card to remove:");
             }
@@ -378,28 +378,27 @@ public class CLIOperationHandler{
                 System.out.println("Second card to remove: ");
                 id2 = input.nextLine();
                 if(id2.equals("exit")) return;
+                for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
+                    if (Integer.parseInt(id2) == leaderCard.getId() && Integer.parseInt(id2) != Integer.parseInt(id1)) {
+                        checkId2 = true;
+                        break;
+                    }
+                }
+                if(!checkId2) {
+                    if(Integer.parseInt(id2) == Integer.parseInt(id1)) System.err.println("card already discarded");
+                    else System.err.println("Chosen id not present. Please reinsert the id of the second card to remove:");
+                }
             }catch(InputMismatchException|NumberFormatException e){
                 System.err.println("insert a number!");
+            }
 
-            }
-            for(LeaderCard leaderCard : clientModelView.getMyPlayer().getLeaderCards()){
-                assert id2 != null;
-                if (Integer.parseInt(id2) == leaderCard.getId() && Integer.parseInt(id2) != Integer.parseInt(id1)) {
-                    checkId2 = true;
-                    break;
-                }
-            }
-            if(!checkId2) {
-                assert id2 != null;
-                if(Integer.parseInt(id2) == Integer.parseInt(id1)) System.err.println("card already discarded");
-                else System.err.println("Chosen id not present. Please reinsert the id of the second card to remove:");
-            }
+
         } while (!checkId2);
 
         PacketChooseLeaderCardToRemove packet = new PacketChooseLeaderCardToRemove(Integer.parseInt(id1), Integer.parseInt(id2));
 
         try {
-            sendPacket(packet);
+            sendPacket(new PacketChooseLeaderCardToRemove(Integer.parseInt(id1), Integer.parseInt(id2)));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

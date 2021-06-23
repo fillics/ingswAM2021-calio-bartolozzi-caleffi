@@ -22,7 +22,6 @@ import java.util.concurrent.Executors;
 /**
  * Server class allows clients to connect, play together and also starts the match.
  */
-
 public class Server {
 
     private int idClient = 0;
@@ -31,8 +30,8 @@ public class Server {
     private boolean isSingleGame;
     private static final String PORT_ARGUMENT = "-port";
 
+    /** Map that contains all the active games */
     private final Map<Integer, Game> mapGames;
-
 
     /** Map that contains all the username already taken and the clientHandler associated */
     private final Map<String, ClientHandler> mapUsernameClientHandler;
@@ -40,33 +39,42 @@ public class Server {
     /** Map that contains all the games with the players of that game */
     private final Map<Integer, ArrayList<ClientHandler>> mapIdGameClientHandler;
 
-
     /** Map that contains all the disconnected player's username and the Game's id associated **/
     private final Map<String, Integer> peopleDisconnected;
 
     /** Map that contains the information of the players */
     private final Map<String, ClientProxy> mapForReconnection;
 
-
     /** List of clients waiting in the lobby. */
     private final LinkedList<ClientHandler> lobby = new LinkedList<>();
 
 
+    /**
+     * Class' constructor creates a new Server istance
+     */
     public Server() {
         mapUsernameClientHandler = new HashMap<>();
         mapIdGameClientHandler = new HashMap<>();
         peopleDisconnected = new HashMap<>();
         mapForReconnection = new HashMap<>();
         mapGames = new HashMap<>();
-
     }
 
-
-    // TODO: 20/06/2021 fare il controllo della porta in ingresso 
+    /**
+     * Static method that creates a new Server class, using the selected port
+     * @param args (type String[]) - they are used to passed the port's number (for example -port 1234) to
+     *             start the server with the port 1234
+     */
     public static void main(String[] args) {
         System.out.println("Master of Renaissance Server | Welcome!");
         int port = 0;
-        if(args!=null && args.length!=0 && PORT_ARGUMENT.equals(args[0])) port = Integer.parseInt(args[1]);
+        if(args!=null && args.length!=0 && PORT_ARGUMENT.equals(args[0])) {
+            port = Integer.parseInt(args[1]);
+            if (port < 0 || (port > 0 && port < 1024)) {
+                System.err.println("Error: ports accepted started from 1024! Please insert a new value.");
+                System.exit(0);
+            }
+        }
         else{
             Scanner scanner = new Scanner(System.in);
 
@@ -92,16 +100,16 @@ public class Server {
 
     }
 
-
+    /**
+     * Method startServer starts the server and listens to new guests. For each guest, it creates a new ClientHandler class
+     */
     public void startServer() {
         int numOfGuest=1;
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
 
-
         try {
             serverSocket = new ServerSocket(Constants.getPort());
-
         } catch (IOException e) {
             System.err.println(Constants.getErr() + "Error during Socket initialization, quitting...");
             return;
@@ -118,7 +126,7 @@ public class Server {
                 executor.submit(new ClientHandler(createClientID(), socket, this, numOfGuest));
 
             } catch(IOException e) {
-                System.err.println("Error! " + e.getMessage()); // Entrerei qui se serverSocket venisse chiuso
+                System.err.println("Error! " + e.getMessage());
                 break;
             }
         }
@@ -139,30 +147,13 @@ public class Server {
         return idGame+=1;
     }
 
-    public Map<Integer, ArrayList<ClientHandler>> getMapIdGameClientHandler() {
-        return mapIdGameClientHandler;
-    }
-    public LinkedList<ClientHandler> getLobby() {
-        return lobby;
-    }
+
     /**
      * Method setNumPlayers sets the number of the players needed to create a new Game.
      * @param numPlayers (type Int) - it is the number of players that the first person in the lobby has decided
      */
     public void setNumPlayers(int numPlayers) {
         this.numPlayers = numPlayers;
-    }
-
-    public int getNumPlayers() {
-        return numPlayers;
-    }
-
-    public Map<String, ClientHandler> getMapUsernameClientHandler() {
-        return mapUsernameClientHandler;
-    }
-
-    public Map<String, ClientProxy> getMapForReconnection() {
-        return mapForReconnection;
     }
 
     /**
@@ -183,7 +174,6 @@ public class Server {
         if (lobby.size() != 0 && lobby.peek() != null && lobby.peek().equals(clientHandler)) {
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS));
         }
-
     }
 
     /**
@@ -195,12 +185,13 @@ public class Server {
      */
     public synchronized void checkUsernameAlreadyTaken(String username, ClientHandler clientHandler){
 
+        //if the username is already taken
         if(mapUsernameClientHandler.containsKey(username)){
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.TAKEN_NICKNAME));
-
         }
-        else {
 
+        else {
+            //if the person is a disconnected person
             if (peopleDisconnected.containsKey(username)){
                 handleReconnection(username, clientHandler);
             }
@@ -215,8 +206,6 @@ public class Server {
                 addToLobby(clientHandler);
                 checkFirstPositionInLobby(clientHandler);
             }
-
-
         }
     }
 
@@ -273,13 +262,10 @@ public class Server {
                 playersInGame.add(lobby.peek());
             }
             lobby.remove();
-
         }
 
         setupPlayersGame(game, playersInGame);
-
         printPlayersOrder(game);
-
         checkFirstPositionInLobby(lobby.peek());
 
     }
@@ -287,8 +273,8 @@ public class Server {
     /**
      * Method setupPlayersGame calls the method setup of the Game and send to each player of the game a setup Packet,
      * containing all of the informations they need to play the game
-     * @param game (type Game)
-     * @param playersInGame (type ArrayList<ClientHandler>)
+     * @param game (type Game) - it is the game created
+     * @param playersInGame (type ArrayList<ClientHandler>) - it is the list of players of the game created
      */
     public synchronized void setupPlayersGame(Game game, ArrayList<ClientHandler> playersInGame){
 
@@ -311,6 +297,10 @@ public class Server {
         numPlayers=0;
     }
 
+    /**
+     * Method prints the turn's order of the players of the game passed as a parameter
+     * @param game (type Game) - it is the game created
+     */
     public void printPlayersOrder(Game game){
         System.out.print("Players' order in the game " + game.getIdGame() + ": ");
         for (Player player: game.getActivePlayers()){
@@ -320,37 +310,51 @@ public class Server {
     }
 
 
+    /**
+     * Method handleReconnection is used for the resilience to disconnections.
+     * @param username (type String) - it is the username of the person disconnected
+     * @param clientHandlerToAdd (type ClientHandler) - it is the clienthandler of the person to add
+     */
     public synchronized void handleReconnection(String username, ClientHandler clientHandlerToAdd){
 
         System.out.println("Client " +username+" reconnected");
 
-        //mi risalvo l'username nella mappa che contiene tutti gli username
+        //saving the username in the username's map
         registerUsername(username, clientHandlerToAdd);
 
-        //a quale game stava giocando il tizio disconnesso
+        //to get the id of the game of the disconnected player
         int idGame = peopleDisconnected.get(username);
 
+        //to get the game of the disconnected player
         Game gamePlayer = mapGames.get(idGame);
+        String usernameCurPlayer = null;
 
-        String usernameCurPlayer = gamePlayer.getActivePlayers().get(gamePlayer.getCurrentPlayer()).getUsername();
+        //if the game was a multiplayer game
+        if(!(gamePlayer instanceof SinglePlayerGame)){
+            usernameCurPlayer = gamePlayer.getActivePlayers().get(gamePlayer.getCurrentPlayer()).getUsername();
+        }
+        //adding the player to the active players list that is present in the model
         gamePlayer.reconnectPlayer(username);
         clientHandlerToAdd.setGame(gamePlayer);
-        gamePlayer.setCurrentPlayer(gamePlayer.getIndexOfActivePlayer(usernameCurPlayer));
 
-        System.out.println("persona che sta giocando: "+usernameCurPlayer);
-        System.out.println("indice nuovo current player: "+gamePlayer.getIndexOfActivePlayer(usernameCurPlayer));
+        //setting the update current player of the game
+        if(!(gamePlayer instanceof SinglePlayerGame)){
+            gamePlayer.setCurrentPlayer(gamePlayer.getIndexOfActivePlayer(usernameCurPlayer));
+        }
+        else gamePlayer.setCurrentPlayer(0);
 
-        //lo aggiungiamo alla mappa che contiene tutti i player di una partita
+
+        //adding to the map with the players of a game
         mapIdGameClientHandler.get(idGame).add(clientHandlerToAdd);
 
-        //lo rimuovo dalle persone disconnesse
+        //removing from the map of people disconnected
         peopleDisconnected.remove(username);
 
-        //mando al client riconnesso il pacchetto di riconnessione che contiene tutte le info salvate
+        //sending to the client the packet with all of the information of the player (faith track, resources, ..)
         clientHandlerToAdd.sendPacketToClient(new PacketReconnection(mapForReconnection.get(username)));
 
+        //to send to each player of the game the new position
         sendNewPositionInGame(clientHandlerToAdd, username, "reconnected");
-
     }
 
 
@@ -359,9 +363,10 @@ public class Server {
      * @param clientHandlerToRemove (type ClientHandler) - it is the client handler to remove
      */
     public synchronized void handleDisconnection(ClientHandler clientHandlerToRemove){
-        //caso in cui è già dentro una partita
+        //if the player is already in a game
         if(clientHandlerToRemove.getGame()!=null){
 
+            //deleting the username in the map that contains the username
             unregisterUsername(clientHandlerToRemove);
 
             Game game = clientHandlerToRemove.getGame();
@@ -371,7 +376,7 @@ public class Server {
             game.setPositionPersonDisconnected(game.getIndexOfActivePlayer(clientHandlerToRemove.getUsername()));
             game.disconnectPlayer(clientHandlerToRemove.getUsername());
 
-            //lo rimuovo dalla mappa che contiene tutti i giocatori di una partita lato server
+            //removing from the map that contains all the players of a game
             mapIdGameClientHandler.get(clientHandlerToRemove.getGame().getIdGame()).remove(clientHandlerToRemove);
 
             game.setCurrentPlayer(game.getIndexOfActivePlayer(usernameCurPlayer));
@@ -380,7 +385,7 @@ public class Server {
 
 
         }
-        //caso in cui non è ancora entrato in partita
+        //if the player is not in a game (in the lobby)
         else{
             deleteFromLobby(clientHandlerToRemove);
             unregisterUsername(clientHandlerToRemove);
@@ -389,11 +394,11 @@ public class Server {
     }
 
     /**
-     * to send to each player of a game his new position in the game
+     * Method that sends to each player of a game his new position in the game
      * @param clientHandler (type ClientHandler)
      */
     public synchronized void sendNewPositionInGame(ClientHandler clientHandler, String username, String action){
-        //prendiamo il game del giocatore disconnesso
+        //taking the game of the disconnected player
         for (ClientHandler client: mapIdGameClientHandler.get(clientHandler.getGame().getIdGame())){
             int newPos = client.getGame().getIndexOfActivePlayer(client.getUsername());
             client.sendPacketToClient(new PacketNewPositionInGame(newPos, username, action));
@@ -468,4 +473,32 @@ public class Server {
                 setResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer());
     }
 
+
+    /**
+     * @return the lobby of the server
+     */
+    public LinkedList<ClientHandler> getLobby() {
+        return lobby;
+    }
+
+    /**
+     * @return the number of the players setted by the first player
+     */
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    /**
+     * @return the map that contains the map with all of the usernames
+     */
+    public Map<String, ClientHandler> getMapUsernameClientHandler() {
+        return mapUsernameClientHandler;
+    }
+
+    /**
+     * @return the map used for the reconnection
+     */
+    public Map<String, ClientProxy> getMapForReconnection() {
+        return mapForReconnection;
+    }
 }

@@ -1,10 +1,5 @@
-package it.polimi.ingsw.client.gui.panels;
+package it.polimi.ingsw.client.gui.panels.pregamepanels;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.ClientModelView;
-import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketChooseLeaderCardToRemove;
 
@@ -20,11 +15,11 @@ import java.util.Objects;
 
 public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
     private Image background;
-    private GUI gui;
+    private final GUI gui;
     private final GridBagConstraints c;
 
     private JButton leaderCard1, leaderCard2, leaderCard3, leaderCard4;
-    private JButton confirm;
+    private JButton confirmBtn, resetBtn;
     private JPanel cards, buttons;
 
     private ArrayList<JButton> jButtons;
@@ -96,7 +91,7 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
             int finalI = i;
             jButtons.get(i).addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    jButtons.get(finalI).setBackground(new Color(51, 180, 76));
+                    jButtons.get(finalI).setBackground(Color.RED);
                 }
                 public void mouseExited(java.awt.event.MouseEvent evt) {
                     jButtons.get(finalI).setBackground(UIManager.getColor("control"));
@@ -113,23 +108,53 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
 
     public void createButtons(){
         buttons = new JPanel();
+        c.insets = new Insets(0,20,0,20);
 
-        confirm = new JButton("CONFIRM");
+        confirmBtn = new JButton("CONFIRM");
+        resetBtn = new JButton("RESET");
         buttons.setLayout(new GridBagLayout());
         c.gridy=0;
-        c.gridx=0;
+        c.gridx=1;
         c.ipady=50;
 
-        confirm.addActionListener(this);
-        confirm.setPreferredSize(new Dimension(100, 30));
-        buttons.add(confirm, c);
+        setButton(confirmBtn, gui.getGreenColor());
+        setButton(resetBtn, Color.RED);
+        buttons.add(confirmBtn, c);
+        c.gridy=0;
+        c.gridx=0;
+        buttons.add(resetBtn, c);
 
         buttons.setOpaque(false);
 
     }
 
+    public void setButton(JButton button, Color color){
+        button.addActionListener(this);
+
+        button.setPreferredSize(new Dimension(100, 30));
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(color);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(UIManager.getColor("control"));
+            }
+        });
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == resetBtn) {
+            leaderCard1.setEnabled(true);
+            leaderCard2.setEnabled(true);
+            leaderCard3.setEnabled(true);
+            leaderCard4.setEnabled(true);
+            id1=0;
+            id2=0;
+        }
+
         if(id1 == 0 || id2 == 0){
             if (e.getSource() == leaderCard1) {
                 if (id1 == 0) {
@@ -165,16 +190,8 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
             }
         }
         else {
-            if (e.getSource() == confirm) {
-                PacketChooseLeaderCardToRemove packetChooseLeaderCardToRemove = new PacketChooseLeaderCardToRemove(id1, id2);
-                ObjectMapper mapper = new ObjectMapper();
-                String jsonResult = null;
-                try {
-                    jsonResult = mapper.writeValueAsString(packetChooseLeaderCardToRemove);
-                } catch (JsonProcessingException jsonProcessingException) {
-                    jsonProcessingException.printStackTrace();
-                }
-                gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
+            if (e.getSource() == confirmBtn) {
+                gui.sendPacketToServer(new PacketChooseLeaderCardToRemove(id1, id2));
             }
         }
     }

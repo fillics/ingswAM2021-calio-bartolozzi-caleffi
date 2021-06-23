@@ -72,9 +72,13 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         JPanel buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(970,50));
         confirmBtn = new JButton("CONFIRM");
+        confirmBtn.setPreferredSize(new Dimension(150, 30));
+
         confirmBtn.addActionListener(this);
-        backBtn = new JButton("BACK");
+        backBtn = new JButton("BACK TO THE BOARD");
         backBtn.addActionListener(this);
+        backBtn.setPreferredSize(new Dimension(150, 30));
+
         buttons.add(backBtn);
         buttons.add(Box.createRigidArea(new Dimension(250, 50)));
         buttons.add(confirmBtn);

@@ -19,7 +19,7 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
     private BuyDevCardPanel buyDevCardPanel;
     private UseProductionPowerPanel useProductionPowerPanel;
 
-    private JPanel mainPanel, resourcesPanel;
+    private JPanel mainPanel;
     private GridBagConstraints c;
     private int widthRes, heightRes;
     private ArrayList<JLabel> resources;
@@ -73,7 +73,7 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
     }
 
     public void createResources(){
-        resourcesPanel = new JPanel();
+        JPanel resourcesPanel = new JPanel();
         resourcesPanel.setLayout(new BoxLayout(resourcesPanel, BoxLayout.X_AXIS));
         resourcesPanel.setBackground(new Color(233, 226, 193));
         resourcesPanel.setPreferredSize(new Dimension(widthRes, heightRes));
@@ -104,7 +104,7 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
             resource.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
         }catch (IOException ignored) {}
         widthRes+=50;
-        resources.add(resource);
+        if(resources.size()<16) resources.add(resource);
         createResources();
     }
 

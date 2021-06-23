@@ -13,11 +13,13 @@ public enum ConnectionMessages {
     LOBBY_MASTER("You are the "+Constants.ITALIC+"lobby master"+Constants.ANSI_RESET+"! You will create the match."),
     LOBBY_MASTER_GUI("You are the lobby master! You will create the match."),
     WAIT_FOR_TURN("Waiting for your turn..."),
+    IMPOSSIBLE_CHEAT("Wait for your turn to use the cheats ;)"),
 
     USERNAME_VALID(Constants.ANSI_GREEN+"Username chosen is valid!"+Constants.ANSI_RESET),
     INSERT_USERNAME("Insert your username: "),
     INVALID_CHOICE(Constants.ANSI_RED+"The choice is invalid. Enter a new one: "+Constants.ANSI_RESET),
     TAKEN_NICKNAME(Constants.ANSI_RED+"The chosen username is already taken. Enter a new one: "+Constants.ANSI_RESET),
+    TAKEN_NICKNAME_GUI("The chosen username is already taken. Enter a new one."),
     INSERT_NUMBER_OF_PLAYERS("Insert the desired number of players (1, 2, 3 or 4): "),
     INVALID_NUM_PLAYERS(Constants.ANSI_RED+"The chosen number of players is invalid. Enter a new one: "+Constants.ANSI_RESET),
 
