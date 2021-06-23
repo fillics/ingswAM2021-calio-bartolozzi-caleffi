@@ -1,11 +1,7 @@
 package it.polimi.ingsw.client.communication;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -22,6 +18,10 @@ public class SocketClientConnection {
     private DataInputStream dataInputStream;
     private final AtomicBoolean connectionToServer = new AtomicBoolean(false);
 
+    /**
+     * Class' constructor
+     * @param client is the client linked to the socket
+     */
     public SocketClientConnection(Client client) {
         this.client = client;
         try {
@@ -36,6 +36,9 @@ public class SocketClientConnection {
         if (connectionToServer.get()) creationStreams();
     }
 
+    /**
+     * Method that creates the data input and output streams
+     */
     public synchronized void creationStreams() {
         try {
             output = new DataOutputStream(socket.getOutputStream());
@@ -43,10 +46,6 @@ public class SocketClientConnection {
         } catch (IOException e) {
             System.err.println("Error during initialization of the client!");
         }
-    }
-
-    public AtomicBoolean getConnectionToServer() {
-        return connectionToServer;
     }
 
     /**
@@ -63,14 +62,18 @@ public class SocketClientConnection {
         }
     }
 
-
-    public void closeConnection(){
-        try {
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+     * Class' getter
+     * @return true if the client is connected to the server, else false
+     */
+    public AtomicBoolean getConnectionToServer() {
+        return connectionToServer;
     }
+
+    /**
+     * Class' getter
+     * @return the socket of the client
+     */
     public Socket getSocket() {
         return socket;
     }

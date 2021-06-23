@@ -55,7 +55,7 @@ public class ClientModelView {
 
     /**
      * Class's getter
-     * @return
+     * @return the class Player of the client model view
      */
     public LitePlayer getMyPlayer() {
         return myPlayer;
@@ -63,7 +63,7 @@ public class ClientModelView {
 
     /**
      * Class's getter
-     * @return
+     * @return the market tray of the client model view
      */
     public LiteMarketTray getMarketTray() {
         return marketTray;
@@ -71,7 +71,7 @@ public class ClientModelView {
 
     /**
      * Class's getter
-     * @return
+     * @return the development grid of the client model view
      */
     public LiteDevelopmentGrid getDevelopmentGrid() {
         return developmentGrid;
@@ -79,7 +79,7 @@ public class ClientModelView {
 
     /**
      * Class's getter
-     * @return
+     * @return the lte board of the client model view
      */
     public LiteBoard getLiteBoard() {
         return liteBoard;
@@ -87,7 +87,7 @@ public class ClientModelView {
 
     /**
      * Class's setter
-     * @param myPlayer
+     * @param myPlayer is the Player of the client model view to set
      */
     public void setMyPlayer(LitePlayer myPlayer) {
         this.myPlayer = myPlayer;
@@ -95,7 +95,7 @@ public class ClientModelView {
 
     /**
      * Class's setter
-     * @param marketTray
+     * @param marketTray is the Market Tray of the client model view to set
      */
     public void setMarketTray(LiteMarketTray marketTray) {
         this.marketTray = marketTray;
@@ -103,7 +103,7 @@ public class ClientModelView {
 
     /**
      * Class's setter
-     * @param developmentGrid
+     * @param developmentGrid is the Development Grid of the client model view to set
      */
     public void setDevelopmentGrid(LiteDevelopmentGrid developmentGrid) {
         this.developmentGrid = developmentGrid;
@@ -111,7 +111,7 @@ public class ClientModelView {
 
     /**
      * Class's setter
-     * @param liteBoard
+     * @param liteBoard is the Lite Board of the client model view to set
      */
     public void setLiteBoard(LiteBoard liteBoard) {
         this.liteBoard = liteBoard;
@@ -119,7 +119,7 @@ public class ClientModelView {
 
     /**
      * Class's setter
-     * @param players
+     * @param players are the name of the players of the client model view to set
      */
     public void setPlayers(ArrayList<String> players) {
         this.players = players;
@@ -134,18 +134,25 @@ public class ClientModelView {
 
     /**
      * Class's setter
-     * @param soloActionToken
+     * @param soloActionToken is the token of the client model view to set
      */
     public void setSoloActionToken(SoloActionToken soloActionToken) {
         this.soloActionToken = soloActionToken;
     }
 
-
+    /**
+     * Class' getter
+     * @return true if the match is in single player, else false
+     */
     @JsonIgnore
     public boolean isSingleGame() {
         return isSingleGame;
     }
 
+    /**
+     * Class' getter
+     * @return the SoloActionToken of the client model view
+     */
     @JsonIgnore
     public SoloActionToken getSoloActionToken() {
         return soloActionToken;
