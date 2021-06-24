@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerInfoEndMatch;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,7 +21,7 @@ public class WinnerPanel extends JPanel implements ActionListener {
     private Image background;
     private JPanel mainPanel, playersPanel, buttonPanel;
     private JButton closeButton;
-    private ArrayList<Player> players;
+    private ArrayList<PlayerInfoEndMatch> players;
 
 
     public void paintComponent(Graphics g) {
@@ -29,7 +30,7 @@ public class WinnerPanel extends JPanel implements ActionListener {
 
     }
 
-    public WinnerPanel(GUI gui, ArrayList<Player> players) {
+    public WinnerPanel(GUI gui, ArrayList<PlayerInfoEndMatch> players) {
         this.gui = gui;
         this.players = players;
         c = new GridBagConstraints();
@@ -61,17 +62,17 @@ public class WinnerPanel extends JPanel implements ActionListener {
         playersPanel = new JPanel();
         playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.X_AXIS));
 
-        for(Player player: players){
+        for(PlayerInfoEndMatch player: players){
             JPanel playerPanel = new JPanel();
             playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
             JLabel username = new JLabel(player.getUsername());
-            JLabel faithMarker = new JLabel("Position of Faith Marker: "+player.getBoard().getFaithMarker());
-            JLabel numDevCards = new JLabel("Number of Dev Cards: "+player.getBoard().getNumOfDevCards());
-            JLabel numCoins = new JLabel("Number of Coins: "+player.getBoard().getTotalCoins());
-            JLabel numStones = new JLabel("Number of Stones: "+player.getBoard().getTotalStones());
-            JLabel numShields = new JLabel("Number of Shields: "+player.getBoard().getTotalShields());
-            JLabel numServants = new JLabel("Number of Servants: "+player.getBoard().getTotalServants());
-            JLabel totVictory = new JLabel("Total Victory Points: "+player.getTotalVictoryPoints());
+            JLabel faithMarker = new JLabel("Position of Faith Marker: "+player.getFaithMarker());
+            JLabel numDevCards = new JLabel("Number of Dev Cards: "+player.getNumDevCards());
+            JLabel numCoins = new JLabel("Number of Coins: "+player.getNumCoins());
+            JLabel numStones = new JLabel("Number of Stones: "+player.getNumStones());
+            JLabel numShields = new JLabel("Number of Shields: "+player.getNumShields());
+            JLabel numServants = new JLabel("Number of Servants: "+player.getNumServants());
+            JLabel totVictory = new JLabel("Total Victory Points: "+player.getTotVictory());
 
             playerPanel.add(username);
             playerPanel.add(faithMarker);
