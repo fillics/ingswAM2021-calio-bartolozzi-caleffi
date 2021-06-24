@@ -38,7 +38,7 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
     public OtherPlayersBoardPanel(GUI gui, ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {

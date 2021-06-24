@@ -31,7 +31,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
 
     public MoveResourcePanel(GUI gui) {
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException e) {

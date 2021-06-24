@@ -123,7 +123,7 @@ public class CLIOperationHandler{
                 askBoardOfOtherPlayer();
 
             case "13", "resourceCheat" ->{
-                System.out.println("+20 resources in your strongbox. Don't tell anyone ;)");
+                System.out.println("20 resources in your strongbox. Don't tell anyone ;)");
                 resourcesCheat();
             }
 

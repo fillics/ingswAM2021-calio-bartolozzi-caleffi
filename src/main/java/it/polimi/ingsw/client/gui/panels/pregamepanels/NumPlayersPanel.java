@@ -9,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -35,7 +33,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
     public NumPlayersPanel(GUI gui) {
         this.gui = gui;
 
-        InputStream is = getClass().getResourceAsStream("/images/background/home2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/pregame.png");
         try {
             assert is != null;
             background = ImageIO.read(is);

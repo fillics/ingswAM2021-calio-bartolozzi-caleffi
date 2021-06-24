@@ -30,7 +30,7 @@ public class DevCardPanel extends JPanel implements ActionListener {
     public DevCardPanel(DevGridPanel devGridPanel, String path, int width, int height, int id) {
         this.devGridPanel = devGridPanel;
         this.id = id;
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             assert is != null;
             background = ImageIO.read(is);

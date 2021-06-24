@@ -14,7 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     public BoardPanel(GUI gui) {
         this.gui = gui;
         isSingleGame= gui.getClient().getClientModelView().isSingleGame();
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {
@@ -401,10 +400,12 @@ public class BoardPanel extends JPanel implements ActionListener {
             gui.sendPacketToServer(new PacketEndTurn());
         }
         if(e.getSource() == resourceCheatButton){
+            gui.createMessageFromServer("20 resources in your strongbox. Don't tell anyone ;)");
             gui.sendPacketToServer(new ResourcesInStrongboxCheatPacket());
             gui.switchPanels(new BoardPanel(gui));
         }
         if(e.getSource() == faithMarkerCheatButton){
+            gui.createMessageFromServer("+1 faith marker for you. Don't tell anyone ;)");
             gui.sendPacketToServer(new FaithMarkerCheatPacket());
         }
         if(e.getSource() == useProdPower){

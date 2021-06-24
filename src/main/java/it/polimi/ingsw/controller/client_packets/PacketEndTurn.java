@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerInfoEndMatch;
+import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
 import it.polimi.ingsw.model.singleplayer.SoloActionToken;
@@ -37,22 +38,16 @@ public class PacketEndTurn implements ClientPacketHandler{
                         if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
                             ((SinglePlayerGame) gameInterface).winner();
 
-                            clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner()));
+                            clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner(), null));
                             gameInterface.setState(GameStates.END);
                         }
 
                         else{
                             SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
                             switch (token.getType()) {
-                                case DISCARD -> {
-                                   handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.DISCARDDEVCARD);
-                                }
-                                case BLACKCROSS_1 -> {
-                                    handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.BLACKCROSS1);
-                                }
-                                case BLACKCROSS_2 -> {
-                                    handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.BLACKCROSS2);
-                                }
+                                case DISCARD -> handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.DISCARDDEVCARD);
+                                case BLACKCROSS_1 ->  handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.BLACKCROSS1);
+                                case BLACKCROSS_2 -> handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.BLACKCROSS2);
                             }
                             gameInterface.setState(GameStates.PHASE_ONE);
                         }
@@ -64,9 +59,8 @@ public class PacketEndTurn implements ClientPacketHandler{
         }
         else{
             gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).endTurn();
-            clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(),
-                    gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),
-                    gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections())); /// TODO: 24/06/2021 salvare la board e poi fare i get
+            Board board =  gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
+            clientHandler.sendPacketToClient(new PacketFaithTrack(board.getTrack(), board.getFaithMarker(), board.getVaticanReportSections()));
 
             server.saveClientProxy(clientHandler.getUsername(), gameInterface);
 
@@ -83,20 +77,19 @@ public class PacketEndTurn implements ClientPacketHandler{
 
                         ArrayList<PlayerInfoEndMatch> playerInfoEndMatches = new ArrayList<>();
                         for (Player player: gameInterface.getPlayers()){
+                            Board boardPlayer = player.getBoard();
                             playerInfoEndMatches.add(new PlayerInfoEndMatch(player.getUsername(),
-                                    player.getBoard().getFaithMarker(), player.getBoard().getNumOfDevCards(), player.getBoard().getTotalCoins(),
-                                    player.getBoard().getTotalStones(), player.getBoard().getTotalShields(), player.getBoard().getTotalServants(),
+                                    boardPlayer.getFaithMarker(), boardPlayer.getNumOfDevCards(), boardPlayer.getTotalCoins(),
+                                    boardPlayer.getTotalStones(), boardPlayer.getTotalShields(), boardPlayer.getTotalServants(),
                                     player.getTotalVictoryPoints()));
                         }
 
-                        server.sendAll(new PacketWinner(gameInterface.getWinner(),playerInfoEndMatches), gameInterface);
+                        server.sendAll(new PacketWinner(gameInterface.getWinner(), playerInfoEndMatches), gameInterface);
 
                     } else {
-                        server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
-                                sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-                        server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
-                                sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),
-                                        gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
+                        ClientHandler clientHandler1 = server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername());
+                        clientHandler1.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+                        clientHandler1.sendPacketToClient(new PacketFaithTrack(board.getTrack(), board.getFaithMarker(), board.getVaticanReportSections()));
 
                         gameInterface.setState(GameStates.PHASE_ONE);
                     }

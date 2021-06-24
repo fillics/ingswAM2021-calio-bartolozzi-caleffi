@@ -4,10 +4,18 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-
+/**
+ * Class used when the match is ended and we want to show all the stats of the players
+ */
 public class PlayerInfoEndMatch {
-    private String username;
-    private int faithMarker, numDevCards, numCoins, numStones, numShields, numServants, totVictory;
+    private final String username;
+    private final int faithMarker;
+    private final int numDevCards;
+    private final int numCoins;
+    private final int numStones;
+    private final int numShields;
+    private final int numServants;
+    private final int totVictory;
 
     @JsonCreator
     public PlayerInfoEndMatch(@JsonProperty("username") String username, @JsonProperty("faithMarker") int faithMarker,

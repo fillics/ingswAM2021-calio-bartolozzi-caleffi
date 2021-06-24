@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.gui.panels.buydevcard;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.BoardPanel;
-import it.polimi.ingsw.client.gui.panels.DevSpacesPanel;
 import it.polimi.ingsw.client.gui.panels.WarehouseAndDevSpacesPanel;
 import it.polimi.ingsw.controller.client_packets.PacketBuyDevCard;
 import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
@@ -46,7 +45,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
     public BuyDevCardPanel(GUI gui) {
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {}

@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 public class WinnerPanel extends JPanel implements ActionListener {
@@ -19,43 +20,80 @@ public class WinnerPanel extends JPanel implements ActionListener {
     private GridBagConstraints c;
 
     private Image background;
-    private JPanel mainPanel, playersPanel, buttonPanel;
+    private JPanel mainPanel, playersPanel, buttonPanel, usernamePanel;
     private JButton closeButton;
     private ArrayList<PlayerInfoEndMatch> players;
+    private String username;
 
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(background, 0, 0, gui.getDimension().width, gui.getDimension().height - 50, null);
-
+        g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
     }
 
-    public WinnerPanel(GUI gui, ArrayList<PlayerInfoEndMatch> players) {
+    public WinnerPanel(GUI gui, ArrayList<PlayerInfoEndMatch> players, String username) {
         this.gui = gui;
         this.players = players;
+        this.username = username;
         c = new GridBagConstraints();
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/end.png");
         try {
-            background = ImageIO.read(Objects.requireNonNull(is));
+            assert is != null;
+            background = ImageIO.read(is);
         } catch (IOException ignored) {}
 
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
-        createPlayersPanel();
-        c.gridx=0;
         c.gridy=0;
-        mainPanel.add(playersPanel, c);
+        c.gridx=0;
+        JPanel emptyPanel = new JPanel();
+        emptyPanel.setBackground(new Color(0,0,0,0));
+        mainPanel.add(emptyPanel, c);
 
-        createButton();
+        createWinnerUsername();
         c.gridx=0;
         c.gridy=1;
+        c.insets = new Insets(175,0,0,0);
+        mainPanel.add(usernamePanel, c);
+
+        c.insets = new Insets(10,10,0,10);
+
+        if(players!=null){
+            createPlayersPanel();
+            c.gridx=0;
+            c.gridy=2;
+            mainPanel.add(playersPanel, c);
+        }
+
+        c.insets = new Insets(20,0,0,0);
+        createButton();
+        c.gridx=0;
+        if(players!=null) c.gridy=2;
+        else c.gridy=3;
         mainPanel.add(buttonPanel, c);
+        mainPanel.setOpaque(false);
 
         this.add(mainPanel);
 
+    }
 
+    public void createWinnerUsername(){
+        usernamePanel = new JPanel();
+        usernamePanel.setPreferredSize(new Dimension(450, 50));
+
+        JLabel winner = new JLabel("The winner is "+username.toUpperCase(Locale.ROOT));
+        winner.setFont(new Font(winner.getFont().getName(), winner.getFont().getStyle(), 15));
+
+        usernamePanel.setLayout(new GridBagLayout());
+        winner.setHorizontalAlignment(JLabel.CENTER);
+
+        c.gridy=0;
+        c.gridx=0;
+        c.insets = new Insets(0,0,0,0);
+        usernamePanel.add(winner, c);
+        usernamePanel.setBackground(gui.getGreenColor());
     }
 
     public void createPlayersPanel(){
@@ -94,9 +132,9 @@ public class WinnerPanel extends JPanel implements ActionListener {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridBagLayout());
 
-
         closeButton = new JButton("CLOSE CONNECTION");
         closeButton.addActionListener(this);
+        closeButton.setPreferredSize(new Dimension(200, 50));
         c.gridx=0;
         c.gridy=0;
         buttonPanel.add(closeButton, c);
@@ -107,7 +145,12 @@ public class WinnerPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == closeButton){
-
+            try {
+                gui.getClient().getSocketClientConnection().getSocket().close();
+                System.exit(0);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
     }
 }

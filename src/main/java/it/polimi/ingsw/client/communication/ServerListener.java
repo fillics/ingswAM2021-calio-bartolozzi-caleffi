@@ -26,7 +26,7 @@ public class ServerListener implements Runnable {
     /**
      * Class' constructor
      * @param client is the client the server has sent the packets
-     * @param socketClientConnection is the socket od the client
+     * @param socketClientConnection is the socket of the client
      */
     public ServerListener(Client client, SocketClientConnection socketClientConnection) {
         this.client = client;

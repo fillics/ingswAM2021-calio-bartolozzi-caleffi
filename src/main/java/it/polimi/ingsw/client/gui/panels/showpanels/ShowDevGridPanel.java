@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 
 public class ShowDevGridPanel extends JPanel implements ActionListener {
     private Image background;
@@ -34,7 +33,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
 
     public ShowDevGridPanel(GUI gui) {
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             assert is != null;
             background = ImageIO.read(is);

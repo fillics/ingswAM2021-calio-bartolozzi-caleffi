@@ -41,8 +41,7 @@ public class Client {
         clientStates = ClientStates.SERVERCONNECTION;
 
         if(defaultConnection){
-            Reader reader;
-            reader = new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/json/ClientConnection.json")));
+            Reader reader = new InputStreamReader(Objects.requireNonNull(this.getClass().getResourceAsStream("/json/ClientConnection.json")));
             ArgsConnection argsConnection = new Gson().fromJson(reader, ArgsConnection.class);
 
             try {
@@ -175,16 +174,13 @@ public class Client {
     }
 
     /**
-     * Class' getter
      * @return the socket client connection of the client
      */
     public SocketClientConnection getSocketClientConnection() {
         return socketClientConnection;
     }
 
-
     /**
-     * Class' getter
      * @return the client state of the client
      */
     public ClientStates getClientState() {
@@ -192,7 +188,6 @@ public class Client {
     }
 
     /**
-     * Class' getter
      * @return the cli operation handler of the client
      */
     public CLIOperationHandler getCliOperationHandler() {
@@ -200,7 +195,6 @@ public class Client {
     }
 
     /**
-     * Class' getter
      * @return the client model view of the client
      */
     public ClientModelView getClientModelView() {
@@ -208,7 +202,6 @@ public class Client {
     }
 
     /**
-     * Class' getter
      * @return the current view choice of the client
      */
     public ViewChoice getViewChoice() {
@@ -216,7 +209,6 @@ public class Client {
     }
 
     /**
-     * Class' getter
      * @return the cli of the client
      */
     public CLI getCli() {
@@ -224,7 +216,6 @@ public class Client {
     }
 
     /**
-     * Class' getter
      * @return the gui of the client
      */
     public GUI getGui() {
@@ -232,7 +223,6 @@ public class Client {
     }
 
     /**
-     * Class' setter
      * @param viewChoice is the choice of the view (cli/gui) chosen
      */
     public void setViewChoice(ViewChoice viewChoice) {
@@ -240,13 +230,11 @@ public class Client {
     }
 
     /**
-     * Class' setter
      * @param clientModelView is the model of the client
      */
     public void setClientModelView(ClientModelView clientModelView) { this.clientModelView = clientModelView;}
 
     /**
-     * Class' setter
      * @param clientStates is the client state chosen
      */
     public void setClientState(ClientStates clientStates) {
