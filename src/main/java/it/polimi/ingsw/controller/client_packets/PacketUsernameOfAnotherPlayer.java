@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketBoardOfAnotherPlayer;
 import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.server.ClientHandler;
@@ -41,19 +42,17 @@ public class PacketUsernameOfAnotherPlayer implements ClientPacketHandler{
             if(!gameInterface.getUsernameClientActivePlayers().containsKey(username))
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.USERNAMENOTEXISTING));
             else{
-                ArrayList<LeaderCard> leaderCards= new ArrayList<>();
-                for(int i=0; i< gameInterface.getUsernameClientActivePlayers().get(username).getLeaderCards().size();i++){
-                    if(gameInterface.getUsernameClientActivePlayers().get(username).getLeaderCards().get(i).getStrategy().isActive())
-                        leaderCards.add(gameInterface.getUsernameClientActivePlayers().get(username).getLeaderCards().get(i));
+                ArrayList<LeaderCard> leaderCardsActivated= new ArrayList<>();
+                ArrayList<LeaderCard> leaderCardsPlayer = gameInterface.getUsernameClientActivePlayers().get(username).getLeaderCards();
+
+                for (LeaderCard leaderCard: leaderCardsPlayer){
+                    if(leaderCard.getStrategy().isActive()) leaderCardsActivated.add(leaderCard);
                 }
-                System.out.println("nel server: " + gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getTrack().size());
-                System.out.println(gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections().size());
-                clientHandler.sendPacketToClient(new PacketBoardOfAnotherPlayer(gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getFaithMarker(),
-                        gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getTrack(),
-                        gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections(),
-                        leaderCards, gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox(),
-                        gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getDeposits(),
-                        gameInterface.getUsernameClientActivePlayers().get(username).getBoard().getDevelopmentSpaces()));
+
+                Board board = gameInterface.getUsernameClientActivePlayers().get(username).getBoard();
+                clientHandler.sendPacketToClient(new PacketBoardOfAnotherPlayer(board.getFaithMarker(),
+                        board.getTrack(),board.getVaticanReportSections(),leaderCardsActivated,
+                        board.getStrongbox(), board.getDeposits(), board.getDevelopmentSpaces()));
             }
         }
     }

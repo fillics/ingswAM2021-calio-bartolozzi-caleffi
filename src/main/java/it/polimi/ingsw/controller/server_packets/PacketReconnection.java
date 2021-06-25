@@ -30,6 +30,7 @@ public class PacketReconnection implements ServerPacketHandler{
 
         client.setClientState(clientProxy.getClientStates());
         client.setClientModelView(clientProxy.getClientModelView());
+        client.getClientModelView().setSingleGame();
 
         if(client.getViewChoice().equals(ViewChoice.CLI)) {
             client.getCliOperationHandler().setClientModelView(clientProxy.getClientModelView());

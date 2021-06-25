@@ -20,10 +20,12 @@ public class WinnerPanel extends JPanel implements ActionListener {
     private GridBagConstraints c;
 
     private Image background;
-    private JPanel mainPanel, playersPanel, buttonPanel, usernamePanel;
+    private JPanel playersPanel;
+    private JPanel buttonPanel;
+    private JPanel usernamePanel;
     private JButton closeButton;
-    private ArrayList<PlayerInfoEndMatch> players;
-    private String username;
+    private final ArrayList<PlayerInfoEndMatch> players;
+    private final String username;
 
 
     public void paintComponent(Graphics g) {
@@ -43,7 +45,7 @@ public class WinnerPanel extends JPanel implements ActionListener {
         } catch (IOException ignored) {}
 
 
-        mainPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
         c.gridy=0;
@@ -70,8 +72,8 @@ public class WinnerPanel extends JPanel implements ActionListener {
         c.insets = new Insets(20,0,0,0);
         createButton();
         c.gridx=0;
-        if(players!=null) c.gridy=2;
-        else c.gridy=3;
+        if(players!=null) c.gridy=3;
+        else c.gridy=2;
         mainPanel.add(buttonPanel, c);
         mainPanel.setOpaque(false);
 
@@ -98,19 +100,30 @@ public class WinnerPanel extends JPanel implements ActionListener {
 
     public void createPlayersPanel(){
         playersPanel = new JPanel();
-        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.X_AXIS));
+        playersPanel.setLayout(new GridBagLayout());
 
+        int i=0;
         for(PlayerInfoEndMatch player: players){
             JPanel playerPanel = new JPanel();
             playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
-            JLabel username = new JLabel(player.getUsername());
+
+            JLabel username = new JLabel(player.getUsername().toUpperCase(Locale.ROOT));
+            username.setFont(new Font(username.getFont().getName(), username.getFont().getStyle(), 15));
             JLabel faithMarker = new JLabel("Position of Faith Marker: "+player.getFaithMarker());
+            faithMarker.setFont(new Font(faithMarker.getFont().getName(), faithMarker.getFont().getStyle(), 15));
             JLabel numDevCards = new JLabel("Number of Dev Cards: "+player.getNumDevCards());
+            numDevCards.setFont(new Font(numDevCards.getFont().getName(), numDevCards.getFont().getStyle(), 15));
             JLabel numCoins = new JLabel("Number of Coins: "+player.getNumCoins());
+            numCoins.setFont(new Font(numCoins.getFont().getName(), numCoins.getFont().getStyle(), 15));
             JLabel numStones = new JLabel("Number of Stones: "+player.getNumStones());
+            numStones.setFont(new Font(numStones.getFont().getName(), numStones.getFont().getStyle(), 15));
             JLabel numShields = new JLabel("Number of Shields: "+player.getNumShields());
+            numShields.setFont(new Font(numShields.getFont().getName(), numShields.getFont().getStyle(), 15));
             JLabel numServants = new JLabel("Number of Servants: "+player.getNumServants());
+            numServants.setFont(new Font(numServants.getFont().getName(), numServants.getFont().getStyle(), 15));
             JLabel totVictory = new JLabel("Total Victory Points: "+player.getTotVictory());
+            totVictory.setFont(new Font(totVictory.getFont().getName(), totVictory.getFont().getStyle(), 15));
+
 
             playerPanel.add(username);
             playerPanel.add(faithMarker);
@@ -121,7 +134,12 @@ public class WinnerPanel extends JPanel implements ActionListener {
             playerPanel.add(numServants);
             playerPanel.add(totVictory);
 
-            playersPanel.add(playerPanel);
+            c.gridx=i;
+            c.gridy=0;
+            i++;
+            c.insets = new Insets(25,10,10,10);
+            playersPanel.add(playerPanel, c);
+            playerPanel.setOpaque(false);
 
         }
 

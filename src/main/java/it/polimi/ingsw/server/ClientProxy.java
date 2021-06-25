@@ -10,7 +10,7 @@ import it.polimi.ingsw.client.ClientStates;
  */
 public class ClientProxy {
     private ClientStates clientStates;
-    private ClientModelView clientModelView;
+    private final ClientModelView clientModelView;
 
     @JsonCreator
     public ClientProxy(@JsonProperty("clientmodelview") ClientModelView clientModelView) {
@@ -28,10 +28,6 @@ public class ClientProxy {
 
     public ClientModelView getClientModelView() {
         return clientModelView;
-    }
-
-    public void setClientModelView(ClientModelView clientModelView) {
-        this.clientModelView = clientModelView;
     }
 
 }

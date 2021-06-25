@@ -269,6 +269,7 @@ public class ClientHandler implements Runnable {
         clientModelView = new ClientModelView(litePlayer, liteMarketTray, liteDevelopmentGrid, liteBoard);
 
         ClientProxy clientProxy = new ClientProxy(clientModelView);
+        if(isSingleGame) clientProxy.getClientModelView().setSingleGame();
 
         server.getMapForReconnection().put(username, clientProxy);
     }

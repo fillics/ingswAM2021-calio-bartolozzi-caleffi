@@ -66,6 +66,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         biggestPanel.setLayout(new GridBagLayout());
         //c.insets = new Insets(50,0,0,0);
         numPlayers = new JLabel(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage());
+        numPlayers.setFont(new Font(numPlayers.getFont().getName(), numPlayers.getFont().getStyle(), 15));
         numPlayers.setBackground(new Color(233, 226, 193));
         numPlayers.setOpaque(true);
         numPlayers.setHorizontalAlignment(JLabel.CENTER);
