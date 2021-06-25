@@ -5,7 +5,9 @@
   
 
 Master of Renaissance Board Game is the final test of "Software Engineering", course of "Computer Science Engineering" held at Politecnico di Milano (2020/2021).\
-Teacher: Alessandro Margara\
+Teacher: Alessandro Margara
+
+![Master of Renaissance](https://github.com/fillics/ingswAM2021-calio-bartolozzi-caleffi/blob/master/src/main/resources/images/github/masters-of-renaissance.jpg)
 
 # Setup
 In the deliveries folder there are two multi-platform jar files, one to set the Server up and the other one to start the Client.
