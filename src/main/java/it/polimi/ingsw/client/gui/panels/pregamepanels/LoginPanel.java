@@ -25,6 +25,7 @@ public class LoginPanel extends JPanel implements ActionListener {
     private final JButton confirmButton = new JButton("CONFIRM");
     private JPanel login, numPlayersPanel, buttonPanel;
 
+
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
@@ -109,7 +110,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
             if(username.length()!=0){
                 gui.getClient().serializeAndSend(new PacketUsername(username.toLowerCase(Locale.ROOT)));
-                loginButton.setEnabled(false);
+
             }
 
             else error.setVisible(true);

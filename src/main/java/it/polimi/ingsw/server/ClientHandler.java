@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.liteclasses.LiteDevelopmentGrid;
 import it.polimi.ingsw.client.liteclasses.LiteMarketTray;
 import it.polimi.ingsw.client.liteclasses.LitePlayer;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
 import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
@@ -16,6 +17,7 @@ import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
 import it.polimi.ingsw.model.board.resources.Resource;
@@ -41,7 +43,7 @@ public class ClientHandler implements Runnable {
     private final int numberOfGuest;
     private final int idClient;
     private int posInGame; //parte da 0
-    private boolean quit = false;
+    private boolean endConnection = false;
     private final Server server;
     private DataInputStream dis;
     private PrintStream output;
@@ -76,41 +78,39 @@ public class ClientHandler implements Runnable {
     public void run() {
         String guest = "Guest";
         try {
-            while (!quit) {
+            while (!endConnection) {
                 if (sendSetup) sendSetupPacket();
 
                 try{
                     String str = dis.readUTF();
-
                     deserialize(str);
                 }catch (Exception e){
 
-                    if(username!=null){ //il player ha inserito l'username
+                    if(username!=null){ //player has already inserted the username
                         System.out.println(Constants.ANSI_RED+username+Constants.ANSI_RESET+ " (idPlayer: " +idClient+") "+ Constants.ANSI_RED+"disconnected!"+Constants.ANSI_RESET);
                         server.handleDisconnection(this);
                     }
-                    else{ //il player non ha ancora inserito l'username: viene solo chiusa la disconnessione
+                    else{ //player has not inserted the username
                         System.out.println(guest+numberOfGuest + " disconnected!");
 
                     }
-                    clientConnected.compareAndSet(true, false); //setto la variabile a false
+                    clientConnected.compareAndSet(true, false);
 
                 }finally {
-                    if(!clientConnected.get()){ //se client non più connesso al server
+                    if(!clientConnected.get()){ //if client not more connected to the server
                         dis.close();
                         socket.close();
-                        quit=true;
+                        endConnection =true;
                     }
                 }
-                if(gameStarted && game.isEndgame()) {
-                   // quit=true;
+                // TODO: 26/06/2021 probabilmente da togliere
+                /*if(gameStarted && game.isEndgame() && !endConnection) {
 
                     if(!(game instanceof SinglePlayerGame)){
                         server.sendAll(new PacketEndGameStarted(username), game);
-                    //    game.setState(GameStates.FINAL_TURN);
+                        game.setState(GameStates.FINAL_TURN);
                     }
-
-                }
+                }*/
             }
 
             if(username!=null) System.out.println("Connection with " + username + " is closed!");
@@ -164,7 +164,7 @@ public class ClientHandler implements Runnable {
      */
     public synchronized void startPingPong(){
         new Thread(() -> {
-            while (!quit) {
+            while (!endConnection) {
                 sendPacketToClient(new PacketPingFromServer());
                 try {
                     TimeUnit.SECONDS.sleep(10);
@@ -227,12 +227,12 @@ public class ClientHandler implements Runnable {
         for (Player player: game.getPlayers()){
             players.add(player.getUsername());
         }
+        Board board = game.getUsernameClientActivePlayers().get(username).getBoard();
+        Player player = game.getUsernameClientActivePlayers().get(username);
         PacketSetup packetSetup = new PacketSetup(username, idClient, posInGame, isSingleGame , game.getDevGridLite(), game.getTable(), game.getRemainingMarble(),
-                game.getUsernameClientActivePlayers().get(username).getBoard().getDevelopmentSpaces(), game.getUsernameClientActivePlayers().get(username).getResourceBuffer(), game.getUsernameClientActivePlayers().get(username).getBoard().getSpecialProductionPowers(),
-                game.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox(),
-                game.getUsernameClientActivePlayers().get(username).getBoard().getDeposits(),
-                game.getUsernameClientActivePlayers().get(username).getWhiteMarbleCardChoice(), game.getUsernameClientActivePlayers().get(username).getLeaderCards(),
-                game.getUsernameClientActivePlayers().get(username).getBoard().getTrack(), game.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections(), players);
+                board.getDevelopmentSpaces(), game.getUsernameClientActivePlayers().get(username).getResourceBuffer(), board.getSpecialProductionPowers(),
+                board.getStrongbox(), board.getDeposits(),  player.getWhiteMarbleCardChoice(), player.getLeaderCards(), board.getTrack(),
+                board.getVaticanReportSections(), players);
 
 
         saveProxy();
@@ -246,15 +246,18 @@ public class ClientHandler implements Runnable {
      * Method saveProxy creates a new istance of the class ClientProxy to save che model view of the player
      */
     public synchronized void saveProxy(){
-        Strongbox strongbox = game.getUsernameClientActivePlayers().get(username).getBoard().getStrongbox();
-        ArrayList<Deposit> deposits = game.getUsernameClientActivePlayers().get(username).getBoard().getDeposits();
-        ArrayList<DevelopmentSpace> developmentSpaces = game.getUsernameClientActivePlayers().get(username).getBoard().getDevelopmentSpaces();
-        ArrayList<ProductionPower> specialProductionPowers = game.getUsernameClientActivePlayers().get(username).getBoard().getSpecialProductionPowers();
-        ArrayList<Cell> track = game.getUsernameClientActivePlayers().get(username).getBoard().getTrack();
-        ArrayList<VaticanReportSection> vaticanReportSections = game.getUsernameClientActivePlayers().get(username).getBoard().getVaticanReportSections();
-        ArrayList<LeaderCard> leaderCards = game.getUsernameClientActivePlayers().get(username).getLeaderCards();
-        ArrayList<Resource> resourceBuffer = game.getUsernameClientActivePlayers().get(username).getResourceBuffer();
-        ArrayList<Integer> whiteMarbleCardChoice = game.getUsernameClientActivePlayers().get(username).getWhiteMarbleCardChoice();
+        Board board = game.getUsernameClientActivePlayers().get(username).getBoard();
+        Player player = game.getUsernameClientActivePlayers().get(username);
+
+        Strongbox strongbox = board.getStrongbox();
+        ArrayList<Deposit> deposits = board.getDeposits();
+        ArrayList<DevelopmentSpace> developmentSpaces = board.getDevelopmentSpaces();
+        ArrayList<ProductionPower> specialProductionPowers = board.getSpecialProductionPowers();
+        ArrayList<Cell> track = board.getTrack();
+        ArrayList<VaticanReportSection> vaticanReportSections = board.getVaticanReportSections();
+        ArrayList<LeaderCard> leaderCards = player.getLeaderCards();
+        ArrayList<Resource> resourceBuffer = player.getResourceBuffer();
+        ArrayList<Integer> whiteMarbleCardChoice = player.getWhiteMarbleCardChoice();
         ArrayList<DevelopmentCard> developmentCards = game.getDevGridLite();
         Marble[][] table = game.getTable();
         Marble remainingMarble = game.getRemainingMarble();

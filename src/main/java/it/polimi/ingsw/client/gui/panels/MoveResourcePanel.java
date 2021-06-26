@@ -38,8 +38,9 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
             e.printStackTrace();
         }
         resourceBufferPanel = new ResourceBufferPanel(gui);
-        JPanel bigpanel = new JPanel();
-        bigpanel.setPreferredSize(new Dimension(970, 1025));
+        JPanel bigPanel = new JPanel();
+        bigPanel.setPreferredSize(new Dimension(970, 1025));
+
         JPanel faithTrackPanel = new JPanel();
         faithTrackPanel.setLayout(new BoxLayout(faithTrackPanel, BoxLayout.X_AXIS));
         FaithTrackPanel faithTrack = new FaithTrackPanel(gui);
@@ -52,6 +53,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
         warehousePanel = new WarehousePanel(gui);
         devSpacesPanel = new DevSpacesPanel(gui);
+
         JPanel leaderCards = new JPanel();
         leaderCards.setLayout(new BoxLayout(leaderCards, BoxLayout.Y_AXIS));
         leaderCards.setPreferredSize(new Dimension(159, 250));
@@ -72,24 +74,24 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         JPanel buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(970,50));
         confirmBtn = new JButton("CONFIRM");
-        confirmBtn.setPreferredSize(new Dimension(150, 30));
+        confirmBtn.setPreferredSize(new Dimension(200, 50));
 
         confirmBtn.addActionListener(this);
         backBtn = new JButton("BACK TO THE BOARD");
         backBtn.addActionListener(this);
-        backBtn.setPreferredSize(new Dimension(150, 30));
+        backBtn.setPreferredSize(new Dimension(200, 50));
 
         buttons.add(backBtn);
         buttons.add(Box.createRigidArea(new Dimension(250, 50)));
         buttons.add(confirmBtn);
         buttons.setOpaque(false);
 
-        bigpanel.add(faithTrackPanel);
-        bigpanel.add(underBoard);
-        bigpanel.add(resourceBufferPanel);
-        bigpanel.add(buttons);
-        bigpanel.setOpaque(false);
-        this.add(bigpanel);
+        bigPanel.add(faithTrackPanel);
+        bigPanel.add(underBoard);
+        bigPanel.add(resourceBufferPanel);
+        bigPanel.add(buttons);
+        bigPanel.setOpaque(false);
+        this.add(bigPanel);
 
         disableButtons(devSpacesPanel, warehousePanel, resourceBufferPanel);
     }
@@ -110,8 +112,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         if(e.getSource() == confirmBtn){
             if(warehousePanel.getDepositsPanel().getIdDepot().size() != 0){
                 position = warehousePanel.getDepositsPanel().getIdDepot().get(warehousePanel.getDepositsPanel().getIdDepot().size() - 1);
-                PacketMoveResource packetMoveResource = new PacketMoveResource(position - 1);
-                gui.sendPacketToServer(packetMoveResource);
+                gui.sendPacketToServer(new PacketMoveResource(position - 1));
             }
             else {
                 JOptionPane.showMessageDialog(gui.getjFrame(), "Choose the deposit in which you want to take the resource");

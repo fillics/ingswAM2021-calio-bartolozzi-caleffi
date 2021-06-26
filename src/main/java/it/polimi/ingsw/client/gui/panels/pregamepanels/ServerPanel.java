@@ -136,13 +136,13 @@ public class ServerPanel extends JPanel implements ActionListener {
         serverPortTextField = new JTextField();
         c.gridx=0;
         c.gridy=0;
-
         portPanel.add(serverPort, c);
 
         c.gridx=1;
         c.gridy=0;
         portPanel.add(serverPortTextField, c);
 
+        // TODO: 26/06/2021 toglier riga commentata
         serverPortTextField.setText(String.valueOf(1234));
         //if(defaultConnection) serverPortTextField.setText(String.valueOf(Constants.getPort()));
         serverPortTextField.setPreferredSize(new Dimension(200, 10));
@@ -189,6 +189,7 @@ public class ServerPanel extends JPanel implements ActionListener {
             gui.switchPanels(new LoginPanel(gui));
         }
         else{ // TODO: 01/06/2021 stampare messaggio di errore
+            JOptionPane.showMessageDialog(gui.getjFrame(), "Error in connecting to the server. Retry!");
         }
     }
 }

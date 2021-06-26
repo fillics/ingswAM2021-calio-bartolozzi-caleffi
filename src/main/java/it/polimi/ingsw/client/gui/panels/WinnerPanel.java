@@ -108,21 +108,21 @@ public class WinnerPanel extends JPanel implements ActionListener {
             playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
 
             JLabel username = new JLabel(player.getUsername().toUpperCase(Locale.ROOT));
-            username.setFont(new Font(username.getFont().getName(), username.getFont().getStyle(), 15));
+            username.setFont(new Font(username.getFont().getName(), username.getFont().getStyle(), 30));
             JLabel faithMarker = new JLabel("Position of Faith Marker: "+player.getFaithMarker());
-            faithMarker.setFont(new Font(faithMarker.getFont().getName(), faithMarker.getFont().getStyle(), 15));
+            faithMarker.setFont(new Font(faithMarker.getFont().getName(), faithMarker.getFont().getStyle(), 20));
             JLabel numDevCards = new JLabel("Number of Dev Cards: "+player.getNumDevCards());
-            numDevCards.setFont(new Font(numDevCards.getFont().getName(), numDevCards.getFont().getStyle(), 15));
+            numDevCards.setFont(new Font(numDevCards.getFont().getName(), numDevCards.getFont().getStyle(), 20));
             JLabel numCoins = new JLabel("Number of Coins: "+player.getNumCoins());
-            numCoins.setFont(new Font(numCoins.getFont().getName(), numCoins.getFont().getStyle(), 15));
+            numCoins.setFont(new Font(numCoins.getFont().getName(), numCoins.getFont().getStyle(), 20));
             JLabel numStones = new JLabel("Number of Stones: "+player.getNumStones());
-            numStones.setFont(new Font(numStones.getFont().getName(), numStones.getFont().getStyle(), 15));
+            numStones.setFont(new Font(numStones.getFont().getName(), numStones.getFont().getStyle(), 20));
             JLabel numShields = new JLabel("Number of Shields: "+player.getNumShields());
-            numShields.setFont(new Font(numShields.getFont().getName(), numShields.getFont().getStyle(), 15));
+            numShields.setFont(new Font(numShields.getFont().getName(), numShields.getFont().getStyle(), 20));
             JLabel numServants = new JLabel("Number of Servants: "+player.getNumServants());
-            numServants.setFont(new Font(numServants.getFont().getName(), numServants.getFont().getStyle(), 15));
+            numServants.setFont(new Font(numServants.getFont().getName(), numServants.getFont().getStyle(), 20));
             JLabel totVictory = new JLabel("Total Victory Points: "+player.getTotVictory());
-            totVictory.setFont(new Font(totVictory.getFont().getName(), totVictory.getFont().getStyle(), 15));
+            totVictory.setFont(new Font(totVictory.getFont().getName(), totVictory.getFont().getStyle(), 20));
 
 
             playerPanel.add(username);
@@ -137,9 +137,10 @@ public class WinnerPanel extends JPanel implements ActionListener {
             c.gridx=i;
             c.gridy=0;
             i++;
-            c.insets = new Insets(25,10,10,10);
+            c.insets = new Insets(25,25,10,25);
             playersPanel.add(playerPanel, c);
             playerPanel.setOpaque(false);
+            playerPanel.setBorder(gui.getBorders().get(0));
 
         }
 
