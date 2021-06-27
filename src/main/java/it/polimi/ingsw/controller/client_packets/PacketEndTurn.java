@@ -37,7 +37,6 @@ public class PacketEndTurn implements ClientPacketHandler{
 
                         if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
                             ((SinglePlayerGame) gameInterface).winner();
-
                             clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner(), null));
                             gameInterface.setState(GameStates.END);
                         }
@@ -57,13 +56,12 @@ public class PacketEndTurn implements ClientPacketHandler{
             }
 
         }
-        // TODO: 27/06/2021 raggruppare metodi @Fil 
+
         else{
             gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).endTurn();
+            Board board = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
 
-            clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(),
-                    gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),
-                    gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
+            clientHandler.sendPacketToClient(new PacketFaithTrack(board.getTrack(), board.getFaithMarker(), board.getVaticanReportSections()));
             server.saveClientProxy(clientHandler.getUsername(), gameInterface);
 
             if (gameInterface.getState() == GameStates.PHASE_TWO) {
@@ -88,11 +86,10 @@ public class PacketEndTurn implements ClientPacketHandler{
                         server.sendAll(new PacketWinner(gameInterface.getWinner(), playerInfoEndMatches), gameInterface);
                     }
                     else {
-                        server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
-                                sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-                        server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
-                                sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),
-                                        gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
+                        ClientHandler clientHandler1 = server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername());
+                        Board board1 = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
+                        clientHandler1.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+                        clientHandler1.sendPacketToClient(new PacketFaithTrack(board1.getTrack(),board1.getFaithMarker(), board1.getVaticanReportSections()));
 
                         gameInterface.setState(GameStates.PHASE_ONE);
                     }
@@ -107,13 +104,22 @@ public class PacketEndTurn implements ClientPacketHandler{
 
     }
 
+    // TODO: 27/06/2021 fare packet update
+
+    /**
+     * Method used only in Single Player Mode when the token is handled, sending the update packets to the client
+     * @param gameInterface (type GameInterface) - it is the interface of the game
+     * @param clientHandler (type ClientHandler) - it is the client who is playing
+     * @param token (type SoloActionToken) - it is the drawn token
+     * @param message (type ConnectionMessages) - it is the message to send to the client
+     */
     public void handleDrawingToken( GameInterface gameInterface, ClientHandler clientHandler, SoloActionToken token, ConnectionMessages message){
         ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
+        Board board = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
+
         clientHandler.sendPacketToClient(new PacketToken(token));
         clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
-        clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(),
-                gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),
-                gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
+        clientHandler.sendPacketToClient(new PacketFaithTrack(board.getTrack(),board.getFaithMarker(),board.getVaticanReportSections()));
         clientHandler.sendPacketToClient(new PacketConnectionMessages(message));
         clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(gameInterface.getDevGridLite()));
         clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));

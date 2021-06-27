@@ -10,6 +10,7 @@ import it.polimi.ingsw.client.communication.ServerWriter;
 import it.polimi.ingsw.client.communication.SocketClientConnection;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.controller.Packet;
 import it.polimi.ingsw.controller.client_packets.PacketNumPlayers;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.client_packets.SetupHandler;
@@ -159,10 +160,10 @@ public class Client {
     }
 
     /**
-     * Method serializeAndSend serializes and sends to the server the packet passed as a parameter
+     * Method sendPacketToClient serializes and sends to the server the packet passed as a parameter
      * @param packet (type SetupHandler) - it is the packet to send
      */
-    public void serializeAndSend(SetupHandler packet){
+    public void sendPacketToServer(Packet packet){
         String jsonResult;
         ObjectMapper mapper = new ObjectMapper();
         try {

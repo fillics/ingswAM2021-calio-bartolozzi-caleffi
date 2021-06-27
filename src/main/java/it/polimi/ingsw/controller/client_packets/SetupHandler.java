@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.client_packets;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import it.polimi.ingsw.controller.Packet;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
@@ -13,6 +14,6 @@ import it.polimi.ingsw.server.Server;
         @JsonSubTypes.Type(value = PacketPongFromClient.class, name = "PONG"),
         @JsonSubTypes.Type(value = PacketNumPlayers.class, name = "NUMOFPLAYERS") })
 
-public interface SetupHandler {
+public interface SetupHandler extends Packet {
     void execute(Server server, ClientHandler clientHandler);
 }

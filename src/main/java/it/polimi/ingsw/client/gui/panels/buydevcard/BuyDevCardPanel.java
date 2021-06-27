@@ -24,7 +24,6 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     private final JButton confirmDiscountBtn = new JButton("CONFIRM DISCOUNT");
     private final JButton backBtn = new JButton("BACK");
     private final JButton confirmBuyBtn = new JButton("CONFIRM");
-    private JLabel guide;
 
     private ArrayList<Integer> leaderCardsIDs;
     private ArrayList<JButton> jButtons;
@@ -93,6 +92,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         rightPanel.setLayout(new GridBagLayout());
 
         JLabel guideRight = new JLabel("Click the resources you want to use and in which development space you want to put the card");
+        guideRight.setFont(new Font(guideRight.getFont().getName(), guideRight.getFont().getStyle(), 15));
 
         JPanel textPanel = new JPanel();
         textPanel.setBackground(new Color(233, 226, 193));
@@ -140,7 +140,9 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridBagLayout());
 
-        guide = new JLabel("Click on a card to see it bigger");
+        JLabel guide = new JLabel("Click on a card to see it bigger");
+        guide.setFont(new Font(guide.getFont().getName(), guide.getFont().getStyle(), 15));
+
 
         JPanel textPanel = new JPanel();
         textPanel.setBackground(new Color(233, 226, 193));
@@ -253,7 +255,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
         if(e.getSource() == confirmDiscountBtn){
             if(leaderCardsIDs.size()!=0){
-                gui.sendPacketToServer(new PacketChooseDiscount(leaderCardsIDs));
+                gui.getClient().sendPacketToServer(new PacketChooseDiscount(leaderCardsIDs));
                 confirmDiscountBtn.setBackground(gui.getGreenColor());
             }
             else{
@@ -276,7 +278,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
             if(smallBoard.getWarehousePanel().getChosenWarehouses().size()!=0 && smallBoard.getWarehousePanel().getChosenResources().size()!=0
                     && smallBoard.getDevSpacesPanel().getIdDevSpace()!=0){
-                gui.sendPacketToServer(new PacketBuyDevCard(devGridPanel.getIdCard(), smallBoard.getWarehousePanel().getChosenResources(),
+                gui.getClient().sendPacketToServer(new PacketBuyDevCard(devGridPanel.getIdCard(), smallBoard.getWarehousePanel().getChosenResources(),
                         smallBoard.getWarehousePanel().getChosenWarehouses(), smallBoard.getDevSpacesPanel().getIdDevSpace()));
                 gui.switchPanels(new BoardPanel(gui));
             }

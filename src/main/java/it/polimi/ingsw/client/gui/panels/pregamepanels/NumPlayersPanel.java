@@ -144,7 +144,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         if (e.getSource() == btn4) number_of_players = 4;
         setDisabled();
         loading();
-        gui.getClient().serializeAndSend(new PacketNumPlayers(number_of_players));
+        gui.getClient().sendPacketToServer(new PacketNumPlayers(number_of_players));
     }
 
 

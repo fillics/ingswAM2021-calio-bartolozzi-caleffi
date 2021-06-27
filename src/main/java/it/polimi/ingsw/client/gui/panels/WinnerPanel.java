@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.controller.client_packets.PacketEndConnection;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerInfoEndMatch;
 
@@ -165,6 +166,7 @@ public class WinnerPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == closeButton){
             try {
+                gui.getClient().sendPacketToServer(new PacketEndConnection());
                 gui.getClient().getSocketClientConnection().getSocket().close();
                 System.exit(0);
             } catch (IOException ioException) {

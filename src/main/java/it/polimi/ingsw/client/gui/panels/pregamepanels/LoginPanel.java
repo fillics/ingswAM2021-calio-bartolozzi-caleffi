@@ -59,12 +59,12 @@ public class LoginPanel extends JPanel implements ActionListener {
 
         c.gridx=0;
         c.gridy=2;
-        c.ipadx=100;
-        c.ipady=25;
         c.weighty=50;
 
         this.add(loginButton, c);
         loginButton.addActionListener(this);
+        loginButton.setFont(new Font(loginButton.getFont().getName(), loginButton.getFont().getStyle(), 20));
+        loginButton.setPreferredSize(new Dimension(150,50));
     }
 
     private void createLoginLabel(){
@@ -79,6 +79,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         loginLabel.setHorizontalAlignment(JLabel.CENTER);
 
         loginTextField = new JTextField();
+        loginTextField.setFont(new Font(loginTextField.getFont().getName(), loginTextField.getFont().getStyle(), 25));
         loginTextField.setPreferredSize(new Dimension(200, 25));
         loginTextField.setHorizontalAlignment(JTextField.CENTER);
         loginTextField.addActionListener(this);
@@ -109,7 +110,7 @@ public class LoginPanel extends JPanel implements ActionListener {
             username = loginTextField.getText();
 
             if(username.length()!=0){
-                gui.getClient().serializeAndSend(new PacketUsername(username.toLowerCase(Locale.ROOT)));
+                gui.getClient().sendPacketToServer(new PacketUsername(username.toLowerCase(Locale.ROOT)));
 
             }
 

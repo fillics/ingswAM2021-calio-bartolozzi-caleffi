@@ -16,7 +16,7 @@ public class PacketPingFromServer implements ServerPacketHandler {
 
     @Override
     public void execute(Client client) {
-        client.serializeAndSend(new PacketPongFromClient());
+        client.sendPacketToServer(new PacketPongFromClient());
     }
 
     public ConnectionMessages getMessage() {

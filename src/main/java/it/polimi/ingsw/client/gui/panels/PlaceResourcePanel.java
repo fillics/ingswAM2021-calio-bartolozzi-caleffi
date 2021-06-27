@@ -131,7 +131,7 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
             if(warehousePanel.getDepositsPanel().getIdDepot().size() != 0 && resourceBufferPanel.getPositions().size() != 0){
                 int position = warehousePanel.getDepositsPanel().getIdDepot().get(warehousePanel.getDepositsPanel().getIdDepot().size() - 1);
                 int resource = resourceBufferPanel.getPositions().get(resourceBufferPanel.getPositions().size() - 1);
-                gui.sendPacketToServer(new PacketPlaceResource(position - 1, resource));
+                gui.getClient().sendPacketToServer(new PacketPlaceResource(position - 1, resource));
             }
             else {
                 JOptionPane.showMessageDialog(gui.getjFrame(), "Choose one resource and the deposit in which you want to place it");

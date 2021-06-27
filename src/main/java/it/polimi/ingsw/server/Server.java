@@ -473,6 +473,26 @@ public class Server {
 
     }
 
+    /**
+     * Method that handles the end of the game and it removes the information of the client and the game from the maps
+     * that contain all the information
+     * @param clientHandler (type ClientHandler) - it is the client to remove
+     * @param gameInterface (type GameInterface) - it is the game to remove
+     */
+    public synchronized void handleEndGame(ClientHandler clientHandler, GameInterface gameInterface){
+
+        ArrayList<ClientHandler> playersInGame = mapIdGameClientHandler.get(gameInterface.getIdGame());
+        //clientHandler.getClientConnected().compareAndSet(true, false);
+
+        if(clientHandler.equals(playersInGame.get(playersInGame.size()-1))) mapGames.remove(gameInterface.getIdGame());
+
+        mapUsernameClientHandler.remove(clientHandler.getUsername());
+        mapIdGameClientHandler.remove(gameInterface.getIdGame());
+        mapForReconnection.remove(clientHandler.getUsername());
+
+        System.out.println("Game [id "+gameInterface.getIdGame()+"] ended!");
+
+    }
 
     /**
      * @return the lobby of the server

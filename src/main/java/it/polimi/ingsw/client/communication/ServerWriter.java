@@ -75,7 +75,7 @@ public class ServerWriter implements Runnable{
 
         switch (client.getClientState()){
 
-            case USERNAME -> client.serializeAndSend(new PacketUsername(inputString.toLowerCase(Locale.ROOT)));
+            case USERNAME -> client.sendPacketToServer(new PacketUsername(inputString.toLowerCase(Locale.ROOT)));
 
             case NUMPLAYERS -> {
                 try{

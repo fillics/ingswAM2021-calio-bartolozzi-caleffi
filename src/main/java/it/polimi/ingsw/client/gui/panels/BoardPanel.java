@@ -28,14 +28,14 @@ public class BoardPanel extends JPanel implements ActionListener {
     private JLabel username;
     private final JButton showDevGrid= new JButton("SHOW DEVELOPMENT GRID");
     private final JButton showMarketTray= new JButton("SHOW THE MARKET TRAY");
-    private final JButton showBoardOtherPlayer= new JButton("SHOW BOARD OF OTHER PLAYERS");
+    private final JButton showBoardOtherPlayer= new JButton("SHOW OTHER PLAYERS");
     private final JButton discardLeaderCard = new JButton("DISCARD LEADER CARD");
     private final JButton activateLeaderCard = new JButton("ACTIVATE LEADER CARD");
     private final JButton buyDevCard = new JButton("BUY DEVELOPMENT CARD");
     private final JButton useProdPower = new JButton("USE PRODUCTION POWER");
     private final JButton moveResource = new JButton("MOVE RESOURCE");
     private final JButton placeResource = new JButton("PLACE RESOURCE");
-    private final JButton takeResourceFromMarket = new JButton("TAKE RESOURCE FROM MARKET");
+    private final JButton takeResourceFromMarket = new JButton("RESOURCES FROM MARKET");
     private final JButton endTurn = new JButton("END YOUR TURN");
     private final JButton resourceCheatButton = new JButton("+20 resources");
     private final JButton faithMarkerCheatButton = new JButton("+1 faith marker");
@@ -216,6 +216,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         button.setPreferredSize(new Dimension(250,50));
         changeBackground(button);
         button.addActionListener(this);
+        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 15));
+
     }
 
     public void createUnderBoard(){
@@ -366,7 +368,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 
                 String playerSelected = (String) comboBox.getSelectedItem();
 
-                gui.sendPacketToServer(new PacketUsernameOfAnotherPlayer(playerSelected));
+                gui.getClient().sendPacketToServer(new PacketUsernameOfAnotherPlayer(playerSelected));
             }
             else JOptionPane.showMessageDialog(gui.getjFrame(), "You are in single player mode, there are no other players, please choose another action");
 
@@ -397,16 +399,16 @@ public class BoardPanel extends JPanel implements ActionListener {
             gui.switchPanels(new MoveResourcePanel(gui));
         }
         if(e.getSource() == endTurn){
-            gui.sendPacketToServer(new PacketEndTurn());
+            gui.getClient().sendPacketToServer(new PacketEndTurn());
         }
         if(e.getSource() == resourceCheatButton){
             gui.createMessageFromServer("20 resources in your strongbox. Don't tell anyone ;)");
-            gui.sendPacketToServer(new ResourcesInStrongboxCheatPacket());
+            gui.getClient().sendPacketToServer(new ResourcesInStrongboxCheatPacket());
             gui.switchPanels(new BoardPanel(gui));
         }
         if(e.getSource() == faithMarkerCheatButton){
             gui.createMessageFromServer("+1 faith marker for you. Don't tell anyone ;)");
-            gui.sendPacketToServer(new FaithMarkerCheatPacket());
+            gui.getClient().sendPacketToServer(new FaithMarkerCheatPacket());
         }
         if(e.getSource() == useProdPower){
             gui.switchPanels(new UseProductionPowerPanel(gui));
