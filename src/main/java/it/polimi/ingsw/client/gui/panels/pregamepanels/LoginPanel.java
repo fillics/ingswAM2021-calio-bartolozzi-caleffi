@@ -25,6 +25,7 @@ public class LoginPanel extends JPanel implements ActionListener {
     private final JButton confirmButton = new JButton("CONFIRM");
     private JPanel login, numPlayersPanel, buttonPanel;
 
+
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
@@ -33,7 +34,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
     public LoginPanel(GUI gui){
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/home2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/pregame.png");
         try {
             assert is != null;
             background = ImageIO.read(is);
@@ -73,6 +74,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         c.insets = new Insets(0,50,0,50);
 
         JLabel loginLabel = new JLabel(ConnectionMessages.INSERT_USERNAME.getMessage());
+        loginLabel.setFont(new Font(loginLabel.getFont().getName(), loginLabel.getFont().getStyle(), 15));
         loginLabel.setPreferredSize(new Dimension(200,50));
         loginLabel.setHorizontalAlignment(JLabel.CENTER);
 
@@ -97,7 +99,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         error.setVisible(false);
         login.add(error, c);
 
-        login.setBackground(new Color(233, 226, 193));
+        login.setBackground(gui.getGiallinoBackgroundColor());
 
     }
     @Override
@@ -108,7 +110,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
             if(username.length()!=0){
                 gui.getClient().serializeAndSend(new PacketUsername(username.toLowerCase(Locale.ROOT)));
-                loginButton.setEnabled(false);
+
             }
 
             else error.setVisible(true);

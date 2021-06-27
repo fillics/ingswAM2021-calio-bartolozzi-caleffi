@@ -95,12 +95,13 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                             case BLACKCROSS2 -> message=ConnectionMessages.BLACKCROSS2_GUI;
                         }
                         JOptionPane.showMessageDialog(client.getGui().getjFrame(), message.getMessage());
-                        //client.getGui().switchPanels(new BoardPanel(client.getGui()));
-                    }
-                }
 
+                    }
+                    client.getGui().switchPanels(new BoardPanel(client.getGui()));
+                }
                 client.setClientState(ClientStates.GAMESTARTED);
             }
+
             case UPDATE_AFTER_ENDTURN ->{
                 if(client.getViewChoice().equals(ViewChoice.GUI)){
                     client.getGui().switchPanels(new BoardPanel(client.getGui()));

@@ -9,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -35,7 +33,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
     public NumPlayersPanel(GUI gui) {
         this.gui = gui;
 
-        InputStream is = getClass().getResourceAsStream("/images/background/home2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/pregame.png");
         try {
             assert is != null;
             background = ImageIO.read(is);
@@ -68,6 +66,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         biggestPanel.setLayout(new GridBagLayout());
         //c.insets = new Insets(50,0,0,0);
         numPlayers = new JLabel(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage());
+        numPlayers.setFont(new Font(numPlayers.getFont().getName(), numPlayers.getFont().getStyle(), 15));
         numPlayers.setBackground(new Color(233, 226, 193));
         numPlayers.setOpaque(true);
         numPlayers.setHorizontalAlignment(JLabel.CENTER);

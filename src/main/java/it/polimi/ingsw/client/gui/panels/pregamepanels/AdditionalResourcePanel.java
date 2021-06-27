@@ -72,7 +72,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         servantsText = "x " + servants;
         shieldsText = "x " + shields;
 
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             assert is != null;
             background = ImageIO.read(is);
@@ -200,7 +200,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         servantsText = "x " + servants;
         shieldsText = "x " + shields;
 
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             assert is != null;
             background = ImageIO.read(is);

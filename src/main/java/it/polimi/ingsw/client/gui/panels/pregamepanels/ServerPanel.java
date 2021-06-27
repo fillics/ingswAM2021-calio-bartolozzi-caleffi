@@ -22,7 +22,6 @@ public class ServerPanel extends JPanel implements ActionListener {
     private JTextField ipAddressTextField, serverPortTextField;
     private  JButton connectButton, resetButton;
     private JPanel biggestPanel, ipPanel, portPanel, buttonsPanel;
-    private boolean defaultConnection;
 
 
     public void paintComponent(Graphics g){
@@ -33,8 +32,7 @@ public class ServerPanel extends JPanel implements ActionListener {
 
     public ServerPanel(GUI gui, boolean defaultConnection){
         this.gui = gui;
-        this.defaultConnection = defaultConnection;
-        InputStream is = getClass().getResourceAsStream("/images/background/home2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/pregame.png");
         try {
             assert is != null;
             background = ImageIO.read(is);
@@ -102,6 +100,7 @@ public class ServerPanel extends JPanel implements ActionListener {
         ipPanel.setLayout(new GridBagLayout());
         c.insets = new Insets(0,50,0,50);
         JLabel ipAddress = new JLabel("Insert the server IP address");
+        ipAddress.setFont(new Font(ipAddress.getFont().getName(), ipAddress.getFont().getStyle(), 15));
         ipAddress.setPreferredSize(new Dimension(200,50));
         ipAddress.setHorizontalAlignment(JLabel.CENTER);
 
@@ -130,18 +129,20 @@ public class ServerPanel extends JPanel implements ActionListener {
         c.insets = new Insets(0,50,0,50);
 
         JLabel serverPort = new JLabel("Insert the IP port");
+        serverPort.setFont(new Font(serverPort.getFont().getName(), serverPort.getFont().getStyle(), 15));
+
         serverPort.setPreferredSize(new Dimension(200,10));
         serverPort.setHorizontalAlignment(JLabel.CENTER);
         serverPortTextField = new JTextField();
         c.gridx=0;
         c.gridy=0;
-
         portPanel.add(serverPort, c);
 
         c.gridx=1;
         c.gridy=0;
         portPanel.add(serverPortTextField, c);
 
+        // TODO: 26/06/2021 toglier riga commentata
         serverPortTextField.setText(String.valueOf(1234));
         //if(defaultConnection) serverPortTextField.setText(String.valueOf(Constants.getPort()));
         serverPortTextField.setPreferredSize(new Dimension(200, 10));
@@ -188,6 +189,7 @@ public class ServerPanel extends JPanel implements ActionListener {
             gui.switchPanels(new LoginPanel(gui));
         }
         else{ // TODO: 01/06/2021 stampare messaggio di errore
+            JOptionPane.showMessageDialog(gui.getjFrame(), "Error in connecting to the server. Retry!");
         }
     }
 }

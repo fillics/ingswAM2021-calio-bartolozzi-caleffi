@@ -38,7 +38,7 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
     public OtherPlayersBoardPanel(GUI gui, ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {
@@ -137,8 +137,7 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
 
         faithTrackPanel = new JPanel();
         faithTrackPanel.setLayout(new BoxLayout(faithTrackPanel, BoxLayout.X_AXIS));
-        System.out.println(clientModelView.getLiteBoard().getVaticanReportSections().size());
-        System.out.println(clientModelView.getLiteBoard().getTrack().size());
+
         FaithTrackPanel faithTrack = new FaithTrackPanel(clientModelView);
         faithTrack.setPreferredSize(new Dimension(970,200));
         faithTrackPanel.add(faithTrack);

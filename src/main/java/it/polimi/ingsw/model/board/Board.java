@@ -174,7 +174,7 @@ public class Board implements BoardInterface {
      * Method increaseFaithMarker adds to the faith marker a specific amount, to move forward it.
      */
     public void increaseFaithMarker(){
-        faithMarker += 1;
+        if(faithMarker < 24) faithMarker += 1;
         if(faithMarker == 24){
             game.endGame();
         }

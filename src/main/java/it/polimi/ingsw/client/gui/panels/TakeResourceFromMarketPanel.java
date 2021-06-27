@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.gui.panels;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyMarble;
@@ -31,7 +29,7 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
 
     public TakeResourceFromMarketPanel(GUI gui) {
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             assert is != null;
             background = ImageIO.read(is);

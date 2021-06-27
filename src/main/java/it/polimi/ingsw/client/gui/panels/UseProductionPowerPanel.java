@@ -39,7 +39,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
 
     public UseProductionPowerPanel(GUI gui) {
         this.gui = gui;
-        InputStream is = getClass().getResourceAsStream("/images/background/backgroundGame2.png");
+        InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
             assert is != null;
             background = ImageIO.read(is);

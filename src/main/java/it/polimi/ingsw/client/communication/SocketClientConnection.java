@@ -12,10 +12,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class SocketClientConnection {
 
-    private final Client client;
     private Socket socket;
     private DataOutputStream output;
-    private DataInputStream dataInputStream;
     private final AtomicBoolean connectionToServer = new AtomicBoolean(false);
 
     /**
@@ -23,7 +21,6 @@ public class SocketClientConnection {
      * @param client is the client linked to the socket
      */
     public SocketClientConnection(Client client) {
-        this.client = client;
         try {
             socket = new Socket(Constants.getAddressServer(), Constants.getPort());
             socket.setSoTimeout(20000);
@@ -42,7 +39,6 @@ public class SocketClientConnection {
     public synchronized void creationStreams() {
         try {
             output = new DataOutputStream(socket.getOutputStream());
-            dataInputStream = new DataInputStream(socket.getInputStream()); // to read data coming from the server
         } catch (IOException e) {
             System.err.println("Error during initialization of the client!");
         }
@@ -63,7 +59,6 @@ public class SocketClientConnection {
     }
 
     /**
-     * Class' getter
      * @return true if the client is connected to the server, else false
      */
     public AtomicBoolean getConnectionToServer() {
@@ -71,7 +66,6 @@ public class SocketClientConnection {
     }
 
     /**
-     * Class' getter
      * @return the socket of the client
      */
     public Socket getSocket() {

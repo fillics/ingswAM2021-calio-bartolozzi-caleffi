@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.ClientModelView;
+import it.polimi.ingsw.client.liteclasses.LiteBoard;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
@@ -50,7 +52,7 @@ public class Server {
 
 
     /**
-     * Class' constructor creates a new Server istance
+     * Class' constructor creates a new Server instance
      */
     public Server() {
         mapUsernameClientHandler = new HashMap<>();
@@ -272,7 +274,7 @@ public class Server {
 
     /**
      * Method setupPlayersGame calls the method setup of the Game and send to each player of the game a setup Packet,
-     * containing all of the informations they need to play the game
+     * containing all of the information they need to play the game
      * @param game (type Game) - it is the game created
      * @param playersInGame (type ArrayList<ClientHandler>) - it is the list of players of the game created
      */
@@ -444,33 +446,31 @@ public class Server {
      * @param gameInterface (type GameInterface) - it is the player's game
      */
     public synchronized void saveClientProxy(String username, GameInterface gameInterface){
+        ClientModelView clientModelView = mapForReconnection.get(username).getClientModelView();
+        Player player = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer());
+        LiteBoard board = clientModelView.getLiteBoard();
+
         //leaderCards
-        mapForReconnection.get(username).getClientModelView().getMyPlayer().
-                setLeaderCards(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards());
+        clientModelView.getMyPlayer().setLeaderCards(player.getLeaderCards());
 
         //devSpaces
-        mapForReconnection.get(username).getClientModelView().getLiteBoard().
-                setDevelopmentSpaces(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces());
+        board.setDevelopmentSpaces(player.getBoard().getDevelopmentSpaces());
 
         //strongbox
-        mapForReconnection.get(username).getClientModelView().getLiteBoard().
-                setStrongbox(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
+        board.setStrongbox(player.getBoard().getStrongbox());
 
         //deposits
-        mapForReconnection.get(username).getClientModelView().getLiteBoard().
-                setDeposits(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits());
+        board.setDeposits(player.getBoard().getDeposits());
 
         //track
-        mapForReconnection.get(username).getClientModelView().getLiteBoard().
-                setTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack());
+        board.setTrack(player.getBoard().getTrack());
 
         //faithmarker
-        mapForReconnection.get(username).getClientModelView().getLiteBoard().
-                setFaithMarker(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker());
+        board.setFaithMarker(player.getBoard().getFaithMarker());
 
-        //resourceBuffer todo da togliere?
-        mapForReconnection.get(username).getClientModelView().getMyPlayer().
-                setResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer());
+        //resourceBuffer
+        clientModelView.getMyPlayer().setResourceBuffer(player.getResourceBuffer());
+
     }
 
 

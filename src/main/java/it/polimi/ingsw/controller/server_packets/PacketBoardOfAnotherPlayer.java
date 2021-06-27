@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.OtherPlayersBoardPanel;
+import it.polimi.ingsw.client.liteclasses.LiteBoard;
 import it.polimi.ingsw.model.board.faithtrack.Cell;
 import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
 import it.polimi.ingsw.model.board.storage.Deposit;
@@ -26,8 +27,7 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
     private final Strongbox strongbox;
     private final ArrayList<Deposit> deposits;
     private final ArrayList<DevelopmentSpace> developmentSpaces;
-    private ClientModelView clientModelView;
-    private CLI cli;
+    private final ClientModelView clientModelView;
 
 
     @JsonCreator
@@ -78,16 +78,19 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
 
     @Override
     public void execute(Client client) {
-        clientModelView.getLiteBoard().setFaithMarker(faithMarker);
-        clientModelView.getLiteBoard().setTrack(track);
-        clientModelView.getLiteBoard().setVaticanReportSections(vaticanReportSections);
-        clientModelView.getLiteBoard().setDeposits(deposits);
-        clientModelView.getLiteBoard().setStrongbox(strongbox);
-        clientModelView.getLiteBoard().setDevelopmentSpaces(developmentSpaces);
+        LiteBoard liteBoard = clientModelView.getLiteBoard();
+        liteBoard.setFaithMarker(faithMarker);
+        liteBoard.setTrack(track);
+        liteBoard.setVaticanReportSections(vaticanReportSections);
+        liteBoard.setDeposits(deposits);
+        liteBoard.setStrongbox(strongbox);
+        liteBoard.setDevelopmentSpaces(developmentSpaces);
         clientModelView.getMyPlayer().setLeaderCards(leaderCards);
 
+        System.out.println("il faith marker dell'altro player vale: "+faithMarker);
+
         if(client.getViewChoice().equals(ViewChoice.CLI)){
-            cli = new CLI(client,clientModelView);
+            CLI cli = new CLI(client, clientModelView);
             cli.printFaithTrack();
             cli.printResourcesLegend();
             cli.printDeposits();
