@@ -18,7 +18,7 @@ import java.util.Objects;
 public class PlaceResourcePanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
-    private JButton confirmBtn, backBtn, moveBtn;
+    private JButton confirmBtn, backBtn;
     private final ResourceBufferPanel resourceBufferPanel;
     private WarehousePanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
@@ -117,15 +117,11 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
         backBtn.addActionListener(this);
         backBtn.setPreferredSize(new Dimension(200, 50));
 
-        moveBtn = new JButton("MOVE RESOURCE");
-        moveBtn.addActionListener(this);
-        moveBtn.setPreferredSize(new Dimension(200, 50));
 
         buttons.add(backBtn);
         buttons.add(Box.createRigidArea(new Dimension(250, 50)));
         buttons.add(confirmBtn);
-        buttons.add(Box.createRigidArea(new Dimension(250, 50)));
-        buttons.add(moveBtn);
+
         buttons.setOpaque(false);
     }
 
@@ -146,8 +142,5 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
             gui.switchPanels(new BoardPanel(gui));
         }
 
-        if(e.getSource() == moveBtn){
-            gui.switchPanels(new MoveResourcePanel(gui));
-        }
     }
 }

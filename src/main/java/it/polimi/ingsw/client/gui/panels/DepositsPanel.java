@@ -213,7 +213,7 @@ public class DepositsPanel extends JPanel implements ActionListener {
 
         //THIRD DEPOSIT
         if(clientModelView.getLiteBoard().getDeposits().get(2).getResourcetype() != null){
-            for (int i=3; i<gui.getClient().getClientModelView().getLiteBoard().getDeposits().get(2).getQuantity()+3; i++) {
+            for (int i=3; i<clientModelView.getLiteBoard().getDeposits().get(2).getQuantity()+3; i++) {
                 try {
                     resources.get(i).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(clientModelView.getLiteBoard().getDeposits().get(2).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(45, 45, Image.SCALE_AREA_AVERAGING)));
                 } catch (IOException ignored) {}

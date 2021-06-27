@@ -117,7 +117,6 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
             else {
                 JOptionPane.showMessageDialog(gui.getjFrame(), "Choose the deposit in which you want to take the resource");
             }
-
             gui.switchPanels(new MoveResourcePanel(gui));
         }
         else if(e.getSource() == backBtn){

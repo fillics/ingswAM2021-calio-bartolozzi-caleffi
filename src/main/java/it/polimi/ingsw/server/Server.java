@@ -2,7 +2,6 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.liteclasses.LiteBoard;
-import it.polimi.ingsw.client.liteclasses.LitePlayer;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.GameStates;
@@ -11,7 +10,6 @@ import it.polimi.ingsw.controller.server_packets.PacketNewPositionInGame;
 import it.polimi.ingsw.controller.server_packets.PacketReconnection;
 import it.polimi.ingsw.controller.server_packets.ServerPacketHandler;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.singleplayer.SinglePlayerGame;
@@ -54,7 +52,7 @@ public class Server {
 
 
     /**
-     * Class' constructor creates a new Server istance
+     * Class' constructor creates a new Server instance
      */
     public Server() {
         mapUsernameClientHandler = new HashMap<>();
@@ -276,7 +274,7 @@ public class Server {
 
     /**
      * Method setupPlayersGame calls the method setup of the Game and send to each player of the game a setup Packet,
-     * containing all of the informations they need to play the game
+     * containing all of the information they need to play the game
      * @param game (type Game) - it is the game created
      * @param playersInGame (type ArrayList<ClientHandler>) - it is the list of players of the game created
      */
