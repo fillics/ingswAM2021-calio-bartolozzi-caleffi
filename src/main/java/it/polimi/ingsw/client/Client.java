@@ -128,7 +128,7 @@ public class Client {
 
 
     /**
-     * Method viewInterfaceChoice asks to the client if he wants to play using CLI or GUI
+     * Method viewInterfaceChoice asks the client if he wants to play using CLI or GUI
      */
     public static ViewChoice viewInterfaceChoice(){
         Scanner in = new Scanner(System.in);
