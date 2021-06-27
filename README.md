@@ -1,7 +1,7 @@
 ## Gruppo: AM20
 * Filippo Caliò (10628126) 
 * Beatrice Bartolozzi
-* Giovanni Caleffi
+* Giovanni Caleffi (10664233)
   
 
 Master of Renaissance Board Game is the final test of "Software Engineering", course of "Computer Science Engineering" held at Politecnico di Milano (2020/2021).\
@@ -66,5 +66,5 @@ IntelliJ - IDE\
 Swing - Graphical Framework
 
 
-###License
+### License
 This project is developed in collaboration with Politecnico di Milano and Cranio Creations.
