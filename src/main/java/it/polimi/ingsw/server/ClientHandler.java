@@ -99,14 +99,6 @@ public class ClientHandler implements Runnable {
                         endConnection=true;
                     }
                 }
-                // TODO: 26/06/2021 probabilmente da togliere
-                /*if(gameStarted && game.isEndgame() && !endConnection) {
-
-                    if(!(game instanceof SinglePlayerGame)){
-                        server.sendAll(new PacketEndGameStarted(username), game);
-                        game.setState(GameStates.FINAL_TURN);
-                    }
-                }*/
             }
 
             if(username!=null) System.out.println("Connection with " + username + " is closed!");

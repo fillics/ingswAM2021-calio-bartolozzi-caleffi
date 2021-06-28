@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.gui.panels.pregamepanels;
 
 import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.client.gui.panels.pregamepanels.LoginPanel;
 import it.polimi.ingsw.constants.Constants;
 
 import javax.imageio.ImageIO;
@@ -10,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -177,25 +177,27 @@ public class ServerPanel extends JPanel implements ActionListener {
         button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 20));
         button.setPreferredSize(new Dimension(150,50));
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == connectButton || e.getSource()==serverPortTextField) {
             Constants.setAddressServer(ipAddressTextField.getText());
             Constants.setPort(Integer.parseInt(serverPortTextField.getText()));
-            gui.getClient().serverConnection(ViewChoice.GUI);
-            handleMessageFromServer();
+            handleServerConnection();
         }
         if (e.getSource() == resetButton) {
             ipAddressTextField.setText("");
             serverPortTextField.setText("");
         }
     }
-    public void handleMessageFromServer(){
+    public void handleServerConnection(){
+        gui.getClient().serverConnection(ViewChoice.GUI);
         if(gui.getClient().getSocketClientConnection().getConnectionToServer().get()){
             gui.switchPanels(new LoginPanel(gui));
         }
-        else{ // TODO: 01/06/2021 stampare messaggio di errore
+        else{
             JOptionPane.showMessageDialog(gui.getjFrame(), "Error in connecting to the server. Retry!");
+
         }
     }
 }

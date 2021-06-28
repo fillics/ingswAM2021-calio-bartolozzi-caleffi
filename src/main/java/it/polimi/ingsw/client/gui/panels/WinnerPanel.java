@@ -165,13 +165,9 @@ public class WinnerPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == closeButton){
-            try {
-                gui.getClient().sendPacketToServer(new PacketEndConnection());
-                gui.getClient().getSocketClientConnection().getSocket().close();
-                System.exit(0);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            gui.getClient().sendPacketToServer(new PacketEndConnection());
+            // gui.getClient().getSocketClientConnection().getSocket().close();
+            System.exit(0);
         }
     }
 }

@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.liteclasses.LiteMarketTray;
 import it.polimi.ingsw.client.liteclasses.LitePlayer;
 import it.polimi.ingsw.model.singleplayer.SoloActionToken;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ClientModelView {
@@ -19,6 +20,7 @@ public class ClientModelView {
     private boolean isSingleGame;
     private SoloActionToken soloActionToken;
     private ArrayList<String> players;
+    private Color colorPlayer;
 
     /**
      * Class' constructor used to deserialize the ClientModelView
@@ -158,4 +160,12 @@ public class ClientModelView {
         return soloActionToken;
     }
 
+    @JsonIgnore
+    public Color getColorPlayer() {
+        return colorPlayer;
+    }
+
+    public void setColorPlayer(Color colorPlayer) {
+        this.colorPlayer = colorPlayer;
+    }
 }

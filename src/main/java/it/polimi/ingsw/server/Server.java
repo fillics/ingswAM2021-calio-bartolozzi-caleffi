@@ -481,16 +481,13 @@ public class Server {
      */
     public synchronized void handleEndGame(ClientHandler clientHandler, GameInterface gameInterface){
 
-        ArrayList<ClientHandler> playersInGame = mapIdGameClientHandler.get(gameInterface.getIdGame());
-        //clientHandler.getClientConnected().compareAndSet(true, false);
-
-        if(clientHandler.equals(playersInGame.get(playersInGame.size()-1))) mapGames.remove(gameInterface.getIdGame());
-
+        mapIdGameClientHandler.get(gameInterface.getIdGame()).remove(clientHandler);
+        if(mapIdGameClientHandler.get(gameInterface.getIdGame()).size()==0) {
+            System.out.println("Game [id " + gameInterface.getIdGame() + "] ended!");
+            mapGames.remove(gameInterface.getIdGame());
+            mapIdGameClientHandler.remove(gameInterface.getIdGame());
+        }
         mapUsernameClientHandler.remove(clientHandler.getUsername());
-        mapIdGameClientHandler.remove(gameInterface.getIdGame());
-        mapForReconnection.remove(clientHandler.getUsername());
-
-        System.out.println("Game [id "+gameInterface.getIdGame()+"] ended!");
 
     }
 

@@ -54,8 +54,7 @@ public enum ConnectionMessages {
     IMPOSSIBLEMOVE("I'm sorry, you can't do this action in this moment of the game"),
     IMPOSSIBLEENDTURN("I'm sorry, you have to do an action before ending the turn!"),
     CONNECTION_CLOSED("The server closed its connection."),
-    MATCH_FINISHED_FAITH("A player reached the last cell of the faith track"),
-    MATCH_FINISHED_DEVCARDS("A player bought the seventh development card"),
+    LAST_TURN("Game is ending. Last turn started"),
     PING("Ping"),
     UPDATE_AFTER_ENDTURN(""),
     PONG("Pong");

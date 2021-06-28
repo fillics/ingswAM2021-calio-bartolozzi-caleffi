@@ -100,7 +100,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         error.setVisible(false);
         login.add(error, c);
 
-        login.setBackground(gui.getGiallinoBackgroundColor());
+        login.setBackground(gui.getBackgroundColor());
 
     }
     @Override

@@ -1,15 +1,8 @@
 package it.polimi.ingsw.client.gui;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.panels.*;
-import it.polimi.ingsw.client.gui.panels.pregamepanels.LoginPanel;
-import it.polimi.ingsw.client.gui.panels.pregamepanels.NumPlayersPanel;
 import it.polimi.ingsw.client.gui.panels.pregamepanels.ServerPanel;
-import it.polimi.ingsw.controller.Packet;
-import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
-import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -34,7 +27,7 @@ public class GUI implements Runnable {
     private Border blackline, raisedetched, loweredetched, raisedbevel, loweredbevel;
     private final ArrayList<Border> borders;
     private final Color greenColor;
-    private final Color giallinoBackgroundColor;
+    private final Color backgroundColor;
     private final Color purpleColor;
     private final Color lightblueColor;
     private final Color yellowColor;
@@ -60,7 +53,7 @@ public class GUI implements Runnable {
         borders.add(loweredetched);
 
         greenColor = new Color(54, 178, 76);
-        giallinoBackgroundColor = new Color(233, 226, 193);
+        backgroundColor = new Color(233, 226, 193);
         purpleColor = new Color(139,117,180);
         lightblueColor = new Color(104,205,236);
         yellowColor = new Color(228,191,40);
@@ -148,18 +141,6 @@ public class GUI implements Runnable {
     }
 
 
-    /*public void sendPacketToServer(Packet packet){
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonResult = null;
-        try {
-            jsonResult = mapper.writeValueAsString(packet);
-        } catch (JsonProcessingException jsonProcessingException) {
-            jsonProcessingException.printStackTrace();
-        }
-        client.getSocketClientConnection().sendToServer(jsonResult);
-    }*/
-
-
 
     public Client getClient() {
         return client;
@@ -181,8 +162,8 @@ public class GUI implements Runnable {
         return greenColor;
     }
 
-    public Color getGiallinoBackgroundColor() {
-        return giallinoBackgroundColor;
+    public Color getBackgroundColor() {
+        return backgroundColor;
     }
 
     public Color getPurpleColor() {

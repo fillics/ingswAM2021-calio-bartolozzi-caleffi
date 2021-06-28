@@ -23,9 +23,8 @@ import java.util.Objects;
 public class BoardPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
-    private GridBagConstraints c;
+    private final GridBagConstraints c;
     private JPanel usernamePanel;
-    private JLabel username;
     private final JButton showDevGrid= new JButton("SHOW DEVELOPMENT GRID");
     private final JButton showMarketTray= new JButton("SHOW THE MARKET TRAY");
     private final JButton showBoardOtherPlayer= new JButton("SHOW OTHER PLAYERS");
@@ -37,14 +36,13 @@ public class BoardPanel extends JPanel implements ActionListener {
     private final JButton placeResource = new JButton("PLACE RESOURCE");
     private final JButton takeResourceFromMarket = new JButton("RESOURCES FROM MARKET");
     private final JButton endTurn = new JButton("END YOUR TURN");
-    private final JButton resourceCheatButton = new JButton("+20 resources");
-    private final JButton faithMarkerCheatButton = new JButton("+1 faith marker");
+    private final JButton resourceCheatButton = new JButton("20 resources (cheat)");
+    private final JButton faithMarkerCheatButton = new JButton("+1 faith marker (cheat)");
     private JPanel operations, leaderCards, underBoard, faithTrackPanel, boardPanel, showButtons, mainPanel, tokenPanel;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private ResourceBufferPanel resourceBufferPanel;
     private WarehousePanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
-    private TokenPanel token;
     private final boolean isSingleGame;
 
 
@@ -247,7 +245,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             JPanel tokenPanel = new JPanel();
             tokenPanel.setLayout(new GridBagLayout());
             tokenPanel.setOpaque(false);
-            token = new TokenPanel(gui);
+            TokenPanel token = new TokenPanel(gui);
 
             tokenPanel.add(token);
             c.gridx=0;
@@ -260,7 +258,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             inkwellPanel.setOpaque(false);
             JLabel inkwell = new JLabel();
             try {
-                inkwell.setIcon(new ImageIcon(new ImageIcon((GUI.class.getResourceAsStream("/images/punchboard/calamaio.png")).readAllBytes()).getImage().getScaledInstance(100, 100, Image.SCALE_AREA_AVERAGING)));
+                inkwell.setIcon(new ImageIcon(new ImageIcon((Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/calamaio.png"))).readAllBytes()).getImage().getScaledInstance(100, 100, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException ignored) { }
 
             c.gridx=0;
@@ -300,9 +298,9 @@ public class BoardPanel extends JPanel implements ActionListener {
     public void createUsername(){
         usernamePanel = new JPanel();
         usernamePanel.setLayout(new GridBagLayout());
-        username = new JLabel();
+        JLabel username = new JLabel();
 
-        usernamePanel.setBackground(gui.getGreenColor()); // TODO: 11/06/2021 mettere colore casuale
+        usernamePanel.setBackground(gui.getClient().getClientModelView().getColorPlayer());
         usernamePanel.setPreferredSize(new Dimension(159,110));
         usernamePanel.setBorder(gui.getBorders().get(0));
 
@@ -310,7 +308,6 @@ public class BoardPanel extends JPanel implements ActionListener {
         username.setFont(new Font("Serif", Font.BOLD, 16));
         username.setHorizontalTextPosition(JLabel.CENTER);
         username.setVerticalTextPosition(JLabel.CENTER);
-
 
         usernamePanel.add(username);
 
@@ -320,7 +317,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     public void changeBackground(JButton button){
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(gui.getGiallinoBackgroundColor());
+                button.setBackground(gui.getBackgroundColor());
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 button.setBackground(UIManager.getColor("control"));

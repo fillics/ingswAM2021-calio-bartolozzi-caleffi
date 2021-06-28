@@ -6,9 +6,11 @@ import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -165,7 +167,8 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
     public void loading(){
         JPanel loadingPanel = new JPanel();
 
-        Icon imgIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/gif/ajax-loader.gif")));
+       Icon imgIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/gif/ajax-loader.gif")));
+
         JLabel label = new JLabel(imgIcon);
         loadingPanel.setLayout(new GridBagLayout());
 
