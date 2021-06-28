@@ -167,9 +167,15 @@ public class ServerPanel extends JPanel implements ActionListener {
         c.gridy=0;
         buttonsPanel.add(resetButton, c);
         buttonsPanel.setBackground(new Color(0,0,0,0));
-        connectButton.addActionListener(this);
-        resetButton.addActionListener(this);
+        setButtons(connectButton);
+        setButtons(resetButton);
 
+    }
+
+    public void setButtons(JButton button){
+        button.addActionListener(this);
+        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 20));
+        button.setPreferredSize(new Dimension(150,50));
     }
     @Override
     public void actionPerformed(ActionEvent e) {

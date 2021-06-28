@@ -86,9 +86,7 @@ public class DevCardPanel extends JPanel implements ActionListener {
         buttonsPanel = new JPanel();
         buttonsPanel.setOpaque(false);
         confirmBtn = new JButton("CONFIRM DEV.CARD");
-        confirmBtn.addActionListener(this);
         backBtn = new JButton("BACK TO THE GRID");
-        backBtn.addActionListener(this);
 
         buttonsPanel.setLayout(new GridBagLayout());
 
@@ -101,10 +99,18 @@ public class DevCardPanel extends JPanel implements ActionListener {
         c.gridy = 0;
         buttonsPanel.add(confirmBtn, c);
 
-        confirmBtn.setPreferredSize(new Dimension(250, 50));
-        backBtn.setPreferredSize(new Dimension(250, 50));
+        setButton(confirmBtn);
+        setButton(backBtn);
 
     }
+
+    public void setButton(JButton button){
+        button.addActionListener(this);
+        button.setPreferredSize(new Dimension(250, 50));
+        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 25));
+
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

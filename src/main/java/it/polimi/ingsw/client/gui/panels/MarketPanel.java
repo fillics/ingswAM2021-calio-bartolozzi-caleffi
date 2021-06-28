@@ -18,20 +18,13 @@ import java.io.InputStream;
 import java.util.Objects;
 
 public class MarketPanel extends JPanel implements ActionListener {
-    private GUI gui;
     private Image imagereal;
-    private JButton row1;
-    private JButton row2;
-    private JButton row3;
-    private JButton column1;
-    private JButton column2;
-    private JButton column3;
-    private JButton column4;
+    private JButton row1, row2, row3, column1, column2, column3, column4;
 
     private String line="";
     private int numline=0;
-    private Marble[][] table;
-    private Marble marble;
+    private final Marble[][] table;
+    private final Marble marble;
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -39,7 +32,6 @@ public class MarketPanel extends JPanel implements ActionListener {
     }
 
     public MarketPanel(GUI gui, boolean isShow) {
-        this.gui=gui;
         table= gui.getClient().getClientModelView().getMarketTray().getTable();
         marble = gui.getClient().getClientModelView().getMarketTray().getRemainingMarble();
         InputStream input= getClass().getResourceAsStream("/images/board/marketTray.png");

@@ -25,14 +25,14 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     private ArrayList<Integer> newProductionPowers;
     private ArrayList<ResourceType> resourcesForProduction;
     private ArrayList<Integer> warehouse;
-    private JButton confirmForProduction = new JButton("CONFIRM");
-    private JButton backForProduction = new JButton("BACK");
+    private final JButton confirmForProduction = new JButton("CONFIRM");
+    private final JButton backForProduction = new JButton("BACK");
     private JPanel buttonsForProduction;
     private JButton coinForProduction, stoneForProduction, servantForProduction, shieldForProduction;
 
     private Image background;
     private ArrayList<Integer> deposits;
-    private ArrayList<ResourceType> resources;
+    private final ArrayList<ResourceType> resources;
     private JPanel resourcesPanel, buttonsPanel;
     private DepositsPanel depositsPanel;
     private final JButton coin = new JButton();
@@ -181,13 +181,19 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     public void createButtons(){
         buttonsForProduction = new JPanel();
 
-        confirmForProduction.addActionListener(this);
-        backForProduction.addActionListener(this);
-
+        setButtons(confirmButton);
+        setButtons(backForProduction);
         buttonsForProduction.add(backForProduction);
         buttonsForProduction.add(Box.createRigidArea(new Dimension(180, 20)));
         buttonsForProduction.add(confirmForProduction);
     }
+
+    public void setButtons(JButton button){
+        button.addActionListener(this);
+        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 25));
+        button.setPreferredSize(new Dimension(150,50));
+    }
+
 
     public AdditionalResourcePanel(GUI gui) {
         this.gui = gui;
@@ -395,7 +401,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
             deposits = depositsPanel.getIdDepot();
 
             if(deposits.size() == resources.size()){
-                gui.sendPacketToServer(new PacketChooseInitialResources(deposits, resources));
+                gui.getClient().sendPacketToServer(new PacketChooseInitialResources(deposits, resources));
                 gui.createMessageFromServer("Good game!");
             }
             else{
@@ -461,7 +467,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         }
         if( e.getSource() == confirmForProduction){
             PacketUseAndChooseProdPower packetUseAndChooseProdPower = new PacketUseAndChooseProdPower(productionPowers, newProductionPowers, resourcesForProduction, warehouse, resources);
-            gui.sendPacketToServer(packetUseAndChooseProdPower);
+            gui.getClient().sendPacketToServer(packetUseAndChooseProdPower);
             gui.switchPanels(new BoardPanel(gui));
         }
         if(e.getSource() == backForProduction){

@@ -112,7 +112,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         if(e.getSource() == confirmBtn){
             if(warehousePanel.getDepositsPanel().getIdDepot().size() != 0){
                 position = warehousePanel.getDepositsPanel().getIdDepot().get(warehousePanel.getDepositsPanel().getIdDepot().size() - 1);
-                gui.sendPacketToServer(new PacketMoveResource(position - 1));
+                gui.getClient().sendPacketToServer(new PacketMoveResource(position - 1));
             }
             else {
                 JOptionPane.showMessageDialog(gui.getjFrame(), "Choose the deposit in which you want to take the resource");

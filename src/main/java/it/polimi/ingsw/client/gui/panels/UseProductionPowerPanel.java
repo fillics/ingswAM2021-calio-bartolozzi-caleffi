@@ -164,7 +164,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
                 gui.switchPanels(new AdditionalResourcePanel(gui, smallBoard.getDevSpacesPanel().getProductionPowers(), smallBoard.getDevSpacesPanel().getNewProductionPowers(), smallBoard.getWarehousePanel().getChosenResources(), smallBoard.getWarehousePanel().getChosenWarehouses()));
             }
             else {
-                gui.sendPacketToServer(new PacketUseAndChooseProdPower(smallBoard.getDevSpacesPanel().getProductionPowers(), smallBoard.getDevSpacesPanel().getNewProductionPowers(), smallBoard.getWarehousePanel().getChosenResources(), smallBoard.getWarehousePanel().getChosenWarehouses(), newResources));
+                gui.getClient().sendPacketToServer(new PacketUseAndChooseProdPower(smallBoard.getDevSpacesPanel().getProductionPowers(), smallBoard.getDevSpacesPanel().getNewProductionPowers(), smallBoard.getWarehousePanel().getChosenResources(), smallBoard.getWarehousePanel().getChosenWarehouses(), newResources));
                 gui.switchPanels(new BoardPanel(gui));
             }
         }

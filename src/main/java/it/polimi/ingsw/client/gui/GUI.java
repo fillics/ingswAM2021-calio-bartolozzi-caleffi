@@ -148,7 +148,7 @@ public class GUI implements Runnable {
     }
 
 
-    public void sendPacketToServer(Packet packet){
+    /*public void sendPacketToServer(Packet packet){
         ObjectMapper mapper = new ObjectMapper();
         String jsonResult = null;
         try {
@@ -157,7 +157,7 @@ public class GUI implements Runnable {
             jsonProcessingException.printStackTrace();
         }
         client.getSocketClientConnection().sendToServer(jsonResult);
-    }
+    }*/
 
 
 

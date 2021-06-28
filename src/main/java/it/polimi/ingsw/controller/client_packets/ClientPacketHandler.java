@@ -25,6 +25,7 @@ import java.io.IOException;
         @JsonSubTypes.Type(value = PacketTakeResourceFromMarket.class, name = "TAKERESOURCE"),
         @JsonSubTypes.Type(value = PacketUseAndChooseProdPower.class, name = "USEANDCHOOSEPRODUCTIONPOWER"),
         @JsonSubTypes.Type(value = PacketUsernameOfAnotherPlayer.class, name = "ANOTHER_PLAYER"),
+        @JsonSubTypes.Type(value = PacketEndConnection.class, name = "END_CONNECTION"),
         @JsonSubTypes.Type(value = PacketMoveResource.class, name = "MOVERESOURCE") })
 
 public interface ClientPacketHandler extends Packet {

@@ -141,7 +141,7 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         }
         if(e.getSource() == confirm){
             if(!marketTrayPanel.getLine().equals("") && marketTrayPanel.getNumline()!=0){
-                gui.sendPacketToServer(new PacketTakeResourceFromMarket(marketTrayPanel.getLine(), marketTrayPanel.getNumline(), leaderCards));
+                gui.getClient().sendPacketToServer(new PacketTakeResourceFromMarket(marketTrayPanel.getLine(), marketTrayPanel.getNumline(), leaderCards));
                 gui.switchPanels(new BoardPanel(gui));
             }
         }

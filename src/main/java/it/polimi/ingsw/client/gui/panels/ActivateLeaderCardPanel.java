@@ -159,7 +159,7 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
         }
         else{
             if (e.getSource() == confirm) {
-                gui.sendPacketToServer(new PacketActivateLeaderCard(id1));
+                gui.getClient().sendPacketToServer(new PacketActivateLeaderCard(id1));
                 gui.switchPanels(new BoardPanel(gui));
             }
         }

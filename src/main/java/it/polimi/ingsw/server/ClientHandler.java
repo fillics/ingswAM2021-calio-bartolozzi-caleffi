@@ -49,7 +49,6 @@ public class ClientHandler implements Runnable {
     private PrintStream output;
     private ObjectMapper mapper;
     private String jsonResult;
-    private boolean gameStarted= false;
     private boolean sendSetup = false;
     private boolean isSingleGame;
     private final AtomicBoolean clientConnected;
@@ -80,19 +79,16 @@ public class ClientHandler implements Runnable {
         try {
             while (!endConnection) {
                 if (sendSetup) sendSetupPacket();
-
                 try{
                     String str = dis.readUTF();
                     deserialize(str);
                 }catch (Exception e){
-
                     if(username!=null){ //player has already inserted the username
                         System.out.println(Constants.ANSI_RED+username+Constants.ANSI_RESET+ " (idPlayer: " +idClient+") "+ Constants.ANSI_RED+"disconnected!"+Constants.ANSI_RESET);
                         server.handleDisconnection(this);
                     }
                     else{ //player has not inserted the username
                         System.out.println(guest+numberOfGuest + " disconnected!");
-
                     }
                     clientConnected.compareAndSet(true, false);
 
@@ -100,7 +96,7 @@ public class ClientHandler implements Runnable {
                     if(!clientConnected.get()){ //if client not more connected to the server
                         dis.close();
                         socket.close();
-                        endConnection =true;
+                        endConnection=true;
                     }
                 }
                 // TODO: 26/06/2021 probabilmente da togliere
@@ -122,9 +118,10 @@ public class ClientHandler implements Runnable {
         }
     }
 
+
     public void setGame(Game game) {
         this.game = game;
-        gameStarted=true;
+        boolean gameStarted = true;
     }
 
     public Game getGame() {
@@ -159,6 +156,10 @@ public class ClientHandler implements Runnable {
         isSingleGame = true;
     }
 
+    public AtomicBoolean getClientConnected() {
+        return clientConnected;
+    }
+
     /**
      * Method startPingPong sends a Ping Packet to the client to check if it is connected
      */
@@ -177,32 +178,24 @@ public class ClientHandler implements Runnable {
 
 
     // TODO: 05/06/2021 probabilmente si può fare meglio questo metodo, senza tutti gli if e provando a unire le tre classi di packethandler
-    public synchronized void deserialize(String jsonResult) throws DevelopmentCardNotFound,
-            EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable,
-            DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated,
-            NotEnoughRequirements, TooManyResourcesRequested, DepositHasReachedMaxLimit,
-            NotEnoughResources, DepositHasAnotherResource, WrongChosenResources, IOException, ClassNotFoundException {
+    public synchronized void deserialize(String jsonResult) throws DevelopmentCardNotFound, EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable, IOException, DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated, NotEnoughRequirements, TooManyResourcesRequested, ClassNotFoundException, DepositHasReachedMaxLimit, NotEnoughResources, DepositHasAnotherResource, WrongChosenResources {
 
         ObjectMapper mapper = new ObjectMapper();
-
 
         if (jsonResult.contains("USERNAME") || jsonResult.contains("NUMOFPLAYERS") || jsonResult.contains("PONG") ){
             SetupHandler packet = null;
             try {
                 packet = mapper.readValue(jsonResult, SetupHandler.class);
             } catch (JsonProcessingException ignored) {}
-            if (packet != null) {
-                packet.execute(server,this);
-            }
+            if (packet != null) packet.execute(server,this);
+
         }
         else if(jsonResult.contains("RESOURCE_CHEAT") || jsonResult.contains("FAITHMARKER_CHEAT")){
             CheatClientPacketHandler packet = null;
             try {
                 packet = mapper.readValue(jsonResult, CheatClientPacketHandler.class);
             } catch (JsonProcessingException ignored) {}
-            if (packet != null) {
-                packet.execute(server, game,this);
-            }
+            if (packet != null) packet.execute(server, game,this);
         }
         else{
             ClientPacketHandler packet = null;
@@ -210,9 +203,7 @@ public class ClientHandler implements Runnable {
                 packet = mapper.readValue(jsonResult, ClientPacketHandler.class);
             } catch (JsonProcessingException ignored) {}
 
-            if (packet != null) {
-                packet.execute(server,game,this);
-            }
+            if (packet != null) packet.execute(server,game,this);
         }
     }
 
@@ -291,6 +282,9 @@ public class ClientHandler implements Runnable {
 
     }
 
+    public void setEndConnection() {
+        endConnection=true;
+    }
 
     public synchronized void sendToClient(String jsonResult){
         output.println(jsonResult);

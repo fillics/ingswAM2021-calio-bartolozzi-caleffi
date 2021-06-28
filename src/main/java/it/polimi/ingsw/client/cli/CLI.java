@@ -722,7 +722,7 @@ public class CLI implements ViewInterface {
                 System.err.println("Invalid parameter: insert a numeric value.");
             }
         }while(numPlayers < Constants.getNumMinPlayers() || numPlayers > Constants.getNumMaxPlayers());
-        client.serializeAndSend(new PacketNumPlayers(numPlayers));
+        client.sendPacketToServer(new PacketNumPlayers(numPlayers));
     }
 
 }

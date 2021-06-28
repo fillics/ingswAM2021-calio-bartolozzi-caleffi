@@ -130,8 +130,8 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
 
     public void setButton(JButton button, Color color){
         button.addActionListener(this);
-
-        button.setPreferredSize(new Dimension(100, 30));
+        button.setPreferredSize(new Dimension(200, 50));
+        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 15));
 
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -191,7 +191,7 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
         }
         else {
             if (e.getSource() == confirmBtn) {
-                gui.sendPacketToServer(new PacketChooseLeaderCardToRemove(id1, id2));
+                gui.getClient().sendPacketToServer(new PacketChooseLeaderCardToRemove(id1, id2));
             }
         }
     }
