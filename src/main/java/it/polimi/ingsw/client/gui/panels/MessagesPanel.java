@@ -14,7 +14,11 @@ public class MessagesPanel extends JPanel {
     private JPanel mainPanel, messageP;
     private final GridBagConstraints c;
 
-
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     * @param messageToPrint is the message to print on the panel
+     */
     public MessagesPanel(GUI gui, String messageToPrint) {
         this.messageToPrint = messageToPrint;
         c = new GridBagConstraints();
@@ -36,6 +40,9 @@ public class MessagesPanel extends JPanel {
 
     }
 
+    /**
+     * Method that inserts the message in the panel
+     */
     public void createMessage(){
         messageP = new JPanel();
         messageP.setLayout(new GridBagLayout());

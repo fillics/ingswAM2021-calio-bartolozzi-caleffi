@@ -15,6 +15,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel used to do the place resource operation
+ */
 public class PlaceResourcePanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
@@ -25,13 +28,20 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
     private JPanel faithTrackPanel, underBoard, leaderCards, buttons;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height-50, null);
 
     }
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public PlaceResourcePanel(GUI gui) {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
@@ -67,6 +77,9 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
         disableButtons(devSpacesPanel, warehousePanel);
     }
 
+    /**
+     * Method that creates the faith track panel
+     */
     public void createFaithTrack(){
         faithTrackPanel = new JPanel();
         faithTrackPanel.setLayout(new BoxLayout(faithTrackPanel, BoxLayout.X_AXIS));
@@ -76,6 +89,9 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
         faithTrackPanel.setOpaque(false);
     }
 
+    /**
+     * Method that creates the under board panel
+     */
     public void createUnderBoard(){
         underBoard = new JPanel();
         underBoard.setPreferredSize(new Dimension(1129, 480));
@@ -85,17 +101,26 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the leader cards panel
+     */
     public void createLeadCards(){
         leaderCards = new JPanel();
         leaderCards.setLayout(new BoxLayout(leaderCards, BoxLayout.Y_AXIS));
         leaderCards.setPreferredSize(new Dimension(159, 250));
         for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
             if(leaderCard.getType().equals(LeaderCardType.EXTRA_DEPOSIT) && leaderCard.getStrategy().isActive()){
-                leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(),159, 240, warehousePanel.getDepositsPanel()));
+                leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(), warehousePanel.getDepositsPanel()));
             }
         }
         leaderCards.setOpaque(false);
     }
+
+    /**
+     * Method that disables all the buttons not needed
+     * @param devSpacesPanel is the development spaces panel
+     * @param warehousePanel is the warehouse panel
+     */
     public void disableButtons(DevSpacesPanel devSpacesPanel, WarehousePanel warehousePanel){
         devSpacesPanel.getDevSpace1().setVisible(false);
         devSpacesPanel.getDevSpace2().setVisible(false);
@@ -105,6 +130,9 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the buttons used to go back or confirm the operation.
+     */
     public void createButtons(){
         buttons = new JPanel();
         buttons.setLayout(new GridBagLayout());
@@ -125,6 +153,10 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
         buttons.setOpaque(false);
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == confirmBtn){

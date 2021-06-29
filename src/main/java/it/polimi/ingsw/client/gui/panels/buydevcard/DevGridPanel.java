@@ -237,6 +237,10 @@ public class DevGridPanel extends JPanel implements ActionListener {
     }
 
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 

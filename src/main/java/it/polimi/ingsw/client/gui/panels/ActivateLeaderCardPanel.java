@@ -13,24 +13,33 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class used to create the panel to show the leader card to activate during the game.
+ */
 public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
     private Image background;
     private final GUI gui;
     private final GridBagConstraints c;
-
-
     private JButton leaderCard1, leaderCard2;
     private JButton confirm, back;
-    ArrayList<JButton> jButtons;
-    int id1 = 0;
+    private ArrayList<JButton> jButtons;
+    private int id1 = 0;
     private JPanel cards, buttons;
 
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height, null);
 
     }
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public ActivateLeaderCardPanel(GUI gui) {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
@@ -60,6 +69,9 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
         this.add(buttons, c);
     }
 
+    /**
+     * Method that creates a panel that contains all the leader cards of the player
+     */
     public void createCards(){
         cards = new JPanel();
         cards.setLayout(new GridBagLayout());
@@ -102,6 +114,9 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the buttons used to go back or confirm the operation.
+     */
     public void createButtons(){
         buttons = new JPanel();
 
@@ -127,6 +142,11 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that colors the background of the button when the user hovers over it.
+     * @param button is the button chosen
+     * @param color is the color chosen
+     */
     public void setButton(JButton button, Color color){
         button.setPreferredSize(new Dimension(250,50));
         button.addActionListener(this);
@@ -141,6 +161,10 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
         });
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == back){

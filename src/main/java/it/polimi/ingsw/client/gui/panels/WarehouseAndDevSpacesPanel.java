@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains the warehouse and the development spaces
+ */
 public class WarehouseAndDevSpacesPanel extends JPanel {
     private WarehouseForBuyDevCardPanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
@@ -25,7 +28,7 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
     private ArrayList<JLabel> resources;
 
 
-    // TODO: 29/06/2021 da fare javadoc 
+    // TODO: 29/06/2021 da fare javadoc
     public WarehouseAndDevSpacesPanel(BuyDevCardPanel buyDevCardPanel) {
         this.buyDevCardPanel = buyDevCardPanel;
         constructor();
@@ -37,6 +40,8 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
         this.setOpaque(false);
 
     }
+
+
     public WarehouseAndDevSpacesPanel(UseProductionPowerPanel useProductionPowerPanel) {
         this.useProductionPowerPanel = useProductionPowerPanel;
         constructor();

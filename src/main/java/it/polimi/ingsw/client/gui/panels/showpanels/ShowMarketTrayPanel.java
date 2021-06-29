@@ -20,6 +20,10 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
     private GridBagConstraints c;
     private JButton back;
 
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height, null);
@@ -86,6 +90,10 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
         button.add(back,c);
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == back){

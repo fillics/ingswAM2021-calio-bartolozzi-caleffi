@@ -15,33 +15,45 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains a leader card
+ */
 public class LeaderCardPanel extends JPanel implements ActionListener {
-    private TakeResourceFromMarketPanel takeResourceFromMarketPanel;
+    private TakeResourcesFromMarketPanel takeResourcesFromMarketPanel;
     private GUI gui;
     private Image background;
-    private int id;
+    private final int id;
     private int position;
-    private JButton chooseProdPowerButton = new JButton();
-    private JButton chooseWhiteMarbleButton = new JButton();
-    private JButton depositButton = new JButton();
-    private JButton depositForBuyDevCardAndProdPower = new JButton();
+    private final JButton chooseProdPowerButton = new JButton();
+    private final JButton chooseWhiteMarbleButton = new JButton();
+    private final JButton depositButton = new JButton();
+    private final JButton depositForBuyDevCardAndProdPower = new JButton();
     private DepositsPanel depositsPanel;
     private WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel;
     private DevSpacesPanel devSpacesPanel;
-    private JPanel leadercard;
+    private final JPanel leadercard;
     private JPanel standardPanel;
     private ClientModelView clientModelView;
     private int numOfWhiteChoices=0;
 
-
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0,159, 240, null);
     }
 
-    public LeaderCardPanel(GUI gui, int id, TakeResourceFromMarketPanel takeResourceFromMarketPanel){
-        this.takeResourceFromMarketPanel= takeResourceFromMarketPanel;
+
+    /**
+     * Class' constructor used to create the leader card in tha panel used to take resources from the market
+     * @param gui is the GUI object linked to this panel
+     * @param id id the id of the leader card to represent
+     * @param takeResourcesFromMarketPanel is the take resources from market panel
+     */
+    public LeaderCardPanel(GUI gui, int id, TakeResourcesFromMarketPanel takeResourcesFromMarketPanel){
+        this.takeResourcesFromMarketPanel = takeResourcesFromMarketPanel;
         this.setPreferredSize(new Dimension(159, 240));
         this.id = id;
         this.gui = gui;
@@ -85,6 +97,10 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         this.setOpaque(false);
     }
 
+    /**
+     * Method that sets the standard setup of every leader card
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public void defaultSetup(ClientModelView clientModelView){
         this.setPreferredSize(new Dimension(159, 240));
         for(int i = 0 ; i < clientModelView.getMyPlayer().getLeaderCards().size(); i++){
@@ -130,6 +146,10 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that sets the button to click for white marble leader cards and production power leader cards
+     * @param button is the button to set
+     */
     public void setMarbleAndProdPower(JButton button){
         JPanel specialPower = new JPanel();
         specialPower.setPreferredSize(new Dimension(159, 70));
@@ -149,6 +169,11 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         leadercard.add(specialPower);
     }
 
+    /**
+     * Method that sets the button to click for extra deposit leader cards
+     * @param depositButton is the button to set
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public void setExtraDeposit (JButton depositButton, ClientModelView clientModelView){
         depositButton.setBackground(new Color(151, 74, 74));
         depositButton.addActionListener(this);
@@ -189,7 +214,14 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         leadercard.add(Box.createRigidArea(new Dimension(159, 10)));
         leadercard.add(depositspace);
     }
-    public LeaderCardPanel(GUI gui, int id, int width, int height, DepositsPanel depositsPanel) {
+
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     * @param id is the id of the leader card
+     * @param depositsPanel is the deposit panel
+     */
+    public LeaderCardPanel(GUI gui, int id, DepositsPanel depositsPanel) {
         this.depositsPanel = depositsPanel;
         this.id = id;
         this.gui = gui;
@@ -205,7 +237,13 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         this.setOpaque(false);
     }
 
-    public LeaderCardPanel(ClientModelView clientModelView, int id, int width, int height, DepositsPanel depositsPanel) {
+    /**
+     * Class' constructor used in the composition of the other player board panel
+     * @param clientModelView is the client model view in which are contained the information
+     * @param id is the id of the leader card chosen
+     * @param depositsPanel is the deposit panel
+     */
+    public LeaderCardPanel(ClientModelView clientModelView, int id, DepositsPanel depositsPanel) {
         this.depositsPanel = depositsPanel;
         this.id = id;
         this.clientModelView = clientModelView;
@@ -221,7 +259,14 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         this.setOpaque(false);
     }
 
-    public LeaderCardPanel(GUI gui, int id, int width, int height, WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel, DevSpacesPanel devSpacesPanel) {
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     * @param id is the id of the leader card chosen
+     * @param warehouseForBuyDevCardPanel is the warehouse for buy development card panel
+     * @param devSpacesPanel is the development spaces panel
+     */
+    public LeaderCardPanel(GUI gui, int id, WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel, DevSpacesPanel devSpacesPanel) {
         this.warehouseForBuyDevCardPanel = warehouseForBuyDevCardPanel;
         this.devSpacesPanel = devSpacesPanel;
         this.id = id;
@@ -249,6 +294,10 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         this.setOpaque(false);
     }
 
+    /**
+     * Method that sets the special power buttons based on the type of the leader card
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public void setSpecialPowerButtons(ClientModelView clientModelView){
         if(clientModelView.getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.PRODUCTION_POWER)){
             setMarbleAndProdPower(chooseProdPowerButton);
@@ -263,6 +312,11 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
             setExtraDeposit(depositButton, clientModelView);
         }
     }
+
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == depositButton){
@@ -280,22 +334,48 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Class' getter
+     * @return numOfWhiteChoices
+     */
     public int getNumOfWhiteChoices() {
         return numOfWhiteChoices;
     }
 
+    /**
+     * Class' getter
+     * @return chooseWhiteMarbleButton
+     */
     public JButton getChooseWhiteMarbleButton() {
         return chooseWhiteMarbleButton;
     }
 
+    /**
+     * Class' getter
+     * @return the id of the leader card
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Class' getter
+     * @return the deposit button
+     */
     public JButton getDepositButton() {
         return depositButton;
     }
 
+    /**
+     * Class' getter
+     * @return the choose production power button
+     */
+    public JButton getChooseProdPowerButton() { return chooseProdPowerButton; }
+
+    /**
+     * Class' getter
+     * @return depositForBuyDevCardAndProdPower button
+     */
     public JButton getDepositForBuyDevCardAndProdPower() {
         return depositForBuyDevCardAndProdPower;
     }

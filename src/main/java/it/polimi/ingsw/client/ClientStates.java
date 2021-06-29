@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
 public enum ClientStates {
-
     SERVERCONNECTION,
     USERNAME,
     NUMPLAYERS,
@@ -11,5 +10,4 @@ public enum ClientStates {
     RESOURCESETUP,
     GAMESTARTED,
     END
-
 }

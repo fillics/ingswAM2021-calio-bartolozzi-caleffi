@@ -26,7 +26,10 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
     private JButton btn1, btn2, btn3, btn4;
     private int number_of_players;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
@@ -137,7 +140,10 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         });
     }
 
-
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btn1) number_of_players = 1;

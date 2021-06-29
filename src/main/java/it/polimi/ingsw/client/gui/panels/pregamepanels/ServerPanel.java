@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.panels.pregamepanels;
 
 import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.LoginPanel;
 import it.polimi.ingsw.constants.Constants;
 
 import javax.imageio.ImageIO;
@@ -9,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -24,7 +24,10 @@ public class ServerPanel extends JPanel implements ActionListener {
     private JPanel biggestPanel, ipPanel, portPanel, buttonsPanel;
     private final boolean defaultConnection;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
@@ -178,6 +181,10 @@ public class ServerPanel extends JPanel implements ActionListener {
         button.setPreferredSize(new Dimension(150,50));
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == connectButton || e.getSource()==serverPortTextField) {

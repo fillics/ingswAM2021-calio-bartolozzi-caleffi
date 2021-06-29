@@ -13,7 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class TakeResourceFromMarketPanel extends JPanel implements ActionListener {
+/**
+ * Class that creates the panel used to do the take resources from market operation
+ */
+public class TakeResourcesFromMarketPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
     private GridBagConstraints c;
@@ -22,12 +25,20 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private JButton confirm, back, resetBtn;
 
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height, null);
     }
 
-    public TakeResourceFromMarketPanel(GUI gui) {
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
+    public TakeResourcesFromMarketPanel(GUI gui) {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
         try {
@@ -59,6 +70,9 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         this.add(mainPanel);
     }
 
+    /**
+     * Method that creates the leader cards panel
+     */
     private void createLeaderCardsPanel(){
         leaderCards = new JPanel();
         leaderCards.setLayout(new GridBagLayout());
@@ -81,6 +95,9 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         leaderCards.setOpaque(false);
     }
 
+    /**
+     * Method that creates the market tray panel
+     */
     public void createMarketTrayPanel(){
         JPanel marketPanel = new JPanel();
         marketPanel.setLayout(new BoxLayout(marketPanel, BoxLayout.X_AXIS));
@@ -92,6 +109,9 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         marketPanel.add(marketTrayPanel);
     }
 
+    /**
+     * Method that creates the buttons used to go back or confirm the operation.
+     */
     public void createButtonPanel(){
         buttonPanel= new JPanel();
         buttonPanel.setLayout(new GridBagLayout());
@@ -114,6 +134,11 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         buttonPanel.add(resetBtn,c);
     }
 
+    /**
+     * Method that colors the background of the button when the user hovers over it.
+     * @param button is the button chosen
+     * @param color is the color chosen
+     */
     public void setButton(JButton button, Color color){
         button.setPreferredSize(new Dimension(250,50));
         button.addActionListener(this);
@@ -128,6 +153,10 @@ public class TakeResourceFromMarketPanel extends JPanel implements ActionListene
         });
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         ArrayList <Integer> leaderCards = new ArrayList<>();

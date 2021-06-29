@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ *  Class that creates the panel that contains the statistics of the game
+ */
 public class WinnerPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private GridBagConstraints c;
@@ -28,12 +31,21 @@ public class WinnerPanel extends JPanel implements ActionListener {
     private final ArrayList<PlayerInfoEndMatch> players;
     private final String username;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
     }
 
+    /**
+     * Class' constructor
+     * @param gui gui is the GUI object linked to this panel
+     * @param players contains the information to show in the panel
+     * @param username is the username of the winner
+     */
     public WinnerPanel(GUI gui, ArrayList<PlayerInfoEndMatch> players, String username) {
         this.gui = gui;
         this.players = players;
@@ -82,6 +94,9 @@ public class WinnerPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the panel in which is contained the username of the winner
+     */
     public void createWinnerUsername(){
         usernamePanel = new JPanel();
         usernamePanel.setPreferredSize(new Dimension(450, 50));
@@ -99,6 +114,9 @@ public class WinnerPanel extends JPanel implements ActionListener {
         usernamePanel.setBackground(gui.getGreenColor());
     }
 
+    /**
+     * Method that creates the panel in which are contained the information of the players
+     */
     public void createPlayersPanel(){
         playersPanel = new JPanel();
         playersPanel.setLayout(new GridBagLayout());
@@ -148,6 +166,9 @@ public class WinnerPanel extends JPanel implements ActionListener {
         playersPanel.setOpaque(false);
     }
 
+    /**
+     * Method that creates the button to close the connection with the server
+     */
     public void createButton(){
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridBagLayout());
@@ -162,6 +183,10 @@ public class WinnerPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == closeButton){

@@ -14,6 +14,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains all the development spaces
+ */
 public class DevSpacesPanel extends JPanel implements ActionListener {
     private Image devSpaces;
     private JButton devSpace1, devSpace2, devSpace3;
@@ -23,12 +26,19 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
     private int idDevSpace;
     private ClientModelView clientModelView;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(devSpaces, 0,0, 720, 480, null);
     }
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public DevSpacesPanel(GUI gui) {
         InputStream is = getClass().getResourceAsStream("/images/board/devSpaces.jpg");
         try {
@@ -56,6 +66,10 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Class' constructor used in the composition of the other player board panel
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public DevSpacesPanel(ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
         InputStream is = getClass().getResourceAsStream("/images/board/devSpaces.jpg");
@@ -84,6 +98,10 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that sets the buttons of the panel
+     * @param buttonPanel
+     */
     public void setButtons(JPanel buttonPanel){
         buttonPanel.setPreferredSize(new Dimension( 720,100));
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -127,6 +145,11 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that sets the cards on the development spaces
+     * @param cardsPanel is the panel that contains the cards of every development space
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public void setCards(JPanel cardsPanel, ClientModelView clientModelView){
         JPanel prodPower = new JPanel();
         JPanel devspace1 = new JPanel();
@@ -212,6 +235,10 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         devspace3.setOpaque(false);
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == devSpace1){
@@ -232,34 +259,65 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Class' getter
+     * @return the id of the development space
+     */
     public int getIdDevSpace() {
         return idDevSpace;
     }
 
+    /**
+     * Class' getter
+     * @return the button of the first development space
+     */
     public JButton getDevSpace1() {
         return devSpace1;
     }
 
+    /**
+     * Class' getter
+     * @return the button of the second development space
+     */
     public JButton getDevSpace2() {
         return devSpace2;
     }
 
+    /**
+     * Class' getter
+     * @return the button of the third development space
+     */
     public JButton getDevSpace3() {
         return devSpace3;
     }
 
+    /**
+     * Class' getter
+     * @return the button of the base production power
+     */
     public JButton getBaseProdPower() {
         return baseProdPower;
     }
 
+    /**
+     * Class' getter
+     * @return the standard production powers selected in the development spaces
+     */
     public ArrayList<Integer> getProductionPowers() {
         return productionPowers;
     }
 
+    /**
+     * Class' getter
+     * @return the special production powers selected
+     */
     public ArrayList<Integer> getNewProductionPowers() {
         return newProductionPowers;
     }
 
+    /**
+     * Class' setter
+     */
     public void setProductionPowerInvisible(){
         baseProdPower.setVisible(false);
     }

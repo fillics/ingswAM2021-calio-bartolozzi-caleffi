@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains the faith track
+ */
 public class FaithTrackPanel extends JPanel{
     private Image imagereal;
     int faithMarker,blackCross;
@@ -17,6 +20,10 @@ public class FaithTrackPanel extends JPanel{
     private GUI gui;
     private ClientModelView clientModelView;
 
+    /**
+     * Class' constructor used in the composition of the other player board panel
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public FaithTrackPanel(ClientModelView clientModelView){
         this.clientModelView = clientModelView;
         isSingleGame = false;
@@ -85,6 +92,11 @@ public class FaithTrackPanel extends JPanel{
         this.add(sixth);
         this.add(seventh);
     }
+
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public FaithTrackPanel(GUI gui){
         this.gui=gui;
         isSingleGame = gui.getClient().getClientModelView().isSingleGame();
@@ -153,11 +165,20 @@ public class FaithTrackPanel extends JPanel{
         this.add(seventh);
     }
 
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(imagereal, 0 ,0, 970,200,null);
     }
 
+    /**
+     * Method that sets the first panel of the faith track panel
+     * @param first is the panel set
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public void setFirstPanel(JPanel first, ClientModelView clientModelView){
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
@@ -351,6 +372,11 @@ public class FaithTrackPanel extends JPanel{
     }
 
     //TODO: sistemare problema tile girato
+    /**
+     * Method that sets the second panel of the faith track panel
+     * @param second is the panel set
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public void setSecondPanel(JPanel second, ClientModelView clientModelView){
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
@@ -430,6 +456,10 @@ public class FaithTrackPanel extends JPanel{
         second.add(panel2);
     }
 
+    /**
+     * Method that sets the third panel of the faith track panel
+     * @param third is the panel set
+     */
     public void setThirdPanel(JPanel third){
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
@@ -574,6 +604,11 @@ public class FaithTrackPanel extends JPanel{
         third.add(Box.createRigidArea(new Dimension(146,23)));
     }
 
+    /**
+     * Method that sets the fourth panel of the faith track panel
+     * @param fourth is the panel set
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public void setFourthPanel(JPanel fourth, ClientModelView clientModelView){
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
@@ -656,6 +691,10 @@ public class FaithTrackPanel extends JPanel{
         fourth.add(Box.createRigidArea(new Dimension(97,25)));
     }
 
+    /**
+     * Method that sets the fifth panel of the faith track panel
+     * @param fifth is the panel set
+     */
     public void setFifthPanel(JPanel fifth){
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
@@ -844,6 +883,11 @@ public class FaithTrackPanel extends JPanel{
         fifth.add(Box.createRigidArea(new Dimension(190,23)));
     }
 
+    /**
+     * Method that sets the sixth panel of the faith track panel
+     * @param sixth is the panel set
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public void setSixthPanel(JPanel sixth, ClientModelView clientModelView){
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
@@ -926,6 +970,10 @@ public class FaithTrackPanel extends JPanel{
         sixth.add(panel2);
     }
 
+    /**
+     * Method that sets the seventh panel of the faith track panel
+     * @param seventh is the panel set
+     */
     public void setSeventhPanel(JPanel seventh){
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();

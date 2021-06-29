@@ -38,7 +38,10 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     private JPanel leftPanel, rightPanel, buttonsPanel;
     private WarehouseAndDevSpacesPanel smallBoard;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height-50, null);
@@ -96,6 +99,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
         JLabel guideRight = new JLabel("Click the resources you want to use and in which development space you want to put the card");
         guideRight.setFont(new Font(guideRight.getFont().getName(), guideRight.getFont().getStyle(), 15));
+
         JPanel textPanel = new JPanel();
         textPanel.setBackground(new Color(233, 226, 193));
         textPanel.add(guideRight);
@@ -172,7 +176,6 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         c.gridx=0;
         c.gridy=0;
         leftPanel.add(textPanel, c);
-
         createDevGrid();
         c.gridx=0;
         c.gridy=1;
@@ -205,10 +208,11 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         jButtons.add(leaderCard1);
         jButtons.add(leaderCard2);
         String path;
-
+        // TODO: 22/06/2021 al posto dell'istance of mettiamo equals?
         for(int i = 0 ; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDiscount &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
+                confirmDiscountBtn.setVisible(true);
                 try {
                     switch(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getResourceType()){
                         case SERVANT -> path = "/images/discount/discountServant.png";
@@ -272,6 +276,10 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
 
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -288,13 +296,11 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         if (e.getSource() == leaderCard1) {
             int id = gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(0).getId();
             leaderCardsIDs.add(id);
-            confirmDiscountBtn.setVisible(true);
             leaderCard1.setEnabled(false);
         }
         if (e.getSource() == leaderCard2) {
             int id = gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(1).getId();
             leaderCardsIDs.add(id);
-            confirmDiscountBtn.setVisible(true);
             leaderCard2.setEnabled(false);
         }
 

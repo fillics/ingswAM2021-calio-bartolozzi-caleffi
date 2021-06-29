@@ -8,13 +8,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * Class that creates the panel that contains the warehouse
+ */
 public class WarehousePanel extends JPanel {
     private final DepositsPanel depositsPanel;
     private final StrongboxPanel strongboxPanel;
     private ClientModelView clientModelView;
 
-
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public WarehousePanel(GUI gui) {
         this.setPreferredSize(new Dimension(250, 480));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -27,6 +32,10 @@ public class WarehousePanel extends JPanel {
 
     }
 
+    /**
+     * Class' constructor used in the composition of the other player board panel
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public WarehousePanel(ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
         this.setPreferredSize(new Dimension(250, 480));
@@ -40,10 +49,18 @@ public class WarehousePanel extends JPanel {
 
     }
 
+    /**
+     * Class' getter
+     * @return the deposit panel
+     */
     public DepositsPanel getDepositsPanel() {
         return depositsPanel;
     }
 
+    /**
+     * Class' getter
+     * @return the strongbox panel
+     */
     public StrongboxPanel getStrongboxPanel() {
         return strongboxPanel;
     }

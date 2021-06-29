@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel used to do the move resource operation
+ */
 public class MoveResourcePanel extends JPanel implements ActionListener {
     private GUI gui;
     private Image background;
@@ -23,12 +26,20 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
     private DevSpacesPanel devSpacesPanel;
     private int position;
 
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height-50, null);
 
     }
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public MoveResourcePanel(GUI gui) {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
@@ -59,7 +70,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         leaderCards.setPreferredSize(new Dimension(159, 250));
         for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
             if(leaderCard.getType().equals(LeaderCardType.EXTRA_DEPOSIT) && leaderCard.getStrategy().isActive()){
-                leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(),159, 240, warehousePanel.getDepositsPanel()));
+                leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(), warehousePanel.getDepositsPanel()));
             }
         }
 
@@ -98,6 +109,12 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         disableButtons(devSpacesPanel, warehousePanel, resourceBufferPanel);
     }
 
+    /**
+     * Method that disables all the buttons not requested
+     * @param devSpacesPanel is the development spaces panel
+     * @param warehousePanel is the warehouse panel
+     * @param resourceBufferPanel is the resource buffer panel
+     */
     public void disableButtons(DevSpacesPanel devSpacesPanel, WarehousePanel warehousePanel, ResourceBufferPanel resourceBufferPanel){
         devSpacesPanel.getDevSpace1().setVisible(false);
         devSpacesPanel.getDevSpace2().setVisible(false);
@@ -109,6 +126,10 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == confirmBtn){

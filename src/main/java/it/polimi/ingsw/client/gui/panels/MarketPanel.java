@@ -1,11 +1,6 @@
 package it.polimi.ingsw.client.gui.panels;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.controller.client_packets.PacketTakeResourceFromMarket;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.marbles.*;
 
 import javax.imageio.ImageIO;
@@ -17,6 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains the market tray
+ */
 public class MarketPanel extends JPanel implements ActionListener {
     private Image imagereal;
     private JButton row1, row2, row3, column1, column2, column3, column4;
@@ -26,11 +24,21 @@ public class MarketPanel extends JPanel implements ActionListener {
     private final Marble[][] table;
     private final Marble marble;
 
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(imagereal, 0,0, 550, 700, null);
     }
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     * @param isShow is a boolean variable that, if true the market tray buttons are enabled, if false the market tray 
+     * buttons are disabled
+     */
     public MarketPanel(GUI gui, boolean isShow) {
         table= gui.getClient().getClientModelView().getMarketTray().getTable();
         marble = gui.getClient().getClientModelView().getMarketTray().getRemainingMarble();
@@ -69,7 +77,7 @@ public class MarketPanel extends JPanel implements ActionListener {
             columnChoicePanel.add(Box.createRigidArea(new Dimension(550,71)));
         } else{
             setMarketTray(marketTrayPanel, false);
-            setcolumnChiocePanel(columnChoicePanel);
+            setcolumnChoicePanel(columnChoicePanel);
         }
 
         topNullPanel.setOpaque(false);
@@ -85,6 +93,10 @@ public class MarketPanel extends JPanel implements ActionListener {
         this.add(downNullPanel);
     }
 
+    /**
+     * Method that sets the remaining marble of the market tray
+     * @param remainingMPanel is the panel that contains the remaining marble
+     */
     public void setRemainingMarble(JPanel remainingMPanel) {
         JPanel remainingMarble = new JPanel();
 
@@ -115,6 +127,12 @@ public class MarketPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that sets the 12 marbles of the market tray
+     * @param marketTrayPanel is the market tray panel
+     * @param isShow is a boolean variable that, if true the market tray buttons are enabled, if false the market tray 
+     * buttons are disabled
+     */
     public void setMarketTray(JPanel marketTrayPanel, boolean isShow){
         JPanel row1Panel = new JPanel();
         JPanel row2Panel = new JPanel();
@@ -237,7 +255,11 @@ public class MarketPanel extends JPanel implements ActionListener {
         marketTrayPanel.add(row3Panel);
     }
 
-    public void setcolumnChiocePanel(JPanel columnChoicePanel){
+    /**
+     * Method that sets the choice of the column of the market tray
+     * @param columnChoicePanel is the column choice panel
+     */
+    public void setcolumnChoicePanel(JPanel columnChoicePanel){
         column1 = new JButton("C1");
         column2 = new JButton("C2");
         column3 = new JButton("C3");
@@ -262,6 +284,10 @@ public class MarketPanel extends JPanel implements ActionListener {
         columnChoicePanel.add(column4);
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == row1){
@@ -301,14 +327,10 @@ public class MarketPanel extends JPanel implements ActionListener {
         }
     }
 
-    public String getLine() {
-        return line;
-    }
 
-    public int getNumline() {
-        return numline;
-    }
-
+    /**
+     * Method that disables all the buttons of the panel
+     */
     public void disableAllButtons(){
         row1.setEnabled(false);
         row2.setEnabled(false);
@@ -319,6 +341,9 @@ public class MarketPanel extends JPanel implements ActionListener {
         column4.setEnabled(false);
     }
 
+    /**
+     * Method that enables all the buttons
+     */
     public void activateAllButtons(){
         row1.setEnabled(true);
         row2.setEnabled(true);
@@ -327,6 +352,22 @@ public class MarketPanel extends JPanel implements ActionListener {
         column2.setEnabled(true);
         column3.setEnabled(true);
         column4.setEnabled(true);
+    }
+
+    /**
+     * Class' getter
+     * @return the line chosen
+     */
+    public String getLine() {
+        return line;
+    }
+
+    /**
+     * Class' getter
+     * @return the number of the line chosen
+     */
+    public int getNumline() {
+        return numline;
     }
 }
 
