@@ -5,8 +5,6 @@ import it.polimi.ingsw.client.gui.GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Class that creates the panel that contains the warehouse
@@ -14,7 +12,6 @@ import java.awt.event.ActionListener;
 public class WarehousePanel extends JPanel {
     private final DepositsPanel depositsPanel;
     private final StrongboxPanel strongboxPanel;
-    private ClientModelView clientModelView;
 
     /**
      * Class' constructor
@@ -37,7 +34,6 @@ public class WarehousePanel extends JPanel {
      * @param clientModelView is the client model view in which are contained the information
      */
     public WarehousePanel(ClientModelView clientModelView) {
-        this.clientModelView = clientModelView;
         this.setPreferredSize(new Dimension(250, 480));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

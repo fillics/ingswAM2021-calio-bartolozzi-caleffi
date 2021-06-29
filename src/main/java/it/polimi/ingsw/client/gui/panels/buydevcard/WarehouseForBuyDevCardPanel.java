@@ -8,17 +8,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Class that creates the panel that contains the warehouse for the buy development card operation
+ */
 public class WarehouseForBuyDevCardPanel extends JPanel{
-    private final DepositsForBuyDevCardPanel depositsPanel;
-    private final StrongBoxForBuyDevCardPanel strongboxPanel;
-    private GUI gui;
-    private ArrayList<ResourceType> chosenResources;
-    private ArrayList<Integer> chosenWarehouses;
+    private final ArrayList<ResourceType> chosenResources;
+    private final ArrayList<Integer> chosenWarehouses;
+    private final WarehouseAndDevSpacesPanel warehouse;
 
-    private WarehouseAndDevSpacesPanel warehouse;
-
-
-
+    /**
+     * Class' constructor
+     * @param warehouse is the warehouse and development space panel
+     */
     public WarehouseForBuyDevCardPanel(WarehouseAndDevSpacesPanel warehouse) {
         this.warehouse = warehouse;
         chosenResources = new ArrayList<>();
@@ -26,8 +27,8 @@ public class WarehouseForBuyDevCardPanel extends JPanel{
         this.setPreferredSize(new Dimension(250, 480));
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        depositsPanel = new DepositsForBuyDevCardPanel(this);
-        strongboxPanel = new StrongBoxForBuyDevCardPanel(this);
+        DepositsForBuyDevCardPanel depositsPanel = new DepositsForBuyDevCardPanel(this);
+        StrongBoxForBuyDevCardPanel strongboxPanel = new StrongBoxForBuyDevCardPanel(this);
         this.add(depositsPanel);
         this.add(strongboxPanel);
 
@@ -36,33 +37,37 @@ public class WarehouseForBuyDevCardPanel extends JPanel{
 
     }
 
-    public WarehouseAndDevSpacesPanel getWarehouse() {
-        return warehouse;
-    }
-
-    public DepositsForBuyDevCardPanel getDepositsPanel() {
-        return depositsPanel;
-    }
-
-    public StrongBoxForBuyDevCardPanel getStrongboxPanel() {
-        return strongboxPanel;
-    }
-
-
+    /**
+     * Class' getter
+     * @return the gui of the warehouse panel
+     */
     public GUI getGui() {
         if (warehouse.getBuyDevCardPanel()!= null) return warehouse.getBuyDevCardPanel().getGui();
         if (warehouse.getUseProductionPowerPanel()!= null) return warehouse.getUseProductionPowerPanel().getGui();
         else return null;
     }
 
+    /**
+     * Class' getter
+     * @return the warehouse and development spaces panel
+     */
+    public WarehouseAndDevSpacesPanel getWarehouse() {
+        return warehouse;
+    }
 
+    /**
+     * Class' getter
+     * @return the chosen resources
+     */
     public ArrayList<ResourceType> getChosenResources() {
         return chosenResources;
     }
 
-    public ArrayList<Integer> getChosenWarehouses() {
-        return chosenWarehouses;
-    }
+    /**
+     * Class' getter
+     * @return the chosen warehouses
+     */
+    public ArrayList<Integer> getChosenWarehouses() { return chosenWarehouses; }
 
 
 }

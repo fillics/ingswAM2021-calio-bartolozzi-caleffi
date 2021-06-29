@@ -10,9 +10,12 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains the development grid
+ */
 public class DevGridPanel extends JPanel implements ActionListener {
 
-    private BuyDevCardPanel buyDevCardPanel;
+    private final BuyDevCardPanel buyDevCardPanel;
     private GridBagConstraints c;
     private final JButton devCard1;
     private final JButton devCard2;
@@ -29,15 +32,13 @@ public class DevGridPanel extends JPanel implements ActionListener {
     private String path1,path2,path3,path4,path5,path6,path7,path8,path9,path10,path11,path12;
     private final int width;
     private final int height;
-
     private ClientModelView clientModelView;
-
     private int idCard;
 
-    public void setBuyDevCardPanel(BuyDevCardPanel buyDevCardPanel) {
-        this.buyDevCardPanel = buyDevCardPanel;
-    }
-
+    /**
+     * Class' constructor
+     * @param buyDevCardPanel is the buy development card panel
+     */
     public DevGridPanel(BuyDevCardPanel buyDevCardPanel) {
         this.buyDevCardPanel = buyDevCardPanel;
         c = new GridBagConstraints();
@@ -68,6 +69,17 @@ public class DevGridPanel extends JPanel implements ActionListener {
         this.add(mainPanel);
     }
 
+    /**
+     * Method that sets the buttons to click in this panel
+     * @param panel is the panel to fill with the buttons
+     * @param width is the width chosen
+     * @param height is the height chosen
+     * @param top is a parameter for the inset
+     * @param left is a parameter for the inset
+     * @param bottom is a parameter for the inset
+     * @param right is a parameter for the inset
+     * @throws IOException when the path is not found
+     */
     public void setButtons(JPanel panel, int width, int height, int top, int left, int bottom, int right) throws IOException {
         clientModelView = buyDevCardPanel.getGui().getClient().getClientModelView();
         c.insets = new Insets(top,left,bottom,right);
@@ -204,6 +216,15 @@ public class DevGridPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that sets a button dimension, background and image
+     * @param button is the button chosen
+     * @param c is the GridBagConstraints object
+     * @param panel is the panel in which the button is added
+     * @param width is the width of the button
+     * @param height is the height of the button
+     * @param path is the path used to reach the image of a specific development card
+     */
     public void setButton(JButton button, GridBagConstraints c, JPanel panel, int width, int height, String path){
         try {
             button.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
@@ -214,24 +235,42 @@ public class DevGridPanel extends JPanel implements ActionListener {
         button.setBackground(new Color(0,0,0,0));
     }
 
+    /**
+     * Method that disables a button
+     * @param button is the button to disable
+     * @param path is the path used to reach the image of a specific development card
+     * @param width is the width of the button
+     * @param height is the height of the button
+     */
     public void disableButton(JButton button, String path, int width, int height){
         button.setEnabled(false);
         try {
-            button.setDisabledIcon(new ImageIcon(new ImageIcon((GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
+            button.setDisabledIcon(new ImageIcon(new ImageIcon((Objects.requireNonNull(GUI.class.getResourceAsStream(path))).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException ignored) {}
 
 
     }
 
-
+    /**
+     * Class' getter
+     * @return the id of the card
+     */
     public int getIdCard() {
         return idCard;
     }
 
+    /**
+     * Class' setter
+     * @param idCard is the id of the card set
+     */
     public void setIdCard(int idCard) {
         this.idCard = idCard;
     }
 
+    /**
+     * Class' getter
+     * @return the buy development card panel
+     */
     public BuyDevCardPanel getBuyDevCardPanel() {
         return buyDevCardPanel;
     }

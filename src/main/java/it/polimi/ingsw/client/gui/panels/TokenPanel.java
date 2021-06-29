@@ -11,23 +11,20 @@ import java.util.Objects;
  * Class that creates the panel that contains the single player token
  */
 public class TokenPanel extends JPanel {
-    private GUI gui;
-    private JLabel label;
-    private String path;
 
     /**
      * Class' constructor
      * @param gui is the GUI object linked to this panel
      */
     public TokenPanel(GUI gui) {
-        this.gui = gui;
+        String path;
         if(gui.getClient().getClientModelView().getSoloActionToken()!=null){
             path = gui.getClient().getClientModelView().getSoloActionToken().getPath();
         }
         else{
-            path= "/images/punchboard/retroCerchi.png";
+            path = "/images/punchboard/retroCerchi.png";
         }
-        label= new JLabel();
+        JLabel label = new JLabel();
         this.setPreferredSize(new Dimension(159, 114));
 
         try {

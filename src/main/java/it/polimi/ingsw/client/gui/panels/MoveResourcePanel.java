@@ -18,13 +18,11 @@ import java.util.Objects;
  * Class that creates the panel used to do the move resource operation
  */
 public class MoveResourcePanel extends JPanel implements ActionListener {
-    private GUI gui;
+    private final GUI gui;
     private Image background;
-    private JButton confirmBtn, backBtn;
-    private ResourceBufferPanel resourceBufferPanel;
-    private WarehousePanel warehousePanel;
-    private DevSpacesPanel devSpacesPanel;
-    private int position;
+    private final JButton confirmBtn;
+    private final JButton backBtn;
+    private final WarehousePanel warehousePanel;
 
     /**
      * Method used to set the panel background.
@@ -48,7 +46,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        resourceBufferPanel = new ResourceBufferPanel(gui);
+        ResourceBufferPanel resourceBufferPanel = new ResourceBufferPanel(gui);
         JPanel bigPanel = new JPanel();
         bigPanel.setPreferredSize(new Dimension(970, 1025));
 
@@ -63,7 +61,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         underBoard.setPreferredSize(new Dimension(970, 480));
         underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
         warehousePanel = new WarehousePanel(gui);
-        devSpacesPanel = new DevSpacesPanel(gui);
+        DevSpacesPanel devSpacesPanel = new DevSpacesPanel(gui);
 
         JPanel leaderCards = new JPanel();
         leaderCards.setLayout(new BoxLayout(leaderCards, BoxLayout.Y_AXIS));
@@ -132,7 +130,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == confirmBtn){
             if(warehousePanel.getDepositsPanel().getIdDepot().size() != 0){
-                position = warehousePanel.getDepositsPanel().getIdDepot().get(warehousePanel.getDepositsPanel().getIdDepot().size() - 1);
+                int position = warehousePanel.getDepositsPanel().getIdDepot().get(warehousePanel.getDepositsPanel().getIdDepot().size() - 1);
                 gui.getClient().sendPacketToServer(new PacketMoveResource(position - 1));
             }
             else {

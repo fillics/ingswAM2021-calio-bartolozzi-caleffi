@@ -20,12 +20,11 @@ public class StrongboxPanel extends JPanel implements ActionListener {
     private GUI gui;
     private Image background;
     private final JButton strongboxButton;
-    private DepositsPanel depositsPanel;
+    private final DepositsPanel depositsPanel;
     private JLabel coin;
     private JLabel stone;
     private JLabel servant;
     private JLabel shield;
-    private ClientModelView clientModelView;
 
     /**
      * Method used to set the panel background.
@@ -101,7 +100,6 @@ public class StrongboxPanel extends JPanel implements ActionListener {
      */
     public StrongboxPanel(ClientModelView clientModelView, DepositsPanel depositsPanel) {
         this.depositsPanel = depositsPanel;
-        this.clientModelView = clientModelView;
         InputStream is = getClass().getResourceAsStream("/images/board/strongbox.jpg");
         try {
             background = ImageIO.read(Objects.requireNonNull(is));

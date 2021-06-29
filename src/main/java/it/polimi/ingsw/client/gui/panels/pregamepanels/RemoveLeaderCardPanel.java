@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel used to remove 2 of the 4 initial leader cards
+ */
 public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
     private Image background;
     private final GUI gui;
@@ -35,6 +38,10 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
     }
 
+    /**
+     * Class' constructor
+     * @param gui gui is the GUI object linked to this panel
+     */
     public RemoveLeaderCardPanel(GUI gui) {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
@@ -67,6 +74,9 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
         this.setVisible(true);
     }
 
+    /**
+     * Method that creates the leader cards to insert in the panel
+     */
     public void createCards(){
         cards = new JPanel();
         cards.setLayout(new GridBagLayout());
@@ -110,6 +120,9 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the "confirm" and "reset" buttons
+     */
     public void createButtons(){
         buttons = new JPanel();
         c.insets = new Insets(0,20,0,20);
@@ -132,6 +145,11 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that colors the background of the button when the user hovers over it.
+     * @param button is the button chosen
+     * @param color is the color chosen
+     */
     public void setButton(JButton button, Color color){
         button.addActionListener(this);
         button.setPreferredSize(new Dimension(200, 50));

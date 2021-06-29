@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -26,7 +25,6 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
     private WarehousePanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
     private JPanel faithTrackPanel, underBoard, leaderCards, buttons;
-    private ArrayList<LeaderCardPanel> leaderCardPanels;
 
     /**
      * Method used to set the panel background.

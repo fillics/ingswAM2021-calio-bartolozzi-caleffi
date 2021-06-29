@@ -13,13 +13,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel used for the choice of the number of players
+ */
 public class NumPlayersPanel extends JPanel implements ActionListener {
 
     private Image background;
     private final GridBagConstraints c;
 
     private final GUI gui;
-    private JLabel numPlayers;
     private JPanel biggestPanel, numbersPanel;
     private JButton btn1, btn2, btn3, btn4;
     private int number_of_players;
@@ -33,6 +35,10 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
     }
 
+    /**
+     * Class' constructor
+     * @param gui gui is the GUI object linked to this panel
+     */
     public NumPlayersPanel(GUI gui) {
         this.gui = gui;
 
@@ -62,13 +68,13 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
     }
 
     /**
-     * contiene label e griglia numeri
+     * Method that creates the biggest panel to contain all the other panels
      */
     public void createBiggestPanel(){
         biggestPanel = new JPanel();
         biggestPanel.setLayout(new GridBagLayout());
         //c.insets = new Insets(50,0,0,0);
-        numPlayers = new JLabel(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage());
+        JLabel numPlayers = new JLabel(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage());
         numPlayers.setFont(new Font(numPlayers.getFont().getName(), numPlayers.getFont().getStyle(), 15));
         numPlayers.setBackground(new Color(233, 226, 193));
         numPlayers.setOpaque(true);
@@ -88,7 +94,9 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
 
     }
 
-
+    /**
+     * Method that creates the grid of the number of players to choose
+     */
     public void createNumbersGrid(){
 
         numbersPanel = new JPanel();
@@ -126,7 +134,10 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         btn4.addActionListener(this);
     }
 
-
+    /**
+     *  Method that colors the background of the button when the user hovers over it.
+     * @param button is the button chosen
+     */
     public void changeBackground(JButton button){
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -153,7 +164,9 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         gui.getClient().sendPacketToServer(new PacketNumPlayers(number_of_players));
     }
 
-
+    /**
+     * Method that disables the buttons of the panel
+     */
     public void setDisabled(){
         btn1.setEnabled(false);
         btn2.setEnabled(false);
@@ -161,6 +174,9 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         btn4.setEnabled(false);
     }
 
+    /**
+     * Method that sets invisible the buttons of the panel
+     */
     public void setInvisible(){
         btn1.setVisible(false);
         btn2.setVisible(false);
@@ -168,6 +184,9 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         btn4.setVisible(false);
     }
 
+    /**
+     * Method used to created the loading gif after the choice of the number of players
+     */
     public void loading(){
         JPanel loadingPanel = new JPanel();
 

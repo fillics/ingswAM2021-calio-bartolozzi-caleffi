@@ -17,15 +17,12 @@ public class FaithTrackPanel extends JPanel{
     private Image imagereal;
     int faithMarker,blackCross;
     boolean isSingleGame;
-    private GUI gui;
-    private ClientModelView clientModelView;
 
     /**
      * Class' constructor used in the composition of the other player board panel
      * @param clientModelView is the client model view in which are contained the information
      */
     public FaithTrackPanel(ClientModelView clientModelView){
-        this.clientModelView = clientModelView;
         isSingleGame = false;
         faithMarker = clientModelView.getLiteBoard().getFaithMarker();
         blackCross = clientModelView.getLiteBoard().getBlackCross();
@@ -98,7 +95,6 @@ public class FaithTrackPanel extends JPanel{
      * @param gui is the GUI object linked to this panel
      */
     public FaithTrackPanel(GUI gui){
-        this.gui=gui;
         isSingleGame = gui.getClient().getClientModelView().isSingleGame();
         faithMarker = gui.getClient().getClientModelView().getLiteBoard().getFaithMarker();
         blackCross = gui.getClient().getClientModelView().getLiteBoard().getBlackCross();

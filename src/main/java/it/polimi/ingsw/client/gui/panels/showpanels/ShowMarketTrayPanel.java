@@ -12,12 +12,15 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Class that creates the panel used to show the market tray
+ */
 public class ShowMarketTrayPanel extends JPanel implements ActionListener {
     private MarketPanel marketPanel;
-    private JPanel button, market, mainPanel;
-    private GUI gui;
+    private JPanel button;
+    private final GUI gui;
     private Image background;
-    private GridBagConstraints c;
+    private final GridBagConstraints c;
     private JButton back;
 
     /**
@@ -29,6 +32,10 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
         g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height, null);
     }
 
+    /**
+     * Class' constructor
+     * @param gui gui is the GUI object linked to this panel
+     */
     public ShowMarketTrayPanel(GUI gui) {
         this.gui=gui;
 
@@ -40,7 +47,7 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
         }
         c = new GridBagConstraints();
 
-        mainPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
         JPanel space = new JPanel();
@@ -66,8 +73,11 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
         this.add(mainPanel);
     }
 
+    /**
+     * Method that created the market tray panel
+     */
     public void createMarketTrayPanel(){
-        market = new JPanel();
+        JPanel market = new JPanel();
         market.setLayout(new BoxLayout(market, BoxLayout.X_AXIS));
         market.setPreferredSize(new Dimension(550,700));
 
@@ -77,6 +87,9 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
         market.add(marketPanel);
     }
 
+    /**
+     * Method that creates the "back to the personal board" button
+     */
     public void createButtonPanel(){
         button= new JPanel();
         button.setLayout(new GridBagLayout());

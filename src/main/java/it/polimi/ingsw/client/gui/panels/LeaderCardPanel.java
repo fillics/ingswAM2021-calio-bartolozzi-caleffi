@@ -19,7 +19,6 @@ import java.util.Objects;
  * Class that creates the panel that contains a leader card
  */
 public class LeaderCardPanel extends JPanel implements ActionListener {
-    private TakeResourcesFromMarketPanel takeResourcesFromMarketPanel;
     private GUI gui;
     private Image background;
     private final int id;
@@ -33,7 +32,6 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     private DevSpacesPanel devSpacesPanel;
     private final JPanel leadercard;
     private JPanel standardPanel;
-    private ClientModelView clientModelView;
     private int numOfWhiteChoices=0;
 
     /**
@@ -50,10 +48,8 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
      * Class' constructor used to create the leader card in tha panel used to take resources from the market
      * @param gui is the GUI object linked to this panel
      * @param id id the id of the leader card to represent
-     * @param takeResourcesFromMarketPanel is the take resources from market panel
      */
-    public LeaderCardPanel(GUI gui, int id, TakeResourcesFromMarketPanel takeResourcesFromMarketPanel){
-        this.takeResourcesFromMarketPanel = takeResourcesFromMarketPanel;
+    public LeaderCardPanel(GUI gui, int id){
         this.setPreferredSize(new Dimension(159, 240));
         this.id = id;
         this.gui = gui;
@@ -246,7 +242,6 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     public LeaderCardPanel(ClientModelView clientModelView, int id, DepositsPanel depositsPanel) {
         this.depositsPanel = depositsPanel;
         this.id = id;
-        this.clientModelView = clientModelView;
 
         leadercard = new JPanel();
         standardPanel = new JPanel();

@@ -8,14 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Class that creates the panel used to show the resource buffer of a player
  */
 public class ResourceBufferPanel extends JPanel implements ActionListener {
-    private GUI gui;
-    private ArrayList<JButton> resources;
-    private ArrayList<Integer> positions;
+    private final GUI gui;
+    private final ArrayList<JButton> resources;
+    private final ArrayList<Integer> positions;
 
     /**
      * Class' constructor
@@ -33,8 +34,8 @@ public class ResourceBufferPanel extends JPanel implements ActionListener {
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getResourceBuffer().size(); i++){
             JButton button = new JButton();
                 try {
-                    button.setIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getResourceBuffer().get(i).getType().path).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
-                    button.setDisabledIcon(new ImageIcon(new ImageIcon(getClass().getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getResourceBuffer().get(i).getType().path).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
+                    button.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getResourceBuffer().get(i).getType().path)).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
+                    button.setDisabledIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(gui.getClient().getClientModelView().getMyPlayer().getResourceBuffer().get(i).getType().path)).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
                     button.addActionListener(this);
                     button.setBackground(Color.ORANGE);
                     button.setOpaque(false);

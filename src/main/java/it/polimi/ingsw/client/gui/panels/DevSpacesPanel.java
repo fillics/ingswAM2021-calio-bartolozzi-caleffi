@@ -24,7 +24,6 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
     private final ArrayList<Integer> productionPowers = new ArrayList<>();
     private final ArrayList<Integer> newProductionPowers = new ArrayList<>();
     private int idDevSpace;
-    private ClientModelView clientModelView;
 
     /**
      * Method used to set the panel background.
@@ -71,7 +70,6 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
      * @param clientModelView is the client model view in which are contained the information
      */
     public DevSpacesPanel(ClientModelView clientModelView) {
-        this.clientModelView = clientModelView;
         InputStream is = getClass().getResourceAsStream("/images/board/devSpaces.jpg");
         try {
             devSpaces = ImageIO.read(Objects.requireNonNull(is));
@@ -100,7 +98,7 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
 
     /**
      * Method that sets the buttons of the panel
-     * @param buttonPanel
+     * @param buttonPanel is the panel that contains the buttons
      */
     public void setButtons(JPanel buttonPanel){
         buttonPanel.setPreferredSize(new Dimension( 720,100));

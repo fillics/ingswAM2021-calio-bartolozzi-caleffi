@@ -20,12 +20,15 @@ import java.util.Objects;
 public class DepositsPanel extends JPanel implements ActionListener {
 
     private Image background;
-    private GUI gui;
     private JButton deposit1Button, deposit2Button, deposit3Button;
-    private JLabel resource1, resource2, resource3, resource4, resource5, resource6;
+    private final JLabel resource1;
+    private final JLabel resource2;
+    private final JLabel resource3;
+    private final JLabel resource4;
+    private final JLabel resource5;
+    private final JLabel resource6;
     private final ArrayList<Integer> idDepot;
-    private ArrayList<JLabel> resources;
-    private ClientModelView clientModelView;
+    private final ArrayList<JLabel> resources;
 
     /**
      * Method used to set the panel background.
@@ -41,7 +44,6 @@ public class DepositsPanel extends JPanel implements ActionListener {
      * @param gui is the GUI object linked to this panel
      */
     public DepositsPanel(GUI gui) {
-        this.gui = gui;
         this.setPreferredSize(new Dimension(250, 300));
         InputStream is = getClass().getResourceAsStream("/images/board/deposits.jpg");
         try {
@@ -119,7 +121,6 @@ public class DepositsPanel extends JPanel implements ActionListener {
      * @param clientModelView is the client model view in which are contained the information
      */
     public DepositsPanel(ClientModelView clientModelView) {
-        this.clientModelView = clientModelView;
         this.setPreferredSize(new Dimension(250, 300));
         InputStream is = getClass().getResourceAsStream("/images/board/deposits.jpg");
         try {

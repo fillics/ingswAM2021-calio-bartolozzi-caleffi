@@ -13,16 +13,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains all the deposits for the buy development card operation
+ */
 public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListener {
 
     private Image background;
-    private WarehouseForBuyDevCardPanel warehousePanel;
-    private GridBagConstraints c;
+    private final WarehouseForBuyDevCardPanel warehousePanel;
+    private final GridBagConstraints c;
     private JButton resource1, resource2, resource3, resource4, resource5, resource6;
     private ArrayList<JButton> resources;
     private JPanel depot1, depot2, depot3;
     private final boolean[] emptyResources = new boolean[6];
-    private ResourceType resourceType;
 
     /**
      * Method used to set the panel background.
@@ -33,6 +35,10 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
         g.drawImage(background, 0,0, 250, 300, null);
     }
 
+    /**
+     * Class' constructor
+     * @param warehousePanel is the warehouse panel
+     */
     public DepositsForBuyDevCardPanel (WarehouseForBuyDevCardPanel warehousePanel) {
         this.warehousePanel = warehousePanel;
         this.setPreferredSize(new Dimension(250, 300));
@@ -67,6 +73,9 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
 
     }
 
+    /**
+     * Method that creates all the deposit panels
+     */
     public void createDeposits(){
         depot1 = new JPanel();
         depot1.setLayout(new GridBagLayout());
@@ -112,6 +121,9 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
     }
 
 
+    /**
+     * Method that creates the resources to put in the deposits
+     */
     public void createResources(){
         resources = new ArrayList<>();
 
@@ -125,11 +137,11 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
             btn.setOpaque(false);
             btn.setBorderPainted(false);
         }
-
-
     }
 
-
+    /**
+     * Method that creates the buttons for the panel
+     */
     public void createButtons(){
         resource1 = new JButton();
         resource2 = new JButton();
@@ -145,6 +157,9 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
         resources.add(resource6);
     }
 
+    /**
+     * Method that creates the images of the resources in the deposits
+     */
     public void createImages(){
         //FIRST DEPOSIT
         if(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype() != null){
@@ -200,9 +215,14 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
         }
     }
 
+    /**
+     * Method that add information to the warehouse panel
+     * @param i is the position of the deposit
+     * @param warehouse is the number of the warehouse
+     */
     public void addInformation(int i, int warehouse){
         warehousePanel.getChosenWarehouses().add(warehouse);
-        resourceType = warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(i).getResourcetype();
+        ResourceType resourceType = warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(i).getResourcetype();
         warehousePanel.getChosenResources().add(resourceType);
         warehousePanel.getWarehouse().addResource(resourceType);
 

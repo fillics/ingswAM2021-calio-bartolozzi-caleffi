@@ -18,9 +18,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains the additional resources to choose at the beginning of the game
+ */
 public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
-    private GUI gui;
+    private final GUI gui;
     private ArrayList<Integer> productionPowers;
     private ArrayList<Integer> newProductionPowers;
     private ArrayList<ResourceType> resourcesForProduction;
@@ -40,7 +43,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     private final JButton servant = new JButton();
     private final JButton shield = new JButton();
     private JButton confirmButton;
-    private GridBagConstraints c;
+    private final GridBagConstraints c;
     private JLabel quantityCoins, quantityStones, quantityServants, quantityShields;
     private int coins, stones, servants, shields;
     private String coinsText, stonesText, servantsText, shieldsText;
@@ -54,6 +57,14 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
     }
 
+    /**
+     * Class' constructor used for a production
+     * @param gui gui is the GUI object linked to this panel
+     * @param productionPowers is the array that contains the production power chosen
+     * @param newProductionPowers is the array that contains the new production powers chosen
+     * @param resourcesForProduction are the resources used for the production
+     * @param warehouse is the position of the warehouses chosen
+     */
     public AdditionalResourcePanel(GUI gui, ArrayList<Integer> productionPowers, ArrayList<Integer> newProductionPowers, ArrayList<ResourceType> resourcesForProduction, ArrayList<Integer> warehouse){
         this.gui = gui;
         this.productionPowers = productionPowers;
@@ -103,6 +114,9 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the resources panel for the production
+     */
     public void createResourcesPanelForProduction(){
         resourcesPanel = new JPanel();
         resourcesPanel.setLayout(new GridBagLayout());
@@ -181,6 +195,9 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         resourcesPanel.setOpaque(true);
     }
 
+    /**
+     * Method that creates the "confirm" and "back" buttons
+     */
     public void createButtons(){
         buttonsForProduction = new JPanel();
 
@@ -191,13 +208,20 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         buttonsForProduction.add(confirmForProduction);
     }
 
+    /**
+     * Method that sets a button font and size
+     * @param button is the button chosen
+     */
     public void setButtons(JButton button){
         button.addActionListener(this);
         button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 25));
         button.setPreferredSize(new Dimension(150,50));
     }
 
-
+    /**
+     * Class' constructor
+     * @param gui gui is the GUI object linked to this panel
+     */
     public AdditionalResourcePanel(GUI gui) {
         this.gui = gui;
         coins=0;
@@ -246,7 +270,9 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
     }
 
-
+    /**
+     * Method that creates the resources panel
+     */
     public void createResourcesPanel(){
         resourcesPanel = new JPanel();
         resourcesPanel.setLayout(new GridBagLayout());
@@ -326,11 +352,17 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the deposits panel
+     */
     public void createDepositsPanel(){
         depositsPanel = new DepositsPanel(gui);
         depositsPanel.setVisible(false);
     }
 
+    /**
+     * Method that creates the "confirm" button
+     */
     public void createButton(){
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridBagLayout());
@@ -483,7 +515,9 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
     }
 
-
+    /**
+     * Method that, based on the position in game of the player, disables the resources buttons
+     */
     public void onlyOneResource(){
         if(gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==1 ||
                 gui.getClient().getClientModelView().getMyPlayer().getPosInGame()==2){
@@ -491,6 +525,9 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Method that disables the resources buttons
+     */
     public void setDisabled(){
         coin.setEnabled(false);
         stone.setEnabled(false);
@@ -498,6 +535,9 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         servant.setEnabled(false);
     }
 
+    /**
+     * Method that enables the resources buttons
+     */
     public void setEnabled(){
         coin.setEnabled(true);
         stone.setEnabled(true);

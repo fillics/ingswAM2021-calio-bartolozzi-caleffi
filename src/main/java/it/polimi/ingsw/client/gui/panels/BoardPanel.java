@@ -29,7 +29,6 @@ public class BoardPanel extends JPanel implements ActionListener {
     private Image background;
     private final GridBagConstraints c;
     private JPanel usernamePanel;
-    private JLabel username;
     private final JButton showDevGrid= new JButton("SHOW DEVELOPMENT GRID");
     private final JButton showMarketTray= new JButton("SHOW THE MARKET TRAY");
     private final JButton showBoardOtherPlayer= new JButton("SHOW OTHER PLAYERS");
@@ -50,12 +49,10 @@ public class BoardPanel extends JPanel implements ActionListener {
     private JPanel boardPanel;
     private JPanel showButtons;
     private final JPanel mainPanel;
-    private JPanel tokenPanel;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private ResourceBufferPanel resourceBufferPanel;
     private WarehousePanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
-    private TokenPanel token;
     private final boolean isSingleGame;
 
     /**
@@ -287,7 +284,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             JPanel tokenPanel = new JPanel();
             tokenPanel.setLayout(new GridBagLayout());
             tokenPanel.setOpaque(false);
-            token = new TokenPanel(gui);
+            TokenPanel token = new TokenPanel(gui);
 
             tokenPanel.add(token);
             c.gridx=0;
@@ -346,7 +343,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     public void createUsername(){
         usernamePanel = new JPanel();
         usernamePanel.setLayout(new GridBagLayout());
-        username = new JLabel();
+        JLabel username = new JLabel();
 
         usernamePanel.setBackground(gui.getGreenColor()); // TODO: 11/06/2021 mettere colore casuale
         usernamePanel.setPreferredSize(new Dimension(159,110));

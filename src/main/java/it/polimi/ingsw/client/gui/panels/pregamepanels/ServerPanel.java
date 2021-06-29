@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.gui.panels.pregamepanels;
 
 import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.client.gui.panels.pregamepanels.LoginPanel;
 import it.polimi.ingsw.constants.Constants;
 
 import javax.imageio.ImageIO;
@@ -13,7 +12,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 
-
+/**
+ * Class that creates the panel used to connect to the server
+ */
 public class ServerPanel extends JPanel implements ActionListener {
 
     private Image background;
@@ -32,8 +33,11 @@ public class ServerPanel extends JPanel implements ActionListener {
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
     }
 
-
-    public ServerPanel(GUI gui, boolean defaultConnection){
+    /**
+     * Class' constructor
+     * @param gui gui is the GUI object linked to this panel
+     */
+    public ServerPanel(GUI gui){
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/pregame.png");
         try {
@@ -70,7 +74,7 @@ public class ServerPanel extends JPanel implements ActionListener {
     }
 
     /**
-     * contiene ip panel e port panel
+     * Method that creates the biggest panel to contain all the other panels
      */
     public void createBiggestPanel(){
         biggestPanel = new JPanel();
@@ -97,7 +101,9 @@ public class ServerPanel extends JPanel implements ActionListener {
 
     }
 
-
+    /**
+     * Method that creates the panel for the insert of the IP
+     */
     private void createIpPanel(){
         ipPanel = new JPanel();
         ipPanel.setLayout(new GridBagLayout());
@@ -116,16 +122,16 @@ public class ServerPanel extends JPanel implements ActionListener {
         ipPanel.add(ipAddressTextField, c);
 
         ipAddressTextField.setText("127.0.0.1");
-        // TODO: 21/06/2021 toglier eriga commentata
-        //if(defaultConnection) ipAddressTextField.setText(Constants.getAddressServer());
         ipAddressTextField.setPreferredSize(new Dimension(200, 50));
         ipAddressTextField.setHorizontalAlignment(JTextField.CENTER);
 
         ipPanel.setBackground(new Color(0, 0, 0,0));
         ipAddress.setOpaque(true);
-
-
     }
+
+    /**
+     * Method that creates the panel for the insert of the port
+     */
     private void createPortPanel(){
         portPanel = new JPanel();
         portPanel.setLayout(new GridBagLayout());
@@ -145,9 +151,7 @@ public class ServerPanel extends JPanel implements ActionListener {
         c.gridy=0;
         portPanel.add(serverPortTextField, c);
 
-        // TODO: 26/06/2021 toglier riga commentata
         serverPortTextField.setText(String.valueOf(1234));
-        //if(defaultConnection) serverPortTextField.setText(String.valueOf(Constants.getPort()));
         serverPortTextField.setPreferredSize(new Dimension(200, 10));
         serverPortTextField.setHorizontalAlignment(JTextField.CENTER);
 
@@ -155,6 +159,10 @@ public class ServerPanel extends JPanel implements ActionListener {
         serverPort.setOpaque(true);
 
     }
+
+    /**
+     * Method that creates the "connect" and "reset" buttons
+     */
     public void createButtonsPanel(){
         buttonsPanel = new JPanel();
         connectButton = new JButton("CONNECT");
@@ -175,6 +183,10 @@ public class ServerPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that sets font and size of a button
+     * @param button is the button chosen
+     */
     public void setButtons(JButton button){
         button.addActionListener(this);
         button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 20));

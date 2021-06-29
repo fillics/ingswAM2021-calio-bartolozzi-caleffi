@@ -13,17 +13,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+/**
+ * Class that creates the panel used for the login
+ */
 public class LoginPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private final GridBagConstraints c;
-
     private Image background;
-
     private JLabel error;
     private JTextField loginTextField;
     private final JButton loginButton = new JButton("LOGIN");
-    private final JButton confirmButton = new JButton("CONFIRM");
-    private JPanel login, numPlayersPanel, buttonPanel;
+    private JPanel login;
 
     /**
      * Method used to set the panel background.
@@ -35,6 +35,10 @@ public class LoginPanel extends JPanel implements ActionListener {
     }
 
 
+    /**
+     * Class' constructor
+     * @param gui gui is the GUI object linked to this panel
+     */
     public LoginPanel(GUI gui){
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/pregame.png");
@@ -70,6 +74,9 @@ public class LoginPanel extends JPanel implements ActionListener {
         loginButton.setPreferredSize(new Dimension(150,50));
     }
 
+    /**
+     * Method that creates the login label
+     */
     private void createLoginLabel(){
         login = new JPanel();
 
@@ -116,15 +123,11 @@ public class LoginPanel extends JPanel implements ActionListener {
         if (e.getSource() == loginButton || e.getSource()==loginTextField) {
             String username;
             username = loginTextField.getText();
-
             if(username.length()!=0){
                 gui.getClient().sendPacketToServer(new PacketUsername(username.toLowerCase(Locale.ROOT)));
 
             }
-
             else error.setVisible(true);
-
         }
-
     }
 }
