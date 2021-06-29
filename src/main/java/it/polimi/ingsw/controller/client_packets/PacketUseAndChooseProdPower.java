@@ -79,7 +79,6 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
                     resourceNeeded.replace(key, resourceNeeded.get(key) + productionPower.getResourceNeeded().get(key));
                 }
                 for (ResourceType key : productionPower.getResourceObtained().keySet()) {
-                    System.out.println(key);
                     resourceObtained.replace(key, resourceObtained.get(key) + productionPower.getResourceObtained().get(key));
                 }
             }
@@ -87,7 +86,6 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
 
             ProductionPower newProductionPower = new ProductionPower(resourceNeeded, resourceObtained);
             try {
-
                 gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, realChosenWarehouses, newResources);
                 clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
                         gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));
