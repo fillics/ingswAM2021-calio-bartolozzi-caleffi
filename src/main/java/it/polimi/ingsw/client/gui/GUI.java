@@ -1,15 +1,8 @@
 package it.polimi.ingsw.client.gui;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.panels.*;
-import it.polimi.ingsw.client.gui.panels.pregamepanels.LoginPanel;
-import it.polimi.ingsw.client.gui.panels.pregamepanels.NumPlayersPanel;
 import it.polimi.ingsw.client.gui.panels.pregamepanels.ServerPanel;
-import it.polimi.ingsw.controller.Packet;
-import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
-import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,19 +12,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * GUI class represents the thread run when the player chooses to play with GUI.
+ */
 public class GUI implements Runnable {
-
     private JPanel topPanel;
     private JPanel mainPanel;
     private JPanel messagesFromServerPanel;
     private JPanel curMessagePanel;
-    private Client client;
-    private ClientModelView clientModelView;
+    private final Client client;
     private final Dimension dimension;
     private final int width;
     private final int height;
     private final JFrame jFrame;
-    private Border blackline, raisedetched, loweredetched, raisedbevel, loweredbevel;
+    private final Border blackline;
+    private final Border raisedetched;
+    private final Border loweredetched;
+    private final Border raisedbevel;
+    private final Border loweredbevel;
     private final ArrayList<Border> borders;
     private final Color greenColor;
     private final Color giallinoBackgroundColor;
@@ -40,6 +38,10 @@ public class GUI implements Runnable {
     private final Color yellowColor;
     private boolean defaultConnection=false;
 
+    /**
+     * Class' constructor, it creates the frame in which will be inserted all the panels created to play the game.
+     * @param client is the client linked to this GUI.
+     */
     public GUI(Client client) {
         jFrame = new JFrame();
         dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -67,14 +69,9 @@ public class GUI implements Runnable {
 
     }
 
-    public Dimension getDimension() {
-        return dimension;
-    }
-
-    public void setDefaultConnection() {
-       defaultConnection = true;
-    }
-
+    /**
+     * Override method that starts the thread. It creates the first panel seen by the player.
+     */
     @Override
     public void run() {
 
@@ -117,6 +114,10 @@ public class GUI implements Runnable {
 
     }
 
+    /**
+     * Method used to switch from one panel to another one, it removes the previous panel and add the new one.
+     * @param panel is the new panel added to the frame.
+     */
     public void switchPanels(JPanel panel){
         mainPanel.removeAll();
         mainPanel.add(panel);
@@ -124,6 +125,10 @@ public class GUI implements Runnable {
         mainPanel.revalidate();
     }
 
+    /**
+     * Method that shows the message received from server.
+     * @param message is the message received from server.
+     */
     public void createMessageFromServer(String message){
         messagesFromServerPanel = new MessagesPanel(this, message);
         messagesFromServerPanel.setLayout(new BoxLayout(messagesFromServerPanel,  BoxLayout.PAGE_AXIS));
@@ -131,11 +136,13 @@ public class GUI implements Runnable {
         if(curMessagePanel!=null) removeMessagePanel();
         else{
             topPanel.add(messagesFromServerPanel);
-
         }
         curMessagePanel = messagesFromServerPanel;
     }
 
+    /**
+     * Method that removes the last message received from the topPanel.
+     */
     public void removeMessagePanel(){
         GridBagConstraints c = new GridBagConstraints();
         topPanel.remove(curMessagePanel);
@@ -147,56 +154,82 @@ public class GUI implements Runnable {
         topPanel.setOpaque(false);
     }
 
-
-    /*public void sendPacketToServer(Packet packet){
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonResult = null;
-        try {
-            jsonResult = mapper.writeValueAsString(packet);
-        } catch (JsonProcessingException jsonProcessingException) {
-            jsonProcessingException.printStackTrace();
-        }
-        client.getSocketClientConnection().sendToServer(jsonResult);
-    }*/
-
-
-
+    /**
+     * Class' getter
+     * @return the client linked to this GUI
+     */
     public Client getClient() {
         return client;
     }
 
+    /**
+     * Class' getter
+     * @return the GUI's frame
+     */
     public JFrame getjFrame() {
         return jFrame;
     }
 
+    /**
+     * Class' getter
+     * @return the width of the frame
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Class' getter
+     * @return the height of the frame
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Class' getter
+     * @return the green color
+     */
     public Color getGreenColor() {
         return greenColor;
     }
 
+    /**
+     * Class' getter
+     * @return the GiallinoBackgroundColor
+     */
     public Color getGiallinoBackgroundColor() {
         return giallinoBackgroundColor;
     }
 
+    /**
+     * Class' getter
+     * @return the purple color
+     */
     public Color getPurpleColor() {
         return purpleColor;
     }
 
+    /**
+     * Class' getter
+     * @return the light blue color
+     */
     public Color getLightblueColor() {
         return lightblueColor;
     }
 
+    /**
+     * Class' getter
+     * @return the yellow color
+     */
     public Color getYellowColor() {
         return yellowColor;
     }
 
+    /**
+     * Class' getter
+     * @return a random color
+     */
     public Color getRandomColor(){
         ArrayList<Color> colors = new ArrayList<>();
         colors.add(yellowColor);
@@ -208,11 +241,26 @@ public class GUI implements Runnable {
         return colors.get(index);
     }
 
+    /**
+     * Class' getter
+     * @return the borders
+     */
     public ArrayList<Border> getBorders() {
         return borders;
     }
 
-    public ClientModelView getClientModelView() {
-        return clientModelView;
+    /**
+     * Class' getter
+     * @return the dimension of the frame
+     */
+    public Dimension getDimension() {
+        return dimension;
+    }
+
+    /**
+     * Class' setter
+     */
+    public void setDefaultConnection() {
+        defaultConnection = true;
     }
 }

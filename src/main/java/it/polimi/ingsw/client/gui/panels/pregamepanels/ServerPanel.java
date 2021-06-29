@@ -23,7 +23,10 @@ public class ServerPanel extends JPanel implements ActionListener {
     private  JButton connectButton, resetButton;
     private JPanel biggestPanel, ipPanel, portPanel, buttonsPanel;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
@@ -177,6 +180,11 @@ public class ServerPanel extends JPanel implements ActionListener {
         button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 20));
         button.setPreferredSize(new Dimension(150,50));
     }
+
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == connectButton || e.getSource()==serverPortTextField) {

@@ -7,11 +7,18 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains the single player token
+ */
 public class TokenPanel extends JPanel {
     private GUI gui;
     private JLabel label;
     private String path;
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public TokenPanel(GUI gui) {
         this.gui = gui;
         if(gui.getClient().getClientModelView().getSoloActionToken()!=null){

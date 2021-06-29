@@ -26,6 +26,10 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
     private int id1 = 0;
     private int id2 = 0;
 
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
@@ -143,7 +147,10 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
         });
     }
 
-
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == resetBtn) {

@@ -35,7 +35,10 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     private JPanel leftPanel, rightPanel, buttonsPanel;
     private WarehouseAndDevSpacesPanel smallBoard;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height-50, null);
@@ -247,9 +250,10 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         devGridPanel = new DevGridPanel(this);
     }
 
-
-
-
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 

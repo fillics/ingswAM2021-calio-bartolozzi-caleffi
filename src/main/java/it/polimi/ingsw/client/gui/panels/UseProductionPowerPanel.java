@@ -15,28 +15,34 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+/**
+ * Class that creates the panel used to do the use production power operation
+ */
 public class UseProductionPowerPanel extends JPanel implements ActionListener {
     private Image background;
-    private GUI gui;
+    private final GUI gui;
     private GridBagConstraints c;
     private WarehouseAndDevSpacesPanel smallBoard;
-
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private JPanel leaderCards, mainPanel, buttons;
-
-
     private final JButton confirm = new JButton("CONFIRM");
     private final JButton back = new JButton("BACK");
-    ArrayList<ResourceType> resources = new ArrayList<>();
+    private final ArrayList<ResourceType> resources = new ArrayList<>();
 
-
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height-50, null);
 
     }
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public UseProductionPowerPanel(GUI gui) {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
@@ -64,6 +70,9 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
         this.setOpaque(false);
     }
 
+    /**
+     * Method that creates all the buttons of the panel
+     */
     public void createButtons(){
         buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(970, 50));
@@ -79,6 +88,9 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the main panel
+     */
     public void createMainPanel(){
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -94,7 +106,9 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
 
     }
 
-
+    /**
+     * Method that creates the under board panel
+     */
     public void createUnderBoard(){
 
         smallBoard = new WarehouseAndDevSpacesPanel(this);
@@ -111,6 +125,9 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the leader cards panel
+     */
     public void createLeaderCardsPanel(){
         leaderCards = new JPanel();
         leaderCards.setLayout(new GridBagLayout());
@@ -121,7 +138,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
             if ((gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getType().equals(LeaderCardType.PRODUCTION_POWER)||
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getType().equals(LeaderCardType.EXTRA_DEPOSIT)) &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
-                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),159,240, smallBoard.getWarehousePanel(), smallBoard.getDevSpacesPanel());
+                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(), smallBoard.getWarehousePanel(), smallBoard.getDevSpacesPanel());
                 leaderCardPanels.add(leaderCardPanel1);
                 leaderCardPanel1.setOpaque(false);
                 c.gridx=0;
@@ -133,9 +150,10 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
 
     }
 
-
-
-
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == back){
@@ -170,6 +188,10 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Class' getter
+     * @return the gui of the panel
+     */
     public GUI getGui() {
         return gui;
     }

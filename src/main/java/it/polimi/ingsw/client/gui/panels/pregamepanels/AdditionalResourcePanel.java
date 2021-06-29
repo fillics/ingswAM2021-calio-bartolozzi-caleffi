@@ -45,7 +45,10 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     private int coins, stones, servants, shields;
     private String coinsText, stonesText, servantsText, shieldsText;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
@@ -345,6 +348,10 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
 
 
     // TODO: 06/06/2021 mettere che disabilito i bottoni dei depositi quando ci cliccco sopra, con i vari get
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 

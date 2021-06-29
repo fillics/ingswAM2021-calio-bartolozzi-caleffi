@@ -25,7 +25,10 @@ public class LoginPanel extends JPanel implements ActionListener {
     private final JButton confirmButton = new JButton("CONFIRM");
     private JPanel login, numPlayersPanel, buttonPanel;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
@@ -103,6 +106,11 @@ public class LoginPanel extends JPanel implements ActionListener {
         login.setBackground(gui.getGiallinoBackgroundColor());
 
     }
+
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton || e.getSource()==loginTextField) {

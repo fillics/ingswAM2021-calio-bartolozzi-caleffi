@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.client_packets.PacketEndTurn;
 import it.polimi.ingsw.controller.client_packets.PacketUsernameOfAnotherPlayer;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.FaithMarkerCheatPacket;
 import it.polimi.ingsw.controller.client_packets.cheatpackets.ResourcesInStrongboxCheatPacket;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,10 +21,13 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel of the principal board
+ */
 public class BoardPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
-    private GridBagConstraints c;
+    private final GridBagConstraints c;
     private JPanel usernamePanel;
     private JLabel username;
     private final JButton showDevGrid= new JButton("SHOW DEVELOPMENT GRID");
@@ -39,7 +43,14 @@ public class BoardPanel extends JPanel implements ActionListener {
     private final JButton endTurn = new JButton("END YOUR TURN");
     private final JButton resourceCheatButton = new JButton("+20 resources");
     private final JButton faithMarkerCheatButton = new JButton("+1 faith marker");
-    private JPanel operations, leaderCards, underBoard, faithTrackPanel, boardPanel, showButtons, mainPanel, tokenPanel;
+    private JPanel operations;
+    private JPanel leaderCards;
+    private JPanel underBoard;
+    private JPanel faithTrackPanel;
+    private JPanel boardPanel;
+    private JPanel showButtons;
+    private final JPanel mainPanel;
+    private JPanel tokenPanel;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private ResourceBufferPanel resourceBufferPanel;
     private WarehousePanel warehousePanel;
@@ -47,13 +58,20 @@ public class BoardPanel extends JPanel implements ActionListener {
     private TokenPanel token;
     private final boolean isSingleGame;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height-50, null);
 
     }
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public BoardPanel(GUI gui) {
         this.gui = gui;
         isSingleGame= gui.getClient().getClientModelView().isSingleGame();
@@ -96,7 +114,9 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     }
 
-
+    /**
+     * Method that sets the buttons used to show the board of other players, the development grid and the market tray.
+     */
     public void createShowButtons(){
 
         showButtons = new JPanel();
@@ -124,7 +144,9 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     }
 
-
+    /**
+     * Method that creates all the sub-panel of the board panel
+     */
     public void createBoardPanel(){
         boardPanel = new JPanel();
         boardPanel.setLayout(new BoxLayout(boardPanel, BoxLayout.Y_AXIS));
@@ -147,10 +169,16 @@ public class BoardPanel extends JPanel implements ActionListener {
         mainPanel.setOpaque(false);
     }
 
+    /**
+     * Method that creates the resource buffer panel
+     */
     public void createResourceBuffer(){
          resourceBufferPanel = new ResourceBufferPanel(gui);
     }
 
+    /**
+     * Method that sets all the operations buttons
+     */
     public void createOperations(){
         operations = new JPanel();
         operations.setLayout(new GridBagLayout());
@@ -212,6 +240,10 @@ public class BoardPanel extends JPanel implements ActionListener {
         operations.setOpaque(false);
     }
 
+    /**
+     * Method that sets size, background and font of a button
+     * @param button is the button chosen
+     */
     public void setupButtons(JButton button){
         button.setPreferredSize(new Dimension(250,50));
         changeBackground(button);
@@ -220,6 +252,9 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the panel that includes warehouse and development spaces panels.
+     */
     public void createUnderBoard(){
 
         underBoard = new JPanel();
@@ -231,7 +266,9 @@ public class BoardPanel extends JPanel implements ActionListener {
         underBoard.add(devSpacesPanel);
     }
 
-
+    /**
+     * Method that creates the faith track panel
+     */
     public void createFaithTrackPanel(){
 
         faithTrackPanel = new JPanel();
@@ -242,6 +279,9 @@ public class BoardPanel extends JPanel implements ActionListener {
         faithTrackPanel.setOpaque(false);
     }
 
+    /**
+     * Method that creates the token panel in single player game
+     */
     public void createToken(){
         if(isSingleGame) {
             JPanel tokenPanel = new JPanel();
@@ -260,7 +300,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             inkwellPanel.setOpaque(false);
             JLabel inkwell = new JLabel();
             try {
-                inkwell.setIcon(new ImageIcon(new ImageIcon((GUI.class.getResourceAsStream("/images/punchboard/calamaio.png")).readAllBytes()).getImage().getScaledInstance(100, 100, Image.SCALE_AREA_AVERAGING)));
+                inkwell.setIcon(new ImageIcon(new ImageIcon((Objects.requireNonNull(GUI.class.getResourceAsStream("/images/punchboard/calamaio.png"))).readAllBytes()).getImage().getScaledInstance(100, 100, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException ignored) { }
 
             c.gridx=0;
@@ -270,6 +310,9 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Method that creates the leader cards panel
+     */
     public void createLeaderCardsPanel(){
         leaderCards = new JPanel();
         leaderCards.setLayout(new GridBagLayout());
@@ -279,7 +322,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(), 159, 240, warehousePanel.getDepositsPanel());
+            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(), warehousePanel.getDepositsPanel());
             leaderCardPanels.add(leaderCardPanel1);
             leaderCardPanel1.setOpaque(false);
             c.gridx=0;
@@ -297,6 +340,9 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the username panel
+     */
     public void createUsername(){
         usernamePanel = new JPanel();
         usernamePanel.setLayout(new GridBagLayout());
@@ -317,6 +363,10 @@ public class BoardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method used to change the background of a button
+     * @param button is the button chosen
+     */
     public void changeBackground(JButton button){
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -328,6 +378,12 @@ public class BoardPanel extends JPanel implements ActionListener {
         });
     }
 
+    /**
+     * Method that disables the buttons not needed in the board panel
+     * @param resourceBufferPanel is the resource buffer panel
+     * @param devSpacesPanel is the development spaces panel
+     * @param warehousePanel is the warehouse panel
+     */
     public void disableButtons(ResourceBufferPanel resourceBufferPanel, DevSpacesPanel devSpacesPanel, WarehousePanel warehousePanel){
         for(int i = 0; i < resourceBufferPanel.getResources().size(); i++){
             resourceBufferPanel.getResources().get(i).setEnabled(false);
@@ -345,10 +401,14 @@ public class BoardPanel extends JPanel implements ActionListener {
             leaderCardPanel.getDepositButton().setVisible(false);
             leaderCardPanel.getDepositForBuyDevCardAndProdPower().setVisible(false);
             leaderCardPanel.getChooseWhiteMarbleButton().setVisible(false);
+            leaderCardPanel.getChooseProdPowerButton().setVisible(false);
         }
-
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -375,16 +435,28 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         }
         if(e.getSource() == activateLeaderCard){
-            gui.switchPanels(new ActivateLeaderCardPanel(gui));
+            for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
+                if(!leaderCard.getStrategy().isActive()){
+                    gui.switchPanels(new ActivateLeaderCardPanel(gui));
+                    break;
+                }
+            }
         }
         if(e.getSource() == discardLeaderCard){
-            gui.switchPanels(new DiscardLeaderCardPanel(gui));
+            if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size() != 0){
+                for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
+                    if(!leaderCard.getStrategy().isActive()){
+                        gui.switchPanels(new DiscardLeaderCardPanel(gui));
+                        break;
+                    }
+                }
+            }
         }
         if(e.getSource() == buyDevCard){
             gui.switchPanels(new BuyDevCardPanel(gui));
         }
         if(e.getSource()== takeResourceFromMarket){
-            gui.switchPanels(new TakeResourceFromMarketPanel(gui));
+            gui.switchPanels(new TakeResourcesFromMarketPanel(gui));
         }
 
         if(e.getSource() == placeResource){

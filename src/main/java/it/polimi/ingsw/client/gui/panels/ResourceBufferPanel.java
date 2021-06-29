@@ -9,11 +9,18 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Class that creates the panel used to show the resource buffer of a player
+ */
 public class ResourceBufferPanel extends JPanel implements ActionListener {
     private GUI gui;
     private ArrayList<JButton> resources;
     private ArrayList<Integer> positions;
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public ResourceBufferPanel(GUI gui) {
         resources = new ArrayList<>();
         positions = new ArrayList<>();
@@ -40,14 +47,26 @@ public class ResourceBufferPanel extends JPanel implements ActionListener {
         this.setOpaque(false);
     }
 
+    /**
+     * Class' getter
+     * @return the position of the resource chosen
+     */
     public ArrayList<Integer> getPositions() {
         return positions;
     }
 
+    /**
+     * Class' getter
+     * @return the type of the resource chosen
+     */
     public ArrayList<JButton> getResources() {
         return resources;
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getResourceBuffer().size(); i ++){

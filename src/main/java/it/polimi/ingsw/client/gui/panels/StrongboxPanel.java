@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel used to show the strongbox of a player
+ */
 public class StrongboxPanel extends JPanel implements ActionListener {
     private GUI gui;
     private Image background;
@@ -24,12 +27,20 @@ public class StrongboxPanel extends JPanel implements ActionListener {
     private JLabel shield;
     private ClientModelView clientModelView;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, 250, 180, null);
     }
 
+    /**
+     * Class' constructor
+     * @param gui gui is the GUI object linked to this panel
+     * @param depositsPanel is the deposits panel
+     */
     public StrongboxPanel(GUI gui, DepositsPanel depositsPanel) {
         this.depositsPanel = depositsPanel;
         this.gui = gui;
@@ -83,6 +94,11 @@ public class StrongboxPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Class' constructor used in the composition of the other player board panel
+     * @param clientModelView is the client model view in which are contained the information
+     * @param depositsPanel is the deposits panel
+     */
     public StrongboxPanel(ClientModelView clientModelView, DepositsPanel depositsPanel) {
         this.depositsPanel = depositsPanel;
         this.clientModelView = clientModelView;
@@ -135,7 +151,10 @@ public class StrongboxPanel extends JPanel implements ActionListener {
 
     }
 
-
+    /**
+     * Method that sets the number of resources for every resource
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public void setValues(ClientModelView clientModelView){
         coin = new JLabel();
         stone = new JLabel();
@@ -165,6 +184,10 @@ public class StrongboxPanel extends JPanel implements ActionListener {
         shield.setFont(new Font(shield.getFont().getName(), Font.PLAIN, 20));
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == strongboxButton){
@@ -172,7 +195,10 @@ public class StrongboxPanel extends JPanel implements ActionListener {
         }
     }
 
-
+    /**
+     * Class' getter
+     * @return the strongbox button
+     */
     public JButton getStrongboxButton() {
         return strongboxButton;
     }

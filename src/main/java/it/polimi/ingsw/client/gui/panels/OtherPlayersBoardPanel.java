@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel to show the board of other players
+ */
 public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
@@ -29,12 +32,21 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
     private DevSpacesPanel devSpacesPanel;
     private ClientModelView clientModelView;
 
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, gui.getDimension().width, gui.getDimension().height-50, null);
 
     }
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public OtherPlayersBoardPanel(GUI gui, ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
         this.gui = gui;
@@ -79,7 +91,9 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
     }
 
 
-
+    /**
+     * Method that creates the board panel that is composed by the faith track panel and the under board panel
+     */
     public void createBoardPanel(){
         boardPanel = new JPanel();
         boardPanel.setLayout(new BoxLayout(boardPanel, BoxLayout.Y_AXIS));
@@ -99,6 +113,9 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
     }
 
 
+    /**
+     * Method that creates the "back to your personal board" button
+     */
     public void createOperations(){
         operations = new JPanel();
         operations.setLayout(new GridBagLayout());
@@ -115,12 +132,19 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
         operations.setOpaque(false);
     }
 
+    /**
+     * Method that sets up the button
+     * @param button is the button to set up
+     */
     public void setupButtons(JButton button){
         button.setPreferredSize(new Dimension(250,50));
         changeBackground(button);
         button.addActionListener(this);
     }
 
+    /**
+     * Method that creates the under board panel
+     */
     public void createUnderBoard(){
 
         underBoard = new JPanel();
@@ -132,7 +156,9 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
         underBoard.add(devSpacesPanel);
     }
 
-
+    /**
+     * Method that creates the faith track panel
+     */
     public void createFaithTrackPanel(){
 
         faithTrackPanel = new JPanel();
@@ -144,6 +170,9 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
         faithTrackPanel.setOpaque(false);
     }
 
+    /**
+     * Method that creates the leader cards panel
+     */
     public void createLeaderCardsPanel(){
         leaderCards = new JPanel();
         leaderCards.setLayout(new GridBagLayout());
@@ -152,7 +181,7 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
 
         leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < clientModelView.getMyPlayer().getLeaderCards().size(); i++){
-            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(clientModelView, clientModelView.getMyPlayer().getLeaderCards().get(i).getId(), 159, 240, warehousePanel.getDepositsPanel());
+            LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(clientModelView, clientModelView.getMyPlayer().getLeaderCards().get(i).getId(), warehousePanel.getDepositsPanel());
             leaderCardPanels.add(leaderCardPanel1);
             leaderCardPanel1.setOpaque(false);
             c.gridx=0;
@@ -163,6 +192,10 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that changes the background of a button
+     * @param button is the button chosen
+     */
     public void changeBackground(JButton button){
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -174,6 +207,11 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
         });
     }
 
+    /**
+     * Method that disables all the buttons not needed
+     * @param devSpacesPanel is the development spaces panel
+     * @param warehousePanel is the warehouse panel
+     */
     public void disableButtons(DevSpacesPanel devSpacesPanel, WarehousePanel warehousePanel){
         devSpacesPanel.getDevSpace1().setVisible(false);
         devSpacesPanel.getDevSpace2().setVisible(false);
@@ -192,6 +230,10 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 

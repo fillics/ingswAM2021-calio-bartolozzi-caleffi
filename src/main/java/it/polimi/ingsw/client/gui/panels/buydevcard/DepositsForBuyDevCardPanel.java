@@ -24,6 +24,10 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
     private final boolean[] emptyResources = new boolean[6];
     private ResourceType resourceType;
 
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, 250, 300, null);
@@ -204,6 +208,10 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
 
     }
 
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 

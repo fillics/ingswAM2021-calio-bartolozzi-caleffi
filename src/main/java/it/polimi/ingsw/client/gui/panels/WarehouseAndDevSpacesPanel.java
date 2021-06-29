@@ -13,17 +13,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains the warehouse and the development spaces
+ */
 public class WarehouseAndDevSpacesPanel extends JPanel {
     private WarehouseForBuyDevCardPanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
     private BuyDevCardPanel buyDevCardPanel;
     private UseProductionPowerPanel useProductionPowerPanel;
-
     private JPanel mainPanel;
     private GridBagConstraints c;
     private int widthRes, heightRes;
     private ArrayList<JLabel> resources;
-
 
 
     public WarehouseAndDevSpacesPanel(BuyDevCardPanel buyDevCardPanel) {
@@ -37,6 +38,8 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
         this.setOpaque(false);
 
     }
+
+
     public WarehouseAndDevSpacesPanel(UseProductionPowerPanel useProductionPowerPanel) {
         this.useProductionPowerPanel = useProductionPowerPanel;
         constructor();

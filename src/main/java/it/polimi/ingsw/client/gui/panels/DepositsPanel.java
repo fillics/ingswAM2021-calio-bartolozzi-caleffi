@@ -14,6 +14,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains all the deposits
+ */
 public class DepositsPanel extends JPanel implements ActionListener {
 
     private Image background;
@@ -24,12 +27,19 @@ public class DepositsPanel extends JPanel implements ActionListener {
     private ArrayList<JLabel> resources;
     private ClientModelView clientModelView;
 
-
+    /**
+     * Method used to set the panel background.
+     * @param g is a Graphics object
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0,0, 250, 300, null);
     }
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public DepositsPanel(GUI gui) {
         this.gui = gui;
         this.setPreferredSize(new Dimension(250, 300));
@@ -104,6 +114,10 @@ public class DepositsPanel extends JPanel implements ActionListener {
         this.add(panel1);
     }
 
+    /**
+     * Class' constructor used in the composition of the other player board panel
+     * @param clientModelView is the client model view in which are contained the information
+     */
     public DepositsPanel(ClientModelView clientModelView) {
         this.clientModelView = clientModelView;
         this.setPreferredSize(new Dimension(250, 300));
@@ -178,6 +192,10 @@ public class DepositsPanel extends JPanel implements ActionListener {
         this.add(panel1);
     }
 
+    /**
+     * Method that creates the images of the resources in the deposits
+     * @param clientModelView is the client model view in which the information are taken
+     */
     public void createImages(ClientModelView clientModelView){
         //FIRST DEPOSIT
         if(clientModelView.getLiteBoard().getDeposits().get(0).getResourcetype() != null){
@@ -227,6 +245,9 @@ public class DepositsPanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * Method that creates the buttons used to choose one of the deposits.
+     */
     public void createButtons(){
         deposit1Button=new JButton();
         deposit2Button=new JButton();
@@ -240,7 +261,37 @@ public class DepositsPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method used to change the button background color
+     * @param color is the color chosen
+     */
+    public void changeBackgroundColor(Color color){
+        deposit1Button.setBackground(color);
+        deposit2Button.setBackground(color);
+        deposit3Button.setBackground(color);
+    }
 
+    /**
+     * Class' getter
+     * @return the Ids of the deposits
+     */
+    public ArrayList<Integer> getIdDepot() {
+        return idDepot;
+    }
+
+    /**
+     * Method that enable all the deposits buttons
+     */
+    public void setEnabled(){
+        deposit1Button.setEnabled(true);
+        deposit2Button.setEnabled(true);
+        deposit3Button.setEnabled(true);
+    }
+
+    /**
+     * Method that, based on the button clicked, perform a determined action.
+     * @param e is a ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -255,39 +306,26 @@ public class DepositsPanel extends JPanel implements ActionListener {
         }
     }
 
-
-
-    public void changeBackgroundColor(Color color){
-        deposit1Button.setBackground(color);
-        deposit2Button.setBackground(color);
-        deposit3Button.setBackground(color);
-    }
-
-    public ArrayList<Integer> getIdDepot() {
-        return idDepot;
-    }
-
-    public void setDisabled(){
-        deposit1Button.setEnabled(false);
-        deposit2Button.setEnabled(false);
-        deposit3Button.setEnabled(false);
-    }
-
-    public void setEnabled(){
-        deposit1Button.setEnabled(true);
-        deposit2Button.setEnabled(true);
-        deposit3Button.setEnabled(true);
-    }
-
-
+    /**
+     * Class' getter
+     * @return the first deposit button
+     */
     public JButton getDeposit1Button() {
         return deposit1Button;
     }
 
+    /**
+     * Class' getter
+     * @return the second deposit button
+     */
     public JButton getDeposit2Button() {
         return deposit2Button;
     }
 
+    /**
+     * Class' getter
+     * @return the third deposit button
+     */
     public JButton getDeposit3Button() {
         return deposit3Button;
     }
