@@ -137,22 +137,33 @@ public class CLIOperationHandler{
                 System.out.println("Ending turn");
                 sendPacket(new PacketEndTurn());
             }
+            case "close" -> {
+                System.out.println("Closing connection...");
+                sendPacket(new PacketEndConnection());
+                System.out.println("Connection with the server closed!");
+                System.exit(0);
+
+            }
             default -> System.err.println("Invalid choice, retry. "+Constants.commands);
         }
     }
 
+    /**
+     * Cheat method to increment the resources in the strongbox
+     */
     public void resourcesCheat(){
-        ResourcesInStrongboxCheatPacket packet = new ResourcesInStrongboxCheatPacket();
         try {
-            sendPacket(packet);
+            sendPacket(new ResourcesInStrongboxCheatPacket());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
     }
+    /**
+     * Cheat method to increment the faith marker of the player
+     */
     public void faithCheat(){
-        FaithMarkerCheatPacket packet = new FaithMarkerCheatPacket();
         try {
-            sendPacket(packet);
+            sendPacket(new FaithMarkerCheatPacket());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -169,7 +180,6 @@ public class CLIOperationHandler{
         socketClientConnection.sendToServer(jsonResult);
     }
 
-    //TODO: far vedere la lista dei giocatori - prenderli da clientmodelview -> array list players
     /**
      * Method that creates and sends a packet PacketUsernameOfAnotherPlayer to the server
      * @throws JsonProcessingException when the packet's serialization is invalid

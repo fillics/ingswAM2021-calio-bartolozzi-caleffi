@@ -421,7 +421,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void chooseDiscountActivation(ArrayList<Integer> leaderCards) throws DiscountCannotBeActivated {
         int i,j,num;
         num=0;
-        // TODO: 22/06/2021 al posto di istance of mettiamo equals??
         for (i=0;i<leaderCards.size();i++) {
             for(j=0; j<activePlayers.get(currentPlayer).getLeaderCards().size();j++){
                 if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId()== leaderCards.get(i)
@@ -644,7 +643,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
 
-    public void setCurrentPlayer(int currentPlayer) {
+    public synchronized void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
@@ -660,7 +659,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             else setCurrentPlayer(currentPlayer+1);
         }
         else {
-            if(currentPlayer!=activePlayers.size()-1) currentPlayer++;
+            if(currentPlayer!=activePlayers.size()-1) setCurrentPlayer(currentPlayer+1);
             else {
                 winner();
             }

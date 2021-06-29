@@ -217,7 +217,7 @@ public class DevGridPanel extends JPanel implements ActionListener {
     public void disableButton(JButton button, String path, int width, int height){
         button.setEnabled(false);
         try {
-            button.setDisabledIcon(new ImageIcon(new ImageIcon((GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
+            button.setDisabledIcon(new ImageIcon(new ImageIcon((Objects.requireNonNull(GUI.class.getResourceAsStream(path))).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException ignored) {}
 
 

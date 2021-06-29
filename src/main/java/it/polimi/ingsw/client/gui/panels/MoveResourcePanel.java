@@ -62,6 +62,8 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
                 leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(),159, 240, warehousePanel.getDepositsPanel()));
             }
         }
+
+
         leaderCards.setOpaque(false);
         underBoard.add(leaderCards);
         underBoard.add(warehousePanel);

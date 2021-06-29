@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.gui.panels.pregamepanels.ServerPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;

@@ -51,7 +51,8 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
     }
 
-    public AdditionalResourcePanel(GUI gui, ArrayList<Integer> productionPowers, ArrayList<Integer> newProductionPowers, ArrayList<ResourceType> resourcesForProduction, ArrayList<Integer> warehouse){
+    public AdditionalResourcePanel(GUI gui, ArrayList<Integer> productionPowers, ArrayList<Integer> newProductionPowers,
+                                   ArrayList<ResourceType> resourcesForProduction, ArrayList<Integer> warehouse){
         this.gui = gui;
         this.productionPowers = productionPowers;
         this.newProductionPowers = newProductionPowers;
@@ -181,12 +182,13 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     public void createButtons(){
         buttonsForProduction = new JPanel();
 
-        setButtons(confirmButton);
+        setButtons(confirmForProduction);
         setButtons(backForProduction);
         buttonsForProduction.add(backForProduction);
         buttonsForProduction.add(Box.createRigidArea(new Dimension(180, 20)));
         buttonsForProduction.add(confirmForProduction);
     }
+
 
     public void setButtons(JButton button){
         button.addActionListener(this);

@@ -25,7 +25,7 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
     private ArrayList<JLabel> resources;
 
 
-
+    // TODO: 29/06/2021 da fare javadoc 
     public WarehouseAndDevSpacesPanel(BuyDevCardPanel buyDevCardPanel) {
         this.buyDevCardPanel = buyDevCardPanel;
         constructor();
