@@ -7,6 +7,11 @@ import it.polimi.ingsw.model.cards.leadercards.*;
 
 import java.util.ArrayList;
 
+/**
+ * LitePlayer class contains a light representation of Player class of the model.
+ * It contains the only attributes that have to be updated in order to be printed in the view interface.
+ */
+
 public class LitePlayer {
     private String username;
     private int idClient;
