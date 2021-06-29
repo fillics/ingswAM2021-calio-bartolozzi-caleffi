@@ -96,13 +96,14 @@ public class CLI implements ViewInterface {
         matrix.append("\n");
 
         for(int i=0; i<2; i++){
-            if(clientModelView.getMyPlayer().getLeaderCards().get(i)!=null){
-                if(clientModelView.getMyPlayer().getLeaderCards().get(i).getId() < 10)
-                    backspace="   ";
-                if(clientModelView.getMyPlayer().getLeaderCards().get(i).getId() > 9)
+            if(!clientModelView.getMyPlayer().getLeaderCards().isEmpty()){
+                if(clientModelView.getMyPlayer().getLeaderCards().get(i)!=null){
+                    if(clientModelView.getMyPlayer().getLeaderCards().get(i).getId() < 10)
+                        backspace="   ";
+                    if(clientModelView.getMyPlayer().getLeaderCards().get(i).getId() > 9)
                     backspace="  ";
-                matrix.append(Printable.DOUBLE_LINE.print()).append("id: ").append(clientModelView.getMyPlayer().getLeaderCards().get(i).getId()).append(backspace).append(Printable.DOUBLE_LINE.print()).append("  ");
-
+                    matrix.append(Printable.DOUBLE_LINE.print()).append("id: ").append(clientModelView.getMyPlayer().getLeaderCards().get(i).getId()).append(backspace).append(Printable.DOUBLE_LINE.print()).append("  ");
+                }
             }
             else{
                 matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(8)).append(Printable.DOUBLE_LINE.print()).append("  ");
@@ -110,8 +111,10 @@ public class CLI implements ViewInterface {
         }
         matrix.append("\n");
         for(int i=0; i<2;i++){
-            if(clientModelView.getMyPlayer().getLeaderCards().get(i)!=null) {
-                matrix.append(Printable.DOUBLE_LINE.print()).append(clientModelView.getMyPlayer().getLeaderCards().get(i).getRequirements().toString()).append("  ").append(Printable.DOUBLE_LINE.print()).append("  ");
+            if(!clientModelView.getMyPlayer().getLeaderCards().isEmpty()){
+                if(clientModelView.getMyPlayer().getLeaderCards().get(i)!=null) {
+                    matrix.append(Printable.DOUBLE_LINE.print()).append(clientModelView.getMyPlayer().getLeaderCards().get(i).getRequirements().toString()).append("  ").append(Printable.DOUBLE_LINE.print()).append("  ");
+                }
             }
             else{
                 matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(8)).append(Printable.DOUBLE_LINE.print()).append("  ");
@@ -119,18 +122,20 @@ public class CLI implements ViewInterface {
         }
         matrix.append("\n");
         for(int i=0; i<2;i++) {
+            if(!clientModelView.getMyPlayer().getLeaderCards().isEmpty()){
             if(clientModelView.getMyPlayer().getLeaderCards().get(i)!=null) {
                 matrix.append(Printable.DOUBLE_LINE.print()).append(clientModelView.getMyPlayer().getLeaderCards().get(i).getVictorypoint()).append(Color.ANSI_YELLOW.escape()).append(" VP").append(Color.RESET).append("    ").append(Printable.DOUBLE_LINE.print()).append("  ");
-            }
+            }}
             else{
                 matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(8)).append(Printable.DOUBLE_LINE.print()).append("  ");
             }
         }
         matrix.append("\n");
         for(int i=0; i<2;i++) {
+            if(!clientModelView.getMyPlayer().getLeaderCards().isEmpty()){
             if(clientModelView.getMyPlayer().getLeaderCards().get(i)!=null) {
                 matrix.append(Printable.DOUBLE_LINE.print()).append(clientModelView.getMyPlayer().getLeaderCards().get(i).getStrategy().toString()).append(Printable.DOUBLE_LINE.print()).append("  ");
-            }
+            }}
             else{
                 matrix.append(Printable.DOUBLE_LINE.print()).append(" ".repeat(8)).append(Printable.DOUBLE_LINE.print()).append("  ");
             }
@@ -448,6 +453,9 @@ public class CLI implements ViewInterface {
     public void printFaithTrack() {
         StringBuilder escape = new StringBuilder();
 
+        escape.append(Color.ANSI_RED.escape()).append(Printable.CROSS.print()).append(Color.RESET).append(" = YOUR FAITH MARKER \n");
+        if(clientModelView.isSingleGame())
+            escape.append(Printable.CROSS.print()).append(" = LORENZO IL MAGNIFICO'S BLACK CROSS \n");
         escape.append(Color.ANSI_GREEN.escape()).append(Printable.CHECK.print()).append(Color.RESET).append(" = ACTIVE TILE \n");
         escape.append(Color.ANSI_RED.escape()).append(Printable.RED_CROSS.print()).append(Color.RESET).append(" = NON ACTIVE TILE \n");
 

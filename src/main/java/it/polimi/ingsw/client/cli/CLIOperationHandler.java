@@ -182,12 +182,15 @@ public class CLIOperationHandler{
         }
         else{
             System.out.println("You have chosen to see the board of the another player");
-            System.out.println("Choose the username of the player whose board you want to see");
+            System.out.println(Constants.exit);
+            System.out.println("Choose the username of the player whose board you want to see : ");
+            for(int i=0; i<clientModelView.getPlayers().size();i++){
+                if(!clientModelView.getPlayers().get(i).equals(clientModelView.getMyPlayer().getUsername()))
+                    System.out.println(clientModelView.getPlayers().get(i));
+            }
             username = input.nextLine();
 
-            if(!username.equals("exit")) {
-            }
-            else{
+            if(!username.equals("exit")){
                 sendPacket(new PacketUsernameOfAnotherPlayer(username));
             }
         }
@@ -203,6 +206,7 @@ public class CLIOperationHandler{
 
         String id;
         boolean LeaderCardcheck = false;
+        System.out.println(Constants.exit);
         do {
             id = input.nextLine();
             if(id.equals("exit")) return;
@@ -225,7 +229,9 @@ public class CLIOperationHandler{
         viewInterface.printResourcesLegend();
         viewInterface.printDevGrid();
 
+        System.out.println(Constants.exit);
         System.out.println("Select the card ID you want to buy");
+
         Scanner input1 = new Scanner(System.in);
         String id;
         boolean devCardcheck = false;
@@ -321,6 +327,7 @@ public class CLIOperationHandler{
      */
     public void chooseDiscount() throws JsonProcessingException {
         System.out.println("Choose the IDs of the leader cards to activate, press 0 to finish");
+        System.out.println(Constants.exit);
         viewInterface.printLeaderCards();
         boolean check = false;
         String id;
@@ -410,6 +417,7 @@ public class CLIOperationHandler{
     public void discardLeaderCard(){
         viewInterface.printLeaderCards();
         System.out.println("Write the ID of the leader card to discard");
+        System.out.println(Constants.exit);
         boolean check = false;
         String id;
 
@@ -439,6 +447,7 @@ public class CLIOperationHandler{
      */
     public void moveResource(){
         System.out.println("Choose the deposit in which you want to take the resource");
+        System.out.println(Constants.exit);
         viewInterface.printDeposits();
         String position = null;
 
@@ -468,7 +477,7 @@ public class CLIOperationHandler{
     public void placeResource() {
         if(clientModelView.getMyPlayer().getResourceBuffer().size() == 0){
             System.err.println("I'm sorry, you don't have any resource to place.");
-            System.out.println(Constants.commands);
+            System.out.println(Constants.exit);
         }
         else{
             viewInterface.printResourceBuffer();
@@ -505,6 +514,7 @@ public class CLIOperationHandler{
      * Method that creates and sends a packet PacketTakeResourceFromMarket to the server
      */
     public void takeResourceFromMarket(){
+        System.out.println(Constants.exit);
         viewInterface.printMarketTray();
 
         System.out.println("Do you want a:\n-ROW\n-COLUMN");
@@ -574,8 +584,9 @@ public class CLIOperationHandler{
      */
     public void useAndChooseProductionPower(){
 
-        System.out.println("Select the IDs of the development space to use for the production. \n" +
+        System.out.println("Select the IDs of the development spaces to use for the production. \n" +
                 "Press 0 when you have finished");
+        System.out.println(Constants.exit);
         viewInterface.printDevSpaces();
         boolean checkProd = false;
         String id;
@@ -583,6 +594,7 @@ public class CLIOperationHandler{
         ArrayList<Integer> productionPowers = new ArrayList<>();
         ArrayList<Integer> newProductionPowers = new ArrayList<>();
         do {
+            System.out.println("Choose the ID of the development space (press 0 when you have finished): ");
             id = input.nextLine();
             if(id.equals("exit")) return;
             switch (id) {
@@ -639,7 +651,7 @@ public class CLIOperationHandler{
             }while(Integer.parseInt(prodPosition) != 0);
 
 
-        System.out.println("Choose the resource and the place in which you want to take it.\n" +
+        System.out.println("Choose the resources and the place in which you want to take it.\n" +
                         "Press 0 once you have finished");
         Constants.printConnectionMessage(ConnectionMessages.RESOURCE_CHOICES);
 
@@ -654,6 +666,7 @@ public class CLIOperationHandler{
 
         do {
             do{
+                System.out.println("Choose the resources: ");
                 resource = input.nextLine();
                 if(resource.equals("exit")) return;
                 switch (resource) {
@@ -668,6 +681,7 @@ public class CLIOperationHandler{
 
             if (Integer.parseInt(resource)  != 0) {
                 do{
+                    System.out.println("Choose the place in which you want to take it: ");
                     position = input.nextLine();
                     if(position.equals("exit")) return;
                     if(Integer.parseInt(position) <= clientModelView.getLiteBoard().getDeposits().size() + 1){

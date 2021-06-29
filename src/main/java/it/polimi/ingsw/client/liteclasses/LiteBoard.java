@@ -14,6 +14,11 @@ import it.polimi.ingsw.model.cards.developmentcards.ProductionPower;
 
 import java.util.ArrayList;
 
+/**
+ * LiteBoard class contains a light representation of Board class of the model.
+ * It contains the only attributes that have to be updated in order to be printed in the view interface.
+ */
+
 public class LiteBoard {
 
     private int faithMarker;
