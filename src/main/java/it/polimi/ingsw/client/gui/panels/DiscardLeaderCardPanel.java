@@ -145,8 +145,9 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == back){
-            BoardPanel boardPanel = new BoardPanel(gui);
-            gui.switchPanels(boardPanel);
+            gui.switchPanels(new BoardPanel(gui));
+            gui.createMessageFromServer("Back to your board");
+
         }
         if(id1 == 0){
             if (e.getSource() == leaderCard1) {
@@ -160,17 +161,9 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
         }
         else{
             if (e.getSource() == confirm) {
-                PacketDiscardLeaderCard packetDiscardLeaderCard = new PacketDiscardLeaderCard(id1);
-                ObjectMapper mapper = new ObjectMapper();
-                String jsonResult = null;
-                try {
-                    jsonResult = mapper.writeValueAsString(packetDiscardLeaderCard);
-                } catch (JsonProcessingException jsonProcessingException) {
-                    jsonProcessingException.printStackTrace();
-                }
-                gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
-                BoardPanel boardPanel = new BoardPanel(gui);
-                gui.switchPanels(boardPanel);
+                gui.getClient().sendPacketToServer(new PacketDiscardLeaderCard(id1));
+                gui.switchPanels(new BoardPanel(gui));
+                gui.createMessageFromServer("Back to your board");
             }
         }
     }

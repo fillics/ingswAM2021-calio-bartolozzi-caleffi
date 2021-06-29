@@ -302,7 +302,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         usernamePanel.setBackground(gui.getClient().getClientModelView().getColorPlayer());
         usernamePanel.setPreferredSize(new Dimension(159,110));
-        usernamePanel.setBorder(gui.getBorders().get(0));
+        usernamePanel.setBorder(gui.getBlackline());
 
         username.setText(gui.getClient().getClientModelView().getMyPlayer().getUsername().toUpperCase(Locale.ROOT));
         username.setFont(new Font("Serif", Font.BOLD, 16));
@@ -349,12 +349,14 @@ public class BoardPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        // TODO: 06/06/2021 cambiamo il messaggio visualizzato sopra quando premiamo un bottone, tipo "hai scelto di guardare il dev grid" 
         if(e.getSource() == showDevGrid){
             gui.switchPanels(new ShowDevGridPanel(gui));
+            gui.createMessageFromServer("You have chosen to see the development grid");
         }
         if(e.getSource() == showMarketTray){
             gui.switchPanels(new ShowMarketTrayPanel(gui));
+            gui.createMessageFromServer("You have chosen to see the market tray");
+
         }
         if(e.getSource() == showBoardOtherPlayer){
             if(!isSingleGame){
@@ -366,6 +368,7 @@ public class BoardPanel extends JPanel implements ActionListener {
                 String playerSelected = (String) comboBox.getSelectedItem();
 
                 gui.getClient().sendPacketToServer(new PacketUsernameOfAnotherPlayer(playerSelected));
+                gui.createMessageFromServer("You have chosen to see the board of "+playerSelected);
             }
             else JOptionPane.showMessageDialog(gui.getjFrame(), "You are in single player mode, there are no other players, please choose another action");
 
@@ -373,20 +376,30 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == activateLeaderCard){
             gui.switchPanels(new ActivateLeaderCardPanel(gui));
+            gui.createMessageFromServer("You have chosen to activate a leader card");
+
         }
         if(e.getSource() == discardLeaderCard){
             gui.switchPanels(new DiscardLeaderCardPanel(gui));
+            gui.createMessageFromServer("You have chosen to discard a leader card");
+
         }
         if(e.getSource() == buyDevCard){
             gui.switchPanels(new BuyDevCardPanel(gui));
+            gui.createMessageFromServer("You have chosen to buy a development card");
+
         }
         if(e.getSource()== takeResourceFromMarket){
             gui.switchPanels(new TakeResourceFromMarketPanel(gui));
+            gui.createMessageFromServer("You have chosen to take resources from market");
+
         }
 
         if(e.getSource() == placeResource){
             if(resourceBufferPanel.getResources().size() != 0){
                 gui.switchPanels(new PlaceResourcePanel(gui));
+                gui.createMessageFromServer("You have chosen to place your resources");
+
             }
             else{
                 JOptionPane.showMessageDialog(gui.getjFrame(), "You don't have any resources to place");
@@ -394,6 +407,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == moveResource){
             gui.switchPanels(new MoveResourcePanel(gui));
+            gui.createMessageFromServer("You have chosen to move your resources");
+
         }
         if(e.getSource() == endTurn){
             gui.getClient().sendPacketToServer(new PacketEndTurn());
@@ -409,6 +424,8 @@ public class BoardPanel extends JPanel implements ActionListener {
         }
         if(e.getSource() == useProdPower){
             gui.switchPanels(new UseProductionPowerPanel(gui));
+            gui.createMessageFromServer("You have chosen to use a production power");
+
         }
 
     }

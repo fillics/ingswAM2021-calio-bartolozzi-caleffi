@@ -88,7 +88,7 @@ public class ServerPanel extends JPanel implements ActionListener {
         c.weighty=100;
         biggestPanel.add(portPanel, c);
         biggestPanel.setBackground(new Color(233, 226, 193));
-        biggestPanel.setBorder(gui.getBorders().get(0));
+        biggestPanel.setBorder(gui.getBlackline());
 
 
 
@@ -190,6 +190,11 @@ public class ServerPanel extends JPanel implements ActionListener {
             serverPortTextField.setText("");
         }
     }
+
+    /**
+     * Method that handles the connection to the server. It shows an error if the connection failed or it changes panel
+     * to ask the username
+     */
     public void handleServerConnection(){
         gui.getClient().serverConnection(ViewChoice.GUI);
         if(gui.getClient().getSocketClientConnection().getConnectionToServer().get()){

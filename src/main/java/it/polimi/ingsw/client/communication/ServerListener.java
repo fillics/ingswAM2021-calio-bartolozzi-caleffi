@@ -55,7 +55,6 @@ public class ServerListener implements Runnable {
             }
 
             if(connectionToServer.get()){
-
                 try {
                     packet = mapper.readValue(str, ServerPacketHandler.class);
                 } catch (JsonProcessingException e) {
@@ -67,7 +66,6 @@ public class ServerListener implements Runnable {
             }
         }
 
-        // TODO: 21/06/2021 posso togliere if??
         //if the connection terminates, the application will close
         if (!connectionToServer.get()) {
             if(client.getViewChoice().equals(ViewChoice.CLI)){

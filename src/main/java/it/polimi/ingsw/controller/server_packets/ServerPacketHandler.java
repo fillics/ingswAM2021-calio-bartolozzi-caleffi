@@ -29,6 +29,7 @@ import it.polimi.ingsw.client.Client;
         @JsonSubTypes.Type(value = PacketWhiteMarbleChoice.class, name = "WHITE_MARBLE_CHOICE"),
         @JsonSubTypes.Type(value = PacketEndGameStarted.class, name = "ENDGAME_STARTED"),
         @JsonSubTypes.Type(value = PacketWinner.class, name = "WINNER"),
+        @JsonSubTypes.Type(value = PacketUpdate.class, name = "UPDATE"),
         @JsonSubTypes.Type(value = PacketExceptionMessages.class, name = "EXCEPTIONS")
 
 })

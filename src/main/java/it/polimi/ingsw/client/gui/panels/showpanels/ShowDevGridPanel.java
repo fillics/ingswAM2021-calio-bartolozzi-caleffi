@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class ShowDevGridPanel extends JPanel implements ActionListener {
     private Image background;
@@ -207,7 +208,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
 
     public void setLabel(JLabel card, GridBagConstraints c, JPanel panel, int width, int height, String path){
         try {
-            card.setIcon(new ImageIcon(new ImageIcon((GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
+            card.setIcon(new ImageIcon(new ImageIcon((Objects.requireNonNull(GUI.class.getResourceAsStream(path))).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException ignored) { }
         panel.add(card,c);
         card.setOpaque(false);
@@ -234,6 +235,8 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == backButton){
             gui.switchPanels(new BoardPanel(gui));
+            gui.createMessageFromServer("Back to your board");
+
         }
 
     }

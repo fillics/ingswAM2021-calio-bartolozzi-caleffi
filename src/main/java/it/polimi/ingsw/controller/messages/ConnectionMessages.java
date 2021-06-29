@@ -29,8 +29,6 @@ public enum ConnectionMessages {
 
     YOUR_TURN("It's your turn bro! \n" + Constants.commands),
     YOUR_TURN_GUI("It's your turn bro!"),
-
-    NOT_YOUR_TURN("It's NOT your turn bro"),
     SELECT_LEADERCARDS("Choose the leader cards to remove"),
     CHOOSE_FIRST_RESOURCE(Constants.ANSI_YELLOW+"Choose the first initial resource:"+Constants.ANSI_RESET),
     CHOOSE_SECOND_RESOURCE(Constants.ANSI_YELLOW+"Choose the second initial resource:"+Constants.ANSI_RESET),

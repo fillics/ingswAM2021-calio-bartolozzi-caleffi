@@ -121,6 +121,8 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         }
         else if(e.getSource() == backBtn){
             gui.switchPanels(new BoardPanel(gui));
+            gui.createMessageFromServer("Back to your board");
+
         }
     }
 }

@@ -141,7 +141,7 @@ public class WinnerPanel extends JPanel implements ActionListener {
             c.insets = new Insets(25,25,10,25);
             playersPanel.add(playerPanel, c);
             playerPanel.setOpaque(false);
-            playerPanel.setBorder(gui.getBorders().get(0));
+            playerPanel.setBorder(gui.getBlackline());
 
         }
 

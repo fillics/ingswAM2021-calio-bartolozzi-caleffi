@@ -19,7 +19,8 @@ public class PacketFaithTrack implements ServerPacketHandler{
     private ArrayList<VaticanReportSection> vaticanReportSections;
 
     @JsonCreator
-    public PacketFaithTrack(@JsonProperty("faith track :") ArrayList<Cell> track, @JsonProperty("faithMarker") int faithMarker, @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections) {
+    public PacketFaithTrack(@JsonProperty("faith track :") ArrayList<Cell> track, @JsonProperty("faithMarker") int faithMarker,
+                            @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections) {
         this.track = track;
         this.faithMarker= faithMarker;
         this.vaticanReportSections=vaticanReportSections;

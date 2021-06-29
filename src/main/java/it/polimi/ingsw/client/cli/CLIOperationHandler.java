@@ -169,7 +169,7 @@ public class CLIOperationHandler{
         socketClientConnection.sendToServer(jsonResult);
     }
 
-    //TODO: gestire la scelta dello username, se appartiene ad una altra partita cosa succede?
+    //TODO: far vedere la lista dei giocatori - prenderli da clientmodelview -> array list players
     /**
      * Method that creates and sends a packet PacketUsernameOfAnotherPlayer to the server
      * @throws JsonProcessingException when the packet's serialization is invalid
@@ -741,19 +741,17 @@ public class CLIOperationHandler{
         if (howManyResources==1) System.out.println(Constants.ANSI_YELLOW+"You can choose one resource"+Constants.ANSI_RESET);
         if (howManyResources==2) System.out.println(Constants.ANSI_YELLOW+"You can choose two resources"+Constants.ANSI_RESET);
         for (int i = 0; i < howManyResources; i++) {
-            //TODO: Mettere il ciclo do while per fare il controllo che la risorsa e il deposito siano input giusti
             if(i==0) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_FIRST_RESOURCE);
             if(i==1) Constants.printConnectionMessage(ConnectionMessages.CHOOSE_SECOND_RESOURCE);
 
             resources.add(scannerChooseResources(bufferRead));
             deposits.add(scannerChooseDeposit(bufferRead,i));
 
-            System.out.println("you have chosen "+resources.get(i).toString()+" in the deposit "+deposits.get(i));
-
+            System.out.println("You have chosen "+resources.get(i).toString()+" in the deposit "+deposits.get(i));
         }
-        PacketChooseInitialResources packet = new PacketChooseInitialResources(deposits, resources);
+
         try {
-            sendPacket(packet);
+            sendPacket(new PacketChooseInitialResources(deposits, resources));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

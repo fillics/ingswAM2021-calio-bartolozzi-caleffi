@@ -24,8 +24,7 @@ public class GUI implements Runnable {
     private final int width;
     private final int height;
     private final JFrame jFrame;
-    private Border blackline, raisedetched, loweredetched, raisedbevel, loweredbevel;
-    private final ArrayList<Border> borders;
+    private Border blackline;
     private final Color greenColor;
     private final Color backgroundColor;
     private final Color purpleColor;
@@ -41,16 +40,6 @@ public class GUI implements Runnable {
         this.client = client;
 
         blackline = BorderFactory.createLineBorder(Color.black);
-        raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
-        loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-        raisedbevel  = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-        loweredbevel = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-        borders = new ArrayList<>();
-        borders.add(blackline);
-        borders.add(raisedbevel);
-        borders.add(raisedetched);
-        borders.add(loweredbevel);
-        borders.add(loweredetched);
 
         greenColor = new Color(54, 178, 76);
         backgroundColor = new Color(233, 226, 193);
@@ -189,8 +178,9 @@ public class GUI implements Runnable {
         return colors.get(index);
     }
 
-    public ArrayList<Border> getBorders() {
-        return borders;
+
+    public Border getBlackline() {
+        return blackline;
     }
 
     public ClientModelView getClientModelView() {

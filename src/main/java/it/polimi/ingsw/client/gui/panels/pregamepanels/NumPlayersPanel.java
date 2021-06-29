@@ -83,7 +83,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         c.gridy=1;
         biggestPanel.add(numbersPanel, c);
         biggestPanel.setBackground(new Color(233, 226, 193));
-        biggestPanel.setBorder(gui.getBorders().get(0));
+        biggestPanel.setBorder(gui.getBlackline());
 
     }
 

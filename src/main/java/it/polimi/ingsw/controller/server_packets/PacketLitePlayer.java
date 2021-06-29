@@ -9,15 +9,12 @@ public class PacketLitePlayer implements ServerPacketHandler{
     private final String username;
     private final int idPlayer;
     private final int totalVictoryPoint;
-    //TODO: chosenResource (?)
-    //private int chosenResource;
 
     @JsonCreator
     public PacketLitePlayer(@JsonProperty("username :")String username,@JsonProperty("idPlayer :") int idPlayer,@JsonProperty("total victory points :") int totalVictoryPoint, @JsonProperty("chosen resource :") int chosenResource) {
         this.username = username;
         this.idPlayer = idPlayer;
         this.totalVictoryPoint = totalVictoryPoint;
-        //this.chosenResource = chosenResource;
     }
 
     @Override

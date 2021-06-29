@@ -33,7 +33,7 @@ public class PacketEndTurn implements ClientPacketHandler{
                             gameInterface.getActivePlayers().get(0).getResourceBuffer().clear();
                             ((SinglePlayerGame) gameInterface).increaseBlackCross(sizeResourceBuffer);
                         }
-                        clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
+                        //clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
 
                         if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
                             ((SinglePlayerGame) gameInterface).winner();
@@ -108,8 +108,6 @@ public class PacketEndTurn implements ClientPacketHandler{
 
     }
 
-    // TODO: 27/06/2021 fare packet update
-
     /**
      * Method used only in Single Player Mode when the token is handled, sending the update packets to the client
      * @param gameInterface (type GameInterface) - it is the interface of the game
@@ -121,12 +119,11 @@ public class PacketEndTurn implements ClientPacketHandler{
         ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
         Board board = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
 
-        clientHandler.sendPacketToClient(new PacketToken(token));
-        clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
-        clientHandler.sendPacketToClient(new PacketFaithTrack(board.getTrack(),board.getFaithMarker(),board.getVaticanReportSections()));
+        clientHandler.sendPacketToClient(new PacketUpdate(token, ((SinglePlayerGame) gameInterface).getBlackCross(),
+                board.getTrack(),board.getFaithMarker(),board.getVaticanReportSections(), gameInterface.getDevGridLite()));
         clientHandler.sendPacketToClient(new PacketConnectionMessages(message));
-        clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(gameInterface.getDevGridLite()));
         clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+
     }
 
     /**

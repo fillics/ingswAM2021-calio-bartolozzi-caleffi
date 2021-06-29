@@ -344,7 +344,6 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     }
 
 
-    // TODO: 06/06/2021 mettere che disabilito i bottoni dei depositi quando ci cliccco sopra, con i vari get
     @Override
     public void actionPerformed(ActionEvent e) {
 

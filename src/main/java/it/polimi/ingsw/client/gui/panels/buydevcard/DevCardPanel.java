@@ -107,7 +107,7 @@ public class DevCardPanel extends JPanel implements ActionListener {
     public void setButton(JButton button){
         button.addActionListener(this);
         button.setPreferredSize(new Dimension(250, 50));
-        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 25));
+        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 20));
 
     }
 

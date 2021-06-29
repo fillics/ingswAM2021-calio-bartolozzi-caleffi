@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
     private Image background;
-    private GUI gui;
+    private final GUI gui;
     private final GridBagConstraints c;
 
 
@@ -146,6 +146,8 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
         if(e.getSource() == back){
             BoardPanel boardPanel = new BoardPanel(gui);
             gui.switchPanels(boardPanel);
+            gui.createMessageFromServer("Back to your board");
+
         }
         if(id1 == 0){
             if (e.getSource() == leaderCard1) {
@@ -161,6 +163,8 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
             if (e.getSource() == confirm) {
                 gui.getClient().sendPacketToServer(new PacketActivateLeaderCard(id1));
                 gui.switchPanels(new BoardPanel(gui));
+                gui.createMessageFromServer("Back to your board");
+
             }
         }
     }

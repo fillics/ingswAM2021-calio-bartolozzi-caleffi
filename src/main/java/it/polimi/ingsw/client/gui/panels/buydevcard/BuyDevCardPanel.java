@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.gui.panels.WarehouseAndDevSpacesPanel;
 import it.polimi.ingsw.controller.client_packets.PacketBuyDevCard;
 import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDiscount;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -182,7 +183,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         jButtons.add(leaderCard1);
         jButtons.add(leaderCard2);
         String path;
-        // TODO: 22/06/2021 al posto dell'istance of mettiamo equals?
+
         for(int i = 0 ; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDiscount &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
@@ -281,6 +282,8 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
                 gui.getClient().sendPacketToServer(new PacketBuyDevCard(devGridPanel.getIdCard(), smallBoard.getWarehousePanel().getChosenResources(),
                         smallBoard.getWarehousePanel().getChosenWarehouses(), smallBoard.getDevSpacesPanel().getIdDevSpace()));
                 gui.switchPanels(new BoardPanel(gui));
+                gui.createMessageFromServer("Back to your board");
+
             }
             else{
                 JOptionPane.showMessageDialog(gui.getjFrame(), "Fill every field to buy the development card!");
@@ -290,6 +293,8 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
         if(e.getSource() == backBtn){
             gui.switchPanels(new BoardPanel(gui));
+            gui.createMessageFromServer("Back to your board");
+
         }
 
     }
