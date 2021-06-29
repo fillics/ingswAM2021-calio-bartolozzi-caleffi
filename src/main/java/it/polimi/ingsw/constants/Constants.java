@@ -70,6 +70,8 @@ public class Constants {
 
     public static final String commands = "Type "+Constants.ITALIC+" commands "+Constants.ANSI_RESET+" to check what operations you can do!";
 
+    public static final String exit = "Type "+Constants.ITALIC+" exit "+Constants.ANSI_RESET+" if you want to cancel the operation at any point.";
+
     public static void setPort(int port) {
         Constants.port = port;
     }

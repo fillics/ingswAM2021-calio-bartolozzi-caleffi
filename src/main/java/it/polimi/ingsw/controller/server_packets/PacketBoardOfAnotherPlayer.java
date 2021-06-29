@@ -87,8 +87,6 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
         liteBoard.setDevelopmentSpaces(developmentSpaces);
         clientModelView.getMyPlayer().setLeaderCards(leaderCards);
 
-        System.out.println("il faith marker dell'altro player vale: "+faithMarker);
-
         if(client.getViewChoice().equals(ViewChoice.CLI)){
             CLI cli = new CLI(client, clientModelView);
             cli.printFaithTrack();

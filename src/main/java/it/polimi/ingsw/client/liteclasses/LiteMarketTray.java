@@ -7,6 +7,10 @@ import it.polimi.ingsw.constants.Color;
 import it.polimi.ingsw.constants.Printable;
 import it.polimi.ingsw.model.marbles.*;
 
+/**
+ * LiteMarketTray class contains a light representation of MarketTray class of the model.
+ */
+
 public class LiteMarketTray {
 
     private Marble[][] table;
