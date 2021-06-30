@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.controller.client_packets.PacketEndConnection;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerInfoEndMatch;
 
 import javax.imageio.ImageIO;
@@ -14,14 +13,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Objects;
 
 /**
  *  Class that creates the panel that contains the statistics of the game
  */
 public class WinnerPanel extends JPanel implements ActionListener {
     private final GUI gui;
-    private GridBagConstraints c;
+    private final GridBagConstraints c;
 
     private Image background;
     private JPanel playersPanel;

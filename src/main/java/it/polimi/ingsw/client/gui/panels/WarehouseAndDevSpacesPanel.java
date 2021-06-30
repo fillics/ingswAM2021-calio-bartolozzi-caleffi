@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.gui.GUI;
-import it.polimi.ingsw.client.gui.panels.DevSpacesPanel;
-import it.polimi.ingsw.client.gui.panels.UseProductionPowerPanel;
 import it.polimi.ingsw.client.gui.panels.buydevcard.BuyDevCardPanel;
 import it.polimi.ingsw.client.gui.panels.buydevcard.WarehouseForBuyDevCardPanel;
 import it.polimi.ingsw.model.board.resources.ResourceType;

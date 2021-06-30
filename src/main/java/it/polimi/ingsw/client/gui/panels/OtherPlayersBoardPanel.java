@@ -30,7 +30,7 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private WarehousePanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
-    private ClientModelView clientModelView;
+    private final ClientModelView clientModelView;
 
     /**
      * Method used to set the panel background.

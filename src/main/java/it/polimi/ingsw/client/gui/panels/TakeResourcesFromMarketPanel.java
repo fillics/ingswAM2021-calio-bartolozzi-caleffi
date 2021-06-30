@@ -19,8 +19,9 @@ import java.util.ArrayList;
 public class TakeResourcesFromMarketPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
-    private GridBagConstraints c;
-    private JPanel leaderCards, buttonPanel, mainPanel;
+    private final GridBagConstraints c;
+    private JPanel leaderCards;
+    private JPanel buttonPanel;
     private MarketPanel marketTrayPanel;
     private ArrayList<LeaderCardPanel> leaderCardPanels;
     private JButton confirm, back, resetBtn;
@@ -48,7 +49,7 @@ public class TakeResourcesFromMarketPanel extends JPanel implements ActionListen
         }
         c = new GridBagConstraints();
 
-        mainPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
 
         createLeaderCardsPanel();
@@ -83,7 +84,7 @@ public class TakeResourcesFromMarketPanel extends JPanel implements ActionListen
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyMarble &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
-                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(),this);
+                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId());
                 leaderCardPanels.add(leaderCardPanel1);
                 j++;
                 leaderCardPanel1.setOpaque(false);
@@ -118,8 +119,11 @@ public class TakeResourcesFromMarketPanel extends JPanel implements ActionListen
         buttonPanel.setOpaque(false);
 
         confirm = new JButton("CONFIRM");
+        confirm.setFont(new Font("Times New Roman", confirm.getFont().getStyle(), 15));
         back = new JButton("BACK TO THE BOARD");
+        back.setFont(new Font("Times New Roman", back.getFont().getStyle(), 15));
         resetBtn = new JButton("RESET");
+        resetBtn.setFont(new Font("Times New Roman", resetBtn.getFont().getStyle(), 15));
         setButton(confirm, gui.getGreenColor());
         setButton(back, gui.getGreenColor());
         setButton(resetBtn, Color.RED);

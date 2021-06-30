@@ -21,13 +21,11 @@ import java.util.ArrayList;
 public class UseProductionPowerPanel extends JPanel implements ActionListener {
     private Image background;
     private final GUI gui;
-    private GridBagConstraints c;
+    private final GridBagConstraints c;
     private WarehouseAndDevSpacesPanel smallBoard;
-    private ArrayList<LeaderCardPanel> leaderCardPanels;
     private JPanel leaderCards, mainPanel, buttons;
     private final JButton confirm = new JButton("CONFIRM");
-    private final JButton back = new JButton("BACK");
-    private final ArrayList<ResourceType> resources = new ArrayList<>();
+    private final JButton back = new JButton("BACK TO THE BOARD");
 
     /**
      * Method used to set the panel background.
@@ -76,6 +74,12 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
     public void createButtons(){
         buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(970, 50));
+
+        confirm.setFont(new Font("Times New Roman", confirm.getFont().getStyle(), 15));
+        confirm.setPreferredSize(new Dimension(250, 50));
+
+        back.setFont(new Font("Times New Roman", back.getFont().getStyle(), 15));
+        back.setPreferredSize(new Dimension(250, 50));
 
         confirm.addActionListener(this);
         back.addActionListener(this);
@@ -133,7 +137,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
         leaderCards.setLayout(new GridBagLayout());
         c.insets = new Insets(10, 10, 10, 10);
 
-        leaderCardPanels = new ArrayList<>();
+        ArrayList<LeaderCardPanel> leaderCardPanels = new ArrayList<>();
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             if ((gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getType().equals(LeaderCardType.PRODUCTION_POWER)||
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getType().equals(LeaderCardType.EXTRA_DEPOSIT)) &&

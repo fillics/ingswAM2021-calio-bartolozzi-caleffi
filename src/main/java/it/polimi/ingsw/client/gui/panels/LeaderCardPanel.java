@@ -31,14 +31,13 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     private int position;
     private final JButton chooseProdPowerButton = new JButton();
     private final JButton chooseWhiteMarbleButton = new JButton();
-    private final JButton depositButton = new JButton();
+    private final JButton depositButton = new JButton("4");
     private final JButton depositForBuyDevCardAndProdPower = new JButton();
     private DepositsPanel depositsPanel;
     private WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel;
     private DevSpacesPanel devSpacesPanel;
     private JPanel leadercard;
     private JPanel standardPanel;
-    private ClientModelView clientModelView;
     private int numOfWhiteChoices=0;
     private BuyDevCardPanel buyDevCardPanel;
 
@@ -181,7 +180,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
      * @param clientModelView is the client model view in which are contained the information
      */
     public void setExtraDeposit (JButton depositButton, ClientModelView clientModelView){
-        depositButton.setBackground(new Color(151, 74, 74));
+        depositButton.setBackground(new Color(233, 226, 193));
         depositButton.addActionListener(this);
 
         JPanel depositSpace = new JPanel();
@@ -252,7 +251,6 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     public LeaderCardPanel(ClientModelView clientModelView, int id, DepositsPanel depositsPanel) {
         this.depositsPanel = depositsPanel;
         this.id = id;
-        this.clientModelView = clientModelView;
 
         leadercard = new JPanel();
         standardPanel = new JPanel();
@@ -346,7 +344,6 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         //resources.get(0).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
 
     }
-
 
     /**
      * Method that, based on the button clicked, perform a determined action.

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client.gui.panels.buydevcard;
 
-import it.polimi.ingsw.client.gui.panels.DepositsPanel;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 
 import javax.imageio.ImageIO;
@@ -14,17 +13,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains the strongbox for the buy development card operation
+ */
 public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListener {
 
-    private WarehouseForBuyDevCardPanel warehousePanel;
+    private final WarehouseForBuyDevCardPanel warehousePanel;
     private Image background;
-    private DepositsPanel depositsPanel;
-
-    private JButton coinButton, stoneButton, servantButton, shieldButton;
-    private JPanel coinPanel, stonePanel, servantPanel, shieldPanel;
-
-    private ArrayList<JButton> resourcesButtons;
-    private int howManyCoins, howManyStones, howManyServants, howManyShields;
+    private final JButton coinButton;
+    private final JButton stoneButton;
+    private final JButton servantButton;
+    private final JButton shieldButton;
+    private final int howManyCoins;
+    private final int howManyStones;
+    private final int howManyServants;
+    private final int howManyShields;
 
     /**
      * Method used to set the panel background.
@@ -35,6 +38,10 @@ public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListene
         g.drawImage(background, 0, 0, 250, 180, null);
     }
 
+    /**
+     * Class' constructor
+     * @param warehousePanel is the warehouse panel
+     */
     public StrongBoxForBuyDevCardPanel(WarehouseForBuyDevCardPanel warehousePanel) {
         this.setPreferredSize(new Dimension(250, 180));
         this.warehousePanel = warehousePanel;
@@ -45,20 +52,20 @@ public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListene
         } catch (IOException ignored) {
         }
 
-        resourcesButtons = new ArrayList<>();
-        coinPanel = new JPanel();
+        ArrayList<JButton> resourcesButtons = new ArrayList<>();
+        JPanel coinPanel = new JPanel();
         coinPanel.setLayout(new BoxLayout(coinPanel, BoxLayout.X_AXIS));
         coinPanel.setOpaque(false);
 
-        stonePanel = new JPanel();
+        JPanel stonePanel = new JPanel();
         stonePanel.setLayout(new BoxLayout(stonePanel, BoxLayout.X_AXIS));
         stonePanel.setOpaque(false);
 
-        servantPanel = new JPanel();
+        JPanel servantPanel = new JPanel();
         servantPanel.setLayout(new BoxLayout(servantPanel, BoxLayout.X_AXIS));
         servantPanel.setOpaque(false);
 
-        shieldPanel = new JPanel();
+        JPanel shieldPanel = new JPanel();
         shieldPanel.setLayout(new BoxLayout(shieldPanel, BoxLayout.X_AXIS));
         shieldPanel.setOpaque(false);
 
@@ -151,7 +158,11 @@ public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListene
 
     }
 
-    public void setButton(ResourceType resourceType){
+    /**
+     * Method that add a specific resource type in the 2 arrays of the warehouse panel
+     * @param resourceType is the type of resource chosen
+     */
+    public void addResource(ResourceType resourceType){
         warehousePanel.getChosenResources().add(resourceType);
         warehousePanel.getChosenWarehouses().add(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().size() + 1);
         warehousePanel.getWarehouse().addResource(resourceType);
@@ -165,17 +176,17 @@ public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListene
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource() == coinButton && howManyCoins!=0){
-            setButton(ResourceType.COIN);
+            addResource(ResourceType.COIN);
         }
         if(e.getSource() == servantButton && howManyServants!=0){
-            setButton(ResourceType.SERVANT);
+            addResource(ResourceType.SERVANT);
         }
         if(e.getSource() == shieldButton && howManyShields!=0){
-            setButton(ResourceType.SHIELD);
+            addResource(ResourceType.SHIELD);
 
         }
         if(e.getSource() == stoneButton && howManyStones!=0){
-            setButton(ResourceType.STONE);
+            addResource(ResourceType.STONE);
 
         }
     }

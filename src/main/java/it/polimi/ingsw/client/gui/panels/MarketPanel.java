@@ -143,14 +143,17 @@ public class MarketPanel extends JPanel implements ActionListener {
 
         if(!isShow){
         row1 = new JButton("R1");
+        row1.setFont(new Font("Times New Roman", row1.getFont().getStyle(), 15));
         row1.addActionListener(this);
-        row1.setBackground(Color.LIGHT_GRAY);
+        row1.setBackground(new Color(233, 226, 193));
         row2 = new JButton("R2");
+        row2.setFont(new Font("Times New Roman", row2.getFont().getStyle(), 15));
         row2.addActionListener(this);
-        row2.setBackground(Color.LIGHT_GRAY);
+        row2.setBackground(new Color(233, 226, 193));
         row3 = new JButton("R3");
+        row3.setFont(new Font("Times New Roman", row3.getFont().getStyle(), 15));
         row3.addActionListener(this);
-        row3.setBackground(Color.LIGHT_GRAY);
+        row3.setBackground(new Color(233, 226, 193));
         }
 
         row1Panel.setLayout(new BoxLayout(row1Panel, BoxLayout.X_AXIS));
@@ -261,18 +264,22 @@ public class MarketPanel extends JPanel implements ActionListener {
      */
     public void setcolumnChoicePanel(JPanel columnChoicePanel){
         column1 = new JButton("C1");
+        column1.setFont(new Font("Times New Roman", column1.getFont().getStyle(), 15));
         column2 = new JButton("C2");
+        column2.setFont(new Font("Times New Roman", column2.getFont().getStyle(), 15));
         column3 = new JButton("C3");
+        column3.setFont(new Font("Times New Roman", column3.getFont().getStyle(), 15));
         column4 = new JButton("C4");
+        column4.setFont(new Font("Times New Roman", column4.getFont().getStyle(), 15));
 
         column1.addActionListener(this);
-        column1.setBackground(Color.LIGHT_GRAY);
+        column1.setBackground(new Color(233, 226, 193));
         column2.addActionListener(this);
-        column2.setBackground(Color.LIGHT_GRAY);
+        column2.setBackground(new Color(233, 226, 193));
         column3.addActionListener(this);
-        column3.setBackground(Color.LIGHT_GRAY);
+        column3.setBackground(new Color(233, 226, 193));
         column4.addActionListener(this);
-        column4.setBackground(Color.LIGHT_GRAY);
+        column4.setBackground(new Color(233, 226, 193));
 
         columnChoicePanel.add(Box.createRigidArea(new Dimension(25,71)));
         columnChoicePanel.add(column1);

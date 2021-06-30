@@ -13,7 +13,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 
-
+/**
+ * Class that creates the panel used to connect to the server
+ */
 public class ServerPanel extends JPanel implements ActionListener {
 
     private Image background;
@@ -33,8 +35,11 @@ public class ServerPanel extends JPanel implements ActionListener {
         g.drawImage(background, 0,0, gui.getWidth(), gui.getHeight()-50, null);
     }
 
-
-    public ServerPanel(GUI gui, boolean defaultConnection){
+    /**
+     * Class' constructor
+     * @param gui gui is the GUI object linked to this panel
+     */
+    public ServerPanel(GUI gui){
         this.gui = gui;
         this.defaultConnection = defaultConnection;
         InputStream is = getClass().getResourceAsStream("/images/background/pregame.png");
@@ -72,7 +77,7 @@ public class ServerPanel extends JPanel implements ActionListener {
     }
 
     /**
-     * contiene ip panel e port panel
+     * Method that creates the biggest panel to contain all the other panels
      */
     public void createBiggestPanel(){
         biggestPanel = new JPanel();
@@ -99,14 +104,17 @@ public class ServerPanel extends JPanel implements ActionListener {
 
     }
 
-
+    /**
+     * Method that creates the panel for the insert of the IP
+     */
     private void createIpPanel(){
         ipPanel = new JPanel();
         ipPanel.setLayout(new GridBagLayout());
         c.insets = new Insets(0,50,0,50);
         JLabel ipAddress = new JLabel("Insert the server IP address");
-        ipAddress.setFont(new Font(ipAddress.getFont().getName(), ipAddress.getFont().getStyle(), 15));
-        ipAddress.setPreferredSize(new Dimension(200,50));
+        ipAddress.setFont(new Font("Times New Roman", ipAddress.getFont().getStyle(), 20));
+        ipAddress.setPreferredSize(new Dimension(250,50));
+        ipAddress.setBackground(new Color(233, 226, 193));
         ipAddress.setHorizontalAlignment(JLabel.CENTER);
 
         ipAddressTextField = new JTextField();
@@ -121,22 +129,26 @@ public class ServerPanel extends JPanel implements ActionListener {
         if(defaultConnection) ipAddressTextField.setText(Constants.getAddressServer());
         ipAddressTextField.setPreferredSize(new Dimension(200, 50));
         ipAddressTextField.setHorizontalAlignment(JTextField.CENTER);
+        ipAddressTextField.setFont(new Font("Times New Roman", ipAddressTextField.getFont().getStyle(), 20));
 
-        ipPanel.setBackground(new Color(0, 0, 0,0));
+        ipPanel.setBackground(new Color(233, 226, 193));
         ipAddress.setOpaque(true);
-
-
     }
+
+    /**
+     * Method that creates the panel for the insert of the port
+     */
     private void createPortPanel(){
         portPanel = new JPanel();
         portPanel.setLayout(new GridBagLayout());
         c.insets = new Insets(0,50,0,50);
 
         JLabel serverPort = new JLabel("Insert the IP port");
-        serverPort.setFont(new Font(serverPort.getFont().getName(), serverPort.getFont().getStyle(), 15));
+        serverPort.setFont(new Font("Times New Roman", serverPort.getFont().getStyle(), 20));
 
         serverPort.setPreferredSize(new Dimension(200,10));
         serverPort.setHorizontalAlignment(JLabel.CENTER);
+        serverPort.setBackground(new Color(233, 226, 193));
         serverPortTextField = new JTextField();
         c.gridx=0;
         c.gridy=0;
@@ -146,15 +158,22 @@ public class ServerPanel extends JPanel implements ActionListener {
         c.gridy=0;
         portPanel.add(serverPortTextField, c);
 
+        // TODO: 26/06/2021 toglier riga commentata
         serverPortTextField.setText(String.valueOf(1234));
         if(defaultConnection) serverPortTextField.setText(String.valueOf(Constants.getPort()));
+
         serverPortTextField.setPreferredSize(new Dimension(200, 10));
+        serverPortTextField.setFont(new Font("Times New Roman", serverPortTextField.getFont().getStyle(), 20));
         serverPortTextField.setHorizontalAlignment(JTextField.CENTER);
 
-        portPanel.setBackground(new Color(0, 0, 0,0));
+        portPanel.setBackground(new Color(233, 226, 193));
         serverPort.setOpaque(true);
 
     }
+
+    /**
+     * Method that creates the "connect" and "reset" buttons
+     */
     public void createButtonsPanel(){
         buttonsPanel = new JPanel();
         connectButton = new JButton("CONNECT");
@@ -175,9 +194,13 @@ public class ServerPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that sets font and size of a button
+     * @param button is the button chosen
+     */
     public void setButtons(JButton button){
         button.addActionListener(this);
-        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 20));
+        button.setFont(new Font("Times New Roman", button.getFont().getStyle(), 20));
         button.setPreferredSize(new Dimension(150,50));
     }
 

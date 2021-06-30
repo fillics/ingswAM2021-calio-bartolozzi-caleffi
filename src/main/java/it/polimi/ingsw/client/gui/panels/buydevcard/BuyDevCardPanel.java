@@ -6,10 +6,7 @@ import it.polimi.ingsw.client.gui.panels.LeaderCardPanel;
 import it.polimi.ingsw.client.gui.panels.WarehouseAndDevSpacesPanel;
 import it.polimi.ingsw.controller.client_packets.PacketBuyDevCard;
 import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
-import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDeposit;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDiscount;
-import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
-import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,6 +18,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel used to do the buy development card operation
+ */
 public class BuyDevCardPanel extends JPanel implements ActionListener {
     private final GUI gui;
     private Image background;
@@ -51,6 +51,10 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Class' constructor
+     * @param gui is the GUI object linked to this panel
+     */
     public BuyDevCardPanel(GUI gui) {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
@@ -79,6 +83,9 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the panel that contains the right and left panel
+     */
     public void createCentralPanel(){
         centralPanel = new JPanel();
         centralPanel.setLayout(new GridBagLayout());
@@ -96,6 +103,10 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         centralPanel.setOpaque(false);
 
     }
+
+    /**
+     * Method that creates the right panel
+     */
     public void createRightPanel(){
         rightPanel = new JPanel();
         rightPanel.setLayout(new GridBagLayout());
@@ -138,6 +149,9 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         rightPanel.setBackground(new Color(0,0,0,0));
     }
 
+    /**
+     * Method that creates the buttons panel
+     */
     public void createLeaderCards(){
         leaderCards = new JPanel();
         leaderCards.setLayout(new BoxLayout(leaderCards, BoxLayout.X_AXIS));
@@ -159,27 +173,35 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         c.ipadx=50;
         c.ipady=25;
         buttonsPanel.add(backBtn, c);
+        backBtn.setFont(new Font("Times New Roman", backBtn.getFont().getStyle(), 15));
+        backBtn.setPreferredSize(new Dimension(100, 30));
         backBtn.addActionListener(this);
         c.gridx=1;
         c.gridy=0;
         buttonsPanel.add(confirmBuyBtn, c);
         confirmBuyBtn.addActionListener(this);
+        confirmBuyBtn.setFont(new Font("Times New Roman", confirmBuyBtn.getFont().getStyle(), 15));
+        confirmBuyBtn.setPreferredSize(new Dimension(100, 30));
         buttonsPanel.setOpaque(false);
     }
 
+    /**
+     * Method that creates the board without the faith track panel
+     */
     public void createSmallBoard(){
         smallBoard = new WarehouseAndDevSpacesPanel(this);
 
     }
 
-
-
+    /**
+     * Method that creates the left panel
+     */
     public void createLeftPanel(){
         leftPanel = new JPanel();
         leftPanel.setLayout(new GridBagLayout());
 
         JLabel guide = new JLabel("Click on a card to see it bigger");
-        guide.setFont(new Font(guide.getFont().getName(), guide.getFont().getStyle(), 15));
+        guide.setFont(new Font("Times New Roman", guide.getFont().getStyle(), 15));
 
 
         JPanel textPanel = new JPanel();
@@ -203,6 +225,9 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the under grid panel
+     */
     public void createUnderGridPanel(){
 
         underGridPanel = new JPanel();
@@ -250,7 +275,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     public void createDiscount(){
         String path;
         for(int i = 0 ; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
-            if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDiscount &&
+            if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getType().equals(LeaderCardType.DISCOUNT) &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
                 try {
                     switch(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getResourceType()){
@@ -282,7 +307,35 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
                 cards.add(jButtons.get(i), c);
             }
         }
+
+        cards.setBackground(new Color(0,0,0,0));
+        cards.setOpaque(true);
+
+        c.gridx=0;
+        c.gridy=0;
+        underGridPanel.add(cards, c);
+
+
+        JPanel chooseDiscountPanel = new JPanel();
+        chooseDiscountPanel.setLayout(new GridBagLayout());
+        chooseDiscountPanel.setOpaque(false);
+        confirmDiscountBtn.addActionListener(this);
+        confirmDiscountBtn.setFont(new Font("Times New Roman", confirmDiscountBtn.getFont().getStyle(), 15));
+        c.gridx=0;
+        c.gridy=0;
+        confirmDiscountBtn.setVisible(false);
+        chooseDiscountPanel.add(confirmDiscountBtn, c);
+
+
+        c.gridx=1;
+        c.gridy=0;
+        underGridPanel.add(chooseDiscountPanel, c);
+        underGridPanel.setOpaque(false);
     }
+
+    /**
+     * Method that creates the development grid panel
+     */
     public void createDevGrid(){
         devGridPanel = new DevGridPanel(this);
     }
@@ -341,6 +394,10 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Class' getter
+     * @return the gui of the panel
+     */
     public GUI getGui() {
         return gui;
     }

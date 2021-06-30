@@ -15,12 +15,10 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
     private final BoardInterface board;
     private boolean active;
 
-    public boolean isActive() {
-        return active;
-    }
-
     /**
      * Constructor ConcreteStrategyDeposit creates a new ConcreteStrategyDeposit instance.
+     * @param resourceType is the type of the strategy: COIN, STONE, SERVANT, SHIELD.
+     * @param board is the board where to add the extra deposit
      */
     public ConcreteStrategyDeposit(ResourceType resourceType,BoardInterface board) {
         this.resourceType = resourceType;
@@ -39,6 +37,14 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
         return resourceType;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Method ability() creates the new deposit depending on the type of the resource and adds it to the board.
+     * It also makes the attribute "active" true.
+     */
     @Override
     public void ability() {
         if(!active){

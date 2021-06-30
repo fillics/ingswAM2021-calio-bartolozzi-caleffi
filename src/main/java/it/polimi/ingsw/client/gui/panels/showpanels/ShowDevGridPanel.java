@@ -13,18 +13,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel used to show the development grid
+ */
 public class ShowDevGridPanel extends JPanel implements ActionListener {
     private Image background;
     private GridBagConstraints c;
     private JLabel devCard1, devCard2, devCard3, devCard4, devCard5, devCard6, devCard7, devCard8, devCard9, devCard10, devCard11, devCard12;
     private JButton backButton;
     private JPanel gridPanel;
-    private String path1,path2,path3,path4,path5,path6,path7,path8,path9,path10,path11,path12;
-    private int width;
-    private int height;
-
     private final GUI gui;
-    private int id;
 
     /**
      * Method used to set the panel background.
@@ -36,6 +34,10 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Class' constructor
+     * @param gui gui is the GUI object linked to this panel
+     */
     public ShowDevGridPanel(GUI gui) {
         this.gui = gui;
         InputStream is = getClass().getResourceAsStream("/images/background/game.png");
@@ -65,6 +67,9 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that created the development grid with a label for every development card
+     */
     public void createDevelopmentGrid(){
         gridPanel = new JPanel();
 
@@ -83,17 +88,29 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         devCard11 = new JLabel();
         devCard12 = new JLabel();
         try {
-            setButtons(gridPanel, 150, 226, 5,5,5,5);
+            setLabels(gridPanel, 150, 226, 5,5,5,5);
         } catch (IOException ignored) {}
 
         gridPanel.setOpaque(false);
         gridPanel.setBackground(new Color(0,0,0,0));
     }
 
-    public void setButtons(JPanel panel, int width, int height, int top, int left, int bottom, int right) throws IOException {
+    /**
+     * Method that sets the labels in this panel
+     * @param panel is the panel to fill with the buttons
+     * @param width is the width chosen
+     * @param height is the height chosen
+     * @param top is a parameter for the inset
+     * @param left is a parameter for the inset
+     * @param bottom is a parameter for the inset
+     * @param right is a parameter for the inset
+     * @throws IOException when the path is not found
+     */
+    public void setLabels(JPanel panel, int width, int height, int top, int left, int bottom, int right) throws IOException {
         ClientModelView clientModelView = gui.getClient().getClientModelView();
         c.insets = new Insets(top,left,bottom,right);
 
+        String path1;
         try{
             path1 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(8).getPath();
         }catch (NullPointerException e){
@@ -103,6 +120,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         c.gridy = 0;
         setLabel(devCard1, c, panel, width, height, path1);
 
+        String path2;
         try{
             path2 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(9).getPath();
         }catch (NullPointerException e){
@@ -112,6 +130,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         c.gridy = 0;
         setLabel(devCard2, c, panel, width, height, path2);
 
+        String path3;
         try{
             path3 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(10).getPath();
         }catch (NullPointerException e){
@@ -121,6 +140,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         c.gridy = 0;
         setLabel(devCard3, c, panel, width, height, path3);
 
+        String path4;
         try{
             path4 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(11).getPath();
         }catch (NullPointerException e){
@@ -130,6 +150,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         c.gridy = 0;
         setLabel(devCard4, c, panel, width, height, path4);
 
+        String path5;
         try{
             path5 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(4).getPath();
         }catch (NullPointerException e){
@@ -140,7 +161,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         setLabel(devCard5, c, panel, width, height, path5);
 
 
-
+        String path6;
         try{
             path6 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(5).getPath();
         }catch (NullPointerException e){
@@ -151,6 +172,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         setLabel(devCard6, c, panel, width, height, path6);
 
 
+        String path7;
         try{
             path7 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(6).getPath();
         }catch (NullPointerException e){
@@ -160,6 +182,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         c.gridy = 1;
         setLabel(devCard7, c, panel, width, height, path7);
 
+        String path8;
         try{
             path8 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(7).getPath();
         }catch(NullPointerException e){
@@ -170,6 +193,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         setLabel(devCard8, c, panel, width, height, path8);
 
 
+        String path9;
         try{
             path9 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(0).getPath();
         }catch (NullPointerException e){
@@ -180,6 +204,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         setLabel(devCard9, c, panel, width, height, path9);
 
 
+        String path10;
         try{
             path10 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(1).getPath();
         }catch(NullPointerException e){
@@ -190,6 +215,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         setLabel(devCard10, c, panel, width, height, path10);
 
 
+        String path11;
         try{
             path11 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(2).getPath();
         }catch (NullPointerException e){
@@ -199,6 +225,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         c.gridy = 2;
         setLabel(devCard11, c, panel, width, height, path11);
 
+        String path12;
         try{
             path12 = clientModelView.getDevelopmentGrid().getDevelopmentCards().get(3).getPath();
         }catch (NullPointerException e){
@@ -210,6 +237,15 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that sets a label dimension, background and image
+     * @param card is the label chosen
+     * @param c is the GridBagConstraints object
+     * @param panel is the panel in which the button is added
+     * @param width is the width of the button
+     * @param height is the height of the button
+     * @param path is the path used to reach the image of a specific development card
+     */
     public void setLabel(JLabel card, GridBagConstraints c, JPanel panel, int width, int height, String path){
         try {
             card.setIcon(new ImageIcon(new ImageIcon((Objects.requireNonNull(GUI.class.getResourceAsStream(path))).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
@@ -219,6 +255,9 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         card.setBackground(new Color(0,0,0,0));
     }
 
+    /**
+     * Method that creates the "back to the personal board" button
+     */
     public void createBackButtons(){
         JPanel backButtonPanel = new JPanel();
         backButtonPanel.setLayout(new GridBagLayout());
@@ -226,6 +265,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         c.gridx=0;
         c.gridy=0;
         backButton = new JButton("BACK");
+        backButton.setFont(new Font("Times New Roman", backButton.getFont().getStyle(), 15));
         backButton.addActionListener(this);
         backButton.setPreferredSize(new Dimension(250, 50));
 

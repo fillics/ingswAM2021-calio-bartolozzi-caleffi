@@ -11,13 +11,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+/**
+ * Class that creates the panel that contains a specific development card
+ */
 public class DevCardPanel extends JPanel implements ActionListener {
-    private int id;
-
-    private DevGridPanel devGridPanel;
+    private final int id;
+    private final DevGridPanel devGridPanel;
     private Image background;
-    private JPanel mainPanel, buttonsPanel, cardPanel;
-    private GridBagConstraints c;
+    private JPanel buttonsPanel;
+    private JPanel cardPanel;
+    private final GridBagConstraints c;
     private JButton backBtn, confirmBtn;
     private JLabel card;
 
@@ -31,6 +34,14 @@ public class DevCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Class' constructor
+     * @param devGridPanel is the development grid panel
+     * @param path is the path used to reach the image of a specific development card
+     * @param width is the width of the panel
+     * @param height is the height of the panel
+     * @param id is the id of the development card
+     */
     public DevCardPanel(DevGridPanel devGridPanel, String path, int width, int height, int id) {
         this.devGridPanel = devGridPanel;
         this.id = id;
@@ -41,7 +52,7 @@ public class DevCardPanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mainPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridBagLayout());
         c = new GridBagConstraints();
 
@@ -67,6 +78,12 @@ public class DevCardPanel extends JPanel implements ActionListener {
         this.add(mainPanel);
     }
 
+    /**
+     * Method that creates the development card
+     * @param path is the path used to reach the image of a specific development card
+     * @param width is the width of the panel
+     * @param height is the height of the panel
+     */
     public void createCard(String path, int width, int height) {
 
         cardPanel = new JPanel();
@@ -74,7 +91,7 @@ public class DevCardPanel extends JPanel implements ActionListener {
         cardPanel.setBackground(new Color(0, 0, 0, 0));
         cardPanel.setLayout(new GridBagLayout());
 
-        card = new JLabel();
+        JLabel card = new JLabel();
 
         try {
             card.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING)));
@@ -86,6 +103,9 @@ public class DevCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that creates the buttons used to go back or confirm the operation.
+     */
     public void createButtons() {
         buttonsPanel = new JPanel();
         buttonsPanel.setOpaque(false);
@@ -108,8 +128,13 @@ public class DevCardPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Method that sets the size and font of a button
+     * @param button is the button chosen
+     */
     public void setButton(JButton button){
         button.addActionListener(this);
+        button.setFont(new Font("Times New Roman", button.getFont().getStyle(), 15));
         button.setPreferredSize(new Dimension(250, 50));
         button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 20));
 

@@ -26,7 +26,13 @@ public interface LeaderCardStrategy {
      */
     void ability();
 
+    /**
+     * Method isActive() returns true or false whether the strategy is active or not.
+     */
     boolean isActive();
 
+    /**
+     * Method getResourceType() returns the resource type of the strategy.
+     */
     ResourceType getResourceType();
 }

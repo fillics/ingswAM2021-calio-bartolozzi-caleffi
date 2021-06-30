@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -26,7 +25,6 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
     private WarehousePanel warehousePanel;
     private DevSpacesPanel devSpacesPanel;
     private JPanel faithTrackPanel, underBoard, leaderCards, buttons;
-    private ArrayList<LeaderCardPanel> leaderCardPanels;
 
     /**
      * Method used to set the panel background.
@@ -49,9 +47,16 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
             background = ImageIO.read(Objects.requireNonNull(is));
         } catch (IOException ignored) {}
 
+        JPanel resourcePanel = new JPanel();
+        resourcePanel.setLayout(new BoxLayout(resourcePanel, BoxLayout.X_AXIS));
         resourceBufferPanel = new ResourceBufferPanel(gui);
+        resourcePanel.add(Box.createRigidArea(new Dimension(159,75)));
+        resourcePanel.add(resourceBufferPanel);
+        resourcePanel.add(Box.createRigidArea(new Dimension(159,75)));
+        resourcePanel.setOpaque(false);
+
         JPanel bigPanel = new JPanel();
-        bigPanel.setPreferredSize(new Dimension(1129, 1025));
+        bigPanel.setPreferredSize(new Dimension(1288, 1025));
 
 
         createFaithTrack();
@@ -63,13 +68,15 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
         underBoard.add(leaderCards);
         underBoard.add(warehousePanel);
         underBoard.add(devSpacesPanel);
+        underBoard.add(Box.createRigidArea(new Dimension(159,480)));
         underBoard.setOpaque(false);
 
         createButtons();
 
+        bigPanel.add(Box.createRigidArea(new Dimension(1288, 70)));
         bigPanel.add(faithTrackPanel);
         bigPanel.add(underBoard);
-        bigPanel.add(resourceBufferPanel);
+        bigPanel.add(resourcePanel);
         bigPanel.add(buttons);
         bigPanel.setOpaque(false);
         this.add(bigPanel);
@@ -85,7 +92,9 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
         faithTrackPanel.setLayout(new BoxLayout(faithTrackPanel, BoxLayout.X_AXIS));
         FaithTrackPanel faithTrack = new FaithTrackPanel(gui);
         faithTrack.setPreferredSize(new Dimension(970,200));
+        faithTrackPanel.add(Box.createRigidArea(new Dimension(159,200)));
         faithTrackPanel.add(faithTrack);
+        faithTrackPanel.add(Box.createRigidArea(new Dimension(159,200)));
         faithTrackPanel.setOpaque(false);
     }
 
@@ -94,11 +103,10 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
      */
     public void createUnderBoard(){
         underBoard = new JPanel();
-        underBoard.setPreferredSize(new Dimension(1129, 480));
+        underBoard.setPreferredSize(new Dimension(1288, 480));
         underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
         warehousePanel = new WarehousePanel(gui);
         devSpacesPanel = new DevSpacesPanel(gui);
-
     }
 
     /**
@@ -138,17 +146,20 @@ public class PlaceResourcePanel extends JPanel implements ActionListener {
         buttons.setLayout(new GridBagLayout());
 
         confirmBtn = new JButton("CONFIRM");
-        confirmBtn.setPreferredSize(new Dimension(200, 50));
+        confirmBtn.setPreferredSize(new Dimension(300, 50));
+        confirmBtn.setFont(new Font("Times New Roman", confirmBtn.getFont().getStyle(), 15));
         confirmBtn.addActionListener(this);
 
         backBtn = new JButton("BACK TO THE BOARD");
         backBtn.addActionListener(this);
-        backBtn.setPreferredSize(new Dimension(200, 50));
+        backBtn.setFont(new Font("Times New Roman", backBtn.getFont().getStyle(), 15));
+        backBtn.setPreferredSize(new Dimension(300, 50));
 
-
+        buttons.add(Box.createRigidArea(new Dimension(159, 50)));
         buttons.add(backBtn);
-        buttons.add(Box.createRigidArea(new Dimension(250, 50)));
+        buttons.add(Box.createRigidArea(new Dimension(50, 50)));
         buttons.add(confirmBtn);
+        buttons.add(Box.createRigidArea(new Dimension(159, 50)));
 
         buttons.setOpaque(false);
     }

@@ -21,6 +21,8 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
 
     /**
      * Constructor ConcreteStrategyProductionPower creates a new ConcreteStrategyProductionPower instance.
+     * @param resourceType is the type of the strategy: COIN, STONE, SERVANT, SHIELD.
+     * @param board is the board where to add the extra production power.
      */
     public ConcreteStrategyProductionPower(BoardInterface board, ResourceType resourceType) {
         this.board= board;
@@ -47,6 +49,10 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
         return resourceType;
     }
 
+    /**
+     * Method ability() creates the new production power depending on the type of the resource and adds it to the board.
+     * It also makes the attribute "active" true.
+     */
     @Override
     public void ability(){
         if(!active){
