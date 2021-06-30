@@ -215,7 +215,7 @@ public class DepositsForBuyDevCardPanel  extends JPanel implements ActionListene
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        //entro nell'if solo se il bottone contiene l'immagine della risorsa
+        //entering in the if clause only if the button contains the image
         if(e.getSource() == resource1 && !emptyResources[0]){
             addInformation(0, 1);
             resource1.setEnabled(false);

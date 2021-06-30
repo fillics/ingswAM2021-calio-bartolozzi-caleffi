@@ -465,7 +465,7 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         }
         if(e.getSource()== takeResourceFromMarket){
-            gui.switchPanels(new TakeResourceFromMarketPanel(gui));
+            gui.switchPanels(new TakeResourcesFromMarketPanel(gui));
             gui.createMessageFromServer("You have chosen to take resources from market");
 
         }

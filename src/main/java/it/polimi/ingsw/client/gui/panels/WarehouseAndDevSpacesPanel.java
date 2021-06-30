@@ -95,6 +95,10 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
     }
 
 
+    /**
+     * Method that creates a line containing all the chosen resources taken from the warehouse
+     * @param resourceType - it is the chosen resource to add to the line
+     */
     public void addResource(ResourceType resourceType){
         JLabel resource = new JLabel();
         String path;

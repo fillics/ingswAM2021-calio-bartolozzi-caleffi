@@ -44,6 +44,7 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
         if(!active){
             extraDeposit = new Deposit(2, true);
             extraDeposit.setResourcetype(resourceType);
+            assert board != null;
             board.getDeposits().add(extraDeposit);
             active = true;
         }

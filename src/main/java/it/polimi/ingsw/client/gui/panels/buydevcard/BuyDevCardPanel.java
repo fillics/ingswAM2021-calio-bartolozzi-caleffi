@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.gui.panels.LeaderCardPanel;
 import it.polimi.ingsw.client.gui.panels.WarehouseAndDevSpacesPanel;
 import it.polimi.ingsw.controller.client_packets.PacketBuyDevCard;
 import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
+import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDeposit;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDiscount;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
@@ -32,11 +33,13 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     private ArrayList<JButton> jButtons;
     private JButton leaderCard1, leaderCard2;
 
+    private JPanel cards;
     private JPanel centralPanel;
     private DevGridPanel devGridPanel;
     private JPanel underGridPanel;
     private JPanel leftPanel, rightPanel, buttonsPanel;
     private WarehouseAndDevSpacesPanel smallBoard;
+    private JPanel leaderCards;
 
     /**
      * Method used to set the panel background.
@@ -114,11 +117,20 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
                 leaderCardActivated=true;
             }
         }
-        if(leaderCardActivated) createLeaderCards();
-
+        if(leaderCardActivated) {
+            createLeaderCards();
+            c.gridx=0;
+            c.gridy=1;
+            rightPanel.add(leaderCards, c);
+            c.gridx=0;
+            c.gridy=2;
+        }
+        else{
+            c.gridx=0;
+            c.gridy=1;
+        }
         createSmallBoard();
-        c.gridx=0;
-        c.gridy=1;
+
         rightPanel.add(smallBoard, c);
 
 
@@ -127,14 +139,14 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     }
 
     public void createLeaderCards(){
-        JPanel leaderCards = new JPanel();
+        leaderCards = new JPanel();
         leaderCards.setLayout(new BoxLayout(leaderCards, BoxLayout.X_AXIS));
-        leaderCards.setPreferredSize(new Dimension(159, 250));
         for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
             if(leaderCard.getType().equals(LeaderCardType.EXTRA_DEPOSIT) && leaderCard.getStrategy().isActive()){
-                //leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(),159, 240, warehousePanel.getDepositsPanel()));
+                leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(), this));
             }
         }
+        leaderCards.setOpaque(false);
     }
 
     public void createButtonsPanel(){
@@ -196,7 +208,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         underGridPanel = new JPanel();
         underGridPanel.setLayout(new GridBagLayout());
 
-        JPanel cards = new JPanel();
+        cards = new JPanel();
         leaderCardsIDs = new ArrayList<>();
         cards.setLayout(new GridBagLayout());
         c.insets = new Insets(0,10,0,10);
@@ -207,12 +219,39 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
         jButtons.add(leaderCard1);
         jButtons.add(leaderCard2);
+
+        createDiscount();
+
+        cards.setBackground(new Color(0,0,0,0));
+        cards.setOpaque(true);
+
+        c.gridx=0;
+        c.gridy=0;
+        c.insets = new Insets(0,0,0,0);
+        underGridPanel.add(cards, c);
+
+
+        JPanel chooseDiscountPanel = new JPanel();
+        chooseDiscountPanel.setLayout(new GridBagLayout());
+        chooseDiscountPanel.setOpaque(false);
+        confirmDiscountBtn.addActionListener(this);
+        c.gridx=0;
+        c.gridy=0;
+        confirmDiscountBtn.setVisible(false);
+        chooseDiscountPanel.add(confirmDiscountBtn, c);
+
+
+        c.gridx=0;
+        c.gridy=1;
+        underGridPanel.add(chooseDiscountPanel, c);
+        underGridPanel.setOpaque(false);
+    }
+
+    public void createDiscount(){
         String path;
-        // TODO: 22/06/2021 al posto dell'istance of mettiamo equals?
         for(int i = 0 ; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyDiscount &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
-                confirmDiscountBtn.setVisible(true);
                 try {
                     switch(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getResourceType()){
                         case SERVANT -> path = "/images/discount/discountServant.png";
@@ -242,34 +281,8 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
 
                 cards.add(jButtons.get(i), c);
             }
-
         }
-
-        cards.setBackground(new Color(0,0,0,0));
-        cards.setOpaque(true);
-
-        c.gridx=0;
-        c.gridy=0;
-        c.insets = new Insets(0,0,0,0);
-        underGridPanel.add(cards, c);
-
-
-        JPanel chooseDiscountPanel = new JPanel();
-        chooseDiscountPanel.setLayout(new GridBagLayout());
-        chooseDiscountPanel.setOpaque(false);
-        confirmDiscountBtn.addActionListener(this);
-        c.gridx=0;
-        c.gridy=0;
-        confirmDiscountBtn.setVisible(false);
-        chooseDiscountPanel.add(confirmDiscountBtn, c);
-
-
-        c.gridx=0;
-        c.gridy=1;
-        underGridPanel.add(chooseDiscountPanel, c);
-        underGridPanel.setOpaque(false);
     }
-
     public void createDevGrid(){
         devGridPanel = new DevGridPanel(this);
     }

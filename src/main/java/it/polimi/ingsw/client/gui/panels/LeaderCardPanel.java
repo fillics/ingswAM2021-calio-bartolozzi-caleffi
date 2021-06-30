@@ -2,7 +2,10 @@ package it.polimi.ingsw.client.gui.panels;
 
 import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.GUI;
+import it.polimi.ingsw.client.gui.panels.buydevcard.BuyDevCardPanel;
 import it.polimi.ingsw.client.gui.panels.buydevcard.WarehouseForBuyDevCardPanel;
+import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDeposit;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
 
 import javax.imageio.ImageIO;
@@ -20,7 +23,9 @@ import java.util.Objects;
  */
 public class LeaderCardPanel extends JPanel implements ActionListener {
     private TakeResourcesFromMarketPanel takeResourcesFromMarketPanel;
+    private WarehouseAndDevSpacesPanel warehouseAndDevSpacesPanel;
     private GUI gui;
+    private GridBagConstraints c;
     private Image background;
     private final int id;
     private int position;
@@ -31,10 +36,11 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     private DepositsPanel depositsPanel;
     private WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel;
     private DevSpacesPanel devSpacesPanel;
-    private final JPanel leadercard;
+    private JPanel leadercard;
     private JPanel standardPanel;
     private ClientModelView clientModelView;
     private int numOfWhiteChoices=0;
+    private BuyDevCardPanel buyDevCardPanel;
 
     /**
      * Method used to set the panel background.
@@ -49,7 +55,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     /**
      * Class' constructor used to create the leader card in tha panel used to take resources from the market
      * @param gui is the GUI object linked to this panel
-     * @param id id the id of the leader card to represent
+     * @param id is the id of the leader card to represent
      * @param takeResourcesFromMarketPanel is the take resources from market panel
      */
     public LeaderCardPanel(GUI gui, int id, TakeResourcesFromMarketPanel takeResourcesFromMarketPanel){
@@ -98,7 +104,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     }
 
     /**
-     * Method that sets the standard setup of every leader card
+     * Method that sets the standard setup of each leader card
      * @param clientModelView is the client model view in which are contained the information
      */
     public void defaultSetup(ClientModelView clientModelView){
@@ -115,22 +121,22 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
             e.printStackTrace();
         }
 
+
         leadercard.setPreferredSize(new Dimension(159, 240));
         leadercard.setLayout(new BoxLayout(leadercard, BoxLayout.Y_AXIS));
 
 
-
-        JLabel isactive = new JLabel();
+        JLabel isActive = new JLabel();
         if(clientModelView.getMyPlayer().getLeaderCards().get(position).getStrategy().isActive()){
             try {
-                isactive.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/active.png")).readAllBytes()).getImage().getScaledInstance(30,30, Image.SCALE_AREA_AVERAGING)));
+                isActive.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/active.png")).readAllBytes()).getImage().getScaledInstance(30,30, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         else {
             try {
-                isactive.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/notactive.png")).readAllBytes()).getImage().getScaledInstance(30,30, Image.SCALE_AREA_AVERAGING)));
+                isActive.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/notactive.png")).readAllBytes()).getImage().getScaledInstance(30,30, Image.SCALE_AREA_AVERAGING)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -139,7 +145,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         standardPanel.setLayout(new BoxLayout(standardPanel, BoxLayout.X_AXIS));
         standardPanel.setPreferredSize(new Dimension(159, 40));
         standardPanel.add(Box.createRigidArea(new Dimension(129, 40)));
-        standardPanel.add(isactive);
+        standardPanel.add(isActive);
         standardPanel.setOpaque(false);
         leadercard.add(standardPanel);
         leadercard.setOpaque(false);
@@ -178,9 +184,9 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         depositButton.setBackground(new Color(151, 74, 74));
         depositButton.addActionListener(this);
 
-        JPanel depositspace = new JPanel();
-        depositspace.setLayout(new BoxLayout(depositspace, BoxLayout.X_AXIS));
-        depositspace.setPreferredSize(new Dimension(159, 35));
+        JPanel depositSpace = new JPanel();
+        depositSpace.setLayout(new BoxLayout(depositSpace, BoxLayout.X_AXIS));
+        depositSpace.setPreferredSize(new Dimension(159, 35));
         JLabel resource1 = new JLabel();
         JLabel resource2 = new JLabel();
         ArrayList<JLabel> resources = new ArrayList<>();
@@ -204,19 +210,19 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
 
             }
         }
-        depositspace.add(resources.get(0));
-        depositspace.add(Box.createRigidArea(new Dimension(20, 35)));
-        depositspace.add(resources.get(1));
-        depositspace.setOpaque(false);
+        depositSpace.add(resources.get(0));
+        depositSpace.add(Box.createRigidArea(new Dimension(20, 35)));
+        depositSpace.add(resources.get(1));
+        depositSpace.setOpaque(false);
 
         leadercard.add(Box.createRigidArea(new Dimension(159, 125)));
         leadercard.add(depositButton);
         leadercard.add(Box.createRigidArea(new Dimension(159, 10)));
-        leadercard.add(depositspace);
+        leadercard.add(depositSpace);
     }
 
     /**
-     * Class' constructor
+     * Class' constructor used in MoveResourcePanel and PlaceResourcePanel
      * @param gui is the GUI object linked to this panel
      * @param id is the id of the leader card
      * @param depositsPanel is the deposit panel
@@ -263,12 +269,10 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
      * Class' constructor
      * @param gui is the GUI object linked to this panel
      * @param id is the id of the leader card chosen
-     * @param warehouseForBuyDevCardPanel is the warehouse for buy development card panel
-     * @param devSpacesPanel is the development spaces panel
+     * @param warehouseAndDevSpacesPanel is the panel that contains the warehouse and the development spaces
      */
-    public LeaderCardPanel(GUI gui, int id, WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel, DevSpacesPanel devSpacesPanel) {
-        this.warehouseForBuyDevCardPanel = warehouseForBuyDevCardPanel;
-        this.devSpacesPanel = devSpacesPanel;
+    public LeaderCardPanel(GUI gui, int id, WarehouseAndDevSpacesPanel warehouseAndDevSpacesPanel) {
+        this.warehouseAndDevSpacesPanel = warehouseAndDevSpacesPanel;
         this.id = id;
         this.gui = gui;
 
@@ -277,41 +281,72 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
 
         defaultSetup(gui.getClient().getClientModelView());
 
-        if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.PRODUCTION_POWER)){
-            setMarbleAndProdPower(chooseProdPowerButton);
-        }
+        LeaderCardType leaderCardType = gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType();
 
-        if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.WHITE_MARBLE)){
-            setMarbleAndProdPower(chooseWhiteMarbleButton);
-        }
+        if(leaderCardType.equals(LeaderCardType.PRODUCTION_POWER)) setMarbleAndProdPower(chooseProdPowerButton);
 
-        if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.EXTRA_DEPOSIT)
-                && gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() > 3) {
-            setExtraDeposit(depositForBuyDevCardAndProdPower, gui.getClient().getClientModelView());
-        }
+        if(leaderCardType.equals(LeaderCardType.WHITE_MARBLE)) setMarbleAndProdPower(chooseWhiteMarbleButton);
+
+        if(leaderCardType.equals(LeaderCardType.EXTRA_DEPOSIT) && gui.getClient().getClientModelView().getLiteBoard().getDeposits().size() > 3) setExtraDeposit(depositForBuyDevCardAndProdPower, gui.getClient().getClientModelView());
 
         this.add(leadercard);
         this.setOpaque(false);
     }
 
     /**
-     * Method that sets the special power buttons based on the type of the leader card
-     * @param clientModelView is the client model view in which are contained the information
-     */
-    public void setSpecialPowerButtons(ClientModelView clientModelView){
-        if(clientModelView.getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.PRODUCTION_POWER)){
-            setMarbleAndProdPower(chooseProdPowerButton);
-        }
+     * Class' constructor for extra deposit leader cards used in BuyDevCardPanel
+     * @param gui is the GUI object linked to this panel
+     * @param id is the id of the leader card chosen
+     * */
+    public LeaderCardPanel(GUI gui, int id, BuyDevCardPanel buyDevCardPanel) {
+        this.buyDevCardPanel = buyDevCardPanel;
+        this.id = id;
+        this.gui = gui;
+        c = new GridBagConstraints();
 
-        if(clientModelView.getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.WHITE_MARBLE)){
-            setMarbleAndProdPower(chooseWhiteMarbleButton);
-        }
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridBagLayout());
+        mainPanel.setOpaque(false);
+        JLabel depositLabel = new JLabel();
 
-        if(clientModelView.getMyPlayer().getLeaderCards().get(position).getType().equals(LeaderCardType.EXTRA_DEPOSIT)
-                && clientModelView.getLiteBoard().getDeposits().size() > 3) {
-            setExtraDeposit(depositButton, clientModelView);
+        String path = null;
+        int i =0;
+        for (LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
+            if(leaderCard.getStrategy() instanceof ConcreteStrategyDeposit && leaderCard.getStrategy().isActive()){
+                try {
+                    switch(leaderCard.getResourceType()){
+                        case SERVANT -> path = "/images/discount/servantExtra.png";
+                        case STONE -> path = "/images/discount/stoneExtra.png";
+                        case SHIELD -> path = "/images/discount/shieldExtra.png";
+                        case COIN -> path = "/images/discount/coinExtra.png";
+                        default -> throw new IllegalStateException("Unexpected value: " + leaderCard.getResourceType());
+                    }
+                    depositLabel.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(GUI.class.getResourceAsStream(path)).readAllBytes()).getImage().getScaledInstance(200, 80, Image.SCALE_AREA_AVERAGING)));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                c.gridx=i;
+                c.gridy=0;
+                i++;
+            }
         }
+        c.gridx=0;
+        c.gridy=0;
+        mainPanel.add(depositLabel,c);
+        resourcesInDeposit(gui.getClient().getClientModelView());
+
+        setExtraDeposit(depositForBuyDevCardAndProdPower, gui.getClient().getClientModelView());
+
+        this.add(mainPanel);
+        this.setOpaque(false);
     }
+
+    public void resourcesInDeposit(ClientModelView clientModelView){
+        //resources.get(0).setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream(warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getDeposits().get(0).getResourcetype().path)).readAllBytes()).getImage().getScaledInstance(45,45, Image.SCALE_AREA_AVERAGING)));
+
+    }
+
 
     /**
      * Method that, based on the button clicked, perform a determined action.
@@ -322,6 +357,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         if(e.getSource() == depositButton){
             depositsPanel.getIdDepot().add(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getDepositPosition() + 1);
         }
+
         if(e.getSource() == depositForBuyDevCardAndProdPower){
             warehouseForBuyDevCardPanel.getChosenWarehouses().add(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getDepositPosition() + 1);
             warehouseForBuyDevCardPanel.getChosenResources().add(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(position).getResourceType());
@@ -332,6 +368,19 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         if(e.getSource() == chooseWhiteMarbleButton){
             numOfWhiteChoices++;
         }
+    }
+
+    /**
+     * Method that sets the special power buttons based on the type of the leader card
+     * @param clientModelView is the client model view in which are contained the information
+     */
+    public void setSpecialPowerButtons(ClientModelView clientModelView){
+        LeaderCardType leaderCardType = clientModelView.getMyPlayer().getLeaderCards().get(position).getType();
+        if(leaderCardType.equals(LeaderCardType.PRODUCTION_POWER)) setMarbleAndProdPower(chooseProdPowerButton);
+
+        if(leaderCardType.equals(LeaderCardType.WHITE_MARBLE)) setMarbleAndProdPower(chooseWhiteMarbleButton);
+
+        if(leaderCardType.equals(LeaderCardType.EXTRA_DEPOSIT) && clientModelView.getLiteBoard().getDeposits().size() > 3) setExtraDeposit(depositButton, clientModelView);
     }
 
     /**
