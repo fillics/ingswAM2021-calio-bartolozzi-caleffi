@@ -70,7 +70,7 @@ public class LoginPanel extends JPanel implements ActionListener {
 
         this.add(loginButton, c);
         loginButton.addActionListener(this);
-        loginButton.setFont(new Font(loginButton.getFont().getName(), loginButton.getFont().getStyle(), 20));
+        loginButton.setFont(new Font("Times New Roman", loginButton.getFont().getStyle(), 20));
         loginButton.setPreferredSize(new Dimension(150,50));
     }
 
@@ -84,12 +84,12 @@ public class LoginPanel extends JPanel implements ActionListener {
         c.insets = new Insets(0,50,0,50);
 
         JLabel loginLabel = new JLabel(ConnectionMessages.INSERT_USERNAME.getMessage());
-        loginLabel.setFont(new Font(loginLabel.getFont().getName(), loginLabel.getFont().getStyle(), 15));
+        loginLabel.setFont(new Font("Times New Roman", loginLabel.getFont().getStyle(), 20));
         loginLabel.setPreferredSize(new Dimension(200,50));
         loginLabel.setHorizontalAlignment(JLabel.CENTER);
 
         loginTextField = new JTextField();
-        loginTextField.setFont(new Font(loginTextField.getFont().getName(), loginTextField.getFont().getStyle(), 25));
+        loginTextField.setFont(new Font("Times New Roman", loginTextField.getFont().getStyle(), 20));
         loginTextField.setPreferredSize(new Dimension(200, 25));
         loginTextField.setHorizontalAlignment(JTextField.CENTER);
         loginTextField.addActionListener(this);

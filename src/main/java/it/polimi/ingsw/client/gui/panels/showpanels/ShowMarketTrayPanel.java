@@ -96,7 +96,8 @@ public class ShowMarketTrayPanel extends JPanel implements ActionListener {
         button.setOpaque(false);
 
         back = new JButton("BACK TO THE BOARD");
-        back.setPreferredSize(new Dimension(200,50));
+        back.setFont(new Font("Times New Roman", back.getFont().getStyle(), 15));
+        back.setPreferredSize(new Dimension(300,50));
         back.addActionListener(this);
         c.gridx=1;
         c.gridy=0;

@@ -119,8 +119,11 @@ public class TakeResourcesFromMarketPanel extends JPanel implements ActionListen
         buttonPanel.setOpaque(false);
 
         confirm = new JButton("CONFIRM");
+        confirm.setFont(new Font("Times New Roman", confirm.getFont().getStyle(), 15));
         back = new JButton("BACK TO THE BOARD");
+        back.setFont(new Font("Times New Roman", back.getFont().getStyle(), 15));
         resetBtn = new JButton("RESET");
+        resetBtn.setFont(new Font("Times New Roman", resetBtn.getFont().getStyle(), 15));
         setButton(confirm, gui.getGreenColor());
         setButton(back, gui.getGreenColor());
         setButton(resetBtn, Color.RED);

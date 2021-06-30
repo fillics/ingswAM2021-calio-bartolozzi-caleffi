@@ -265,6 +265,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         c.gridx=0;
         c.gridy=0;
         backButton = new JButton("BACK");
+        backButton.setFont(new Font("Times New Roman", backButton.getFont().getStyle(), 15));
         backButton.addActionListener(this);
         backButton.setPreferredSize(new Dimension(250, 50));
 

@@ -109,8 +109,9 @@ public class ServerPanel extends JPanel implements ActionListener {
         ipPanel.setLayout(new GridBagLayout());
         c.insets = new Insets(0,50,0,50);
         JLabel ipAddress = new JLabel("Insert the server IP address");
-        ipAddress.setFont(new Font(ipAddress.getFont().getName(), ipAddress.getFont().getStyle(), 15));
-        ipAddress.setPreferredSize(new Dimension(200,50));
+        ipAddress.setFont(new Font("Times New Roman", ipAddress.getFont().getStyle(), 20));
+        ipAddress.setPreferredSize(new Dimension(250,50));
+        ipAddress.setBackground(new Color(233, 226, 193));
         ipAddress.setHorizontalAlignment(JLabel.CENTER);
 
         ipAddressTextField = new JTextField();
@@ -122,10 +123,11 @@ public class ServerPanel extends JPanel implements ActionListener {
         ipPanel.add(ipAddressTextField, c);
 
         ipAddressTextField.setText("127.0.0.1");
-        ipAddressTextField.setPreferredSize(new Dimension(200, 50));
+        ipAddressTextField.setPreferredSize(new Dimension(250, 50));
         ipAddressTextField.setHorizontalAlignment(JTextField.CENTER);
+        ipAddressTextField.setFont(new Font("Times New Roman", ipAddressTextField.getFont().getStyle(), 20));
 
-        ipPanel.setBackground(new Color(0, 0, 0,0));
+        ipPanel.setBackground(new Color(233, 226, 193));
         ipAddress.setOpaque(true);
     }
 
@@ -138,10 +140,11 @@ public class ServerPanel extends JPanel implements ActionListener {
         c.insets = new Insets(0,50,0,50);
 
         JLabel serverPort = new JLabel("Insert the IP port");
-        serverPort.setFont(new Font(serverPort.getFont().getName(), serverPort.getFont().getStyle(), 15));
+        serverPort.setFont(new Font("Times New Roman", serverPort.getFont().getStyle(), 20));
 
         serverPort.setPreferredSize(new Dimension(200,10));
         serverPort.setHorizontalAlignment(JLabel.CENTER);
+        serverPort.setBackground(new Color(233, 226, 193));
         serverPortTextField = new JTextField();
         c.gridx=0;
         c.gridy=0;
@@ -153,9 +156,10 @@ public class ServerPanel extends JPanel implements ActionListener {
 
         serverPortTextField.setText(String.valueOf(1234));
         serverPortTextField.setPreferredSize(new Dimension(200, 10));
+        serverPortTextField.setFont(new Font("Times New Roman", serverPortTextField.getFont().getStyle(), 20));
         serverPortTextField.setHorizontalAlignment(JTextField.CENTER);
 
-        portPanel.setBackground(new Color(0, 0, 0,0));
+        portPanel.setBackground(new Color(233, 226, 193));
         serverPort.setOpaque(true);
 
     }
@@ -189,7 +193,7 @@ public class ServerPanel extends JPanel implements ActionListener {
      */
     public void setButtons(JButton button){
         button.addActionListener(this);
-        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 20));
+        button.setFont(new Font("Times New Roman", button.getFont().getStyle(), 20));
         button.setPreferredSize(new Dimension(150,50));
     }
 

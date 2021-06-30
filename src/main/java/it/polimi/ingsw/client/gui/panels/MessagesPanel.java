@@ -50,7 +50,7 @@ public class MessagesPanel extends JPanel {
         c.gridx=0;
 
         JLabel message = new JLabel(messageToPrint);
-        message.setFont(new Font(message.getFont().getName(), message.getFont().getStyle(), 15));
+        message.setFont(new Font("Times New Roman", message.getFont().getStyle(), 15));
 
         message.setHorizontalAlignment(JLabel.CENTER);
 

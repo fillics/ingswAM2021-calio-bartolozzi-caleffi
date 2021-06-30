@@ -75,7 +75,7 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         biggestPanel.setLayout(new GridBagLayout());
         //c.insets = new Insets(50,0,0,0);
         JLabel numPlayers = new JLabel(ConnectionMessages.INSERT_NUMBER_OF_PLAYERS.getMessage());
-        numPlayers.setFont(new Font(numPlayers.getFont().getName(), numPlayers.getFont().getStyle(), 15));
+        numPlayers.setFont(new Font("Times New Roman", numPlayers.getFont().getStyle(), 20));
         numPlayers.setBackground(new Color(233, 226, 193));
         numPlayers.setOpaque(true);
         numPlayers.setHorizontalAlignment(JLabel.CENTER);
@@ -103,15 +103,19 @@ public class NumPlayersPanel extends JPanel implements ActionListener {
         numbersPanel.setLayout(new GridBagLayout());
         c.insets = new Insets(10,10,10,10);
         btn1 = new JButton("1");
+        btn1.setFont(new Font("Times New Roman", btn1.getFont().getStyle(), 15));
         btn1.setPreferredSize(new Dimension(50,50));
         changeBackground(btn1);
         btn2 = new JButton("2");
+        btn2.setFont(new Font("Times New Roman", btn2.getFont().getStyle(), 15));
         btn2.setPreferredSize(new Dimension(50,50));
         changeBackground(btn2);
         btn3 = new JButton("3");
         btn3.setPreferredSize(new Dimension(50,50));
+        btn3.setFont(new Font("Times New Roman", btn3.getFont().getStyle(), 15));
         changeBackground(btn3);
         btn4 = new JButton("4");
+        btn4.setFont(new Font("Times New Roman", btn4.getFont().getStyle(), 15));
         btn4.setPreferredSize(new Dimension(50,50));
         changeBackground(btn4);
 

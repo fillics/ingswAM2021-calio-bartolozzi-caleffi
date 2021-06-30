@@ -128,7 +128,9 @@ public class RemoveLeaderCardPanel extends JPanel implements ActionListener {
         c.insets = new Insets(0,20,0,20);
 
         confirmBtn = new JButton("CONFIRM");
+        confirmBtn.setFont(new Font("Times New Roman", confirmBtn.getFont().getStyle(), 15));
         resetBtn = new JButton("RESET");
+        resetBtn.setFont(new Font("Times New Roman", resetBtn.getFont().getStyle(), 15));
         buttons.setLayout(new GridBagLayout());
         c.gridy=0;
         c.gridx=1;

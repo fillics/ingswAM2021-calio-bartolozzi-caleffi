@@ -25,7 +25,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
     private WarehouseAndDevSpacesPanel smallBoard;
     private JPanel leaderCards, mainPanel, buttons;
     private final JButton confirm = new JButton("CONFIRM");
-    private final JButton back = new JButton("BACK");
+    private final JButton back = new JButton("BACK TO THE BOARD");
 
     /**
      * Method used to set the panel background.
@@ -74,6 +74,12 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
     public void createButtons(){
         buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(970, 50));
+
+        confirm.setFont(new Font("Times New Roman", confirm.getFont().getStyle(), 15));
+        confirm.setPreferredSize(new Dimension(250, 50));
+
+        back.setFont(new Font("Times New Roman", back.getFont().getStyle(), 15));
+        back.setPreferredSize(new Dimension(250, 50));
 
         confirm.addActionListener(this);
         back.addActionListener(this);

@@ -109,7 +109,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         rightPanel.setLayout(new GridBagLayout());
 
         JLabel guideRight = new JLabel("Click the resources you want to use and in which development space you want to put the card");
-        guideRight.setFont(new Font(guideRight.getFont().getName(), guideRight.getFont().getStyle(), 15));
+        guideRight.setFont(new Font("Times New Roman", guideRight.getFont().getStyle(), 15));
 
         JPanel textPanel = new JPanel();
         textPanel.setBackground(new Color(233, 226, 193));
@@ -141,11 +141,15 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         c.ipadx=50;
         c.ipady=25;
         buttonsPanel.add(backBtn, c);
+        backBtn.setFont(new Font("Times New Roman", backBtn.getFont().getStyle(), 15));
+        backBtn.setPreferredSize(new Dimension(100, 30));
         backBtn.addActionListener(this);
         c.gridx=1;
         c.gridy=0;
         buttonsPanel.add(confirmBuyBtn, c);
         confirmBuyBtn.addActionListener(this);
+        confirmBuyBtn.setFont(new Font("Times New Roman", confirmBuyBtn.getFont().getStyle(), 15));
+        confirmBuyBtn.setPreferredSize(new Dimension(100, 30));
         buttonsPanel.setOpaque(false);
     }
 
@@ -165,7 +169,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         leftPanel.setLayout(new GridBagLayout());
 
         JLabel guide = new JLabel("Click on a card to see it bigger");
-        guide.setFont(new Font(guide.getFont().getName(), guide.getFont().getStyle(), 15));
+        guide.setFont(new Font("Times New Roman", guide.getFont().getStyle(), 15));
 
 
         JPanel textPanel = new JPanel();
@@ -257,6 +261,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         chooseDiscountPanel.setLayout(new GridBagLayout());
         chooseDiscountPanel.setOpaque(false);
         confirmDiscountBtn.addActionListener(this);
+        confirmDiscountBtn.setFont(new Font("Times New Roman", confirmDiscountBtn.getFont().getStyle(), 15));
         c.gridx=0;
         c.gridy=0;
         confirmDiscountBtn.setVisible(false);

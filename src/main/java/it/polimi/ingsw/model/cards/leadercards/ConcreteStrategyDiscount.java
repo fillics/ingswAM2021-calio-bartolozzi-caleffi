@@ -9,12 +9,13 @@ import it.polimi.ingsw.model.board.resources.ResourceType;
  */
 
 public class ConcreteStrategyDiscount implements LeaderCardStrategy{
+
     private final ResourceType resourceType;
     private boolean active;
 
-
     /**
      * Constructor ConcreteStrategyDiscount creates a new ConcreteStrategyDiscount instance.
+     * @param resourceType is the type of the strategy: COIN, STONE, SERVANT, SHIELD
      */
     public ConcreteStrategyDiscount(ResourceType resourceType) {
         this.resourceType = resourceType;
@@ -25,19 +26,22 @@ public class ConcreteStrategyDiscount implements LeaderCardStrategy{
         this.resourceType = null;
         active=false;
     }
+
+    /**
+     * Method ability() makes the attribute "active" true.
+     */
+    @Override
+    public void ability() {
+        if(!active)
+            active = true;
+    }
+
     public ResourceType getResourceType() {
         return resourceType;
     }
 
     public boolean isActive() {
         return active;
-    }
-
-
-    @Override
-    public void ability() {
-        if(!active)
-            active = true;
     }
 
     @Override

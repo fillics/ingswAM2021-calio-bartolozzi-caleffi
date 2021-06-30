@@ -46,19 +46,28 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        JPanel resourcePanel = new JPanel();
+        resourcePanel.setLayout(new BoxLayout(resourcePanel, BoxLayout.X_AXIS));
         ResourceBufferPanel resourceBufferPanel = new ResourceBufferPanel(gui);
+        resourcePanel.add(Box.createRigidArea(new Dimension(159,75)));
+        resourcePanel.add(resourceBufferPanel);
+        resourcePanel.add(Box.createRigidArea(new Dimension(159,75)));
+        resourcePanel.setOpaque(false);
+
         JPanel bigPanel = new JPanel();
-        bigPanel.setPreferredSize(new Dimension(970, 1025));
+        bigPanel.setPreferredSize(new Dimension(1288, 1025));
 
         JPanel faithTrackPanel = new JPanel();
         faithTrackPanel.setLayout(new BoxLayout(faithTrackPanel, BoxLayout.X_AXIS));
         FaithTrackPanel faithTrack = new FaithTrackPanel(gui);
         faithTrack.setPreferredSize(new Dimension(970,200));
+        faithTrackPanel.add(Box.createRigidArea(new Dimension(159,200)));
         faithTrackPanel.add(faithTrack);
+        faithTrackPanel.add(Box.createRigidArea(new Dimension(159,200)));
         faithTrackPanel.setOpaque(false);
 
         JPanel underBoard = new JPanel();
-        underBoard.setPreferredSize(new Dimension(970, 480));
+        underBoard.setPreferredSize(new Dimension(1288, 480));
         underBoard.setLayout(new BoxLayout(underBoard, BoxLayout.X_AXIS));
         warehousePanel = new WarehousePanel(gui);
         DevSpacesPanel devSpacesPanel = new DevSpacesPanel(gui);
@@ -75,29 +84,33 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         underBoard.add(leaderCards);
         underBoard.add(warehousePanel);
         underBoard.add(devSpacesPanel);
+        underBoard.add(Box.createRigidArea(new Dimension(159,480)));
         underBoard.setOpaque(false);
 
-        underBoard.add(warehousePanel);
-        underBoard.add(devSpacesPanel);
 
         JPanel buttons = new JPanel();
-        buttons.setPreferredSize(new Dimension(970,50));
+        buttons.setPreferredSize(new Dimension(1288,50));
         confirmBtn = new JButton("CONFIRM");
-        confirmBtn.setPreferredSize(new Dimension(200, 50));
+        confirmBtn.setFont(new Font("Times New Roman", confirmBtn.getFont().getStyle(), 15));
+        confirmBtn.setPreferredSize(new Dimension(250, 50));
 
         confirmBtn.addActionListener(this);
         backBtn = new JButton("BACK TO THE BOARD");
         backBtn.addActionListener(this);
-        backBtn.setPreferredSize(new Dimension(200, 50));
+        backBtn.setFont(new Font("Times New Roman", backBtn.getFont().getStyle(), 15));
+        backBtn.setPreferredSize(new Dimension(250, 50));
 
+        buttons.add(Box.createRigidArea(new Dimension(159, 50)));
         buttons.add(backBtn);
-        buttons.add(Box.createRigidArea(new Dimension(250, 50)));
+        buttons.add(Box.createRigidArea(new Dimension(150, 50)));
         buttons.add(confirmBtn);
+        buttons.add(Box.createRigidArea(new Dimension(159, 50)));
         buttons.setOpaque(false);
 
+        bigPanel.add(Box.createRigidArea(new Dimension(1288, 70)));
         bigPanel.add(faithTrackPanel);
         bigPanel.add(underBoard);
-        bigPanel.add(resourceBufferPanel);
+        bigPanel.add(resourcePanel);
         bigPanel.add(buttons);
         bigPanel.setOpaque(false);
         this.add(bigPanel);

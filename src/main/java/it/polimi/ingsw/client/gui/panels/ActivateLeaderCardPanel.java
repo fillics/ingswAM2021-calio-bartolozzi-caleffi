@@ -122,11 +122,12 @@ public class ActivateLeaderCardPanel extends JPanel implements ActionListener {
 
         c.insets = new Insets(25,0,0,0);
         back = new JButton("BACK TO THE BOARD");
+        back.setFont(new Font("Times New Roman", back.getFont().getStyle(), 15));
         confirm = new JButton("CONFIRM");
+        confirm.setFont(new Font("Times New Roman", confirm.getFont().getStyle(), 15));
         buttons.setLayout(new GridBagLayout());
         c.gridy=0;
         c.gridx=0;
-
 
         setButton(back, gui.getGreenColor());
         buttons.add(back, c);

@@ -250,16 +250,18 @@ public class DepositsPanel extends JPanel implements ActionListener {
      * Method that creates the buttons used to choose one of the deposits.
      */
     public void createButtons(){
-        deposit1Button=new JButton();
-        deposit2Button=new JButton();
-        deposit3Button=new JButton();
+        deposit1Button=new JButton("1");
+        deposit1Button.setFont(new Font("Times New Roman", deposit1Button.getFont().getStyle(), 15));
+        deposit2Button=new JButton("2");
+        deposit2Button.setFont(new Font("Times New Roman", deposit2Button.getFont().getStyle(), 15));
+        deposit3Button=new JButton("3");
+        deposit3Button.setFont(new Font("Times New Roman", deposit3Button.getFont().getStyle(), 15));
 
         deposit1Button.addActionListener(this);
         deposit2Button.addActionListener(this);
         deposit3Button.addActionListener(this);
 
-        changeBackgroundColor(new Color(151, 74, 74));
-
+        changeBackgroundColor(new Color(233, 226, 193));
     }
 
     /**

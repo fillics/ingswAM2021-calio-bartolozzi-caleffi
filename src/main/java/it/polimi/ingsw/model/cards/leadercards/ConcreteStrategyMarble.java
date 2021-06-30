@@ -19,6 +19,7 @@ public class ConcreteStrategyMarble implements LeaderCardStrategy{
 
     /**
      * Constructor ConcreteStrategyMarble creates a new ConcreteStrategyMarble instance.
+     * @param resourceType is the type of the strategy: COIN, STONE, SERVANT, SHIELD
      */
     public ConcreteStrategyMarble(ResourceType resourceType) {
         this.resourceType = resourceType;
@@ -29,11 +30,13 @@ public class ConcreteStrategyMarble implements LeaderCardStrategy{
         return resourceType;
     }
 
-
     public boolean isActive() {
         return active;
     }
 
+    /**
+     * Method ability() makes the attribute "active" true.
+     */
     @Override
     public void ability() {
         if(!active)

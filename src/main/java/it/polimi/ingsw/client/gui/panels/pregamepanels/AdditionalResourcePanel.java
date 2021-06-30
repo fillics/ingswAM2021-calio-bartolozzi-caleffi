@@ -214,7 +214,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
      */
     public void setButtons(JButton button){
         button.addActionListener(this);
-        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 25));
+        button.setFont(new Font("Times New Roman", button.getFont().getStyle(), 15));
         button.setPreferredSize(new Dimension(150,50));
     }
 
@@ -368,6 +368,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         buttonsPanel.setLayout(new GridBagLayout());
 
         confirmButton = new JButton("CONFIRM");
+        confirmButton.setFont(new Font("Times New Roman", confirmButton.getFont().getStyle(), 15));
         c.gridx=0;
         c.gridy=0;
         c.ipadx=50;

@@ -25,7 +25,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     private int position;
     private final JButton chooseProdPowerButton = new JButton();
     private final JButton chooseWhiteMarbleButton = new JButton();
-    private final JButton depositButton = new JButton();
+    private final JButton depositButton = new JButton("4");
     private final JButton depositForBuyDevCardAndProdPower = new JButton();
     private DepositsPanel depositsPanel;
     private WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel;
@@ -171,7 +171,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
      * @param clientModelView is the client model view in which are contained the information
      */
     public void setExtraDeposit (JButton depositButton, ClientModelView clientModelView){
-        depositButton.setBackground(new Color(151, 74, 74));
+        depositButton.setBackground(new Color(233, 226, 193));
         depositButton.addActionListener(this);
 
         JPanel depositspace = new JPanel();

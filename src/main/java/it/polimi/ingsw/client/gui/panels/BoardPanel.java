@@ -245,7 +245,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         button.setPreferredSize(new Dimension(250,50));
         changeBackground(button);
         button.addActionListener(this);
-        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 15));
+        button.setFont(new Font("Times New Roman", button.getFont().getStyle(), 15));
 
     }
 
