@@ -201,7 +201,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     public void createButtons(){
         buttonsForProduction = new JPanel();
 
-        setButtons(confirmButton);
+        setButtons(confirmForProduction);
         setButtons(backForProduction);
         buttonsForProduction.add(backForProduction);
         buttonsForProduction.add(Box.createRigidArea(new Dimension(180, 20)));
@@ -214,7 +214,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
      */
     public void setButtons(JButton button){
         button.addActionListener(this);
-        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 25));
+        button.setFont(new Font("Times New Roman", button.getFont().getStyle(), 15));
         button.setPreferredSize(new Dimension(150,50));
     }
 
@@ -368,6 +368,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         buttonsPanel.setLayout(new GridBagLayout());
 
         confirmButton = new JButton("CONFIRM");
+        confirmButton.setFont(new Font("Times New Roman", confirmButton.getFont().getStyle(), 15));
         c.gridx=0;
         c.gridy=0;
         c.ipadx=50;
@@ -379,7 +380,6 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
     }
 
 
-    // TODO: 06/06/2021 mettere che disabilito i bottoni dei depositi quando ci cliccco sopra, con i vari get
     /**
      * Method that, based on the button clicked, perform a determined action.
      * @param e is a ActionEvent object

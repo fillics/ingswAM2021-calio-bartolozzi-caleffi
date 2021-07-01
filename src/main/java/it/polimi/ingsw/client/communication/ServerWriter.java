@@ -108,6 +108,10 @@ public class ServerWriter implements Runnable{
                     }
                 }
             }
+            case GAME_ENDING -> {
+                System.err.println("Please wait the other players");
+            }
+
         }
 
     }

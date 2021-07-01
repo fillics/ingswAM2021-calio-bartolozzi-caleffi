@@ -49,8 +49,6 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
                 }
 
             }
-
-            // TODO: 04/06/2021 si puo togliere questo??
             if(clientHandler.getPosInGame() == 0){
                 clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
             }

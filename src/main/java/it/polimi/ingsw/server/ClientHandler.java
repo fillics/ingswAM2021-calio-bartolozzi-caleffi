@@ -99,14 +99,6 @@ public class ClientHandler implements Runnable {
                         endConnection=true;
                     }
                 }
-                // TODO: 26/06/2021 probabilmente da togliere
-                /*if(gameStarted && game.isEndgame() && !endConnection) {
-
-                    if(!(game instanceof SinglePlayerGame)){
-                        server.sendAll(new PacketEndGameStarted(username), game);
-                        game.setState(GameStates.FINAL_TURN);
-                    }
-                }*/
             }
 
             if(username!=null) System.out.println("Connection with " + username + " is closed!");
@@ -176,8 +168,6 @@ public class ClientHandler implements Runnable {
         }).start();
     }
 
-
-    // TODO: 05/06/2021 probabilmente si può fare meglio questo metodo, senza tutti gli if e provando a unire le tre classi di packethandler
     public synchronized void deserialize(String jsonResult) throws DevelopmentCardNotFound, EmptyDeposit, LeaderCardNotActivated, LeaderCardNotFound, DevCardNotPlaceable, IOException, DifferentDimension, DepositDoesntHaveThisResource, DiscountCannotBeActivated, NotEnoughRequirements, TooManyResourcesRequested, ClassNotFoundException, DepositHasReachedMaxLimit, NotEnoughResources, DepositHasAnotherResource, WrongChosenResources {
 
         ObjectMapper mapper = new ObjectMapper();

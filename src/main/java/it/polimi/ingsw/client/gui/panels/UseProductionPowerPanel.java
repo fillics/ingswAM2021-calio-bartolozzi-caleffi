@@ -25,7 +25,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
     private WarehouseAndDevSpacesPanel smallBoard;
     private JPanel leaderCards, mainPanel, buttons;
     private final JButton confirm = new JButton("CONFIRM");
-    private final JButton back = new JButton("BACK");
+    private final JButton back = new JButton("BACK TO THE BOARD");
 
     /**
      * Method used to set the panel background.
@@ -74,6 +74,12 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
     public void createButtons(){
         buttons = new JPanel();
         buttons.setPreferredSize(new Dimension(970, 50));
+
+        confirm.setFont(new Font("Times New Roman", confirm.getFont().getStyle(), 15));
+        confirm.setPreferredSize(new Dimension(250, 50));
+
+        back.setFont(new Font("Times New Roman", back.getFont().getStyle(), 15));
+        back.setPreferredSize(new Dimension(250, 50));
 
         confirm.addActionListener(this);
         back.addActionListener(this);
@@ -136,7 +142,7 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
             if ((gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getType().equals(LeaderCardType.PRODUCTION_POWER)||
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getType().equals(LeaderCardType.EXTRA_DEPOSIT)) &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
-                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(), smallBoard.getWarehousePanel(), smallBoard.getDevSpacesPanel());
+                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(), smallBoard);
                 leaderCardPanels.add(leaderCardPanel1);
                 leaderCardPanel1.setOpaque(false);
                 c.gridx=0;
@@ -156,6 +162,8 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == back){
             gui.switchPanels(new BoardPanel(gui));
+            gui.createMessageFromServer("Back to your board");
+
         }
 
         if(e.getSource() == confirm){
@@ -177,11 +185,15 @@ public class UseProductionPowerPanel extends JPanel implements ActionListener {
             }
             ArrayList<ResourceType> newResources = new ArrayList<>();
             if(checkProd){
-                gui.switchPanels(new AdditionalResourcePanel(gui, smallBoard.getDevSpacesPanel().getProductionPowers(), smallBoard.getDevSpacesPanel().getNewProductionPowers(), smallBoard.getWarehousePanel().getChosenResources(), smallBoard.getWarehousePanel().getChosenWarehouses()));
+                gui.switchPanels(new AdditionalResourcePanel(gui, smallBoard.getDevSpacesPanel().getProductionPowers(),
+                        smallBoard.getDevSpacesPanel().getNewProductionPowers(), smallBoard.getWarehousePanel().getChosenResources(),
+                        smallBoard.getWarehousePanel().getChosenWarehouses()));
             }
             else {
                 gui.getClient().sendPacketToServer(new PacketUseAndChooseProdPower(smallBoard.getDevSpacesPanel().getProductionPowers(), smallBoard.getDevSpacesPanel().getNewProductionPowers(), smallBoard.getWarehousePanel().getChosenResources(), smallBoard.getWarehousePanel().getChosenWarehouses(), newResources));
                 gui.switchPanels(new BoardPanel(gui));
+                gui.createMessageFromServer("Back to your board");
+
             }
         }
     }

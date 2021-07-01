@@ -123,7 +123,9 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
 
         c.insets = new Insets(25,0,0,0);
         back = new JButton("BACK TO THE BOARD");
+        back.setFont(new Font("Times New Roman", back.getFont().getStyle(), 15));
         confirm = new JButton("CONFIRM");
+        confirm.setFont(new Font("Times New Roman", confirm.getFont().getStyle(), 15));
         buttons.setLayout(new GridBagLayout());
         c.gridy=0;
         c.gridx=0;
@@ -168,8 +170,9 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == back){
-            BoardPanel boardPanel = new BoardPanel(gui);
-            gui.switchPanels(boardPanel);
+            gui.switchPanels(new BoardPanel(gui));
+            gui.createMessageFromServer("Back to your board");
+
         }
         if(id1 == 0){
             if (e.getSource() == leaderCard1) {
@@ -183,17 +186,9 @@ public class DiscardLeaderCardPanel extends JPanel implements ActionListener {
         }
         else{
             if (e.getSource() == confirm) {
-                PacketDiscardLeaderCard packetDiscardLeaderCard = new PacketDiscardLeaderCard(id1);
-                ObjectMapper mapper = new ObjectMapper();
-                String jsonResult = null;
-                try {
-                    jsonResult = mapper.writeValueAsString(packetDiscardLeaderCard);
-                } catch (JsonProcessingException jsonProcessingException) {
-                    jsonProcessingException.printStackTrace();
-                }
-                gui.getClient().getSocketClientConnection().sendToServer(jsonResult);
-                BoardPanel boardPanel = new BoardPanel(gui);
-                gui.switchPanels(boardPanel);
+                gui.getClient().sendPacketToServer(new PacketDiscardLeaderCard(id1));
+                gui.switchPanels(new BoardPanel(gui));
+                gui.createMessageFromServer("Back to your board");
             }
         }
     }

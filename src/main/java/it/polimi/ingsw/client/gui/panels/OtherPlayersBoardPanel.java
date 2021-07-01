@@ -239,6 +239,8 @@ public class OtherPlayersBoardPanel extends JPanel implements ActionListener {
 
         if(e.getSource() == backButton){
             gui.switchPanels(new BoardPanel(gui));
+            gui.createMessageFromServer("Back to your board");
+
         }
 
     }

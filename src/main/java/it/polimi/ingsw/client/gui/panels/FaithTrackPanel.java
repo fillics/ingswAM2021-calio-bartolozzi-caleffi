@@ -367,7 +367,6 @@ public class FaithTrackPanel extends JPanel{
         first.add(Box.createRigidArea(new Dimension(226,23)));
     }
 
-    //TODO: sistemare problema tile girato
     /**
      * Method that sets the second panel of the faith track panel
      * @param second is the panel set

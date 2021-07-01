@@ -9,5 +9,6 @@ public enum ClientStates {
     LEADERSETUP,
     RESOURCESETUP,
     GAMESTARTED,
+    GAME_ENDING,
     END
 }

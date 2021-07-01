@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -93,9 +94,7 @@ public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListene
         JPanel panel1 = new JPanel();
         panel1.setPreferredSize(new Dimension(250, 180));
         JPanel panel2 = new JPanel();
-        //panel2.setPreferredSize(new Dimension(250, 80));
         JPanel panel3 = new JPanel();
-        //panel3.setPreferredSize(new Dimension(250, 80));
 
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
@@ -108,22 +107,23 @@ public class StrongBoxForBuyDevCardPanel extends JPanel implements ActionListene
             shieldButton.setIcon(new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResourceAsStream("/images/punchboard/shield.png")).readAllBytes()).getImage().getScaledInstance(50, 50, Image.SCALE_AREA_AVERAGING)));
         } catch (IOException ignored) {}
 
-        howManyCoins = warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.COIN);
+        HashMap<ResourceType, Integer> resources =  warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox();
+        howManyCoins = resources.get(ResourceType.COIN);
         coin.setText(String.valueOf(howManyCoins));
         coin.setForeground(Color.WHITE);
         coin.setFont(new Font(coin.getFont().getName(), Font.PLAIN, 20));
 
-        howManyStones = warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.STONE);
+        howManyStones = resources.get(ResourceType.STONE);
         stone.setText(String.valueOf(howManyStones));
         stone.setForeground(Color.WHITE);
         stone.setFont(new Font(stone.getFont().getName(), Font.PLAIN, 20));
 
-        howManyServants = warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.SERVANT);
+        howManyServants = resources.get(ResourceType.SERVANT);
         servant.setText(String.valueOf(howManyServants));
         servant.setForeground(Color.WHITE);
         servant.setFont(new Font(servant.getFont().getName(), Font.PLAIN, 20));
 
-        howManyShields = warehousePanel.getGui().getClient().getClientModelView().getLiteBoard().getStrongbox().getStrongbox().get(ResourceType.SHIELD);
+        howManyShields = resources.get(ResourceType.SHIELD);
         shield.setText(String.valueOf(howManyShields));
         shield.setForeground(Color.WHITE);
         shield.setFont(new Font(shield.getFont().getName(), Font.PLAIN, 20));

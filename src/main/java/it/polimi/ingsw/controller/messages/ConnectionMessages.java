@@ -29,8 +29,6 @@ public enum ConnectionMessages {
 
     YOUR_TURN("It's your turn bro! \n" + Constants.commands),
     YOUR_TURN_GUI("It's your turn bro!"),
-
-    NOT_YOUR_TURN("It's NOT your turn bro"),
     SELECT_LEADERCARDS("Choose the leader cards to remove"),
     CHOOSE_FIRST_RESOURCE(Constants.ANSI_YELLOW+"Choose the first initial resource:"+Constants.ANSI_RESET),
     CHOOSE_SECOND_RESOURCE(Constants.ANSI_YELLOW+"Choose the second initial resource:"+Constants.ANSI_RESET),
@@ -54,8 +52,7 @@ public enum ConnectionMessages {
     IMPOSSIBLEMOVE("I'm sorry, you can't do this action in this moment of the game"),
     IMPOSSIBLEENDTURN("I'm sorry, you have to do an action before ending the turn!"),
     CONNECTION_CLOSED("The server closed its connection."),
-    MATCH_FINISHED_FAITH("A player reached the last cell of the faith track"),
-    MATCH_FINISHED_DEVCARDS("A player bought the seventh development card"),
+    LAST_TURN("Game is ending. Last turn started"),
     PING("Ping"),
     UPDATE_AFTER_ENDTURN(""),
     PONG("Pong");

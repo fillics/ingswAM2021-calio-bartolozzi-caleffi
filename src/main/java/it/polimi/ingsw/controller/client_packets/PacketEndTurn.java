@@ -66,34 +66,38 @@ public class PacketEndTurn implements ClientPacketHandler{
 
             if (gameInterface.getState() == GameStates.PHASE_TWO) {
                 if (clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
-                    server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername()).
-                            sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.WAIT_FOR_TURN));
+                    ClientHandler cliHandler = server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername());
+                    cliHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.WAIT_FOR_TURN));
                     gameInterface.nextPlayer();
 
                     clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
                     clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.UPDATE_AFTER_ENDTURN));
 
-                    if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
-                        ArrayList<PlayerInfoEndMatch> playerInfoEndMatches = new ArrayList<>();
-                        for (Player player: gameInterface.getPlayers()){
-                            Board boardPlayer = player.getBoard();
-                            playerInfoEndMatches.add(new PlayerInfoEndMatch(player.getUsername(),
-                                    boardPlayer.getFaithMarker(), boardPlayer.getNumOfDevCards(), boardPlayer.getTotalCoins(),
-                                    boardPlayer.getTotalStones(), boardPlayer.getTotalShields(), boardPlayer.getTotalServants(),
-                                    player.getTotalVictoryPoints()));
+                    if (gameInterface.isEndgame()) {
+                        if(clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1){
+                            ArrayList<PlayerInfoEndMatch> playerInfoEndMatches = new ArrayList<>();
+                            for (Player player: gameInterface.getPlayers()){
+                                Board boardPlayer = player.getBoard();
+                                playerInfoEndMatches.add(new PlayerInfoEndMatch(player.getUsername(),
+                                        boardPlayer.getFaithMarker(), boardPlayer.getNumOfDevCards(), boardPlayer.getTotalCoins(),
+                                        boardPlayer.getTotalStones(), boardPlayer.getTotalShields(), boardPlayer.getTotalServants(),
+                                        player.getTotalVictoryPoints()));
+                            }
+
+                            server.sendAll(new PacketWinner(gameInterface.getWinner(), playerInfoEndMatches), gameInterface);
+                        }
+                        else{
+                            cliHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.LAST_TURN));
+                            yourTurn(server, gameInterface);
                         }
 
-                        server.sendAll(new PacketWinner(gameInterface.getWinner(), playerInfoEndMatches), gameInterface);
                     }
                     else {
-                        ClientHandler clientHandler1 = server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername());
-                        Board board1 = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
-                        clientHandler1.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
-                        clientHandler1.sendPacketToClient(new PacketFaithTrack(board1.getTrack(),board1.getFaithMarker(), board1.getVaticanReportSections()));
-
-                        gameInterface.setState(GameStates.PHASE_ONE);
+                       yourTurn(server, gameInterface);
                     }
-                } else {
+                }
+
+                else {
                     clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
                 }
             } else {
@@ -104,8 +108,6 @@ public class PacketEndTurn implements ClientPacketHandler{
 
     }
 
-    // TODO: 27/06/2021 fare packet update
-
     /**
      * Method used only in Single Player Mode when the token is handled, sending the update packets to the client
      * @param gameInterface (type GameInterface) - it is the interface of the game
@@ -113,18 +115,30 @@ public class PacketEndTurn implements ClientPacketHandler{
      * @param token (type SoloActionToken) - it is the drawn token
      * @param message (type ConnectionMessages) - it is the message to send to the client
      */
-    public void handleDrawingToken( GameInterface gameInterface, ClientHandler clientHandler, SoloActionToken token, ConnectionMessages message){
+    public void handleDrawingToken(GameInterface gameInterface, ClientHandler clientHandler, SoloActionToken token, ConnectionMessages message){
         ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
         Board board = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
 
-        clientHandler.sendPacketToClient(new PacketToken(token));
-        clientHandler.sendPacketToClient(new PacketBlackCross(((SinglePlayerGame) gameInterface).getBlackCross()));
-        clientHandler.sendPacketToClient(new PacketFaithTrack(board.getTrack(),board.getFaithMarker(),board.getVaticanReportSections()));
+        clientHandler.sendPacketToClient(new PacketUpdate(token, ((SinglePlayerGame) gameInterface).getBlackCross(),
+                board.getTrack(),board.getFaithMarker(),board.getVaticanReportSections(), gameInterface.getDevGridLite()));
         clientHandler.sendPacketToClient(new PacketConnectionMessages(message));
-        clientHandler.sendPacketToClient(new PacketLiteDevelopmentGrid(gameInterface.getDevGridLite()));
         clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+
     }
 
+    /**
+     * Method that sends to the right client the packet that indicates the turn
+     * @param server (type Server) - it is the server of the game
+     * @param gameInterface (type GameInterface) - it is the interface of the game
+     */
+    public void yourTurn(Server server, GameInterface gameInterface){
+        ClientHandler clientHandler1 = server.getMapUsernameClientHandler().get(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getUsername());
+        Board board1 = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
+        clientHandler1.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));
+        clientHandler1.sendPacketToClient(new PacketFaithTrack(board1.getTrack(),board1.getFaithMarker(), board1.getVaticanReportSections()));
+
+        gameInterface.setState(GameStates.PHASE_ONE);
+    }
 
 
 }

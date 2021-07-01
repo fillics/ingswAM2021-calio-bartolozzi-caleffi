@@ -28,8 +28,6 @@ import java.util.stream.IntStream;
 /**
  * Game class contains the main logic of "Master of Renaissance".
  */
-
-// TODO: 11/05/2021 mettere synchronized alcune classi di game per gestire le partite multiple
 public class Game implements GameInterface, GameBoardInterface, GamePlayerInterface, CheatGameInterface {
 
     private final ArrayList<Player> players;
@@ -421,7 +419,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void chooseDiscountActivation(ArrayList<Integer> leaderCards) throws DiscountCannotBeActivated {
         int i,j,num;
         num=0;
-        // TODO: 22/06/2021 al posto di istance of mettiamo equals??
         for (i=0;i<leaderCards.size();i++) {
             for(j=0; j<activePlayers.get(currentPlayer).getLeaderCards().size();j++){
                 if (activePlayers.get(currentPlayer).getLeaderCards().get(j).getId()== leaderCards.get(i)
@@ -644,7 +641,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
 
-    public void setCurrentPlayer(int currentPlayer) {
+    public synchronized void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
@@ -660,7 +657,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             else setCurrentPlayer(currentPlayer+1);
         }
         else {
-            if(currentPlayer!=activePlayers.size()-1) currentPlayer++;
+            if(currentPlayer!=activePlayers.size()-1) setCurrentPlayer(currentPlayer+1);
             else {
                 winner();
             }
@@ -685,7 +682,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         ArrayList<Integer> resourcesPlayers = new ArrayList<>();
         int maxVictoryPoints;
         int maxResources;
-        String winnerUsername;
 
         for (Player player : activePlayers) {
             victoryPointsPlayers.add(player.getTotalVictoryPoints());
@@ -693,16 +689,15 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         maxVictoryPoints = Collections.max(victoryPointsPlayers);
 
         if(Collections.frequency(victoryPointsPlayers, maxVictoryPoints)==1){
-            winnerUsername = activePlayers.get(victoryPointsPlayers.indexOf(maxVictoryPoints)).getUsername();
+            winner = activePlayers.get(victoryPointsPlayers.indexOf(maxVictoryPoints)).getUsername();
         }
         else{ //caso di pareggio
             for (Player activePlayer : activePlayers) {
                 resourcesPlayers.add(activePlayer.getBoard().getTotalResources());
             }
             maxResources = Collections.max(resourcesPlayers);
-            winnerUsername = activePlayers.get(resourcesPlayers.indexOf(maxResources)).getUsername();
+            winner = activePlayers.get(resourcesPlayers.indexOf(maxResources)).getUsername();
         }
-        setWinner(winnerUsername); // TODO: 23/05/2021 si può togliere il set e mettere winner=winnerUSername??
     }
 
     public Player getActivePlayerByUsername(String username){
@@ -736,10 +731,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void reconnectPlayer(String username){
         Player playerToReconnect = getPlayerByUsername(username);
         if(players.contains(playerToReconnect)) activePlayers.add(playerToReconnect.getPosition(), playerToReconnect);
-
-        for (Player player: activePlayers){
-            System.out.println("lista giocatori: "+player.getUsername());
-        }
 
     }
 

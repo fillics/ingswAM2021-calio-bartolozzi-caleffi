@@ -19,12 +19,14 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
     private DevSpacesPanel devSpacesPanel;
     private BuyDevCardPanel buyDevCardPanel;
     private UseProductionPowerPanel useProductionPowerPanel;
+
     private JPanel mainPanel;
     private GridBagConstraints c;
     private int widthRes, heightRes;
     private ArrayList<JLabel> resources;
 
 
+    // TODO: 29/06/2021 da fare javadoc
     public WarehouseAndDevSpacesPanel(BuyDevCardPanel buyDevCardPanel) {
         this.buyDevCardPanel = buyDevCardPanel;
         constructor();
@@ -91,6 +93,10 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
     }
 
 
+    /**
+     * Method that creates a line containing all the chosen resources taken from the warehouse
+     * @param resourceType - it is the chosen resource to add to the line
+     */
     public void addResource(ResourceType resourceType){
         JLabel resource = new JLabel();
         String path;

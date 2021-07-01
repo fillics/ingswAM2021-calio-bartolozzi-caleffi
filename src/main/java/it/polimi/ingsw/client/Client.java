@@ -63,16 +63,19 @@ public class Client {
 
         if (viewChoice.equals(ViewChoice.GUI)){
             gui = new GUI(this);
+            clientModelView.setColorPlayer(gui.getRandomColor());
+
             if(defaultConnection) gui.setDefaultConnection();
             new Thread(gui).start();
         }
 
     }
 
+
     /**
-     * possiamo passare al jar la stringa -cli o -gui oppure lasciare vuoto per far decidere
-     * può scrivere anche -default per caricare i valori della connessione presenti nel file json clientconnection.json
-     * @param args
+     * Main method of Client.
+     * @param args (type String[]) - they are the arguments that could be passed to the class. You can put -cli, -gui or
+     *             -default if you want to connect to the server using the information that are in ClientConnection.json
      */
     public static void main(String[] args) {
 
@@ -84,7 +87,7 @@ public class Client {
         if(args!=null && args.length!=0){
             if (args[0].equals("-cli")) viewChoice=ViewChoice.CLI;
             else if (args[0].equals("-gui")) viewChoice=ViewChoice.GUI;
-            if (args[1].equals(DEFAULT_ARGS)) defaultConnection=true;
+            if(args.length>1 && args[1].equals(DEFAULT_ARGS)) defaultConnection=true;
         }
         else viewChoice = viewInterfaceChoice();
 
@@ -97,10 +100,10 @@ public class Client {
 
     /**
      * Method that creates the socket client connection and if the viewChoice equals CLI creates a new CLIOperationHandler object
-     * @param viewChoice
+     * @param viewChoice (type ViewChoice) - it is the view choice chosen
      */
     public void serverConnection(ViewChoice viewChoice){
-        socketClientConnection = new SocketClientConnection(this);
+        socketClientConnection = new SocketClientConnection(viewChoice);
 
         if(viewChoice.equals(ViewChoice.CLI)) {
             cliOperationHandler = new CLIOperationHandler(socketClientConnection, clientModelView, cli);

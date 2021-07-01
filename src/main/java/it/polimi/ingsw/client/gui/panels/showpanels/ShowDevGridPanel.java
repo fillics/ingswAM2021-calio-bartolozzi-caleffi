@@ -265,6 +265,7 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
         c.gridx=0;
         c.gridy=0;
         backButton = new JButton("BACK");
+        backButton.setFont(new Font("Times New Roman", backButton.getFont().getStyle(), 15));
         backButton.addActionListener(this);
         backButton.setPreferredSize(new Dimension(250, 50));
 
@@ -281,6 +282,8 @@ public class ShowDevGridPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == backButton){
             gui.switchPanels(new BoardPanel(gui));
+            gui.createMessageFromServer("Back to your board");
+
         }
 
     }

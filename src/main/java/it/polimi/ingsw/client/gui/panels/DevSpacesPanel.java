@@ -103,7 +103,7 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
     public void setButtons(JPanel buttonPanel){
         buttonPanel.setPreferredSize(new Dimension( 720,100));
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        baseProdPower = new JButton("BASE PROD.POWER");
+        baseProdPower = new JButton("BASE PROD POWER");
         devSpace1 = new JButton("1");
         devSpace2 = new JButton("2");
         devSpace3 = new JButton("3");
@@ -117,16 +117,17 @@ public class DevSpacesPanel extends JPanel implements ActionListener {
         panel4.setPreferredSize(new Dimension(160, 380));
 
         baseProdPower.addActionListener(this);
-        baseProdPower.setBackground(Color.ORANGE);
+        baseProdPower.setBackground(new Color(233, 226, 193));
+        baseProdPower.setFont(new Font("Times New Roman", baseProdPower.getFont().getStyle(), 10));
         panel1.add(baseProdPower);
         devSpace1.addActionListener(this);
-        devSpace1.setBackground(Color.ORANGE);
+        devSpace1.setBackground(new Color(233, 226, 193));
         panel2.add(devSpace1);
         devSpace2.addActionListener(this);
-        devSpace2.setBackground(Color.ORANGE);
+        devSpace2.setBackground(new Color(233, 226, 193));
         panel3.add(devSpace2);
         devSpace3.addActionListener(this);
-        devSpace3.setBackground(Color.ORANGE);
+        devSpace3.setBackground(new Color(233, 226, 193));
         panel4.add(devSpace3);
 
         buttonPanel.add(panel1);

@@ -84,7 +84,7 @@ public class TakeResourcesFromMarketPanel extends JPanel implements ActionListen
         for(int i = 0; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyMarble &&
                     gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getStrategy().isActive()){
-                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId());
+                LeaderCardPanel leaderCardPanel1 = new LeaderCardPanel(gui, gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId(), this);
                 leaderCardPanels.add(leaderCardPanel1);
                 j++;
                 leaderCardPanel1.setOpaque(false);
@@ -119,8 +119,11 @@ public class TakeResourcesFromMarketPanel extends JPanel implements ActionListen
         buttonPanel.setOpaque(false);
 
         confirm = new JButton("CONFIRM");
+        confirm.setFont(new Font("Times New Roman", confirm.getFont().getStyle(), 15));
         back = new JButton("BACK TO THE BOARD");
+        back.setFont(new Font("Times New Roman", back.getFont().getStyle(), 15));
         resetBtn = new JButton("RESET");
+        resetBtn.setFont(new Font("Times New Roman", resetBtn.getFont().getStyle(), 15));
         setButton(confirm, gui.getGreenColor());
         setButton(back, gui.getGreenColor());
         setButton(resetBtn, Color.RED);
@@ -173,10 +176,14 @@ public class TakeResourcesFromMarketPanel extends JPanel implements ActionListen
             if(!marketTrayPanel.getLine().equals("") && marketTrayPanel.getNumline()!=0){
                 gui.getClient().sendPacketToServer(new PacketTakeResourceFromMarket(marketTrayPanel.getLine(), marketTrayPanel.getNumline(), leaderCards));
                 gui.switchPanels(new BoardPanel(gui));
+                gui.createMessageFromServer("Back to your board");
+
             }
         }
         if(e.getSource() == back){
             gui.switchPanels(new BoardPanel(gui));
+            gui.createMessageFromServer("Back to your board");
+
         }
 
         if(e.getSource() == resetBtn){

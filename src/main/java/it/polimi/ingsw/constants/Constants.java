@@ -72,6 +72,9 @@ public class Constants {
 
     public static final String exit = "Type "+Constants.ITALIC+" exit "+Constants.ANSI_RESET+" if you want to cancel the operation at any point.";
 
+    public static final String close = "Type "+Constants.ITALIC+" close "+Constants.ANSI_RESET+" to close the connection with the client.";
+
+
     public static void setPort(int port) {
         Constants.port = port;
     }

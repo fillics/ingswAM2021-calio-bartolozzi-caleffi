@@ -1,13 +1,15 @@
 package it.polimi.ingsw.client.communication;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ViewChoice;
+import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.constants.Constants;
 import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * ConnectionSocket class handles the connection between the client and the server.
+ * SocketClientConnection class handles the connection between the client and the server.
  *
  */
 public class SocketClientConnection {
@@ -18,16 +20,19 @@ public class SocketClientConnection {
 
     /**
      * Class' constructor
-     * @param client is the client linked to the socket
+     * @param viewChoice - it is the chosen view by the client
      */
-    public SocketClientConnection(Client client) {
+    public SocketClientConnection(ViewChoice viewChoice) {
         try {
             socket = new Socket(Constants.getAddressServer(), Constants.getPort());
             socket.setSoTimeout(20000);
             connectionToServer.compareAndSet(false, true);
         } catch (IOException ignored) {
-            System.err.println("Error during connection to the client");
-            Client.main(null);
+            if(viewChoice.equals(ViewChoice.CLI)){
+                Client.main(new String[] {"-cli"});
+                System.err.println("Error during connection to the client");
+
+            }
 
         }
         if (connectionToServer.get()) creationStreams();

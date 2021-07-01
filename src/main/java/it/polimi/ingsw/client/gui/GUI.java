@@ -1,8 +1,15 @@
 package it.polimi.ingsw.client.gui;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.panels.*;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.LoginPanel;
+import it.polimi.ingsw.client.gui.panels.pregamepanels.NumPlayersPanel;
 import it.polimi.ingsw.client.gui.panels.pregamepanels.ServerPanel;
+import it.polimi.ingsw.controller.Packet;
+import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
+import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -16,11 +23,13 @@ import java.util.Objects;
  * GUI class represents the thread run when the player chooses to play with GUI.
  */
 public class GUI implements Runnable {
+
     private JPanel topPanel;
     private JPanel mainPanel;
     private JPanel messagesFromServerPanel;
     private JPanel curMessagePanel;
-    private final Client client;
+    private Client client;
+    private ClientModelView clientModelView;
     private final Dimension dimension;
     private final int width;
     private final int height;
@@ -28,10 +37,11 @@ public class GUI implements Runnable {
     private final Border blackline;
     private final ArrayList<Border> borders;
     private final Color greenColor;
-    private final Color giallinoBackgroundColor;
+    private final Color backgroundColor;
     private final Color purpleColor;
     private final Color lightblueColor;
     private final Color yellowColor;
+    private boolean defaultConnection=false;
 
     /**
      * Class' constructor, it creates the frame in which will be inserted all the panels created to play the game.
@@ -57,7 +67,7 @@ public class GUI implements Runnable {
         borders.add(loweredetched);
 
         greenColor = new Color(54, 178, 76);
-        giallinoBackgroundColor = new Color(233, 226, 193);
+        backgroundColor = new Color(233, 226, 193);
         purpleColor = new Color(139,117,180);
         lightblueColor = new Color(104,205,236);
         yellowColor = new Color(228,191,40);
@@ -80,7 +90,7 @@ public class GUI implements Runnable {
         bigPanel.setLayout(new BorderLayout());
         mainPanel.setLayout(new BoxLayout(mainPanel,  BoxLayout.PAGE_AXIS));
 
-        mainPanel.add(new ServerPanel(this));
+        mainPanel.add(new ServerPanel(this, defaultConnection));
         mainPanel.setPreferredSize(new Dimension(width, height-50));
         topPanel.setPreferredSize(new Dimension(width, 50));
 
@@ -191,10 +201,10 @@ public class GUI implements Runnable {
 
     /**
      * Class' getter
-     * @return the GiallinoBackgroundColor
+     * @return the backgroundColor
      */
-    public Color getGiallinoBackgroundColor() {
-        return giallinoBackgroundColor;
+    public Color getBackgroundColor() {
+        return backgroundColor;
     }
 
     /**
@@ -236,12 +246,9 @@ public class GUI implements Runnable {
         return colors.get(index);
     }
 
-    /**
-     * Class' getter
-     * @return the borders
-     */
-    public ArrayList<Border> getBorders() {
-        return borders;
+
+    public Border getBlackline() {
+        return blackline;
     }
 
     /**
@@ -256,6 +263,6 @@ public class GUI implements Runnable {
      * Class' setter
      */
     public void setDefaultConnection() {
-        boolean defaultConnection = true;
+        defaultConnection = true;
     }
 }

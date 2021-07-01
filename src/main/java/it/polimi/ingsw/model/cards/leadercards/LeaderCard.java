@@ -13,7 +13,6 @@ import java.util.HashMap;
  * This class represents the Leader Card.
  */
 
-
 public class LeaderCard extends Card {
     private final int id;
     private final LeaderCardType type;
@@ -47,9 +46,25 @@ public class LeaderCard extends Card {
         this.productionPowerPosition = productionPowerPosition;
     }
 
+    /**
+     * Method useDiscount modifies the price of a development card only for its purchase.
+     */
+    public void useDiscount(DevelopmentCard developmentCard, HashMap<ResourceType,Integer> resourcePriceBuffer){
+        int oldvalue;
+        ResourceType temp;
+        temp = strategy.getResourceType();
+        if(developmentCard.getResourcePrice().containsKey(temp)){
+            oldvalue = developmentCard.getResourcePrice().get(temp);
+            resourcePriceBuffer.replace(temp,oldvalue,oldvalue-1);
+        }
+    }
 
-    //TODO: javadoc per ogni metodo
-
+    /**
+     * Method useAbility activates the ability of the strategy.
+     */
+    public void useAbility() {
+        strategy.ability();
+    }
 
     public int getProductionPowerPosition() {
         return productionPowerPosition;
@@ -91,25 +106,10 @@ public class LeaderCard extends Card {
         return strategy;
     }
 
-    public void useDiscount(DevelopmentCard developmentCard, HashMap<ResourceType,Integer> resourcePriceBuffer){
-        int oldvalue;
-        ResourceType temp;
-        temp = strategy.getResourceType();
-        if(developmentCard.getResourcePrice().containsKey(temp)){
-            oldvalue = developmentCard.getResourcePrice().get(temp);
-            resourcePriceBuffer.replace(temp,oldvalue,oldvalue-1);
-        }
-    }
-
     public Requirement getRequirements() {
         return requirements;
     }
 
-    public void useAbility() {
-        strategy.ability();
-    }
-
-    //@JsonIgnore
     @Override
     public int getVictorypoint() {
         return victorypoint;

@@ -34,7 +34,7 @@ public class PacketLeaderCards implements ServerPacketHandler{
                 if(client.getViewChoice().equals(ViewChoice.GUI)){
                     client.getGui().switchPanels(new BoardPanel(client.getGui()));
                 }
-                System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
+                else System.out.println("[from server]"+Constants.ANSI_GREEN+" Leader Cards updated!"+Constants.ANSI_RESET);
             }
             case LEADERSETUP -> {
                 if (client.getClientModelView().getMyPlayer().getPosInGame() != 0) {
@@ -46,8 +46,7 @@ public class PacketLeaderCards implements ServerPacketHandler{
                 }
                 else {
                     if(client.getViewChoice().equals(ViewChoice.GUI)){
-                        BoardPanel boardPanel = new BoardPanel(client.getGui());
-                        client.getGui().switchPanels(boardPanel);
+                        client.getGui().switchPanels(new BoardPanel(client.getGui()));
                         client.getGui().createMessageFromServer("You're the first player, you can't have any resources or faith points.\nGood game!");
                     }
                     else {

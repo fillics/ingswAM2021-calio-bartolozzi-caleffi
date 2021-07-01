@@ -22,6 +22,7 @@ public class DevCardPanel extends JPanel implements ActionListener {
     private JPanel cardPanel;
     private final GridBagConstraints c;
     private JButton backBtn, confirmBtn;
+    private JLabel card;
 
     /**
      * Method used to set the panel background.
@@ -133,8 +134,9 @@ public class DevCardPanel extends JPanel implements ActionListener {
      */
     public void setButton(JButton button){
         button.addActionListener(this);
+        button.setFont(new Font("Times New Roman", button.getFont().getStyle(), 15));
         button.setPreferredSize(new Dimension(250, 50));
-        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 25));
+        button.setFont(new Font(button.getFont().getName(), button.getFont().getStyle(), 20));
 
     }
 
