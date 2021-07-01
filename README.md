@@ -51,6 +51,8 @@ For the best user experience, it is suggested to use WSL2 (in full screen) to ru
 To run the GUI you could also run it from the Windows' Command Prompt.
 To not have problems with it and to see it correctly, you have to set the Windows setting "Change the dimension app" with the number 100%.
 
+![Settings](https://github.com/fillics/ingswAM2021-calio-bartolozzi-caleffi/blob/master/src/main/resources/images/github/guide.png)
+
 # Implemented Functionalities
 | Functionality        | Status  | 
 | ------------- |:-------------:| 
