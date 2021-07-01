@@ -7,6 +7,8 @@ import it.polimi.ingsw.client.gui.panels.WarehouseAndDevSpacesPanel;
 import it.polimi.ingsw.controller.client_packets.PacketBuyDevCard;
 import it.polimi.ingsw.controller.client_packets.PacketChooseDiscount;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDiscount;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -155,9 +157,10 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
     public void createLeaderCards(){
         leaderCards = new JPanel();
         leaderCards.setLayout(new BoxLayout(leaderCards, BoxLayout.X_AXIS));
+
         for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
             if(leaderCard.getType().equals(LeaderCardType.EXTRA_DEPOSIT) && leaderCard.getStrategy().isActive()){
-                leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(), this));
+                leaderCards.add(new LeaderCardPanel(gui, leaderCard, this));
             }
         }
         leaderCards.setOpaque(false);
@@ -362,11 +365,13 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         if (e.getSource() == leaderCard1) {
             int id = gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(0).getId();
             leaderCardsIDs.add(id);
+            confirmDiscountBtn.setVisible(true);
             leaderCard1.setEnabled(false);
         }
         if (e.getSource() == leaderCard2) {
             int id = gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(1).getId();
             leaderCardsIDs.add(id);
+            confirmDiscountBtn.setVisible(true);
             leaderCard2.setEnabled(false);
         }
 
@@ -400,5 +405,9 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
      */
     public GUI getGui() {
         return gui;
+    }
+
+    public WarehouseAndDevSpacesPanel getSmallBoard() {
+        return smallBoard;
     }
 }

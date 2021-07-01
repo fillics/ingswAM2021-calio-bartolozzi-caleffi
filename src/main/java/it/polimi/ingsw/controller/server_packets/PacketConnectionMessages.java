@@ -37,6 +37,8 @@ public class PacketConnectionMessages implements ServerPacketHandler {
                     client.getGui().createMessageFromServer(message.getMessage());
                     client.getGui().switchPanels(new WaitingEndGamePanel(client.getGui()));
                 }
+                client.setClientState(ClientStates.GAME_ENDING);
+
             }
 
             case IMPOSSIBLEENDTURN, IMPOSSIBLEMOVE, IMPOSSIBLE_CHEAT -> {

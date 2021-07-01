@@ -79,7 +79,7 @@ public class GUI implements Runnable {
         bigPanel.setLayout(new BorderLayout());
         mainPanel.setLayout(new BoxLayout(mainPanel,  BoxLayout.PAGE_AXIS));
 
-        mainPanel.add(new ServerPanel(this));
+        mainPanel.add(new ServerPanel(this, defaultConnection));
         mainPanel.setPreferredSize(new Dimension(width, height-50));
         topPanel.setPreferredSize(new Dimension(width, 50));
 

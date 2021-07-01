@@ -40,8 +40,8 @@ public class BoardPanel extends JPanel implements ActionListener {
     private final JButton placeResource = new JButton("PLACE RESOURCE");
     private final JButton takeResourceFromMarket = new JButton("RESOURCES FROM MARKET");
     private final JButton endTurn = new JButton("END YOUR TURN");
-    private final JButton resourceCheatButton = new JButton("+20 resources");
-    private final JButton faithMarkerCheatButton = new JButton("+1 faith marker");
+    private final JButton resourceCheatButton = new JButton("20 resources (cheat)");
+    private final JButton faithMarkerCheatButton = new JButton("+1 faith marker (cheat)");
     private JPanel operations;
     private JPanel leaderCards;
     private JPanel underBoard;
@@ -408,7 +408,6 @@ public class BoardPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        // TODO: 06/06/2021 cambiamo il messaggio visualizzato sopra quando premiamo un bottone, tipo "hai scelto di guardare il dev grid" 
         if(e.getSource() == showDevGrid){
             gui.switchPanels(new ShowDevGridPanel(gui));
             gui.createMessageFromServer("You have chosen to see the development grid");

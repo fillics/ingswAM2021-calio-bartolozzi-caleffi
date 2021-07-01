@@ -39,7 +39,7 @@ public class ServerPanel extends JPanel implements ActionListener {
      * Class' constructor
      * @param gui gui is the GUI object linked to this panel
      */
-    public ServerPanel(GUI gui){
+    public ServerPanel(GUI gui, boolean defaultConnection){
         this.gui = gui;
         this.defaultConnection = defaultConnection;
         InputStream is = getClass().getResourceAsStream("/images/background/pregame.png");
@@ -125,7 +125,6 @@ public class ServerPanel extends JPanel implements ActionListener {
         c.gridy=0;
         ipPanel.add(ipAddressTextField, c);
 
-        ipAddressTextField.setText("127.0.0.1");
         if(defaultConnection) ipAddressTextField.setText(Constants.getAddressServer());
         ipAddressTextField.setPreferredSize(new Dimension(200, 50));
         ipAddressTextField.setHorizontalAlignment(JTextField.CENTER);
@@ -158,8 +157,6 @@ public class ServerPanel extends JPanel implements ActionListener {
         c.gridy=0;
         portPanel.add(serverPortTextField, c);
 
-        // TODO: 26/06/2021 toglier riga commentata
-        serverPortTextField.setText(String.valueOf(1234));
         if(defaultConnection) serverPortTextField.setText(String.valueOf(Constants.getPort()));
 
         serverPortTextField.setPreferredSize(new Dimension(200, 10));

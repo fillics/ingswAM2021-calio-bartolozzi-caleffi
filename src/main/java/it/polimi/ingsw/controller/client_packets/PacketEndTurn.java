@@ -33,7 +33,7 @@ public class PacketEndTurn implements ClientPacketHandler{
                             gameInterface.getActivePlayers().get(0).getResourceBuffer().clear();
                             ((SinglePlayerGame) gameInterface).increaseBlackCross(sizeResourceBuffer);
                         }
-                        //clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
+                        clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
 
                         if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
                             ((SinglePlayerGame) gameInterface).winner();

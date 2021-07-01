@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.server_packets;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.WinnerPanel;
@@ -43,6 +44,8 @@ public class PacketWinner implements ServerPacketHandler {
             else client.getGui().switchPanels(new WinnerPanel(client.getGui(), null, username));
 
         }
+        client.setClientState(ClientStates.END);
+
     }
 
     public String getUsername() {

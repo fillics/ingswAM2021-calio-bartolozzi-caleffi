@@ -23,6 +23,7 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
     private final JButton confirmBtn;
     private final JButton backBtn;
     private final WarehousePanel warehousePanel;
+    private JPanel leaderCards;
 
     /**
      * Method used to set the panel background.
@@ -72,17 +73,8 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         warehousePanel = new WarehousePanel(gui);
         DevSpacesPanel devSpacesPanel = new DevSpacesPanel(gui);
 
-        JPanel leaderCards = new JPanel();
-        leaderCards.setLayout(new BoxLayout(leaderCards, BoxLayout.Y_AXIS));
-        leaderCards.setPreferredSize(new Dimension(159, 250));
-        for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
-            if(leaderCard.getType().equals(LeaderCardType.EXTRA_DEPOSIT) && leaderCard.getStrategy().isActive()){
-                leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(), warehousePanel.getDepositsPanel()));
-            }
-        }
+        createLeaderCards();
 
-
-        leaderCards.setOpaque(false);
         underBoard.add(leaderCards);
         underBoard.add(warehousePanel);
         underBoard.add(devSpacesPanel);
@@ -118,6 +110,20 @@ public class MoveResourcePanel extends JPanel implements ActionListener {
         this.add(bigPanel);
 
         disableButtons(devSpacesPanel, warehousePanel, resourceBufferPanel);
+    }
+
+    public void createLeaderCards(){
+        leaderCards = new JPanel();
+        leaderCards.setLayout(new BoxLayout(leaderCards, BoxLayout.Y_AXIS));
+        leaderCards.setPreferredSize(new Dimension(159, 250));
+
+        for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
+            if(leaderCard.getType().equals(LeaderCardType.EXTRA_DEPOSIT) && leaderCard.getStrategy().isActive()){
+                leaderCards.add(new LeaderCardPanel(gui, leaderCard.getId(), warehousePanel.getDepositsPanel()));
+            }
+        }
+        leaderCards.setOpaque(false);
+
     }
 
     /**
