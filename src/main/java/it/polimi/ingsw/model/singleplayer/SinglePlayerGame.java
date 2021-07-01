@@ -23,7 +23,6 @@ import java.util.Objects;
 /**
  * Represents the class used when a player wants to play in Single Player against Lorenzo il Magnifico.
  */
-
 public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
 
     private LinkedList<SoloActionToken> deckSoloActionToken;

@@ -13,6 +13,10 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.server.ClientProxy;
 
+/**
+ * Packet used when a player reconnected to the game. It takes all the information from the ClientProxy and sets them
+ * in the client model view of the player
+ */
 public class PacketReconnection implements ServerPacketHandler{
 
     private final ConnectionMessages message;

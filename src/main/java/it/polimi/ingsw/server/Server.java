@@ -72,8 +72,8 @@ public class Server {
         int port = 0;
         if(args!=null && args.length!=0 && PORT_ARGUMENT.equals(args[0])) {
             port = Integer.parseInt(args[1]);
-            if (port < 0 || (port > 0 && port < 1024)) {
-                System.err.println("Error: ports accepted started from 1024! Please insert a new value.");
+            if (port < 0 || (port > 0 && port < 1024) || port > 65535) {
+                System.err.println("Error: ports accepted started from 1024 and they can't be bigger than 65535! Please insert a new value.");
                 System.exit(0);
             }
         }
@@ -90,8 +90,8 @@ public class Server {
                 System.exit(-1);
             }
         }
-        if (port < 0 || (port > 0 && port < 1024)) {
-            System.err.println("Error: ports accepted started from 1024! Please insert a new value.");
+        if (port < 0 || (port > 0 && port < 1024) || port > 65535) {
+            System.err.println("Error: ports accepted started from 1024 and they can't be bigger than 65535! Please insert a new value.");
             main(null);
         }
 
@@ -440,7 +440,7 @@ public class Server {
     }
 
     /**
-     * Method saveClientProxy saves all the informations of a player in the mapForReconnection. This method is used for
+     * Method saveClientProxy saves all the information of a player in the mapForReconnection. This method is used for
      * the additional function "resilience to disconnections".
      * @param username (type String) - it is the username of the player to save
      * @param gameInterface (type GameInterface) - it is the player's game
@@ -467,6 +467,9 @@ public class Server {
 
         //faithmarker
         board.setFaithMarker(player.getBoard().getFaithMarker());
+
+        if(gameInterface instanceof SinglePlayerGame) board.setBlackCross(((SinglePlayerGame) gameInterface).getBlackCross());
+
 
         //resourceBuffer
         clientModelView.getMyPlayer().setResourceBuffer(player.getResourceBuffer());

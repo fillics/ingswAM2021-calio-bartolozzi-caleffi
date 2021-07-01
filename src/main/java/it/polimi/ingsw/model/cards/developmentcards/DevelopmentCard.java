@@ -129,20 +129,20 @@ public class DevelopmentCard extends Card {
 
         matrix.append(Printable.DOUBLE_LINE.print());
         assert this.productionPower != null;
-        if(this.productionPower.numofResources()==2)
+        if(this.productionPower.numOfResources()==2)
             matrix.append((" ").repeat(3));
-        else if (this.productionPower.numofResources()==3)
+        else if (this.productionPower.numOfResources()==3)
             matrix.append((" ").repeat(2));
-        else if(this.productionPower.numofResources()==4)
+        else if(this.productionPower.numOfResources()==4)
             matrix.append((" ").repeat(1));
 
         matrix.append(this.productionPower);
 
-        if(this.productionPower.numofResources()==2)
+        if(this.productionPower.numOfResources()==2)
             matrix.append((" ").repeat(3));
-        else if (this.productionPower.numofResources()==3)
+        else if (this.productionPower.numOfResources()==3)
             matrix.append((" ").repeat(2));
-        else if(this.productionPower.numofResources()==4)
+        else if(this.productionPower.numOfResources()==4)
             matrix.append((" ").repeat(1));
 
         matrix.append(Printable.DOUBLE_LINE.print()).append("\n");

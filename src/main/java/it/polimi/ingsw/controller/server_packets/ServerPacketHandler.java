@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.Client;
 /**
  * ServerPacketHandler interface defines an interface for Packets from Server to Client.
  */
-
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "command")
@@ -15,8 +14,6 @@ import it.polimi.ingsw.client.Client;
         @JsonSubTypes.Type(value = PacketLiteMarketTray.class, name = "LITE_MARKET_TRAY"),
         @JsonSubTypes.Type(value = PacketFaithTrack.class, name = "FAITH_TRACK"),
         @JsonSubTypes.Type(value = PacketBoardOfAnotherPlayer.class, name = "BOARD_ANOTHER_PLAYER"),
-        @JsonSubTypes.Type(value = PacketBlackCross.class, name = "BLACK_CROSS"),
-        @JsonSubTypes.Type(value = PacketToken.class, name = "TOKEN"),
         @JsonSubTypes.Type(value = PacketConnectionMessages.class, name = "MESSAGE"),
         @JsonSubTypes.Type(value = PacketPingFromServer.class, name = "PING"),
         @JsonSubTypes.Type(value = PacketReconnection.class, name = "RECONNECTION"),
@@ -30,12 +27,12 @@ import it.polimi.ingsw.client.Client;
         @JsonSubTypes.Type(value = PacketSetup.class, name = "SETUP"),
         @JsonSubTypes.Type(value = PacketSpecialProdPowers.class, name = "SPECIAL_PROD_POWERS"),
         @JsonSubTypes.Type(value = PacketWhiteMarbleChoice.class, name = "WHITE_MARBLE_CHOICE"),
-        @JsonSubTypes.Type(value = PacketEndGameStarted.class, name = "ENDGAME_STARTED"),
         @JsonSubTypes.Type(value = PacketWinner.class, name = "WINNER"),
-        @JsonSubTypes.Type(value = PacketUpdate.class, name = "UPDATE"),
+        @JsonSubTypes.Type(value = PacketSinglePlayerUpdate.class, name = "UPDATE"),
         @JsonSubTypes.Type(value = PacketExceptionMessages.class, name = "EXCEPTIONS")
 
 })
+
 
 public interface ServerPacketHandler {
 

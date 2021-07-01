@@ -13,6 +13,9 @@ import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
 import javax.swing.*;
 
+/**
+ * PacketConnectionMessages handles the server messages that send to the client
+ */
 public class PacketConnectionMessages implements ServerPacketHandler {
 
     private ConnectionMessages message;

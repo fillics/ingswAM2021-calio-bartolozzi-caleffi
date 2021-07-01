@@ -21,6 +21,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+/**
+ * Client Class contains the main method of the Client, that handles the connection to the server and the choice of the view
+ * interface (CLI or GUI)
+ */
 public class Client {
 
     private ClientStates clientStates;

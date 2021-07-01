@@ -47,7 +47,6 @@ public class Board implements BoardInterface {
         faithMarker = 0;
         boardVictoryPoint = 0;
         this.game = game;
-        //this.singleGame=singleGame;
 
         specialProductionPowers = new ArrayList<>();
         HashMap<ResourceType,Integer> resourceNeeded = new HashMap<>();
@@ -277,6 +276,15 @@ public class Board implements BoardInterface {
     }
 
 
+    /**
+     * Method used when a player wants to buy a development card: it checks if the chosen resources are enough to
+     * buy the card
+     * @param resourcePriceBuffer - it is the array that contains the resources needed to buy the development card
+     * @param chosenResources - it is the array that contains the chosen resources
+     * @return a boolean that indicates if the resources are okay
+     * @throws NotEnoughResources - if the resources are not enough
+     * @throws WrongChosenResources - if the chosen resources are wrong
+     */
     public boolean checkResources(HashMap<ResourceType,Integer> resourcePriceBuffer, ArrayList<ResourceType> chosenResources) throws NotEnoughResources, WrongChosenResources {
 
         if((resourcePriceBuffer.containsKey(ResourceType.COIN)&&(resourcePriceBuffer.get(ResourceType.COIN)>getTotalCoins()))||

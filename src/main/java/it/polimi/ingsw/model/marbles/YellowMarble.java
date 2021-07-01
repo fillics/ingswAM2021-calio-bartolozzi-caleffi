@@ -23,7 +23,7 @@ public class YellowMarble extends Marble{
      */
     @Override
     public void transform(Player player){
-        Resource coin= new Resource(ResourceType.COIN);
+        Resource coin = new Resource(ResourceType.COIN);
         player.getResourceBuffer().add(coin);
     }
 

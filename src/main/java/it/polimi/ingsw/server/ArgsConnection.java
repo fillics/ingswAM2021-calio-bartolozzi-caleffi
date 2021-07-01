@@ -1,5 +1,9 @@
 package it.polimi.ingsw.server;
 
+/**
+ * Class used to get the server's information from the json file ClientConnection.json when a client runs the Client app
+ * with the parameter -default
+ */
 public class ArgsConnection {
     private String serverPort, ipAddress;
 

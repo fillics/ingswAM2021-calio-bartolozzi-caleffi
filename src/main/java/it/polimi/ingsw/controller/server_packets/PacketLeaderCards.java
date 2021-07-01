@@ -12,6 +12,9 @@ import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
 import java.util.ArrayList;
 
+/**
+ * PacketLeaderCards represents the Lite Leader Cards class, for the lite model of the client
+ */
 public class PacketLeaderCards implements ServerPacketHandler{
 
     private final ArrayList<LeaderCard> leaderCards;

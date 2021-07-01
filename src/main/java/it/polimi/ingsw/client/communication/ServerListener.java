@@ -14,7 +14,9 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-
+/**
+ * ServerListener receives the messages coming from the server and deserializes them
+ */
 public class ServerListener implements Runnable {
 
     private final Client client;

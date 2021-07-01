@@ -37,7 +37,6 @@ public class CLI implements ViewInterface {
 
     /**
      * View Interface override getter
-     * @return
      */
     @Override
     public ClientModelView getClientModelView() {
@@ -224,20 +223,20 @@ public class CLI implements ViewInterface {
                 }
                 else{
                     matrix.append(Printable.DOUBLE_LINE.print());
-                    if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==2)
+                    if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numOfResources()==2)
                         matrix.append((" ").repeat(3));
-                    else if (clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==3)
+                    else if (clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numOfResources()==3)
                         matrix.append((" ").repeat(2));
-                    else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==4)
+                    else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numOfResources()==4)
                         matrix.append((" ").repeat(1));
 
                     matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().toString());
 
-                    if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==2)
+                    if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numOfResources()==2)
                         matrix.append((" ").repeat(3));
-                    else if (clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==3)
+                    else if (clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numOfResources()==3)
                         matrix.append((" ").repeat(2));
-                    else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numofResources()==4)
+                    else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getProductionPower().numOfResources()==4)
                         matrix.append((" ").repeat(1));
                 }
                 matrix.append(Printable.DOUBLE_LINE.print()).append("  ");

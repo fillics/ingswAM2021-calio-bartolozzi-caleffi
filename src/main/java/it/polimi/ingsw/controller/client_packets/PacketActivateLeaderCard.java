@@ -7,11 +7,18 @@ import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.board.Board;
+import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyProductionPower;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
+import java.util.ArrayList;
+
+/**
+ * PacketActivateLeaderCard contains the leader card that the player wants to activate
+ */
 public class PacketActivateLeaderCard implements ClientPacketHandler {
     private final int id;
 
@@ -34,12 +41,16 @@ public class PacketActivateLeaderCard implements ClientPacketHandler {
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
                 gameInterface.activateLeaderCard(id);
-                clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getStrongbox(),gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard().getDeposits()));
-                clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces()));
+
+                Board board = gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard();
+                clientHandler.sendPacketToClient(new PacketWarehouse(board.getStrongbox(),board.getDeposits()));
+                clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(board.getDevelopmentSpaces()));
                 clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards()));
-                for(int i=0; i<gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards().size(); i++){
-                    if(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards().get(i).getId()==id && gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards().get(i).getStrategy() instanceof ConcreteStrategyProductionPower) {
-                        clientHandler.sendPacketToClient(new PacketSpecialProdPowers(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getSpecialProductionPowers()));
+
+                ArrayList<LeaderCard> leaderCards = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards();
+                for (LeaderCard leaderCard : leaderCards) {
+                    if (leaderCard.getId() == id && leaderCard.getStrategy() instanceof ConcreteStrategyProductionPower) {
+                        clientHandler.sendPacketToClient(new PacketSpecialProdPowers(board.getSpecialProductionPowers()));
                     }
                 }
             } catch (LeaderCardNotFound leaderCardNotFound) {

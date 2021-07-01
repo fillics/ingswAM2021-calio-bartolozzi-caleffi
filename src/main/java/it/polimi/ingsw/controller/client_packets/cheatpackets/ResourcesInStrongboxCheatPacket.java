@@ -9,6 +9,9 @@ import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
 
+/**
+ * Packet for the extra resources cheat, it calls the game's cheat method to increment the resources in the strongbox
+ */
 public class ResourcesInStrongboxCheatPacket implements CheatClientPacketHandler {
 
 

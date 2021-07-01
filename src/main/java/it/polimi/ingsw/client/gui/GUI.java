@@ -188,7 +188,7 @@ public class GUI implements Runnable {
 
     /**
      * Class' getter
-     * @return a random color
+     * @return a random color for the username of the player
      */
     public Color getRandomColor(){
         ArrayList<Color> colors = new ArrayList<>();

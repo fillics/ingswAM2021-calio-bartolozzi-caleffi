@@ -12,6 +12,9 @@ import it.polimi.ingsw.model.board.faithtrack.VaticanReportSection;
 
 import java.util.ArrayList;
 
+/**
+ * PacketFaithTrack represents the Lite Faith Track class, for the lite model of the client
+ */
 public class PacketFaithTrack implements ServerPacketHandler{
 
     private final ArrayList<Cell> track;

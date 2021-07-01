@@ -7,6 +7,9 @@ import it.polimi.ingsw.client.ViewChoice;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.marbles.Marble;
 
+/**
+ * PacketLiteMarketTray represents the Lite Market Tray class, for the lite model of the client
+ */
 public class PacketLiteMarketTray implements ServerPacketHandler{
 
     private final Marble[][] table;

@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ConcreteStrategyPlusTwo implements TokenActionStrategy{
 
-    private final int steps = 2;
     private final SinglePlayerGameInterface single;
 
     /**
@@ -27,7 +26,7 @@ public class ConcreteStrategyPlusTwo implements TokenActionStrategy{
      */
     @Override
     public void effect(){
-        single.increaseBlackCross(steps);
+        single.increaseBlackCross(2);
     }
 
 

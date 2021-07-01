@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * Player class represents the user and player of the board game.
  *
  */
-
 public class Player {
     private final String username;
     private final int idClient;
@@ -27,7 +26,6 @@ public class Player {
     private final ArrayList<Resource> resourceBuffer;
     private final Board board;
     private final GamePlayerInterface gamePlayer;
-    private int chosenResource;
     private ArrayList<Integer> whiteMarbleCardChoice;
 
     /**
@@ -46,35 +44,6 @@ public class Player {
         this.gamePlayer = game;
     }
 
-    public int getIdClient() {
-        return idClient;
-    }
-
-    public ArrayList<Integer> getWhiteMarbleCardChoice() {
-        return whiteMarbleCardChoice;
-    }
-
-
-    public void setWhiteMarbleCardChoice(ArrayList<Integer> whiteMarbleCardChoice) {
-        this.whiteMarbleCardChoice= whiteMarbleCardChoice;
-    }
-
-
-    public ArrayList<Resource> getResourceBuffer() {
-        return resourceBuffer;
-    }
-
-
-    public Board getBoard() {
-        return board;
-    }
-
-    /**
-     * Method getUsername returns the username of this Player object.
-     */
-    public String getUsername() {
-        return this.username;
-    }
 
     /**
      * Method getTotalVictoryPoint returns the amount of Player's victory points.
@@ -123,21 +92,7 @@ public class Player {
 
 
     /**
-     * Method setChosenResource assigns the resource parameter to the chosenResource variable
-     */
-    public void setChosenResource(int choice){
-        this.chosenResource = choice;
-    }
-
-    /**
-     * Method getChosenResource returns the choice of the wanted resource at the beginning of the game
-     */
-    public int getChosenResource() {
-        return chosenResource;
-    }
-
-    /**
-     * Method fillbuffer adds to the Player's resourceBuffer the resource from the deposit indicated by the parameter position,
+     * Method fillBuffer adds to the Player's resourceBuffer the resource from the deposit indicated by the parameter position,
      * decreasing the number of the resources of that specific deposit.
      * @param position (type Int) - it indicates which deposit we are considering
      */
@@ -166,6 +121,36 @@ public class Player {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public int getIdClient() {
+        return idClient;
+    }
+
+    public ArrayList<Integer> getWhiteMarbleCardChoice() {
+        return whiteMarbleCardChoice;
+    }
+
+
+    public void setWhiteMarbleCardChoice(ArrayList<Integer> whiteMarbleCardChoice) {
+        this.whiteMarbleCardChoice= whiteMarbleCardChoice;
+    }
+
+
+    public ArrayList<Resource> getResourceBuffer() {
+        return resourceBuffer;
+    }
+
+
+    public Board getBoard() {
+        return board;
+    }
+
+    /**
+     * Method getUsername returns the username of this Player object.
+     */
+    public String getUsername() {
+        return this.username;
     }
 
 

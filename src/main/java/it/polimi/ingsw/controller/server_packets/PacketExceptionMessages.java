@@ -10,6 +10,9 @@ import it.polimi.ingsw.controller.messages.ExceptionMessages;
 
 import javax.swing.*;
 
+/**
+ * PacketExceptionMessages used to show the exception messages sent by the model
+ */
 public class PacketExceptionMessages implements ServerPacketHandler{
     ExceptionMessages message;
 

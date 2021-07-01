@@ -18,25 +18,18 @@ public class Deposit extends Warehouse {
    private final int maxLimit;
    private final boolean special;
 
+    /**
+     * Constructor Deposit creates a new Deposit instance
+     */
     @JsonCreator
-    public Deposit(@JsonProperty("resourcetype") ResourceType resourcetype, @JsonProperty("quantity") int quantity, @JsonProperty("maxLimit") int maxLimit, @JsonProperty("special") boolean special){
+    public Deposit(@JsonProperty("resourcetype") ResourceType resourcetype, @JsonProperty("quantity") int quantity, @JsonProperty("maxLimit") int maxLimit,
+                   @JsonProperty("special") boolean special){
         this.resourcetype = resourcetype;
         this.quantity = quantity;
         this.maxLimit = maxLimit;
         this.special = special;
     }
 
-
-    /**
-     * Constructor Deposit creates a new Deposit instance
-     * @param maxLimit (type Int) - it indicates the max resources' quantity that can be stored in the deposit
-     */
-    public Deposit(int maxLimit, boolean special) {
-        this.resourcetype= null;
-        this.quantity = 0;
-        this.maxLimit = maxLimit;
-        this.special = special;
-    }
 
 
     /**
@@ -151,6 +144,16 @@ public class Deposit extends Warehouse {
         }
     }
 
+    /**
+     * Constructor Deposit creates a new Deposit instance
+     * @param maxLimit (type Int) - it indicates the max resources' quantity that can be stored in the deposit
+     */
+    public Deposit(int maxLimit, boolean special) {
+        this.resourcetype= null;
+        this.quantity = 0;
+        this.maxLimit = maxLimit;
+        this.special = special;
+    }
 
     /**
      * Override method that removes one resource from the deposit
@@ -160,12 +163,9 @@ public class Deposit extends Warehouse {
      */
     @Override
     public void remove(ResourceType resourceType) throws DepositDoesntHaveThisResource, EmptyDeposit {
-        if(quantity == 0){
-            throw new EmptyDeposit();
-        }
-        else if(resourcetype != resourceType){
-            throw new DepositDoesntHaveThisResource();
-        }
+        if(quantity == 0) throw new EmptyDeposit();
+        else if(resourcetype != resourceType) throw new DepositDoesntHaveThisResource();
+
         else {
             quantity -= 1;
             if(quantity == 0){

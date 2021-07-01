@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.cards.developmentcards.DevelopmentSpace;
 
 import java.util.ArrayList;
 
+/**
+ * PacketDevelopmentSpaces represents the development spaces class, for the lite model of the client
+ */
 public class PacketDevelopmentSpaces implements ServerPacketHandler{
 
     private final ArrayList<DevelopmentSpace> developmentSpaces;

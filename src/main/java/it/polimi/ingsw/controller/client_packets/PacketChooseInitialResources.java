@@ -17,6 +17,9 @@ import it.polimi.ingsw.server.Server;
 
 import java.util.ArrayList;
 
+/**
+ * PacketChooseInitialResources contains the resources that the player wants at the beginning of the game
+ */
 public class PacketChooseInitialResources implements ClientPacketHandler{
     private final ArrayList<Integer> depositPosition;
     private final ArrayList<ResourceType> resource;

@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- * Interface GameInterface represents the interface that contains the callable methods by Game
+ * Interface GameInterface represents the interface that contains the callable methods by Game.
+ * For the communication model-server, this interface is passed to the methods that want to modify the model
  */
-
 public interface GameInterface {
     void setState(GameStates gameStates);
     void createNewPlayer(String username, Integer idClient);
@@ -46,6 +46,5 @@ public interface GameInterface {
     void reconnectPlayer(String username);
     void setCurrentPlayer(int currentPlayer);
     int getIndexOfActivePlayer(String usernameToFind);
-
 
 }

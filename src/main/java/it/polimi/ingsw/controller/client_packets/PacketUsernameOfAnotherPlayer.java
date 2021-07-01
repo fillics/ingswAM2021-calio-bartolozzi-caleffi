@@ -16,6 +16,9 @@ import it.polimi.ingsw.server.Server;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * PacketUsernameOfAnotherPlayer is sent when a Player wants to see a Board of another player
+ */
 public class PacketUsernameOfAnotherPlayer implements ClientPacketHandler{
 
     private final String username;
@@ -55,6 +58,7 @@ public class PacketUsernameOfAnotherPlayer implements ClientPacketHandler{
                 }
 
                 Board board = gameInterface.getUsernameClientActivePlayers().get(username).getBoard();
+
                 clientHandler.sendPacketToClient(new PacketBoardOfAnotherPlayer(board.getFaithMarker(),
                         board.getTrack(),board.getVaticanReportSections(),leaderCardsActivated,
                         board.getStrongbox(), board.getDeposits(), board.getDevelopmentSpaces()));

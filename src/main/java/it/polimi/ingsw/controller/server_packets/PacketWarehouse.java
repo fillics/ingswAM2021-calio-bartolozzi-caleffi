@@ -12,6 +12,9 @@ import it.polimi.ingsw.model.board.storage.Strongbox;
 
 import java.util.ArrayList;
 
+/**
+ * PacketWarehouse sent when the warehouse is updated
+ */
 public class PacketWarehouse implements ServerPacketHandler{
 
     private final Strongbox strongbox;

@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * Packet Winner is sent when a Game is finished. It shows the winner and the stats of the players
+ */
 public class PacketWinner implements ServerPacketHandler {
     private final String username;
     private final ArrayList<PlayerInfoEndMatch> players;

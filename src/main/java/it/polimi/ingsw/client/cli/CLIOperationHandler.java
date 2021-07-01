@@ -25,6 +25,10 @@ import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
+/**
+ * CLIOperationHandler handles the messages coming from the keyboard by the Client and calls the correct methods to send
+ * the information to the server
+ */
 public class CLIOperationHandler{
     private final SocketClientConnection socketClientConnection;
     private final Scanner input;

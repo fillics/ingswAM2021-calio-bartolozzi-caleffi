@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.*;
 import it.polimi.ingsw.exceptions.*;
+import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.model.board.resources.ResourceType;
 import it.polimi.ingsw.model.board.storage.Warehouse;
@@ -15,7 +16,9 @@ import it.polimi.ingsw.server.Server;
 
 import java.util.ArrayList;
 
-
+/**
+ * PacketBuyDevCard contains the development card that the player wants to buy
+ */
 public class PacketBuyDevCard implements ClientPacketHandler {
     private final int id;
     private final ArrayList<ResourceType> chosenResources;
@@ -59,9 +62,9 @@ public class PacketBuyDevCard implements ClientPacketHandler {
 
                 gameInterface.buyDevCard(id, chosenResources, realChosenWarehouses, gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(developmentSpace - 1));
 
-                clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces()));
-                clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
-                        gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));
+                Board board = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
+                clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(board.getDevelopmentSpaces()));
+                clientHandler.sendPacketToClient(new PacketWarehouse(board.getStrongbox(),board.getDeposits()));
                 server.sendAll(new PacketLiteDevelopmentGrid(gameInterface.getDevGridLite()), gameInterface);
 
                 gameInterface.setState(GameStates.PHASE_TWO);

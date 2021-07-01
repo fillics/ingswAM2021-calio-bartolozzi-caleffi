@@ -83,8 +83,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             player.setPosition(position);
             position++;
         }
-
-
     }
 
 
@@ -633,6 +631,10 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
 
+    /**
+     * Set method used to set who the current player is, for example when someone ends his turn
+     * @param currentPlayer - it is the current player that has to be set
+     */
     public synchronized void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
     }

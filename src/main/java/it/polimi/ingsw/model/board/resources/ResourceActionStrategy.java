@@ -7,6 +7,9 @@ import it.polimi.ingsw.exceptions.DepositHasAnotherResource;
 import it.polimi.ingsw.exceptions.DepositHasReachedMaxLimit;
 import it.polimi.ingsw.exceptions.InvalidResource;
 
+/**
+ * Common interface for all resources' strategies.
+ */
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "type")
@@ -14,10 +17,7 @@ import it.polimi.ingsw.exceptions.InvalidResource;
         @JsonSubTypes.Type(value = ConcreteStrategySpecialResource.class, name = "normaleresource"),
         @JsonSubTypes.Type(value = ConcreteStrategyResource.class, name = "specialresource")})
 
-    /**
-     * Common interface for all resources' strategies.
-     */
-    public interface ResourceActionStrategy{
+public interface ResourceActionStrategy{
     /**
      * The action method is a common method for the resources' strategies that use the resource linked to the strategy.
      * The action may vary according to the type of strategy.

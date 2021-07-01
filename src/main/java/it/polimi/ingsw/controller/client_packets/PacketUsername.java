@@ -7,6 +7,9 @@ import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
+/**
+ * PacketUsername sent by the Client contains the chosen username
+ */
 public class PacketUsername implements SetupHandler {
     private final String username;
 
@@ -25,7 +28,7 @@ public class PacketUsername implements SetupHandler {
     }
 
     /**
-     * Method execute() calls Server methods to check the beginning of the game.
+     * Method execute() calls Server methods to check the beginning of the game and if the username is correct.
      */
     @Override
     public void execute(Server server, ClientHandler clientHandler) {

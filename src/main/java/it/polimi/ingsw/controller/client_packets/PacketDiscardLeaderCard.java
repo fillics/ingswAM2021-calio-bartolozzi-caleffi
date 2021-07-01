@@ -11,11 +11,15 @@ import it.polimi.ingsw.controller.server_packets.PacketFaithTrack;
 import it.polimi.ingsw.controller.server_packets.PacketLeaderCards;
 import it.polimi.ingsw.exceptions.LeaderCardIsActive;
 import it.polimi.ingsw.exceptions.LeaderCardNotFound;
+import it.polimi.ingsw.model.board.Board;
 import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
 
+/**
+ * PacketDiscardLeaderCard contains the card that the player wants to discard
+ */
 public class PacketDiscardLeaderCard implements ClientPacketHandler {
     private final int ID;
 
@@ -38,9 +42,10 @@ public class PacketDiscardLeaderCard implements ClientPacketHandler {
                 && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
             try {
                 gameInterface.discardLeaderCard(ID);
+                Board board = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
+
                 clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getLeaderCards()));
-                clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),
-                        gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
+                clientHandler.sendPacketToClient(new PacketFaithTrack(board.getTrack(), board.getFaithMarker(), board.getVaticanReportSections()));
             } catch (LeaderCardNotFound leaderCardNotFound) {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
             }  catch (LeaderCardIsActive leaderCardIsActive){

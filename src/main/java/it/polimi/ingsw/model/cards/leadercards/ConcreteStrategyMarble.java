@@ -13,9 +13,7 @@ public class ConcreteStrategyMarble implements LeaderCardStrategy{
     private boolean active;
 
 
-    public ConcreteStrategyMarble() {
-        this.resourceType = null;
-    }
+
 
     /**
      * Constructor ConcreteStrategyMarble creates a new ConcreteStrategyMarble instance.
@@ -41,6 +39,10 @@ public class ConcreteStrategyMarble implements LeaderCardStrategy{
     public void ability() {
         if(!active)
             active = true;
+    }
+
+    public ConcreteStrategyMarble() {
+        this.resourceType = null;
     }
 
     @Override

@@ -2,7 +2,6 @@ package it.polimi.ingsw.client.communication;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ViewChoice;
-import it.polimi.ingsw.client.cli.CLI;
 import it.polimi.ingsw.constants.Constants;
 import java.io.*;
 import java.net.Socket;

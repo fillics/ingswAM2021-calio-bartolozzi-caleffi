@@ -28,20 +28,14 @@ public class ProductionPower {
     public ProductionPower(@JsonProperty("resourceNeeded")HashMap<ResourceType, Integer> resourceNeeded,@JsonProperty("resourceObtained") HashMap<ResourceType, Integer> resourceObtained) {
         this.resourceNeeded = resourceNeeded;
         this.resourceObtained = resourceObtained;
-        if(!this.resourceNeeded.containsKey(ResourceType.COIN)){
-            this.resourceNeeded.put(ResourceType.COIN,0);
-        }
-        if(!this.resourceNeeded.containsKey(ResourceType.STONE)){
-            this.resourceNeeded.put(ResourceType.STONE,0);
+        if(!this.resourceNeeded.containsKey(ResourceType.COIN)) this.resourceNeeded.put(ResourceType.COIN,0);
 
-        }
-        if(!this.resourceNeeded.containsKey(ResourceType.SERVANT)){
-            this.resourceNeeded.put(ResourceType.SERVANT,0);
+        if(!this.resourceNeeded.containsKey(ResourceType.STONE)) this.resourceNeeded.put(ResourceType.STONE,0);
 
-        }
-        if(!this.resourceNeeded.containsKey(ResourceType.SHIELD)){
-            this.resourceNeeded.put(ResourceType.SHIELD,0);
-        }
+        if(!this.resourceNeeded.containsKey(ResourceType.SERVANT)) this.resourceNeeded.put(ResourceType.SERVANT,0);
+
+        if(!this.resourceNeeded.containsKey(ResourceType.SHIELD)) this.resourceNeeded.put(ResourceType.SHIELD,0);
+
     }
 
 
@@ -175,30 +169,22 @@ public class ProductionPower {
         return escape;
     }
 
-    public int numofResources(){
+    /**
+     * Method that returns the number of resources and it is needed to represent the CLI
+     */
+    public int numOfResources(){
         int num=0;
-        if(resourceNeeded.get(ResourceType.SHIELD)!=0)
-            num++;
-        if(resourceNeeded.get(ResourceType.COIN)!=0)
-            num++;
-        if(resourceNeeded.get(ResourceType.SERVANT)!=0)
-            num++;
-        if(resourceNeeded.get(ResourceType.STONE)!=0)
-            num++;
-        if(resourceNeeded.containsKey(ResourceType.JOLLY) && resourceNeeded.get(ResourceType.JOLLY)!=0)
-            num++;
-        if(resourceObtained.containsKey(ResourceType.SHIELD))
-            num++;
-        if(resourceObtained.containsKey(ResourceType.COIN))
-            num++;
-        if(resourceObtained.containsKey(ResourceType.SERVANT))
-            num++;
-        if(resourceObtained.containsKey(ResourceType.STONE))
-            num++;
-        if(resourceObtained.containsKey(ResourceType.FAITHMARKER))
-            num++;
-        if(resourceObtained.containsKey(ResourceType.JOLLY))
-            num++;
+        if(resourceNeeded.get(ResourceType.SHIELD)!=0) num++;
+        if(resourceNeeded.get(ResourceType.COIN)!=0) num++;
+        if(resourceNeeded.get(ResourceType.SERVANT)!=0) num++;
+        if(resourceNeeded.get(ResourceType.STONE)!=0) num++;
+        if(resourceNeeded.containsKey(ResourceType.JOLLY) && resourceNeeded.get(ResourceType.JOLLY)!=0) num++;
+        if(resourceObtained.containsKey(ResourceType.SHIELD)) num++;
+        if(resourceObtained.containsKey(ResourceType.COIN)) num++;
+        if(resourceObtained.containsKey(ResourceType.SERVANT)) num++;
+        if(resourceObtained.containsKey(ResourceType.STONE)) num++;
+        if(resourceObtained.containsKey(ResourceType.FAITHMARKER)) num++;
+        if(resourceObtained.containsKey(ResourceType.JOLLY)) num++;
 
         return num;
     }

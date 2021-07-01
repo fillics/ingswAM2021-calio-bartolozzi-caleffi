@@ -8,6 +8,9 @@ import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
 
+/**
+ * PacketNumPlayers contains the number of players that the lobby master wants to start the game
+ */
 public class PacketNumPlayers implements SetupHandler {
     private final int numof_players;
 

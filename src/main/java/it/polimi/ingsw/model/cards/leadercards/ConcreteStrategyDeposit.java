@@ -26,12 +26,7 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
         active = false;
     }
 
-    public ConcreteStrategyDeposit() {
-        this.resourceType = null;
-        this.extraDeposit = null;
-        this.board = null;
-        this.active = false;
-    }
+
 
     public ResourceType getResourceType() {
         return resourceType;
@@ -54,6 +49,13 @@ public class ConcreteStrategyDeposit implements LeaderCardStrategy{
             board.getDeposits().add(extraDeposit);
             active = true;
         }
+    }
+
+    public ConcreteStrategyDeposit() {
+        this.resourceType = null;
+        this.extraDeposit = null;
+        this.board = null;
+        this.active = false;
     }
 
     public String toString(){

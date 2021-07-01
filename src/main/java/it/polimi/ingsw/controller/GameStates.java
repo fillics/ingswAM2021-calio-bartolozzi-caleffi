@@ -1,5 +1,8 @@
 package it.polimi.ingsw.controller;
 
+/**
+ * This enum class represents the states of a Game
+ */
 public enum GameStates {
     FILL_LOBBY("People connecting to the server..."),
     SETUP("Creation of the game and the players choose which leader card to use during the game "),

@@ -392,15 +392,13 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
             WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel = buyDevCardPanel.getSmallBoard().getWarehousePanel();
             ClientModelView clientModelView = gui.getClient().getClientModelView();
 
-            if(clientModelView.getLiteBoard().getDeposits().get(2+position).getQuantity()>counter){
-                warehouseForBuyDevCardPanel.getChosenWarehouses().add(leaderCard.getDepositPosition() + 1);
+            warehouseForBuyDevCardPanel.getChosenWarehouses().add(leaderCard.getDepositPosition() + 1);
 
-                ResourceType resourceType = clientModelView.getLiteBoard().getDeposits().get(clientModelView.getMyPlayer().getLeaderCards().get(position).getDepositPosition()).getResourcetype();
+            ResourceType resourceType = clientModelView.getLiteBoard().getDeposits().get(clientModelView.getMyPlayer().getLeaderCards().get(position).getDepositPosition()).getResourcetype();
 
-                warehouseForBuyDevCardPanel.getChosenResources().add(resourceType);
-                buyDevCardPanel.getSmallBoard().addResource(resourceType);
-                counter++;
-            }
+            warehouseForBuyDevCardPanel.getChosenResources().add(resourceType);
+            buyDevCardPanel.getSmallBoard().addResource(resourceType);
+
 
         }
 

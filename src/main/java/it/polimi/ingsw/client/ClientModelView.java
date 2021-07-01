@@ -12,6 +12,9 @@ import it.polimi.ingsw.model.singleplayer.SoloActionToken;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * ClientModelView contains the lite model of the client
+ */
 public class ClientModelView {
     private LitePlayer myPlayer;
     private LiteMarketTray marketTray;
@@ -38,14 +41,6 @@ public class ClientModelView {
         this.liteBoard = liteBoard;
     }
 
-    @JsonCreator
-    public ClientModelView() {
-        myPlayer = new LitePlayer();
-        marketTray = new LiteMarketTray();
-        developmentGrid = new LiteDevelopmentGrid();
-        liteBoard = new LiteBoard();
-        players = new ArrayList<>();
-    }
 
     /**
      * Class's getter
@@ -167,5 +162,15 @@ public class ClientModelView {
 
     public void setColorPlayer(Color colorPlayer) {
         this.colorPlayer = colorPlayer;
+    }
+
+
+    @JsonCreator
+    public ClientModelView() {
+        myPlayer = new LitePlayer();
+        marketTray = new LiteMarketTray();
+        developmentGrid = new LiteDevelopmentGrid();
+        liteBoard = new LiteBoard();
+        players = new ArrayList<>();
     }
 }

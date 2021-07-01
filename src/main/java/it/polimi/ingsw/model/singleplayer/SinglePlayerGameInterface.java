@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.cards.developmentcards.CardColor;
 
 import java.util.ArrayList;
 
+/**
+ * Interface SinglePlayerGameInterface represents the interface that contains the callable SinglePlayerGame's methods by Player
+ */
 public interface SinglePlayerGameInterface {
     void increaseBlackCross(int amount);
     void shuffleSoloActionToken();

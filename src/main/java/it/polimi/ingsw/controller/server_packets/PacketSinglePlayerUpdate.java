@@ -22,15 +22,19 @@ import it.polimi.ingsw.model.singleplayer.SoloActionToken;
 
 import java.util.ArrayList;
 
-public class PacketUpdate implements ServerPacketHandler{
+/**
+ * PacketSinglePlayerUpdate is sent when a player ends his own turn in Single Player Mode. It updates the client model view with
+ * the updates coming from Lorenzo il Magnifico
+ */
+public class PacketSinglePlayerUpdate implements ServerPacketHandler{
 
 
-    private  SoloActionToken soloActionToken;
-    private int blackCross;
-    private ArrayList<Cell> track;
-    private int faithMarker;
-    private ArrayList<VaticanReportSection> vaticanReportSections;
-    private  ArrayList<DevelopmentCard> developmentCards;
+    private final SoloActionToken soloActionToken;
+    private final int blackCross;
+    private final ArrayList<Cell> track;
+    private final int faithMarker;
+    private final ArrayList<VaticanReportSection> vaticanReportSections;
+    private final ArrayList<DevelopmentCard> developmentCards;
 
     /**
      * Class' constructor.
@@ -42,12 +46,12 @@ public class PacketUpdate implements ServerPacketHandler{
      * @param developmentCards represents the top development cards in the development grid.
      */
     @JsonCreator
-    public PacketUpdate(@JsonProperty("soloActionToken") SoloActionToken soloActionToken,
-                        @JsonProperty("blackCross") int blackCross,
-                        @JsonProperty("faith track :")ArrayList<Cell> track,
-                        @JsonProperty("faithMarker") int faithMarker,
-                        @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections,
-                        @JsonProperty("development grid :") ArrayList<DevelopmentCard> developmentCards) {
+    public PacketSinglePlayerUpdate(@JsonProperty("soloActionToken") SoloActionToken soloActionToken,
+                                    @JsonProperty("blackCross") int blackCross,
+                                    @JsonProperty("faith track :")ArrayList<Cell> track,
+                                    @JsonProperty("faithMarker") int faithMarker,
+                                    @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections,
+                                    @JsonProperty("development grid :") ArrayList<DevelopmentCard> developmentCards) {
 
         this.soloActionToken = soloActionToken;
         this.blackCross = blackCross;

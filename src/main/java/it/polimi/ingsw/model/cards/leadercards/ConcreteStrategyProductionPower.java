@@ -33,13 +33,6 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
         this.resourceType = resourceType;
     }
 
-    public ConcreteStrategyProductionPower() {
-        this.resourcesObtained = null;
-        this.extraProductionPower = null;
-        this.board = null;
-        this.active = false;
-        this.resourceType = null;
-    }
 
     public boolean isActive() {
         return active;
@@ -78,6 +71,13 @@ public class ConcreteStrategyProductionPower implements LeaderCardStrategy{
         }
     }
 
+    public ConcreteStrategyProductionPower() {
+        this.resourcesObtained = null;
+        this.extraProductionPower = null;
+        this.board = null;
+        this.active = false;
+        this.resourceType = null;
+    }
     @Override
     public String toString(){
         String escape= "";

@@ -14,6 +14,9 @@ import it.polimi.ingsw.server.Server;
 
 import java.util.ArrayList;
 
+/**
+ * PacketTakeResourceFromMarket updates the resource buffer and the faith track of the player
+ */
 public class PacketTakeResourceFromMarket implements ClientPacketHandler {
     private final String line;
     private final int numline;

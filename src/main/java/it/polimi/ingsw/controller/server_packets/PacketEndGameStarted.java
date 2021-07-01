@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 
+/**
+ *
+ */
 public class PacketEndGameStarted implements ServerPacketHandler {
     String username;
 

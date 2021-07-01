@@ -1,12 +1,15 @@
 package it.polimi.ingsw.controller.messages;
 
+/**
+ * This class contains all the messages to be shown in GUI when an operation is not executed correctly
+ */
 public enum ExceptionMessages {
     DEVELOPMENTCARDNOTFOURND("Development card not found"),
     LEADERCARDNOTFOUND("Leader card not found"),
     NOTENOUGHREQUIREMENTS("Not enough requirements"),
     DEVCARDNOTPLACEABLE("You can't place this development card here"),
     NOTENOUGHRESOURCES("You don't have enough resources"),
-    WRONGCHOSENRESOURCES("The resources you chose can't make this production"),
+    WRONGCHOSENRESOURCES("The resources you chose are not correct!"),
     DIFFERENTDIMENSION("The number of resources and the places in which you take them are not equals"),
     EMPTYDEPOSIT("The deposit is empty"),
     DEPOSITDOESNTHAVETHISRESOURCE("A deposit you chose doesn't have the resource you requested"),

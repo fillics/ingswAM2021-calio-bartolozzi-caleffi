@@ -13,9 +13,12 @@ import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Scanner;
 
+
+/**
+ * ServerWriter sends to the server the messages written by the Client throught the keyboard
+ */
 public class ServerWriter implements Runnable{
 
-    private final SocketClientConnection socketClientConnection;
     private final CLIOperationHandler cliOperationHandler;
     private final PrintStream output;
     private final Scanner input;
@@ -33,7 +36,6 @@ public class ServerWriter implements Runnable{
         input = new Scanner(System.in);
         output = new PrintStream(System.out);
 
-        this.socketClientConnection = socketClientConnection;
         this.cliOperationHandler = cliOperationHandler;
 
         this.client = client;
@@ -83,7 +85,7 @@ public class ServerWriter implements Runnable{
                 try{
                     client.getCli().choosePlayerNumber(Integer.parseInt(inputString));
                 }catch(NumberFormatException e){
-                    System.out.println("do not insert strings");
+                    System.out.println("Do not insert strings");
                 }
             }
 
@@ -110,9 +112,8 @@ public class ServerWriter implements Runnable{
                     }
                 }
             }
-            case GAME_ENDING -> {
-                System.err.println("Please wait the other players while they are ending their own turn");
-            }
+            case GAME_ENDING -> System.err.println("Please wait the other players while they are ending their own turn");
+
             case END -> {
                 if (inputString.equals("close")){
                     System.out.println("Closing connection...");

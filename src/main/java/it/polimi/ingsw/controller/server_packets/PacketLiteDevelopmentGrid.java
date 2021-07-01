@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.cards.developmentcards.DevelopmentCard;
 
 import java.util.ArrayList;
 
+/**
+ * PacketLiteDevelopmentGrid represents the Lite Development Grid class, for the lite model of the client
+ */
 public class PacketLiteDevelopmentGrid implements ServerPacketHandler{
 
     private final ArrayList<DevelopmentCard> developmentCards;

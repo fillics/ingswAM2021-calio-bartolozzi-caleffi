@@ -6,6 +6,9 @@ import it.polimi.ingsw.client.Client;
 
 import java.util.ArrayList;
 
+/**
+ * PacketWhiteMarbleChoice set the white marble choice of the player when a White Marble Leader Card is activated
+ */
 public class PacketWhiteMarbleChoice implements ServerPacketHandler{
     private final ArrayList<Integer> whiteMarbleCardChoice;
 

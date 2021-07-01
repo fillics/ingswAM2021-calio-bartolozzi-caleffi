@@ -20,7 +20,6 @@ public class LitePlayer {
     private ArrayList<Resource> resourceBuffer;
     private final LiteBoard board;
     private int posInGame;
-    //private int chosenResource;
     private ArrayList<Integer> whiteMarbleCardChoice;
 
     @JsonCreator

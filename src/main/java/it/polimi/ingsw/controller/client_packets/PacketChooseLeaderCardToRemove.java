@@ -14,7 +14,9 @@ import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
-
+/**
+ * PacketChooseLeaderCardToRemove contains the leader cards that the player wants to remove at the beginning of the game
+ */
 public class PacketChooseLeaderCardToRemove implements ClientPacketHandler {
     private final int Id1;
     private final int Id2;
@@ -37,8 +39,11 @@ public class PacketChooseLeaderCardToRemove implements ClientPacketHandler {
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler){
 
-        if(gameInterface.getState().equals(GameStates.SETUP) || gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)){
+        if(gameInterface.getState().equals(GameStates.SETUP) || gameInterface.getState().equals(GameStates.PHASE_ONE) ||
+                gameInterface.getState().equals(GameStates.PHASE_TWO)){
+
             if(gameInterface.getState().equals(GameStates.SETUP)) gameInterface.setState(GameStates.PHASE_ONE);
+
             try {
                 gameInterface.chooseLeaderCardToRemove(Id1, Id2, clientHandler.getUsername());
                 System.out.println("[idGame "+clientHandler.getGame().getIdGame()+"]: "+"Player "+clientHandler.getUsername() + " removed the two initial leader cards");
@@ -49,8 +54,8 @@ public class PacketChooseLeaderCardToRemove implements ClientPacketHandler {
                 clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
             }
 
+            //to save the client state if the client disconnect himself and wants to reconnect himself
             server.getMapForReconnection().get(clientHandler.getUsername()).setClientStates(ClientStates.RESOURCESETUP);
-
             server.getMapForReconnection().get(clientHandler.getUsername()).getClientModelView().getMyPlayer().
                     setLeaderCards(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getLeaderCards());
         }

@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.gameinterfaces.CheatGameInterface;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
+/**
+ * Packet for the faith marker cheat, it calls the game's cheat method to increment the faith marker
+ */
 public class FaithMarkerCheatPacket implements CheatClientPacketHandler {
 
     @Override

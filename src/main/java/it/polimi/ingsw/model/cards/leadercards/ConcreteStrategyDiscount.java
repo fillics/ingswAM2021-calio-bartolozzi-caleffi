@@ -22,10 +22,6 @@ public class ConcreteStrategyDiscount implements LeaderCardStrategy{
         active=false;
     }
 
-    public ConcreteStrategyDiscount(){
-        this.resourceType = null;
-        active=false;
-    }
 
     /**
      * Method ability() makes the attribute "active" true.
@@ -42,6 +38,11 @@ public class ConcreteStrategyDiscount implements LeaderCardStrategy{
 
     public boolean isActive() {
         return active;
+    }
+
+    public ConcreteStrategyDiscount(){
+        this.resourceType = null;
+        active=false;
     }
 
     @Override

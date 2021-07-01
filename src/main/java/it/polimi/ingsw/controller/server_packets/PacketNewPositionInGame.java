@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ViewChoice;
 
-
-public class PacketNewPositionInGame  implements ServerPacketHandler {
+/**
+ * PacketNewPositionInGame sets the new turn's position of the player in the Game after a disconnection/reconnection
+ */
+public class PacketNewPositionInGame implements ServerPacketHandler {
 
     private final int posInGame;
     private final String username;

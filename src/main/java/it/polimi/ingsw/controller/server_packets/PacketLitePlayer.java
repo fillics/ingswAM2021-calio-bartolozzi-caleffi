@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.client.Client;
 
+/**
+ * PacketLitePlayer represents the Lite Player class, for the lite model of the client
+ */
 public class PacketLitePlayer implements ServerPacketHandler{
 
     private final String username;

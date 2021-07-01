@@ -29,31 +29,30 @@ public class PacketEndTurn implements ClientPacketHandler{
             switch (gameInterface.getState()) {
                 case SETUP -> gameInterface.setState(GameStates.PHASE_ONE);
                 case PHASE_TWO -> {
-                    if (clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
-                        int sizeResourceBuffer = gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getResourceBuffer().size();
+                    int sizeResourceBuffer = gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getResourceBuffer().size();
 
-                        if (sizeResourceBuffer != 0) {
-                            gameInterface.getActivePlayers().get(0).getResourceBuffer().clear();
-                            ((SinglePlayerGame) gameInterface).increaseBlackCross(sizeResourceBuffer);
-                        }
-                        clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
-
-                        if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
-                            ((SinglePlayerGame) gameInterface).winner();
-                            clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner(), null));
-                            gameInterface.setState(GameStates.END);
-                        }
-
-                        else{
-                            SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
-                            switch (token.getType()) {
-                                case DISCARD -> handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.DISCARDDEVCARD);
-                                case BLACKCROSS_1 ->  handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.BLACKCROSS1);
-                                case BLACKCROSS_2 -> handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.BLACKCROSS2);
-                            }
-                            gameInterface.setState(GameStates.PHASE_ONE);
-                        }
+                    if (sizeResourceBuffer != 0) {
+                        gameInterface.getActivePlayers().get(0).getResourceBuffer().clear();
+                        ((SinglePlayerGame) gameInterface).increaseBlackCross(sizeResourceBuffer);
                     }
+                    clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
+
+                    if (gameInterface.isEndgame() && clientHandler.getPosInGame() == gameInterface.getActivePlayers().size() - 1) {
+                        ((SinglePlayerGame) gameInterface).winner();
+                        clientHandler.sendPacketToClient(new PacketWinner(gameInterface.getWinner(), null));
+                        gameInterface.setState(GameStates.END);
+                    }
+
+                    else{
+                        SoloActionToken token = ((SinglePlayerGame) gameInterface).drawSoloActionToken();
+                        switch (token.getType()) {
+                            case DISCARD -> handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.DISCARDDEVCARD);
+                            case BLACKCROSS_1 ->  handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.BLACKCROSS1);
+                            case BLACKCROSS_2 -> handleDrawingToken(gameInterface, clientHandler, token, ConnectionMessages.BLACKCROSS2);
+                        }
+                        gameInterface.setState(GameStates.PHASE_ONE);
+                    }
+
                 }
                 default -> clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
             }
@@ -65,7 +64,6 @@ public class PacketEndTurn implements ClientPacketHandler{
             Board board = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
 
             clientHandler.sendPacketToClient(new PacketFaithTrack(board.getTrack(), board.getFaithMarker(), board.getVaticanReportSections()));
-            server.saveClientProxy(clientHandler.getUsername(), gameInterface);
 
             if (gameInterface.getState() == GameStates.PHASE_TWO) {
                 if (clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()) {
@@ -108,6 +106,8 @@ public class PacketEndTurn implements ClientPacketHandler{
             }
 
         }
+        server.saveClientProxy(clientHandler.getUsername(), gameInterface);
+
 
     }
 
@@ -122,7 +122,7 @@ public class PacketEndTurn implements ClientPacketHandler{
         ((SinglePlayerGame) gameInterface).useSoloActionToken(token);
         Board board = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
 
-        clientHandler.sendPacketToClient(new PacketUpdate(token, ((SinglePlayerGame) gameInterface).getBlackCross(),
+        clientHandler.sendPacketToClient(new PacketSinglePlayerUpdate(token, ((SinglePlayerGame) gameInterface).getBlackCross(),
                 board.getTrack(),board.getFaithMarker(),board.getVaticanReportSections(), gameInterface.getDevGridLite()));
         clientHandler.sendPacketToClient(new PacketConnectionMessages(message));
         clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.YOUR_TURN));

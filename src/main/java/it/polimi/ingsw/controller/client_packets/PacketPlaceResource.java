@@ -17,7 +17,9 @@ import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
-
+/**
+ * PacketPlaceResource used when a player places his resources in the warehouse
+ */
 public class PacketPlaceResource implements ClientPacketHandler {
     private final int depositPosition;
     private final int resourcePosition;
