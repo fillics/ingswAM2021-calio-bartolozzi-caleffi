@@ -26,17 +26,12 @@ public class GUI implements Runnable {
     private final int height;
     private final JFrame jFrame;
     private final Border blackline;
-    private final Border raisedetched;
-    private final Border loweredetched;
-    private final Border raisedbevel;
-    private final Border loweredbevel;
     private final ArrayList<Border> borders;
     private final Color greenColor;
     private final Color giallinoBackgroundColor;
     private final Color purpleColor;
     private final Color lightblueColor;
     private final Color yellowColor;
-    private boolean defaultConnection=false;
 
     /**
      * Class' constructor, it creates the frame in which will be inserted all the panels created to play the game.
@@ -50,10 +45,10 @@ public class GUI implements Runnable {
         this.client = client;
 
         blackline = BorderFactory.createLineBorder(Color.black);
-        raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
-        loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-        raisedbevel  = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-        loweredbevel = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        Border raisedetched = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
+        Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        Border raisedbevel = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+        Border loweredbevel = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
         borders = new ArrayList<>();
         borders.add(blackline);
         borders.add(raisedbevel);
@@ -261,6 +256,6 @@ public class GUI implements Runnable {
      * Class' setter
      */
     public void setDefaultConnection() {
-        defaultConnection = true;
+        boolean defaultConnection = true;
     }
 }

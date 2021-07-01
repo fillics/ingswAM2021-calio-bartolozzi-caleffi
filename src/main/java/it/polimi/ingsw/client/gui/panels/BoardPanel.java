@@ -432,21 +432,31 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         }
         if(e.getSource() == activateLeaderCard){
+            boolean check = false;
             for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
                 if(!leaderCard.getStrategy().isActive()){
                     gui.switchPanels(new ActivateLeaderCardPanel(gui));
+                    check = true;
                     break;
                 }
             }
+            if(!check){
+                JOptionPane.showMessageDialog(gui.getjFrame(), "You can't activate any leader card");
+            }
         }
         if(e.getSource() == discardLeaderCard){
+            boolean check = false;
             if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size() != 0){
                 for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
                     if(!leaderCard.getStrategy().isActive()){
                         gui.switchPanels(new DiscardLeaderCardPanel(gui));
+                        check = true;
                         break;
                     }
                 }
+            }
+            if(!check){
+                JOptionPane.showMessageDialog(gui.getjFrame(), "You can't discard any leader card");
             }
         }
         if(e.getSource() == buyDevCard){
