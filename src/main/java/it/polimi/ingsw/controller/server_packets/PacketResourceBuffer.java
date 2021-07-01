@@ -12,19 +12,24 @@ public class PacketResourceBuffer implements ServerPacketHandler{
 
     private final ArrayList<Resource> resourceBuffer;
 
+    /**
+     * Class' constructor.
+     * @param resourceBuffer is the value of the resource buffer.
+     */
     @JsonCreator
     public PacketResourceBuffer(@JsonProperty("resourceBuffer") ArrayList<Resource> resourceBuffer) {
         this.resourceBuffer = resourceBuffer;
     }
 
+    /**
+     * Method execute() updates the resource buffer value in LitePlayer class.
+     */
     @Override
     public void execute(Client client) {
         client.getClientModelView().getMyPlayer().setResourceBuffer(resourceBuffer);
         if(client.getViewChoice().equals(ViewChoice.CLI)){
             System.out.println("Remember to place the resources typing the number 7 (Place one of your resources)");
         }
-
-
     }
 
     public ArrayList<Resource> getResourceBuffer() {

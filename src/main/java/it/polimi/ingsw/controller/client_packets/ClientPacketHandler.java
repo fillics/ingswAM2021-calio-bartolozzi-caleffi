@@ -10,6 +10,10 @@ import it.polimi.ingsw.server.Server;
 
 import java.io.IOException;
 
+/**
+ * ClientPacketHandler interface defines an interface for Packets from Client to Server.
+ */
+
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "command")
@@ -30,6 +34,11 @@ import java.io.IOException;
 
 public interface ClientPacketHandler extends Packet {
 
+    /**
+     * Method execute() is called after the deserialization of the packet in ClientHandler.
+     * It calls methods that modify the model throw gameInterface parameter.
+     * It calls methods throw clientHandler parameter that send packets of update from server to client.
+     */
     void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit, DepositHasReachedMaxLimit,
             DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound, DiscountCannotBeActivated, DevelopmentCardNotFound,
             DepositDoesntHaveThisResource, DevCardNotPlaceable, DifferentDimension, NotEnoughResources, WrongChosenResources,

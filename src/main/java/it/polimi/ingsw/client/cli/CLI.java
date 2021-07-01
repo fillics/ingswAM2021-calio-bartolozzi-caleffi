@@ -187,11 +187,11 @@ public class CLI implements ViewInterface {
                     matrix.append(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).printColor());
                     if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).getLevel()==Level.THREE){
                         if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==1)
-                            matrix.append((" ").repeat(4));
-                        else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==2)
                             matrix.append((" ").repeat(3));
-                        else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==3)
+                        else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==2)
                             matrix.append((" ").repeat(2));
+                        else if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==3)
+                            matrix.append((" ").repeat(1));
                     }
                     else{
                         if(clientModelView.getDevelopmentGrid().getDevelopmentCards().get(i).numOfResourcePrice()==1)

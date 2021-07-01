@@ -10,5 +10,6 @@ public enum ClientStates {
     RESOURCESETUP,
     GAMESTARTED,
     GAME_ENDING,
-    END
+    END,
+    CLOSE_CONNECTION
 }

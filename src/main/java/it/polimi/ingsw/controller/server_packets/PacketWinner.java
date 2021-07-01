@@ -16,12 +16,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 public class PacketWinner implements ServerPacketHandler {
     private final String username;
     private final ArrayList<PlayerInfoEndMatch> players;
 
+    /**
+     * Class' constructor.
+     * @param username is the username of the winner.
+     * @param players represents the other players of the game.
+     */
     @JsonCreator
     public PacketWinner(@JsonProperty("username") String username, 
                         @JsonProperty("players") ArrayList<PlayerInfoEndMatch> players) {
@@ -29,12 +35,17 @@ public class PacketWinner implements ServerPacketHandler {
         this.players = players;
     }
 
-    
-
+    /**
+     * Method execute() sends to the view interface the message about the winner of the game.
+     */
     @Override
     public void execute(Client client) {
         if(client.getViewChoice().equals(ViewChoice.CLI)) {
-            System.out.println("The winner of this game is "+ username);
+            Constants.winner(username);
+            System.out.println("LeaderBoard: ");
+            for (PlayerInfoEndMatch player: players){
+                System.out.println(player.getUsername().toUpperCase(Locale.ROOT) + ": "+player.getTotVictory()+" victory points");
+            }
             System.out.println(Constants.close);
         }
         else {
@@ -45,7 +56,6 @@ public class PacketWinner implements ServerPacketHandler {
 
         }
         client.setClientState(ClientStates.END);
-
     }
 
     public String getUsername() {

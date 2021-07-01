@@ -18,7 +18,7 @@ public enum Printable {
 
     RED_CROSS("X"),
     CHECK("V"),
-    CROSS ("†"), //does not work
+    CROSS ("┼"),
     CIRCLE ("●"),
     SQUARE("■"),
     WHITE_MARBLE ("●"),
@@ -31,7 +31,7 @@ public enum Printable {
     ARROW_RIGHT("←"),
     ARROW_BOTTOM("↑");
 
-    private String print;
+    private final String print;
 
     Printable(String print) {
         this.print = print;

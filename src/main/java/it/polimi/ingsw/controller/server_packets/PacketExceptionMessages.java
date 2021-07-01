@@ -13,11 +13,18 @@ import javax.swing.*;
 public class PacketExceptionMessages implements ServerPacketHandler{
     ExceptionMessages message;
 
+    /**
+     * Class' constructor.
+     * @param message is the exception message to send to the client.
+     */
     @JsonCreator
     public PacketExceptionMessages(@JsonProperty("message")ExceptionMessages message) {
         this.message = message;
     }
 
+    /**
+     * Method execute() sends a message to the client.
+     */
     @Override
     public void execute(Client client) {
         if(client.getViewChoice() == ViewChoice.CLI) Constants.printExceptionMessage(message);

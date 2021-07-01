@@ -8,6 +8,10 @@ import it.polimi.ingsw.model.singleplayer.SoloActionToken;
 public class PacketToken implements ServerPacketHandler{
     private final SoloActionToken soloActionToken;
 
+    /**
+     * Class' constructor.
+     * @param soloActionToken is the value of the token in single player game.
+     */
     @JsonCreator
     public PacketToken(@JsonProperty("soloActionToken") SoloActionToken soloActionToken) {
         this.soloActionToken = soloActionToken;
@@ -17,6 +21,9 @@ public class PacketToken implements ServerPacketHandler{
         return soloActionToken;
     }
 
+    /**
+     * Method execute() updates the solo action token value in ClientModelView class.
+     */
     @Override
     public void execute(Client client) {
         client.getClientModelView().setSoloActionToken(soloActionToken);

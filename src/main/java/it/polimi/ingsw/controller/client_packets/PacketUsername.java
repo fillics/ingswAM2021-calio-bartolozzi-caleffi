@@ -10,7 +10,10 @@ import it.polimi.ingsw.server.Server;
 public class PacketUsername implements SetupHandler {
     private final String username;
 
-
+    /**
+     * Class' constructor.
+     * @param username is the username of the player.
+     */
     @JsonCreator
     public PacketUsername(@JsonProperty("username")String username) {
         this.username = username;
@@ -21,7 +24,9 @@ public class PacketUsername implements SetupHandler {
         return username;
     }
 
-
+    /**
+     * Method execute() calls Server methods to check the beginning of the game.
+     */
     @Override
     public void execute(Server server, ClientHandler clientHandler) {
 

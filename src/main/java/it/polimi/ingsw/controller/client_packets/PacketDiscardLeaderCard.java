@@ -19,11 +19,19 @@ import it.polimi.ingsw.server.Server;
 public class PacketDiscardLeaderCard implements ClientPacketHandler {
     private final int ID;
 
+    /**
+     * Class' constructor.
+     * @param ID is the id of the leader card that the player wants to discard.
+     */
     @JsonCreator
     public PacketDiscardLeaderCard(@JsonProperty("id")int ID) {
         this.ID = ID;
     }
 
+    /**
+     * Method execute() calls discardLeaderCard method from GameInterface that modifies the model.
+     * It also sends packets from server to client in order to update the light model after the changes of the model.
+     */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))

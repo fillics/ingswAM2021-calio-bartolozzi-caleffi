@@ -36,7 +36,6 @@ public class Board implements BoardInterface {
     private final ArrayList<VaticanReportSection> vaticanReportSections;
     private final ArrayList<ProductionPower> specialProductionPowers;
     private final GameBoardInterface game;
-    //private final SinglePlayerGameInterface singleGame;
 
 
     /**

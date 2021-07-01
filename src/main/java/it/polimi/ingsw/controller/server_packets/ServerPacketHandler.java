@@ -1,9 +1,12 @@
 package it.polimi.ingsw.controller.server_packets;
 
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.polimi.ingsw.client.Client;
+
+/**
+ * ServerPacketHandler interface defines an interface for Packets from Server to Client.
+ */
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -35,5 +38,10 @@ import it.polimi.ingsw.client.Client;
 })
 
 public interface ServerPacketHandler {
+
+        /**
+         * Method execute() is called after the deserialization of the packet in ServerListener.
+         * It updates the light model classes.
+         */
         void execute(Client client);
 }

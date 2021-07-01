@@ -58,9 +58,6 @@ public class FaithTrackTest {
     @DisplayName("VaticanReportSection getters test")
     void VaticanReportSectionTest() {
         assertEquals(testPopeFavorTile,testVaticanReportSection.getPopefavortile());
-        /*I don't know how to test the section array, but it's used in other tests like in the board setup,
-        it works*/
-        // TODO: 28/06/2021 da sistemare 
     }
 
 
