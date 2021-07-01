@@ -27,9 +27,6 @@ public class PacketResourceBuffer implements ServerPacketHandler{
     @Override
     public void execute(Client client) {
         client.getClientModelView().getMyPlayer().setResourceBuffer(resourceBuffer);
-        if(client.getViewChoice().equals(ViewChoice.CLI)){
-            System.out.println("Remember to place the resources typing the number 7 (Place one of your resources)");
-        }
     }
 
     public ArrayList<Resource> getResourceBuffer() {

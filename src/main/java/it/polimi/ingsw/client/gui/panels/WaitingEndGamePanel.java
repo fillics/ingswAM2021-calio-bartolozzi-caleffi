@@ -19,7 +19,7 @@ public class WaitingEndGamePanel extends JPanel {
     private Image background;
     private JPanel waiting;
     private  JPanel loadingPanel;
-    private final JLabel waitingLabel = new JLabel("PLEASE WAIT OTHER PLAYERS...");
+    private final JLabel waitingLabel = new JLabel("PLEASE WAIT OTHER PLAYERS WHILE THEY END THEIR TURNS...");
 
 
     public void paintComponent(Graphics g) {
