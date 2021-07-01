@@ -13,11 +13,18 @@ public class PacketDevelopmentSpaces implements ServerPacketHandler{
 
     private final ArrayList<DevelopmentSpace> developmentSpaces;
 
+    /**
+     * Class' constructor.
+     * @param developmentSpaces represents the development spaces.
+     */
     @JsonCreator
     public PacketDevelopmentSpaces(@JsonProperty("development spaces :")ArrayList<DevelopmentSpace> developmentSpaces) {
         this.developmentSpaces = developmentSpaces;
     }
 
+    /**
+     * Method execute() updates the development spaces value in LiteBoard class.
+     */
     @Override
     public void execute(Client client) {
         client.getClientModelView().getLiteBoard().setDevelopmentSpaces(developmentSpaces);

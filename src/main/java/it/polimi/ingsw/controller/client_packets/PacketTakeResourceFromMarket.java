@@ -19,6 +19,12 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
     private final int numline;
     private final ArrayList<Integer> leaderCardsID;
 
+    /**
+     * Class' constructor.
+     * @param line is the line (row or column) from which the player wants to take resources.
+     * @param numline is the number of the line from which the player wants to take resources.
+     * @param leaderCardsID is an ArrayList of Integer that represents the leader cards that the player wants to use in order to activate a white marble choice.
+     */
     @JsonCreator
     public PacketTakeResourceFromMarket(@JsonProperty("Line")String line,@JsonProperty("NumLine") int numline,@JsonProperty("LeaderCardsID") ArrayList<Integer> leaderCardsID) {
         this.line = line;
@@ -26,7 +32,10 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
         this.leaderCardsID = leaderCardsID;
     }
 
-
+    /**
+     * Method execute() calls takeResourceFromMarket method from GameInterface that modifies the model.
+     * It also sends packets from server to client in order to update the light model after the changes of the model.
+     */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){

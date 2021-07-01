@@ -18,6 +18,12 @@ public class PacketFaithTrack implements ServerPacketHandler{
     private final int faithMarker;
     private final ArrayList<VaticanReportSection> vaticanReportSections;
 
+    /**
+     * Class' constructor.
+     * @param track represents the faith track.
+     * @param faithMarker is the value of the faith marker.
+     * @param vaticanReportSections represents the vatican report sections.
+     */
     @JsonCreator
     public PacketFaithTrack(@JsonProperty("faith track :") ArrayList<Cell> track, @JsonProperty("faithMarker") int faithMarker,
                             @JsonProperty("vaticanReportSections") ArrayList<VaticanReportSection> vaticanReportSections) {
@@ -26,6 +32,9 @@ public class PacketFaithTrack implements ServerPacketHandler{
         this.vaticanReportSections=vaticanReportSections;
     }
 
+    /**
+     * Method execute() updates the track, faith marker and vatican report sections values in LiteBoard class.
+     */
     @Override
     public void execute(Client client) {
         LiteBoard liteBoard =  client.getClientModelView().getLiteBoard();

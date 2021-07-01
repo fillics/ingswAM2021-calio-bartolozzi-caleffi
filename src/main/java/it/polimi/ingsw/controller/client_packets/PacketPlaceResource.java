@@ -22,12 +22,21 @@ public class PacketPlaceResource implements ClientPacketHandler {
     private final int depositPosition;
     private final int resourcePosition;
 
+    /**
+     * Class' constructor.
+     * @param depositPosition represents the deposit in which the player wants to put the resource.
+     * @param resourcePosition represents the position in the resource buffer of the resource the player wants to place,
+     */
     @JsonCreator
     public PacketPlaceResource(@JsonProperty("DepositPosition")int depositPosition,@JsonProperty("ResourcePosition") int resourcePosition) {
         this.depositPosition = depositPosition;
         this.resourcePosition = resourcePosition;
     }
 
+    /**
+     * Method execute() calls placeResource method from GameInterface that modifies the model.
+     * It also sends packets from server to client in order to update the light model after the changes of the model.
+     */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO)

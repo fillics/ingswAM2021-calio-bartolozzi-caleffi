@@ -17,12 +17,20 @@ public class PacketWarehouse implements ServerPacketHandler{
     private final Strongbox strongbox;
     private final ArrayList<Deposit> deposits;
 
+    /**
+     * Class' constructor.
+     * @param strongbox represents the strongbox.
+     * @param deposits represents the deposits.
+     */
     @JsonCreator
     public PacketWarehouse(@JsonProperty("strongbox :")Strongbox strongbox, @JsonProperty("deposits :")ArrayList<Deposit> deposits ) {
         this.strongbox = strongbox;
         this.deposits = deposits;
     }
 
+    /**
+     * Method execute() updates the strongbox and deposits values in LiteBoard class.
+     */
     @Override
     public void execute(Client client) {
 
@@ -36,9 +44,6 @@ public class PacketWarehouse implements ServerPacketHandler{
             else System.out.println("[from server]"+ Constants.ANSI_GREEN+" Warehouse updated!"+Constants.ANSI_RESET);
             client.setClientState(ClientStates.GAMESTARTED);
         }
-
-
-
     }
 
     public ArrayList<Deposit> getDeposits() {

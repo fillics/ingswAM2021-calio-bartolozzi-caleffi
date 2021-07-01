@@ -12,7 +12,12 @@ public class PacketNewPositionInGame  implements ServerPacketHandler {
     private final String username;
     private final String action;
 
-    
+    /**
+     * Class' constructor.
+     * @param posInGame is the value of the new position in the game.
+     * @param username is the username of the player.
+     * @param action is the action for which the player got a new position.
+     */
     @JsonCreator
     public PacketNewPositionInGame(@JsonProperty("newPosInGame") int posInGame,
                                    @JsonProperty("username") String username,
@@ -22,7 +27,9 @@ public class PacketNewPositionInGame  implements ServerPacketHandler {
         this.action=action;
     }
 
-
+    /**
+     * Method execute() sends a message to the client and updates the posInGame value in LitePlayer class.
+     */
     @Override
     public void execute(Client client) {
         switch (client.getViewChoice()){

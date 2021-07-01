@@ -15,11 +15,19 @@ import it.polimi.ingsw.server.Server;
 public class PacketActivateLeaderCard implements ClientPacketHandler {
     private final int id;
 
+    /**
+     * Class' constructor.
+     * @param id is the id of the leader card that the player wants to activate.
+     */
     @JsonCreator
     public PacketActivateLeaderCard(@JsonProperty("Id")int id) {
         this.id = id;
     }
 
+    /**
+     * Method execute() calls activateLeaderCard method from GameInterface that modifies the model.
+     * It also sends packets from server to client in order to update the light model after the changes of the model.
+     */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))

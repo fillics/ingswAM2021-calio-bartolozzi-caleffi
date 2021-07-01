@@ -22,6 +22,10 @@ import it.polimi.ingsw.model.marbles.Marble;
 
 import java.util.ArrayList;
 
+/**
+ * PacketSetup class is the packet from server to client sent at the beginning of the game in order to set the inizial value of the attributes in light model classes.
+ */
+
 public class PacketSetup implements ServerPacketHandler{
 
     private final String username;
@@ -44,6 +48,26 @@ public class PacketSetup implements ServerPacketHandler{
     private final boolean isSingleGame;
     private final ArrayList<String> players;
 
+    /**
+     * Class' constructor.
+     * @param username is the username of the player.
+     * @param idClient is the Id of the client.
+     * @param posInGame is the value of the position in the game.
+     * @param isSingleGame indicates if the game is single player or not.
+     * @param table represents the market.
+     * @param remainingMarble represent the remaining marble of the market.
+     * @param resourceBuffer is the value of the resource buffer.
+     * @param specialProductionPowers represents the special producion powers.
+     * @param strongbox represents the strongbox.
+     * @param deposits represents the deposits.
+     * @param whiteMarbleCardChoice represents the id of the white marble leader card.
+     * @param leaderCards represents the leader cards.
+     * @param track represents the faith track.
+     * @param vaticanReportSections represents the vatican report sections.
+     * @param developmentCards represents the top development cards in the development grid.
+     * @param developmentSpaces represents the development spaces.
+     * @param players is the ArrayList that cointains the username of all the players.
+     */
     @JsonCreator
     public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame,@JsonProperty("isSingleGame") boolean isSingleGame, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,
                        @JsonProperty("market tray") Marble[][] table, @JsonProperty("remaining marble") Marble remainingMarble,
@@ -72,7 +96,6 @@ public class PacketSetup implements ServerPacketHandler{
         this.vaticanReportSections=vaticanReportSections;
         this.players = players;
     }
-
 
     public String getUsername() {
         return username;
@@ -150,6 +173,10 @@ public class PacketSetup implements ServerPacketHandler{
         return players;
     }
 
+    /**
+     * Method execute() creates the light model classes and sets all theirs attributes.
+     * It also sends a message to the client that tells to the player the position of the game and the first action he/she can do (choose the leader cards to remove).
+     */
     @Override
     public void execute(Client client) {
         if(client.getClientState().equals(ClientStates.CREATEMODEL)) {

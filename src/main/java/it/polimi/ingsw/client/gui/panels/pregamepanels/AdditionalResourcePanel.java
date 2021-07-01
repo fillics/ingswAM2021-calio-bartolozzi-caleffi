@@ -110,7 +110,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         c.gridx = 0;
         c.gridy = 1;
         this.add(buttonsForProduction, c);
-
+        this.setOpaque(false);
 
     }
 
@@ -192,7 +192,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         resourcesPanel.add(shieldPanel, c);
 
         resourcesPanel.setBackground(new Color(0, 0, 0, 0));
-        resourcesPanel.setOpaque(true);
+        resourcesPanel.setOpaque(false);
     }
 
     /**
@@ -206,6 +206,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         buttonsForProduction.add(backForProduction);
         buttonsForProduction.add(Box.createRigidArea(new Dimension(180, 20)));
         buttonsForProduction.add(confirmForProduction);
+        buttonsForProduction.setOpaque(false);
     }
 
     /**
@@ -348,7 +349,7 @@ public class AdditionalResourcePanel extends JPanel implements ActionListener {
         resourcesPanel.add(shieldPanel, c);
 
         resourcesPanel.setBackground(new Color(0, 0, 0, 0));
-        resourcesPanel.setOpaque(true);
+        resourcesPanel.setOpaque(false);
 
     }
 

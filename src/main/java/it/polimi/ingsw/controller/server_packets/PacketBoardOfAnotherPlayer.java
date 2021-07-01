@@ -18,6 +18,11 @@ import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 
 import java.util.ArrayList;
 
+/**
+ * PacketBoardOfAnotherPlayer class is the packet from server to client sent to see the board of another player.
+ * It creates a new instance of ClientModelView and fills it with the only attributes of the other player light model that all the players can see.
+ */
+
 public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
 
     private final int faithMarker;
@@ -29,7 +34,16 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
     private final ArrayList<DevelopmentSpace> developmentSpaces;
     private final ClientModelView clientModelView;
 
-
+    /**
+     * Class' constructor.
+     * @param faithMarker represent the faith marker of the other player.
+     * @param strongbox represents the strongbox of the other player.
+     * @param deposits represents the deposits of the other player.
+     * @param leaderCards represents the leader cards activated of the other player.
+     * @param track represents the faith track of the other player.
+     * @param vaticanReportSections represents the vatican report sections of the other player.
+     * @param developmentSpaces represents the development spaces of the other player.
+     */
     @JsonCreator
     public PacketBoardOfAnotherPlayer(@JsonProperty("faithMarker") int faithMarker,
                                       @JsonProperty("track") ArrayList<Cell> track,
@@ -76,6 +90,9 @@ public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
         return developmentSpaces;
     }
 
+    /**
+     * Method execute() sets the attributes of the ClientModelView new instance.
+     */
     @Override
     public void execute(Client client) {
         LiteBoard liteBoard = clientModelView.getLiteBoard();

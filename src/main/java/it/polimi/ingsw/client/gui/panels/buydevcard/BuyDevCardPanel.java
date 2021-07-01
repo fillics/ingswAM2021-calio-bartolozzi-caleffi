@@ -114,7 +114,7 @@ public class BuyDevCardPanel extends JPanel implements ActionListener {
         rightPanel.setLayout(new GridBagLayout());
 
         JLabel guideRight = new JLabel("Click the resources you want to use and in which development space you want to put the card");
-        guideRight.setFont(new Font(guideRight.getFont().getName(), guideRight.getFont().getStyle(), 15));
+        guideRight.setFont(new Font("Times New Roman", guideRight.getFont().getStyle(), 15));
 
         JPanel textPanel = new JPanel();
         textPanel.setBackground(new Color(233, 226, 193));
