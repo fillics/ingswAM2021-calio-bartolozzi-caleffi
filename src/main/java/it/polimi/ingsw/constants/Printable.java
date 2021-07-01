@@ -14,22 +14,22 @@ public enum Printable {
     SUD_OVEST("╚"),
     SUD_EST("╝"),
     MIDDLE("═"),
-    QUESTION_MARK("\uFFFD"),
+    QUESTION_MARK("?"),
 
-    RED_CROSS("\u2717"),
-    CHECK("\u2713"),
-    CROSS ("\u2020"),
-    CIRCLE ("\u25CF"),
-    SQUARE("\u25A0"),
-    WHITE_MARBLE ("\u25EF"),
-    WHITE_SQUARE("\u25A1"),
+    RED_CROSS("X"),
+    CHECK("V"),
+    CROSS ("†"), //does not work
+    CIRCLE ("●"),
+    SQUARE("■"),
+    WHITE_MARBLE ("●"),
+    WHITE_SQUARE(" "),
 
-    ONE_POINT("\u2219"),
-    TWO_POINTS("\u2236"),
-    THREE_POINTS("\u22EE"),
+    ONE_POINT("¹"),
+    TWO_POINTS("²"),
+    THREE_POINTS("³"), //fixare questa riga di dev cards
 
-    ARROW_RIGHT("\u2B05"),
-    ARROW_BOTTOM("\u2B06");
+    ARROW_RIGHT("←"),
+    ARROW_BOTTOM("↑");
 
     private String print;
 

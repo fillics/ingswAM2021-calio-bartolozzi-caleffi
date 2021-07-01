@@ -454,8 +454,9 @@ public class CLI implements ViewInterface {
         StringBuilder escape = new StringBuilder();
 
         escape.append(Color.ANSI_RED.escape()).append(Printable.CROSS.print()).append(Color.RESET).append(" = YOUR FAITH MARKER \n");
-        if(clientModelView.isSingleGame())
-            escape.append(Printable.CROSS.print()).append(" = LORENZO IL MAGNIFICO'S BLACK CROSS \n");
+        if(clientModelView.isSingleGame()) escape.append(Printable.CROSS.print()).append(" = LORENZO IL MAGNIFICO'S BLACK CROSS \n");
+
+
         escape.append(Color.ANSI_GREEN.escape()).append(Printable.CHECK.print()).append(Color.RESET).append(" = ACTIVE TILE \n");
         escape.append(Color.ANSI_RED.escape()).append(Printable.RED_CROSS.print()).append(Color.RESET).append(" = NON ACTIVE TILE \n");
 

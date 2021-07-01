@@ -329,7 +329,6 @@ class GameTest {
 
     }
 
-    // TODO: Finire questo metodo con tutte le eccezioni che possono avvenire quando si attiva una carta leader
     /** Method ActivationLeaderTestExceptions tests the exceptions of a leader card activation. */
     @Test
     @DisplayName("ActivationLeaderTestExceptions test")
@@ -433,7 +432,6 @@ class GameTest {
     }
 
     /** Method buyDevCardTest tests Game method buyDevCard. */
-    //TODO: Aggiungere test delle eccezioni
     @Test
     @DisplayName("buyDevCard test")
     void buyDevCardTest() throws DiscountCannotBeActivated, EmptyDeposit, DepositDoesntHaveThisResource {
@@ -739,8 +737,6 @@ class GameTest {
     @Test
     @DisplayName("endTurnAndIncreaseFaithMarkerTest test")
     void endGameAndIncreaseFaithMarkerTest() throws LeaderCardNotFound, LeaderCardNotActivated {
-
-        // TODO: 13/06/2021 questo test mi ha dato un problema una volta 
         testGame.takeResourceFromMarket("row", 2, null);
         assertNotEquals(0, testGame.getActivePlayers().get(testGame.getCurrentPlayer()).getResourceBuffer().size());
         testGame.getActivePlayers().get(testGame.getCurrentPlayer()).endTurn();

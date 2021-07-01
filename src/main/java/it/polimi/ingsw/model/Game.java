@@ -144,8 +144,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public HashMap<String, Player> getUsernameClientActivePlayers() {
         return usernameClientActivePlayers;
     }
-
-//TODO: testare
+    
     /**
      * Method getTable return the table representing the position of the marbles.
      */
@@ -691,7 +690,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         if(Collections.frequency(victoryPointsPlayers, maxVictoryPoints)==1){
             winner = activePlayers.get(victoryPointsPlayers.indexOf(maxVictoryPoints)).getUsername();
         }
-        else{ //caso di pareggio
+        else{ //draw case
             for (Player activePlayer : activePlayers) {
                 resourcesPlayers.add(activePlayer.getBoard().getTotalResources());
             }
