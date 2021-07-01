@@ -1,19 +1,10 @@
 package it.polimi.ingsw.client.gui;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.ClientModelView;
 import it.polimi.ingsw.client.gui.panels.*;
-import it.polimi.ingsw.client.gui.panels.pregamepanels.LoginPanel;
-import it.polimi.ingsw.client.gui.panels.pregamepanels.NumPlayersPanel;
 import it.polimi.ingsw.client.gui.panels.pregamepanels.ServerPanel;
-import it.polimi.ingsw.controller.Packet;
-import it.polimi.ingsw.controller.client_packets.cheatpackets.CheatClientPacketHandler;
-import it.polimi.ingsw.controller.client_packets.ClientPacketHandler;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,13 +19,12 @@ public class GUI implements Runnable {
     private JPanel mainPanel;
     private JPanel messagesFromServerPanel;
     private JPanel curMessagePanel;
-    private Client client;
-    private ClientModelView clientModelView;
+    private final Client client;
     private final Dimension dimension;
     private final int width;
     private final int height;
     private final JFrame jFrame;
-    private Border blackline;
+    private final Border blackline;
     private final Color greenColor;
     private final Color backgroundColor;
     private final Color purpleColor;
@@ -194,30 +184,6 @@ public class GUI implements Runnable {
      */
     public Color getBackgroundColor() {
         return backgroundColor;
-    }
-
-    /**
-     * Class' getter
-     * @return the purple color
-     */
-    public Color getPurpleColor() {
-        return purpleColor;
-    }
-
-    /**
-     * Class' getter
-     * @return the light blue color
-     */
-    public Color getLightblueColor() {
-        return lightblueColor;
-    }
-
-    /**
-     * Class' getter
-     * @return the yellow color
-     */
-    public Color getYellowColor() {
-        return yellowColor;
     }
 
     /**

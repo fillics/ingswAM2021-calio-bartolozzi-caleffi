@@ -354,6 +354,7 @@ public class BoardPanel extends JPanel implements ActionListener {
         username.setHorizontalTextPosition(JLabel.CENTER);
         username.setVerticalTextPosition(JLabel.CENTER);
 
+
         usernamePanel.add(username);
 
 
@@ -408,6 +409,7 @@ public class BoardPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // TODO: 06/06/2021 cambiamo il messaggio visualizzato sopra quando premiamo un bottone, tipo "hai scelto di guardare il dev grid" 
         if(e.getSource() == showDevGrid){
             gui.switchPanels(new ShowDevGridPanel(gui));
             gui.createMessageFromServer("You have chosen to see the development grid");
@@ -434,27 +436,31 @@ public class BoardPanel extends JPanel implements ActionListener {
 
         }
         if(e.getSource() == activateLeaderCard){
-            gui.switchPanels(new ActivateLeaderCardPanel(gui));
-            gui.createMessageFromServer("You have chosen to activate a leader card");
-
+            boolean check = false;
             for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
                 if(!leaderCard.getStrategy().isActive()){
                     gui.switchPanels(new ActivateLeaderCardPanel(gui));
+                    check = true;
                     break;
                 }
             }
+            if(!check){
+                JOptionPane.showMessageDialog(gui.getjFrame(), "You can't activate any leader card");
+            }
         }
         if(e.getSource() == discardLeaderCard){
-            gui.switchPanels(new DiscardLeaderCardPanel(gui));
-            gui.createMessageFromServer("You have chosen to discard a leader card");
-
+            boolean check = false;
             if(gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size() != 0){
                 for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
                     if(!leaderCard.getStrategy().isActive()){
                         gui.switchPanels(new DiscardLeaderCardPanel(gui));
+                        check = true;
                         break;
                     }
                 }
+            }
+            if(!check){
+                JOptionPane.showMessageDialog(gui.getjFrame(), "You can't discard any leader card");
             }
         }
         if(e.getSource() == buyDevCard){
