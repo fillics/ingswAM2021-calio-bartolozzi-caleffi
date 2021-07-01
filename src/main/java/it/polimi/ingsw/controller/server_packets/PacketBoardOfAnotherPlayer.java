@@ -25,9 +25,9 @@ import java.util.ArrayList;
 
 public class PacketBoardOfAnotherPlayer implements ServerPacketHandler{
 
-    private int faithMarker;
-    private ArrayList<Cell> track;
-    private ArrayList<VaticanReportSection> vaticanReportSections;
+    private final int faithMarker;
+    private final ArrayList<Cell> track;
+    private final ArrayList<VaticanReportSection> vaticanReportSections;
     private final ArrayList<LeaderCard> leaderCards;
     private final Strongbox strongbox;
     private final ArrayList<Deposit> deposits;

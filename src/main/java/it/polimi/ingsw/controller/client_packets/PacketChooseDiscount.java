@@ -7,7 +7,6 @@ import it.polimi.ingsw.controller.messages.ExceptionMessages;
 import it.polimi.ingsw.controller.GameStates;
 import it.polimi.ingsw.controller.server_packets.PacketConnectionMessages;
 import it.polimi.ingsw.controller.server_packets.PacketExceptionMessages;
-import it.polimi.ingsw.controller.server_packets.PacketLeaderCards;
 import it.polimi.ingsw.exceptions.DiscountCannotBeActivated;
 import it.polimi.ingsw.model.gameinterfaces.GameInterface;
 import it.polimi.ingsw.server.ClientHandler;

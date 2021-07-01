@@ -46,7 +46,7 @@ public class PacketSetup implements ServerPacketHandler{
     private final ArrayList<Integer> whiteMarbleCardChoice;
     private final int posInGame;
     private final boolean isSingleGame;
-    private ArrayList<String> players;
+    private final ArrayList<String> players;
 
     /**
      * Class' constructor.

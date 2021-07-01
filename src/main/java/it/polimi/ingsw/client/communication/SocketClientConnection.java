@@ -29,11 +29,9 @@ public class SocketClientConnection {
             connectionToServer.compareAndSet(false, true);
         } catch (IOException ignored) {
             if(viewChoice.equals(ViewChoice.CLI)){
-                Client.main(new String[] {"-cli"});
                 System.err.println("Error during connection to the client");
-
+                Client.main(null);
             }
-
         }
         if (connectionToServer.get()) creationStreams();
     }

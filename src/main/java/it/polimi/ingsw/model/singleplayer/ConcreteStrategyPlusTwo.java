@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ConcreteStrategyPlusTwo implements TokenActionStrategy{
 
-    private int steps = 2;
-    private SinglePlayerGameInterface single;
+    private final int steps = 2;
+    private final SinglePlayerGameInterface single;
 
     /**
      * Constructor ConcreteStrategyPlusTwo creates a new ConcreteStrategyPlusTwo instance.

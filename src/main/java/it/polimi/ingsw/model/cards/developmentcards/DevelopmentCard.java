@@ -13,7 +13,7 @@ import java.util.HashMap;
  * This class represents the Development Card.
  */
 public class DevelopmentCard extends Card {
-    private String path;
+    private final String path;
     private final int id;
     private final Level level;
     private final CardColor color;

@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class WaitingEndGamePanel extends JPanel {
     private final GUI gui;
-    private GridBagConstraints c;
+    private final GridBagConstraints c;
 
     private Image background;
     private JPanel waiting;

@@ -13,8 +13,8 @@ import java.util.stream.IntStream;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ConcreteStrategyDiscard implements TokenActionStrategy{
 
-    private SinglePlayerGameInterface singleGame;
-    private CardColor color;
+    private final SinglePlayerGameInterface singleGame;
+    private final CardColor color;
 
 
     /**

@@ -25,8 +25,10 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
     private int widthRes, heightRes;
     private ArrayList<JLabel> resources;
 
-
-    // TODO: 29/06/2021 da fare javadoc
+    /**
+     * Class' constructor
+     * @param buyDevCardPanel is the BuyDevCardPanel object linked to this panel
+     */
     public WarehouseAndDevSpacesPanel(BuyDevCardPanel buyDevCardPanel) {
         this.buyDevCardPanel = buyDevCardPanel;
         constructor();
@@ -39,7 +41,10 @@ public class WarehouseAndDevSpacesPanel extends JPanel {
 
     }
 
-
+    /**
+     * Class' constructor
+     * @param useProductionPowerPanel is the UseProductionPowerPanel object linked to this panel
+     */
     public WarehouseAndDevSpacesPanel(UseProductionPowerPanel useProductionPowerPanel) {
         this.useProductionPowerPanel = useProductionPowerPanel;
         constructor();

@@ -30,7 +30,7 @@ public class Client {
     private CLI cli;
     private GUI gui;
     private ViewChoice viewChoice;
-    private static String DEFAULT_ARGS = "-default";
+    private static final String DEFAULT_ARGS = "-default";
     private static boolean defaultConnection = false;
 
     /**
@@ -104,7 +104,6 @@ public class Client {
      */
     public void serverConnection(ViewChoice viewChoice){
         socketClientConnection = new SocketClientConnection(viewChoice);
-
         if(viewChoice.equals(ViewChoice.CLI)) {
             cliOperationHandler = new CLIOperationHandler(socketClientConnection, clientModelView, cli);
         }

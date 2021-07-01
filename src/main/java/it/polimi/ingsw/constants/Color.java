@@ -15,7 +15,7 @@ public enum Color {
     ;
 
     public static final String RESET = "\u001B[0m";
-    private String escape;
+    private final String escape;
 
     Color(String escape) {
         this.escape = escape;
