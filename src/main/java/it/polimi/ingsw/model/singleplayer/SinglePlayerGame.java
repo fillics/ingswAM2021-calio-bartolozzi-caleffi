@@ -88,9 +88,9 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
     public boolean isEndgame() {
         return endgame;
     }
+
     /**
      * Method increaseBlackCross moves the black cross forward by an amount of steps.
-     *
      * @param amount of type Int - indicates the number of steps.
      */
     public void increaseBlackCross(int amount){
@@ -105,7 +105,7 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
                     }
                 }
                 if (blackCross >= 24){
-                    endGame();
+                    endgame=true;
                     blackCross = 24;
                     break;
                 }
@@ -185,7 +185,7 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
                     int j = i+4;
                     if(j>developmentGrid.size()){
                         noMoreColumnDevCard = true;
-                        endGame();
+                        endgame=true;
                     }
                 }
             }
@@ -213,15 +213,13 @@ public class SinglePlayerGame extends Game implements SinglePlayerGameInterface{
      */
     @Override
     public void winner() {
-        String winnerUsername = null;
         if(blackCross>=24 || noMoreColumnDevCard){
-            winnerUsername = "Lorenzo Il Magnifico";
+            winner = "Lorenzo Il Magnifico";
         }
         else if(getActivePlayers().get(0).getBoard().getFaithMarker() >= 24 ||
                 getActivePlayers().get(0).getBoard().getNumOfDevCards()==7){
-            winnerUsername = getActivePlayers().get(0).getUsername();
+            winner = getActivePlayers().get(0).getUsername();
         }
-        setWinner(winnerUsername);
     }
 
 

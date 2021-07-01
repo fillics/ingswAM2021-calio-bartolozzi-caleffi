@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.messages.ExceptionMessages;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Constants {
     private static int port;
@@ -67,6 +68,10 @@ public class Constants {
     public static final String close = "Type "+Constants.ITALIC+" close "+Constants.ANSI_RESET+" to close the connection with the client.";
 
 
+    public static void winner(String username){
+        System.out.println(ANSI_YELLOW + "The winner is "+username.toUpperCase(Locale.ROOT)+"!"+ANSI_RESET);
+    }
+
     public static void setPort(int port) {
         Constants.port = port;
     }
@@ -83,9 +88,7 @@ public class Constants {
         return ITALIC+message+ANSI_RESET;
     }
 
-    public static String getInfo() {
-        return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " INFO: ");
-    }
+
     public static String getErr() {
         return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " ERR: ");
     }

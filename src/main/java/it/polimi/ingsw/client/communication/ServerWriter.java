@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.communication;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientStates;
 import it.polimi.ingsw.client.cli.CLIOperationHandler;
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.controller.client_packets.PacketEndConnection;
 import it.polimi.ingsw.controller.client_packets.PacketUsername;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 
@@ -46,7 +48,7 @@ public class ServerWriter implements Runnable{
 
         Constants.printConnectionMessage(ConnectionMessages.INSERT_USERNAME);
 
-        while (!client.getClientState().equals(ClientStates.END)) {
+        while (!client.getClientState().equals(ClientStates.CLOSE_CONNECTION)) {
 
             do {
                 inputString = input.nextLine();
@@ -109,7 +111,21 @@ public class ServerWriter implements Runnable{
                 }
             }
             case GAME_ENDING -> {
-                System.err.println("Please wait the other players");
+                System.err.println("Please wait the other players while they are ending their own turn");
+            }
+            case END -> {
+                if (inputString.equals("close")){
+                    System.out.println("Closing connection...");
+                    client.setClientState(ClientStates.CLOSE_CONNECTION);
+                    try {
+                        cliOperationHandler.sendPacket(new PacketEndConnection());
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Connection with the server closed!");
+                    System.out.println("Bye Bye");
+                    System.exit(0);
+                }
             }
 
         }

@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 public class PacketWinner implements ServerPacketHandler {
@@ -34,7 +35,11 @@ public class PacketWinner implements ServerPacketHandler {
     @Override
     public void execute(Client client) {
         if(client.getViewChoice().equals(ViewChoice.CLI)) {
-            System.out.println("The winner of this game is "+ username);
+            Constants.winner(username);
+            System.out.println("LeaderBoard: ");
+            for (PlayerInfoEndMatch player: players){
+                System.out.println(player.getUsername().toUpperCase(Locale.ROOT) + ": "+player.getTotVictory()+" victory points");
+            }
             System.out.println(Constants.close);
         }
         else {

@@ -242,13 +242,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
 
-    public void setWinner(String winner) {
-        this.winner = winner;
-    }
-
-    /**
-     *
-     */
     @Override
     public GameStates getState() {
         return gameStates;
@@ -665,7 +658,6 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     }
 
-
     /**
      *  Method endGame called when the conditions to end the game are satisfied.
      */
@@ -699,6 +691,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         }
     }
 
+    /**
+     * Method that returns the Player given the username of the player, found in the active player's array
+     * @param username (type String) - it is the username to find
+     * @return the Player with the username passed as a parameter
+     */
     public Player getActivePlayerByUsername(String username){
         Player returnPlayer =null;
         for (Player player: activePlayers){
@@ -707,6 +704,11 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
         return returnPlayer;
     }
 
+    /**
+     * Method that returns the Player given the username of the player, found in the player's array
+     * @param username (type String) - it is the username to find
+     * @return the Player with the username passed as a parameter
+     */
     public Player getPlayerByUsername(String username){
         Player returnPlayer =null;
         for (Player player: players){
@@ -717,7 +719,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     /**
      * Method disconnectPlayer called by the server to handle the disconnection of a player from the game.
-
+     * It removes the player from the array with the active players
+     * @param username (type String) - it is the username of the player to disconnect
      */
     public void disconnectPlayer(String username){
         Player playerToDisconnect = getActivePlayerByUsername(username);
@@ -726,6 +729,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
 
     /**
      * Method reconnectPlayer called by the server to handle the reconnection of a player to the game.
+     * It adds the player in the array of active players
+     * @param username (type String) - it is the username of the player to reconnect
      */
     public void reconnectPlayer(String username){
         Player playerToReconnect = getPlayerByUsername(username);
@@ -736,8 +741,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     /**
      * Method getIndexOfPlayer gets the index of the player with the username passed as a parameter in the array containing
      * all the active players.
-     * @param usernameToFind (type String)
-     * @return the index
+     * @param usernameToFind (type String) - it is the username of the player to be found
+     * @return the index of the player
      */
     public int getIndexOfActivePlayer(String usernameToFind){
 
@@ -755,8 +760,8 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
     /**
-     * aggiunge 20 risorse nello strongbox del player
-     * @param username (type String)
+     * Cheat method that increments the resources in the strongbox of the player
+     * @param username is the username of the player whose resources will be incremented
      */
     @Override
     public void cheatResourcesStrongbox(String username) {
@@ -767,30 +772,18 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     }
 
     /**
-     * aggiunge 1 faith marker a utente
-     * @param username is the username
+     * Cheat method that increments the faith marker of the player
+     * @param username is the username of the player whose faith track will be incremented
      */
     @Override
     public void cheatFaithMarker(String username) {
         usernameClientActivePlayers.get(username).getBoard().increaseFaithMarker();
     }
 
-
     /**
-     * dato username mi restituisce la posizione del giocatore nell'array dei player
-     * @param usernameToFind (type String)
-     */
-    public int getIndexOfPlayer(String usernameToFind){
-        int index = 0;
-        for (Player player: players){
-            if(player.getUsername().equals(usernameToFind)) index = players.indexOf(player);
-        }
-        return index;
-    }
-
-
-    /**
-     * dato un username ritorna l'username del player dopo
+     * Method used to return the username of the player who is the next one after the username passed as parameter
+     * @param username (type String) - it is the username of a player
+     * @return the username of the next player
      */
     public String nextPlayerGivenUsername(String username){
         String usernameNext = null;

@@ -137,13 +137,7 @@ public class CLIOperationHandler{
                 System.out.println("Ending turn");
                 sendPacket(new PacketEndTurn());
             }
-            case "close" -> {
-                System.out.println("Closing connection...");
-                sendPacket(new PacketEndConnection());
-                System.out.println("Connection with the server closed!");
-                System.exit(0);
 
-            }
             default -> System.err.println("Invalid choice, retry. "+Constants.commands);
         }
     }
