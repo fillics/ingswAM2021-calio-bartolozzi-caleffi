@@ -20,7 +20,7 @@ public class LeaderCard extends Card {
     private final ResourceType resourceType;
     private final Requirement requirements;
     private final int victorypoint;
-    private String path;
+    private final String path;
     private int depositPosition;
     private int productionPowerPosition;
 

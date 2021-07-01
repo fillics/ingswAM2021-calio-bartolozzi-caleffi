@@ -42,7 +42,7 @@ public class PacketSetup implements ServerPacketHandler{
     private final ArrayList<Integer> whiteMarbleCardChoice;
     private final int posInGame;
     private final boolean isSingleGame;
-    private ArrayList<String> players;
+    private final ArrayList<String> players;
 
     @JsonCreator
     public PacketSetup(@JsonProperty("username") String username, @JsonProperty("idClient")int idClient, @JsonProperty("posInGame") int posInGame,@JsonProperty("isSingleGame") boolean isSingleGame, @JsonProperty("development grid") ArrayList<DevelopmentCard> developmentCards,

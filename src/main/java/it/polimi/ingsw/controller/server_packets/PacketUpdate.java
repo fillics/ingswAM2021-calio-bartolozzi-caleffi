@@ -25,14 +25,14 @@ import java.util.ArrayList;
 public class PacketUpdate implements ServerPacketHandler{
 
 
-    private  SoloActionToken soloActionToken;
-    private int blackCross;
+    private final SoloActionToken soloActionToken;
+    private final int blackCross;
 
-    private ArrayList<Cell> track;
-    private int faithMarker;
-    private ArrayList<VaticanReportSection> vaticanReportSections;
+    private final ArrayList<Cell> track;
+    private final int faithMarker;
+    private final ArrayList<VaticanReportSection> vaticanReportSections;
 
-    private  ArrayList<DevelopmentCard> developmentCards;
+    private final ArrayList<DevelopmentCard> developmentCards;
 
 
     @JsonCreator

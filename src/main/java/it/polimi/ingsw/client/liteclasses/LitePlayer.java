@@ -18,7 +18,7 @@ public class LitePlayer {
     private int totalVictoryPoint;
     private ArrayList<LeaderCard> leaderCards;
     private ArrayList<Resource> resourceBuffer;
-    private LiteBoard board;
+    private final LiteBoard board;
     private int posInGame;
     //private int chosenResource;
     private ArrayList<Integer> whiteMarbleCardChoice;

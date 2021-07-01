@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.Player;
  */
 
 public class RedMarble extends Marble{
-    private String path;
+    private final String path;
 
     @JsonCreator
     public RedMarble(@JsonProperty("path") String path) {

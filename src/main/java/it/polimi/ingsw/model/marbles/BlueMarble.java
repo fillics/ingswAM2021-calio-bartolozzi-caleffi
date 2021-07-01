@@ -11,7 +11,7 @@ import it.polimi.ingsw.model.Player;
  */
 
 public class BlueMarble extends Marble{
-    private String path;
+    private final String path;
 
     @JsonCreator
     public BlueMarble(@JsonProperty("path") String path) {

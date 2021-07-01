@@ -409,7 +409,6 @@ public class BoardPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        // TODO: 06/06/2021 cambiamo il messaggio visualizzato sopra quando premiamo un bottone, tipo "hai scelto di guardare il dev grid" 
         if(e.getSource() == showDevGrid){
             gui.switchPanels(new ShowDevGridPanel(gui));
             gui.createMessageFromServer("You have chosen to see the development grid");
@@ -440,6 +439,7 @@ public class BoardPanel extends JPanel implements ActionListener {
             for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
                 if(!leaderCard.getStrategy().isActive()){
                     gui.switchPanels(new ActivateLeaderCardPanel(gui));
+                    gui.createMessageFromServer("You have chosen to activate a leader card");
                     check = true;
                     break;
                 }
@@ -454,6 +454,7 @@ public class BoardPanel extends JPanel implements ActionListener {
                 for(LeaderCard leaderCard : gui.getClient().getClientModelView().getMyPlayer().getLeaderCards()){
                     if(!leaderCard.getStrategy().isActive()){
                         gui.switchPanels(new DiscardLeaderCardPanel(gui));
+                        gui.createMessageFromServer("You have chosen to discard a leader card");
                         check = true;
                         break;
                     }

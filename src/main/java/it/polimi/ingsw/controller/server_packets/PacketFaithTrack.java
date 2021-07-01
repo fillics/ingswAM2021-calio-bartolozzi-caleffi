@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 public class PacketFaithTrack implements ServerPacketHandler{
 
-    private ArrayList<Cell> track;
-    private int faithMarker;
-    private ArrayList<VaticanReportSection> vaticanReportSections;
+    private final ArrayList<Cell> track;
+    private final int faithMarker;
+    private final ArrayList<VaticanReportSection> vaticanReportSections;
 
     @JsonCreator
     public PacketFaithTrack(@JsonProperty("faith track :") ArrayList<Cell> track, @JsonProperty("faithMarker") int faithMarker,
