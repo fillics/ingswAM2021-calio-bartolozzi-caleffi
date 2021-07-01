@@ -21,13 +21,21 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
     private final ArrayList<Integer> depositPosition;
     private final ArrayList<ResourceType> resource;
 
-
+    /**
+     * Class' constructor.
+     * @param resource is an ArrayList of ResourceType that represents the resources the player has chosen at the beginning of the game.
+     * @param depositPosition is an ArrayList of Integer that represents the deposits where to put the resources the player has chosen.
+     */
     @JsonCreator
     public PacketChooseInitialResources(@JsonProperty("DepositPositions") ArrayList<Integer> depositPosition, @JsonProperty("Resources") ArrayList<ResourceType> resource) {
         this.depositPosition = depositPosition;
         this.resource = resource;
     }
 
+    /**
+     * Method execute() calls additionalResourceSetup method from GameInterface that modifies the model.
+     * It also sends packets from server to client in order to update the light model after the changes of the model.
+     */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.SETUP) || gameInterface.getState().equals(GameStates.PHASE_ONE)){
@@ -59,11 +67,7 @@ public class PacketChooseInitialResources implements ClientPacketHandler{
 
             gameInterface.setState(GameStates.PHASE_ONE);
 
-
-            //SALVATAGGIO SU PROXY
             server.getMapForReconnection().get(clientHandler.getUsername()).setClientStates(ClientStates.GAMESTARTED);
-
-
         }
         else{
             clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));

@@ -13,11 +13,18 @@ public class PacketLiteDevelopmentGrid implements ServerPacketHandler{
 
     private final ArrayList<DevelopmentCard> developmentCards;
 
+    /**
+     * Class' constructor.
+     * @param developmentCards represents the top development cards in the development grid.
+     */
     @JsonCreator
     public PacketLiteDevelopmentGrid(@JsonProperty("development grid :")ArrayList<DevelopmentCard> developmentCards) {
         this.developmentCards = developmentCards;
     }
 
+    /**
+     * Method execute() updates the development cards value in LiteDevelopmentGrid class.
+     */
     @Override
     public void execute(Client client) {
         client.getClientModelView().getDevelopmentGrid().setDevelopmentCards(developmentCards);

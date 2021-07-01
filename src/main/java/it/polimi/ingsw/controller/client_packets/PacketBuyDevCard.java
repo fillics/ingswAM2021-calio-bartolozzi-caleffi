@@ -22,6 +22,13 @@ public class PacketBuyDevCard implements ClientPacketHandler {
     private final ArrayList<Integer> chosenWarehouses;
     private final int developmentSpace;
 
+    /**
+     * Class' constructor.
+     * @param id is the id of the development card that the player wants to buy.
+     * @param chosenResources is an ArrayList of ResourceType that represents the resources the player has chosen to use to buy the card.
+     * @param chosenWarehouses is an ArrayList of Integer that represents the warehouses where to take the resources the player has chosen.
+     * @param developmentSpace represents the development space where the player has chosen to place the new card.
+     */
     @JsonCreator
     public PacketBuyDevCard(@JsonProperty("Id")int id,@JsonProperty("ChosenResources") ArrayList<ResourceType> chosenResources,
                             @JsonProperty("ChosenWarehouses ") ArrayList<Integer> chosenWarehouses,
@@ -32,7 +39,10 @@ public class PacketBuyDevCard implements ClientPacketHandler {
         this.developmentSpace = developmentSpace;
     }
 
-
+    /**
+     * Method execute() calls buyDevCard method from GameInterface that modifies the model.
+     * It also sends packets from server to client in order to update the light model after the changes of the model.
+     */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){

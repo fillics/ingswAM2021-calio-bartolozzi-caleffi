@@ -16,6 +16,10 @@ public class PacketLeaderCards implements ServerPacketHandler{
 
     private final ArrayList<LeaderCard> leaderCards;
 
+    /**
+     * Class' constructor.
+     * @param leaderCards represents the leader cards.
+     */
     @JsonCreator
     public PacketLeaderCards(@JsonProperty("leader cards :") ArrayList<LeaderCard> leaderCards) {
         this.leaderCards = leaderCards;
@@ -25,6 +29,9 @@ public class PacketLeaderCards implements ServerPacketHandler{
         return leaderCards;
     }
 
+    /**
+     * Method execute() updates the leader cards value in LitePlayer class.
+     */
     @Override
     public void execute(Client client) {
         client.getClientModelView().getMyPlayer().setLeaderCards(leaderCards);

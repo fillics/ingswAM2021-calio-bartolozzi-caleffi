@@ -18,11 +18,19 @@ import it.polimi.ingsw.server.Server;
 public class PacketMoveResource implements ClientPacketHandler {
     private final int position;
 
+    /**
+     * Class' constructor.
+     * @param position represents the deposit from which the player wants to take the resource in order to move it.
+     */
     @JsonCreator
     public PacketMoveResource(@JsonProperty("Position")int position) {
         this.position = position;
     }
 
+    /**
+     * Method execute() calls moveResource method from GameInterface that modifies the model.
+     * It also sends packets from server to client in order to update the light model after the changes of the model.
+     */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))

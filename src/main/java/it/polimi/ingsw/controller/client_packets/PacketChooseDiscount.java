@@ -18,11 +18,19 @@ import java.util.ArrayList;
 public class PacketChooseDiscount implements ClientPacketHandler {
     private final ArrayList<Integer> leaderCards;
 
+    /**
+     * Class' constructor.
+     * @param leaderCards is an ArrayList of integer that represents the leader cards that the player wants to use in order to activate a discount.
+     */
     @JsonCreator
     public PacketChooseDiscount(@JsonProperty("LeaderCards")ArrayList<Integer> leaderCards) {
         this.leaderCards = leaderCards;
     }
 
+    /**
+     * Method execute() calls chooseDiscountActivation method from GameInterface that modifies the model.
+     * It also sends packets from server to client in order to update the light model after the changes of the model.
+     */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) &&

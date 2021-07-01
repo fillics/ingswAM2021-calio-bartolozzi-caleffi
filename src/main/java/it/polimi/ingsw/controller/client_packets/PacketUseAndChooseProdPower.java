@@ -27,6 +27,14 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
     private final ArrayList<Integer> warehouse;
     private final ArrayList<ResourceType> newResources;
 
+    /**
+     * Class' constructor.
+     * @param productionPowers is an ArrayList of Integer that represents the production powers the player want to use.
+     * @param newProductionPowers is an ArrayList of Integer that represents the special production powers that the player has chosen.
+     * @param resourceTypes is an ArrayList of ResourceType that represents the resources the player has chosen to take for the production powers.
+     * @param warehouse is an ArrayList of Integer that represents the warehouses where to take the resources the player has chosen.
+     * @param newResources is an ArrayList of ResourceType that represents the resources in which the player has chosen to transform the jolly resources.
+     */
     @JsonCreator
     public PacketUseAndChooseProdPower(@JsonProperty("ProductionPowers")ArrayList<Integer> productionPowers,@JsonProperty("new ProductionPowers")ArrayList<Integer> newProductionPowers,
                                        @JsonProperty("ResourceTypes") ArrayList<ResourceType> resourceTypes,@JsonProperty("Warehouse") ArrayList<Integer> warehouse,
@@ -38,6 +46,10 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
         this.newProductionPowers = newProductionPowers;
     }
 
+    /**
+     * Method execute() calls useAndChooseProdPower method from GameInterface that modifies the model.
+     * It also sends packets from server to client in order to update the light model after the changes of the model.
+     */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
         if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){

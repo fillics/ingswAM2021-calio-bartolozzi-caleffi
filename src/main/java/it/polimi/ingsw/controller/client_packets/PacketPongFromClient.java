@@ -5,6 +5,10 @@ import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 
+/**
+ * PacketPongFromClient class represents the pong message from Client to Server.
+ */
+
 public class PacketPongFromClient implements SetupHandler{
     private final ConnectionMessages message;
 

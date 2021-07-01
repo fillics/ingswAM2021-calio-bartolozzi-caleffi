@@ -5,6 +5,10 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.controller.messages.ConnectionMessages;
 import it.polimi.ingsw.controller.client_packets.PacketPongFromClient;
 
+/**
+ * PacketPingFromServer class represents the ping message from Server to Client.
+ */
+
 public class PacketPingFromServer implements ServerPacketHandler {
 
     private final ConnectionMessages message;

@@ -20,17 +20,22 @@ public class PacketUsernameOfAnotherPlayer implements ClientPacketHandler{
 
     private final String username;
 
-
+    /**
+     * Class' constructor.
+     * @param username is the username of another player that the current player has chosen in order to watch his board.
+     */
     @JsonCreator
     public PacketUsernameOfAnotherPlayer(@JsonProperty("username")String username) {
         this.username = username;
     }
 
-
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Method execute() sends a packet PacketBoardOfAnotherPlayer from server to client with some attributes taken from model.
+     */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) throws EmptyDeposit,
             DepositHasReachedMaxLimit, DepositHasAnotherResource, LeaderCardNotActivated, LeaderCardNotFound,

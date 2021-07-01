@@ -17,7 +17,10 @@ import java.util.ArrayList;
 
 public class PacketEndTurn implements ClientPacketHandler{
 
-
+    /**
+     * Method execute() calls different methods from GameInterface in order to end the turn of the current player depending on the type of the game (SinglePlayer or Multiplayer) and the phase of the game.
+     * It also sends packets from server to client in order to update the light model after the changes of the model.
+     */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
 

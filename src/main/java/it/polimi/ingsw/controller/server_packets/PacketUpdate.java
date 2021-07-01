@@ -27,14 +27,20 @@ public class PacketUpdate implements ServerPacketHandler{
 
     private  SoloActionToken soloActionToken;
     private int blackCross;
-
     private ArrayList<Cell> track;
     private int faithMarker;
     private ArrayList<VaticanReportSection> vaticanReportSections;
-
     private  ArrayList<DevelopmentCard> developmentCards;
 
-
+    /**
+     * Class' constructor.
+     * @param soloActionToken is the value of the token in single player game.
+     * @param blackCross is the value of the black cross.
+     * @param track represents the faith track.
+     * @param faithMarker is the value of the faith marker.
+     * @param vaticanReportSections represents the vatican report sections.
+     * @param developmentCards represents the top development cards in the development grid.
+     */
     @JsonCreator
     public PacketUpdate(@JsonProperty("soloActionToken") SoloActionToken soloActionToken,
                         @JsonProperty("blackCross") int blackCross,
@@ -75,6 +81,10 @@ public class PacketUpdate implements ServerPacketHandler{
         return developmentCards;
     }
 
+    /**
+     * Method execute() updates the solo action token value in ClientModelView class; the development cards value in LiteDevelopmentGrid class;
+     * the black cross, track, faith marker and vatican report sections values in LiteBoard class.
+     */
     @Override
     public void execute(Client client) {
         client.getClientModelView().setSoloActionToken(soloActionToken);

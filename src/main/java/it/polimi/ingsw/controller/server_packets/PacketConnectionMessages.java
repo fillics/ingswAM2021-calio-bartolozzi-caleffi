@@ -17,12 +17,18 @@ public class PacketConnectionMessages implements ServerPacketHandler {
 
     private ConnectionMessages message;
 
+    /**
+     * Class' constructor.
+     * @param message is the connection message to send to the client.
+     */
     @JsonCreator
     public PacketConnectionMessages(@JsonProperty("message") ConnectionMessages message) {
         this.message = message;
     }
 
-
+    /**
+     * Method execute() sends a message to the client.
+     */
     @Override
     public void execute(Client client) {
         switch (message){
