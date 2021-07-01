@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.gui.GUI;
 import it.polimi.ingsw.client.gui.panels.buydevcard.BuyDevCardPanel;
 import it.polimi.ingsw.client.gui.panels.buydevcard.WarehouseForBuyDevCardPanel;
 import it.polimi.ingsw.model.board.resources.ResourceType;
-import it.polimi.ingsw.model.cards.leadercards.ConcreteStrategyDeposit;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCard;
 import it.polimi.ingsw.model.cards.leadercards.LeaderCardType;
 
@@ -23,10 +22,8 @@ import java.util.Objects;
  * Class that creates the panel that contains a leader card
  */
 public class LeaderCardPanel extends JPanel implements ActionListener {
-    private TakeResourcesFromMarketPanel takeResourcesFromMarketPanel;
     private WarehouseAndDevSpacesPanel warehouseAndDevSpacesPanel;
     private GUI gui;
-    private GridBagConstraints c;
     private Image background;
     private int id;
     private int position;
@@ -37,7 +34,6 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     private final JButton depositForBuyDevCardAndProdPower = new JButton();
     private DepositsPanel depositsPanel;
     private WarehouseForBuyDevCardPanel warehouseForBuyDevCardPanel;
-    private DevSpacesPanel devSpacesPanel;
     private JPanel leaderCard;
     private JPanel standardPanel;
     private int numOfWhiteChoices=0;
@@ -58,10 +54,8 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
      * Class' constructor used to create the leader card in tha panel used to take resources from the market
      * @param gui is the GUI object linked to this panel
      * @param id is the id of the leader card to represent
-     * @param takeResourcesFromMarketPanel is the take resources from market panel
      */
-    public LeaderCardPanel(GUI gui, int id, TakeResourcesFromMarketPanel takeResourcesFromMarketPanel){
-        this.takeResourcesFromMarketPanel = takeResourcesFromMarketPanel;
+    public LeaderCardPanel(GUI gui, int id){
         this.setPreferredSize(new Dimension(159, 240));
         this.id = id;
         this.gui = gui;
@@ -305,7 +299,7 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
     public LeaderCardPanel(GUI gui, LeaderCard leaderCard, BuyDevCardPanel buyDevCardPanel) {
         this.buyDevCardPanel = buyDevCardPanel;
         this.gui = gui;
-        c = new GridBagConstraints();
+        GridBagConstraints c = new GridBagConstraints();
 
         for(int i = 0 ; i < gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().size(); i++){
             if(leaderCard.getId() == gui.getClient().getClientModelView().getMyPlayer().getLeaderCards().get(i).getId()){
@@ -403,11 +397,13 @@ public class LeaderCardPanel extends JPanel implements ActionListener {
         }
 
         if(e.getSource() == depositForBuyDevCardAndProdPower){
-            warehouseForBuyDevCardPanel.getChosenWarehouses().add(leaderCard.getDepositPosition() + 1);
-            warehouseForBuyDevCardPanel.getChosenResources().add(leaderCard.getResourceType());
+            warehouseAndDevSpacesPanel.getWarehousePanel().getChosenWarehouses().add(leaderCard.getDepositPosition() + 1);
+            warehouseAndDevSpacesPanel.getWarehousePanel().getChosenResources().add(leaderCard.getResourceType());
+
+            warehouseAndDevSpacesPanel.addResource(leaderCard.getResourceType());
         }
         if(e.getSource() == chooseProdPowerButton){
-            devSpacesPanel.getNewProductionPowers().add(leaderCard.getProductionPowerPosition() + 1);
+            warehouseAndDevSpacesPanel.getDevSpacesPanel().getNewProductionPowers().add(leaderCard.getProductionPowerPosition() + 1);
         }
         if(e.getSource() == chooseWhiteMarbleButton){
             numOfWhiteChoices++;
