@@ -8,11 +8,11 @@
 Master of Renaissance Board Game is the final test of "Software Engineering", course of "Computer Science Engineering" held at Politecnico di Milano (2020/2021).\
 Teacher: Alessandro Margara
 
-![Master of Renaissance](https://github.com/fillics/ingswAM2021-calio-bartolozzi-caleffi/blob/master/src/main/resources/images/github/masters-of-renaissance.jpg)
+<a href="url"><img src="https://github.com/fillics/ingswAM2021-calio-bartolozzi-caleffi/blob/master/src/main/resources/images/github/imageReadMe.png" align="center" height="450" width="800" ></a>
+
 
 # Setup
 In the deliveries folder there are two multi-platform jar files, one to set the Server up and the other one to start the Client.
-
 
 ### Server
 The Server can be run with the following command:
@@ -47,6 +47,12 @@ This command can be followed by the following argument:
 If you run, for example without `-default`, the command `java -jar Client.jar -cli`, it will ask you the server port and the ip address.\
 If you run the commands without any arguments, it will also ask you which view interface you want to use.
 
+For the best user experience, it is suggested to use WSL2 (in full screen) to run the Client (CLI) and the server, with the above commands. 
+To run the GUI you could also run it from the Windows' Command Prompt.
+To not have problems with it and to see it correctly, you have to set the Windows setting "Change the dimension app" with the number 100%.
+
+![Settings](https://github.com/fillics/ingswAM2021-calio-bartolozzi-caleffi/blob/master/src/main/resources/images/github/guide.png)
+
 # Implemented Functionalities
 | Functionality        | Status  | 
 | ------------- |:-------------:| 
@@ -59,25 +65,11 @@ If you run the commands without any arguments, it will also ask you which view i
 | Resilience to Disconnections | :heavy_check_mark:      |    
 
 
-## Build
-Use maven to build jar files for both the Client and the Server by choosing the appropriate Maven Profile.
-
-
-To build the Server, issue:
-> mvn clean
-> mvn package -P Server
-
-To build the Client, issue:
-> mvn clean
-> mvn package -P Client
-
-After these processes both jars can be found in the builds folder.
-
 ### Tools
 StarUML - UML Diagram\
 Maven - Dependency Management\
 IntelliJ - IDE\
-Swing - Graphical Framework
+Swing - for the creation of the GUI
 
 
 ### License
