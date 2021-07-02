@@ -11,6 +11,17 @@ Teacher: Alessandro Margara
 <a href="url"><img src="https://github.com/fillics/ingswAM2021-calio-bartolozzi-caleffi/blob/master/src/main/resources/images/github/imageReadMe.png" align="center" height="450" width="800" ></a>
 
 
+# Implemented Functionalities
+| Functionality        | Status  | 
+| ------------- |:-------------:| 
+| Basic rules     | :heavy_check_mark: | 
+| Complete rules    | :heavy_check_mark:     |
+| Socket    | :heavy_check_mark:     |   
+| CLI    | :heavy_check_mark:     |   
+| GUI    | :heavy_check_mark:     |   
+| Multiple games    | :heavy_check_mark:     |   
+| Resilience to Disconnections (single player and multiplayer) | :heavy_check_mark:      |    
+
 # Setup
 In the deliveries folder there are two multi-platform jar files, one to set the Server up and the other one to start the Client.
 
@@ -53,16 +64,6 @@ To not have problems with it and to see it correctly, you have to set the Window
 
 ![Settings](https://github.com/fillics/ingswAM2021-calio-bartolozzi-caleffi/blob/master/src/main/resources/images/github/guide.png)
 
-# Implemented Functionalities
-| Functionality        | Status  | 
-| ------------- |:-------------:| 
-| Basic rules     | :heavy_check_mark: | 
-| Complete rules    | :heavy_check_mark:     |
-| Socket    | :heavy_check_mark:     |   
-| CLI    | :heavy_check_mark:     |   
-| GUI    | :heavy_check_mark:     |   
-| Multiple games    | :heavy_check_mark:     |   
-| Resilience to Disconnections | :heavy_check_mark:      |    
 
 
 ### Tools
