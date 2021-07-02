@@ -89,7 +89,7 @@ public class ClientHandler implements Runnable {
                     deserialize(str);
                 }catch (Exception e){
                     if(username!=null){ //player has already inserted the username
-                        System.out.println(Constants.ANSI_RED+username+Constants.ANSI_RESET+ " (idPlayer: " +idClient+") "+ Constants.ANSI_RED+"disconnected!"+Constants.ANSI_RESET);
+                        System.out.println(Constants.ANSI_RED+username+Constants.ANSI_RESET+ " (idPlayer: " +idClient+", idGame: "+game.getIdGame()+") "+ Constants.ANSI_RED+"disconnected!"+Constants.ANSI_RESET);
                         server.handleDisconnection(this);
                     }
                     else{ //player has not inserted the username

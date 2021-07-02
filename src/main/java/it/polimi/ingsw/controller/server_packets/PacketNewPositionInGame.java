@@ -40,6 +40,7 @@ public class PacketNewPositionInGame implements ServerPacketHandler {
         }
 
         client.getClientModelView().getMyPlayer().setPosInGame(posInGame);
+
     }
 
     public int getPosInGame() {

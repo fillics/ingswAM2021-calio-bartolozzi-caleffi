@@ -319,7 +319,7 @@ public class Server {
      */
     public synchronized void handleReconnection(String username, ClientHandler clientHandlerToAdd){
 
-        System.out.println("Client " +username+" reconnected");
+        System.out.println(Constants.ANSI_GREEN+"Client " +username+" reconnected"+Constants.ANSI_RESET);
 
         //saving the username in the username's map
         registerUsername(username, clientHandlerToAdd);
@@ -329,12 +329,17 @@ public class Server {
 
         //to get the game of the disconnected player
         Game gamePlayer = mapGames.get(idGame);
+        gamePlayer.setState(GameStates.PHASE_ONE);
         String usernameCurPlayer = null;
 
         //if the game was a multiplayer game
         if(!(gamePlayer instanceof SinglePlayerGame)){
-            usernameCurPlayer = gamePlayer.getActivePlayers().get(gamePlayer.getCurrentPlayer()).getUsername();
+            if(gamePlayer.getActivePlayers().size()!=0){
+                usernameCurPlayer = gamePlayer.getActivePlayers().get(gamePlayer.getCurrentPlayer()).getUsername();
+            }
+            else usernameCurPlayer = username;
         }
+
         //adding the player to the active players list that is present in the model
         gamePlayer.reconnectPlayer(username);
         clientHandlerToAdd.setGame(gamePlayer);
@@ -373,18 +378,24 @@ public class Server {
 
             Game game = clientHandlerToRemove.getGame();
 
+            //username of the player who is playing when someone disconnected
             String usernameCurPlayer = game.getActivePlayers().get(game.getCurrentPlayer()).getUsername();
 
-            game.setPositionPersonDisconnected(game.getIndexOfActivePlayer(clientHandlerToRemove.getUsername()));
+            int positionPersonDisconnected = game.getIndexOfActivePlayer(clientHandlerToRemove.getUsername());
+            game.setPositionPersonDisconnected(positionPersonDisconnected);
+
+            String nextPlayer = game.nextPlayerGivenUsername(usernameCurPlayer);
             game.disconnectPlayer(clientHandlerToRemove.getUsername());
 
             //removing from the map that contains all the players of a game
             mapIdGameClientHandler.get(clientHandlerToRemove.getGame().getIdGame()).remove(clientHandlerToRemove);
 
-            game.setCurrentPlayer(game.getIndexOfActivePlayer(usernameCurPlayer));
+            int positionNextPlayer = game.getPositionPlayer(nextPlayer);
+
+            if(clientHandlerToRemove.getUsername().equals(usernameCurPlayer)) game.setCurrentPlayer(positionNextPlayer);
+            else game.setCurrentPlayer(game.getIndexOfActivePlayer(usernameCurPlayer));
 
             sendNewPositionInGame(clientHandlerToRemove, clientHandlerToRemove.getUsername(), "disconnected");
-
 
         }
         //if the player is not in a game (in the lobby)
@@ -469,7 +480,6 @@ public class Server {
         board.setFaithMarker(player.getBoard().getFaithMarker());
 
         if(gameInterface instanceof SinglePlayerGame) board.setBlackCross(((SinglePlayerGame) gameInterface).getBlackCross());
-
 
         //resourceBuffer
         clientModelView.getMyPlayer().setResourceBuffer(player.getResourceBuffer());

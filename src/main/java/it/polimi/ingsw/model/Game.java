@@ -727,6 +727,7 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
     public void disconnectPlayer(String username){
         Player playerToDisconnect = getActivePlayerByUsername(username);
         activePlayers.remove(playerToDisconnect);
+
     }
 
     /**
@@ -755,8 +756,10 @@ public class Game implements GameInterface, GameBoardInterface, GamePlayerInterf
             if(player.getUsername().equals(usernameToFind)){
                 index = activePlayers.indexOf(player);
                 found = true;
+                break;
             }
         }
+
         if(!found) return positionPersonDisconnected;
         else return index;
     }
