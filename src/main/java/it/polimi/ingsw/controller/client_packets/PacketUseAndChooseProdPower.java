@@ -52,75 +52,78 @@ public class PacketUseAndChooseProdPower implements ClientPacketHandler {
      */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
-        if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
-            ArrayList<ProductionPower> realProductionPowers = new ArrayList<>();
-            for(int i: productionPowers){
-                realProductionPowers.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(i - 1).getTopCardProductionPower());
-            }
-            for(int j: newProductionPowers){
-                realProductionPowers.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getSpecialProductionPowers().get(j -1));
-            }
-            ArrayList<Warehouse> realChosenWarehouses = new ArrayList<>();
-            for(int k : warehouse){
-                if(k <= gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().size()){
-                    realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(k - 1));
+        if(gameInterface.getState().equals(GameStates.PHASE_ONE)){
+
+            if(clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+                ArrayList<ProductionPower> realProductionPowers = new ArrayList<>();
+                for(int i: productionPowers){
+                    realProductionPowers.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDevelopmentSpaces().get(i - 1).getTopCardProductionPower());
                 }
-                if(k == gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().size() + 1){
-                    realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
+                for(int j: newProductionPowers){
+                    realProductionPowers.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getSpecialProductionPowers().get(j -1));
+                }
+                ArrayList<Warehouse> realChosenWarehouses = new ArrayList<>();
+                for(int k : warehouse){
+                    if(k <= gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().size()){
+                        realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().get(k - 1));
+                    }
+                    if(k == gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits().size() + 1){
+                        realChosenWarehouses.add(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox());
+                    }
+                }
+
+                HashMap<ResourceType, Integer> resourceNeeded = new HashMap<>();
+                resourceNeeded.put(ResourceType.COIN, 0);
+                resourceNeeded.put(ResourceType.STONE, 0);
+                resourceNeeded.put(ResourceType.SERVANT, 0);
+                resourceNeeded.put(ResourceType.SHIELD, 0);
+                resourceNeeded.put(ResourceType.JOLLY, 0);
+
+                HashMap<ResourceType, Integer> resourceObtained = new HashMap<>();
+                resourceObtained.put(ResourceType.COIN, 0);
+                resourceObtained.put(ResourceType.STONE, 0);
+                resourceObtained.put(ResourceType.SERVANT, 0);
+                resourceObtained.put(ResourceType.SHIELD, 0);
+                resourceObtained.put(ResourceType.JOLLY, 0);
+                resourceObtained.put(ResourceType.FAITHMARKER, 0);
+
+
+                for (ProductionPower productionPower : realProductionPowers) {
+                    for (ResourceType key : productionPower.getResourceNeeded().keySet()) {
+                        resourceNeeded.replace(key, resourceNeeded.get(key) + productionPower.getResourceNeeded().get(key));
+                    }
+                    for (ResourceType key : productionPower.getResourceObtained().keySet()) {
+                        resourceObtained.replace(key, resourceObtained.get(key) + productionPower.getResourceObtained().get(key));
+                    }
+                }
+
+
+                ProductionPower newProductionPower = new ProductionPower(resourceNeeded, resourceObtained);
+                try {
+                    gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, realChosenWarehouses, newResources);
+                    clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
+                            gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));
+                    clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
+                    gameInterface.setState(GameStates.PHASE_TWO);
+                } catch (DifferentDimension differentDimension) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DIFFERENTDIMENSION));
+                } catch (TooManyResourcesRequested tooManyResourcesRequested) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.TOOMANYRESOURCESREQUESTED));
+                } catch (EmptyDeposit emptyDeposit) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.EMPTYDEPOSIT));
+                } catch (DepositDoesntHaveThisResource depositDoesntHaveThisResource) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITDOESNTHAVETHISRESOURCE));
+                } catch (NotEnoughChosenResources notEnoughChosenResources) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.NOTENOUGHCHOSENRESOURCES));
+                } catch (EmptyProductionPower emptyProductionPower){
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.EMPTYPRODPOWER));
                 }
             }
-
-            HashMap<ResourceType, Integer> resourceNeeded = new HashMap<>();
-            resourceNeeded.put(ResourceType.COIN, 0);
-            resourceNeeded.put(ResourceType.STONE, 0);
-            resourceNeeded.put(ResourceType.SERVANT, 0);
-            resourceNeeded.put(ResourceType.SHIELD, 0);
-            resourceNeeded.put(ResourceType.JOLLY, 0);
-
-            HashMap<ResourceType, Integer> resourceObtained = new HashMap<>();
-            resourceObtained.put(ResourceType.COIN, 0);
-            resourceObtained.put(ResourceType.STONE, 0);
-            resourceObtained.put(ResourceType.SERVANT, 0);
-            resourceObtained.put(ResourceType.SHIELD, 0);
-            resourceObtained.put(ResourceType.JOLLY, 0);
-            resourceObtained.put(ResourceType.FAITHMARKER, 0);
-
-
-            for (ProductionPower productionPower : realProductionPowers) {
-                for (ResourceType key : productionPower.getResourceNeeded().keySet()) {
-                    resourceNeeded.replace(key, resourceNeeded.get(key) + productionPower.getResourceNeeded().get(key));
-                }
-                for (ResourceType key : productionPower.getResourceObtained().keySet()) {
-                    resourceObtained.replace(key, resourceObtained.get(key) + productionPower.getResourceObtained().get(key));
-                }
-            }
-
-
-            ProductionPower newProductionPower = new ProductionPower(resourceNeeded, resourceObtained);
-            try {
-                gameInterface.useAndChooseProdPower(newProductionPower, resourceTypes, realChosenWarehouses, newResources);
-                clientHandler.sendPacketToClient(new PacketWarehouse(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getStrongbox(),
-                        gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getDeposits()));
-                clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(),gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
-                gameInterface.setState(GameStates.PHASE_TWO);
-            } catch (DifferentDimension differentDimension) {
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DIFFERENTDIMENSION));
-            } catch (TooManyResourcesRequested tooManyResourcesRequested) {
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.TOOMANYRESOURCESREQUESTED));
-            } catch (EmptyDeposit emptyDeposit) {
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.EMPTYDEPOSIT));
-            } catch (DepositDoesntHaveThisResource depositDoesntHaveThisResource) {
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.DEPOSITDOESNTHAVETHISRESOURCE));
-            } catch (NotEnoughChosenResources notEnoughChosenResources) {
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.NOTENOUGHCHOSENRESOURCES));
-            } catch (EmptyProductionPower emptyProductionPower){
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.EMPTYPRODPOWER));
-            }
+            else clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.NOT_YOUR_TURN));
 
         }
-        else {
-            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
-        }
+        else clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
+
     }
 
     public ArrayList<Integer> getProductionPowers() {

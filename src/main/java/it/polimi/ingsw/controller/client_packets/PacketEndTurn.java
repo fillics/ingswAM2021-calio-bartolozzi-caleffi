@@ -97,13 +97,10 @@ public class PacketEndTurn implements ClientPacketHandler{
                        yourTurn(server, gameInterface);
                     }
                 }
+                else  clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.NOT_YOUR_TURN));
 
-                else {
-                    clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
-                }
-            } else {
-                clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
             }
+            else clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEENDTURN));
 
         }
         server.saveClientProxy(clientHandler.getUsername(), gameInterface);

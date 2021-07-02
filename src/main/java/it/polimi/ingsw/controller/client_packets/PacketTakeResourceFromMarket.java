@@ -41,23 +41,26 @@ public class PacketTakeResourceFromMarket implements ClientPacketHandler {
      */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
-        if(gameInterface.getState().equals(GameStates.PHASE_ONE) && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
-            try {
-                gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
-                clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
-                clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
-                server.sendAll(new PacketLiteMarketTray(gameInterface.getTable(), gameInterface.getRemainingMarble()), gameInterface);
-                gameInterface.setState(GameStates.PHASE_TWO);
-            } catch (LeaderCardNotFound leaderCardNotFound) {
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
-            } catch (LeaderCardNotActivated leaderCardNotActivated) {
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTACTIVATED));
+        if(gameInterface.getState().equals(GameStates.PHASE_ONE) ){
+
+            if(clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+                try {
+                    gameInterface.takeResourceFromMarket(line, numline, leaderCardsID);
+                    clientHandler.sendPacketToClient(new PacketResourceBuffer(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getResourceBuffer()));
+                    clientHandler.sendPacketToClient(new PacketFaithTrack(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getTrack(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getFaithMarker(), gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard().getVaticanReportSections()));
+                    server.sendAll(new PacketLiteMarketTray(gameInterface.getTable(), gameInterface.getRemainingMarble()), gameInterface);
+                    gameInterface.setState(GameStates.PHASE_TWO);
+                } catch (LeaderCardNotFound leaderCardNotFound) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
+                } catch (LeaderCardNotActivated leaderCardNotActivated) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTACTIVATED));
+                }
             }
+           else clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.NOT_YOUR_TURN));
 
            }
-        else {
-            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
-        }
+        else clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
+
     }
 
     public String getLine() {

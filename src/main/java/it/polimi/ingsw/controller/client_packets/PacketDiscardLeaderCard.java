@@ -38,23 +38,24 @@ public class PacketDiscardLeaderCard implements ClientPacketHandler {
      */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
-        if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
-                && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
-            try {
-                gameInterface.discardLeaderCard(ID);
-                Board board = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
+        if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))){
+            if(clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+                try {
+                    gameInterface.discardLeaderCard(ID);
+                    Board board = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getBoard();
 
-                clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getLeaderCards()));
-                clientHandler.sendPacketToClient(new PacketFaithTrack(board.getTrack(), board.getFaithMarker(), board.getVaticanReportSections()));
-            } catch (LeaderCardNotFound leaderCardNotFound) {
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
-            }  catch (LeaderCardIsActive leaderCardIsActive){
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDISACTIVE));
+                    clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getLeaderCards()));
+                    clientHandler.sendPacketToClient(new PacketFaithTrack(board.getTrack(), board.getFaithMarker(), board.getVaticanReportSections()));
+                } catch (LeaderCardNotFound leaderCardNotFound) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
+                }  catch (LeaderCardIsActive leaderCardIsActive){
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDISACTIVE));
+                }
             }
+           else clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.NOT_YOUR_TURN));
         }
-        else {
-            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
-        }
+        else clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
+
     }
 
     public int getID() {

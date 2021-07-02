@@ -50,7 +50,7 @@ public class PacketConnectionMessages implements ServerPacketHandler {
 
             }
 
-            case IMPOSSIBLEENDTURN, IMPOSSIBLEMOVE, IMPOSSIBLE_CHEAT -> {
+            case IMPOSSIBLEENDTURN, IMPOSSIBLEMOVE, IMPOSSIBLE_CHEAT, NOT_YOUR_TURN -> {
                 if(client.getViewChoice().equals(ViewChoice.CLI)) Constants.printConnectionMessage(message);
 
                 else{

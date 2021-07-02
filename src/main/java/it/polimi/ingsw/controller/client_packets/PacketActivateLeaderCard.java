@@ -37,32 +37,33 @@ public class PacketActivateLeaderCard implements ClientPacketHandler {
      */
     @Override
     public void execute(Server server, GameInterface gameInterface, ClientHandler clientHandler) {
-        if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))
-                && clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
-            try {
-                gameInterface.activateLeaderCard(id);
+        if((gameInterface.getState().equals(GameStates.PHASE_ONE) || gameInterface.getState().equals(GameStates.PHASE_TWO))){
 
-                Board board = gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard();
-                clientHandler.sendPacketToClient(new PacketWarehouse(board.getStrongbox(),board.getDeposits()));
-                clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(board.getDevelopmentSpaces()));
-                clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards()));
+            if(clientHandler.getPosInGame() == gameInterface.getCurrentPlayer()){
+                try {
+                    gameInterface.activateLeaderCard(id);
 
-                ArrayList<LeaderCard> leaderCards = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards();
-                for (LeaderCard leaderCard : leaderCards) {
-                    if (leaderCard.getId() == id && leaderCard.getStrategy() instanceof ConcreteStrategyProductionPower) {
-                        clientHandler.sendPacketToClient(new PacketSpecialProdPowers(board.getSpecialProductionPowers()));
+                    Board board = gameInterface.getUsernameClientActivePlayers().get(clientHandler.getUsername()).getBoard();
+                    clientHandler.sendPacketToClient(new PacketWarehouse(board.getStrongbox(),board.getDeposits()));
+                    clientHandler.sendPacketToClient(new PacketDevelopmentSpaces(board.getDevelopmentSpaces()));
+                    clientHandler.sendPacketToClient(new PacketLeaderCards(gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards()));
+
+                    ArrayList<LeaderCard> leaderCards = gameInterface.getActivePlayers().get(gameInterface.getCurrentPlayer()).getLeaderCards();
+                    for (LeaderCard leaderCard : leaderCards) {
+                        if (leaderCard.getId() == id && leaderCard.getStrategy() instanceof ConcreteStrategyProductionPower) {
+                            clientHandler.sendPacketToClient(new PacketSpecialProdPowers(board.getSpecialProductionPowers()));
+                        }
                     }
+                } catch (LeaderCardNotFound leaderCardNotFound) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
+                } catch (NotEnoughRequirements notEnoughRequirements) {
+                    clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.NOTENOUGHREQUIREMENTS));
                 }
-            } catch (LeaderCardNotFound leaderCardNotFound) {
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.LEADERCARDNOTFOUND));
-            } catch (NotEnoughRequirements notEnoughRequirements) {
-                clientHandler.sendPacketToClient(new PacketExceptionMessages(ExceptionMessages.NOTENOUGHREQUIREMENTS));
             }
+            else clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.NOT_YOUR_TURN));
+        }
+        else clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
 
-        }
-        else {
-            clientHandler.sendPacketToClient(new PacketConnectionMessages(ConnectionMessages.IMPOSSIBLEMOVE));
-        }
     }
 
     public int getId() {
