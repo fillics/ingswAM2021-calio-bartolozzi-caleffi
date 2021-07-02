@@ -25,7 +25,7 @@ Teacher: Alessandro Margara
 # Setup
 In the deliveries folder there are two multi-platform jar files, one to set the Server up and the other one to start the Client.
 
-### Server
+## Server
 The Server can be run with the following command:
 
 ```
@@ -42,8 +42,23 @@ This command can be followed by the following argument:
 |  1024 | 65535 |
 
 
-### Client
-The Client can be run with the following command:
+## Client
+
+### CLI 
+The CLI can be run with the following command:
+
+```
+> java -jar Client.jar -cli
+```
+### GUI 
+The GUI can be run with the following command:
+
+```
+> java.exe -jar Client.jar -gui
+```
+
+
+You can also run the Client with the following command:
 
 ```
 > java -jar Client.jar 
@@ -52,7 +67,7 @@ The Client can be run with the following command:
 This command can be followed by the following argument:
 
 `-cli`: this command sets the Client on Command Line Interface (CLI) mode.\
-`-gui`: this command sets the Client on Graphical User Interface (GUI) mode.\
+`-gui`: this command sets the Client on Graphical User Interface (GUI) mode. (in this case you have to run with `java.exe`, see above)\
 `-default`: to connect to the server using the server port and the IP address saved in the [ClientConnection.json](https://github.com/fillics/ingswAM2021-calio-bartolozzi-caleffi/blob/master/src/main/resources/json/ClientConnection.json) file
 
 If you run, for example without `-default`, the command `java -jar Client.jar -cli`, it will ask you the server port and the ip address.\
