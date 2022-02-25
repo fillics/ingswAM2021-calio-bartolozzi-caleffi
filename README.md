@@ -52,6 +52,10 @@ The CLI can be run with the following command:
 > java -jar Client.jar -cli
 ```
 ### GUI 
+
+## Connection to the server
+![Senza nome](https://user-images.githubusercontent.com/24494773/155800796-8ca2c7a7-961e-43b1-a78f-de41c93be29f.gif)
+
 The GUI can be run with the following command:
 
 ```
