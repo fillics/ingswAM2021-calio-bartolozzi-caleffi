@@ -1,5 +1,6 @@
-# Prova Finale Ingegneria del Software 2021
-## Gruppo: AM20
+# Software Engineering Project 2021
+
+## Group: AM20
 * Filippo Caliò (10628126) - filippo.calio@mail.polimi.it
 * Beatrice Bartolozzi (10683294) - beatrice.bartolozzi@mail.polimi.it
 * Giovanni Caleffi (10665233) - giovanni.caleffi@mail.polimi.it
