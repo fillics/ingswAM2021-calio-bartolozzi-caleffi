@@ -56,6 +56,17 @@ The CLI can be run with the following command:
 ## Connection to the server
 ![Senza nome](https://user-images.githubusercontent.com/24494773/155800796-8ca2c7a7-961e-43b1-a78f-de41c93be29f.gif)
 
+
+### Main Board
+![alt text](https://github.com/fillics/ingswAM2021-calio-bartolozzi-caleffi/blob/master/img1.png)
+
+### Card Purchasing Phase
+![alt text](https://github.com/fillics/ingswAM2021-calio-bartolozzi-caleffi/blob/master/img2.png)
+
+### Taking Resources from Market
+![alt text](https://github.com/fillics/ingswAM2021-calio-bartolozzi-caleffi/blob/master/img3.png)
+
+
 The GUI can be run with the following command:
 
 ```
