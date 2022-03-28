@@ -1,9 +1,9 @@
 # Software Engineering Project 2021
 
 ## Group: AM20
-* Filippo Caliò (10628126) - filippo.calio@mail.polimi.it
-* Beatrice Bartolozzi (10683294) - beatrice.bartolozzi@mail.polimi.it
-* Giovanni Caleffi (10665233) - giovanni.caleffi@mail.polimi.it
+* [Filippo Caliò](https://github.com/fillics) (10628126) - filippo.calio@mail.polimi.it
+* [Beatrice Bartolozzi](https://github.com/BeatriceBartolozzi) (10683294) - beatrice.bartolozzi@mail.polimi.it
+* [Giovanni Caleffi](https://github.com/giovannicaleffi) (10665233) - giovanni.caleffi@mail.polimi.it
   
 
 Master of Renaissance Board Game is the final test of "Software Engineering", course of "Computer Science Engineering" held at Politecnico di Milano (2020/2021).\
